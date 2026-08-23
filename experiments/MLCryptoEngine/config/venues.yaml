@@ -1,0 +1,437 @@
+# Per-venue metadata. Fee schedules are the venues' documented public spot schedules
+# (bps of notional, by trailing 30-day USD volume tier). Verify against the venue
+# before Phase C backtests consume them — venues reprice occasionally.
+#
+# Two blocks live here and they are not interchangeable:
+#
+#   venues:   places whose data this project captures or buys, and (from Phase D)
+#             could send an order to. Every one carries endpoints and a fee
+#             schedule, both of which are validated.
+#   sources:  free public bar archives, kind "archive" (ADR-031). History only.
+#             No endpoints, no fee schedule, and no assumption that the venue is
+#             reachable from British Columbia — Binance is not.
+
+venues:
+  kraken:
+    name: Kraken
+    # Retired at Stage D.1b (2026-08-12): no open item consumes this feed —
+    # H1 closed cost-bound, H7 closed by decision, and C.14 measured the
+    # cross-venue features at +0.0044 AUC, immaterial. The raw partitions
+    # (2026-07-30 → 2026-08-12) are immutable, stay replayable, and their
+    # validated days stay valid; no recorder process, heartbeat, or latency
+    # probe is expected. Resurrect by naming the venue explicitly:
+    # `python -m data.recorder kraken` (and set kind back to recorder).
+    kind: retired
+    ws_url: wss://ws.kraken.com/v2
+    rest_status_url: https://api.kraken.com/0/public/Time
+    symbols: [BTC/USD, ETH/USD]
+    # Kraken WS v2 book channel supports depth 10/25/100/500/1000.
+    book_depth: 100
+    # Kraken WS v2 public channels carry no sequence number (recorder heartbeats
+    # show last_seq: null). Integrity comes from the CRC32 checksum below, and
+    # the validation report says "n/a" for the sequence check rather than 0.
+    sequence_numbers: false
+    snapshot:
+      on_subscribe: true
+      checksum: true
+      notes: >-
+        Snapshot pushed on subscribe; every update carries a CRC32 checksum of the
+        top 10 levels, which the book builder verifies. On checksum mismatch the
+        book is invalid until resubscribe delivers a fresh snapshot.
+    # Fixed decimal precisions per symbol (price, quantity) — required to compute
+    # the WS v2 book checksum, since the feed encodes numbers as JSON floats.
+    instruments:
+      BTC/USD: { price_decimals: 1, qty_decimals: 8 }
+      ETH/USD: { price_decimals: 2, qty_decimals: 8 }
+    # Matching engine at Equinix London (LD4); nearest cloud region is eu-west-2.
+    aws_region: eu-west-2
+    # Base tier reconciled 2026-08-08 (Stage C.27, ADR-055): the live Kraken Pro
+    # maker-taker schedule (kraken.com/features/fee-schedule; corroborated by
+    # tradersunion.com/brokers/crypto/view/kraken/fees and cryptsy.com/kraken-fees,
+    # retrieved 2026-08-08) is 0.25% maker / 0.40% taker at the base tier
+    # (< 10k USD 30-day volume). The 0.40 / 0.80 recorded 2026-08-01 captured the
+    # non-Pro retail/instant fees, not the Pro maker-taker base tier, and is
+    # corrected here. NO closure flips: H1's headline used Coinbase's maker (0.40,
+    # unchanged — Coinbase base below is correct), and H3's Kraken-instrument
+    # spread-to-cost ratios stay far below 1.0 even at 0.25 maker. Tiers above 10k
+    # USD are close to the live ladder but not line-item re-verified; confirm
+    # before a non-base backtest.
+    fee_tiers:
+      - { volume_usd_30d: 0,        maker_bps: 25, taker_bps: 40 }
+      - { volume_usd_30d: 10000,    maker_bps: 20, taker_bps: 35 }
+      - { volume_usd_30d: 50000,    maker_bps: 14, taker_bps: 24 }
+      - { volume_usd_30d: 100000,   maker_bps: 12, taker_bps: 22 }
+      - { volume_usd_30d: 250000,   maker_bps: 10, taker_bps: 20 }
+      - { volume_usd_30d: 500000,   maker_bps: 8,  taker_bps: 18 }
+      - { volume_usd_30d: 1000000,  maker_bps: 6,  taker_bps: 16 }
+      - { volume_usd_30d: 2500000,  maker_bps: 4,  taker_bps: 14 }
+      - { volume_usd_30d: 5000000,  maker_bps: 2,  taker_bps: 12 }
+      - { volume_usd_30d: 10000000, maker_bps: 0,  taker_bps: 10 }
+
+  coinbase:
+    name: Coinbase Advanced Trade
+    ws_url: wss://advanced-trade-ws.coinbase.com
+    rest_status_url: https://api.coinbase.com/api/v3/brokerage/time
+    # Retired at Stage D.1b (2026-08-12), same grounds as kraken above.
+    kind: retired
+    symbols: [BTC-USD, ETH-USD]
+    # level2 channel delivers full-depth snapshot + incremental updates; depth here
+    # is the persisted reconstruction depth, not a subscription parameter.
+    book_depth: 100
+    # Every Advanced Trade envelope carries sequence_num; continuity of that
+    # counter is this venue's integrity mechanism, since it provides no checksum.
+    sequence_numbers: true
+    snapshot:
+      on_subscribe: true
+      checksum: false
+      notes: >-
+        level2 channel sends a full snapshot event on subscribe followed by update
+        events; no checksum is provided, so validation relies on crossed-book
+        detection and periodic resubscribe-and-compare.
+    # Matching engine runs in AWS us-east-1; record from the same region for Phase D.
+    aws_region: us-east-1
+    fee_tiers:
+      - { volume_usd_30d: 0,         maker_bps: 40, taker_bps: 60 }
+      - { volume_usd_30d: 10000,     maker_bps: 25, taker_bps: 40 }
+      - { volume_usd_30d: 50000,     maker_bps: 15, taker_bps: 25 }
+      - { volume_usd_30d: 100000,    maker_bps: 10, taker_bps: 20 }
+      - { volume_usd_30d: 1000000,   maker_bps: 8,  taker_bps: 18 }
+      - { volume_usd_30d: 15000000,  maker_bps: 6,  taker_bps: 16 }
+      - { volume_usd_30d: 75000000,  maker_bps: 3,  taker_bps: 12 }
+      - { volume_usd_30d: 250000000, maker_bps: 0,  taker_bps: 8 }
+      - { volume_usd_30d: 400000000, maker_bps: 0,  taker_bps: 5 }
+
+  hyperliquid:
+    name: Hyperliquid
+    ws_url: wss://api.hyperliquid.xyz/ws
+    rest_status_url: https://api.hyperliquid.xyz/info
+    # Latency probe (Stage D.1b): POST a one-coin l2Book request to /info. The
+    # info endpoint is POST-only — a GET measures the 405 rejection, not the
+    # request path — and this exercises the same host/TLS/HTTP front end an
+    # order POST to /exchange traverses. It is a PROXY, stated plainly: true
+    # submission latency (a signed order to /exchange) is unmeasurable without
+    # placing an order, which no stage before D may do. The recorded figure
+    # omits order-gateway queue and matching time, so it reads LOW.
+    probe_method: POST
+    probe_json: { type: l2Book, coin: BTC }
+    # Coin names discovered from the info endpoint ({"type":"meta"}) on
+    # 2026-08-01: 232 perp assets; BTC (szDecimals 5, maxLeverage 40) and ETH
+    # (szDecimals 4, maxLeverage 25) confirmed present under exactly these names.
+    # Extended 2026-08-03 (Stage C.9) from [BTC, ETH]. Two instruments is not a
+    # census, and they were the two where the spread-to-cost ratio is known to
+    # be worst: measured over 53 recorded hours, BTC quotes 0.164 bps and ETH
+    # 0.545 bps against a 3.0 bps maker round trip — ratios of 0.05 and 0.18.
+    # Concluding from those two that spread capture is dead everywhere is the
+    # error this stage exists to correct, because the ratio is a property of an
+    # instrument, not a venue.
+    #
+    # Selection is by the venue's own liquidity ranking — 24h notional volume
+    # from the info endpoint's metaAndAssetCtxs, retrieved 2026-08-03, 177 live
+    # perps — sampled across the range rather than cherry-picked, with the
+    # endpoint's impact spread shown as the (loose) proxy that motivated each
+    # pick. Touch spread is what actually matters and is what the census will
+    # measure; impact spread is only the ranking signal.
+    #
+    #   BTC   rank   1   $2.03B/day   impact  0.72 bps  baseline, known worst
+    #   ETH   rank   2   $672M/day    impact  1.82 bps  baseline, known worst
+    #   HYPE  rank   3   $217M/day    impact  1.87 bps  liquid native token
+    #   SOL   rank   4   $154M/day    impact  0.81 bps  liquid major
+    #   PUMP  rank   6   $31M/day     impact  4.47 bps  first above cost
+    #   DOT   rank  29   $2.4M/day    impact  3.96 bps  mid-book
+    #   LINK  rank  31   $2.0M/day    impact  3.00 bps  mid-book
+    #   ARB   rank  33   $1.9M/day    impact  6.01 bps  mid-book
+    #   GMX   rank 152   $97K/day     impact 16.19 bps  thin
+    #   MERL  rank 153   $97K/day     impact 15.95 bps  thin
+    #   TNSR  rank 175   $31K/day     impact 79.18 bps  thinnest quartile
+    #   NOT   rank 177   $15K/day     impact 58.31 bps  thinnest live perp
+    #
+    # The thin end is where the ratio could plausibly be favourable, so it is
+    # where adverse selection has to be measured before any of it is believed.
+    # Stage D.1b (2026-08-12): the blind universe, selected by the rule
+    # registered in commit 4bde24c BEFORE this retrieval — 24h-notional bands
+    # only (B0>=100M cap 3 / B1 10-100M cap 5 / B2 1-10M cap 5 / B3 100k-1M
+    # cap 6 / B4 10k-100k cap 6, <10k excluded), seeded sample per band, seed
+    # 20260812, blind to every spread/impact/price field. Band memberships at
+    # retrieval: 4/7/36/107/23 of 177 live perps.
+    #   Blind picks (25): BTC ETH HYPE | CRV DOGE KAITO LIT ZEC |
+    #     ICP LDO NEAR TRUMP VIRTUAL | 0G ANIME BERA LAYER MOODENG PENDLE |
+    #     BIGTIME COMP DYM KAS NOT SAGA
+    #   Carried over, NOT blind picks (series continuity only, never to be
+    #   counted as unbiased selections): PUMP MERL
+    # The pre-D.1b census set (SOL DOT LINK ARB GMX TNSR) leaves the live
+    # subscription; its recorded history remains on disk.
+    symbols: ["0G", ANIME, BERA, BIGTIME, BTC, COMP, CRV, DOGE, DYM, ETH,
+              HYPE, ICP, KAITO, KAS, LAYER, LDO, LIT, MERL, MOODENG, NEAR,
+              NOT, PENDLE, PUMP, SAGA, TRUMP, VIRTUAL, ZEC]
+    # l2Book delivers 20 levels per side, full snapshot per push.
+    book_depth: 20
+    # The feed provides neither sequence numbers nor checksums; both render
+    # n/a in validation (Stage 1.6 rule). Scoring comes from snapshot cadence.
+    sequence_numbers: false
+    snapshot_stream: true
+    snapshot:
+      on_subscribe: true
+      checksum: false
+      notes: >-
+        l2Book is a full-snapshot stream pushed per block (minimum interval
+        roughly 0.5 s), not incremental updates; observed BTC inter-snapshot
+        intervals of 0.37-5.4 s on 2026-08-01. On reconnect the resubscribe
+        acknowledgement is followed immediately by a fresh snapshot — use it,
+        never request a separate one.
+    aws_region: ap-northeast-1
+    # Perp schedule verified 2026-08-01 (hiperwire.io/explainers/
+    # hyperliquid-trading-fees-explained, supa.is/article/
+    # hyperliquid-trading-fees-2026): base tier 0.015% maker / 0.045% taker.
+    # CAUTION: Hyperliquid tiers are 14-day weighted volume (spot counts
+    # double) with HYPE-staking discounts, not the 30-day USD tiers this
+    # schema models; only the base tier is recorded here. Verify before any
+    # Phase C use of non-base tiers.
+    fee_tiers:
+      - { volume_usd_30d: 0, maker_bps: 1.5, taker_bps: 4.5 }
+
+  cme:
+    name: CME micro futures (via Databento GLBX.MDP3)
+    # No live recorder exists for this venue and none is planned: days are
+    # purchased from Databento and land under data/vendor/, so there is never
+    # anything in data/raw/venue=cme/ to replay. Declaring the kind is what
+    # lets `python -m data.validate` skip it with a reason instead of aborting
+    # the whole run on a missing replay parser (Stage C.9.1, ADR-027).
+    kind: vendor
+    # Not a recorder venue: data arrives through the Databento vendor adapter
+    # (data/databento/), never this URL. Recorded for completeness — the
+    # Databento live gateway for GLBX.MDP3.
+    ws_url: wss://glbx-mdp3.lsg.databento.com
+    rest_status_url: https://hist.databento.com/v0/metadata.list_datasets
+    symbols: [MES, MBT]
+    # Databento MBP-10: top 10 price levels per side.
+    book_depth: 10
+    # MDP3 carries per-instrument sequence numbers; the adapter verifies
+    # monotonic continuity on ingest. No book checksum exists; crossed-book
+    # detection and sequence continuity are the mechanisms.
+    sequence_numbers: true
+    snapshot_stream: false
+    snapshot:
+      on_subscribe: false
+      checksum: false
+      notes: >-
+        Historical ingest reconstructs from Databento MBP-10 depth records with
+        nanosecond hardware timestamps. ts_recv is Databento's capture-server
+        clock and ts_event is the exchange clock — neither is this project's
+        recorder clock, and they must never be ordered against it.
+    # Contract multipliers: units of underlying per contract. MBT is 0.1 BTC
+    # (CME contract specs, retrieved 2026-08-02); MES is $5 per index point.
+    # These turn a per-contract fee into basis points — notional = price x
+    # multiplier — so they are not decoration.
+    instruments:
+      MBT: { price_decimals: 0, qty_decimals: 0, contract_multiplier: 0.1 }
+      MES: { price_decimals: 2, qty_decimals: 0, contract_multiplier: 5.0 }
+    # CME matching engine is in Aurora, IL; nearest AWS region for Phase D.
+    aws_region: us-east-2
+    # Superseded 2026-08-02 (Stage C.8). The previous entry recorded a bps
+    # approximation with a note that the schema could not express per-contract
+    # dollar fees; it now can (ADR-023), so the real figure lives here and the
+    # bps fields are unused for this venue.
+    #
+    # Per contract PER SIDE, all-in, small non-member account:
+    #   CME exchange execution + clearing   $1.15   MBT non-member rate,
+    #                                               TradeStation published
+    #                                               exchange fee schedule,
+    #                                               retrieved 2026-08-02.
+    #                                               (MES is $0.35 on the same
+    #                                               schedule — MBT's exchange
+    #                                               fee is 3.3x MES's.)
+    #   NFA regulatory fee                  $0.02   standard per-side rate.
+    #   Broker commission (IBKR)            $0.85   top of IBKR's published
+    #                                               $0.25-$0.85 futures range,
+    #                                               retrieved 2026-08-02; the
+    #                                               top is the honest default
+    #                                               for an account with no
+    #                                               volume tier, matching the
+    #                                               tier-0 convention used for
+    #                                               the crypto venues.
+    #                                       -----
+    #                                       $2.02 per side = $4.04 round turn.
+    #
+    # CME does not split maker/taker on these products — the exchange charges
+    # the same to add or remove liquidity — so both modes carry the same fee
+    # and differ only in whether the touch spread is paid.
+    #
+    # NOT verified directly against cmegroup.com: the CME fee finder is
+    # interactive and the published PDF schedule was not machine-readable at
+    # retrieval time. The exchange component therefore rests on a broker's
+    # republication of it. Re-verify before Phase C consumes this, and note
+    # CME announced a schedule change effective 2026-04-01 that falls inside
+    # this very data range.
+    fee_tiers:
+      - { volume_usd_30d: 0, maker_bps: 0, taker_bps: 0, fee_usd_per_contract_per_side: 2.02 }
+
+# Free public bar archives — kind "archive" (ADR-031). Downloaded once, never
+# live, never traded. Deliberately NOT under `venues`: an archive has no
+# matching engine we can reach, and publishing a fee schedule for one would
+# invite a future reader to model a strategy on fees no order of ours could
+# ever pay. Provenance (source, venue, retrieval date, URL, sha256) is recorded
+# per file in data/vendor/archive/manifest.jsonl, not here.
+sources:
+  binance_spot_klines:
+    name: Binance public data dumps (data.binance.vision)
+    kind: archive
+    venue: binance
+    base_url: https://data.binance.vision
+    notes: >-
+      Monthly OHLCV kline ZIPs, free and unauthenticated. Used because it is the
+      only one of the three that retains DELISTED symbols: FTTUSDT, LUNAUSDT,
+      SRMUSDT, BUSDUSDT and WAVESUSDT all still resolve (verified 2026-08-04),
+      which is what makes a survivorship-free universe constructible at all.
+      Binance is not legally available to Canadian residents (CLAUDE.md hard
+      constraint) — this is research history only and no order is ever routed
+      here. Directory listing via the S3 REST API at
+      s3-ap-northeast-1.amazonaws.com/data.binance.vision.
+
+  kraken_ohlc:
+    name: Kraken public REST OHLC
+    kind: archive
+    venue: kraken
+    base_url: https://api.kraken.com/0/public/OHLC
+    notes: >-
+      Cross-source price check for a venue we DO trade. Hard limit: the endpoint
+      returns at most 720 candles per pair regardless of the `since` parameter,
+      so daily bars reach back roughly two years and no further. Cannot carry
+      the cointegration sample on its own; used to verify Binance closes rather
+      than to extend them. Lists only currently-tradeable pairs, so its universe
+      is survivorship-biased by construction and is never used to select one.
+
+  coinbase_candles:
+    name: Coinbase Exchange public candles
+    kind: archive
+    venue: coinbase
+    base_url: https://api.exchange.coinbase.com
+    notes: >-
+      Cross-source price check for the second venue we trade. 300 candles per
+      request but pageable via start/end, so it reaches back further than
+      Kraken. Like Kraken it lists only live products, so it is never used for
+      universe selection.
+
+  hyperliquid_info:
+    name: Hyperliquid public info endpoint
+    kind: archive
+    venue: hyperliquid
+    base_url: https://api.hyperliquid.xyz/info
+    notes: >-
+      Historical funding rates and perp candles for the venue this project would
+      actually short on, so it is the primary source for a carry study rather
+      than a cross-check. Funding is charged HOURLY here, not every eight hours:
+      the observed baseline of 0.00125% per hour is exactly one eighth of the
+      0.01%/8h figure quoted in the literature, and confusing the two
+      misstates annualised yield by 8x in either direction. Unauthenticated
+      POST, no key, nothing purchased. Hard limit of 500 rows per
+      fundingHistory call and 5000 per candleSnapshot, so both are paged.
+      History begins 2023-05-12, the venue's launch.
+
+  solrpds_github:
+    name: SolRPDS rug-pull dataset (DeFiLabX/SolRPDS, CODASPY 2025)
+    kind: archive
+    venue: github
+    base_url: https://raw.githubusercontent.com/DeFiLabX/SolRPDS/main
+    notes: >-
+      Peer-reviewed Solana rug-pull dataset derived from 3.69B transactions:
+      116,308 pools 2021 - Nov 2024 with liquidity add/remove aggregates and an
+      inactivity label. Retains dead pools by construction, which is the whole
+      point - dead tokens are the positive class (C.19). No explicit license in
+      the repo; citation requested; treat as research-only. Labels are
+      END-OF-LIFE aggregates: usable as labels, never as pre-event features.
+
+  rugcheck_api:
+    name: RugCheck public token-report API
+    kind: archive
+    venue: rugcheck
+    base_url: https://api.rugcheck.xyz/v1
+    notes: >-
+      Keyless token security reports: mint/freeze authority, LP lock per
+      market, top holders, insider networks, risks, a `rugged` flag and a live
+      new-token feed. Measured 2026-08-06 at ~0.85 s/report over a 6-request
+      burst with zero 429s. CAUTION from the C.19 spot-check: `rugged` was
+      False on all four documented rugs probed, including LIBRA - vendor
+      labels here are heuristic inputs, never ground truth.
+
+  dexscreener_api:
+    name: DexScreener public search/pairs API
+    kind: archive
+    venue: dexscreener
+    base_url: https://api.dexscreener.com
+    notes: >-
+      Keyless pair search and metadata. Verified 2026-08-06 to RETAIN dead
+      pairs (LIBRA 2025-02, HAWK 2024-12, the Nov-2024 pump.fun QUANT all
+      resolve with launch timestamps), so it is usable for mint resolution of
+      the positive class. Cross-chain results; filter chainId=solana.
+
+  goplus_api:
+    name: GoPlus Solana token-security API
+    kind: archive
+    venue: goplus
+    base_url: https://api.gopluslabs.io/api/v1
+    notes: >-
+      Keyless per-token security fields covering the honeypot axis the other
+      sources miss: freezable, non_transferable, transfer_hook, transfer_fee,
+      default_account_state, mintable, lp_holders, holder_count. Probed
+      2026-08-06.
+
+  solana_public_rpc:
+    name: Solana public mainnet RPC
+    kind: archive
+    venue: solana
+    base_url: https://api.mainnet-beta.solana.com
+    notes: >-
+      Keyless JSON-RPC, getHealth ok 2026-08-06. Serves CURRENT account state;
+      historical (pre-event) state and deep signature history require an
+      indexer - the gap that makes pre-event features the binding constraint
+      in C.19's verdict.
+
+  arxiv_abstracts:
+    name: arXiv abstract pages (dataset papers)
+    kind: archive
+    venue: arxiv
+    base_url: https://arxiv.org/abs
+    notes: >-
+      Snapshotted abstract pages for MELT (2602.13480, 41k+ launches, 200M+
+      transactions - no public data link in the abstract as of 2026-08-06, so
+      availability is UNVERIFIED) and 2603.24625. Paper metadata only, never a
+      data source itself.
+
+  coinmetrics_community:
+    name: Coin Metrics community data (daily asset CSVs)
+    kind: archive
+    venue: coinmetrics
+    base_url: https://raw.githubusercontent.com/coinmetrics/data/master/csv
+    notes: >-
+      Daily network metrics per asset, regenerated whole-file each day — past
+      rows revise, so each retrieval is stored as a dated immutable snapshot
+      and every derived feature carries a +1 day publication lag beyond the
+      metric date (C.17 registration). License CC BY-NC 4.0: personal research
+      only, recorded so a commercial use trips over this note. History reaches
+      each chain's genesis. The community tier's column set decides whether
+      exchange-flow features exist at all; the C.17 audit records the answer.
+
+  defillama_stablecoins:
+    name: DefiLlama stablecoin supply history
+    kind: archive
+    venue: defillama
+    base_url: https://stablecoins.llama.fi
+    notes: >-
+      Daily total stablecoin circulating supply (peggedUSD), free
+      unauthenticated JSON. The history is a reconstruction and revises with
+      methodology, so retrievals are dated immutable snapshots and features
+      carry a +1 day lag beyond the metric date. Aggregator data, not venue
+      prints — nothing here is ever a price source.
+
+  binance_futures_archive:
+    name: Binance USD-M futures public data dumps
+    kind: archive
+    venue: binance
+    base_url: https://data.binance.vision
+    notes: >-
+      Monthly funding-rate and perpetual kline ZIPs under data/futures/um/.
+      Funding is charged every EIGHT hours here. Used for the longer history
+      (2019 onward) that the yield-decay question needs, and for the perp leg
+      of the basis measurement. Binance is not legally available to Canadian
+      residents (CLAUDE.md hard constraint) — research history only, and no
+      order is ever routed here.

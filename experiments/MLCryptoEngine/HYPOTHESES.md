@@ -1,0 +1,572 @@
+# Hypothesis register
+
+**Read this before proposing any new strategy hypothesis.**
+
+**The alpha search concluded by decision on 2026-08-06** (C.17, bars and end
+condition pre-registered in commit 370ba41 before any data). Eleven entries
+stand: nine tested and closed, one untestable on available data (H10), one
+closed by the decision itself (H7). **The census (H6) resolved at C.27 to the
+project's first pre-registered-bar-clearing positive — and that positive closed
+at D.1d on 2026-08-12.** Thin-perp spread capture (PUMP and MERL) cleared
+spread − adverse − cost as an *upper bound*, was routed by its registered
+outcome-map to a **fill simulation rather than a strategy**, and did not survive
+it: under an order-lifecycle fill model both instruments go **negative (−4.75 and
+−4.23 bps)** because a last-in-queue quote is filled precisely when price is
+already moving through it. **No alpha hypothesis remains open and no live next
+step exists on the strategy side.** The detection track (below, off-register per
+ADR-044) produced two positives and **concluded at C.26**. `report.md` runs past 2,850 lines across nineteen stage sections, each written for the moment it
+landed rather than for someone reading months later. The failure mode this file
+exists to prevent is **retrying a settled question because the number that
+closed it is buried** — nobody remembers six weeks later that BTC/ETH
+cointegration failed at p=0.1169 on survivorship-free data, or that MBT quotes
+1.93 bps of touch spread against 5.33 bps of maker cost.
+
+Every entry carries the measured figure that decided it, the sample it rests
+on, where the working lives, and — the field that matters most — **what would
+reopen it**. That last field distinguishes the two kinds of closure this
+project has produced, and confusing them is the expensive mistake:
+
+- **Cost-bound**: a real signal exists but is smaller than the cost of
+  capturing it. Reopens at a materially lower fee tier, and a better model
+  could matter *if* costs fell.
+- **Signal-absent**: there is nothing to capture. **Does not reopen on a better
+  model, a better feature set, or lower fees.** Model quality was never the
+  constraint.
+
+This file contains no analysis. It records what other stages established.
+
+---
+
+## Register
+
+### H1 — Short-horizon directional prediction on crypto spot
+
+> Microstructure features predict short-horizon mid-price direction on crypto
+> spot by enough to cover the cost of trading it.
+
+| | |
+|---|---|
+| **Status** | **Closed — cost-bound** · 2026-08-03 |
+| **Deciding number** | **3.31 bps** gross capture at the 900 s horizon against **80.00 bps** round-trip maker cost. Coinbase BTC-USD. AUC **0.596** — the signal is real and the arithmetic still fails, by 23×. Net EV **−76.69 bps**. **Superseded by C.14 (2026-08-05): that 3.31 bps came from a single day. Across four full days the same measurement ranges −2.44 to +3.05 bps** — a draw from a distribution centred near zero, not a small positive edge. |
+| **Sample** | Coinbase and Kraken spot, recorded tick data, single-digit days. Event bars every 50 book updates, 42 features, horizons 100 ms – 900 s. |
+| **Limitations** | Days, not regimes. C.14 extended the sample to six validated days (2026-07-30 → 2026-08-04); short-horizon AUC reproduces to within **0.0044**, long-horizon capture does not reproduce at all. Under the project's own research-honesty rule this is pipeline validation, not evidence of a durable edge — a signal fitted on a few days is fitted on those days' volatility regime. |
+| **Working** | Phase B research runs, `report.md` "Phase B research run" sections (2026-08-01 → 2026-08-03); baseline row in the Stage C.8 comparison table. |
+| **What would reopen it** | A round-trip cost below roughly **3 bps**, i.e. under 1.5 bps per side. On Coinbase that is the 0 bps maker tier requiring **$250M trailing 30-day volume**; on Kraken, the 0 bps maker tier at **$10M**. Neither is reachable at this project's capital. **Reopens on cost, not on modelling** — AUC 0.596 says there is signal there, so a better model is worth building *only after* a venue at that fee level exists. It does not reopen on more data at the same venues.<br><br>**C.14 strengthened this closure in three ways.** (1) **The mechanism is named: AUC is magnitude-blind.** Confidence is *anti*-correlated with realised move size — Spearman **rho = −0.32** (Kraken) and **−0.37** (Coinbase) at 100 ms — so the model is surest exactly where there is least to win. (2) **There is no hidden selection filter.** Top-confidence deciles do capture 2–24× the all-sample mean, but through accuracy rather than magnitude, and the best decile in the study captures **5.00 bps against 80 bps** — missing the economic bar by 16×. (3) **Capacity is not the constraint.** An MLP and a GRU both score *worse* than LightGBM on AUC and on capture, at 900 s and at 1 s, with the leakage suite passing and its planted-future canary firing at AUC 0.9714. Reopening now additionally requires the top-confidence decile to clear a round trip somewhere, which it does not. |
+
+---
+
+### H2 — Transfer of that edge to CME micro futures
+
+> The Phase B microstructure edge survives a move to CME micro futures, where
+> per-contract fees are a fraction of crypto spot fees in basis-point terms.
+
+| | |
+|---|---|
+| **Status** | **Closed — signal-absent** · 2026-08-03 |
+| **Deciding number** | **AUC 0.501** at every horizon, and **0.22 bps** gross capture against **5.33 bps** cost. CME MBT (micro bitcoin) via Databento. Best net EV **−5.11 bps**, and EV never crosses zero at any horizon in either cost mode. |
+| **Sample** | 224,425,675 events over 989 scheduled-open hours; two validated MBT months (2026-04, 2026-05), mbp-10 depth. Ordering clock `ts_recv`. |
+| **Limitations** | Two months of one contract. Excludes roll boundaries, the daily maintenance halt, and observed silences. A single instrument on a single venue. |
+| **Working** | `report.md` §"Stage C.8 — does the Phase B edge transfer to CME?" (line 959). |
+| **What would reopen it** | **Not a better model and not lower fees.** The cost problem was genuinely solved here — 5.33 bps against crypto spot's 80 — and the signal vanished anyway: 3.31 bps of capture became 0.22, and AUC fell from 0.596 to coin-flip. The one figure clearing rounding noise (+0.215 bps at 900 s) **reversed to −0.785 bps** on a stride-1 control, which also cleared the bar-width confound. Reopens only on evidence of measurable AUC on a *different* instrument or feature class — never on a re-run of the same pipeline against the same contract with a stronger learner.<br><br>**C.14 closed the two obvious escape routes.** (1) **The missing feature class was not the cause.** Cross-venue lead-lag and divergence ranked near the top of Phase B importance and were 100% NaN in C.8; measured where they *can* be computed (Kraken/Coinbase, 67–100% coverage) they are worth **ΔAUC ≤ +0.0044** — immaterial at every horizon. Feature importance measured what the model leaned on, not what it gained. (2) **A stronger learner was tried, once, against a pre-registered bar, and lost.** MLP and GRU both scored below the LightGBM baseline on AUC *and* gross capture at 900 s and 1 s, on the instrument where the pipeline works best. The leakage suite passed with a canary that demonstrably fires (AUC 0.9714 on a planted future column), so the null result is informative rather than merely quiet. |
+
+---
+
+### H3 — Passive spread capture
+
+> Quoting passively and earning the touch spread beats the cost of doing so, on
+> at least one reachable instrument.
+
+| | |
+|---|---|
+| **Status** | **Closed — cost-bound, with a measured tail still open (see H6)** · 2026-08-03 |
+| **Deciding number** | **spread − adverse selection − cost**, all in bps: Hyperliquid BTC **−3.05**, Hyperliquid ETH **−2.75**, CME MBT **−4.25**. Not one of **28 surveyed instruments** with a real market has a spread-to-cost ratio above 1.0; the best is **M6A micro AUD at 0.98**, break-even on fees *before* adverse selection is charged. |
+| **Sample** | 53.13 quoted hours of Hyperliquid BTC/ETH (2,151,124 bbo updates), plus a 16-contract CME bbo-1s survey on 2026-07-15 costing $0.7763. Adverse selection measured at 100 ms / 1 s / 5 s, aggressor-signed. |
+| **Limitations** | Hyperliquid side is two instruments over ~2 days. CME side is a **single day** per contract. Every figure is an **upper bound**, because it credits every quote with a fill that queue position has not earned. |
+| **Working** | `report.md` §"Stage C.9 — spread-to-cost survey and adverse selection" (line 1090). ADR-026. |
+| **What would reopen it** | A venue paying **maker rebates** (none reachable from British Columbia does), or an instrument whose spread-to-cost ratio exceeds 1.0 *with* adverse selection below the excess. Adverse selection was **positive on every instrument measured** (+0.06 to +0.68 bps), so a favourable ratio alone is not sufficient and must never be reported as if it were. Does not reopen on a better quoting model — nothing here was a modelling question. |
+
+---
+
+### H4 — Cointegration pairs trading
+
+> Cointegrated pairs mean-revert reliably enough that low turnover lets the cost
+> per trade amortise into profit.
+
+| | |
+|---|---|
+| **Status** | **Closed — signal-absent** · 2026-08-04 |
+| **Deciding number** | **0 of 180** formation-window pairs surviving Benjamini-Hochberg remain significant out of sample. The holdout window produced **91 raw hits against 77.0 expected by chance** — fewer than noise. **BTC/ETH, the literature's headline pair, scores p = 0.1169**, not cointegrated even before correction, against a published claim of 14.89%/yr at Sharpe 2.23. Deflated Sharpe of the best surviving pair: **0.026**, its per-bar Sharpe of 0.0514 being *less than half* the 0.1058 that screening 1,653 noise pairs would be expected to produce. **Zero executable pairs.** |
+| **Sample** | Binance daily bars 2021-08-01 → 2026-07-31, 1,826 bars. Universe **survivorship-free by construction**: 291 symbols listed at 2021-08, top 60 by *that month's* volume, of which **12 (20%) died inside the sample**. 1,653 pairs tested. |
+| **Limitations** | Daily bars from a venue this project cannot trade. Contains the 2022 aftermath, the 2024 bull run and the 2025–26 compression. Excludes LUNAUSDT (ticker reuse across a 177,400× splice) and BTTUSDT. |
+| **Working** | `report.md` §"Stage C.10 — cointegration pairs trading" (line 1386). ADR-029, ADR-030, ADR-032. |
+| **What would reopen it** | **Not lower fees.** Break-even transaction costs were **300–550 bps** against Hyperliquid's 3 bps — a margin of 100–180×, so cost was never remotely the constraint. This is the cleanest demonstration in the project that removing cost does not reveal an edge underneath. Reopens only if (a) a reachable venue offers shorts across a materially broader instrument set — only **5 of 12** subscribed Hyperliquid perps existed at the 2021 sample start, and HYPE and MERL have never listed on Binance at all — **and** (b) relationships persist out of sample, which they did not at any correction level. |
+
+---
+
+### H5 — Funding rate carry
+
+> A delta-neutral long-spot/short-perp position collects funding as mechanical
+> income, without needing any prediction to be correct.
+
+| | |
+|---|---|
+| **Status** | **Closed as currently unattractive — decayed, not disproved** · 2026-08-04 |
+| **Deciding number** | Historically real: **8.07% (ETH) and 8.00% (BTC)** net annualised **on deployed capital** after every modelled cost, with 5 of 10 instruments clearing a 4% risk-free rate by 1.6–4.1 points. But **the yield has decayed ~85%**: Binance BTC funding annualised **30.61% in 2021 → 11.92% in 2024 → 5.13% in 2025 → 1.94% in 2026**; ETH 37.54% → 0.97%. **At 2026 funding levels the trade does not clear cash at all.** |
+| **Sample** | Hyperliquid hourly funding 2023-05-12 → 2026-08-04 (3.23 years, 27,761 rows for BTC), 12 perps; Binance 8-hourly funding 2020-01 → 2026-07 for the decay curve; Binance spot 1h for the long leg. |
+| **Limitations** | **Contains no full bear market.** Hyperliquid launched *after* the 2022 drawdown, so the worst funding environment in recent crypto history is outside its history entirely — every Hyperliquid figure is drawn from a favourable sample. Perp prices reconstructed as `spot × (1 + premium)` because the venue's candle endpoint serves only the most recent ~5,000 bars. |
+| **Working** | `report.md` §"Stage C.11 — funding rate carry" (line 1637). ADR-033, ADR-034, ADR-035. |
+| **What would reopen it** | **Current funding above roughly 10% annualised sustained for a quarter**, measured live rather than from a trailing average — the three-year average describes a regime that has ended. Two standing qualifiers travel with any reopening: funding correlates **0.5+ with trailing price trend** (BTC pays 5.77 bps/day in uptrends against 1.87 in downtrends), so this is a bull-market income stream wearing a delta-neutral label; and it is **not a general property of perps** — MERL paid **−22.38%/yr** and TNSR **−32.41%/yr**, so shorting TNSR would have cost 75% of notional over 2.3 years. |
+
+---
+
+### H8 — Cross-sectional funding carry
+
+> Going long the perps paying the most negative funding and short those paying
+> the most positive, dollar-neutral on one venue, harvests the dispersion
+> between instruments even after the funding *level* has been competed away.
+
+| | |
+|---|---|
+| **Status** | **Closed — signal present, cancelled by its own hedge** · 2026-08-05 |
+| **Deciding number** | Funding income **+43.68%/yr on deployed capital**, price return **−42.91%**, cost −0.66% — **net +0.11%** against a 4% risk-free rate, a shortfall of 3.89 points. Max drawdown **−75.85%**. The price term's daily volatility is **10.9× the funding term's** (1.81% vs 0.166%). |
+| **Sample** | Hyperliquid, **232 perps considered / 231 usable / 55 delisted and retained**, 4,411,046 hourly funding observations, 1,182 days 2023-05-12 → 2026-08-05. Both legs priced from the venue's own daily candles. Survivorship-free by construction. |
+| **Limitations** | **Contains no bear market** — the venue launched after the 2022 drawdown, and a dollar-neutral book's price term is exactly what an untested regime moves. Delisted perps are assumed to liquidate at their last printed price; the venue settles them at an oracle price this study cannot see. |
+| **Working** | `report.md` §"Stage C.13 — cross-sectional funding carry" (2026-08-05). ADR-036, ADR-037. |
+| **What would reopen it** | **Not a better signal and not lower fees.** Two independent things would each have to change. First, **dispersion would have to widen back**: measured on a fixed cohort it fell **77%**, from a 241.50% decile spread in 2023 to **53.45%** in 2026, and the all-instruments series looks flat only because the venue kept listing wilder coins — the cross-section grew 21 → 190, and the two measures differ by 3× purely on composition. Second, and more fundamentally, **the price term would have to stop cancelling the carry**. Negative funding is compensation for holding assets that keep falling; the long and short baskets correlate **−0.718** and diverge in the costly direction. A version of this trade that hedged the cross-sectional price exposure rather than only the dollar exposure would be a different hypothesis, and would need its own test. Note also that break-even cost is **1.76 bps a side against 1.5 modelled** at 51.7× annual turnover — a 17% margin, so unlike H4 cost here is *nearly* binding and any fee change closes it. |
+
+---
+
+### H9 — Time-series momentum on daily bars
+
+> Trends persist: recent winners keep winning over horizons of weeks to months,
+> by enough to beat holding BTC on risk-adjusted terms.
+
+| | |
+|---|---|
+| **Status** | **Closed — insignificant after deflation, and untradeable where it appears** · 2026-08-06 |
+| **Deciding number** | Primary spec (L90/H30) net-of-3bps Sharpe **0.302 vs BTC buy-and-hold 0.183** — beats the benchmark, but **deflated Sharpe 0.446** against 12 registered trials, **alpha t = 1.01**, and **7/12** specs positive. The three specs clearing the literal bar (beat BTC, DSR > 0.5) are **all at the 7-day hold** — the registered fitting-artifact pattern. On the **27 executable symbols** the primary collapses to **Sharpe 0.013**. Best single cell (L30/H7, net Sharpe 0.647) deflates to **0.732**. |
+| **Sample** | C.10's universe **reused verbatim**: 60 members from 291 listed at 2021-08, 58 in matrix (LUNA splice + BTT excluded identically), **12 died in-sample**, 2021-08 → 2026-07 daily bars, universe 60 → 48 over the window. Contains the 2022 collapse, 2024 bull, 2025–26 compression. |
+| **Limitations** | The measured book is **net short (−0.275 mean exposure) with negative beta in every cell** (−0.03 to −0.43), earning **+56.9%/yr in down-trending periods against −14.7%/yr in up** — a short-alt-decline position, not trend discovery. Its income requires an alt bear market to exist. |
+| **Working** | `report.md` §"Stage C.16 — time-series momentum" (2026-08-06). ADR-041. Bars pre-registered in commit 88b69d8. |
+| **What would reopen it** | **Not lower fees** — break-even costs run **66–265 bps a side** against 1.5 modelled, so cost was never within two orders of magnitude of binding (the H4 pattern). Reopens only if, on data that includes a full bear regime, **at least half the registered grid** beats buy-and-hold BTC risk-adjusted with **deflated Sharpe ≥ 0.95**, **and** the effect survives on the executable subset — the full-universe result is dominated by shorting coins that no reachable venue lists. A single cell clearing any bar reopens nothing; the grid was registered precisely so one cell cannot. |
+
+---
+
+### H10 — Liquidation aftermath reversion
+
+> A liquidation print is mechanical rather than informed flow, so price
+> overshoots and reverts afterward by more than it does after ordinary trades
+> of similar size.
+
+| | |
+|---|---|
+| **Status** | **Closed — unidentifiable in available data** · 2026-08-06 |
+| **Deciding number** | **Zero identifiable liquidations** in 2,639,510 recorded fills (2026-08-01 → 2026-08-06, 12 instruments). One key-set across every fill — `(coin, hash, px, side, sz, tid, time, users)` — no flag; zero occurrences of any `liquidat` string in any channel; the one anomalous value (all-zeros hash, 18.0% of fills) ground-truths via `userFillsByTime` to **TWAP fills**, not liquidations; the three plausible global-history endpoint names return HTTP 422. |
+| **Sample** | The full recorded Hyperliquid week, every channel (`l2Book`, `bbo`, `trades`, `activeAssetCtx`), checked against recorded bytes rather than documentation (the C.1 discipline). |
+| **Limitations** | This is a data-availability closure, not an evidence-of-absence closure — a **third kind**, distinct from cost-bound and signal-absent. The reversion may exist; nothing reachable can measure it. Large-trade proxies were declined by design: the hypothesis *is* the mechanical/informed distinction, and a proxy erases it. |
+| **Working** | `report.md` §"Stage C.15 — liquidation aftermath: the data does not exist" (2026-08-06). |
+| **What would reopen it** | A liquidation-labeled source: the venue flagging liquidations in the public trades stream, a global history endpoint, or labeled vendor data — covering **≥ 300 labeled liquidations across the subscribed instruments** with timestamps alignable to recorded BBO mids at ≤ 1 s. The test then runs as pre-specified: liquidations matched to ordinary trades by size, instrument and time of day; post-event mid moves at 1 s / 10 s / 60 s / 300 s; 95% CI sized to the actual count; economics judged against spread-at-event **plus** the 3 bps round trip. Below 300 events the answer is "too thin" by prior declaration, not a stretched result. The venue's per-user `liquidation` field makes a future flag plausible; nothing reopens on proxied labels. |
+
+---
+
+### H11 — Medium-horizon prediction on untested feature classes
+
+> Freely available on-chain, stablecoin, funding-regime and basis information
+> predicts BTC/ETH returns at 1–8 week horizons well enough to beat holding
+> BTC, at horizons where weekly turnover makes cost structurally irrelevant.
+
+| | |
+|---|---|
+| **Status** | **Closed — FAIL on all six pre-registered bars; the closure that ended the alpha search by decision** · 2026-08-06 |
+| **Deciding number** | **0 of 40 registered cells pass.** Best deflated Sharpe in the grid **0.499** vs the 0.95 bar; best alpha t **1.35** vs 2. Stablecoin class: negative in **8/8** cells under honest lags. Netflow and funding classes: long-only beta 0.43–0.56 artifacts, alpha t ≤ 0.95, long-short collapses. Basis class: Sharpe up to 1.62 on **45–59 weeks** of pure bull-compression where **BTC's own Sharpe was 1.16–2.06**, beta to 0.96, earnings in one trend direction only — three pre-named artifact patterns at once. Costs decided nothing: break-even 22–1,059 bps/side vs 1.5. |
+| **Sample** | Weekly 2020-08-02 → 2026-07-26 (spans the 2022 collapse, 2024 bull, 2025–26 compression); BTC+ETH; ridge λ=1 walk-forward, purge+embargo ≥ horizon; publication lags applied per source — **A +1d, B +75d (measured: the free Coin Metrics snapshot ends 75 days before retrieval), C 0d, D 0d**; planted-future canary and prefix-invariance green. |
+| **Limitations** | Class D scored only 45–59 weeks (series begins 2023-05). The exchange-netflow class is tested as *freely available* — 75 days stale — not as funds consume it; that IS the question this project can ask. |
+| **Working** | `report.md` §"Stage C.17 — the final research door" (2026-08-06). ADR-042, ADR-043. Bars in commit 370ba41, before any data. |
+| **What would reopen it** | A data or evidence threshold, not a revisit: **(a)** a free exchange-flow source at **≤ 2-day** publication lag with **≥ 3 years** of history — the measured 75-day staleness is the binding data constraint on class B; or **(b)** the basis class sustaining **DSR ≥ 0.95 and alpha t ≥ 2 over ≥ 156 scored weeks including a full bear regime** — three times its current window. Reopening H11 does not reopen the alpha search; that decision (below) is the operator's to reverse, not a threshold's. |
+
+---
+
+### H6 — Spread capture on thin perpetuals *(positive at C.27, closed at D.1d)*
+
+> On instruments too thin for the majors' competition, the spread-to-cost ratio
+> is favourable enough to survive adverse selection.
+
+| | |
+|---|---|
+| **Status** | **Closed at D.1d — 2026-08-12; closure re-confirmed under audit correction the same day.** The per-fill positive (C.27, an upper bound) does **not** survive an order-lifecycle fill model: both survivors are negative under the bounded replay, everywhere in the pre-registered grid. Corrected figures **PUMP −4.81, MERL −4.35** (was −4.75 / −4.23; the correction made both *more* negative). The rows below record how it got there. |
+| **D.1d bounded replay (2026-08-12) — the closure** | Known-answer gate passed exactly (the new engine reproduces D.1c's generous +1.23 / +6.67 to the digit). Under always-last queue with cancel/replace latency (162 ms proxy floor each way) and ALO rejection: **PUMP −4.75 bps, MERL −4.23 bps** per filled notional at the declared 2.5×Q cap — negative at 5× and 10×, at **every** added latency (+0…+800 ms: **no zero-crossing exists, so latency is not the binding term**), and at MERL's price-improved end (**−6.35**; improvement buys a tick away and *increases* adverse fills). Mechanism — **the specific attribution is withdrawn (audit A13)**: the *net* is robust to feed interleaving, but the split between realized edge and inventory is not. Shifting `trades` timestamps −5 ms against `bbo` — 25–65× smaller than the feed's own bbo cadence — flips PUMP's realized edge from −1.01 to **+0.45** while inventory moves −2.24 → −4.08 to absorb it, because `MTM = edge + inventory` is the invariant and the shift only relocates the marking instant. **What holds: capture does not survive an order-lifecycle fill model. What does not: attributing that loss to adverse selection *at the fill instant* rather than to inventory drift.** Not separable at this feed's resolution. Fall from D.1c's generous model: −5.98 / −10.90 bps. ALO rejection 0.19–1.75%. **Not an artifact of the model's most pessimistic rule**: per-rule attribution shows sweeps (where we are genuinely the passive party) earn **+1.2 bps** on both but are only 10–20% of filled notional, and **deleting every stale-quote crossing fill outright still leaves both negative** (**−4.35 / −2.13**; the −3.98 / −2.57 originally recorded here was arithmetic on a path-dependent ledger with mixed denominators — audit A2, re-run properly). By the pre-registered kill condition (both ≤ 0 at declared cap and floor) **H6 closes and D.2 does not follow**. **Reopening condition, rewritten 2026-08-12 (audit A13).** The original condition was scoped to *"letting fill-instant adverse selection be measured rather than bounded"* — a mechanism this feed cannot pin down, so it named a test that could not settle anything. What must be shown to reopen H6 is simply that **the net survives an order-lifecycle fill model**, by one of: (a) **order-level book data** carrying arrivals, cancellations or order IDs, which would give true queue position *and* a fill-instant mark, collapsing the edge/inventory ambiguity as a side effect; (b) **venue fill-level ground truth** from actually resting orders — paper or minimum-size live — which measures the net directly and needs no attribution at all; or (c) a **materially different cost structure**, e.g. a maker-rebate tier, since every net here is per-leg net of 1.5 bps and the fee is the weakest-sourced input in the chain (A10). **Not** reopened by: lower latency (no zero-crossing exists under the corrected engine either), a better queue model from this feed (D.1a: none estimable), more weeks of per-fill accounting, or any re-attribution between the edge and inventory terms. The blind window closing 2026-09-09 still reads out — as a selection-bias check, since any future survivor faces this same replay gate. |
+| **Census verdict (C.27)** | Scored 2026-08-04→08-11 (96.4% coverage; a ~5.75 h recorder hole on 08-04, in the first half, reported not absorbed), known-answer reproduced (BTC −3.051 / ETH −2.753). Of the ten thin Hyperliquid perps, the **liquid** ones fail (HYPE −2.11, SOL −2.61, LINK −1.77, DOT −0.60 bps) and the **thinner-competition** ones survive: **PUMP +4.30, MERL +6.45, GMX +0.40 bps** clear BH q=0.10 + CI>0 + both-halves + capacity; NOT (+31) and TNSR (+35) survive but sub-capacity (positive_but_rare). Every net is an **upper bound** — GMX discounts to ~zero, leaving **PUMP and MERL** as the robust survivors. **Corrected 2026-08-12 (audit A3):** the census intervals assume independence and are 2–17× too narrow (`halfwidth·√n/sd = 1.9600` for all ten instruments — no adjustment anywhere). PUMP and MERL survive HAC, day-clustered and block-bootstrap correction; **GMX does not** (+0.288 IID → **−0.070** day-clustered) and should be read as **unresolved, not a survivor**. Expected false positives at q=0.10: 0.5. |
+| **Prior evidence** | Suggestive but unusable at the time: CME micro silver showed a spread-to-cost ratio of **3,889 on 69 quote updates in a day** (one quote per 20 minutes); micro copper **65.0 on 1,494**. A spread you cannot be filled against is not an opportunity — and was not a dismissal either. |
+| **Resolution** | **Resolved, not closed.** The census produced survivors, so H3's thin tail did NOT close — it **opened Phase D.1**. The registered action is followed verbatim: PUMP and MERL are inputs to a fill simulation that models queue position, fill probability, and fill conditioning (the terms the upper-bound measure omits, all pointing down), not a strategy and not a deployment. |
+| **Registered bars** | **Fixed in progress.md commit 6025f5c (2026-08-06), before the scored window closes**: window 2026-08-04→08-11; net at trade-time spread state minus adverse (1/5/60 s) minus 3.0 bps with 95% CI lower bound > 0 at the worst horizon; BH q=0.10 across ten instruments; ≥300-trade floor; both-halves robustness; ≥150 trades/day and ≥$100k median daily volume for tradeable capacity; the whole measure an upper bound. Outcome-to-action map registered, from "H6 closes, zero open items" through "D.1 fill-simulation input, not a strategy". Machinery known-answer tested: reproduces C.9's BTC −3.05 / ETH −2.75 to **−0.001 / −0.0033 bps**. |
+| **Working** | `report.md` §Stage C.9, §Stage C.27; `research/microstructure/registered.py` (bars 6025f5c, known-answer 287fc10, scored at C.27); `config/venues.yaml` hyperliquid rationale. |
+| **D.1a feasibility (2026-08-11) — GO, to a bounded simulation** | The recorded feed exposes aggregated touch state (`px`, `sz`, **`n`** = resting order count) but **no per-order stream**, so a specific order's queue position is unobservable; the consumption test fails (median error 100%, **87–99% of levels clear by cancellation** not trades) — **no precise queue model is estimable**. But the **always-last-in-queue** pessimistic net stays positive on both — **PUMP +2.15 (CI +2.00), MERL +5.42 (CI +4.88)** — a *measured* quantity, so the capture's sign is robust to queue position. Per the registered go bar, that alone is a **GO**. D.1 builds a *bounded* fill sim reporting the range **PUMP [+2.15, +4.30], MERL [+5.42, +6.45] bps** (both endpoints positive), not a false-precision point, after closing the **Hyperliquid latency gap** (telemetry probes only kraken/coinbase). Cost: ~1–2 weeks of time, no credits. **ADR-056.** |
+| **D.1c pre-sim measurements (2026-08-12) — H6 survives all four audit items, restated** | **Tick geometry:** PUMP's tick is 3.5–4.6 bps of price (szDecimals 0 at $0.002–0.003) and its spread sits at **one tick for 85.5% of the quoted week** — price improvement inside the spread is impossible, always-last is the modal case, and **the D.1a range collapses to +2.15 bps per round trip** (the +4.30 end is unreachable and no longer quoted). Favourable flip: a pinned spread cannot compress, so competition lengthens the queue instead of narrowing the margin. MERL (tick 0.56 bps under a ~7-tick spread) keeps **[+5.42, +6.45]**. Venue facts: $10 min order value; post-only orders that would match are **rejected**, lowering effective fill rate below census crediting. **Inventory (the term the census omits):** under the registered honest policy (two-sided touch quotes, fixed $500, no skew, instant refill) PUMP's inventory term is **−33.07 bps against +5.82 bps of edge** (−$303k on the week, position walking to $3.6M) — swamped; but **every registered cap restores ~+1.2 bps per leg** at ~300× the capacity floor, the 2.5×Q cap forgoing **74% of gross edge to avoid −$353k of inventory** (29.8% of the week spent one-sided). MERL positive under every variant (+6.7 to +12.5 bps); its +3.98 bps uncapped inventory is **path luck** (price +16% that week), bounded when capped. Funding immaterial (≤ 0.33 bps; archive and ctx rates agree exactly on all 28 overlap hours). **300/900 s adverse:** the sign holds — PUMP +4.17/+4.49 (CI lower +4.04/+4.28), MERL +6.06/+6.08 (CI +5.45/+5.21), both halves positive; adverse is non-monotone past 60 s, and GMX's C.27 discount is vindicated (negative at both longer horizons). **Selection audit:** the C.9 pick was a **spread-motivated screen** (PUMP annotated "first above cost" on impact spread) tested out-of-sample on the later week — survivors demote to **screened positives**; BH corrected the 10 tested, not the 177 screened; an unbiased volume-band rule blind to spread fields folds into the ≥ 4-week re-run. **H6 does not close.** D.1d proceeds with the inventory cap and ALO rejection as first-class replay terms. ADR-057, ADR-058. |
+| **Standing caveat** | Every figure rests on the single census week (2026-08-04→08-11). A D.1 conclusion resting on more than one week needs the bounded measure re-run on **≥ 4 weeks spanning more than one volatility regime**, which the recorders accrue at zero cost by ~2026-09-08. A **negative bounded D.1 closes the thin tail (and H3) completely**; a positive one is the first thing worth simulating for real capital, still short of a deployment (engine/ risk code needs line-by-line review first). |
+
+---
+
+### H7 — Cross-venue divergence *(closed by decision)*
+
+> The same asset diverges between Kraken, Coinbase and Hyperliquid by enough,
+> and for long enough, to be worth trading against.
+
+| | |
+|---|---|
+| **Status** | **Closed by decision — the C.17 end condition, not evidence** · 2026-08-06 |
+| **Deciding number so far** | None measured directly. The nearest evidence is Hyperliquid's perp-to-*own-index* premium: mean **0.65 bps**, p99 **14.59 bps**, worst adverse hourly move **38.2 bps**. This is explicitly **not** the cross-venue number — it understates true divergence by whatever Hyperliquid's index and the actual long venue differ by, which has never been measured here. |
+| **What it is waiting for** | Simultaneous multi-venue recorded history. All three recorders have only run together since **2026-08-01**, so the overlap is measured in weeks. Any divergence claim needs enough overlap to span more than one regime. |
+| **How to close it** | Measure the realised basis between the three venues on the same clock, then charge it against the round-trip cost of both legs — 80 bps at Kraken/Coinbase, 3 bps at Hyperliquid. The asymmetry means any spot-to-spot arbitrage carries 160 bps of cost, which is the bar to clear. |
+| **Closure note** | The alpha search concluded by decision on 2026-08-06 (C.17, pre-registered in 370ba41) before this hypothesis's data condition matured. The three-venue overlap keeps accumulating at zero cost; reopening requires the operator reversing that decision, at which point the original design above stands unchanged. |
+| **Working** | `report.md` §Stage C.11 "Basis risk"; ADR-034 on the cross-venue structure. |
+
+---
+
+## Detection track (off the alpha register — ADR-044)
+
+The rug-detection track is a **safety/avoidance tool, not a trading strategy**, so
+it sits outside the eleven-entry alpha register above. It has produced the
+project's first two substantive positives. Two questions, tracked separately.
+
+### D1 — Hard-rug detection from launch-window state *(shipped)*
+
+> A pre-event scorer separates hard rugs — near-total (≥ 99%) liquidity removal —
+> from other launches well enough to act on.
+
+| | |
+|---|---|
+| **Status** | **Works — shipped as a clearance scorer** · 2026-08-07 (C.23/C.24) |
+| **Deciding number** | **Honest-clearance precision 0.984 at recall 0.538** on the 2024 test fold (train ≤ 2023), from 30-minute launch-window features. The complementary hard-rug *alarm* is weak — a high P(hard_rug) is only **0.464** precision — so the artifact ships as a **clearance** (a low score clears a pool as not-a-hard-rug), never a rug alarm. |
+| **Sample** | SolRPDS-labelled Solana pools via Helius; 281 reached to T0, 194 in the 2024 test fold. Launch-window concentration / authority / holder features; creator history excluded (C.23: inert/harmful out of sample). |
+| **Limitations** | Detects **hard rugs only** — the blatant case. Says nothing about soft/slow rugs (that is D2). In the wild ~99% of launches are scam-adjacent, so it filters a small honest minority, not a general classifier — read a score against that base rate. |
+| **Working** | `research/detection/scorer.py`, `train_scorer.py`; model at `data/processed/detection/hard_rug_scorer.txt` (regenerable). `report.md` §Stage C.24 Task 5. ADR-050. |
+| **What would extend it** | Nothing reopens the *result* — it works. Extension is live deployment (score at T0+30min) or widening past hard rugs, which is D2. |
+
+### D2 — Honest-versus-slow-rug separation *(qualified positive, open for confirmation)*
+
+> On-chain state separates honest launches from soft/slow rugs — pools that drain
+> gradually rather than in one blatant yank — well enough to avoid them.
+
+| | |
+|---|---|
+| **Status** | **Concluded (C.26) — real but small and unconfirmed.** Absent at T0 (C.23); positive post-launch (C.24) that survived depth-unbiasing halved (C.25); firming moved the mid-stratum lift **down to +0.032, CI including zero** (C.26); the decon-unbiased confirmation is **measured-unaffordable** (~125k weighted, ~2× the cap) and the creator-address restructure is blocked on identification. |
+| **Deciding number** | **Launch window (C.23): absent** — decon honest precision **0.574 ≈ 0.500 base**. **Post-launch (C.24): clears at 6h** — behavioural precision **0.654 at recall 0.53 vs 0.557 base (lift +0.097)**, growing with the window. **Depth-unbiased (C.25): survives, halved** — on a random-draw Method-B sample the 6h v0 lift is **+0.047** (vs C.24's biased v0 +0.115); the decomposition shows the **high-activity extreme lift collapses +0.156 → +0.015** (a reachability artifact) while the **mid-activity stratum holds +0.051**, meeting the pre-registered genuine-discrimination bar (> 0.02 and ≥ half the overall) — but marginal (~0.8 SE). **Firming (C.26): +90 more pools moved the mid-stratum estimate DOWN to +0.032 (SE 0.039, 95% CI [−0.045, +0.109]) — the added data weakened rather than confirmed; C.25's +0.051 was optimistic.** |
+| **Sample** | C.24's 281 decon-labelled pools plus **120 random honest pools retrieved depth-independently via Method B** (slot-anchored `getSignaturesForAddress`, Jaccard 1.0 vs the from-now walk); v0 labels on the corrected sample (decon needs unaffordable 30-day detail), decon on the C.24 overlap only. |
+| **Limitations** | The C.24 magnitude was **reachability-inflated** — half the lift was the excluded 57% of deep honest pools. The surviving mid-stratum lift is **marginal** (CI includes zero at n=84) and measured on **v0**, not decon (decon-unbiased is blocked by the 30-day insider-sell detail cost). Correcting the honest class raised the base rate, so per-stratum lift is the honest metric, not the overall. |
+| **Working** | `research/detection/behavior.py`; `report.md` §Stage C.24, §Stage C.25. ADR-051 (survivor-conditioned framing), ADR-052 (cutoff leakage rule), ADR-053 (depth stratification and the Method-B depth-independent retrieval). |
+| **What would reopen it** | **Concluded, not closed-absent** — the signal is real in direction but small and its confirmation is priced out. Reopens on an **affordable decontaminated label**: C.26 measured the pool-path decon-unbiased test at **~125k weighted (~2× the cap)** and found the creator-address restructure **blocked because the creator is not reliably identifiable** from on-chain launch data (the mint predates pool-activity T0; 0/8 pools resolved a creator). A soft/slow-rug label cheaper than 30-day insider-sell detail — or a **live forward-recorded cohort** labelled as outcomes arrive — plus a Method-B sample several times larger, would let the mid-stratum lift's CI be pulled off zero. Does **not** reopen on a better model — capacity was never the constraint. |
+
+**Project-wide open items:** the detection track **concluded at C.26**, the
+census (H6) **resolved at C.27** to the project's first bar-clearing positive,
+and that positive **closed at D.1d (2026-08-12)** — the capture does not survive
+an order-lifecycle fill model. **No alpha hypothesis remains open and no live
+next step exists on the strategy side.** Two clocks still read out for the
+record: the Hyperliquid latency distribution (2026-08-19, moot for the sign) and
+the blind-universe scoring window (2026-09-09, now a selection-bias check). D2
+is concluded (real but small, unconfirmed), reopenable only on an affordable
+decontaminated label.
+
+---
+
+## Cross-cutting findings
+
+These belong to no single hypothesis and would be lost if filed under one.
+
+### The recurring diagnosis, and the one case that broke the pattern
+
+**H1, H2 and H3 all failed the same way: edge per trade was smaller than cost
+per trade.** 3.31 bps against 80. 0.22 against 5.33. A spread minus adverse
+selection that never covered the fee. It was tempting to conclude that cost is
+*the* constraint and that the whole problem is finding a cheaper venue.
+
+**H4 tested that directly and refuted it.** Holding for days instead of
+milliseconds worked exactly as intended — break-even costs of **300–550 bps
+against a 3 bps venue**, a margin of 100–180×, and 98 of 175 pairs profitable
+both gross and net of venue cost. Cost stopped being the binding constraint
+entirely. **There was no edge underneath it.** The relationships did not persist
+(0 of 180), the best result was weaker than what screening 1,653 noise pairs
+would produce, and nothing was executable.
+
+The correct reading of the four together is not "costs are too high" but
+**"small edges at retail-accessible venues are either absent or already
+priced"** — and that the two cases are distinguishable only by measuring, which
+is why every entry above records which one it was.
+
+### The measured venue cost landscape
+
+Every future hypothesis is constrained by this table. **Every fee schedule in
+this project has been found stale at least once** (ADR-012) — Kraken
+restructured its spot schedule on 2026-07-09, and CME announced a change
+effective 2026-04-01 that falls *inside* a data range already purchased. Treat
+these as dated measurements, not constants.
+
+| venue | maker per side | **round trip** | verified |
+|---|---|---|---|
+| Kraken spot, base tier | 25 bps | **50 bps** | 2026-08-08 |
+| Coinbase Advanced spot, base tier | 40 bps | **80 bps** | 2026-08-01 |
+| Hyperliquid perps, base tier | 1.5 bps | **3.0 bps** | 2026-08-01 |
+
+CME micro futures charge **per contract**, so their cost in bps is a function of
+the contract's notional — which is why the same $2.02/side lands anywhere from
+0.4 to 102 bps (ADR-023). Measured 2026-07-15:
+
+| contract | notional | round turn | **cost bps** |
+|---|---|---|---|
+| MNQ micro Nasdaq | $59,670 | $2.44 | **0.41** |
+| MES micro S&P | $38,027 | $2.44 | **0.64** |
+| MGC micro gold | $40,505 | $3.94 | **0.97** |
+| M6A micro AUD | $6,985 | $2.22 | **3.18** |
+| MBT micro bitcoin | $6,505 | $4.04 | **6.21** |
+| MET micro ether | **$191** | $1.94 | **101.76** |
+
+Two structural consequences worth carrying forward. **The cheapest venue
+reachable from British Columbia is Hyperliquid at 3 bps**, and it is also the
+only one offering a short — so any strategy needing a short leg is a cross-venue
+strategy with an asymmetric cost structure (ADR-034). And **notional decides
+everything on CME**: MET is 250× more expensive than MNQ for the same $2 ticket.
+
+### Engineering lessons that generalise
+
+Drawn from defects this project actually hit, not from general principle.
+
+**Components tested on samples fail at real scale, and present as data
+problems.** Full-day validation was OOM-killed at 12.8 GB the first time it met
+a real day. A vendor download buffered 76.3 GB into memory and died at 9.1 GB
+**after the charge had already committed**. Training hit 5.48 GB and the
+reduction from 6.6 GB was reported as "bounded" when it was not. Each looked
+like a data issue and was a scale issue. ADR-005 and ADR-025 exist for this.
+
+**Time-interval arithmetic unions before summing — always.** Three separate
+defects, each found only after producing a wrong number in a report: duplicate
+reconnect records inflating downtime, gap windows summed at full duration
+instead of their intersection with the recorded span, and CME closure windows
+double-counting an hour. The shape is always the same and always plausible: a
+list of windows, a `sum()`, and no union. It never raises. This is now a
+standing rule in CLAUDE.md.
+
+**Append order across processes is unreliable by design, not by accident.**
+During every recorder restart two processes append to one `sessions.jsonl`, and
+the outgoing process's `end` can land after the incoming process's `start`. Read
+in file order that sequence reports a **602 ms unclean termination** — a
+graceful restart recorded as a crash. Order by the clock, never by position
+(ADR-028).
+
+**A check that cannot fail is not a check.** The guard that silently dropped an
+inverted gap window would have hidden exactly the corruption worth knowing
+about — and hidden it twice, since `merge_windows` also filters inverted
+windows, leaving the coverage union and per-kind totals to disagree with nothing
+to show why. The same shape appeared as `_dates_available` returning an empty
+set that was reported as "no recorded data" and cost a full overnight cycle.
+
+**The most dangerous defects are success-shaped.** The C.10 look-ahead bug —
+pair start indices computed as offsets from each series' own end, so any pair
+with a leg that died traded inside the window it had been selected on —
+produced **the highest-ranked result in the study**: 223% annualised from four
+trades. A bug that makes results worse gets investigated. A bug that makes them
+better gets published.
+
+---
+
+## External corroboration (folded in at C.27)
+
+The register records what the project measured; this section adds what outside
+evidence says about it, because the strongest reason not to relitigate a closure
+is often external rather than internal. Each item is reconciled against the
+entry's reopening condition: where the audit's evidence says "abandon", the
+reopening condition is a specific measurable threshold that evidence does not
+foreclose, and that is stated rather than left to contradict.
+
+**Directional prediction (H1, H2) — the order-book-ML literature does not
+reproduce.** Deep-learning limit-order-book predictors overfit the FI-2010
+benchmark and drop sharply on unseen data; DeepLOB's own authors report 62–70% on
+a real one-year LSE set against the benchmark's inflated figure, and surveys find
+"all models exhibit a significant performance drop when exposed to new data"
+([Prata et al., *Deep limit order book forecasting*, Quant. Finance 2025](https://www.tandfonline.com/doi/full/10.1080/14697688.2025.2522911);
+[LOB DL benchmark study, *AI Review* 2024](https://link.springer.com/article/10.1007/s10462-024-10715-4)).
+Reconciliation: this corroborates that microstructure-ML directional edges do not
+generalize — consistent with H2's absence (AUC 0.501) and with H1's real-but-tiny
+edge (AUC 0.596). Neither reopening condition is contradicted; the audit
+strengthens the prior against relitigating on a better model.
+
+**Spread capture (H3) — adverse selection is the maker's structural cost.**
+Microstructure theory (Glosten & Milgrom, *JFE* 1985) derives the bid-ask spread
+as compensation for adverse selection against informed flow; a small uninformed
+maker cannot avoid it. H3 measured positive adverse selection on every one of 28
+instruments (+0.06 to +0.68 bps). Reconciliation: the theory corroborates that a
+favourable spread-to-cost ratio alone is never sufficient. Reopening (a
+maker-rebate venue, or a ratio > 1.0 with adverse selection below the excess) is
+unchanged; the thin-perp census (H6) is the live test of whether any thin
+instrument escapes it.
+
+**Cointegration pairs (H4) — the rigorous strand of the crypto-pairs literature
+fails out of sample.** Crypto-pairs cointegration studies split: the careful
+strand reports strong in-sample results that "give reason to treat the strategy
+with caution" out of sample, while profit-claiming strands typically do not
+correct for survivorship or multiple testing
+([copula/cointegration crypto-pairs, *Financial Innovation* 2025](https://link.springer.com/article/10.1186/s40854-024-00702-7)).
+Reconciliation: H4's 0-of-180-survive result (survivorship-free universe,
+Benjamini–Hochberg, deflated Sharpe) sits with the rigorous strand and is more
+stringent than the profit-claiming one. Reopening (a broader shortable set **and**
+out-of-sample persistence) is unchanged.
+
+**Funding and basis carry (H5, H8) — the professional trade compressed below
+cash.** CME bitcoin futures carry has fallen to ~3% annualized against ~3.8% on
+two-year Treasuries, below the 2-year every month since Feb 2026 — "once over
+20%, now less than Treasury notes"
+([CoinDesk, 2026-08-03](https://www.coindesk.com/markets/2026/08/03/the-bitcoin-futures-yield-collapse-once-over-20-now-less-than-treasury-notes);
+[TFTC, 2026](https://www.tftc.io/bitcoin-futures-basis-below-treasury-yields-2026)).
+Ethena — the largest professional operator of the delta-neutral basis trade — saw
+USDe supply contract from ~$14B to ~$5.9B after the October-2025 unwind, with
+sUSDe yields compressed to mid-single digits through 2026
+([Stablecoin Insider, Q1 2026](https://stablecoininsider.org/ethena-usde-q1-2026-report/)).
+Reconciliation: strong corroboration of H5 ("decayed, not disproved") and H8
+(dispersion compressed). The audit's abandon-now aligns with H5's "currently
+unattractive." **Explicit reconciliation:** H5's reopening (funding > ~10%
+annualized sustained a quarter, measured live) is not contradicted — carry
+exceeded 20% in 2021 and could in a future bull regime — but the default is
+do-not-deploy and the reopening is a live-measured threshold, not a bet that it
+recurs. H8's reopening (dispersion re-widens **and** the price term stops
+cancelling) stands as the same kind of high bar.
+
+**The general prior (H9, H11, every model-based closure) — backtest Sharpe does
+not predict live.** The Quantopian *All That Glitters Is Not Gold* study (Wiecki,
+Campbell, Lent, Stauth; 888 algorithms, ≥ 6 months out-of-sample) found in-sample
+Sharpe explains **< 2.5% of out-of-sample variance** (R² < 0.025), and the more a
+strategy is backtested the larger the backtest-to-live gap
+([SSRN 2745220](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2745220)).
+Reconciliation: this is the meta-prior behind the project's deflated-Sharpe
+discipline (H9 DSR 0.446, H11 best 0.499 — both below the 0.95 bar). It
+corroborates closing on deflation rather than on the flattering in-sample cell,
+and is the general reason a promising backtest is not evidence.
+
+**Fee reconciliation (Task 3).** The Kraken base tier is corrected from 0.40/0.80
+to **0.25% maker / 0.40% taker** (live schedule, retrieved 2026-08-08). No
+closure flips: H1's headline used Coinbase's maker (0.40, unchanged), and even at
+0.25 maker (round trip 50 bps) H1's 3.31 bps gross capture fails by ~15×; H3's
+Kraken-instrument spread-to-cost ratios rise slightly but stay far below 1.0. The
+qualitative conclusions survive (ADR-055).
+
+---
+
+## What this project has and has not established
+
+### Established
+
+**Five strategy hypotheses have been tested to a standard that permits closing
+them.** Each rests on measured figures with named cost assumptions, not on
+impressions. Three closed because a real cost exceeded a real edge; one closed
+because removing the cost constraint revealed no edge; one is a genuine but
+decayed income stream that no longer clears cash.
+
+**On retail-accessible venues, small edges do not survive.** That is the
+substantive finding, and it is narrower than "there is no edge in crypto
+microstructure". What has been shown is that at 80 bps round trip on reachable
+spot venues, 3 bps on the one reachable perp venue, and 0.4–6 bps on CME micros,
+the specific edges tested were either below cost or absent. It has *not* been
+shown that no edge exists at fee tiers this project cannot reach, at latency it
+does not have, or on instruments it has not surveyed.
+
+### What the infrastructure demonstrably does
+
+This is the durable output regardless of strategy outcomes, and it is real:
+
+- **Continuous multi-venue tick capture** — three recorders under systemd,
+  lossless raw storage, gap and session-lifecycle accounting. 2026-08-03
+  validates **PASS on all three venues**: Kraken 16.7M messages with 16.5M CRC32
+  checksums and zero failures, Coinbase 3.5M messages with zero sequence gaps,
+  Hyperliquid 1.5M with 32,200 snapshots — 100.00% coverage outside gaps, zero
+  crossed or locked books.
+- **Validation that distinguishes not-applicable from clean.** A venue with no
+  sequence numbers reports `n/a`, never `0`, so an unavailable check can never
+  read as a passed one.
+- **Bounded-memory data paths** proven at real scale — full-day replays and
+  44 GB month ingests in a few hundred MB of RSS.
+- **Vendor purchasing with a cost gate and an append-only ledger**, which caught
+  a real error before it spent money.
+- **Free-archive acquisition with per-file provenance** — 4,970 files, each with
+  source, URL, sha256 and retrieval date.
+- **Point-in-time universe construction** that is survivorship-free by
+  construction rather than by caveat.
+
+The capture and validation layer has found real defects in its own inputs
+(crossed books during CME halts, a 22.6 s host stall invisible to every check
+but snapshot cadence) and has never been the reason a strategy failed.
+
+### Genuinely open
+
+**Awaiting data only — no new access or capital required:**
+
+- **H6 is no longer open.** It resolved at C.27 to the project's first positive
+  (thin-perp spread capture as an *upper bound*), and the D.1 fill simulation it
+  was routed to **closed it at D.1d**: the capture is an artifact of per-fill
+  accounting and does not survive an order-lifecycle model. Nothing here awaits
+  data — it awaits a **different kind of data** (order-level book state), which is
+  an access question, not a waiting one.
+- **H7, cross-venue divergence.** Needs months of simultaneous three-venue
+  history — and note the kraken/coinbase feeds were retired at D.1b (2026-08-12),
+  so that overlap stopped accruing at 12 days; reopening H7 now requires
+  restarting those recorders first (one config flip, ADR-060).
+- **Whether any Phase B result generalises across regimes.** Every model metric
+  so far rests on days, not regimes. This is a data problem and not a code
+  problem, and the research-honesty rule in CLAUDE.md keeps it labelled as such.
+
+**Would require a change in venue access, capital, or latency:**
+
+- Anything depending on maker rebates, which no reachable venue offers.
+- H1's reopening condition — sub-3 bps round trip needs $10M–$250M of trailing
+  30-day volume.
+- Anything requiring co-location or sub-millisecond latency, ruled out by
+  ADR-002's 5–100 ms design tier.
+- Strategies needing a short on a broad instrument set; only Hyperliquid offers
+  a short at all, across 232 perps of which most are too thin to matter.
+
+### An honest reading
+
+Five tests, no deployable strategy. That is a real outcome and not a failure of
+method — the tests were designed to be capable of producing a positive result,
+and two of them (H1's AUC 0.596, H5's 8% on capital) did produce measurable
+effects that were then correctly judged insufficient. The project's pattern has
+been to find the number that closes a question rather than the number that keeps
+it open, which is the right direction to err, and several stages closed on
+findings that contradicted the stage's own starting premise.
+
+What has not been demonstrated is that this approach will eventually find
+something tradeable. Five closures is evidence about five hypotheses, not about
+the sixth. The infrastructure is genuinely good and the strategy pipeline has
+genuinely produced nothing deployable, and both remain true at the same time.
+
+### The conclusion, by decision — 2026-08-06
+
+**The alpha search of this project ended by decision on 2026-08-06**, under the
+condition pre-registered in commit 370ba41 before C.17 touched any data: a FAIL
+on that stage's six bars concludes the search. C.17 failed all six on every one
+of forty registered cells. Eleven register entries stand — nine hypotheses
+tested and closed on measured figures, one (H10) closed as untestable on
+available data, one (H7) closed by this decision with its design preserved.
+**The census (H6) resolved on 2026-08-11 — and not to the expected zero.** Three
+thin Hyperliquid perps cleared the pre-registered bars; discounted for the upper
+bound they are, **PUMP and MERL** stood as the project's first bar-clearing
+positive, and by the registered outcome-map they were a **Phase D.1
+fill-simulation input, not a strategy**.
+
+**That fill simulation closed them on 2026-08-12 (D.1d).** The honest open
+question — whether the capture survives queue position and fill conditioning,
+the terms the upper-bound measure omits — was answered no, against a bar
+registered before the replay ran: **PUMP −4.75 bps and MERL −4.23 bps** per
+filled notional, negative at every declared cap, at every latency in the grid,
+and at both ends of MERL's range. The mechanism is worth carrying forward
+because it generalises past this instrument pair: **a quote expecting +2.7 bps
+of half-spread realises −1.0 to −2.7 bps, because the events that fill a
+last-in-queue order are exactly the events where price is already moving
+through it.** Per-fill accounting cannot see that; only an order-lifecycle
+model can. The register now holds **no open alpha hypothesis and no live next
+step** — a sixth closure, and the first one this project reached by building
+the thing that could have proved it right.
+
+The durable output is the infrastructure: three continuously validated
+recorders, a provenance-complete archive of free historical data, a validation
+harness that has found real defects in its own inputs, and this register —
+which documents, to a standard each entry could be closed on, why nine strategy
+families do not work for a solo operator at these venues, fees, and data
+access. The conclusion is recorded as a choice made before its evidence, which
+is the only way a search this long ends honestly rather than by exhaustion.

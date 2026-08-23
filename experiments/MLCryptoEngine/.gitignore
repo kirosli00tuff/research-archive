@@ -1,0 +1,35 @@
+# environment / secrets
+.env
+*secret*
+*key*
+.venv/
+# Second venv for heavyweight research deps (ADR-038): torch lives here so the
+# live recorders' .venv is never mutated. uv writes a self-ignoring .gitignore
+# inside it, but naming it here keeps a venv built any other way safe too.
+.venv-dl/
+
+# data — raw is immutable and lives outside git; processed is regenerable
+data/raw/
+data/processed/
+*.parquet
+
+# logs
+*.log
+logs/
+
+# python
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# rust / node
+target/
+node_modules/
+desktop/dist/
+data/vendor/
+# Tauri regenerates these on build and linux-schema.json is platform-specific.
+# Generated output, never hand-edited — the same rule as desktop/src/lib/generated/.
+desktop/src-tauri/gen/

@@ -1,0 +1,134 @@
+"""Recorder service: run all venue recorders concurrently with liveness heartbeats."""
+
+from __future__ import annotations
+
+import asyncio
+import contextlib
+import signal
+import time
+
+import structlog
+
+from data.config import AppConfig, VenueConfig, load_config
+from data.logsetup import configure_logging
+from data.recorder import RECORDER_TYPES
+from data.recorder.base import DryRunLimiter, VenueRecorder
+from data.recorder.diskguard import DiskGuard
+from data.recorder.gaps import GapLogger
+from data.recorder.sessions import SessionLogger
+from data.recorder.writer import RawFileWriter
+
+
+def default_venue_keys(venues: dict[str, VenueConfig]) -> list[str]:
+    """Venues recorded when none are named: live (kind=recorder) with a recorder.
+
+    Retired venues (kind=retired) hold immutable history but run no process;
+    naming one explicitly on the CLI still works, so an operator can resurrect
+    a feed deliberately — it just never restarts by default.
+    """
+    return sorted(key for key in RECORDER_TYPES if key in venues and venues[key].kind == "recorder")
+
+
+def build_recorders(
+    cfg: AppConfig,
+    venue_keys: list[str],
+    dry_run: DryRunLimiter | None,
+) -> list[VenueRecorder]:
+    """Instantiate one recorder per requested venue, validating keys against config."""
+    unknown = [k for k in venue_keys if k not in cfg.venues]
+    if unknown:
+        known = ", ".join(sorted(cfg.venues))
+        raise SystemExit(f"Unknown venue(s): {', '.join(unknown)}. Configured venues: {known}")
+    unsupported = [k for k in venue_keys if k not in RECORDER_TYPES]
+    if unsupported:
+        supported = ", ".join(sorted(RECORDER_TYPES))
+        raise SystemExit(
+            f"No recorder implemented for: {', '.join(unsupported)}. Supported: {supported}"
+        )
+    recorders: list[VenueRecorder] = []
+    for key in venue_keys:
+        recorders.append(
+            RECORDER_TYPES[key](
+                venue_cfg=cfg.venues[key],
+                app_cfg=cfg,
+                writer=RawFileWriter(cfg.raw_dir, key),
+                gaps=GapLogger(cfg.raw_dir, key),
+                dry_run=dry_run,
+            )
+        )
+    return recorders
+
+
+async def _emit_heartbeats(
+    recorders: list[VenueRecorder],
+    interval_s: float,
+    stop: asyncio.Event,
+    disk_guard: DiskGuard | None = None,
+) -> None:
+    log = structlog.get_logger("recorder")
+    previous: dict[str, int] = {}
+    while not stop.is_set():
+        with contextlib.suppress(TimeoutError):
+            await asyncio.wait_for(stop.wait(), timeout=interval_s)
+        if disk_guard is not None:
+            # Advisory only — the guard logs and returns; nothing here reacts to
+            # a low reading by stopping capture or removing data.
+            disk_guard.check(time.monotonic())
+        for recorder in recorders:
+            total = recorder.heartbeat.messages_total
+            rate = (total - previous.get(recorder.venue_key, 0)) / interval_s
+            previous[recorder.venue_key] = total
+            log.info(
+                "heartbeat",
+                venue=recorder.venue_key,
+                connected=recorder.heartbeat.connected,
+                msgs_total=total,
+                msgs_per_s=round(rate, 2),
+                raw_bytes_total=recorder.writer.raw_bytes_total,
+                bytes_on_disk_hour=recorder.writer.bytes_on_disk_hour,
+                last_seq=recorder.heartbeat.last_seq,
+            )
+
+
+async def run_service(venue_keys: list[str] | None, dry_run: bool) -> None:
+    """Entry point: record the requested venues until SIGINT/SIGTERM (or dry-run end)."""
+    cfg = load_config()
+    configure_logging(cfg.logs_dir / "recorder.log", cfg.log_level)
+    log = structlog.get_logger("recorder")
+
+    keys = venue_keys if venue_keys else default_venue_keys(cfg.venues)
+    limiter = DryRunLimiter(cfg.recorder.dry_run_messages) if dry_run else None
+    recorders = build_recorders(cfg, keys, limiter)
+
+    stop = asyncio.Event()
+    loop = asyncio.get_running_loop()
+    for sig in (signal.SIGINT, signal.SIGTERM):
+        with contextlib.suppress(NotImplementedError):
+            loop.add_signal_handler(sig, stop.set)
+
+    log.info("recorder_starting", venues=keys, dry_run=dry_run)
+    # Session markers bound recorder lifetime so validation can derive
+    # downtime gaps. Dry-run writes none — same rule as gap records: a
+    # diagnostic run must leave no permanent sidecar trace.
+    session_loggers = [] if dry_run else [SessionLogger(cfg.raw_dir, key) for key in keys]
+    start_ns = time.time_ns()
+    for sessions in session_loggers:
+        sessions.log("start", start_ns)
+    disk_guard = DiskGuard(cfg.raw_dir, cfg.disk.warn_free_gb, cfg.disk.critical_free_gb)
+    heartbeat_task = asyncio.create_task(
+        _emit_heartbeats(recorders, cfg.recorder.heartbeat_interval_s, stop, disk_guard)
+    )
+    try:
+        await asyncio.gather(*(r.run(stop) for r in recorders))
+    finally:
+        stop.set()
+        await heartbeat_task
+        for recorder in recorders:
+            recorder.writer.close()
+        end_ns = time.time_ns()
+        for sessions in session_loggers:
+            sessions.log("end", end_ns)
+        log.info(
+            "recorder_stopped",
+            totals={r.venue_key: r.heartbeat.messages_total for r in recorders},
+        )
