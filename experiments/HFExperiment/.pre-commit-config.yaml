@@ -1,0 +1,18 @@
+repos:
+  - repo: local
+    hooks:
+      - id: ruff
+        name: ruff
+        entry: uv run ruff check src tests scripts
+        language: system
+        pass_filenames: false
+      - id: mypy
+        name: mypy
+        entry: uv run mypy
+        language: system
+        pass_filenames: false
+      - id: no-secrets
+        name: refuse credential-shaped content
+        entry: bash -c 'if git diff --cached | grep -iE "(api[_-]?key|secret|password|token)\s*[:=]\s*[\"'"'"'][A-Za-z0-9_/+-]{16,}"; then echo "credential-shaped content staged"; exit 1; fi'
+        language: system
+        pass_filenames: false

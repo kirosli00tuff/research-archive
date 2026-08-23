@@ -1,0 +1,3279 @@
+{
+ "rule": "U-LIQ-500-stk-w60-m40-p5",
+ "widths": [
+  5,
+  20,
+  50
+ ],
+ "formations": {
+  "2026-01-02": {
+   "5": [
+    {
+     "rank": 1,
+     "symbol": "BE",
+     "momentum": 3.918505,
+     "last_close": 86.89
+    },
+    {
+     "rank": 2,
+     "symbol": "IREN",
+     "momentum": 3.868635,
+     "last_close": 37.77
+    },
+    {
+     "rank": 3,
+     "symbol": "OPEN",
+     "momentum": 3.8125,
+     "last_close": 5.83
+    },
+    {
+     "rank": 4,
+     "symbol": "CIFR",
+     "momentum": 3.385776,
+     "last_close": 14.76
+    },
+    {
+     "rank": 5,
+     "symbol": "OKLO",
+     "momentum": 3.304286,
+     "last_close": 71.76
+    }
+   ],
+   "20": [
+    {
+     "rank": 1,
+     "symbol": "BE",
+     "momentum": 3.918505,
+     "last_close": 86.89
+    },
+    {
+     "rank": 2,
+     "symbol": "IREN",
+     "momentum": 3.868635,
+     "last_close": 37.77
+    },
+    {
+     "rank": 3,
+     "symbol": "OPEN",
+     "momentum": 3.8125,
+     "last_close": 5.83
+    },
+    {
+     "rank": 4,
+     "symbol": "CIFR",
+     "momentum": 3.385776,
+     "last_close": 14.76
+    },
+    {
+     "rank": 5,
+     "symbol": "OKLO",
+     "momentum": 3.304286,
+     "last_close": 71.76
+    },
+    {
+     "rank": 6,
+     "symbol": "WDC",
+     "momentum": 3.032641,
+     "last_close": 172.14
+    },
+    {
+     "rank": 7,
+     "symbol": "MP",
+     "momentum": 2.971154,
+     "last_close": 50.52
+    },
+    {
+     "rank": 8,
+     "symbol": "LEU",
+     "momentum": 2.892809,
+     "last_close": 242.76
+    },
+    {
+     "rank": 9,
+     "symbol": "LITE",
+     "momentum": 2.873258,
+     "last_close": 368.59
+    },
+    {
+     "rank": 10,
+     "symbol": "CLS",
+     "momentum": 2.731419,
+     "last_close": 295.61
+    },
+    {
+     "rank": 11,
+     "symbol": "APLD",
+     "momentum": 2.54712,
+     "last_close": 24.52
+    },
+    {
+     "rank": 12,
+     "symbol": "HOOD",
+     "momentum": 2.44847,
+     "last_close": 113.1
+    },
+    {
+     "rank": 13,
+     "symbol": "HL",
+     "momentum": 2.432714,
+     "last_close": 19.18
+    },
+    {
+     "rank": 14,
+     "symbol": "NBIS",
+     "momentum": 2.42491,
+     "last_close": 83.705
+    },
+    {
+     "rank": 15,
+     "symbol": "STX",
+     "momentum": 2.259413,
+     "last_close": 274.71
+    },
+    {
+     "rank": 16,
+     "symbol": "ECHO",
+     "momentum": 2.200437,
+     "last_close": 108.7
+    },
+    {
+     "rank": 17,
+     "symbol": "SATS",
+     "momentum": 2.200437,
+     "last_close": 108.7
+    },
+    {
+     "rank": 18,
+     "symbol": "EOSE",
+     "momentum": 2.096708,
+     "last_close": 11.46
+    },
+    {
+     "rank": 19,
+     "symbol": "ONDS",
+     "momentum": 2.085938,
+     "last_close": 9.76
+    },
+    {
+     "rank": 20,
+     "symbol": "KGC",
+     "momentum": 2.052563,
+     "last_close": 28.1
+    }
+   ],
+   "50": [
+    {
+     "rank": 1,
+     "symbol": "BE",
+     "momentum": 3.918505,
+     "last_close": 86.89
+    },
+    {
+     "rank": 2,
+     "symbol": "IREN",
+     "momentum": 3.868635,
+     "last_close": 37.77
+    },
+    {
+     "rank": 3,
+     "symbol": "OPEN",
+     "momentum": 3.8125,
+     "last_close": 5.83
+    },
+    {
+     "rank": 4,
+     "symbol": "CIFR",
+     "momentum": 3.385776,
+     "last_close": 14.76
+    },
+    {
+     "rank": 5,
+     "symbol": "OKLO",
+     "momentum": 3.304286,
+     "last_close": 71.76
+    },
+    {
+     "rank": 6,
+     "symbol": "WDC",
+     "momentum": 3.032641,
+     "last_close": 172.14
+    },
+    {
+     "rank": 7,
+     "symbol": "MP",
+     "momentum": 2.971154,
+     "last_close": 50.52
+    },
+    {
+     "rank": 8,
+     "symbol": "LEU",
+     "momentum": 2.892809,
+     "last_close": 242.76
+    },
+    {
+     "rank": 9,
+     "symbol": "LITE",
+     "momentum": 2.873258,
+     "last_close": 368.59
+    },
+    {
+     "rank": 10,
+     "symbol": "CLS",
+     "momentum": 2.731419,
+     "last_close": 295.61
+    },
+    {
+     "rank": 11,
+     "symbol": "APLD",
+     "momentum": 2.54712,
+     "last_close": 24.52
+    },
+    {
+     "rank": 12,
+     "symbol": "HOOD",
+     "momentum": 2.44847,
+     "last_close": 113.1
+    },
+    {
+     "rank": 13,
+     "symbol": "HL",
+     "momentum": 2.432714,
+     "last_close": 19.18
+    },
+    {
+     "rank": 14,
+     "symbol": "NBIS",
+     "momentum": 2.42491,
+     "last_close": 83.705
+    },
+    {
+     "rank": 15,
+     "symbol": "STX",
+     "momentum": 2.259413,
+     "last_close": 274.71
+    },
+    {
+     "rank": 16,
+     "symbol": "ECHO",
+     "momentum": 2.200437,
+     "last_close": 108.7
+    },
+    {
+     "rank": 17,
+     "symbol": "SATS",
+     "momentum": 2.200437,
+     "last_close": 108.7
+    },
+    {
+     "rank": 18,
+     "symbol": "EOSE",
+     "momentum": 2.096708,
+     "last_close": 11.46
+    },
+    {
+     "rank": 19,
+     "symbol": "ONDS",
+     "momentum": 2.085938,
+     "last_close": 9.76
+    },
+    {
+     "rank": 20,
+     "symbol": "KGC",
+     "momentum": 2.052563,
+     "last_close": 28.1
+    },
+    {
+     "rank": 21,
+     "symbol": "CDE",
+     "momentum": 2.018901,
+     "last_close": 17.81
+    },
+    {
+     "rank": 22,
+     "symbol": "INSM",
+     "momentum": 2.009415,
+     "last_close": 174.04
+    },
+    {
+     "rank": 23,
+     "symbol": "MU",
+     "momentum": 1.817867,
+     "last_close": 285.25
+    },
+    {
+     "rank": 24,
+     "symbol": "UUUU",
+     "momentum": 1.807018,
+     "last_close": 14.54
+    },
+    {
+     "rank": 25,
+     "symbol": "AG",
+     "momentum": 1.780113,
+     "last_close": 16.64
+    },
+    {
+     "rank": 26,
+     "symbol": "WULF",
+     "momentum": 1.740283,
+     "last_close": 11.49
+    },
+    {
+     "rank": 27,
+     "symbol": "B",
+     "momentum": 1.714001,
+     "last_close": 43.09
+    },
+    {
+     "rank": 28,
+     "symbol": "QBTS",
+     "momentum": 1.69881,
+     "last_close": 26.15
+    },
+    {
+     "rank": 29,
+     "symbol": "ASTS",
+     "momentum": 1.663507,
+     "last_close": 72.63
+    },
+    {
+     "rank": 30,
+     "symbol": "CRDO",
+     "momentum": 1.642464,
+     "last_close": 143.89
+    },
+    {
+     "rank": 31,
+     "symbol": "W",
+     "momentum": 1.5,
+     "last_close": 100.41
+    },
+    {
+     "rank": 32,
+     "symbol": "NEM",
+     "momentum": 1.479144,
+     "last_close": 99.42
+    },
+    {
+     "rank": 33,
+     "symbol": "CIEN",
+     "momentum": 1.407853,
+     "last_close": 233.87
+    },
+    {
+     "rank": 34,
+     "symbol": "QS",
+     "momentum": 1.354528,
+     "last_close": 10.42
+    },
+    {
+     "rank": 35,
+     "symbol": "FIX",
+     "momentum": 1.311929,
+     "last_close": 932.44
+    },
+    {
+     "rank": 36,
+     "symbol": "TEM",
+     "momentum": 1.308353,
+     "last_close": 59.05
+    },
+    {
+     "rank": 37,
+     "symbol": "PAAS",
+     "momentum": 1.289169,
+     "last_close": 51.55
+    },
+    {
+     "rank": 38,
+     "symbol": "WBD",
+     "momentum": 1.270577,
+     "last_close": 28.82
+    },
+    {
+     "rank": 39,
+     "symbol": "AEM",
+     "momentum": 1.250097,
+     "last_close": 168.92
+    },
+    {
+     "rank": 40,
+     "symbol": "PLTR",
+     "momentum": 1.227291,
+     "last_close": 177.75
+    },
+    {
+     "rank": 41,
+     "symbol": "HUT",
+     "momentum": 1.196193,
+     "last_close": 45.94
+    },
+    {
+     "rank": 42,
+     "symbol": "LRCX",
+     "momentum": 1.175952,
+     "last_close": 170.85
+    },
+    {
+     "rank": 43,
+     "symbol": "FUTU",
+     "momentum": 1.121143,
+     "last_close": 161.67
+    },
+    {
+     "rank": 44,
+     "symbol": "FN",
+     "momentum": 1.089367,
+     "last_close": 455.28
+    },
+    {
+     "rank": 45,
+     "symbol": "APH",
+     "momentum": 1.040478,
+     "last_close": 134.67
+    },
+    {
+     "rank": 46,
+     "symbol": "INTC",
+     "momentum": 1.022943,
+     "last_close": 36.9
+    },
+    {
+     "rank": 47,
+     "symbol": "RKT",
+     "momentum": 0.982143,
+     "last_close": 19.36
+    },
+    {
+     "rank": 48,
+     "symbol": "TLN",
+     "momentum": 0.956966,
+     "last_close": 374.84
+    },
+    {
+     "rank": 49,
+     "symbol": "SOFI",
+     "momentum": 0.92987,
+     "last_close": 26.18
+    },
+    {
+     "rank": 50,
+     "symbol": "ALNY",
+     "momentum": 0.917598,
+     "last_close": 397.65
+    }
+   ]
+  },
+  "2026-02-02": {
+   "5": [
+    {
+     "rank": 1,
+     "symbol": "ONDS",
+     "momentum": 4.577143,
+     "last_close": 10.36
+    },
+    {
+     "rank": 2,
+     "symbol": "QBTS",
+     "momentum": 3.402357,
+     "last_close": 21.22
+    },
+    {
+     "rank": 3,
+     "symbol": "LITE",
+     "momentum": 3.333294,
+     "last_close": 391.84
+    },
+    {
+     "rank": 4,
+     "symbol": "OPEN",
+     "momentum": 3.224638,
+     "last_close": 5.15
+    },
+    {
+     "rank": 5,
+     "symbol": "ECHO",
+     "momentum": 2.929863,
+     "last_close": 113.22
+    }
+   ],
+   "20": [
+    {
+     "rank": 1,
+     "symbol": "ONDS",
+     "momentum": 4.577143,
+     "last_close": 10.36
+    },
+    {
+     "rank": 2,
+     "symbol": "QBTS",
+     "momentum": 3.402357,
+     "last_close": 21.22
+    },
+    {
+     "rank": 3,
+     "symbol": "LITE",
+     "momentum": 3.333294,
+     "last_close": 391.84
+    },
+    {
+     "rank": 4,
+     "symbol": "OPEN",
+     "momentum": 3.224638,
+     "last_close": 5.15
+    },
+    {
+     "rank": 5,
+     "symbol": "ECHO",
+     "momentum": 2.929863,
+     "last_close": 113.22
+    },
+    {
+     "rank": 6,
+     "symbol": "SATS",
+     "momentum": 2.929863,
+     "last_close": 113.22
+    },
+    {
+     "rank": 7,
+     "symbol": "WDC",
+     "momentum": 2.897215,
+     "last_close": 250.05
+    },
+    {
+     "rank": 8,
+     "symbol": "IREN",
+     "momentum": 2.695695,
+     "last_close": 53.74
+    },
+    {
+     "rank": 9,
+     "symbol": "BE",
+     "momentum": 2.684902,
+     "last_close": 151.37
+    },
+    {
+     "rank": 10,
+     "symbol": "ASTS",
+     "momentum": 2.588439,
+     "last_close": 111.21
+    },
+    {
+     "rank": 11,
+     "symbol": "APLD",
+     "momentum": 2.44382,
+     "last_close": 33.88
+    },
+    {
+     "rank": 12,
+     "symbol": "HL",
+     "momentum": 2.385702,
+     "last_close": 22.51
+    },
+    {
+     "rank": 13,
+     "symbol": "MU",
+     "momentum": 2.138409,
+     "last_close": 414.64
+    },
+    {
+     "rank": 14,
+     "symbol": "AU",
+     "momentum": 1.965793,
+     "last_close": 88.75
+    },
+    {
+     "rank": 15,
+     "symbol": "LEU",
+     "momentum": 1.949696,
+     "last_close": 278.28
+    },
+    {
+     "rank": 16,
+     "symbol": "AG",
+     "momentum": 1.929062,
+     "last_close": 20.82
+    },
+    {
+     "rank": 17,
+     "symbol": "STX",
+     "momentum": 1.913458,
+     "last_close": 406.69
+    },
+    {
+     "rank": 18,
+     "symbol": "WBD",
+     "momentum": 1.760536,
+     "last_close": 27.54
+    },
+    {
+     "rank": 19,
+     "symbol": "UUUU",
+     "momentum": 1.73823,
+     "last_close": 22.44
+    },
+    {
+     "rank": 20,
+     "symbol": "B",
+     "momentum": 1.70836,
+     "last_close": 45.3
+    }
+   ],
+   "50": [
+    {
+     "rank": 1,
+     "symbol": "ONDS",
+     "momentum": 4.577143,
+     "last_close": 10.36
+    },
+    {
+     "rank": 2,
+     "symbol": "QBTS",
+     "momentum": 3.402357,
+     "last_close": 21.22
+    },
+    {
+     "rank": 3,
+     "symbol": "LITE",
+     "momentum": 3.333294,
+     "last_close": 391.84
+    },
+    {
+     "rank": 4,
+     "symbol": "OPEN",
+     "momentum": 3.224638,
+     "last_close": 5.15
+    },
+    {
+     "rank": 5,
+     "symbol": "ECHO",
+     "momentum": 2.929863,
+     "last_close": 113.22
+    },
+    {
+     "rank": 6,
+     "symbol": "SATS",
+     "momentum": 2.929863,
+     "last_close": 113.22
+    },
+    {
+     "rank": 7,
+     "symbol": "WDC",
+     "momentum": 2.897215,
+     "last_close": 250.05
+    },
+    {
+     "rank": 8,
+     "symbol": "IREN",
+     "momentum": 2.695695,
+     "last_close": 53.74
+    },
+    {
+     "rank": 9,
+     "symbol": "BE",
+     "momentum": 2.684902,
+     "last_close": 151.37
+    },
+    {
+     "rank": 10,
+     "symbol": "ASTS",
+     "momentum": 2.588439,
+     "last_close": 111.21
+    },
+    {
+     "rank": 11,
+     "symbol": "APLD",
+     "momentum": 2.44382,
+     "last_close": 33.88
+    },
+    {
+     "rank": 12,
+     "symbol": "HL",
+     "momentum": 2.385702,
+     "last_close": 22.51
+    },
+    {
+     "rank": 13,
+     "symbol": "MU",
+     "momentum": 2.138409,
+     "last_close": 414.64
+    },
+    {
+     "rank": 14,
+     "symbol": "AU",
+     "momentum": 1.965793,
+     "last_close": 88.75
+    },
+    {
+     "rank": 15,
+     "symbol": "LEU",
+     "momentum": 1.949696,
+     "last_close": 278.28
+    },
+    {
+     "rank": 16,
+     "symbol": "AG",
+     "momentum": 1.929062,
+     "last_close": 20.82
+    },
+    {
+     "rank": 17,
+     "symbol": "STX",
+     "momentum": 1.913458,
+     "last_close": 406.69
+    },
+    {
+     "rank": 18,
+     "symbol": "WBD",
+     "momentum": 1.760536,
+     "last_close": 27.54
+    },
+    {
+     "rank": 19,
+     "symbol": "UUUU",
+     "momentum": 1.73823,
+     "last_close": 22.44
+    },
+    {
+     "rank": 20,
+     "symbol": "B",
+     "momentum": 1.70836,
+     "last_close": 45.3
+    },
+    {
+     "rank": 21,
+     "symbol": "CDE",
+     "momentum": 1.70135,
+     "last_close": 20.42
+    },
+    {
+     "rank": 22,
+     "symbol": "CIEN",
+     "momentum": 1.683842,
+     "last_close": 251.81
+    },
+    {
+     "rank": 23,
+     "symbol": "CIFR",
+     "momentum": 1.575916,
+     "last_close": 15.96
+    },
+    {
+     "rank": 24,
+     "symbol": "NBIS",
+     "momentum": 1.562921,
+     "last_close": 85.19
+    },
+    {
+     "rank": 25,
+     "symbol": "KGC",
+     "momentum": 1.513417,
+     "last_close": 31.49
+    },
+    {
+     "rank": 26,
+     "symbol": "WULF",
+     "momentum": 1.408805,
+     "last_close": 13.37
+    },
+    {
+     "rank": 27,
+     "symbol": "RKLB",
+     "momentum": 1.401377,
+     "last_close": 80.07
+    },
+    {
+     "rank": 28,
+     "symbol": "CLS",
+     "momentum": 1.394185,
+     "last_close": 280.99
+    },
+    {
+     "rank": 29,
+     "symbol": "NEM",
+     "momentum": 1.376763,
+     "last_close": 111.86
+    },
+    {
+     "rank": 30,
+     "symbol": "MP",
+     "momentum": 1.300546,
+     "last_close": 58.77
+    },
+    {
+     "rank": 31,
+     "symbol": "INSM",
+     "momentum": 1.272656,
+     "last_close": 156.87
+    },
+    {
+     "rank": 32,
+     "symbol": "PAAS",
+     "momentum": 1.26295,
+     "last_close": 54.33
+    },
+    {
+     "rank": 33,
+     "symbol": "HOOD",
+     "momentum": 1.177093,
+     "last_close": 99.48
+    },
+    {
+     "rank": 34,
+     "symbol": "PLTR",
+     "momentum": 1.154807,
+     "last_close": 146.59
+    },
+    {
+     "rank": 35,
+     "symbol": "FIX",
+     "momentum": 1.144477,
+     "last_close": 1141.06
+    },
+    {
+     "rank": 36,
+     "symbol": "LRCX",
+     "momentum": 1.131362,
+     "last_close": 233.02
+    },
+    {
+     "rank": 37,
+     "symbol": "HUT",
+     "momentum": 1.118027,
+     "last_close": 55.83
+    },
+    {
+     "rank": 38,
+     "symbol": "FN",
+     "momentum": 1.105731,
+     "last_close": 489.44
+    },
+    {
+     "rank": 39,
+     "symbol": "W",
+     "momentum": 1.075873,
+     "last_close": 103.49
+    },
+    {
+     "rank": 40,
+     "symbol": "CRDO",
+     "momentum": 1.054984,
+     "last_close": 125.28
+    },
+    {
+     "rank": 41,
+     "symbol": "COHR",
+     "momentum": 1.039673,
+     "last_close": 212.18
+    },
+    {
+     "rank": 42,
+     "symbol": "FIVE",
+     "momentum": 1.008531,
+     "last_close": 191.64
+    },
+    {
+     "rank": 43,
+     "symbol": "EOSE",
+     "momentum": 0.996516,
+     "last_close": 14.64
+    },
+    {
+     "rank": 44,
+     "symbol": "U",
+     "momentum": 0.98964,
+     "last_close": 29.1
+    },
+    {
+     "rank": 45,
+     "symbol": "APH",
+     "momentum": 0.923857,
+     "last_close": 143.58
+    },
+    {
+     "rank": 46,
+     "symbol": "DG",
+     "momentum": 0.90138,
+     "last_close": 142.03
+    },
+    {
+     "rank": 47,
+     "symbol": "INTC",
+     "momentum": 0.899125,
+     "last_close": 46.47
+    },
+    {
+     "rank": 48,
+     "symbol": "WPM",
+     "momentum": 0.892926,
+     "last_close": 131.53
+    },
+    {
+     "rank": 49,
+     "symbol": "CCJ",
+     "momentum": 0.853525,
+     "last_close": 123.39
+    },
+    {
+     "rank": 50,
+     "symbol": "AMD",
+     "momentum": 0.847003,
+     "last_close": 236.73
+    }
+   ]
+  },
+  "2026-03-02": {
+   "5": [
+    {
+     "rank": 1,
+     "symbol": "SNDK",
+     "momentum": 11.299893,
+     "last_close": 635.36
+    },
+    {
+     "rank": 2,
+     "symbol": "ONDS",
+     "momentum": 9.525246,
+     "last_close": 10.08
+    },
+    {
+     "rank": 3,
+     "symbol": "IREN",
+     "momentum": 5.521845,
+     "last_close": 40.95
+    },
+    {
+     "rank": 4,
+     "symbol": "BE",
+     "momentum": 5.301832,
+     "last_close": 155.67
+    },
+    {
+     "rank": 5,
+     "symbol": "LITE",
+     "momentum": 4.571449,
+     "last_close": 700.91
+    }
+   ],
+   "20": [
+    {
+     "rank": 1,
+     "symbol": "SNDK",
+     "momentum": 11.299893,
+     "last_close": 635.36
+    },
+    {
+     "rank": 2,
+     "symbol": "ONDS",
+     "momentum": 9.525246,
+     "last_close": 10.08
+    },
+    {
+     "rank": 3,
+     "symbol": "IREN",
+     "momentum": 5.521845,
+     "last_close": 40.95
+    },
+    {
+     "rank": 4,
+     "symbol": "BE",
+     "momentum": 5.301832,
+     "last_close": 155.67
+    },
+    {
+     "rank": 5,
+     "symbol": "LITE",
+     "momentum": 4.571449,
+     "last_close": 700.91
+    },
+    {
+     "rank": 6,
+     "symbol": "UUUU",
+     "momentum": 4.446602,
+     "last_close": 21.32
+    },
+    {
+     "rank": 7,
+     "symbol": "PL",
+     "momentum": 4.404762,
+     "last_close": 24.14
+    },
+    {
+     "rank": 8,
+     "symbol": "WDC",
+     "momentum": 4.133443,
+     "last_close": 279.49
+    },
+    {
+     "rank": 9,
+     "symbol": "MU",
+     "momentum": 3.445588,
+     "last_close": 412.13
+    },
+    {
+     "rank": 10,
+     "symbol": "HL",
+     "momentum": 3.399062,
+     "last_close": 24.9
+    },
+    {
+     "rank": 11,
+     "symbol": "APLD",
+     "momentum": 3.235,
+     "last_close": 27.27
+    },
+    {
+     "rank": 12,
+     "symbol": "ASTS",
+     "momentum": 3.102176,
+     "last_close": 79.19
+    },
+    {
+     "rank": 13,
+     "symbol": "STX",
+     "momentum": 3.078319,
+     "last_close": 406.84
+    },
+    {
+     "rank": 14,
+     "symbol": "CDE",
+     "momentum": 2.969673,
+     "last_close": 27.12
+    },
+    {
+     "rank": 15,
+     "symbol": "CIFR",
+     "momentum": 2.911765,
+     "last_close": 15.6
+    },
+    {
+     "rank": 16,
+     "symbol": "RKLB",
+     "momentum": 2.90776,
+     "last_close": 69.1
+    },
+    {
+     "rank": 17,
+     "symbol": "KTOS",
+     "momentum": 2.903372,
+     "last_close": 86.18
+    },
+    {
+     "rank": 18,
+     "symbol": "AG",
+     "momentum": 2.886504,
+     "last_close": 31.99
+    },
+    {
+     "rank": 19,
+     "symbol": "QBTS",
+     "momentum": 2.872263,
+     "last_close": 18.78
+    },
+    {
+     "rank": 20,
+     "symbol": "OPEN",
+     "momentum": 2.843284,
+     "last_close": 5.42
+    }
+   ],
+   "50": [
+    {
+     "rank": 1,
+     "symbol": "SNDK",
+     "momentum": 11.299893,
+     "last_close": 635.36
+    },
+    {
+     "rank": 2,
+     "symbol": "ONDS",
+     "momentum": 9.525246,
+     "last_close": 10.08
+    },
+    {
+     "rank": 3,
+     "symbol": "IREN",
+     "momentum": 5.521845,
+     "last_close": 40.95
+    },
+    {
+     "rank": 4,
+     "symbol": "BE",
+     "momentum": 5.301832,
+     "last_close": 155.67
+    },
+    {
+     "rank": 5,
+     "symbol": "LITE",
+     "momentum": 4.571449,
+     "last_close": 700.91
+    },
+    {
+     "rank": 6,
+     "symbol": "UUUU",
+     "momentum": 4.446602,
+     "last_close": 21.32
+    },
+    {
+     "rank": 7,
+     "symbol": "PL",
+     "momentum": 4.404762,
+     "last_close": 24.14
+    },
+    {
+     "rank": 8,
+     "symbol": "WDC",
+     "momentum": 4.133443,
+     "last_close": 279.49
+    },
+    {
+     "rank": 9,
+     "symbol": "MU",
+     "momentum": 3.445588,
+     "last_close": 412.13
+    },
+    {
+     "rank": 10,
+     "symbol": "HL",
+     "momentum": 3.399062,
+     "last_close": 24.9
+    },
+    {
+     "rank": 11,
+     "symbol": "APLD",
+     "momentum": 3.235,
+     "last_close": 27.27
+    },
+    {
+     "rank": 12,
+     "symbol": "ASTS",
+     "momentum": 3.102176,
+     "last_close": 79.19
+    },
+    {
+     "rank": 13,
+     "symbol": "STX",
+     "momentum": 3.078319,
+     "last_close": 406.84
+    },
+    {
+     "rank": 14,
+     "symbol": "CDE",
+     "momentum": 2.969673,
+     "last_close": 27.12
+    },
+    {
+     "rank": 15,
+     "symbol": "CIFR",
+     "momentum": 2.911765,
+     "last_close": 15.6
+    },
+    {
+     "rank": 16,
+     "symbol": "RKLB",
+     "momentum": 2.90776,
+     "last_close": 69.1
+    },
+    {
+     "rank": 17,
+     "symbol": "KTOS",
+     "momentum": 2.903372,
+     "last_close": 86.18
+    },
+    {
+     "rank": 18,
+     "symbol": "AG",
+     "momentum": 2.886504,
+     "last_close": 31.99
+    },
+    {
+     "rank": 19,
+     "symbol": "QBTS",
+     "momentum": 2.872263,
+     "last_close": 18.78
+    },
+    {
+     "rank": 20,
+     "symbol": "OPEN",
+     "momentum": 2.843284,
+     "last_close": 5.42
+    },
+    {
+     "rank": 21,
+     "symbol": "HUT",
+     "momentum": 2.785085,
+     "last_close": 53.23
+    },
+    {
+     "rank": 22,
+     "symbol": "ECHO",
+     "momentum": 2.62536,
+     "last_close": 115.53
+    },
+    {
+     "rank": 23,
+     "symbol": "SATS",
+     "momentum": 2.62536,
+     "last_close": 115.53
+    },
+    {
+     "rank": 24,
+     "symbol": "EOSE",
+     "momentum": 2.350114,
+     "last_close": 5.695
+    },
+    {
+     "rank": 25,
+     "symbol": "AU",
+     "momentum": 2.310332,
+     "last_close": 122.1
+    },
+    {
+     "rank": 26,
+     "symbol": "WULF",
+     "momentum": 2.190931,
+     "last_close": 16.22
+    },
+    {
+     "rank": 27,
+     "symbol": "CIEN",
+     "momentum": 2.164635,
+     "last_close": 348.7
+    },
+    {
+     "rank": 28,
+     "symbol": "FIX",
+     "momentum": 2.154539,
+     "last_close": 1428.07
+    },
+    {
+     "rank": 29,
+     "symbol": "LRCX",
+     "momentum": 2.070092,
+     "last_close": 233.45
+    },
+    {
+     "rank": 30,
+     "symbol": "LEU",
+     "momentum": 2.067122,
+     "last_close": 202.59
+    },
+    {
+     "rank": 31,
+     "symbol": "KGC",
+     "momentum": 1.962371,
+     "last_close": 36.91
+    },
+    {
+     "rank": 32,
+     "symbol": "COHR",
+     "momentum": 1.821918,
+     "last_close": 258.93
+    },
+    {
+     "rank": 33,
+     "symbol": "CCJ",
+     "momentum": 1.806232,
+     "last_close": 118.4
+    },
+    {
+     "rank": 34,
+     "symbol": "NEM",
+     "momentum": 1.667144,
+     "last_close": 129.44
+    },
+    {
+     "rank": 35,
+     "symbol": "CLS",
+     "momentum": 1.624848,
+     "last_close": 277.63
+    },
+    {
+     "rank": 36,
+     "symbol": "NBIS",
+     "momentum": 1.622038,
+     "last_close": 91.19
+    },
+    {
+     "rank": 37,
+     "symbol": "W",
+     "momentum": 1.616688,
+     "last_close": 76.33
+    },
+    {
+     "rank": 38,
+     "symbol": "B",
+     "momentum": 1.613964,
+     "last_close": 50.56
+    },
+    {
+     "rank": 39,
+     "symbol": "MKSI",
+     "momentum": 1.579976,
+     "last_close": 244.28
+    },
+    {
+     "rank": 40,
+     "symbol": "MP",
+     "momentum": 1.44773,
+     "last_close": 58.87
+    },
+    {
+     "rank": 41,
+     "symbol": "FN",
+     "momentum": 1.446588,
+     "last_close": 545.63
+    },
+    {
+     "rank": 42,
+     "symbol": "WBD",
+     "momentum": 1.403141,
+     "last_close": 28.17
+    },
+    {
+     "rank": 43,
+     "symbol": "OKLO",
+     "momentum": 1.384546,
+     "last_close": 62.95
+    },
+    {
+     "rank": 44,
+     "symbol": "AMD",
+     "momentum": 1.370619,
+     "last_close": 200.21
+    },
+    {
+     "rank": 45,
+     "symbol": "PAAS",
+     "momentum": 1.322788,
+     "last_close": 68.36
+    },
+    {
+     "rank": 46,
+     "symbol": "CRDO",
+     "momentum": 1.270388,
+     "last_close": 112.27
+    },
+    {
+     "rank": 47,
+     "symbol": "ALB",
+     "momentum": 1.260887,
+     "last_close": 177.77
+    },
+    {
+     "rank": 48,
+     "symbol": "SCCO",
+     "momentum": 1.253455,
+     "last_close": 217.16
+    },
+    {
+     "rank": 49,
+     "symbol": "TER",
+     "momentum": 1.201444,
+     "last_close": 319.91
+    },
+    {
+     "rank": 50,
+     "symbol": "APH",
+     "momentum": 1.180079,
+     "last_close": 145.55
+    }
+   ]
+  },
+  "2026-04-01": {
+   "5": [
+    {
+     "rank": 1,
+     "symbol": "AXTI",
+     "momentum": 25.879433,
+     "last_close": 56.98
+    },
+    {
+     "rank": 2,
+     "symbol": "SNDK",
+     "momentum": 12.345096,
+     "last_close": 635.34
+    },
+    {
+     "rank": 3,
+     "symbol": "LITE",
+     "momentum": 10.243343,
+     "last_close": 702.76
+    },
+    {
+     "rank": 4,
+     "symbol": "ONDS",
+     "momentum": 8.420561,
+     "last_close": 9.04
+    },
+    {
+     "rank": 5,
+     "symbol": "BE",
+     "momentum": 6.918108,
+     "last_close": 135.49
+    }
+   ],
+   "20": [
+    {
+     "rank": 1,
+     "symbol": "AXTI",
+     "momentum": 25.879433,
+     "last_close": 56.98
+    },
+    {
+     "rank": 2,
+     "symbol": "SNDK",
+     "momentum": 12.345096,
+     "last_close": 635.34
+    },
+    {
+     "rank": 3,
+     "symbol": "LITE",
+     "momentum": 10.243343,
+     "last_close": 702.76
+    },
+    {
+     "rank": 4,
+     "symbol": "ONDS",
+     "momentum": 8.420561,
+     "last_close": 9.04
+    },
+    {
+     "rank": 5,
+     "symbol": "BE",
+     "momentum": 6.918108,
+     "last_close": 135.49
+    },
+    {
+     "rank": 6,
+     "symbol": "PL",
+     "momentum": 6.142012,
+     "last_close": 27.95
+    },
+    {
+     "rank": 7,
+     "symbol": "WDC",
+     "momentum": 5.943851,
+     "last_close": 270.42
+    },
+    {
+     "rank": 8,
+     "symbol": "CIFR",
+     "momentum": 5.782609,
+     "last_close": 12.87
+    },
+    {
+     "rank": 9,
+     "symbol": "IREN",
+     "momentum": 5.724138,
+     "last_close": 34.28
+    },
+    {
+     "rank": 10,
+     "symbol": "WULF",
+     "momentum": 4.941392,
+     "last_close": 14.43
+    },
+    {
+     "rank": 11,
+     "symbol": "CIEN",
+     "momentum": 4.770313,
+     "last_close": 388.23
+    },
+    {
+     "rank": 12,
+     "symbol": "UUUU",
+     "momentum": 4.715818,
+     "last_close": 18.25
+    },
+    {
+     "rank": 13,
+     "symbol": "AAOI",
+     "momentum": 4.487296,
+     "last_close": 84.59
+    },
+    {
+     "rank": 14,
+     "symbol": "OPEN",
+     "momentum": 4.313725,
+     "last_close": 4.68
+    },
+    {
+     "rank": 15,
+     "symbol": "STX",
+     "momentum": 3.854313,
+     "last_close": 391.48
+    },
+    {
+     "rank": 16,
+     "symbol": "APLD",
+     "momentum": 3.852313,
+     "last_close": 23.74
+    },
+    {
+     "rank": 17,
+     "symbol": "AG",
+     "momentum": 3.793946,
+     "last_close": 21.46
+    },
+    {
+     "rank": 18,
+     "symbol": "MU",
+     "momentum": 3.755163,
+     "last_close": 337.79
+    },
+    {
+     "rank": 19,
+     "symbol": "CDE",
+     "momentum": 3.586504,
+     "last_close": 18.75
+    },
+    {
+     "rank": 20,
+     "symbol": "HUT",
+     "momentum": 3.580895,
+     "last_close": 46.91
+    }
+   ],
+   "50": [
+    {
+     "rank": 1,
+     "symbol": "AXTI",
+     "momentum": 25.879433,
+     "last_close": 56.98
+    },
+    {
+     "rank": 2,
+     "symbol": "SNDK",
+     "momentum": 12.345096,
+     "last_close": 635.34
+    },
+    {
+     "rank": 3,
+     "symbol": "LITE",
+     "momentum": 10.243343,
+     "last_close": 702.76
+    },
+    {
+     "rank": 4,
+     "symbol": "ONDS",
+     "momentum": 8.420561,
+     "last_close": 9.04
+    },
+    {
+     "rank": 5,
+     "symbol": "BE",
+     "momentum": 6.918108,
+     "last_close": 135.49
+    },
+    {
+     "rank": 6,
+     "symbol": "PL",
+     "momentum": 6.142012,
+     "last_close": 27.95
+    },
+    {
+     "rank": 7,
+     "symbol": "WDC",
+     "momentum": 5.943851,
+     "last_close": 270.42
+    },
+    {
+     "rank": 8,
+     "symbol": "CIFR",
+     "momentum": 5.782609,
+     "last_close": 12.87
+    },
+    {
+     "rank": 9,
+     "symbol": "IREN",
+     "momentum": 5.724138,
+     "last_close": 34.28
+    },
+    {
+     "rank": 10,
+     "symbol": "WULF",
+     "momentum": 4.941392,
+     "last_close": 14.43
+    },
+    {
+     "rank": 11,
+     "symbol": "CIEN",
+     "momentum": 4.770313,
+     "last_close": 388.23
+    },
+    {
+     "rank": 12,
+     "symbol": "UUUU",
+     "momentum": 4.715818,
+     "last_close": 18.25
+    },
+    {
+     "rank": 13,
+     "symbol": "AAOI",
+     "momentum": 4.487296,
+     "last_close": 84.59
+    },
+    {
+     "rank": 14,
+     "symbol": "OPEN",
+     "momentum": 4.313725,
+     "last_close": 4.68
+    },
+    {
+     "rank": 15,
+     "symbol": "STX",
+     "momentum": 3.854313,
+     "last_close": 391.48
+    },
+    {
+     "rank": 16,
+     "symbol": "APLD",
+     "momentum": 3.852313,
+     "last_close": 23.74
+    },
+    {
+     "rank": 17,
+     "symbol": "AG",
+     "momentum": 3.793946,
+     "last_close": 21.46
+    },
+    {
+     "rank": 18,
+     "symbol": "MU",
+     "momentum": 3.755163,
+     "last_close": 337.79
+    },
+    {
+     "rank": 19,
+     "symbol": "CDE",
+     "momentum": 3.586504,
+     "last_close": 18.75
+    },
+    {
+     "rank": 20,
+     "symbol": "HUT",
+     "momentum": 3.580895,
+     "last_close": 46.91
+    },
+    {
+     "rank": 21,
+     "symbol": "ECHO",
+     "momentum": 3.516419,
+     "last_close": 117.07
+    },
+    {
+     "rank": 22,
+     "symbol": "SATS",
+     "momentum": 3.516419,
+     "last_close": 117.07
+    },
+    {
+     "rank": 23,
+     "symbol": "HL",
+     "momentum": 3.487295,
+     "last_close": 18.63
+    },
+    {
+     "rank": 24,
+     "symbol": "FIX",
+     "momentum": 3.444662,
+     "last_close": 1378.45
+    },
+    {
+     "rank": 25,
+     "symbol": "NBIS",
+     "momentum": 3.319754,
+     "last_close": 103.76
+    },
+    {
+     "rank": 26,
+     "symbol": "COHR",
+     "momentum": 2.987219,
+     "last_close": 238.21
+    },
+    {
+     "rank": 27,
+     "symbol": "TER",
+     "momentum": 2.88901,
+     "last_close": 296.35
+    },
+    {
+     "rank": 28,
+     "symbol": "RKLB",
+     "momentum": 2.864653,
+     "last_close": 64.22
+    },
+    {
+     "rank": 29,
+     "symbol": "AU",
+     "momentum": 2.53913,
+     "last_close": 96.19
+    },
+    {
+     "rank": 30,
+     "symbol": "VRT",
+     "momentum": 2.533703,
+     "last_close": 250.53
+    },
+    {
+     "rank": 31,
+     "symbol": "CLS",
+     "momentum": 2.522776,
+     "last_close": 281.68
+    },
+    {
+     "rank": 32,
+     "symbol": "TSEM",
+     "momentum": 2.501683,
+     "last_close": 175.48
+    },
+    {
+     "rank": 33,
+     "symbol": "ASTS",
+     "momentum": 2.48241,
+     "last_close": 82.87
+    },
+    {
+     "rank": 34,
+     "symbol": "GLW",
+     "momentum": 2.334444,
+     "last_close": 135.76
+    },
+    {
+     "rank": 35,
+     "symbol": "LRCX",
+     "momentum": 2.236966,
+     "last_close": 213.51
+    },
+    {
+     "rank": 36,
+     "symbol": "USAR",
+     "momentum": 2.181818,
+     "last_close": 15.135
+    },
+    {
+     "rank": 37,
+     "symbol": "ATI",
+     "momentum": 2.144148,
+     "last_close": 145.46
+    },
+    {
+     "rank": 38,
+     "symbol": "MKSI",
+     "momentum": 2.072318,
+     "last_close": 229.64
+    },
+    {
+     "rank": 39,
+     "symbol": "KGC",
+     "momentum": 1.94573,
+     "last_close": 30.48
+    },
+    {
+     "rank": 40,
+     "symbol": "OKLO",
+     "momentum": 1.91031,
+     "last_close": 49.59
+    },
+    {
+     "rank": 41,
+     "symbol": "KTOS",
+     "momentum": 1.902661,
+     "last_close": 70.51
+    },
+    {
+     "rank": 42,
+     "symbol": "CCJ",
+     "momentum": 1.88148,
+     "last_close": 108.61
+    },
+    {
+     "rank": 43,
+     "symbol": "GEV",
+     "momentum": 1.868418,
+     "last_close": 872.45
+    },
+    {
+     "rank": 44,
+     "symbol": "CRDO",
+     "momentum": 1.795568,
+     "last_close": 93.87
+    },
+    {
+     "rank": 45,
+     "symbol": "FTAI",
+     "momentum": 1.773157,
+     "last_close": 244.59
+    },
+    {
+     "rank": 46,
+     "symbol": "FN",
+     "momentum": 1.762544,
+     "last_close": 521.52
+    },
+    {
+     "rank": 47,
+     "symbol": "NEM",
+     "momentum": 1.722187,
+     "last_close": 108.0
+    },
+    {
+     "rank": 48,
+     "symbol": "PAAS",
+     "momentum": 1.687107,
+     "last_close": 54.48
+    },
+    {
+     "rank": 49,
+     "symbol": "B",
+     "momentum": 1.662454,
+     "last_close": 40.64
+    },
+    {
+     "rank": 50,
+     "symbol": "WBD",
+     "momentum": 1.625349,
+     "last_close": 27.46
+    }
+   ]
+  },
+  "2026-05-01": {
+   "5": [
+    {
+     "rank": 1,
+     "symbol": "AXTI",
+     "momentum": 39.7,
+     "last_close": 79.22
+    },
+    {
+     "rank": 2,
+     "symbol": "SNDK",
+     "momentum": 18.786359,
+     "last_close": 1096.51
+    },
+    {
+     "rank": 3,
+     "symbol": "LITE",
+     "momentum": 10.903117,
+     "last_close": 902.32
+    },
+    {
+     "rank": 4,
+     "symbol": "ONDS",
+     "momentum": 10.637487,
+     "last_close": 10.04
+    },
+    {
+     "rank": 5,
+     "symbol": "PL",
+     "momentum": 7.495441,
+     "last_close": 36.97
+    }
+   ],
+   "20": [
+    {
+     "rank": 1,
+     "symbol": "AXTI",
+     "momentum": 39.7,
+     "last_close": 79.22
+    },
+    {
+     "rank": 2,
+     "symbol": "SNDK",
+     "momentum": 18.786359,
+     "last_close": 1096.51
+    },
+    {
+     "rank": 3,
+     "symbol": "LITE",
+     "momentum": 10.903117,
+     "last_close": 902.32
+    },
+    {
+     "rank": 4,
+     "symbol": "ONDS",
+     "momentum": 10.637487,
+     "last_close": 10.04
+    },
+    {
+     "rank": 5,
+     "symbol": "PL",
+     "momentum": 7.495441,
+     "last_close": 36.97
+    },
+    {
+     "rank": 6,
+     "symbol": "BE",
+     "momentum": 6.395742,
+     "last_close": 283.36
+    },
+    {
+     "rank": 7,
+     "symbol": "AAOI",
+     "momentum": 5.613761,
+     "last_close": 164.36
+    },
+    {
+     "rank": 8,
+     "symbol": "WDC",
+     "momentum": 5.19377,
+     "last_close": 434.41
+    },
+    {
+     "rank": 9,
+     "symbol": "CIEN",
+     "momentum": 4.780673,
+     "last_close": 527.58
+    },
+    {
+     "rank": 10,
+     "symbol": "IREN",
+     "momentum": 4.610475,
+     "last_close": 45.51
+    },
+    {
+     "rank": 11,
+     "symbol": "APLD",
+     "momentum": 4.229075,
+     "last_close": 34.25
+    },
+    {
+     "rank": 12,
+     "symbol": "ECHO",
+     "momentum": 4.20774,
+     "last_close": 123.14
+    },
+    {
+     "rank": 13,
+     "symbol": "SATS",
+     "momentum": 4.20774,
+     "last_close": 123.14
+    },
+    {
+     "rank": 14,
+     "symbol": "WULF",
+     "momentum": 4.190647,
+     "last_close": 21.73
+    },
+    {
+     "rank": 15,
+     "symbol": "FSLY",
+     "momentum": 4.053913,
+     "last_close": 25.255
+    },
+    {
+     "rank": 16,
+     "symbol": "TSEM",
+     "momentum": 3.904416,
+     "last_close": 221.05
+    },
+    {
+     "rank": 17,
+     "symbol": "NBIS",
+     "momentum": 3.564892,
+     "last_close": 138.23
+    },
+    {
+     "rank": 18,
+     "symbol": "CIFR",
+     "momentum": 3.515789,
+     "last_close": 17.74
+    },
+    {
+     "rank": 19,
+     "symbol": "MU",
+     "momentum": 3.401173,
+     "last_close": 517.08
+    },
+    {
+     "rank": 20,
+     "symbol": "STX",
+     "momentum": 3.35898,
+     "last_close": 673.16
+    }
+   ],
+   "50": [
+    {
+     "rank": 1,
+     "symbol": "AXTI",
+     "momentum": 39.7,
+     "last_close": 79.22
+    },
+    {
+     "rank": 2,
+     "symbol": "SNDK",
+     "momentum": 18.786359,
+     "last_close": 1096.51
+    },
+    {
+     "rank": 3,
+     "symbol": "LITE",
+     "momentum": 10.903117,
+     "last_close": 902.32
+    },
+    {
+     "rank": 4,
+     "symbol": "ONDS",
+     "momentum": 10.637487,
+     "last_close": 10.04
+    },
+    {
+     "rank": 5,
+     "symbol": "PL",
+     "momentum": 7.495441,
+     "last_close": 36.97
+    },
+    {
+     "rank": 6,
+     "symbol": "BE",
+     "momentum": 6.395742,
+     "last_close": 283.36
+    },
+    {
+     "rank": 7,
+     "symbol": "AAOI",
+     "momentum": 5.613761,
+     "last_close": 164.36
+    },
+    {
+     "rank": 8,
+     "symbol": "WDC",
+     "momentum": 5.19377,
+     "last_close": 434.41
+    },
+    {
+     "rank": 9,
+     "symbol": "CIEN",
+     "momentum": 4.780673,
+     "last_close": 527.58
+    },
+    {
+     "rank": 10,
+     "symbol": "IREN",
+     "momentum": 4.610475,
+     "last_close": 45.51
+    },
+    {
+     "rank": 11,
+     "symbol": "APLD",
+     "momentum": 4.229075,
+     "last_close": 34.25
+    },
+    {
+     "rank": 12,
+     "symbol": "ECHO",
+     "momentum": 4.20774,
+     "last_close": 123.14
+    },
+    {
+     "rank": 13,
+     "symbol": "SATS",
+     "momentum": 4.20774,
+     "last_close": 123.14
+    },
+    {
+     "rank": 14,
+     "symbol": "WULF",
+     "momentum": 4.190647,
+     "last_close": 21.73
+    },
+    {
+     "rank": 15,
+     "symbol": "FSLY",
+     "momentum": 4.053913,
+     "last_close": 25.255
+    },
+    {
+     "rank": 16,
+     "symbol": "TSEM",
+     "momentum": 3.904416,
+     "last_close": 221.05
+    },
+    {
+     "rank": 17,
+     "symbol": "NBIS",
+     "momentum": 3.564892,
+     "last_close": 138.23
+    },
+    {
+     "rank": 18,
+     "symbol": "CIFR",
+     "momentum": 3.515789,
+     "last_close": 17.74
+    },
+    {
+     "rank": 19,
+     "symbol": "MU",
+     "momentum": 3.401173,
+     "last_close": 517.08
+    },
+    {
+     "rank": 20,
+     "symbol": "STX",
+     "momentum": 3.35898,
+     "last_close": 673.16
+    },
+    {
+     "rank": 21,
+     "symbol": "TER",
+     "momentum": 3.009606,
+     "last_close": 343.34
+    },
+    {
+     "rank": 22,
+     "symbol": "COHR",
+     "momentum": 2.703514,
+     "last_close": 319.71
+    },
+    {
+     "rank": 23,
+     "symbol": "ASTS",
+     "momentum": 2.570444,
+     "last_close": 73.9
+    },
+    {
+     "rank": 24,
+     "symbol": "FIX",
+     "momentum": 2.478475,
+     "last_close": 1839.53
+    },
+    {
+     "rank": 25,
+     "symbol": "AG",
+     "momentum": 2.436899,
+     "last_close": 19.69
+    },
+    {
+     "rank": 26,
+     "symbol": "CDE",
+     "momentum": 2.382035,
+     "last_close": 17.95
+    },
+    {
+     "rank": 27,
+     "symbol": "MKSI",
+     "momentum": 2.300374,
+     "last_close": 283.54
+    },
+    {
+     "rank": 28,
+     "symbol": "CLS",
+     "momentum": 2.300293,
+     "last_close": 409.59
+    },
+    {
+     "rank": 29,
+     "symbol": "HL",
+     "momentum": 2.263269,
+     "last_close": 18.02
+    },
+    {
+     "rank": 30,
+     "symbol": "WBD",
+     "momentum": 2.167243,
+     "last_close": 27.05
+    },
+    {
+     "rank": 31,
+     "symbol": "ALB",
+     "momentum": 2.12023,
+     "last_close": 196.2
+    },
+    {
+     "rank": 32,
+     "symbol": "RIG",
+     "momentum": 2.112676,
+     "last_close": 6.82
+    },
+    {
+     "rank": 33,
+     "symbol": "GLW",
+     "momentum": 2.110195,
+     "last_close": 163.99
+    },
+    {
+     "rank": 34,
+     "symbol": "LRCX",
+     "momentum": 2.002954,
+     "last_close": 257.68
+    },
+    {
+     "rank": 35,
+     "symbol": "RKLB",
+     "momentum": 1.947223,
+     "last_close": 82.51
+    },
+    {
+     "rank": 36,
+     "symbol": "VRT",
+     "momentum": 1.938424,
+     "last_close": 328.42
+    },
+    {
+     "rank": 37,
+     "symbol": "APA",
+     "momentum": 1.826469,
+     "last_close": 40.45
+    },
+    {
+     "rank": 38,
+     "symbol": "DOCN",
+     "momentum": 1.776052,
+     "last_close": 96.43
+    },
+    {
+     "rank": 39,
+     "symbol": "AA",
+     "momentum": 1.734104,
+     "last_close": 63.69
+    },
+    {
+     "rank": 40,
+     "symbol": "ATI",
+     "momentum": 1.67488,
+     "last_close": 155.46
+    },
+    {
+     "rank": 41,
+     "symbol": "FN",
+     "momentum": 1.543256,
+     "last_close": 683.47
+    },
+    {
+     "rank": 42,
+     "symbol": "MTZ",
+     "momentum": 1.527019,
+     "last_close": 394.05
+    },
+    {
+     "rank": 43,
+     "symbol": "W",
+     "momentum": 1.4937,
+     "last_close": 63.93
+    },
+    {
+     "rank": 44,
+     "symbol": "FTI",
+     "momentum": 1.466262,
+     "last_close": 75.52
+    },
+    {
+     "rank": 45,
+     "symbol": "AU",
+     "momentum": 1.454453,
+     "last_close": 92.6
+    },
+    {
+     "rank": 46,
+     "symbol": "CCJ",
+     "momentum": 1.409807,
+     "last_close": 123.04
+    },
+    {
+     "rank": 47,
+     "symbol": "GEV",
+     "momentum": 1.359121,
+     "last_close": 1082.91
+    },
+    {
+     "rank": 48,
+     "symbol": "CVE",
+     "momentum": 1.317823,
+     "last_close": 29.1
+    },
+    {
+     "rank": 49,
+     "symbol": "CAT",
+     "momentum": 1.311143,
+     "last_close": 888.46
+    },
+    {
+     "rank": 50,
+     "symbol": "FTAI",
+     "momentum": 1.307018,
+     "last_close": 249.25
+    }
+   ]
+  },
+  "2026-06-01": {
+   "5": [
+    {
+     "rank": 1,
+     "symbol": "AXTI",
+     "momentum": 51.463576,
+     "last_close": 103.16
+    },
+    {
+     "rank": 2,
+     "symbol": "SNDK",
+     "momentum": 28.092863,
+     "last_close": 1694.98
+    },
+    {
+     "rank": 3,
+     "symbol": "BE",
+     "momentum": 14.341635,
+     "last_close": 285.0
+    },
+    {
+     "rank": 4,
+     "symbol": "LITE",
+     "momentum": 11.483675,
+     "last_close": 854.96
+    },
+    {
+     "rank": 5,
+     "symbol": "AAOI",
+     "momentum": 9.658885,
+     "last_close": 158.41
+    }
+   ],
+   "20": [
+    {
+     "rank": 1,
+     "symbol": "AXTI",
+     "momentum": 51.463576,
+     "last_close": 103.16
+    },
+    {
+     "rank": 2,
+     "symbol": "SNDK",
+     "momentum": 28.092863,
+     "last_close": 1694.98
+    },
+    {
+     "rank": 3,
+     "symbol": "BE",
+     "momentum": 14.341635,
+     "last_close": 285.0
+    },
+    {
+     "rank": 4,
+     "symbol": "LITE",
+     "momentum": 11.483675,
+     "last_close": 854.96
+    },
+    {
+     "rank": 5,
+     "symbol": "AAOI",
+     "momentum": 9.658885,
+     "last_close": 158.41
+    },
+    {
+     "rank": 6,
+     "symbol": "PL",
+     "momentum": 8.627604,
+     "last_close": 51.14
+    },
+    {
+     "rank": 7,
+     "symbol": "WDC",
+     "momentum": 7.464731,
+     "last_close": 531.07
+    },
+    {
+     "rank": 8,
+     "symbol": "ONDS",
+     "momentum": 7.229508,
+     "last_close": 13.22
+    },
+    {
+     "rank": 9,
+     "symbol": "ECHO",
+     "momentum": 5.94529,
+     "last_close": 129.19
+    },
+    {
+     "rank": 10,
+     "symbol": "SATS",
+     "momentum": 5.94529,
+     "last_close": 129.19
+    },
+    {
+     "rank": 11,
+     "symbol": "CIEN",
+     "momentum": 5.589808,
+     "last_close": 580.23
+    },
+    {
+     "rank": 12,
+     "symbol": "WULF",
+     "momentum": 5.155807,
+     "last_close": 25.56
+    },
+    {
+     "rank": 13,
+     "symbol": "STX",
+     "momentum": 4.78515,
+     "last_close": 879.17
+    },
+    {
+     "rank": 14,
+     "symbol": "VIAV",
+     "momentum": 4.751921,
+     "last_close": 48.56
+    },
+    {
+     "rank": 15,
+     "symbol": "CIFR",
+     "momentum": 4.685897,
+     "last_close": 23.65
+    },
+    {
+     "rank": 16,
+     "symbol": "TSEM",
+     "momentum": 4.604716,
+     "last_close": 255.23
+    },
+    {
+     "rank": 17,
+     "symbol": "MU",
+     "momentum": 4.488007,
+     "last_close": 970.85
+    },
+    {
+     "rank": 18,
+     "symbol": "IREN",
+     "momentum": 4.424315,
+     "last_close": 63.54
+    },
+    {
+     "rank": 19,
+     "symbol": "TTMI",
+     "momentum": 4.298727,
+     "last_close": 173.72
+    },
+    {
+     "rank": 20,
+     "symbol": "APLD",
+     "momentum": 4.014641,
+     "last_close": 47.28
+    }
+   ],
+   "50": [
+    {
+     "rank": 1,
+     "symbol": "AXTI",
+     "momentum": 51.463576,
+     "last_close": 103.16
+    },
+    {
+     "rank": 2,
+     "symbol": "SNDK",
+     "momentum": 28.092863,
+     "last_close": 1694.98
+    },
+    {
+     "rank": 3,
+     "symbol": "BE",
+     "momentum": 14.341635,
+     "last_close": 285.0
+    },
+    {
+     "rank": 4,
+     "symbol": "LITE",
+     "momentum": 11.483675,
+     "last_close": 854.96
+    },
+    {
+     "rank": 5,
+     "symbol": "AAOI",
+     "momentum": 9.658885,
+     "last_close": 158.41
+    },
+    {
+     "rank": 6,
+     "symbol": "PL",
+     "momentum": 8.627604,
+     "last_close": 51.14
+    },
+    {
+     "rank": 7,
+     "symbol": "WDC",
+     "momentum": 7.464731,
+     "last_close": 531.07
+    },
+    {
+     "rank": 8,
+     "symbol": "ONDS",
+     "momentum": 7.229508,
+     "last_close": 13.22
+    },
+    {
+     "rank": 9,
+     "symbol": "ECHO",
+     "momentum": 5.94529,
+     "last_close": 129.19
+    },
+    {
+     "rank": 10,
+     "symbol": "SATS",
+     "momentum": 5.94529,
+     "last_close": 129.19
+    },
+    {
+     "rank": 11,
+     "symbol": "CIEN",
+     "momentum": 5.589808,
+     "last_close": 580.23
+    },
+    {
+     "rank": 12,
+     "symbol": "WULF",
+     "momentum": 5.155807,
+     "last_close": 25.56
+    },
+    {
+     "rank": 13,
+     "symbol": "STX",
+     "momentum": 4.78515,
+     "last_close": 879.17
+    },
+    {
+     "rank": 14,
+     "symbol": "VIAV",
+     "momentum": 4.751921,
+     "last_close": 48.56
+    },
+    {
+     "rank": 15,
+     "symbol": "CIFR",
+     "momentum": 4.685897,
+     "last_close": 23.65
+    },
+    {
+     "rank": 16,
+     "symbol": "TSEM",
+     "momentum": 4.604716,
+     "last_close": 255.23
+    },
+    {
+     "rank": 17,
+     "symbol": "MU",
+     "momentum": 4.488007,
+     "last_close": 970.85
+    },
+    {
+     "rank": 18,
+     "symbol": "IREN",
+     "momentum": 4.424315,
+     "last_close": 63.54
+    },
+    {
+     "rank": 19,
+     "symbol": "TTMI",
+     "momentum": 4.298727,
+     "last_close": 173.72
+    },
+    {
+     "rank": 20,
+     "symbol": "APLD",
+     "momentum": 4.014641,
+     "last_close": 47.28
+    },
+    {
+     "rank": 21,
+     "symbol": "HUT",
+     "momentum": 3.962672,
+     "last_close": 124.83
+    },
+    {
+     "rank": 22,
+     "symbol": "INTC",
+     "momentum": 3.832737,
+     "last_close": 114.68
+    },
+    {
+     "rank": 23,
+     "symbol": "TER",
+     "momentum": 3.379337,
+     "last_close": 374.31
+    },
+    {
+     "rank": 24,
+     "symbol": "COHR",
+     "momentum": 3.227291,
+     "last_close": 361.47
+    },
+    {
+     "rank": 25,
+     "symbol": "AMKR",
+     "momentum": 2.916245,
+     "last_close": 69.48
+    },
+    {
+     "rank": 26,
+     "symbol": "FIX",
+     "momentum": 2.855164,
+     "last_close": 1828.21
+    },
+    {
+     "rank": 27,
+     "symbol": "NBIS",
+     "momentum": 2.761361,
+     "last_close": 231.09
+    },
+    {
+     "rank": 28,
+     "symbol": "RVMD",
+     "momentum": 2.657868,
+     "last_close": 157.48
+    },
+    {
+     "rank": 29,
+     "symbol": "ALB",
+     "momentum": 2.589462,
+     "last_close": 175.97
+    },
+    {
+     "rank": 30,
+     "symbol": "CLS",
+     "momentum": 2.549922,
+     "last_close": 385.39
+    },
+    {
+     "rank": 31,
+     "symbol": "HL",
+     "momentum": 2.509934,
+     "last_close": 17.77
+    },
+    {
+     "rank": 32,
+     "symbol": "FSLY",
+     "momentum": 2.469093,
+     "last_close": 17.765
+    },
+    {
+     "rank": 33,
+     "symbol": "MKSI",
+     "momentum": 2.468379,
+     "last_close": 324.02
+    },
+    {
+     "rank": 34,
+     "symbol": "DOCN",
+     "momentum": 2.40742,
+     "last_close": 155.95
+    },
+    {
+     "rank": 35,
+     "symbol": "GLW",
+     "momentum": 2.343323,
+     "last_close": 181.16
+    },
+    {
+     "rank": 36,
+     "symbol": "NVTS",
+     "momentum": 2.235294,
+     "last_close": 26.6
+    },
+    {
+     "rank": 37,
+     "symbol": "LRCX",
+     "momentum": 2.214972,
+     "last_close": 317.96
+    },
+    {
+     "rank": 38,
+     "symbol": "ASTS",
+     "momentum": 2.203294,
+     "last_close": 113.41
+    },
+    {
+     "rank": 39,
+     "symbol": "AMD",
+     "momentum": 2.201391,
+     "last_close": 516.1
+    },
+    {
+     "rank": 40,
+     "symbol": "AG",
+     "momentum": 2.196948,
+     "last_close": 21.08
+    },
+    {
+     "rank": 41,
+     "symbol": "RKLB",
+     "momentum": 2.079881,
+     "last_close": 143.48
+    },
+    {
+     "rank": 42,
+     "symbol": "VRT",
+     "momentum": 2.047133,
+     "last_close": 315.64
+    },
+    {
+     "rank": 43,
+     "symbol": "MP",
+     "momentum": 2.030748,
+     "last_close": 64.7
+    },
+    {
+     "rank": 44,
+     "symbol": "FN",
+     "momentum": 1.934985,
+     "last_close": 654.16
+    },
+    {
+     "rank": 45,
+     "symbol": "USAR",
+     "momentum": 1.901676,
+     "last_close": 28.01
+    },
+    {
+     "rank": 46,
+     "symbol": "CRDO",
+     "momentum": 1.854495,
+     "last_close": 236.03
+    },
+    {
+     "rank": 47,
+     "symbol": "SMTC",
+     "momentum": 1.814091,
+     "last_close": 152.54
+    },
+    {
+     "rank": 48,
+     "symbol": "MOD",
+     "momentum": 1.804295,
+     "last_close": 278.91
+    },
+    {
+     "rank": 49,
+     "symbol": "MRVL",
+     "momentum": 1.751375,
+     "last_close": 204.95
+    },
+    {
+     "rank": 50,
+     "symbol": "WBD",
+     "momentum": 1.713139,
+     "last_close": 27.01
+    }
+   ]
+  },
+  "2026-07-01": {
+   "5": [
+    {
+     "rank": 1,
+     "symbol": "WOLF",
+     "momentum": 147.645938,
+     "last_close": 48.25
+    },
+    {
+     "rank": 2,
+     "symbol": "AXTI",
+     "momentum": 48.358852,
+     "last_close": 72.08
+    },
+    {
+     "rank": 3,
+     "symbol": "SNDK",
+     "momentum": 36.375524,
+     "last_close": 2273.73
+    },
+    {
+     "rank": 4,
+     "symbol": "BE",
+     "momentum": 10.914716,
+     "last_close": 302.7
+    },
+    {
+     "rank": 5,
+     "symbol": "LITE",
+     "momentum": 7.993899,
+     "last_close": 858.06
+    }
+   ],
+   "20": [
+    {
+     "rank": 1,
+     "symbol": "WOLF",
+     "momentum": 147.645938,
+     "last_close": 48.25
+    },
+    {
+     "rank": 2,
+     "symbol": "AXTI",
+     "momentum": 48.358852,
+     "last_close": 72.08
+    },
+    {
+     "rank": 3,
+     "symbol": "SNDK",
+     "momentum": 36.375524,
+     "last_close": 2273.73
+    },
+    {
+     "rank": 4,
+     "symbol": "BE",
+     "momentum": 10.914716,
+     "last_close": 302.7
+    },
+    {
+     "rank": 5,
+     "symbol": "LITE",
+     "momentum": 7.993899,
+     "last_close": 858.06
+    },
+    {
+     "rank": 6,
+     "symbol": "PL",
+     "momentum": 7.383607,
+     "last_close": 33.13
+    },
+    {
+     "rank": 7,
+     "symbol": "WDC",
+     "momentum": 7.321373,
+     "last_close": 638.72
+    },
+    {
+     "rank": 8,
+     "symbol": "MU",
+     "momentum": 6.896942,
+     "last_close": 1154.11
+    },
+    {
+     "rank": 9,
+     "symbol": "CIEN",
+     "momentum": 6.134268,
+     "last_close": 490.56
+    },
+    {
+     "rank": 10,
+     "symbol": "ONDS",
+     "momentum": 5.885417,
+     "last_close": 8.24
+    },
+    {
+     "rank": 11,
+     "symbol": "HUT",
+     "momentum": 5.71129,
+     "last_close": 115.445
+    },
+    {
+     "rank": 12,
+     "symbol": "MXL",
+     "momentum": 5.539761,
+     "last_close": 128.03
+    },
+    {
+     "rank": 13,
+     "symbol": "AAOI",
+     "momentum": 5.166213,
+     "last_close": 148.16
+    },
+    {
+     "rank": 14,
+     "symbol": "STX",
+     "momentum": 5.1416,
+     "last_close": 965.0
+    },
+    {
+     "rank": 15,
+     "symbol": "TSEM",
+     "momentum": 4.887659,
+     "last_close": 260.64
+    },
+    {
+     "rank": 16,
+     "symbol": "WULF",
+     "momentum": 4.835616,
+     "last_close": 24.7
+    },
+    {
+     "rank": 17,
+     "symbol": "DOCN",
+     "momentum": 4.460434,
+     "last_close": 157.03
+    },
+    {
+     "rank": 18,
+     "symbol": "INTC",
+     "momentum": 4.119643,
+     "last_close": 139.63
+    },
+    {
+     "rank": 19,
+     "symbol": "CIFR",
+     "momentum": 3.947699,
+     "last_close": 24.5
+    },
+    {
+     "rank": 20,
+     "symbol": "VIAV",
+     "momentum": 3.822244,
+     "last_close": 47.75
+    }
+   ],
+   "50": [
+    {
+     "rank": 1,
+     "symbol": "WOLF",
+     "momentum": 147.645938,
+     "last_close": 48.25
+    },
+    {
+     "rank": 2,
+     "symbol": "AXTI",
+     "momentum": 48.358852,
+     "last_close": 72.08
+    },
+    {
+     "rank": 3,
+     "symbol": "SNDK",
+     "momentum": 36.375524,
+     "last_close": 2273.73
+    },
+    {
+     "rank": 4,
+     "symbol": "BE",
+     "momentum": 10.914716,
+     "last_close": 302.7
+    },
+    {
+     "rank": 5,
+     "symbol": "LITE",
+     "momentum": 7.993899,
+     "last_close": 858.06
+    },
+    {
+     "rank": 6,
+     "symbol": "PL",
+     "momentum": 7.383607,
+     "last_close": 33.13
+    },
+    {
+     "rank": 7,
+     "symbol": "WDC",
+     "momentum": 7.321373,
+     "last_close": 638.72
+    },
+    {
+     "rank": 8,
+     "symbol": "MU",
+     "momentum": 6.896942,
+     "last_close": 1154.11
+    },
+    {
+     "rank": 9,
+     "symbol": "CIEN",
+     "momentum": 6.134268,
+     "last_close": 490.56
+    },
+    {
+     "rank": 10,
+     "symbol": "ONDS",
+     "momentum": 5.885417,
+     "last_close": 8.24
+    },
+    {
+     "rank": 11,
+     "symbol": "HUT",
+     "momentum": 5.71129,
+     "last_close": 115.445
+    },
+    {
+     "rank": 12,
+     "symbol": "MXL",
+     "momentum": 5.539761,
+     "last_close": 128.03
+    },
+    {
+     "rank": 13,
+     "symbol": "AAOI",
+     "momentum": 5.166213,
+     "last_close": 148.16
+    },
+    {
+     "rank": 14,
+     "symbol": "STX",
+     "momentum": 5.1416,
+     "last_close": 965.0
+    },
+    {
+     "rank": 15,
+     "symbol": "TSEM",
+     "momentum": 4.887659,
+     "last_close": 260.64
+    },
+    {
+     "rank": 16,
+     "symbol": "WULF",
+     "momentum": 4.835616,
+     "last_close": 24.7
+    },
+    {
+     "rank": 17,
+     "symbol": "DOCN",
+     "momentum": 4.460434,
+     "last_close": 157.03
+    },
+    {
+     "rank": 18,
+     "symbol": "INTC",
+     "momentum": 4.119643,
+     "last_close": 139.63
+    },
+    {
+     "rank": 19,
+     "symbol": "CIFR",
+     "momentum": 3.947699,
+     "last_close": 24.5
+    },
+    {
+     "rank": 20,
+     "symbol": "VIAV",
+     "momentum": 3.822244,
+     "last_close": 47.75
+    },
+    {
+     "rank": 21,
+     "symbol": "APLD",
+     "momentum": 3.695134,
+     "last_close": 37.3
+    },
+    {
+     "rank": 22,
+     "symbol": "ECHO",
+     "momentum": 3.663899,
+     "last_close": 101.5
+    },
+    {
+     "rank": 23,
+     "symbol": "SATS",
+     "momentum": 3.663899,
+     "last_close": 103.915
+    },
+    {
+     "rank": 24,
+     "symbol": "IREN",
+     "momentum": 3.361016,
+     "last_close": 45.73
+    },
+    {
+     "rank": 25,
+     "symbol": "RVMD",
+     "momentum": 3.280511,
+     "last_close": 187.28
+    },
+    {
+     "rank": 26,
+     "symbol": "TTMI",
+     "momentum": 3.255757,
+     "last_close": 187.02
+    },
+    {
+     "rank": 27,
+     "symbol": "NBIS",
+     "momentum": 3.176577,
+     "last_close": 276.17
+    },
+    {
+     "rank": 28,
+     "symbol": "TER",
+     "momentum": 3.173375,
+     "last_close": 483.84
+    },
+    {
+     "rank": 29,
+     "symbol": "NVTS",
+     "momentum": 3.061069,
+     "last_close": 17.92
+    },
+    {
+     "rank": 30,
+     "symbol": "COHR",
+     "momentum": 3.0519,
+     "last_close": 394.47
+    },
+    {
+     "rank": 31,
+     "symbol": "LUNR",
+     "momentum": 3.032199,
+     "last_close": 21.39
+    },
+    {
+     "rank": 32,
+     "symbol": "RKLB",
+     "momentum": 3.011183,
+     "last_close": 101.65
+    },
+    {
+     "rank": 33,
+     "symbol": "ASX",
+     "momentum": 2.809667,
+     "last_close": 44.79
+    },
+    {
+     "rank": 34,
+     "symbol": "ALAB",
+     "momentum": 2.79175,
+     "last_close": 483.02
+    },
+    {
+     "rank": 35,
+     "symbol": "SIMO",
+     "momentum": 2.75061,
+     "last_close": 333.33
+    },
+    {
+     "rank": 36,
+     "symbol": "STRL",
+     "momentum": 2.730941,
+     "last_close": 839.36
+    },
+    {
+     "rank": 37,
+     "symbol": "AMD",
+     "momentum": 2.637068,
+     "last_close": 580.91
+    },
+    {
+     "rank": 38,
+     "symbol": "DELL",
+     "momentum": 2.484989,
+     "last_close": 430.75
+    },
+    {
+     "rank": 39,
+     "symbol": "GLW",
+     "momentum": 2.482507,
+     "last_close": 255.43
+    },
+    {
+     "rank": 40,
+     "symbol": "FIX",
+     "momentum": 2.417151,
+     "last_close": 1981.95
+    },
+    {
+     "rank": 41,
+     "symbol": "SMTC",
+     "momentum": 2.379265,
+     "last_close": 161.85
+    },
+    {
+     "rank": 42,
+     "symbol": "AMKR",
+     "momentum": 2.338779,
+     "last_close": 86.23
+    },
+    {
+     "rank": 43,
+     "symbol": "SITM",
+     "momentum": 2.33302,
+     "last_close": 745.56
+    },
+    {
+     "rank": 44,
+     "symbol": "LRCX",
+     "momentum": 2.284711,
+     "last_close": 433.33
+    },
+    {
+     "rank": 45,
+     "symbol": "MKSI",
+     "momentum": 2.278559,
+     "last_close": 444.8
+    },
+    {
+     "rank": 46,
+     "symbol": "FLEX",
+     "momentum": 2.020433,
+     "last_close": 162.07
+    },
+    {
+     "rank": 47,
+     "symbol": "LSCC",
+     "momentum": 2.002245,
+     "last_close": 152.96
+    },
+    {
+     "rank": 48,
+     "symbol": "HL",
+     "momentum": 1.970082,
+     "last_close": 15.43
+    },
+    {
+     "rank": 49,
+     "symbol": "NOK",
+     "momentum": 1.909233,
+     "last_close": 13.28
+    },
+    {
+     "rank": 50,
+     "symbol": "UMC",
+     "momentum": 1.899722,
+     "last_close": 26.85
+    }
+   ]
+  }
+ },
+ "churn": {
+  "5": {
+   "2026-02-02": 4,
+   "2026-03-02": 3,
+   "2026-04-01": 1,
+   "2026-05-01": 1,
+   "2026-06-01": 2,
+   "2026-07-01": 1
+  },
+  "20": {
+   "2026-02-02": 8,
+   "2026-03-02": 6,
+   "2026-04-01": 5,
+   "2026-05-01": 5,
+   "2026-06-01": 2,
+   "2026-07-01": 5
+  },
+  "50": {
+   "2026-02-02": 9,
+   "2026-03-02": 8,
+   "2026-04-01": 9,
+   "2026-05-01": 11,
+   "2026-06-01": 14,
+   "2026-07-01": 13
+  }
+ },
+ "median_price": {
+  "2026-01-02": {
+   "5": 37.77,
+   "20": 77.73,
+   "50": 78.17
+  },
+  "2026-02-02": {
+   "5": 21.22,
+   "20": 71.25,
+   "50": 107.35
+  },
+  "2026-03-02": {
+   "5": 155.67,
+   "20": 36.47,
+   "50": 101.73
+  },
+  "2026-04-01": {
+   "5": 135.49,
+   "20": 40.59,
+   "50": 99.97
+  },
+  "2026-05-01": {
+   "5": 79.22,
+   "20": 130.69,
+   "50": 130.69
+  },
+  "2026-06-01": {
+   "5": 285.0,
+   "20": 143.8,
+   "50": 157.94
+  },
+  "2026-07-01": {
+   "5": 302.7,
+   "20": 143.89,
+   "50": 159.44
+  }
+ }
+}

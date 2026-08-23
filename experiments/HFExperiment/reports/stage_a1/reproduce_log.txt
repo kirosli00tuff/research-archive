@@ -1,0 +1,21 @@
+formation dates: reproduced 124, recorded 124, identical=True
+computing listing segments from full bar history
+segments computed for 19744 symbols
+universe 2016-04-01: exact_match=True
+universe 2020-03-02: exact_match=True
+universe 2024-01-02: exact_match=True
+universe 2026-01-02: exact_match=True
+formation 2026-01-02: 493 ranked, exclusions={'no_far_anchor_bar': 7}
+universe 2026-02-02: exact_match=True
+formation 2026-02-02: 494 ranked, exclusions={'no_far_anchor_bar': 6}
+universe 2026-03-02: exact_match=True
+formation 2026-03-02: 496 ranked, exclusions={'no_far_anchor_bar': 4}
+universe 2026-04-01: exact_match=True
+formation 2026-04-01: 495 ranked, exclusions={'no_far_anchor_bar': 5}
+universe 2026-05-01: exact_match=True
+formation 2026-05-01: 496 ranked, exclusions={'no_far_anchor_bar': 4}
+universe 2026-06-01: exact_match=True
+formation 2026-06-01: 493 ranked, exclusions={'no_far_anchor_bar': 7}
+universe 2026-07-01: exact_match=True
+formation 2026-07-01: 494 ranked, exclusions={'no_far_anchor_bar': 6}
+ALL UNIVERSE CHECKS EXACT: True
