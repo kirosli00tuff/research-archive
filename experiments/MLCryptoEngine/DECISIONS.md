@@ -2639,3 +2639,63 @@ epistemic standing exactly — H1 and H2 are labelled **unaudited** in `AUDIT.md
 (read, not re-derived, because their inputs were not present in the audit
 clone), so the note states that in its scope section rather than presenting a
 read-only closure as a checked one.
+
+---
+
+## ADR-066 — A memory guard measures the process it guards, by VmHWM, never by ru_maxrss
+
+**Date.** 2026-08-22. **Status.** Accepted.
+
+**Context.** `tests/test_validate_memory.py` exists because the 2026-07-31
+full-day validation was OOM-killed at 12.8 GB (ADR-005). It replays a synthetic
+400,000-message day through the real `validate_venue_day` **in a subprocess**,
+specifically so that peak memory is attributable to the validation rather than
+to pytest, and asserts the peak stays under 600 MB.
+
+It did not do that. The driver read
+`resource.getrusage(resource.RUSAGE_SELF).ru_maxrss`, which is a **per-process**
+figure, and Linux's `exec_mmap()` calls `setmax_mm_hiwater_rss()` on the
+pre-exec mm — folding the parent's high-water RSS into the child's
+`signal->maxrss`. A child forked from pytest therefore inherits pytest's memory
+as its own reported peak. Measured on this host: **a child that allocates
+nothing reports 713 MB when its parent holds 700 MB at fork time.**
+
+The symptom was a test that passed when run alone and failed inside the full
+suite — pytest is small in the first case and around 750 MB in the second — and
+that difference was read, on first encounter, as a scale regression on the data
+path. It was not. Measured with a clean instrument, **validation peaks at
+397.6 MB** for the same 400,000 messages, comfortably inside the ceiling, even
+when forked from an 829.6 MB parent.
+
+The dangerous half is the other direction. Because the reading returns
+`max(parent RSS at fork, child RSS)`, the guard would have reported the parent's
+figure even if the replay path had regressed — **any regression below pytest's
+own footprint was invisible to the check written to catch it.** This is the
+project's standing *a check that cannot fail is not a check* rule in its less
+obvious form: a check that fires reliably, on the wrong quantity.
+
+**Decision.** A memory guard reads `VmHWM` from `/proc/<pid>/status`, which
+reflects `mm->hiwater_rss` of the **current** mm and is reset by `execve`. In
+the same probe it reports 13 MB against the contaminated reading's 713 MB.
+`ru_maxrss` is not used to bound a subprocess. If `VmHWM` is absent the driver
+raises rather than falling back to a number that would read as a pass.
+
+The measurement choice is itself pinned by a test
+(`test_the_peak_rss_measurement_is_not_contaminated_by_this_process`), which
+fabricates a fat parent and asserts the two readings **diverge** — so a future
+edit cannot quietly revert to `ru_maxrss`, and if the kernel behaviour ever
+changes the assertion says so instead of silently becoming decorative.
+
+**Consequences.** The 600 MB ceiling is retained and now means what it says; the
+headroom against the measured 397.6 MB is real rather than an artefact. The
+corrected guard was canary-checked the way this project checks leakage suites:
+with a 700 MB allocation planted inside the driver it reports 1,097.8 MB and
+fires, so a clean result comes from a probe demonstrably able to fail.
+
+Generalised, and the reason this is an ADR rather than a bug fix: **a resource
+measurement must name the process it is measuring, and be validated against a
+deliberately noisy neighbour before it is trusted.** Isolating work into a
+subprocess does not by itself isolate the measurement — this guard did the hard
+part correctly and then read the number through an instrument that undid it.
+Any future guard on RSS, file descriptors, threads or open handles is expected
+to carry the equivalent divergence test.

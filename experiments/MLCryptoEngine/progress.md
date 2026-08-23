@@ -2890,12 +2890,88 @@ plus the 37 added here. Three timed runs on this host: **2 m 32.7 s** (baseline,
 before the stage), 2 m 29.8 s and **2 m 21.0 s**; call it 2 m 20 s – 2 m 35 s. The one failure is pre-existing and is described below; this
 stage did not introduce it and did not touch its code path.
 
-**Pre-existing failure, recorded rather than worked around.**
+**Pre-existing failure, investigated rather than worked around.**
 `tests/test_validate_memory.py::test_validation_peak_rss_is_bounded_on_a_large_day`
-fails on this host at **750 MB peak RSS against a 600 MB ceiling** for 400,000
-synthetic messages. It was failing before this stage began — the baseline run
-that measured the 2 m 32.7 s figure was taken against a clean tree with only
-untracked files added, and it reproduces there. This stage changed no code on
-the validation path, and the ceiling was **not** moved to make the suite green:
-moving a registered bar to fit a result is the exact failure mode this project's
-pre-registration discipline exists to prevent. It is left red and named.
+was failing on this host at **750 MB against a 600 MB ceiling**, before this
+stage began and on a clean tree. The ceiling was not moved. It was diagnosed
+instead, and the diagnosis is in the next entry: **the guard was measuring
+pytest, not the validation.**
+
+
+## 2026-08-22 — The memory guard was measuring pytest: validation peaks at 397.6 MB, not 750
+
+**Stage E.2**, opened because the E.1 gate run was red on a failure E.1 did not
+cause. The register is closed and no research question is reopened here; this is
+a defect in a test, and the defect is that it measured the wrong process.
+
+**The symptom.** `test_validation_peak_rss_is_bounded_on_a_large_day` **passed
+run alone (27.1 s) and failed inside the full suite**, reporting 750 MB against
+its 600 MB ceiling. That pattern is not what a scale regression looks like, and
+the first reading of it — a data-path regression on a 14 GiB host — was wrong.
+
+**The cause.** The test replays 400,000 synthetic messages through the real
+`validate_venue_day` **in a subprocess**, precisely so peak memory is
+attributable to the validation. The driver then read that peak with
+`resource.getrusage(RUSAGE_SELF).ru_maxrss` — which is **per-process**, and
+which Linux's `exec_mmap()` seeds from the pre-exec mm via
+`setmax_mm_hiwater_rss()`. A child forked from pytest inherits pytest's RSS as
+its own reported peak.
+
+Probed directly rather than argued from the kernel source:
+
+| parent RSS at fork | child `ru_maxrss` | child `VmHWM` |
+|---|---|---|
+| 36.9 MB | 12.8 MB | 12.9 MB |
+| **712.9 MB** | **712.9 MB** | **13.0 MB** |
+
+The child allocates nothing in both rows. `ru_maxrss` tracks the parent exactly;
+`VmHWM` — `mm->hiwater_rss` of the current mm, which `execve` resets — does not
+move. So the guard was reporting pytest's footprint: small alone, ~750 MB after
+the suite has imported polars, duckdb, pyarrow, lightgbm and statsmodels.
+
+**What the data path actually does.** Measured with `VmHWM`, from a parent
+deliberately inflated to 829.6 MB so the old instrument would have been
+contaminated: **validation peaks at 397.6 MB** for the same 400,000 messages and
+401,199 emitted rows. The streaming replay is fine and has been fine. The 600 MB
+ceiling holds with real headroom.
+
+**The half that matters more.** Because the reading returned `max(parent RSS at
+fork, child RSS)`, the guard would have reported the parent's number **even if
+the replay path had regressed** — every regression below pytest's own footprint
+was invisible to the check written to catch exactly that. The 2026-07-31 OOM was
+12.8 GB so this specific guard would still have caught *that*, but anything
+between 400 MB and ~750 MB would have passed silently. This is the standing
+*a check that cannot fail is not a check* rule in its less obvious form: a check
+that fires reliably, on the wrong quantity.
+
+**The fix.** The driver reads `VmHWM` from `/proc/self/status`, and raises if it
+is absent rather than falling back to a number that would read as a pass. Then,
+canary-checked the way this project checks its leakage suites — with a 700 MB
+allocation planted inside the driver the guard reports **1,097.8 MB and fires**,
+so the clean 397.6 MB comes from a probe demonstrably able to fail.
+
+The measurement choice is now pinned by
+`test_the_peak_rss_measurement_is_not_contaminated_by_this_process`, which
+fabricates a 400 MB parent and asserts the two readings **diverge**. A future
+edit cannot quietly revert to `ru_maxrss`, and if the kernel behaviour ever
+changes, the assertion says so instead of becoming decorative.
+
+**ADR-066** generalises it: a resource measurement names the process it is
+measuring and is validated against a deliberately noisy neighbour before it is
+trusted. Isolating work into a subprocess does not isolate the measurement — this
+guard did the hard part right and then read the result through an instrument
+that undid it. Any future guard on RSS, file descriptors, threads or open
+handles carries the equivalent divergence test.
+
+**Gates.** `make lint`, `make typecheck` clean. `make test` **516 passed,
+1 skipped, 0 failed** — the suite is green for the first time this session, and
+E.1's note commit is unblocked.
+
+**A timing observation left as an observation, not a claim.** This green run took
+**58.8 s**, against 2 m 32.7 s / 2 m 29.8 s / 2 m 21.0 s for the three red runs
+earlier in the session. The test count rules out anything being skipped
+(516 + 1 vs 514 + 1 + 1). The plausible reading is host memory pressure on a
+14 GiB machine — the red runs shared the box with the very subprocess work being
+debugged — but **that was not measured**, and a 2.4× swing is recorded here as
+unexplained rather than attributed. Anyone quoting a suite ETA from this file
+should use the range 1 m – 2 m 35 s and say which end they are assuming.
