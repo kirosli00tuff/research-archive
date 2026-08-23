@@ -2802,3 +2802,100 @@ every reopening condition, `AUDIT.md` for what has and has not been independentl
 checked, `DECISIONS.md` for the ADRs. The reopening conditions are thresholds,
 not invitations: H6 reopens only on order-level book data, and no amount of
 further recording on this feed produces it.
+
+
+## 2026-08-22 — The closed results start being written up: H1 as the first standalone note
+
+**Stage E.1.** No models run, no data fetched, no research code touched. This
+stage produces a document, one README link, and the tests that hold the document
+honest.
+
+**What was written.** `docs/notes/h1-predictability-without-capturability.md`
+(309 lines), standalone for a reader with no project context. Its claim, stated
+in the first paragraph: high directional accuracy at short horizons is
+compatible with zero capturable edge, and an accuracy figure reported without
+capture, cost floor and confidence-magnitude structure is half a result.
+
+The measured chain it walks, every figure traced in a sources table to a
+`report.md` section and the commit that produced it:
+
+- **AUC 0.9432 at 100 ms** on Kraken BTC/USD, six validated days, 165,075
+  samples — reproducing across the four full days to within **0.0044**.
+- **0.0291 bps** of gross capture at that same horizon. Against Kraken's own
+  50 bps round trip that is a miss of roughly **1,700×**; against the cheapest
+  reachable venue at 3 bps, roughly **100×**.
+- **Top-confidence deciles capture 2–24× the all-sample mean** through accuracy
+  rather than magnitude, and the best decile in the study takes **5.00 bps
+  against 80 bps** — missing the economic bar by **16×**.
+- **The mechanism: AUC is magnitude-blind.** Spearman rho between confidence and
+  realised |move| is **−0.3175** (Kraken) and **−0.3665** (Coinbase) at 100 ms,
+  most negative exactly where AUC looks best.
+- **The withdrawn headline.** 3.31 bps at 900 s came from one day; across four
+  full days the same measurement ranges **−2.44 to +3.05 bps**.
+- **The transfer result as evidence of venue-locality.** Same pipeline on CME
+  MBT: **AUC 0.501**, 0.22 bps against 5.33 bps of cost, net **−5.11 bps**,
+  never crossing zero at any horizon in either cost mode. Same asset, different
+  matching engine, discrimination gone.
+
+**Scope is stated in its own section rather than buried:** six days is not six
+regimes, the CME window covers one volatility condition, the venue set is three
+books, the ETH pair was never run, and — restated because it is easy to lose —
+**this closure was read, not executed, by the external audit.** `AUDIT.md` §C
+labels H1, H2, H4, H5 and H8–H11 *"unaudited, not clean"*; the note quotes that
+sentence rather than summarising it.
+
+**One deviation from the brief, recorded because it is a judgment call.** The
+brief asked for the mechanism to be stated as *a direction-trained model learns
+the bid-ask bounce*. That phrase appears nowhere in `report.md`,
+`HYPOTHESES.md`, `DECISIONS.md` or `AUDIT.md` — the string "bounce" is absent
+from all four. What C.14 measured and named is magnitude-blindness. Since the
+same brief forbids adding analysis the report does not already contain, the note
+states the measured mechanism in the project's own words and carries the
+bid-ask-bounce reading in the scope section, explicitly labelled as an
+unverified interpretation this project did not decompose the signal to test.
+
+**The reopening condition is quoted verbatim**, both paragraphs of H1's
+*What would reopen it* cell, with the one normalisation (the cell's `<br><br>`
+rendered as a paragraph break) disclosed to the reader and asserted by a test.
+
+**What holds it honest.** `tests/test_note_honesty.py`, 37 tests. Every pinned
+figure must appear in the note's own prose **and** in the specific register
+entry or report section it came from, so drift on either side fails the build.
+Pins are matched against the note with its quotation block stripped out —
+otherwise a note that merely quoted the register would satisfy every pin while
+stating nothing itself. The reopening quotation is compared
+character-for-character.
+
+Per the project's own *a check that cannot fail is not a check* rule, the tests
+were shown to fire before being accepted. Five mutations, each reverted:
+
+| mutation | result |
+|---|---|
+| note: `5.00 bps` → `5.01 bps` | **FAIL** `test_h1_figure_matches_register[5.00 bps]` |
+| note: two words paraphrased inside the verbatim quote | **FAIL** `test_quote_reproduces_the_register_character_for_character` |
+| README: link deleted | **FAIL** `test_readme_links_the_note` |
+| **register**: `rho = −0.32` → `−0.33` | **FAIL** two tests, including the verbatim quote |
+| **register**: Kraken cost row `25/50` → `26/52` | **FAIL** `test_cost_floor_row_matches_register` |
+
+**ADR-065** records the practice: closed results become standalone notes, every
+figure carries a section and a commit, restated figures are test-pinned in both
+directions, and registered reopening conditions are quoted rather than
+paraphrased. It also records the two limits — the pins are string containment
+rather than semantic agreement, and a note inherits its source's epistemic
+standing exactly, which is why the unaudited label travels with it.
+
+**Gates.** `make lint` and `make typecheck` clean (0.50 s and 2.62 s measured).
+`make test`: **514 passed, 1 failed, 1 skipped** — 477 passing before this stage
+plus the 37 added here. Three timed runs on this host: **2 m 32.7 s** (baseline,
+before the stage), 2 m 29.8 s and **2 m 21.0 s**; call it 2 m 20 s – 2 m 35 s. The one failure is pre-existing and is described below; this
+stage did not introduce it and did not touch its code path.
+
+**Pre-existing failure, recorded rather than worked around.**
+`tests/test_validate_memory.py::test_validation_peak_rss_is_bounded_on_a_large_day`
+fails on this host at **750 MB peak RSS against a 600 MB ceiling** for 400,000
+synthetic messages. It was failing before this stage began — the baseline run
+that measured the 2 m 32.7 s figure was taken against a clean tree with only
+untracked files added, and it reproduces there. This stage changed no code on
+the validation path, and the ceiling was **not** moved to make the suite green:
+moving a registered bar to fit a result is the exact failure mode this project's
+pre-registration discipline exists to prevent. It is left red and named.

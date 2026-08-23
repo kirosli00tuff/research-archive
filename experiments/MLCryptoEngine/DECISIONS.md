@@ -2573,3 +2573,69 @@ mechanism, perturb the input ordering it depends on and report how far it
 moves — cheap here (one 166 s replay per point) and it is the difference
 between a finding and a story.
 
+
+---
+
+## ADR-065 — Closed results are written up as standalone notes, and the note's figures are pinned to the register by test
+
+**Date.** 2026-08-22. **Status.** Accepted.
+
+**Context.** Recording ended 2026-08-13 with every register entry closed. What
+the project now owns is a set of measured negative results and the reasoning
+that closed them — and that material is currently readable only by someone
+willing to navigate `report.md` at 5,190 lines across nineteen stage sections,
+each written for the moment it landed. `HYPOTHESES.md` fixes the *retrieval*
+problem for a future session of this project; it explicitly "contains no
+analysis" and assumes the reader knows what H1 is. Neither file is legible to an
+outside reader, and the findings most worth publishing are the negative ones,
+which is exactly the category that normally goes unwritten. H1 is the sharpest
+case: AUC 0.94 beside 0.03 bps of gross capture is a genuinely instructive
+result about what an accuracy metric does and does not license.
+
+A note restating figures from two source files creates a drift surface the
+project has already been bitten by in other forms. The register gets corrected —
+ADR-055 restated the Kraken base tier from 0.40/0.80 to 0.25/0.40 after this
+project's standing finding that **every fee schedule here has been found stale
+at least once** — and a standalone note carrying the superseded number would
+then be the most-read and least-correct artefact in the repository. Worse, the
+reopening conditions are the load-bearing text: ADR-064 established that a
+reopening condition must name something the data could actually show, and a
+paraphrase is precisely how a closure gets reopened on grounds the register
+never granted.
+
+**Decision.** Closed results are written up as standalone notes under
+`docs/notes/`, each self-contained for a reader with no project context, linked
+from README's findings section. The first is
+`docs/notes/h1-predictability-without-capturability.md`, covering H1 and its H2
+transfer result.
+
+Three rules bind such a note:
+
+1. **Every figure traces to a `report.md` section and the commit that produced
+   it**, in a sources table at the bottom. A figure the sources table cannot
+   place does not go in the note.
+2. **Restated figures are pinned by test in both directions.**
+   `tests/test_note_honesty.py` asserts each pinned figure appears in the note's
+   own prose *and* in the specific register entry or report section it is drawn
+   from. Editing either side alone fails the build. Pins are matched against the
+   note with its quotation block removed, so quoting the register cannot satisfy
+   a claim the note never makes.
+3. **Registered reopening conditions are quoted character-for-character**, never
+   paraphrased, with the single permitted normalisation (the register's
+   in-cell `<br><br>`, rendered as a paragraph break) disclosed in the note and
+   asserted by the test that permits it.
+
+**Consequences.** The register stays the authority and the note stays a view of
+it; the pins mean a correction to `HYPOTHESES.md` cannot land without the note
+being updated in the same change, which is the property that matters. The cost
+is that a register edit now fails a test in a file its author may not have been
+thinking about — that is the intended cost, and the failure message names both
+files.
+
+Two limits are recorded rather than glossed. The pins are string containment,
+not semantic agreement: they catch a number changing and would not catch a
+correct number moved into a wrong sentence. And a note inherits its source's
+epistemic standing exactly — H1 and H2 are labelled **unaudited** in `AUDIT.md`
+(read, not re-derived, because their inputs were not present in the audit
+clone), so the note states that in its scope section rather than presenting a
+read-only closure as a checked one.

@@ -67,6 +67,13 @@ telemetry probe; see `ops/deploy/README.md` to install them.
 `progress.md` for current status, and `DECISIONS.md` for why things are the way they
 are.
 
+## Findings
+
+Closed results are written up as standalone notes an outside reader can follow
+without project context. `HYPOTHESES.md` is the register they summarise.
+
+- [Predictability without capturability](docs/notes/h1-predictability-without-capturability.md) — a short-horizon model scored AUC 0.94 on the recorded book and captured ~0.03 bps per trade; why accuracy without capture, cost and confidence-magnitude structure is half a result (H1, H2).
+
 ## Project phases
 
 - **Phase A** — data pipeline, storage, order book reconstruction validated *(current)*
