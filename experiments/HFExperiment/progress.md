@@ -2,6 +2,41 @@
 
 Append-only. One dated entry per stage, newest at top.
 
+## 2026-08-23: Stage A.2
+
+ETA stated before starting: 60 minutes. Actual: 35 minutes.
+
+Measured. Quoted spreads for all 20 names of the 2026-07-01 width-20
+book, consolidated tape via the route AiTrader owns, sessions 2026-08-19
+to 2026-08-21, 9 cells per name. Book median 12.77 bp, p75 17.2, p90
+20.7, max 27.4. The inherited 15.8 to 50 bp band predicted the wide end
+and measured wrong in the favourable direction. No name UNMEASURED. The
+TAF one cent floor stays UNMEASURED as a worst-case bound.
+
+Built. Cost model with three billing regimes that never blend,
+commission and spread terms apart (costmodel.py). Registered thresholds
+and machine-detectable deferred parameters (registered.py). Kill
+criteria with the restart-versus-termination distinction (kill.py).
+Pure order-gate refusal logic (gate.py). Asymptotic confidence sequence
+boundary with rho frozen at 0.071641 (verdict.py). Rebuilt round-trip
+and drag tables in reports/stage_a2/cost_table.md.
+
+Registered. REGISTRATION.md Sections 1 through 12 appended below
+Section 0, unchanged. Primary width 5, traded width 20, secondaries 20
+and 50 at alpha 0.025. Kill floor 500 USD as a restart. DEGRADED branch
+closed: no live sleeve at this stake. Cost hurdle 4.07 bp per day.
+Spend cap 100 USD per rolling year. Three parameters DEFERRED to
+Amendment 1 and the gate refuses while they are. Both chat-Claude
+corrections recorded as ADR-008 and ADR-009.
+
+Tested. 76 tests green under mypy strict and ruff. Both required
+mutations applied to real source, caught, restored green. Evidence in
+reports/stage_a2/mutation_tests.txt.
+
+Open. Operator acceptance of Sections 1 through 12, including the
+drafted 0.15 prior. Amendment 1 waits on the paper fill. B.1 starts the
+shadow series.
+
 ## 2026-08-23: Stage A.1
 
 ETA stated before starting: 75 minutes. Actual: 25 minutes.

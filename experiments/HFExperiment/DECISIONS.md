@@ -112,3 +112,107 @@ not determinable from IBKR's page. The model holds the whole-order 1
 percent reading. Both resolve from a real fill statement in stage C.
 
 Changes it: measured billing on paper and live fills.
+
+## ADR-008: Correction one, the traded book need not equal the primary book
+
+Chat Claude asserted the traded book must equal the primary measured
+book, importing a principle from the buffer question where a divergence
+would confound attribution. The principle does not apply here. The live
+book never feeds the verdict, so nothing the live book does can confound
+it. The primary width is chosen for information ratio and the traded
+width for fill rate. They are different objectives and they select
+different widths. This supersedes the coupling sentence in ADR-004.
+Recorded here so a later session does not restore the wrong version from
+the conversation.
+
+Changes it: any design change that lets live data feed the verdict, which
+ADR-001 forbids.
+
+## ADR-009: Correction two, width 20 costs 41 percent on the signal clock
+
+Chat Claude stated 15 to 20 percent. Fitting a power law to the two
+recorded widths gives TE exponent -0.321 and excess exponent -0.445, so
+excess decays faster than tracking error as the book widens. Width 20
+carries IR 0.894 against width 5's 1.062, and time to verdict scales as
+one over IR squared, giving 1.41. Widths 10 and 20 are interpolations
+from a two-point fit and are labelled as such everywhere they appear.
+Recorded here so a later session does not restore the wrong figure.
+
+The exponent itself is a registered risk. Independent names would give
+-0.5 on tracking error. The measured -0.321 says the book is four
+correlated sector bets wearing twenty tickers: crypto miners, uranium
+and nuclear, metals, optical and storage. A property of the rule, not a
+defect to correct. The rule does not change.
+
+Changes it: recorded measurements at more widths would replace the
+two-point fit.
+
+## ADR-010: Primary width 5, traded width 20, secondaries under Bonferroni
+
+Width 5 is the primary for the verdict on its recorded IR of 1.062,
+chosen before any forward data exists, on the already-spent holdout.
+Widths 20 and 50 are pre-registered secondaries at alpha 0.025 each.
+Width 20 is the traded width for fill rate, 10.4 fills per month against
+4.0. ADR-008 makes the split legitimate. This supersedes ADR-004's
+choice of 20 as primary.
+
+Changes it: an amendment before the shadow series starts. Nothing after.
+
+## ADR-011: The kill floor is a restart at 500 USD
+
+Chat Claude proposed 600, which the A.1 numbers break: at width 20's
+interpolated 42.54 percent tracking error, 600 is 1.04 sigma with a
+driftless touch probability near 30 percent in year one, before beta
+inflation on a high-beta book. A floor that fires on noise near fill 100
+of the roughly 200 needed teaches nothing. 500 is 1.31 sigma, near 19
+percent. 400 is 1.57 sigma, near 12 percent, and buys those 7 points at
+the price of resuming with too little capital to matter.
+
+The floor is a RESTART, not a termination. Breach halts the sleeve,
+appends the breach record, and waits for an explicit operator decision.
+Fill history survives, because a drawdown is not evidence about
+execution cost. The four operational stops in Section 9 are
+terminations. src/hfexperiment/kill.py enforces the distinction and a
+mutation removing it is caught.
+
+Changes it: a measured book beta would refine the touch probabilities.
+The floor level itself changes only by amendment before the first live
+order.
+
+## ADR-012: The DEGRADED branch is closed
+
+Section 0 left DEGRADED open as reduced whole-share sizing. A.1's
+measured median book share price of 144 USD closes it: a 20-name
+whole-share book needs about 2,880 USD against 900 deployed, and a
+5-name book collapses to one share per name with equal weighting
+destroyed. The registered consequence of a DEGRADED Task 3 result is no
+live sleeve at this stake. Phase B continues either way.
+
+Changes it: a materially larger stake, which is a new registration, not
+an amendment. A collapse in book share prices does not reopen it,
+because the branch decision must not track the thing it sizes.
+
+## ADR-013: Choices this stage made autonomously
+
+Spread measurement: the 2026-07-01 width-20 book was measured over the
+three most recent complete sessions, 2026-08-19 to 2026-08-21, using the
+same route, windows, and discard taxonomy as AiTrader's tick-multiple
+measurement, through AiTrader's credential resolver, read-only. Result:
+book median 12.77 bp, below the inherited band's lower edge, because the
+book's names currently trade at large dollar volume. The measured
+distribution replaces the band. Measuring at recent sessions rather than
+at the formation date was chosen for relevance to what trading costs
+now. Re-measuring near each future formation would change it.
+
+Spend cap: 100 USD per rolling 365 days, about 1.75 times the worst-case
+fractional projection of 56.84. A measured billing regime halves the
+projection under Tiered and the cap stays as a guard.
+
+Registered prior: drafted at 0.15 for the operator to confirm or replace
+at acceptance, before the shadow series starts.
+
+Section numbering: the stage prompt lists 13 items for 12 sections. The
+registered prior folded into Section 12 with monitors and amendments.
+
+Changes it: the operator at acceptance, for the prior. The others stand
+unless a stated assumption fails.
