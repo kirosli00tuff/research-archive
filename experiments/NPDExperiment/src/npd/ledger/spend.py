@@ -78,7 +78,7 @@ class SpendLedger:
         note: str = "",
     ) -> SpendRow:
         row = SpendRow(
-            ts=dt.datetime.now(dt.timezone.utc).isoformat(),
+            ts=dt.datetime.now(dt.UTC).isoformat(),
             date=date,
             kind=kind,
             input_tokens=input_tokens,
@@ -94,18 +94,14 @@ class SpendLedger:
         return sum(float(r.get("cost_usd", 0.0)) for r in self._ledger.iter_rows())
 
     def n_calls(self, kind: str | None = None) -> int:
-        return sum(
-            1 for r in self._ledger.iter_rows() if kind is None or r.get("kind") == kind
-        )
+        return sum(1 for r in self._ledger.iter_rows() if kind is None or r.get("kind") == kind)
 
     def remaining_usd(self) -> float:
         return self._cfg.spend_cap_usd - self.total_usd()
 
     def mean_cost_per_call(self, kind: str) -> float | None:
         """Measured cost per call of one kind, or None when none have run."""
-        costs = [
-            float(r["cost_usd"]) for r in self._ledger.iter_rows() if r.get("kind") == kind
-        ]
+        costs = [float(r["cost_usd"]) for r in self._ledger.iter_rows() if r.get("kind") == kind]
         if not costs:
             return None
         return sum(costs) / len(costs)

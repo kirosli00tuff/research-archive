@@ -13,8 +13,14 @@ LEDGERS = REPO_ROOT / "ledgers"
 # The experiment's own store. Nothing outside npd.data writes here.
 STORE_DB = VAR / "npd.db"
 
-# The sealed store. Only npd.eval.evaluator may open it. tests/test_guards.py
-# fails when any other module names it.
+# Forward returns for the logistic fit sample, every date strictly before the
+# window start. It holds no window outcome, so reading it cannot leak the
+# answer. npd.baselines.logistic is its permitted reader.
+FIT_RETURNS_DB = VAR / "npd_fit.db"
+
+# The sealed store. Window forward returns live here and only here. Only
+# npd.eval.evaluator may open it. tests/test_guards.py fails when any other
+# module names it.
 SEALED_DB = VAR / "npd_sealed.db"
 
 SPEND_LEDGER = LEDGERS / "spend.jsonl"

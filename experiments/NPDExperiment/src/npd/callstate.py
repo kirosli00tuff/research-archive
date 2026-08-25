@@ -8,10 +8,10 @@ The news experiment drew the same boundary for the same reason.
 
 from __future__ import annotations
 
-from enum import Enum
+from enum import StrEnum
 
 
-class CallState(str, Enum):
+class CallState(StrEnum):
     """Terminal state of one scheduled day."""
 
     STORED = "stored"

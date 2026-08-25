@@ -8,13 +8,13 @@ gap, interpolates, or substitutes a default for a missing observation.
 
 from __future__ import annotations
 
-from enum import Enum
-from typing import Final, TypeVar
+from enum import StrEnum
+from typing import Final, TypeAlias, TypeVar, Union
 
 T = TypeVar("T")
 
 
-class AbsenceReason(str, Enum):
+class AbsenceReason(StrEnum):
     """Why a value is absent. Recorded alongside the absence itself."""
 
     NO_BAR = "no_bar"
@@ -59,7 +59,7 @@ class Absent:
         raise TypeError("refusing to coerce a recorded absence to an int")
 
 
-Maybe = T | Absent
+Maybe: TypeAlias = Union[T, Absent]  # noqa: UP007
 
 NO_BAR: Final = Absent(AbsenceReason.NO_BAR)
 INSUFFICIENT_HISTORY: Final = Absent(AbsenceReason.INSUFFICIENT_HISTORY)

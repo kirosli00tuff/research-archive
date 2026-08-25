@@ -137,3 +137,47 @@ band 0.01 to 0.05 and is underpowered for the lower half. Recorded before
 collection rather than discovered after. Promoting the better powered secondary
 to primary after seeing a result is exactly the move this repository exists to
 prevent.
+
+## ADR-008. Split the forward returns into two stores, and make the split the seal
+
+**Status.** Accepted, 2026-08-25.
+
+**Context.** The registration requires the logistic baseline to fit on data
+strictly before the window start. A fit needs a target, and the target is a
+forward return. So one component of the pipeline must read an outcome, which
+appears to contradict the seal.
+
+**Decision.** Two stores, split by date and by nothing else.
+
+    var/npd_fit.db      dates strictly before the window start
+    var/npd_sealed.db   dates inside the window
+
+`npd.baselines.logistic` reads the fit store. `npd.eval.evaluator` reads the
+sealed store and is the only module permitted to name it.
+`npd.data.forward_returns` writes both and has no reader at all.
+`load_fit_targets` refuses any date after the guard band end at runtime, so the
+refusal holds even if the two stores were ever pointed at one file.
+
+**Consequence.** The seal is now on the path rather than on the table name,
+because both stores hold a table of the same name. The guard test was rewritten
+to match, and a behavioural test asserts the logistic refusal fires on a window
+date.
+
+## ADR-009. Eligibility is decided by data availability, before the draw
+
+**Status.** Accepted, 2026-08-25.
+
+**Context.** A panel of 30 must be exactly 30, and the model and all three
+baselines must see identical names on identical days. The 12-1 momentum baseline
+reaches 252 sessions back, further than any feature.
+
+**Decision.** A formation member is eligible on a session when three spans are
+present: every session from t minus 60 through t for the feature block, the
+session at t minus 21, and the session at t minus 252 for the momentum baseline.
+The draw runs over eligible members only. A day whose eligible pool cannot fill
+the panel is recorded as `no_data` and no short panel is ever sent.
+
+**Consequence.** Eligibility never consults an outcome, so it cannot leak. It is
+checked before the seeded draw, so the panel is always the registered size or
+the day is absent. Across the 432 window days the eligible pool filled the panel
+every time, so no day was lost to this rule.

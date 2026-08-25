@@ -8,13 +8,13 @@ of B.1 and B.2 has not run.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from enum import Enum
+from enum import StrEnum
 
 from npd.callstate import CallState, is_eligible_state
 from npd.config import CONFIG, Config
 
 
-class Section0Verdict(str, Enum):
+class Section0Verdict(StrEnum):
     GO = "GO"
     DEGRADED = "DEGRADED"
     BLOCKED = "BLOCKED"

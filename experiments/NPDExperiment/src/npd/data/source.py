@@ -13,10 +13,10 @@ from __future__ import annotations
 import datetime as dt
 import hashlib
 import sqlite3
+from collections.abc import Iterator
 from contextlib import contextmanager
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Iterator
 
 from npd.paths import SOURCE_BARS_DB, SOURCE_UNIVERSE_PY
 
@@ -77,7 +77,9 @@ def sessions(con: sqlite3.Connection, start: str, end: str) -> list[str]:
     return [r[0] for r in rows]
 
 
-def stored_membership(con: sqlite3.Connection, rule: str, formation_date: str) -> list[tuple[str, int]]:
+def stored_membership(
+    con: sqlite3.Connection, rule: str, formation_date: str
+) -> list[tuple[str, int]]:
     """The source's own membership for one formation. Used to verify the port."""
     rows = con.execute(
         "SELECT symbol, rank FROM universe_membership WHERE rule = ? AND formation_date = ? "

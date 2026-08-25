@@ -10,8 +10,8 @@ rather than trusted.
 from __future__ import annotations
 
 import datetime as dt
+from collections.abc import Sequence
 from dataclasses import dataclass
-from typing import Sequence
 
 from dateutil.relativedelta import relativedelta
 

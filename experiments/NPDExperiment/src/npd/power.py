@@ -25,6 +25,10 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from npd.config import Config
 
 
 def null_ic_sd(n_names: int) -> float:
@@ -125,3 +129,22 @@ def contrast_grid(
 def registered_floor_mde(n_days: int, n_names: int, t_critical: float) -> float:
     """The B.3 power floor. One-sample daily IC against zero, no overlap term."""
     return detection_mde(null_ic_sd(n_names), float(n_days), t_critical)
+
+
+def band_coverage(mde: float, cfg: Config | None = None) -> str:
+    """Where a minimum detectable effect sits against the registered band.
+
+    The band is the range of rank IC the literature reports for real
+    cross-sectional signals. A design whose smallest detectable effect sits above
+    the band can only find something larger than anything anyone has reported,
+    which is a fact to register rather than discover.
+    """
+    from npd.config import CONFIG as _CFG
+
+    conf = cfg or _CFG
+    low, high = conf.realistic_effect_band
+    if mde <= low:
+        return f"covers the whole registered band {low:g} to {high:g}"
+    if mde <= high:
+        return f"covers the upper part of the registered band {low:g} to {high:g}, from {mde:.4f}"
+    return f"sits above the registered band {low:g} to {high:g}. Large effects only."

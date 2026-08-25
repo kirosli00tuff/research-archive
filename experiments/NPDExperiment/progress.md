@@ -5,6 +5,70 @@ actual after it finishes.
 
 ---
 
+## B.0b. The collector, built and mock-verified. 2026-08-25
+
+**ETA stated before start: 60 minutes. Actual: 52 minutes.**
+
+The collector runs in one command, resumes on date, retries by taxonomy, backs
+off, refuses before it spends, and writes an evidence row per call with the raw
+response kept verbatim.
+
+Building the kill scenario exposed a real gap. A process killed between the
+ledger append and the store commit leaves a call that was paid for and a ranking
+that never landed. Resume would have skipped that date and lost the answer. The
+fix is reconciliation: the collector rebuilds the ranking from the raw response
+the ledger kept, and calls nothing. That is the reason the raw response is kept
+at all.
+
+All five scenarios pass.
+
+| scenario | evidence |
+|---|---|
+| clean | 432 of 432 stored, 432 calls, 5.8320 USD at registered token estimates |
+| kill_resume | killed after 137 answered, 0 double-called dates, 3 lost commits rebuilt from the ledger, 0 extra spend |
+| model_failed | 4 dates, 5 attempts each, terminal `model_failed`, zero leakage into `no_data` or `source_failed` |
+| source_failed | 3 dates, 0 calls sent for them, state stays distinct |
+| spend_refused | cap lowered to 0.20 USD, batch refused before sending, 0 calls, 0.0000 USD spent |
+
+Prompt template frozen. Digest
+`9a174e0155fadfbf12906773ff26e3c13fb01d30c2a9207831520b02df54bbae`.
+Every B.3 replay uses these bytes.
+
+Evidence in `reports/stage_b0b/mock_run.md`.
+
+---
+
+## B.0. Data, features, baselines, sealed. 2026-08-25
+
+**ETA stated before start: 75 minutes. Actual: 68 minutes.**
+
+Two read-only source paths opened and no others. `news_experiment.db` never
+opened. The ported universe file hashed identically before and after.
+
+The port is verified rather than asserted. The ported machinery rebuilt all 55
+formations from bars, and every one matched the source own stored membership on
+both the symbol set and the rank sequence. 500 members each, zero failures.
+
+- 15,474,106 daily bars extracted across 18,474 symbols
+- 432 window days, 432 panels drawn, zero days lost
+- all three baselines complete on all 432 days
+- logistic fitted once on 21,322 rows across 711 days, 2022-01-03 through
+  2024-10-30, then frozen at digest `fe6f6006...`
+
+Forward returns split by date, and the split is the seal. The fit store holds
+only pre-window dates. The sealed store holds the window and has one permitted
+reader. The writer has no reader at all.
+
+The full verdict pipeline runs end to end on synthetic data with fake returns,
+which proved B.2 works without touching one real outcome. It also caught a real
+defect: `daily_ic` carried an inverted sign, so a perfect ranking would have
+scored minus one. Fixed and pinned by a test.
+
+Details in `reports/stage_b0/build.md`. Two decisions recorded, ADR-008 and
+ADR-009.
+
+---
+
 ## A.2. Binding registration. 2026-08-25
 
 **ETA stated before start: 40 minutes. Actual: 34 minutes.**

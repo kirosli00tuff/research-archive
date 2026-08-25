@@ -59,7 +59,7 @@ class EvidenceLedger:
         detail: str = "",
     ) -> EvidenceRow:
         row = EvidenceRow(
-            ts=dt.datetime.now(dt.timezone.utc).isoformat(),
+            ts=dt.datetime.now(dt.UTC).isoformat(),
             date=date,
             state=state.value,
             model=model,
