@@ -5,6 +5,106 @@ actual after it finishes.
 
 ---
 
+## Z.1. Closure. 2026-08-25
+
+**Prompt logged before work began, as instructed.**
+
+> NPDExperiment, Stage Z.1. Closure. This stage writes records. It computes no
+> statistic, opens no sealed store, sends no API call, and changes no result.
+> The B.2 verdict stands exactly as fired. Nothing below reinterprets it.
+>
+> Task 1, the terminal state recorded as post-read. Task 2, the closure note and
+> its exact language. Task 3, the dormant observation. Task 4, what survives and
+> what does not. Task 5, deactivate and delete nothing. Task 6, document and
+> commit.
+
+Work follows below.
+
+### The closure language, as fixed
+
+**The numeric-LLM question is unresolved at achievable power. Two serious
+attempts have produced zero positives.**
+
+The 2026-07-27 council measurement was a properly powered negative on direction:
+274 scorable calls across 80 independent clusters, five axes, nothing
+demonstrated on any.
+
+The 2026-08-25 replication reformulated the task as cross-sectional ranking with
+anonymized features, a frontier model chosen by knowledge cutoff, and a
+three-baseline battery. It returned a model mean daily rank IC of plus 0.0061
+with an interval spanning zero, below the best baseline `mom_12_1` at plus
+0.0222, primary contrast minus 0.0161, permutation p 0.5174.
+
+**The replication is an underpowered unresolved, not a tight null.** The realized
+minimum detectable contrast was 0.0512, above the entire realistic effect band of
+0.01 to 0.05, so the design could not have detected an effect anywhere in the
+range the literature reports. The cause is recorded: realized daily contrast
+standard deviation of 0.36339 against a registered assumption of at most 0.2626,
+driven by a strong negative correlation between model and momentum daily ICs that
+fell outside the range the registration contemplated. ADR-007 registered this
+failure mode as a risk before collection. It was not discovered afterwards.
+
+**The consequence.** The burden of proof now sits heavily on anyone claiming a
+numeric-LLM effect exists. The question is closed by operator decision, not by
+evidence.
+
+**What a powered version would cost.** Sizing against the measured 0.36339
+rather than the registered assumption requires roughly four times the evaluable
+days, landing near 1,700 trading days of post-cutoff window. No model has one.
+The window would have to accumulate from the calendar at about 21 trading days a
+month.
+
+### The terminal state
+
+Amendment 6 is recorded **POST-READ**. It was drafted before the B.2 evaluation
+ran and arrived after it, so it carries no pre-registration force and is
+preserved as a record of intent. The row-three verdict authorizes nothing, so it
+describes a destination never reached. Four gates sat between this experiment and
+that engine, and **the first was never authorized**.
+
+Amendment 7 is **void**. Scoring spent data against new horizons is a second look
+however it is labelled.
+
+### The dormant observation
+
+The model daily rank IC and the momentum daily rank IC were strongly negatively
+correlated. The model was not producing noise around momentum. It was leaning
+systematically against it. **This is not a finding.** It may only be promoted by
+a future test that names it in advance.
+
+### Layer accounting
+
+L1 RiskGate survived every audit and remains in service. L2 the council is what
+this experiment addressed, twice, with no positive. L3 DNN advisory and L4 whale
+tracking were each measured to nothing independently. **This closure ends the
+last attempt to revive L2. It says nothing about L1.**
+
+The running AiTrader news-drift experiment is untouched and unaffected. It tests
+text, not numbers. **Its verdict remains due at 60 clusters.**
+
+### Deactivation
+
+This repository never installed a systemd unit, a timer, or a cron entry.
+Verified at closure: no user or system units match, no timers, no crontab
+entries, no unit files anywhere reference this repository, and no process is
+running. Nothing needed disabling and nothing was deleted.
+
+Every file, ledger, report, and stored ranking stays in place. The 415 stored
+rankings, the evidence ledger, the spend ledger, and the frozen prompt digest
+`7e6f3d6801506bd7...` are the artifacts that make the result auditable.
+
+**Correction carried into the record.** The closing instruction named
+`9a174e0155fadfbf...` as the frozen digest. That is the superseded
+pre-Amendment-4 template, and it produced zero of the 415 stored rankings. The
+digest in force is `7e6f3d6801506bd7...`.
+
+### Outstanding operator actions, outside the repository
+
+- Revoke or retain the OpenAI key at the operator discretion.
+- Measured spend 6.9378 USD against the 10.00 USD cap, 3.0622 USD unspent.
+
+---
+
 ## B.2. The one-shot evaluation. 2026-08-25
 
 **ETA stated before start: 55 minutes. Actual: 41 minutes.**

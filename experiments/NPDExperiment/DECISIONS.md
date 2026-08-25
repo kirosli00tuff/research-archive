@@ -227,3 +227,63 @@ not evidence of absence at those magnitudes.
 This is the failure mode the council era kept producing and that ADR-007
 registered in advance as a known risk. It was registered as a risk, it
 materialized, and it is reported as such rather than discovered later.
+
+## ADR-012. Label Amendment 6 POST-READ in its first line
+
+**Status.** Accepted, 2026-08-25, at Z.1.
+
+**Context.** Amendment 6 was drafted before the B.2 evaluation ran and arrived
+after it. Every other amendment in this registration was raised and recorded
+before the sealed store was opened.
+
+**Decision.** Amendment 6 carries POST-READ in its first line, states that it has
+no pre-registration force, and is preserved as a record of intent rather than as
+a binding clause.
+
+**Consequence.** A reader scanning the amendment list sees the ordering without
+reading the body. The alternative, filing it as an ordinary amendment, would
+have implied it constrained an evaluation that had already fired. That
+misrepresentation would be worse than omitting it, because the ordering is the
+one property this project spent five stages protecting.
+
+## ADR-013. Void Amendment 7 rather than apply it
+
+**Status.** Accepted, 2026-08-25, at Z.1.
+
+**Context.** Amendment 7 would have added 10-session and 20-session horizons as
+descriptive secondaries. It was drafted in the same batch as Amendment 6 and
+arrived after the read.
+
+**Decision.** Void. Not applied.
+
+**Consequence.** Scoring spent data against new horizons is a second look
+however it is labelled, and calling the output descriptive does not change what
+it is. The decay curve is not recoverable from data already spent. Obtaining it
+requires a fresh collection on a fresh window under a new registration, at
+roughly seven USD.
+
+The cost of this decision is a curve the operator wanted and will not get from
+this data. That cost is paid on purpose.
+
+## ADR-014. Record the model-against-momentum correlation as dormant
+
+**Status.** Accepted, 2026-08-25, at Z.1.
+
+**Context.** The realized daily contrast standard deviation of 0.36339 sits at 98
+percent of the theoretical maximum reached only at correlation minus one. The
+model daily rank IC and the momentum daily rank IC were strongly negatively
+correlated across the window. The model was not producing noise around momentum.
+It was leaning systematically against it.
+
+**Decision.** Record it as a dormant named observation, in the shape AiTrader
+used for the `consolidat` rationale cell. State the observation, state its
+measured basis, state that it is not a finding, and state that it may only be
+promoted by a future test that names it in advance.
+
+**Consequence.** The observation is the most interesting thing in the window and
+it is exactly the kind of thing that becomes a finding by being retold. No
+registered test asks about it. It surfaced as a power diagnostic while explaining
+why the realized interval was wider than projected, and it is fixed in that role.
+
+Naming it now is what makes a future pre-registered test possible. Claiming it
+now is what would make that test worthless.

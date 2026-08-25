@@ -620,3 +620,171 @@ answer`, and the evidence row carries the tokens and the rejected text. The
 undercounted 0.2936 USD from the superseded attempts is not recoverable, because
 the usage was discarded before it was seen. It is stated here instead, and the
 superseded ledger rows stay exactly as they were written.
+
+### Amendment 6. POST-READ. The terminal state, recorded as intent and not as registration
+
+**POST-READ. Drafted before the B.2 evaluation ran. Arrived after it.**
+
+This amendment carries **no pre-registration force**. It was written before the
+sealed store was opened and it reached the registration after the verdict had
+already fired. Recording it without that fact would misrepresent the ordering the
+entire project depends on, so the ordering is stated first and in the first line.
+
+It is preserved as **a record of intent, not as a binding clause**. The row-three
+verdict authorizes nothing, so this amendment describes a destination that was
+never reached.
+
+**The destination as drafted.** The intended end state on a sustained positive
+was a single automated equities sleeve:
+
+- L1 RiskGate unchanged
+- one measured LLM signal in place of the council
+- the latching kill switch as the sole interface to itself
+- the order gate with refusals demonstrated by producing them
+- the spend ledger
+- account pinning
+- the claim boundary that live P and L never feeds a verdict
+
+**Between this experiment and that engine sat four gates, each requiring its own
+registration:**
+
+| gate | what it required |
+|---|---|
+| C.1 provider replication | the frontier trio, each on its own post-cutoff window |
+| cost survival | the registered turnover against the measured 15.8 to 50.0 bp consolidated-tape spread band |
+| forward shadow series | because post-cutoff days are still historical days |
+| broker access | under the reopening conditions recorded in HFExperiment |
+
+**The first gate was never authorized.** B.2 fired row three. Nothing downstream
+of it was reached, and nothing downstream of it is claimed.
+
+### Amendment 7. VOID
+
+**Drafted in the same batch as Amendment 6. Arrived after the read. Void.**
+
+Amendment 7 would have added 10-session and 20-session horizons as descriptive
+secondaries.
+
+**It is void and it is not applied.** Scoring spent data against new horizons is
+a second look however it is labelled. The registration fixes a single evaluation
+of the sealed window, and that evaluation has run.
+
+Recovering the decay curve would require **a fresh collection on a fresh window
+under a new registration**, at roughly seven USD. It is not recoverable from the
+data already spent, and no amount of labelling makes it so.
+
+---
+
+## Closure. 2026-08-25
+
+**The numeric-LLM question is unresolved at achievable power. Two serious
+attempts have produced zero positives.**
+
+The 2026-07-27 council measurement was a properly powered negative on direction:
+274 scorable calls across 80 independent clusters, five axes, nothing
+demonstrated on any.
+
+The 2026-08-25 replication reformulated the task as cross-sectional ranking with
+anonymized features, a frontier model chosen by knowledge cutoff, and a
+three-baseline battery. It returned a model mean daily rank IC of **plus
+0.0061** with an interval spanning zero, below the best baseline `mom_12_1` at
+**plus 0.0222**, primary contrast **minus 0.0161**, permutation p **0.5174**.
+
+### The replication is an underpowered unresolved, not a tight null
+
+The realized minimum detectable contrast was **0.0512**, above the entire
+realistic effect band of 0.01 to 0.05. **The design could not have detected an
+effect anywhere in the range the literature reports.**
+
+The cause is recorded. The realized daily contrast standard deviation came in at
+**0.36339** against a registered assumption of at most **0.2626**, driven by a
+strong negative correlation between the model and momentum daily ICs that fell
+outside the range the registration contemplated.
+
+**ADR-007 registered this failure mode as a risk before collection. It was not
+discovered afterwards.**
+
+### The consequence
+
+**The burden of proof now sits heavily on anyone claiming a numeric-LLM effect
+exists.** The question is closed **by operator decision, not by evidence**.
+
+### What a powered version would cost
+
+Recorded here so a future reader does not have to re-derive it.
+
+Sizing against the measured 0.36339 rather than the registered assumption
+requires roughly **four times the evaluable days**, landing near **1,700 trading
+days** of post-cutoff window.
+
+**No model has one.** The window would have to accumulate from the calendar at
+about 21 trading days a month.
+
+### Dormant observation. The model leaned against momentum
+
+Recorded in the shape AiTrader used for the `consolidat` rationale cell.
+
+**The observation.** Across the evaluable window the model daily rank IC and the
+momentum daily rank IC were strongly negatively correlated. The model was not
+producing noise around momentum. It was leaning systematically against it.
+
+**The measured basis.** The realized daily contrast standard deviation of
+0.36339 sits at 98 percent of the theoretical maximum of 0.3714, which is
+reached only at correlation minus one. The registered grid contemplated
+correlations from 0.0 to 0.7 and produced a maximum contrast standard deviation
+of 0.2626.
+
+**This is not a finding.** No registered test asks about the correlation between
+the model and a baseline. It surfaced as a power diagnostic while explaining why
+the realized interval was wider than projected.
+
+**It may only be promoted by a future test that names it in advance.** Nothing
+further is claimed.
+
+### Layer accounting
+
+The closure will otherwise be read as larger than it is. AiTrader original
+four-level vision failed layer by layer rather than as a whole.
+
+| layer | status |
+|---|---|
+| L1 RiskGate | **survived every audit and remains in service** |
+| L2 the council | what this experiment addressed, twice, with no positive |
+| L3 DNN advisory | measured to nothing independently |
+| L4 whale tracking | measured to nothing independently |
+
+**This closure ends the last attempt to revive L2. It says nothing about L1.**
+
+### The news-drift experiment is untouched
+
+The running AiTrader news-drift experiment is **untouched and unaffected**. It
+tests text, not numbers, which is the distinction the literature draws and the
+reason it was built. **Its verdict remains due at 60 clusters.**
+
+### Artifacts preserved
+
+Nothing is deleted. The artifacts that make the result auditable stay in place
+and a future replication would start from them:
+
+| artifact | count or value |
+|---|---|
+| stored rankings | 415 days |
+| evidence ledger | every attempt, with the raw response verbatim |
+| spend ledger | every billed call |
+| sealed forward returns | unchanged, read once |
+| **frozen prompt digest in force** | `7e6f3d6801506bd7b158d7937b8fc3bae82c8fffac6770acaeb924bc4391c7fb` |
+
+**Correction to the closing instruction.** The closing instruction named
+`9a174e0155fadfbf...` as the frozen prompt digest. That is the **superseded**
+pre-Amendment-4 template. It produced the two calibration calls and the 26
+superseded attempts, and **zero** of the 415 stored rankings. Every stored
+ranking carries `7e6f3d6801506bd7...`, which Amendment 4 re-froze and which
+supersession keys on. A future replication starting from the superseded digest
+would replay a different experiment, so the correct digest is recorded here.
+
+### Outstanding operator actions, outside the repository
+
+- **The OpenAI key.** Revoke or retain at the operator discretion. This
+  repository never printed, logged, or committed it.
+- **Spend.** Measured at **6.9378 USD** against the **10.00 USD** cap. 3.0622 USD
+  unspent.
