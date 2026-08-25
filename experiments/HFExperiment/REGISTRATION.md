@@ -302,3 +302,14 @@ totalQuantity across two book names and two order types, error 10244
 on cashQty, while a whole-share control order was accepted, evidence
 in reports/stage_a1b. Per Section 0 phases C and D stop and phase B
 proceeds unchanged. No parameter changes.
+
+### 2026-08-26: Closure
+
+Experiment closed by operator decision, instruction dated 2026-08-26.
+The live track was never funded and zero capital was deployed. The
+shadow series was disarmed before its first accrual:
+hfexperiment-bars.timer stopped and disabled via systemctl --user,
+verified that no HFExperiment unit remains scheduled. The verdict was
+never computed. Closure is terminal. The repository is preserved as
+record. Data existing at this entry: everything recorded above, and
+zero shadow observations, because the series never started.

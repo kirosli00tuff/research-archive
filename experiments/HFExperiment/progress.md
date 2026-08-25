@@ -2,6 +2,24 @@
 
 Append-only. One dated entry per stage, newest at top.
 
+## 2026-08-26: Closure
+
+Closed. Experiment closed by operator decision, instruction dated
+2026-08-26. The live track was never funded, zero capital was
+deployed, and the closure is terminal. The repository is preserved as
+the record.
+
+Disarmed. hfexperiment-bars.timer stopped and disabled via systemctl
+--user before its first accrual, verified that no HFExperiment unit
+remains scheduled. The shadow series never produced an observation and
+the verdict was never computed.
+
+End state. Stages A.1 through C.1 complete and green. A.1b verdict
+BLOCKED. B.2 registered and unrun. B.1a cancelled as moot: no
+formation will ever call the assets endpoint. Recorded in the
+REGISTRATION.md amendment log as a dated closure entry. Nothing
+deleted.
+
 ## 2026-08-25: Stage A.1b
 
 ETA stated before starting: 60 minutes. Actual: 35 minutes.
