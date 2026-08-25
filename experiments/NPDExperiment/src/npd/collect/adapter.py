@@ -96,9 +96,14 @@ class OpenAIAdapter:
 
     name = "openai"
 
-    def __init__(self, cfg: Config = CONFIG, *, send_temperature: bool = True) -> None:
+    def __init__(self, cfg: Config = CONFIG, *, send_temperature: bool | None = None) -> None:
         self._cfg = cfg
-        self._send_temperature = send_temperature
+        # Amendment 1. gpt-5-2025-08-07 rejects any temperature other than its
+        # default, so the registered value is not sent. Determinism now rests on
+        # the seeded panel draw and the frozen prompt.
+        self._send_temperature = (
+            cfg.send_temperature if send_temperature is None else send_temperature
+        )
         key = os.environ.get("OPENAI_API_KEY", "").strip()
         if not key:
             raise AuthFault("OPENAI_API_KEY is not set")

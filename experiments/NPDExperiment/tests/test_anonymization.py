@@ -97,3 +97,34 @@ def test_the_prompt_carries_no_date_and_no_absolute_price() -> None:
 def test_the_template_digest_is_stable() -> None:
     assert template_digest() == template_digest()
     assert len(template_digest()) == 64
+
+
+TWO_LETTER_TICKERS = ["KO", "GE", "HD", "MA", "MU", "ON", "RF", "SQ", "ZS", "PG"]
+
+
+def test_no_label_collides_with_any_symbol_in_the_same_panel() -> None:
+    """Two-letter codes are also real tickers.
+
+    KO is Coca-Cola, GE is General Electric, MA is Mastercard. A label drawn at
+    random can equal a ticker standing in the same panel, which puts that ticker
+    in front of the model. The panel symbols are struck from the label pool
+    before any label is drawn, and this test is what caught the collision on 52
+    of the 432 window days before a single call went out.
+    """
+    symbols = TWO_LETTER_TICKERS + [f"X{i:02d}" for i in range(CONFIG.panel_size - 10)]
+    for _ in range(200):
+        anon = build_mapping(list(symbols), new_nonce())
+        collisions = set(anon.label_to_symbol) & {s.upper() for s in symbols}
+        assert not collisions, f"a label equals a panel ticker: {sorted(collisions)}"
+
+
+def test_a_panel_of_two_letter_tickers_still_renders_cleanly() -> None:
+    symbols = TWO_LETTER_TICKERS + [f"X{i:02d}" for i in range(CONFIG.panel_size - 10)]
+    anon = build_mapping(list(symbols), new_nonce())
+    labels = list(anon.presentation_order)
+    z_by_label = {
+        lab: dict.fromkeys(CONFIG.feature_names, (i - 15) / 10.0) for i, lab in enumerate(labels)
+    }
+    prompt = build(labels, z_by_label)
+    leaked = [t for t in TWO_LETTER_TICKERS if re.search(rf"\b{re.escape(t)}\b", prompt.user)]
+    assert not leaked, f"tickers reached the prompt: {leaked}"

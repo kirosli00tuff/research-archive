@@ -65,6 +65,7 @@ post-cutoff windows.
 | list price | 1.25 USD per million input, 0.125 USD per million cached input, 10.00 USD per million output | same page |
 | temperature | 0 where the endpoint accepts it. See Section 12.1. | |
 | output format | JSON | |
+| reasoning effort | **minimal**, set by the Section 12.2 decision rule. See Amendment 2. | |
 
 Prior chat estimates of a 2024-05-31 cutoff and a 515 day window were
 **unverified and are wrong**. They are not carried into this registration.
@@ -429,5 +430,60 @@ rationale-emitting variant is ever registered.** Continuity recorded.
 
 ## Section 17. Amendments
 
-None yet. Amendment 0 is reserved in Section 13 and is empty.
+Amendment 0 is reserved in Section 13 and is empty. It blocks B.2.
 
+### Amendment 1. Temperature is omitted, because the endpoint rejects it
+
+**Raised 2026-08-25 by the Section 12.2 calibration call, before B.1 started.**
+
+Section 2 registered temperature 0. The endpoint refused it verbatim:
+
+    Unsupported value: 'temperature' does not support 0.0 with this model.
+    Only the default (1) value is supported.
+
+The call was retried without the parameter and succeeded, which is the behaviour
+Section 12.2 registered in advance for exactly this case.
+
+**Effect.** `temperature` is not sent. `send_temperature` is false in the frozen
+config and the adapter reads it. Determinism now rests on the seeded panel draw
+and the frozen prompt, which is where it already rested for everything except
+the model own sampling. The model output is not deterministic and the
+registration no longer claims it is.
+
+### Amendment 2. reasoning_effort is minimal, set by the registered decision rule
+
+**Raised 2026-08-25 by the Section 12.2 calibration call, before B.1 started.**
+
+Section 12.1 estimated 1,000 reasoning tokens per call and 0.01350 USD. The
+measurement disagreed.
+
+| reasoning_effort | input | output | of which reasoning | cost per call | projected over 432 days |
+|---|---|---|---|---|---|
+| `low` | 1,753 | 2,508 | 2,432 | 0.027271 USD | **11.7812 USD** |
+| `minimal` | 1,753 | 106 | 0 | 0.003251 USD | **1.4045 USD** |
+
+The safety budget is 80 percent of the remaining cap, 7.9756 USD. `low` projects
+11.7812 USD and fails it. `minimal` projects 1.4045 USD and clears it.
+
+The registered rule reads: reasoning_effort takes the highest value in the
+ordered set (`low`, `minimal`) whose calibrated projected total spend is at most
+80 percent of the remaining cap. **The rule selects `minimal`.**
+
+**The limitation this creates, stated plainly.** The gate runs the model with no
+reasoning budget. A null result is a null for gpt-5-2025-08-07 **at minimal
+reasoning effort**, not for the model at its best. Every sentence written about
+the outcome carries that qualifier.
+
+**The road not taken, and why.** A `low` effort run over 365 of the 432 days
+would have fit the remaining cap and would still have cleared the registered
+power floor, at a minimum detectable IC of 0.0194 against a floor of 0.025.
+That option was **not** taken. Choosing it would mean changing the design after
+seeing cost data, and picking which 67 days to drop after the fact. The rule was
+registered before the measurement, so the rule governs. The `low` effort variant
+over a shortened window is recorded here as a natural candidate for a future
+registered variant, where it can be named in advance rather than chosen in
+hindsight.
+
+**Both calibration calls are in the spend ledger** under kind `calibration`,
+keyed to the sentinel date `calibration`, excluded from the sample, and costing
+0.030522 USD together.

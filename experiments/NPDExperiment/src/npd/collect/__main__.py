@@ -66,6 +66,9 @@ def cmd_mock(which: str) -> int:
 
 def cmd_live() -> int:
     from npd.collect.adapter import OpenAIAdapter
+    from npd.env import load_env
+
+    load_env()
     from npd.collect.collector import collect
 
     dates = window_dates()

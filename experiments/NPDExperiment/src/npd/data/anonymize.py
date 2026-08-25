@@ -49,7 +49,13 @@ def build(symbols: list[str], nonce: str) -> Anonymization:
     """
     if not symbols:
         raise ValueError("cannot anonymize an empty panel")
-    pool = _all_labels()
+    # Two-letter codes collide with real tickers. KO is Coca-Cola, GE is General
+    # Electric, HD is Home Depot. A label that equals a symbol standing in the
+    # same panel puts that ticker in front of the model, which is the one thing
+    # anonymization exists to prevent. The panel symbols are struck from the pool
+    # before any label is drawn.
+    taken = {s.strip().upper() for s in symbols}
+    pool = [lab for lab in _all_labels() if lab not in taken]
     if len(symbols) > len(pool):
         raise ValueError(f"{len(symbols)} symbols exceed the {len(pool)} available labels")
 

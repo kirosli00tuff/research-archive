@@ -1,6 +1,6 @@
 # Stage B.0b. Mock run evidence
 
-Generated 2026-08-25T16:56:09.339408+00:00.
+Generated 2026-08-25T17:08:37.299405+00:00.
 
 Gate model `gpt-5-2025-08-07`.
 
@@ -48,8 +48,8 @@ Result: **PASS**
 ## model_failed
 
 - `forced_dates`: ['2024-11-14', '2024-11-15', '2024-11-18', '2024-11-19']
-- `attempts_per_forced_date`: {'2024-11-14': 5, '2024-11-15': 5, '2024-11-19': 5, '2024-11-18': 5}
-- `final_state_per_forced_date`: {'2024-11-14': 'model_failed', '2024-11-15': 'model_failed', '2024-11-19': 'model_failed', '2024-11-18': 'model_failed'}
+- `attempts_per_forced_date`: {'2024-11-19': 5, '2024-11-14': 5, '2024-11-15': 5, '2024-11-18': 5}
+- `final_state_per_forced_date`: {'2024-11-19': 'model_failed', '2024-11-14': 'model_failed', '2024-11-15': 'model_failed', '2024-11-18': 'model_failed'}
 - `counts`: {'stored': 428, 'no_data': 0, 'model_failed': 4, 'excluded_pre_cutoff': 0, 'source_failed': 0}
 
 Result: **PASS**

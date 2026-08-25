@@ -40,6 +40,7 @@ class Config:
 
     # --- model call --------------------------------------------------------
     temperature: float
+    send_temperature: bool
     max_output_tokens: int
     reasoning_effort: str
     request_timeout_seconds: float
@@ -94,8 +95,9 @@ CONFIG: Final = Config(
         "vtrend_5_60",
     ),
     temperature=0.0,
+    send_temperature=False,  # Amendment 1. The endpoint rejects it for this model.
     max_output_tokens=4096,
-    reasoning_effort="low",
+    reasoning_effort="minimal",  # Amendment 2. Set by the registered decision rule.
     request_timeout_seconds=180.0,
     max_retries=5,
     backoff_base_seconds=2.0,
