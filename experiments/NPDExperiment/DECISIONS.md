@@ -181,3 +181,49 @@ the panel is recorded as `no_data` and no short panel is ever sent.
 checked before the seeded draw, so the panel is always the registered size or
 the day is absent. Across the 432 window days the eligible pool filled the panel
 every time, so no day was lost to this rule.
+
+## ADR-010. Designate the best baseline after the fact, and say why that is conservative
+
+**Status.** Accepted, 2026-08-25, at B.2.
+
+**Context.** The registration names three baselines and defines the primary
+contrast against "the best baseline". It does not say which of the three that
+is, because which one wins cannot be known before the window is scored.
+
+**Decision.** The best baseline is the one with the highest mean daily rank IC
+inside the evaluable window, designated after the fact. In this window that is
+`mom_12_1` at plus 0.0222, against `logistic` at minus 0.0058 and `sign_last`
+at minus 0.0255.
+
+**Consequence.** Choosing after the fact is **conservative in this direction and
+only this direction.** It picks the hardest of the three for the model to clear,
+so it raises the bar rather than lowering it. The opposite move, picking the
+weakest baseline after seeing the model score, would be the abuse. A reader
+checking this can confirm it from the per-baseline table: the model would have
+looked better against either of the other two.
+
+The choice cannot flatter the model, so it needs no correction and no
+alternative specification.
+
+## ADR-011. Read the realized power before reading the null
+
+**Status.** Accepted, 2026-08-25, at B.2.
+
+**Context.** The registration projected a minimum detectable contrast of 0.026
+to 0.047 across a grid of assumed correlations between the model and the
+baseline, from 0.0 to 0.7. The realized minimum detectable contrast came in at
+0.0512, outside and above that projection.
+
+**Decision.** Report the realized number beside the projection and state which
+kind of null the result is, before any reader reaches the verdict row.
+
+**Consequence.** The verdict row fires as registered. The descriptive reading
+beside it is that this is an **underpowered unresolved rather than a tight
+null**, because the realized detectable contrast of 0.0512 sits above the entire
+realistic effect band of 0.01 to 0.05. The design could not have detected an
+effect anywhere in the band the literature reports, so the null it returned is
+not evidence of absence at those magnitudes.
+
+This is the failure mode the council era kept producing and that ADR-007
+registered in advance as a known risk. It was registered as a risk, it
+materialized, and it is reported as such rather than discovered later.

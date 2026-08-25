@@ -47,6 +47,7 @@ ignore = ["E501", "N818"]
 "src/npd/collect/__main__.py" = ["T20"]
 "src/npd/data/build.py" = ["T20"]
 "scripts/*" = ["T20"]
+"src/npd/eval/__main__.py" = ["T20"]
 
 [tool.mypy]
 python_version = "3.11"

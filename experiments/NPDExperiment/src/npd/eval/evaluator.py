@@ -35,15 +35,39 @@ class LeakageDetected(RuntimeError):
     """The negative control did not collapse. Everything stops."""
 
 
-def amendment_zero_filled(path: Path = REGISTRATION) -> bool:
-    """Whether the operator has written his prior into Section 13."""
+def amendment_zero_section(path: Path = REGISTRATION) -> str | None:
+    """The text of Section 13, or None when it cannot be found."""
     if not path.exists():
-        return False
+        return None
     text = path.read_text(encoding="utf-8")
     match = re.search(r"## Section 13\.(.*?)(?=\n## Section 14\.)", text, re.S)
+    return None if match is None else match.group(1)
+
+
+def amendment_zero_prior(path: Path = REGISTRATION) -> float | None:
+    """The recorded operator prior as a probability, or None when absent.
+
+    The slot has to hold a number in [0, 1], not merely lack the empty marker.
+    A section that says a prior was recorded without recording one is empty in
+    every sense that matters here.
+    """
+    section = amendment_zero_section(path)
+    if section is None or AMENDMENT_0_EMPTY_MARKER in section:
+        return None
+    match = re.search(
+        r"probability that a rigorous version.*?\n>\s*\n>\s+([01](?:\.\d+)?)",
+        section,
+        re.S,
+    )
     if match is None:
-        return False
-    return AMENDMENT_0_EMPTY_MARKER not in match.group(1)
+        return None
+    value = float(match.group(1))
+    return value if 0.0 <= value <= 1.0 else None
+
+
+def amendment_zero_filled(path: Path = REGISTRATION) -> bool:
+    """Whether the operator has written a usable prior into Section 13."""
+    return amendment_zero_prior(path) is not None
 
 
 def require_amendment_zero(path: Path = REGISTRATION) -> None:
@@ -271,3 +295,428 @@ def assert_control_collapsed(verdict: Verdict, tolerance: float = 0.02) -> None:
             f"the within-day shuffle control read {verdict.negative_control_mean_ic:+.4f}, "
             f"outside the {tolerance} tolerance. Everything stops."
         )
+
+
+# ---------------------------------------------------------------------------
+# Stage B.2. The one-shot evaluation.
+#
+# Everything below runs once. The sealed store is opened here and nowhere else,
+# and the order of operations is fixed by the registration: Amendment 0 first,
+# the pipeline validity gate second, and the primary contrast only after the
+# gate passes.
+# ---------------------------------------------------------------------------
+
+
+def daily_ic_from_ranks(realized_in_predicted_order: Sequence[float]) -> float:
+    """Rank IC for one day, given realized ranks already aligned to the ranking.
+
+    The predicted ranks are 1..n by construction, because the argument is
+    ordered best-predicted first. Equivalent to daily_ic and asserted against it
+    on real data before use, so the demonstrated scorer stays authoritative.
+    """
+    n = len(realized_in_predicted_order)
+    if n < 3:
+        raise ValueError("rank IC needs at least three names")
+    predicted = [float(i + 1) for i in range(n)]
+    return spearman(predicted, list(realized_in_predicted_order))
+
+
+def realized_rank_row(order: Sequence[str], returns: dict[str, float]) -> list[float] | None:
+    """Realized ranks aligned to a predicted order, or None when incomplete.
+
+    A day is evaluable only when every name in its panel carries a realized
+    return. A partial panel would change the null variance of the daily IC from
+    one day to the next and would put the model and the baselines on different
+    names. The absence is recorded and the day is dropped, never filled.
+    """
+    if any(sym not in returns for sym in order):
+        return None
+    real = _outcome_ranks(list(order), returns)
+    return [real[sym] for sym in order]
+
+
+def _mean(values: Sequence[float]) -> float:
+    return sum(values) / len(values)
+
+
+def _percentile(sorted_values: Sequence[float], q: float) -> float:
+    idx = min(len(sorted_values) - 1, max(0, round(q * (len(sorted_values) - 1))))
+    return sorted_values[idx]
+
+
+@dataclass(frozen=True, slots=True)
+class NullDistribution:
+    """The within-day permutation null of the mean daily rank IC."""
+
+    draws: int
+    grand_mean: float
+    sd: float
+    monte_carlo_se: float
+    p2_5: float
+    p97_5: float
+    means: tuple[float, ...]
+
+    @property
+    def mc_low(self) -> float:
+        return self.grand_mean - 1.96 * self.monte_carlo_se
+
+    @property
+    def mc_high(self) -> float:
+        return self.grand_mean + 1.96 * self.monte_carlo_se
+
+
+def within_day_null(rows: Sequence[Sequence[float]], *, draws: int, seed: int) -> NullDistribution:
+    """Shuffle each day ranking independently and take the mean daily IC.
+
+    Vectorized because the registration asks for 10,000 draws over hundreds of
+    days. The formula is the tie-free Spearman identity, and
+    assert_scorer_agreement pins it against the demonstrated scorer before this
+    runs.
+    """
+    import numpy as np
+
+    rng = np.random.default_rng(seed)
+    y = np.asarray(rows, dtype=float)
+    n_days, n = y.shape
+    predicted = np.arange(1, n + 1, dtype=float)
+    denom = n * (n * n - 1)
+
+    means = np.empty(draws, dtype=float)
+    for i in range(draws):
+        idx = np.argsort(rng.random((n_days, n)), axis=1)
+        shuffled = np.take_along_axis(y, idx, axis=1)
+        d = shuffled - predicted
+        rho = 1.0 - 6.0 * np.sum(d * d, axis=1) / denom
+        means[i] = float(rho.mean())
+
+    ordered = sorted(means.tolist())
+    grand = float(means.mean())
+    sd = float(means.std(ddof=1))
+    return NullDistribution(
+        draws=draws,
+        grand_mean=grand,
+        sd=sd,
+        monte_carlo_se=sd / math.sqrt(draws),
+        p2_5=_percentile(ordered, 0.025),
+        p97_5=_percentile(ordered, 0.975),
+        means=tuple(means.tolist()),
+    )
+
+
+def assert_scorer_agreement(
+    orders: dict[str, list[str]],
+    rows: dict[str, list[float]],
+    returns_by_day: dict[str, dict[str, float]],
+) -> None:
+    """The fast path must agree with the demonstrated scorer, exactly.
+
+    B.0 proved daily_ic correct on synthetic data and caught an inverted sign
+    doing it. This session inherits that demonstration rather than repeating it,
+    so the vectorized path is checked against daily_ic instead of trusted.
+    """
+    for date, row in rows.items():
+        a = daily_ic(orders[date], returns_by_day[date])
+        b = daily_ic_from_ranks(row)
+        if abs(a - b) > 1e-9:
+            raise RuntimeError(
+                f"the fast scorer disagrees with daily_ic on {date}: {a} against {b}"
+            )
+
+
+@dataclass(slots=True)
+class HorizonResult:
+    """Everything computed for one horizon. Primary or secondary, labelled."""
+
+    horizon: int
+    label: str
+    n_days: int
+    n_dropped_incomplete: int
+    model_mean_ic: float
+    model_interval: Interval
+    baseline_mean_ic: dict[str, float]
+    best_baseline: str
+    contrast_point: float
+    contrast_interval: Interval
+    contrast_sd_daily: float
+    bootstrap_se: float
+    realized_mde: float
+    effective_n: float
+    beats_coin: bool
+    beats_best_baseline: bool
+
+
+def load_rankings(store_path: Path) -> tuple[dict[str, list[str]], dict[str, dict[str, list[str]]]]:
+    """Model and baseline orders from the experiment own store.
+
+    This store holds no outcome. It is not the sealed store and reading it is
+    not the one read.
+    """
+    con = sqlite3.connect(f"file:{store_path}?mode=ro", uri=True)
+    try:
+        model: dict[str, list[str]] = {}
+        for date, _rank, symbol in con.execute(
+            "SELECT date, rank, symbol FROM model_ranking ORDER BY date, rank"
+        ):
+            model.setdefault(str(date), []).append(str(symbol))
+        baselines: dict[str, dict[str, list[str]]] = {}
+        for name, date, _rank, symbol in con.execute(
+            "SELECT baseline, date, rank, symbol FROM baseline_ranking ORDER BY baseline, date, rank"
+        ):
+            baselines.setdefault(str(name), {}).setdefault(str(date), []).append(str(symbol))
+        return model, baselines
+    finally:
+        con.close()
+
+
+def evaluate_horizon(
+    horizon: int,
+    label: str,
+    model_orders: dict[str, list[str]],
+    baseline_orders: dict[str, dict[str, list[str]]],
+    returns_by_day: dict[str, dict[str, float]],
+    cfg: Config,
+    *,
+    seed: int,
+) -> HorizonResult:
+    """One horizon, computed identically to every other."""
+    candidate_days = sorted(d for d in model_orders if d in returns_by_day)
+    days: list[str] = []
+    dropped = 0
+    for d in candidate_days:
+        if realized_rank_row(model_orders[d], returns_by_day[d]) is None:
+            dropped += 1
+            continue
+        if any(d not in baseline_orders.get(n, {}) for n in BASELINE_NAMES):
+            dropped += 1
+            continue
+        days.append(d)
+    if not days:
+        raise ValueError(f"no evaluable days at horizon {horizon}")
+
+    model_ics = [daily_ic(model_orders[d], returns_by_day[d]) for d in days]
+    baseline_ics = {
+        n: [daily_ic(baseline_orders[n][d], returns_by_day[d]) for d in days]
+        for n in BASELINE_NAMES
+    }
+    baseline_mean = {n: _mean(v) for n, v in baseline_ics.items()}
+
+    # Best baseline chosen after the fact, which raises the bar the model must
+    # clear rather than lowering it. ADR-010 records the conservatism.
+    best = max(baseline_mean, key=lambda k: baseline_mean[k])
+    contrast_series = [m - b for m, b in zip(model_ics, baseline_ics[best], strict=True)]
+
+    block = 2 * cfg.primary_horizon_sessions
+    contrast_iv = block_bootstrap_interval(
+        contrast_series,
+        resamples=cfg.bootstrap_resamples,
+        block_length=block,
+        t_critical=cfg.t_critical,
+        seed=seed,
+    )
+    model_iv = block_bootstrap_interval(
+        model_ics,
+        resamples=cfg.bootstrap_resamples,
+        block_length=block,
+        t_critical=cfg.t_critical,
+        seed=seed + 1,
+    )
+
+    se = (contrast_iv.high - contrast_iv.point) / cfg.t_critical
+    mean_c = _mean(contrast_series)
+    sd_daily = math.sqrt(
+        sum((x - mean_c) ** 2 for x in contrast_series) / (len(contrast_series) - 1)
+    )
+    effective_n = (sd_daily / se) ** 2 if se > 0 else float("nan")
+
+    return HorizonResult(
+        horizon=horizon,
+        label=label,
+        n_days=len(days),
+        n_dropped_incomplete=dropped,
+        model_mean_ic=_mean(model_ics),
+        model_interval=model_iv,
+        baseline_mean_ic=baseline_mean,
+        best_baseline=best,
+        contrast_point=contrast_iv.point,
+        contrast_interval=contrast_iv,
+        contrast_sd_daily=sd_daily,
+        bootstrap_se=se,
+        realized_mde=cfg.t_critical * se,
+        effective_n=effective_n,
+        beats_coin=model_iv.low > 0.0,
+        beats_best_baseline=contrast_iv.low > 0.0,
+    )
+
+
+# The registered tolerance for the pipeline validity gate. A shuffled mean
+# outside this band means the scorer, the join, or the label mapping is wrong.
+CONTROL_TOLERANCE = 0.02
+
+
+@dataclass(slots=True)
+class B2Result:
+    amendment_zero_prior: float | None
+    gate_passed: bool
+    gate: NullDistribution | None
+    primary: HorizonResult | None
+    secondary: HorizonResult | None
+    permutation_null: NullDistribution | None
+    permutation_p: float
+    first_half_ic: float
+    second_half_ic: float
+    first_half_days: int
+    second_half_days: int
+    verdict_row: str
+    verdict_text: str
+    c1_authorized: bool
+    stopped_reason: str
+
+
+def run_b2(
+    *,
+    store_path: Path | None = None,
+    sealed_path: Path = SEALED_DB,
+    cfg: Config = CONFIG,
+    seed: int = 20260825,
+) -> B2Result:
+    """Stage B.2. Runs once.
+
+    Order is fixed by the registration. Amendment 0 is asserted first. The
+    pipeline validity gate runs second and gates everything after it. The
+    primary contrast is not computed at all unless the gate passes.
+    """
+    from npd.paths import STORE_DB
+
+    require_amendment_zero()
+    prior = amendment_zero_prior()
+
+    store = store_path or STORE_DB
+    model_orders, baseline_orders = load_rankings(store)
+
+    # The one read.
+    returns_5 = read_sealed_returns(cfg.primary_horizon_sessions, sealed_path)
+    returns_1 = read_sealed_returns(cfg.secondary_horizon_sessions, sealed_path)
+
+    def by_day(flat: dict[tuple[str, str], float]) -> dict[str, dict[str, float]]:
+        out: dict[str, dict[str, float]] = {}
+        for (d, s), v in flat.items():
+            out.setdefault(d, {})[s] = v
+        return out
+
+    r5 = by_day(returns_5)
+    r1 = by_day(returns_1)
+
+    # Rows for the primary horizon, used by the gate and the permutation null.
+    rows: dict[str, list[float]] = {}
+    for d in sorted(model_orders):
+        if d not in r5:
+            continue
+        row = realized_rank_row(model_orders[d], r5[d])
+        if row is not None:
+            rows[d] = row
+    if not rows:
+        raise ValueError("no evaluable days at the primary horizon")
+
+    assert_scorer_agreement(model_orders, rows, r5)
+
+    # ---- Task 2. The pipeline validity gate. -----------------------------
+    ordered_days = sorted(rows)
+    gate = within_day_null(
+        [rows[d] for d in ordered_days], draws=cfg.permutation_resamples, seed=seed
+    )
+    gate_passed = abs(gate.grand_mean) <= CONTROL_TOLERANCE
+    if not gate_passed:
+        return B2Result(
+            amendment_zero_prior=prior,
+            gate_passed=False,
+            gate=gate,
+            primary=None,
+            secondary=None,
+            permutation_null=None,
+            permutation_p=float("nan"),
+            first_half_ic=float("nan"),
+            second_half_ic=float("nan"),
+            first_half_days=0,
+            second_half_days=0,
+            verdict_row="",
+            verdict_text="",
+            c1_authorized=False,
+            stopped_reason=(
+                f"the shuffled mean read {gate.grand_mean:+.5f}, outside the "
+                f"{CONTROL_TOLERANCE} tolerance. The scorer, the join, or the label "
+                "mapping is wrong and every downstream number would be an artifact."
+            ),
+        )
+
+    # ---- Task 3. The primary contrast. -----------------------------------
+    primary = evaluate_horizon(
+        cfg.primary_horizon_sessions,
+        "primary",
+        model_orders,
+        baseline_orders,
+        r5,
+        cfg,
+        seed=seed + 10,
+    )
+
+    # ---- Task 4. The permutation null, drawn independently of the gate. ---
+    perm = within_day_null(
+        [rows[d] for d in ordered_days], draws=cfg.permutation_resamples, seed=seed + 20
+    )
+    observed = primary.model_mean_ic
+    hits = sum(1 for m in perm.means if abs(m) >= abs(observed))
+    permutation_p = (hits + 1) / (perm.draws + 1)
+
+    # ---- Task 5. Secondaries and descriptives. ---------------------------
+    secondary = evaluate_horizon(
+        cfg.secondary_horizon_sessions,
+        "secondary",
+        model_orders,
+        baseline_orders,
+        r1,
+        cfg,
+        seed=seed + 30,
+    )
+
+    half = len(ordered_days) // 2
+    first_days, second_days = ordered_days[:half], ordered_days[half:]
+    first_ic = _mean([daily_ic_from_ranks(rows[d]) for d in first_days])
+    second_ic = _mean([daily_ic_from_ranks(rows[d]) for d in second_days])
+
+    # ---- Task 6. Fire the verdict, once. ---------------------------------
+    if primary.beats_coin and primary.beats_best_baseline:
+        verdict_row = "beats coin and beats every baseline at the bar"
+        text = (
+            "conditional phase C.1 authorized on the frontier trio, each on its own "
+            "post-cutoff window, labelled a large-effect screen"
+        )
+        c1 = True
+    elif primary.beats_coin:
+        verdict_row = "beats coin, does not beat the baselines"
+        text = "an expensive wrapper for a subtraction. No phase. Finding recorded."
+        c1 = False
+    else:
+        verdict_row = "does not beat coin"
+        text = (
+            "the replication confirms the council negative under frontier capability "
+            "and sane formulation. Closed."
+        )
+        c1 = False
+
+    return B2Result(
+        amendment_zero_prior=prior,
+        gate_passed=True,
+        gate=gate,
+        primary=primary,
+        secondary=secondary,
+        permutation_null=perm,
+        permutation_p=permutation_p,
+        first_half_ic=first_ic,
+        second_half_ic=second_ic,
+        first_half_days=len(first_days),
+        second_half_days=len(second_days),
+        verdict_row=verdict_row,
+        verdict_text=text,
+        c1_authorized=c1,
+        stopped_reason="",
+    )

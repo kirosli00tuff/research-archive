@@ -104,6 +104,17 @@ def utc_now() -> str:''',
         ),
     ),
     Mutation(
+        name="6. let the evaluator run with Amendment 0 empty",
+        describes=(
+            "Bypass the refusal that keeps B.2 shut until the operator records his "
+            "prior. The refusal is the mechanism, not a reminder."
+        ),
+        target=ROOT / "src/npd/eval/evaluator.py",
+        find="    if not amendment_zero_filled(path):",
+        replace="    if False:  # mutation: the refusal is bypassed",
+        must_fail="tests/test_guards.py",
+    ),
+    Mutation(
         name="5. let a real ticker reach a prompt",
         describes="Label each row with its own symbol, defeating anonymization.",
         target=ROOT / "src/npd/data/anonymize.py",
@@ -177,7 +188,7 @@ def main() -> int:
 
     every = all(r["guard_failed_as_required"] and r["restored_green"] for r in results)
     _write_report(results, every)
-    print(f"all five caught and restored: {every}")
+    print(f"all {len(results)} caught and restored: {every}")
     return 0 if every else 1
 
 
@@ -200,7 +211,7 @@ def _write_report(results: list[dict[str, object]], every: bool) -> None:
             f"{'yes' if r['guard_failed_as_required'] else 'NO'} | "
             f"{'yes' if r['restored_green'] else 'NO'} |"
         )
-    lines += ["", f"**All five caught and restored: {every}**", ""]
+    lines += ["", f"**All {len(results)} caught and restored: {every}**", ""]
     for r in results:
         lines += [
             f"## {r['mutation']}",

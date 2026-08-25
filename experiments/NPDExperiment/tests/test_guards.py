@@ -183,16 +183,52 @@ def test_no_confidence_field_anywhere_in_the_pipeline() -> None:
 # --------------------------------------------------------------------------
 
 
-def test_amendment_zero_is_empty_and_blocks_b2() -> None:
+def test_amendment_zero_is_recorded_and_unblocks_b2() -> None:
+    """B.2 may run only because the operator prior is on the record."""
+    from npd.eval.evaluator import (
+        amendment_zero_filled,
+        amendment_zero_prior,
+        require_amendment_zero,
+    )
+
+    prior = amendment_zero_prior()
+    assert prior is not None, "Amendment 0 holds no prior. B.2 must stay blocked."
+    assert 0.0 <= prior <= 1.0
+    assert amendment_zero_filled()
+    require_amendment_zero()
+
+
+def test_a_blank_amendment_zero_blocks_b2(tmp_path: Path) -> None:
+    """The mutation target. An empty slot must refuse, not warn."""
     from npd.eval.evaluator import (
         AmendmentZeroMissing,
         amendment_zero_filled,
         require_amendment_zero,
     )
 
-    assert not amendment_zero_filled(), (
-        "Amendment 0 reads as filled. If the operator has written his prior, "
-        "update this test deliberately rather than by accident."
+    blank = tmp_path / "REGISTRATION.md"
+    blank.write_text(
+        "## Section 13. Amendment 0, reserved\n\n"
+        "> Operator prior, probability that a rigorous version of this experiment beats\n"
+        "> the best baseline on the primary contrast:\n>\n"
+        "> [ EMPTY. The operator writes a number here before B.2 runs. ]\n\n"
+        "## Section 14. B.3\n",
+        encoding="utf-8",
     )
+    assert not amendment_zero_filled(blank)
     with pytest.raises(AmendmentZeroMissing):
-        require_amendment_zero()
+        require_amendment_zero(blank)
+
+
+def test_a_section_that_claims_a_prior_without_recording_one_is_blank(tmp_path: Path) -> None:
+    """Absence of the empty marker is not presence of a prior."""
+    from npd.eval.evaluator import amendment_zero_filled
+
+    hollow = tmp_path / "REGISTRATION.md"
+    hollow.write_text(
+        "## Section 13. Amendment 0, recorded\n\n"
+        "The operator recorded his prior.\n\n"
+        "## Section 14. B.3\n",
+        encoding="utf-8",
+    )
+    assert not amendment_zero_filled(hollow)

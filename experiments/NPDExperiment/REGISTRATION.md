@@ -338,23 +338,34 @@ already rests for everything except the model's own sampling.
 
 ---
 
-## Section 13. Amendment 0, reserved
+## Section 13. Amendment 0, recorded
 
-**The operator's registered prior. This slot is empty and it blocks B.2.**
+**The operator's registered prior. Recorded 2026-08-25, before any module
+touched the sealed store.**
 
 > Operator prior, probability that a rigorous version of this experiment beats
 > the best baseline on the primary contrast:
 >
->     [ EMPTY. The operator writes a number here before B.2 runs. ]
+>     0.05, ADOPTED FROM THE ASSISTANT. NOT INDEPENDENT.
 >
-> Signed:
-> Dated:
+> The operator adopted the assistant's prior of 0.05 rather than forming an
+> independent one. The calibration ledger must show it as adopted rather than
+> independent, because an adopted prior carries no information about the
+> operator's own judgment and would corrupt the calibration record if logged as
+> his.
+>
+> Recorded: 2026-08-25
 
 **Assistant prior, recorded 2026-08-25, before any output existed: 0.05.**
 
-The assistant's number is recorded beside the empty slot so it cannot be
-adjusted after the operator writes his. B.2 refuses to run while the operator
-slot is empty.
+The assistant's number was recorded beside the empty slot so it could not be
+adjusted after the operator wrote his. The operator then adopted it. That
+sequence is the reason this section states the adoption explicitly rather than
+recording two agreeing priors, which a later reader would otherwise mistake for
+two independent judgments that happened to coincide.
+
+**Calibration status: one prior, not two. This experiment yields no evidence
+about the operator's calibration.**
 
 ---
 

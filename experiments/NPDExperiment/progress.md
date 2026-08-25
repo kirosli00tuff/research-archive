@@ -5,6 +5,82 @@ actual after it finishes.
 
 ---
 
+## B.2. The one-shot evaluation. 2026-08-25
+
+**ETA stated before start: 55 minutes. Actual: 41 minutes.**
+
+**Prompt logged before work began, as instructed.**
+
+> NPDExperiment, Stage B.2. The one-shot evaluation. Read the registration in
+> full including Section 0 and all five amendments, progress.md, DECISIONS.md
+> ADR-001 through ADR-009, CLAUDE.md, and the three stage reports.
+>
+> This is the one read. It happens once and cannot be repeated. The registration
+> fixes a single evaluation of the sealed window. If a defect surfaces
+> mid-evaluation, stop and report rather than fixing and re-running, because a
+> second pass over the same outcomes is a second look however it is labelled.
+> Do not modify the sealed store, the stored rankings, the frozen prompt digest,
+> the baselines, or any registered parameter. Do not add a horizon, a baseline,
+> a model, or a robustness variant that the registration does not already name.
+>
+> Task 1, Amendment 0 recorded before any outcome is read. Task 2, the pipeline
+> validity audit, and it gates everything. Task 3, the primary contrast. Task 4,
+> the permutation null. Task 5, secondaries and descriptives, clearly
+> subordinate. Task 6, fire the verdict, once. Task 7, tests and two mutations.
+> Task 8, document and commit.
+
+Work follows below in the order the prompt fixes.
+
+### Result
+
+**Verdict row fired: does not beat coin.** The replication confirms the council
+negative under frontier capability and sane formulation. Closed. **C.1 is not
+authorized.**
+
+| quantity | value |
+|---|---|
+| pipeline validity gate, shuffled mean | +0.0001, inside the 0.02 tolerance. PASS |
+| model mean daily rank IC | +0.0061, interval -0.0276 to +0.0397 |
+| best baseline, designated after the fact | `mom_12_1` at +0.0222 |
+| primary contrast | -0.0161, interval -0.0673 to +0.0351 |
+| permutation p, two-sided | 0.5174 |
+| evaluable days | 404 of 415 stored |
+| realized minimum detectable contrast | 0.0512 against a projection of 0.026 to 0.047 |
+
+The model did not beat a coin and did not beat momentum. It scored below the
+best baseline, though not significantly so.
+
+### The honest qualifier
+
+**This is an underpowered unresolved, not a tight null.** The realized detectable
+contrast of 0.0512 sits above the entire realistic effect band of 0.01 to 0.05,
+so the design could not have detected an effect anywhere in the band the
+literature reports. The realized daily contrast standard deviation came in at
+0.36339 against a registered assumption of at most 0.2626, because the model and
+momentum daily ICs turned out to be strongly negatively correlated, far outside
+the 0.0 to 0.7 range the registration contemplated. ADR-011 records this.
+
+The failure mode ADR-007 registered as a risk in advance is the one that
+materialized. It was registered as a risk, not discovered afterwards.
+
+### Discipline
+
+The sealed store was read one time by one module. Its hash and mtime are
+unchanged from the B.0 build, because it was opened read-only. Amendment 0 was
+recorded before any module touched it, and the operator prior is logged as
+**adopted from the assistant, not independent**, so the calibration record is not
+corrupted by a prior that carries none of the operator own judgment. No horizon,
+baseline, model, or robustness variant was added beyond what the registration
+already named. Nothing was recomputed after being seen.
+
+Six mutations run, all caught and restored, including the two this stage
+required: bypassing the Amendment 0 refusal, and letting a non-evaluator module
+read the sealed store.
+
+Full evaluation in `reports/stage_b2/evaluation.md`.
+
+---
+
 ## B.1. The live gate collection. 2026-08-25
 
 **ETA stated before start: 60 minutes. Actual: 194 minutes across three

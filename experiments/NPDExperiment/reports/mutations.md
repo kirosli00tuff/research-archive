@@ -8,6 +8,7 @@ Each mutation was applied to real source, not to a copy. The harness restores th
 | 2. merge model_failed into source_failed | `src/npd/callstate.py` | `tests/test_guards.py` | yes | yes |
 | 3. let a non-evaluator module read the sealed forward returns | `src/npd/collect/collector.py` | `tests/test_guards.py` | yes | yes |
 | 4. add a config field with no enforcement site | `src/npd/config.py` | `tests/test_guards.py` | yes | yes |
+| 6. let the evaluator run with Amendment 0 empty | `src/npd/eval/evaluator.py` | `tests/test_guards.py` | yes | yes |
 | 5. let a real ticker reach a prompt | `src/npd/data/anonymize.py` | `tests/test_anonymization.py` | yes | yes |
 
 **All five caught and restored: True**
@@ -70,6 +71,21 @@ E       assert not ['decorative_knob']
 tests/test_guards.py:61: AssertionError
 =========================== short test summary info ============================
 FAILED tests/test_guards.py::test_every_config_field_has_an_enforcement_site
+```
+
+## 6. let the evaluator run with Amendment 0 empty
+
+Bypass the refusal that keeps B.2 shut until the operator records his prior. The refusal is the mechanism, not a reminder.
+
+Target `src/npd/eval/evaluator.py`. Guard `tests/test_guards.py`.
+
+```
+>       with pytest.raises(AmendmentZeroMissing):
+E       Failed: DID NOT RAISE AmendmentZeroMissing
+
+tests/test_guards.py:219: Failed
+=========================== short test summary info ============================
+FAILED tests/test_guards.py::test_a_blank_amendment_zero_blocks_b2 - Failed: ...
 ```
 
 ## 5. let a real ticker reach a prompt
