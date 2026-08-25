@@ -1,0 +1,289 @@
+# Decisions
+
+Numbered architecture decision records. Newest last. A decision recorded here
+is binding until a later numbered record supersedes it by number.
+
+## ADR-001. Gate the experiment on knowledge cutoff, not on model rank
+
+**Status.** Accepted, 2026-08-25.
+
+**Context.** A model has read everything published before its cutoff. Only
+days written after it stopped reading are exam pages. A stronger model with a
+later cutoff has fewer clean days, not more.
+
+**Decision.** The gate model is chosen for the size of the clean window its
+cutoff leaves, not for its position on any leaderboard. `gpt-5-2025-08-07`
+carries a verified cutoff of 2024-09-30, which leaves 432 trading days through
+the bar store's last complete session. Stronger 2026-cutoff models arrive with
+78 to 140 clean pages and screen for large effects only, so they form the
+registered conditional phase C.1 and the scheduled replays of B.3. They are
+never the gate.
+
+**Consequence.** The gate runs on a model that is not the strongest available.
+This is deliberate. A larger clean sample on a weaker model answers the
+question. A tiny clean sample on a stronger model does not.
+
+## ADR-002. Name the dated snapshot, never the bare alias
+
+**Status.** Accepted, 2026-08-25.
+
+**Context.** `gpt-5` is an alias. It repoints when a successor ships.
+
+**Decision.** Every call, every config field, and every line of the
+registration names `gpt-5-2025-08-07`.
+
+**Consequence.** A registration naming a moving target cannot be replicated or
+replayed. Naming the snapshot makes both possible. If OpenAI retires the
+snapshot the experiment stops rather than silently substituting.
+
+## ADR-003. Split collection from evaluation
+
+**Status.** Accepted, 2026-08-25.
+
+**Context.** The predecessor's findings were selected after the outcomes were
+visible. A pooled confidence Spearman read plus 0.0357 while every provider was
+individually negative, and that artifact was reported as a result.
+
+**Decision.** B.1 collects and stores rankings. It computes no statistic that
+relates an output to an outcome. B.2 evaluates once, later, and only after the
+operator writes his prior into Amendment 0.
+
+**Consequence.** The analyst cannot see a result while any degree of freedom
+remains open. The cost is a session boundary in the middle of the work.
+
+## ADR-004. Seal the forward returns behind a single reader
+
+**Status.** Accepted, 2026-08-25.
+
+**Context.** A convention that says "do not look" is not a control. The
+predecessor had conventions.
+
+**Decision.** Forward returns live in their own store, `var/npd_sealed.db`.
+The only module permitted to name that path or open that store is
+`npd.eval.evaluator`. `tests/test_guards.py` walks every source file, and fails
+when any other module references the sealed path, the sealed table, or the
+evaluator's reader function.
+
+**Consequence.** Breaking the seal requires editing a guard test, which shows
+up in a diff. The full verdict pipeline is proved end to end on synthetic data
+with fake returns, so B.2's code is exercised without touching one real
+outcome.
+
+## ADR-005. The four council lessons become registration clauses
+
+**Status.** Accepted, 2026-08-25.
+
+**Context.** Four specific failures of the predecessor are each reproducible in
+this design unless a clause forbids them.
+
+**Decision.**
+
+1. Per-model inference is primary. Pooled numbers are descriptive and never
+   touch a verdict. Evidence: the council's pooled confidence Spearman read
+   plus 0.0357 while Opus read minus 0.0996, Gemini minus 0.1156, and GPT-5.5
+   minus 0.2724.
+2. Power is registered before the first call. Evidence: the council's wide
+   sample pre-registered 272 calls and 66 clusters against a 50 bp detectable
+   effect and delivered 274 and 80, and the interval still excluded the effect
+   the design was powered for.
+3. No confidence field exists in version one. Evidence: the council's
+   confidence was decoration, the buckets were non-monotone, the top bucket was
+   worst at 25 percent, and no verdict ever reached 0.65.
+4. The consolidat cell is recorded as a dormant named secondary. Evidence: the
+   2026-07-27 session preserved a rationale cell, stated reasons containing
+   "consolidat", at 71.7 percent on 53 calls, explicitly not a finding. This
+   design emits no rationales, so the cell stays dormant, named, and applicable
+   only if a rationale-emitting variant is ever registered.
+
+**Consequence.** Each clause costs something. Clause 3 discards a field the
+operator may want. Clause 1 forbids the pooled number that would look best.
+Both costs are paid on purpose.
+
+## ADR-006. The enumerated feature list governs, and it holds nine features
+
+**Status.** Accepted, 2026-08-25.
+
+**Context.** The brief describes the logistic baseline as fitting "the
+identical eight features". The brief's own enumeration lists nine. Returns over
+1, 5, 10, 20, and 60 sessions is five. Realized volatility over 20 and 60 is
+two. Dollar-volume z-score over 60 is one. Volume trend 5 over 60 is one.
+
+**Decision.** The enumerated list governs, because the brief also states that
+the list is complete and that nothing else ever enters the prompt. The count is
+nine. The logistic baseline fits the same nine.
+
+**Consequence.** The discrepancy is recorded rather than silently resolved. A
+reader comparing the brief to the code finds the reason here.
+
+## ADR-007. Register the contrast power honestly, do not repair it by swapping the primary
+
+**Status.** Accepted, 2026-08-25.
+
+**Context.** The window clears the registered power floor of detectable IC
+0.025 at 30 names, at 0.0179. The primary contrast does not sit as comfortably.
+The primary horizon is five sessions, so consecutive days share four fifths of
+their forward window, and the variance of the mean inflates by 3.4. The
+effective day count falls from 427 to 126, and the minimum detectable contrast
+lands between 0.026 and 0.047 depending on how correlated the model and the
+best baseline turn out to be.
+
+**Decision.** Register the primary as specified, at the five-session horizon,
+and register the limitation beside it. The secondary one-session horizon
+carries no overlap penalty and detects between 0.014 and 0.025, which is
+better. It stays secondary.
+
+**Consequence.** The primary detects effects in the upper half of the realistic
+band 0.01 to 0.05 and is underpowered for the lower half. Recorded before
+collection rather than discovered after. Promoting the better powered secondary
+to primary after seeing a result is exactly the move this repository exists to
+prevent.
+
+## ADR-008. Split the forward returns into two stores, and make the split the seal
+
+**Status.** Accepted, 2026-08-25.
+
+**Context.** The registration requires the logistic baseline to fit on data
+strictly before the window start. A fit needs a target, and the target is a
+forward return. So one component of the pipeline must read an outcome, which
+appears to contradict the seal.
+
+**Decision.** Two stores, split by date and by nothing else.
+
+    var/npd_fit.db      dates strictly before the window start
+    var/npd_sealed.db   dates inside the window
+
+`npd.baselines.logistic` reads the fit store. `npd.eval.evaluator` reads the
+sealed store and is the only module permitted to name it.
+`npd.data.forward_returns` writes both and has no reader at all.
+`load_fit_targets` refuses any date after the guard band end at runtime, so the
+refusal holds even if the two stores were ever pointed at one file.
+
+**Consequence.** The seal is now on the path rather than on the table name,
+because both stores hold a table of the same name. The guard test was rewritten
+to match, and a behavioural test asserts the logistic refusal fires on a window
+date.
+
+## ADR-009. Eligibility is decided by data availability, before the draw
+
+**Status.** Accepted, 2026-08-25.
+
+**Context.** A panel of 30 must be exactly 30, and the model and all three
+baselines must see identical names on identical days. The 12-1 momentum baseline
+reaches 252 sessions back, further than any feature.
+
+**Decision.** A formation member is eligible on a session when three spans are
+present: every session from t minus 60 through t for the feature block, the
+session at t minus 21, and the session at t minus 252 for the momentum baseline.
+The draw runs over eligible members only. A day whose eligible pool cannot fill
+the panel is recorded as `no_data` and no short panel is ever sent.
+
+**Consequence.** Eligibility never consults an outcome, so it cannot leak. It is
+checked before the seeded draw, so the panel is always the registered size or
+the day is absent. Across the 432 window days the eligible pool filled the panel
+every time, so no day was lost to this rule.
+
+## ADR-010. Designate the best baseline after the fact, and say why that is conservative
+
+**Status.** Accepted, 2026-08-25, at B.2.
+
+**Context.** The registration names three baselines and defines the primary
+contrast against "the best baseline". It does not say which of the three that
+is, because which one wins cannot be known before the window is scored.
+
+**Decision.** The best baseline is the one with the highest mean daily rank IC
+inside the evaluable window, designated after the fact. In this window that is
+`mom_12_1` at plus 0.0222, against `logistic` at minus 0.0058 and `sign_last`
+at minus 0.0255.
+
+**Consequence.** Choosing after the fact is **conservative in this direction and
+only this direction.** It picks the hardest of the three for the model to clear,
+so it raises the bar rather than lowering it. The opposite move, picking the
+weakest baseline after seeing the model score, would be the abuse. A reader
+checking this can confirm it from the per-baseline table: the model would have
+looked better against either of the other two.
+
+The choice cannot flatter the model, so it needs no correction and no
+alternative specification.
+
+## ADR-011. Read the realized power before reading the null
+
+**Status.** Accepted, 2026-08-25, at B.2.
+
+**Context.** The registration projected a minimum detectable contrast of 0.026
+to 0.047 across a grid of assumed correlations between the model and the
+baseline, from 0.0 to 0.7. The realized minimum detectable contrast came in at
+0.0512, outside and above that projection.
+
+**Decision.** Report the realized number beside the projection and state which
+kind of null the result is, before any reader reaches the verdict row.
+
+**Consequence.** The verdict row fires as registered. The descriptive reading
+beside it is that this is an **underpowered unresolved rather than a tight
+null**, because the realized detectable contrast of 0.0512 sits above the entire
+realistic effect band of 0.01 to 0.05. The design could not have detected an
+effect anywhere in the band the literature reports, so the null it returned is
+not evidence of absence at those magnitudes.
+
+This is the failure mode the council era kept producing and that ADR-007
+registered in advance as a known risk. It was registered as a risk, it
+materialized, and it is reported as such rather than discovered later.
+
+## ADR-012. Label Amendment 6 POST-READ in its first line
+
+**Status.** Accepted, 2026-08-25, at Z.1.
+
+**Context.** Amendment 6 was drafted before the B.2 evaluation ran and arrived
+after it. Every other amendment in this registration was raised and recorded
+before the sealed store was opened.
+
+**Decision.** Amendment 6 carries POST-READ in its first line, states that it has
+no pre-registration force, and is preserved as a record of intent rather than as
+a binding clause.
+
+**Consequence.** A reader scanning the amendment list sees the ordering without
+reading the body. The alternative, filing it as an ordinary amendment, would
+have implied it constrained an evaluation that had already fired. That
+misrepresentation would be worse than omitting it, because the ordering is the
+one property this project spent five stages protecting.
+
+## ADR-013. Void Amendment 7 rather than apply it
+
+**Status.** Accepted, 2026-08-25, at Z.1.
+
+**Context.** Amendment 7 would have added 10-session and 20-session horizons as
+descriptive secondaries. It was drafted in the same batch as Amendment 6 and
+arrived after the read.
+
+**Decision.** Void. Not applied.
+
+**Consequence.** Scoring spent data against new horizons is a second look
+however it is labelled, and calling the output descriptive does not change what
+it is. The decay curve is not recoverable from data already spent. Obtaining it
+requires a fresh collection on a fresh window under a new registration, at
+roughly seven USD.
+
+The cost of this decision is a curve the operator wanted and will not get from
+this data. That cost is paid on purpose.
+
+## ADR-014. Record the model-against-momentum correlation as dormant
+
+**Status.** Accepted, 2026-08-25, at Z.1.
+
+**Context.** The realized daily contrast standard deviation of 0.36339 sits at 98
+percent of the theoretical maximum reached only at correlation minus one. The
+model daily rank IC and the momentum daily rank IC were strongly negatively
+correlated across the window. The model was not producing noise around momentum.
+It was leaning systematically against it.
+
+**Decision.** Record it as a dormant named observation, in the shape AiTrader
+used for the `consolidat` rationale cell. State the observation, state its
+measured basis, state that it is not a finding, and state that it may only be
+promoted by a future test that names it in advance.
+
+**Consequence.** The observation is the most interesting thing in the window and
+it is exactly the kind of thing that becomes a finding by being retold. No
+registered test asks about it. It surfaced as a power diagnostic while explaining
+why the realized interval was wider than projected, and it is fixed in that role.
+
+Naming it now is what makes a future pre-registered test possible. Claiming it
+now is what would make that test worthless.

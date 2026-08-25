@@ -1,0 +1,461 @@
+<title>NPD Experiment Record</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&display=swap">
+
+<style>
+:root{
+  --ground:#F4F5F7; --surface:#FFFFFF; --surface-2:#EDEFF3;
+  --ink:#151A21; --muted:#5C6674; --faint:#8892A0;
+  --rule:#DCE0E6; --rule-strong:#C3CAD3;
+  --accent:#1D4E6B; --accent-soft:#E3EDF3;
+  --ok:#2D6A4A; --ok-soft:#E2EFE8;
+  --amend:#9A5B2E; --amend-soft:#F5EAE0;
+  --stop:#8E3B3B; --stop-soft:#F6E5E5;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,Segoe UI,sans-serif;
+  --serif:"IBM Plex Serif",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#101418; --surface:#171C22; --surface-2:#1D242B;
+    --ink:#E6E9ED; --muted:#98A4B2; --faint:#75818F;
+    --rule:#252C34; --rule-strong:#343D47;
+    --accent:#78B6D6; --accent-soft:#152A36;
+    --ok:#74C39A; --ok-soft:#152720;
+    --amend:#D89C66; --amend-soft:#2B2018;
+    --stop:#DD8888; --stop-soft:#2C1B1B;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#101418; --surface:#171C22; --surface-2:#1D242B;
+  --ink:#E6E9ED; --muted:#98A4B2; --faint:#75818F;
+  --rule:#252C34; --rule-strong:#343D47;
+  --accent:#78B6D6; --accent-soft:#152A36;
+  --ok:#74C39A; --ok-soft:#152720;
+  --amend:#D89C66; --amend-soft:#2B2018;
+  --stop:#DD8888; --stop-soft:#2C1B1B;
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--ground); color:var(--ink);
+  font-family:var(--serif); font-size:17px; line-height:1.62;
+  margin:0; padding:0 20px 96px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1000px;margin:0 auto}
+
+/* ---- masthead ---- */
+.mast{padding:64px 0 28px;border-bottom:2px solid var(--ink)}
+.kicker{
+  font-family:var(--mono); font-size:11px; font-weight:500;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--accent);
+  display:flex; flex-wrap:wrap; gap:10px 18px; margin:0 0 20px;
+}
+.kicker span{white-space:nowrap}
+h1{
+  font-family:var(--sans); font-weight:700; font-size:clamp(30px,5.2vw,50px);
+  line-height:1.06; letter-spacing:-.022em; margin:0 0 16px; text-wrap:balance;
+}
+.standfirst{
+  font-size:19px; color:var(--muted); max-width:66ch; margin:0;
+  font-style:italic;
+}
+.mast-meta{
+  display:flex; flex-wrap:wrap; gap:8px 28px; margin-top:24px;
+  font-family:var(--mono); font-size:12px; color:var(--faint);
+}
+
+/* ---- verdict strip ---- */
+.strip{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(158px,1fr));
+  gap:1px; background:var(--rule); border:1px solid var(--rule);
+  margin:36px 0 8px;
+}
+.cell{background:var(--surface); padding:16px 18px}
+.cell .lab{
+  font-family:var(--mono); font-size:10px; letter-spacing:.13em;
+  text-transform:uppercase; color:var(--faint); display:block; margin-bottom:7px;
+}
+.cell .val{
+  font-family:var(--sans); font-weight:600; font-size:23px;
+  font-variant-numeric:tabular-nums; letter-spacing:-.01em; display:block;
+}
+.cell .sub{font-family:var(--mono);font-size:11px;color:var(--muted);display:block;margin-top:3px}
+.v-ok{color:var(--ok)} .v-amend{color:var(--amend)} .v-stop{color:var(--stop)}
+
+/* ---- stage sections with margin rail ---- */
+.stage{
+  display:grid; grid-template-columns:96px minmax(0,1fr);
+  gap:0 34px; padding:52px 0 8px; border-top:1px solid var(--rule);
+  margin-top:44px;
+}
+.stage:first-of-type{border-top:none}
+.rail{position:sticky; top:22px; align-self:start}
+.rail .num{
+  font-family:var(--mono); font-weight:600; font-size:13px;
+  letter-spacing:.08em; color:var(--accent);
+  padding-bottom:7px; border-bottom:2px solid var(--accent); display:inline-block;
+}
+.rail .eta{
+  display:block; margin-top:12px; font-family:var(--mono); font-size:10.5px;
+  line-height:1.6; color:var(--faint);
+}
+.body h2{
+  font-family:var(--sans); font-weight:600; font-size:clamp(22px,3.2vw,29px);
+  line-height:1.2; letter-spacing:-.017em; margin:0 0 6px; text-wrap:balance;
+}
+.body .dek{color:var(--muted); font-size:16px; margin:0 0 26px; max-width:64ch}
+.body p{max-width:66ch; margin:0 0 18px}
+.body h3{
+  font-family:var(--sans); font-weight:600; font-size:16.5px;
+  letter-spacing:-.005em; margin:32px 0 10px;
+}
+.body ul{max-width:66ch; margin:0 0 18px; padding-left:20px}
+.body li{margin-bottom:7px}
+strong{font-weight:600}
+code,.mono{font-family:var(--mono); font-size:.88em}
+code{background:var(--surface-2); padding:1.5px 5px; border-radius:2px; word-break:break-word}
+
+/* ---- tables ---- */
+.tw{overflow-x:auto; margin:0 0 24px; border:1px solid var(--rule); background:var(--surface)}
+table{border-collapse:collapse; width:100%; font-family:var(--sans); font-size:14px}
+th{
+  text-align:left; font-family:var(--mono); font-weight:500; font-size:10.5px;
+  letter-spacing:.11em; text-transform:uppercase; color:var(--faint);
+  padding:11px 14px; border-bottom:1px solid var(--rule-strong); white-space:nowrap;
+}
+td{padding:10px 14px; border-bottom:1px solid var(--rule); vertical-align:top}
+tbody tr:last-child td{border-bottom:none}
+td.n{font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap}
+th.n{text-align:right}
+tr.total td{font-weight:600; background:var(--surface-2)}
+
+/* ---- callouts ---- */
+.note{
+  border-left:3px solid var(--accent); background:var(--accent-soft);
+  padding:16px 20px; margin:0 0 24px; max-width:70ch;
+}
+.note.amend{border-left-color:var(--amend); background:var(--amend-soft)}
+.note.stop{border-left-color:var(--stop); background:var(--stop-soft)}
+.note.ok{border-left-color:var(--ok); background:var(--ok-soft)}
+.note .nt{
+  font-family:var(--mono); font-size:10px; letter-spacing:.13em;
+  text-transform:uppercase; display:block; margin-bottom:8px; color:var(--accent);
+}
+.note.amend .nt{color:var(--amend)} .note.stop .nt{color:var(--stop)} .note.ok .nt{color:var(--ok)}
+.note p{margin:0 0 10px; font-size:15.5px}
+.note p:last-child{margin-bottom:0}
+
+.hash{
+  font-family:var(--mono); font-size:11.5px; color:var(--muted);
+  background:var(--surface-2); border:1px solid var(--rule);
+  padding:9px 12px; margin:0 0 20px; overflow-x:auto; white-space:nowrap;
+}
+
+.pill{
+  display:inline-block; font-family:var(--mono); font-size:10.5px; font-weight:500;
+  letter-spacing:.07em; text-transform:uppercase; padding:2.5px 8px;
+  border:1px solid currentColor; border-radius:2px; white-space:nowrap;
+}
+.p-ok{color:var(--ok)} .p-amend{color:var(--amend)} .p-stop{color:var(--stop)}
+
+.quote{
+  font-family:var(--sans); font-size:19px; font-weight:500; line-height:1.45;
+  border-top:1px solid var(--rule-strong); border-bottom:1px solid var(--rule-strong);
+  padding:22px 0; margin:0 0 26px; max-width:60ch; letter-spacing:-.01em;
+}
+
+footer{
+  margin-top:60px; padding-top:22px; border-top:2px solid var(--ink);
+  font-family:var(--mono); font-size:11.5px; color:var(--faint);
+  display:flex; flex-wrap:wrap; gap:6px 26px;
+}
+@media (max-width:720px){
+  .stage{grid-template-columns:1fr; gap:0}
+  .rail{position:static; margin-bottom:20px}
+  body{font-size:16px}
+}
+</style>
+
+<div class="wrap">
+
+<header class="mast">
+  <p class="kicker">
+    <span>Session record</span><span>2026-08-25</span><span>Stages A.1 &rarr; B.1</span><span>Gate gpt-5-2025-08-07</span>
+  </p>
+  <h1>Collecting the Exam, Not Grading It</h1>
+  <p class="standfirst">A pre-registered replication of the AiTrader council negative. One overnight session built the scaffold, wrote the binding registration, reproduced the data layer, verified the collector against five scripted faults, and ran the live gate collection. Nothing was evaluated.</p>
+  <div class="mast-meta">
+    <span>38 modules &middot; 4,699 lines</span>
+    <span>113 tests</span>
+    <span>9 ADRs &middot; 5 amendments</span>
+    <span>Amendment 0 empty</span>
+  </div>
+</header>
+
+<section class="strip">
+  <div class="cell"><span class="lab">Section 0 verdict</span><span class="val v-ok">GO</span><span class="sub">fired on coverage alone</span></div>
+  <div class="cell"><span class="lab">Coverage</span><span class="val">96.1%</span><span class="sub">415 of 432 eligible days</span></div>
+  <div class="cell"><span class="lab">Spend</span><span class="val">6.94</span><span class="sub">USD of a 10.00 cap</span></div>
+  <div class="cell"><span class="lab">Derived window</span><span class="val">432</span><span class="sub">trading days, floor 200</span></div>
+  <div class="cell"><span class="lab">Amendments</span><span class="val v-amend">5</span><span class="sub">each with its evidence</span></div>
+  <div class="cell"><span class="lab">Evaluated</span><span class="val">0</span><span class="sub">B.2 blocked, by design</span></div>
+</section>
+
+<!-- ============ STAGE A ============ -->
+<section class="stage">
+  <div class="rail">
+    <span class="num">A.1 &middot; A.2</span>
+    <span class="eta">ETA 25 + 40 min<br>Actual 22 + 34 min</span>
+  </div>
+  <div class="body">
+    <h2>Registration</h2>
+    <p class="dek">Everything downstream hangs on one verified date, and the date that was carried into this session was wrong.</p>
+
+    <h3>The cutoff, verified</h3>
+    <p>Task A.2.0 gated every later stage. OpenAI's own model page for <code>gpt-5</code>, which lists the snapshot <code>gpt-5-2025-08-07</code>, reads <code>Sep 30, 2024 knowledge cutoff</code> verbatim. Retrieved 2026-08-25 from <code>developers.openai.com/api/docs/models/gpt-5</code>, reached by a 301 from the older <code>platform.openai.com</code> path. The same page gives a 400,000 token context window, 128,000 max output tokens, and list prices of 1.25, 0.125, and 10.00 USD per million for input, cached input, and output.</p>
+
+    <div class="note stop">
+      <span class="nt">The carried estimate was wrong</span>
+      <p>Prior chat estimated a cutoff of <strong>2024-05-31</strong> and a window of <strong>515 trading days</strong>. The verified cutoff is four months later and the real window is <strong>432 days</strong>. Had the estimate been carried into the registration, the power arithmetic would have been overstated by 19 percent and the guard band would have started inside territory the model had already read.</p>
+    </div>
+
+    <h3>The window, derived</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Step</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td>Verified knowledge cutoff</td><td class="mono">2024-09-30</td></tr>
+        <tr><td>Guard band, one calendar month</td><td class="mono">ends 2024-10-30</td></tr>
+        <tr><td>First session strictly after the band</td><td class="mono">2024-10-31</td></tr>
+        <tr><td>Last complete session in the bar store</td><td class="mono">2026-07-24</td></tr>
+        <tr class="total"><td>Trading days in the window</td><td class="mono">432</td></tr>
+        <tr><td>Registered minimum</td><td class="mono">200 &nbsp;<span class="pill p-ok">clears</span></td></tr>
+      </tbody>
+    </table></div>
+    <p>The session calendar came from the source store's own <code>trading_calendar</code>, not from any one symbol's bars. The guard band exists because the memorization literature shows leakage past claimed cutoff dates, so the month after the cutoff is discarded rather than trusted.</p>
+
+    <h3>Power, and the limitation registered beside it</h3>
+    <p>The registered floor is a detectable rank IC of 0.025 at 30 names. The derived window gives <strong>0.01787</strong>, so collection was authorized. But the floor is not the number that governs interpretation, and the registration says so before any money was spent.</p>
+    <p>The primary contrast is a difference of two daily IC series over a five-session horizon. Consecutive start dates share four fifths of their forward window, inflating the variance of the mean by 3.4 and cutting 427 evaluable days to <strong>125.6 effective</strong>.</p>
+    <div class="tw"><table>
+      <thead><tr><th>corr(model, best baseline)</th><th class="n">Detectable at t 2.0</th><th class="n">80 percent powered</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">0.00</td><td class="n">0.0469</td><td class="n">0.0666</td></tr>
+        <tr><td class="mono">0.30</td><td class="n">0.0392</td><td class="n">0.0557</td></tr>
+        <tr><td class="mono">0.50</td><td class="n">0.0331</td><td class="n">0.0471</td></tr>
+        <tr><td class="mono">0.70</td><td class="n">0.0257</td><td class="n">0.0365</td></tr>
+      </tbody>
+    </table></div>
+    <div class="note amend">
+      <span class="nt">Registered limitation &middot; ADR-007</span>
+      <p>Against a realistic effect band of 0.01 to 0.05, the primary contrast detects the <strong>upper half and is underpowered for the lower half</strong>. A null on the primary does not distinguish "no effect" from "an effect below 0.033".</p>
+      <p>The one-session secondary carries no overlap penalty and detects 0.014 to 0.025, which is better. <strong>It stays secondary.</strong> Promoting the better-powered horizon after seeing a result is precisely the move this repository exists to prevent.</p>
+    </div>
+
+    <h3>Section 0, committed before any call</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Verdict</th><th>Condition</th><th>Consequence</th></tr></thead>
+      <tbody>
+        <tr><td><span class="pill p-ok">GO</span></td><td>&ge; 90 percent of eligible days stored</td><td>B.2 proceeds against the registered target</td></tr>
+        <tr><td><span class="pill p-amend">DEGRADED</span></td><td>70 to 90 percent</td><td>B.2 proceeds, recomputed power stated beside the target</td></tr>
+        <tr><td><span class="pill p-stop">BLOCKED</span></td><td>&lt; 70 percent, or window under the power floor</td><td>No verdict claimed</td></tr>
+      </tbody>
+    </table></div>
+    <p><code>excluded_pre_cutoff</code> never enters the denominator, because it is sample composition rather than a failure to collect. <code>model_failed</code> does enter, because a day the model could not answer is a day the sample does not have.</p>
+
+    <h3>The four council clauses</h3>
+    <p>Each carries the evidence that produced it, so a future reader can check the reasoning rather than take the rule on faith.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Clause</th><th>The evidence behind it</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Per-model inference is primary.</strong> Pooled numbers are descriptive and never touch a verdict.</td><td>The council's pooled confidence Spearman read <strong>+0.0357</strong> while every provider was individually negative: Opus &minus;0.0996, Gemini &minus;0.1156, GPT-5.5 &minus;0.2724. A pooling artifact wore the costume of a result.</td></tr>
+        <tr><td><strong>Power is registered before the first call.</strong></td><td>The council pre-registered 272 calls and 66 clusters against a 50 bp effect, delivered 274 and 80, and the interval still excluded the effect it was powered for.</td></tr>
+        <tr><td><strong>No confidence field exists in version one.</strong></td><td>Confidence was decoration. Buckets were non-monotone, the top bucket was worst at 25 percent, no verdict ever reached 0.65. The ranking is the entire output.</td></tr>
+        <tr><td><strong>The consolidat cell stays dormant and named.</strong></td><td>The 2026-07-27 session preserved a rationale cell at 71.7 percent on 53 calls, explicitly not a finding. This design emits no rationales, so the cell stays dormant and applies only if a rationale-emitting variant is ever registered.</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="quote">A positive supports the claim the pipeline predicts, never the claim the model understands.</div>
+    <p style="margin-top:-8px;color:var(--muted);font-size:14px;font-family:var(--mono)">The registered epistemic boundary, verbatim.</p>
+  </div>
+</section>
+
+<!-- ============ STAGE B.0 ============ -->
+<section class="stage">
+  <div class="rail">
+    <span class="num">B.0 &middot; B.0b</span>
+    <span class="eta">ETA 75 + 60 min<br>Actual 68 + 52 min</span>
+  </div>
+  <div class="body">
+    <h2>Data, Baselines, and the Collector</h2>
+    <p class="dek">The port is verified rather than asserted, the outcomes are sealed behind one reader, and the collector was proved against five scripted faults before it was allowed near the API.</p>
+
+    <h3>Source integrity</h3>
+    <p>Two read-only paths were opened and no others. <code>news_experiment.db</code> was never opened, and it appears nowhere in the source except inside the guard that forbids opening it. The bar store was opened through a SQLite immutable read-only URI, so a write is impossible at the driver level rather than by convention. <code>backtest/universe.py</code> hashed identically before and after:</p>
+    <div class="hash">8188eea0aef8a4d737e220095b9081071e26e4b4d30cceafb5082d7bfe525529</div>
+
+    <h3>The port, reproduced and checked</h3>
+    <p>The universe machinery was copied in, never imported across repositories. It then rebuilt every formation the pipeline needs from bars, and each one was compared against the source's own stored membership. A single differing symbol or rank fails the check.</p>
+    <div class="strip" style="margin:0 0 24px">
+      <div class="cell"><span class="lab">Formations rebuilt</span><span class="val">55</span></div>
+      <div class="cell"><span class="lab">Verified exact</span><span class="val v-ok">55</span><span class="sub">symbol set and rank order</span></div>
+      <div class="cell"><span class="lab">Failures</span><span class="val v-ok">0</span></div>
+      <div class="cell"><span class="lab">Members each</span><span class="val">500</span></div>
+    </div>
+
+    <h3>Panels, features, baselines</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Layer</th><th class="n">Result</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td>Daily bars extracted</td><td class="n">15,474,106</td><td>18,474 symbols, one read-only pass</td></tr>
+        <tr><td>Window days with a full 30-name panel</td><td class="n">432 / 432</td><td><span class="pill p-ok">100 percent</span> no day lost to eligibility</td></tr>
+        <tr><td><code>sign_last</code> days ranked</td><td class="n">432</td><td>sign of the last one-session return</td></tr>
+        <tr><td><code>mom_12_1</code> days ranked</td><td class="n">432</td><td>12-1 momentum</td></tr>
+        <tr><td><code>logistic</code> days ranked</td><td class="n">432</td><td>fitted once on 21,322 rows over 711 pre-window days, then frozen</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>The seal</h3>
+    <p>Forward returns are split by date, and the split <em>is</em> the seal. <code>var/npd_fit.db</code> holds only dates strictly before the window start and is read by the logistic baseline. <code>var/npd_sealed.db</code> holds the window and is read by <code>npd.eval.evaluator</code> and by nothing else. The writer has no reader at all. A guard test walks every source file and fails the moment another module names the sealed store, calls the sealed reader, or adds a read to the writer.</p>
+
+    <div class="note ok">
+      <span class="nt">The synthetic run earned its keep</span>
+      <p>Running the full verdict pipeline end to end on fake returns proved B.2 works without touching one real outcome. It also caught a live defect: <code>daily_ic</code> carried an <strong>inverted sign</strong>, so a perfect ranking would have scored &minus;1 and the experiment would have reported the exact opposite of what it measured. Fixed, and pinned by a test that asserts the convention.</p>
+    </div>
+
+    <div class="note stop">
+      <span class="nt">Anonymization defect, caught before any spend</span>
+      <p>Two-letter row labels collide with real tickers. <code>KO</code> is Coca-Cola, <code>MA</code> is Mastercard, <code>MU</code> is Micron. On <strong>52 of the 432 window days</strong> a randomly drawn label equalled a ticker standing in the same panel, putting that ticker in front of the model.</p>
+      <p>Panel symbols are now struck from the label pool before any label is drawn. All 432 mappings were rebuilt and the collision count is zero.</p>
+    </div>
+
+    <h3>Five scripted faults, all passed</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Scenario</th><th>Evidence</th></tr></thead>
+      <tbody>
+        <tr><td><code>clean</code></td><td>432 of 432 stored, 432 calls</td></tr>
+        <tr><td><code>kill_resume</code></td><td>killed after 137 answered, <strong>0 double-called dates</strong>, 3 lost commits rebuilt from the ledger, 0 extra spend</td></tr>
+        <tr><td><code>model_failed</code></td><td>4 dates, 5 attempts each, terminal state correct, zero leakage into <code>no_data</code> or <code>source_failed</code></td></tr>
+        <tr><td><code>source_failed</code></td><td>3 dates, <strong>0 calls sent</strong>, state stays distinct</td></tr>
+        <tr><td><code>spend_refused</code></td><td>cap lowered to 0.20 USD, batch refused <em>before</em> sending, 0 calls, 0.0000 USD spent</td></tr>
+      </tbody>
+    </table></div>
+    <p>Building the kill scenario exposed a real gap. A process killed between the ledger append and the store commit leaves a call that was paid for and a ranking that never landed. Resume would have skipped that date and lost the answer. The collector now rebuilds it from the raw response the ledger kept, and calls nothing. That is the reason the raw response is kept at all.</p>
+
+    <h3>Five mutations, all caught</h3>
+    <p>Each was applied to real source, not a copy, and the harness restored the original bytes and reran the full suite to prove the restore worked.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Mutation</th><th>Guard that failed</th><th class="n">Caught</th></tr></thead>
+      <tbody>
+        <tr><td>Carry a value forward across a missing bar</td><td><code>test_absence.py</code></td><td class="n"><span class="pill p-ok">yes</span></td></tr>
+        <tr><td>Merge <code>model_failed</code> into <code>source_failed</code></td><td><code>test_guards.py</code></td><td class="n"><span class="pill p-ok">yes</span></td></tr>
+        <tr><td>Let a non-evaluator module read the sealed returns</td><td><code>test_guards.py</code></td><td class="n"><span class="pill p-ok">yes</span></td></tr>
+        <tr><td>Add a config field with no enforcement site</td><td><code>test_guards.py</code></td><td class="n"><span class="pill p-ok">yes</span></td></tr>
+        <tr><td>Let a real ticker reach a prompt</td><td><code>test_anonymization.py</code></td><td class="n"><span class="pill p-ok">yes</span></td></tr>
+      </tbody>
+    </table></div>
+    <p>The config guard was not decorative. On first run it found <strong>four fields enforced nowhere</strong> in the real config. Each was given a genuine enforcement site rather than deleted from the guard.</p>
+  </div>
+</section>
+
+<!-- ============ STAGE B.1 ============ -->
+<section class="stage" id="b1">
+  <div class="rail">
+    <span class="num">B.1</span>
+    <span class="eta">ETA 60 min<br>Actual 194 min<br>across 3 launches</span>
+  </div>
+  <div class="body">
+    <h2>The Live Gate Collection</h2>
+    <p class="dek">Contact with the real model forced five amendments in a single evening. Each was recorded with its evidence before collecting resumed.</p>
+    <h3>The result</h3>
+    <div class="tw"><table>
+      <thead><tr><th>State</th><th class="n">Days</th><th>Class</th></tr></thead>
+      <tbody>
+        <tr><td><code>stored</code></td><td class="n">415</td><td>sample</td></tr>
+        <tr><td><code>no_data</code></td><td class="n">0</td><td>sample composition</td></tr>
+        <tr><td><code>model_failed</code></td><td class="n">17</td><td><strong>operational health</strong></td></tr>
+        <tr><td><code>excluded_pre_cutoff</code></td><td class="n">0</td><td><strong>sample composition</strong></td></tr>
+        <tr><td><code>source_failed</code></td><td class="n">0</td><td>operational health</td></tr>
+        <tr class="total"><td>Total</td><td class="n">432</td><td></td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="note ok">
+      <span class="nt">Section 0 verdict &middot; GO</span>
+      <p>415 of 432 eligible days carry a stored, parseable ranking. <strong>96.1 percent against a 90 percent bar.</strong> Fired on coverage alone. No statistic relating an output to an outcome was computed.</p>
+    </div>
+
+    <h3>Spend</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Item</th><th class="n">Value</th></tr></thead>
+      <tbody>
+        <tr><td>Gate calls billed</td><td class="n">920</td></tr>
+        <tr><td>Calibration calls, excluded from the sample</td><td class="n">2</td></tr>
+        <tr><td>Measured cost per gate call</td><td class="n">0.007508 USD</td></tr>
+        <tr class="total"><td>Total spent</td><td class="n">6.9378 USD of 10.00</td></tr>
+        <tr><td>Input tokens</td><td class="n">3,514,278</td></tr>
+        <tr><td>Output tokens, of which reasoning</td><td class="n">361,641 / 217,728</td></tr>
+      </tbody>
+    </table></div>
+    <p>The batch refusal never fired and no quota error was seen. All 415 stored rankings are structurally sound: ranks exactly 1 to 30, labels matching that day's mapping, symbols matching that day's panel, and the label-to-symbol relation consistent on every day.</p>
+
+    <h3>Five amendments, each recorded before collecting resumed</h3>
+    <div class="tw"><table>
+      <thead><tr><th class="n">N</th><th>Raised by</th><th>What changed</th></tr></thead>
+      <tbody>
+        <tr><td class="n">1</td><td>the calibration call</td><td><code>temperature</code> is not sent. The endpoint rejects any non-default value for this model, so the registration no longer claims the output is deterministic.</td></tr>
+        <tr><td class="n">2</td><td>the calibration call</td><td><code>reasoning_effort</code> set to <code>minimal</code> by the registered spend rule. <code>low</code> measured 2,432 reasoning tokens per call, projecting 11.78 USD over a 10 USD cap.</td></tr>
+        <tr><td class="n">3</td><td>14 live calls</td><td>An escalation ladder, after 9 of 14 attempts returned a malformed permutation. <strong>This diagnosis was wrong.</strong></td></tr>
+        <tr><td class="n">4</td><td>29 live days</td><td><code>low</code> failed at 47 percent against <code>minimal</code> at 41 percent, so the <em>format</em> was the problem, not the reasoning budget. A strict JSON schema pins 30 enum-constrained slots. Prompt freeze re-established.</td></tr>
+        <tr><td class="n">5</td><td>the same stop</td><td>Rejected answers are billed, so the ledger records them. It had been reading 46 percent under actual.</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="note amend">
+      <span class="nt">A wrong diagnosis, kept on the record</span>
+      <p>Amendment 3 assumed the format failures were a reasoning-budget problem. The live data refuted it: <code>low</code> failed <em>more often</em> than <code>minimal</code>. Amendment 4 supersedes it.</p>
+      <p>Amendment 3 stays in the registration rather than being quietly removed. <strong>A wrong diagnosis that was acted on is part of the record.</strong></p>
+    </div>
+
+    <div class="note stop">
+      <span class="nt">Amendment 5 mattered more than its size</span>
+      <p>The spend ledger recorded nothing for an attempt whose answer failed to parse. Those calls were billed. Measured across the first 29 gate days it read <strong>0.3494 USD against an actual 0.6429</strong>.</p>
+      <p>A cap enforced against a number 46 percent too low is not a cap, and this is the mechanism the whole spend section leans on.</p>
+    </div>
+
+    <h3>What the amendments cost, and what they bought</h3>
+    <p>The 26 superseded attempts stay in the ledger and their 0.0286 USD still counts against the cap. Amendment 4 cut the projected total from 9.12 USD to a measured <strong>6.94 USD</strong>, cut mean latency from 16.3 seconds to about 3 per attempt, and turned a path heading for BLOCKED into one that fired GO.</p>
+
+    <div class="note amend">
+      <span class="nt">The limitation that survives into B.2</span>
+      <p>The gate ran at <code>minimal</code> reasoning on 813 of 883 attempts. <strong>A null result is a null for gpt-5-2025-08-07 at minimal reasoning effort, not for the model at its best.</strong> Every sentence written about the outcome carries that qualifier.</p>
+      <p>53 days carry an answer produced at <code>low</code> after an escalation. Days needing escalation are days where <code>minimal</code> could not hold the format, so if that difficulty correlates with anything about the panel, the sample mixes two configurations non-randomly. The realized effort is stored per day for exactly this reason. B.2 reports the split descriptively, and under Clause 1 it never becomes a verdict.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ OUTSTANDING ============ -->
+<section class="stage">
+  <div class="rail"><span class="num">Next</span></div>
+  <div class="body">
+    <h2>One Operator Action Outstanding</h2>
+    <div class="note">
+      <span class="nt">Amendment 0 &middot; reserved and empty</span>
+      <p>REGISTRATION.md Section 13 holds an empty slot for the operator's registered prior: the probability that a rigorous version of this experiment beats the best baseline on the primary contrast.</p>
+      <p><strong>B.2 refuses to run while that slot is empty.</strong> The refusal is a mechanism, not a reminder: <code>require_amendment_zero()</code> raises, and a guard test asserts the slot currently reads empty.</p>
+      <p>The assistant's prior, <strong>0.05</strong>, is already recorded beside it, written before any output existed so it cannot be adjusted after the operator writes his.</p>
+    </div>
+
+    <h3>What this session did not do</h3>
+    <p>It computed no rank IC. It read no outcome against any output. It fired no hypothesis verdict. It called no frontier model. It traded nothing and touched no running system. The nightly news-drift collection at 22:30 UTC was not disturbed, no remote exists so nothing could be pushed, and the API key was never printed, logged, or committed.</p>
+    <p>The exam was collected. It gets graded once, later, after the operator writes his number down.</p>
+  </div>
+</section>
+
+<footer>
+  <span>NPDExperiment</span><span>Session 2026-08-25</span><span>Stages A.1 through B.1</span><span>B.2 blocked on Amendment 0</span>
+</footer>
+
+</div>

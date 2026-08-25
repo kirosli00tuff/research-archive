@@ -1,0 +1,56 @@
+[
+  {
+    "mutation": "1. carry a value forward across a missing bar",
+    "describes": "Fill a hole in a feature span with the previous close, which is the exact shape of the seven historical fabrications.",
+    "target": "src/npd/data/features.py",
+    "guard": "tests/test_absence.py",
+    "guard_failed_as_required": true,
+    "guard_output": "E       AssertionError: assert 'ret_20' in set()\n\ntests/test_absence.py:71: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_absence.py::test_a_missing_bar_inside_the_span_produces_an_absence_not_a_number\nFAILED tests/test_absence.py::test_every_feature_reports_the_hole - Assertion...",
+    "restored_green": true
+  },
+  {
+    "mutation": "2. merge model_failed into source_failed",
+    "describes": "Collapse operational health into a data fault, destroying the distinction between a model that could not answer and a source that could not serve.",
+    "target": "src/npd/callstate.py",
+    "guard": "tests/test_guards.py",
+    "guard_failed_as_required": true,
+    "guard_output": "E        +  and   <CallState.MODEL_FAILED: 'source_failed'> = CallState.SOURCE_FAILED\n\ntests/test_guards.py:155: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_guards.py::test_five_distinct_call_states - AssertionError:...\nFAILED tests/test_guards.py::test_model_failed_and_source_failed_stay_separate",
+    "restored_green": true
+  },
+  {
+    "mutation": "3. let a non-evaluator module read the sealed forward returns",
+    "describes": "Give the collector a peek at the outcomes it is collecting against.",
+    "target": "src/npd/collect/collector.py",
+    "guard": "tests/test_guards.py",
+    "guard_failed_as_required": true,
+    "guard_output": "E       assert not ['collect/collector.py']\n\ntests/test_guards.py:98: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_guards.py::test_only_the_evaluator_mentions_the_sealed_store\nFAILED tests/test_guards.py::test_the_forward_return_table_is_read_only_through_a_guarded_path",
+    "restored_green": true
+  },
+  {
+    "mutation": "4. add a config field with no enforcement site",
+    "describes": "A knob that reads as registered and is enforced nowhere.",
+    "target": "src/npd/config.py",
+    "guard": "tests/test_guards.py",
+    "guard_failed_as_required": true,
+    "guard_output": "E       AssertionError: config fields with no enforcement site anywhere under src/npd: ['decorative_knob']. A key enforced nowhere is decoration.\nE       assert not ['decorative_knob']\n\ntests/test_guards.py:61: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_guards.py::test_every_config_field_has_an_enforcement_site",
+    "restored_green": true
+  },
+  {
+    "mutation": "6. let the evaluator run with Amendment 0 empty",
+    "describes": "Bypass the refusal that keeps B.2 shut until the operator records his prior. The refusal is the mechanism, not a reminder.",
+    "target": "src/npd/eval/evaluator.py",
+    "guard": "tests/test_guards.py",
+    "guard_failed_as_required": true,
+    "guard_output": ">       with pytest.raises(AmendmentZeroMissing):\nE       Failed: DID NOT RAISE AmendmentZeroMissing\n\ntests/test_guards.py:219: Failed\n=========================== short test summary info ============================\nFAILED tests/test_guards.py::test_a_blank_amendment_zero_blocks_b2 - Failed: ...",
+    "restored_green": true
+  },
+  {
+    "mutation": "5. let a real ticker reach a prompt",
+    "describes": "Label each row with its own symbol, defeating anonymization.",
+    "target": "src/npd/data/anonymize.py",
+    "guard": "tests/test_anonymization.py",
+    "guard_failed_as_required": true,
+    "guard_output": "FAILED tests/test_anonymization.py::test_no_real_ticker_appears_in_the_rendered_prompt\nFAILED tests/test_anonymization.py::test_labels_are_letters_only - AssertionE...\nFAILED tests/test_anonymization.py::test_no_label_equals_its_symbol - Asserti...\nFAILED tests/test_anonymization.py::test_the_mapping_is_remapped_every_call\nFAILED tests/test_anonymization.py::test_no_label_collides_with_any_symbol_in_the_same_panel\nFAILED tests/test_anonymization.py::test_a_panel_of_two_letter_tickers_still_renders_cleanly",
+    "restored_green": true
+  }
+]
