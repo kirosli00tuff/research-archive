@@ -5,6 +5,54 @@ actual after it finishes.
 
 ---
 
+## B.1. The live gate collection. 2026-08-25
+
+**ETA stated before start: 60 minutes. Actual: 194 minutes across three
+launches.** Two launches were stopped deliberately, each to record an amendment
+before collecting further. The overrun is entirely those two stops.
+
+**Section 0 verdict: GO.** 415 of 432 eligible days carry a stored, parseable
+ranking. Coverage 96.1 percent against a 90 percent bar.
+
+| state | days |
+|---|---|
+| `stored` | 415 |
+| `model_failed` | 17 |
+| `no_data` | 0 |
+| `excluded_pre_cutoff` | 0 |
+| `source_failed` | 0 |
+
+Spend 6.9378 USD of a 10.00 USD cap across 920 billed gate calls at a measured
+0.007508 USD each, plus 2 calibration calls excluded from the sample. The batch
+refusal never fired and no quota error was seen.
+
+All 415 stored rankings are structurally sound. Ranks are exactly 1 to 30,
+labels match that day mapping, symbols match that day panel, and the label to
+symbol relation is consistent on every day.
+
+Contact with the real model forced five amendments in one evening. The
+registration carries each with its evidence, including Amendment 3, which was a
+wrong diagnosis that was acted on and is kept rather than removed. The most
+consequential was Amendment 4: `low` reasoning failed to produce a valid
+permutation 47 percent of the time against `minimal` at 41 percent, which showed
+the output format was the problem rather than the reasoning budget. A strict
+JSON schema pinning 30 enum-constrained slots cut the projected total from 9.12
+USD to a measured 6.94 USD and turned a path heading for BLOCKED into one that
+fired GO.
+
+Amendment 5 mattered more than its size. The spend ledger recorded nothing for
+attempts whose answer failed to parse, though those calls were billed. It was
+reading 46 percent under actual, so the ledger-enforced cap was being enforced
+against the wrong number.
+
+Nothing was evaluated. No rank IC was computed, no output was joined to any
+outcome, and no hypothesis verdict was fired. Amendment 0 remains empty and
+B.2 remains blocked.
+
+Details in `reports/stage_b1/collection.md` and `reports/session_a1_b1.md`.
+
+---
+
 ## B.0b. The collector, built and mock-verified. 2026-08-25
 
 **ETA stated before start: 60 minutes. Actual: 52 minutes.**

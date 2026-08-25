@@ -1,0 +1,27 @@
+{
+  "window": {
+    "start": "2024-10-31",
+    "end": "2026-07-24",
+    "days": 432
+  },
+  "counts": {
+    "stored": 415,
+    "no_data": 0,
+    "model_failed": 17,
+    "excluded_pre_cutoff": 0,
+    "source_failed": 0
+  },
+  "coverage": 0.9606,
+  "verdict": "GO",
+  "spend_usd": 6.9378,
+  "cap_usd": 10.0,
+  "full_rankings_stored": 415,
+  "escalated_days": 53,
+  "integrity": {
+    "days_with_a_ranking": 415,
+    "ranks_are_1_to_30": 415,
+    "labels_match_the_mapping": 415,
+    "symbols_match_the_panel": 415,
+    "label_to_symbol_is_consistent": 415
+  }
+}

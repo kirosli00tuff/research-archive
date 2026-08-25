@@ -46,7 +46,10 @@ def main() -> int:
     spend = SpendLedger()
     evidence = EvidenceLedger()
     rows = evidence.rows()
-    gate_rows = [r for r in rows if r["date"] != "calibration"]
+    all_gate_rows = [r for r in rows if r["date"] != "calibration"]
+    current = template_digest()
+    gate_rows = [r for r in all_gate_rows if str(r.get("prompt_digest", "")) == current]
+    superseded_rows = [r for r in all_gate_rows if str(r.get("prompt_digest", "")) != current]
     attempts = collections.Counter(r["date"] for r in gate_rows)
     retried = {d: n for d, n in attempts.items() if n > 1}
     tokens_in = sum(int(r["input_tokens"]) for r in gate_rows)
@@ -188,10 +191,14 @@ def main() -> int:
         "",
         "## Operational health",
         "",
+        f"- attempts under the current procedure: **{len(gate_rows)}**, "
+        f"across {len(attempts)} days, {len(gate_rows) / max(1, len(attempts)):.2f} per day",
         f"- days needing more than one attempt: **{len(retried)}**",
-        f"- total attempts across all days: **{len(gate_rows)}**",
-        f"- calibration rows: **{len(calib)}**",
-        f"- attempts by reasoning effort: **{dict(collections.Counter(str(r.get('reasoning_effort') or 'superseded') for r in gate_rows))}**",
+        f"- attempts by reasoning effort: "
+        f"**{dict(collections.Counter(str(r.get('reasoning_effort')) for r in gate_rows))}**",
+        f"- superseded attempts, kept in the ledger and excluded from these counts: "
+        f"**{len(superseded_rows)}**",
+        f"- calibration calls, excluded from the sample: **{len(calib)}**",
         f"- days whose stored answer came from `low` after an escalation: **{escalated}**",
     ]
     if retried:

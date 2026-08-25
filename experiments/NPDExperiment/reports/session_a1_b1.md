@@ -173,7 +173,101 @@ than removed from the guard.
 
 ## Stage B.1. The live gate collection
 
-PLACEHOLDER_B1
+ETA 60 minutes. Actual 194 minutes across three launches, two of which were
+stopped deliberately to record an amendment before collecting further.
+
+### Preconditions, all met before the first call
+
+A.2.0 verified the cutoff and the derived window cleared 200 trading days at
+432. The full suite was green. All five B.0b mock scenarios passed.
+
+### The result
+
+| state | days | class |
+|---|---|---|
+| `stored` | **415** | sample |
+| `no_data` | 0 | sample composition |
+| `model_failed` | 17 | operational health |
+| `excluded_pre_cutoff` | 0 | sample composition |
+| `source_failed` | 0 | operational health |
+| **total** | **432** | |
+
+- eligible days, `excluded_pre_cutoff` removed from the denominator: **432**
+- days carrying a stored, parseable ranking: **415**
+- coverage: **96.1 percent**
+
+### Section 0 verdict: GO
+
+96.1 percent of eligible days carry a stored, parseable ranking, at or above the
+90 percent bar. Fired on coverage alone. No statistic relating an output to an
+outcome was computed.
+
+### Spend
+
+| item | value |
+|---|---|
+| gate calls billed | 920 |
+| calibration calls, excluded from the sample | 2 |
+| measured cost per gate call | 0.007508 USD |
+| **total spent** | **6.9378 USD of a 10.00 USD cap** |
+| remaining | 3.0622 USD |
+| input tokens | 3,514,278 |
+| output tokens | 361,641, of which reasoning 217,728 |
+
+The batch refusal never fired. No `insufficient_quota` error was seen.
+
+### Stored ranking integrity
+
+Structural only. No forward return was read and no output was joined to any
+outcome.
+
+| check | days |
+|---|---|
+| days with a ranking in the store | 415 |
+| ranks are exactly 1 to 30 | 415 |
+| labels match that day mapping | 415 |
+| symbols match that day panel | 415 |
+| label to symbol is consistent | 415 |
+
+### Operational health
+
+- attempts under the current procedure: 883 across 432 days, 2.04 per day
+- days needing more than one attempt: 175
+- attempts by reasoning effort: 813 `minimal`, 70 `low`
+- days whose stored answer came from `low` after an escalation: 53
+
+### Five amendments, each recorded before collecting resumed
+
+| n | raised by | what changed |
+|---|---|---|
+| 1 | the calibration call | `temperature` is not sent. The endpoint rejects any non-default value for this model. The registration no longer claims the output is deterministic. |
+| 2 | the calibration call | `reasoning_effort` set to `minimal` by the registered spend rule. Measured `low` at 2,432 reasoning tokens per call, projecting 11.78 USD over a 10 USD cap. |
+| 3 | 14 live calls | An escalation ladder after 9 of 14 attempts returned a malformed permutation. **This diagnosis was wrong.** |
+| 4 | 29 live days | `low` failed at 47 percent against `minimal` at 41 percent, so the format was the problem, not the reasoning budget. A strict JSON schema pins 30 enum-constrained slots. Prompt freeze re-established. Supersession now keys on the prompt digest. |
+| 5 | the same stop | Rejected answers are billed, so the ledger records them. It had been reading 46 percent under actual. |
+
+Amendment 3 is superseded by Amendment 4 and is kept in the registration rather
+than removed, because a wrong diagnosis that was acted on is part of the record.
+
+### What the amendments cost, and what they bought
+
+The 26 superseded attempts stay in the ledger and their 0.0286 USD still counts
+against the cap. Amendment 4 cut the projected total from 9.12 USD to a measured
+6.94 USD, cut mean latency from 16.3 to about 3 seconds per attempt, and lifted
+coverage from a path that would have fired BLOCKED to one that fired GO.
+
+### The limitation that survives into B.2
+
+The gate ran at `minimal` reasoning on 813 of 883 attempts. **A null result is a
+null for gpt-5-2025-08-07 at minimal reasoning effort, not for the model at its
+best.** Every sentence written about the outcome carries that qualifier.
+
+53 days carry an answer produced at `low` after an escalation. Days that needed
+escalation are days where `minimal` could not hold the format, and if that
+difficulty correlates with anything about the panel, the sample mixes two
+configurations non-randomly. The realized effort is stored per day for exactly
+this reason. B.2 reports the outcome split by realized effort beside the primary
+contrast, as a descriptive split that never becomes a verdict, under Clause 1.
 
 ---
 
