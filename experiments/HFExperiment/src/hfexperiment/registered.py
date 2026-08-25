@@ -84,6 +84,28 @@ THRESHOLDS = RegisteredThresholds()
 # Two legs per churned name gives the fill rate the drag arithmetic uses.
 CHURN_NAMES_PER_MONTH: dict[int, float] = {5: 2.0, 20: 5.2}
 
+# Section 11. The confidence sequence tuning parameter, frozen at
+# registration. verdict.tuned_rho() reproduces it by golden-section
+# search and tests/test_verdictengine.py pins the match to the full
+# stated precision. The engine consumes this constant, never re-tunes.
+RHO_FROZEN = 0.071641
+
+# Section 2 and the 2026-08-24 acceptance record. The first accrual day
+# of the shadow series is the first formation after acceptance,
+# formation-aligned per ADR-015. Nothing before this date enters any
+# weight or return computation.
+SHADOW_SERIES_START = "2026-09-01"
+
+# Section 11's honest projection, pinned as registered: with the sample
+# mean holding at the recorded width-5 mean against its implied daily
+# noise, the day the lower bound clears zero and the day it clears the
+# hurdle under the frozen construction. Reproduced by
+# verdict.first_crossing_day in tests/test_verdictengine.py.
+PROJECTION_MEAN_BP = 27.99
+PROJECTION_SIGMA_BP = 418.0
+PROJECTION_CLEAR_ZERO_DAY = 2061
+PROJECTION_CLEAR_HURDLE_DAY = 2852
+
 # Deferred parameters. Amendment 1 must land before the first live order.
 PER_NAME_NOTIONAL_USD = DeferredParameter(
     name="per_name_notional_usd",
