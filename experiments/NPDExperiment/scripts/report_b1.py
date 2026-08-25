@@ -53,6 +53,40 @@ def main() -> int:
     tokens_out = sum(int(r["output_tokens"]) for r in gate_rows)
     reasoning = sum(int(r["reasoning_tokens"]) for r in gate_rows)
     calib = [r for r in rows if r["date"] == "calibration"]
+    last_by_date: dict[str, dict[str, object]] = {}
+    for r in gate_rows:
+        last_by_date[str(r["date"])] = r
+    escalated = sum(
+        1
+        for r in last_by_date.values()
+        if r.get("state") == "stored" and str(r.get("reasoning_effort") or "") == "low"
+    )
+
+    # Structural integrity of what was stored. Ranks, labels, and symbols only.
+    # No forward return is read and no output is joined to any outcome.
+    integrity: dict[str, int] = collections.Counter()
+    with open_store() as con:
+        for d in dates:
+            ranking_rows = con.execute(
+                "SELECT rank, label, symbol FROM model_ranking WHERE date = ? ORDER BY rank", (d,)
+            ).fetchall()
+            if not ranking_rows:
+                continue
+            mapping = dict(
+                con.execute("SELECT label, symbol FROM anonymization WHERE date = ?", (d,))
+            )
+            panel_symbols = {
+                r[0] for r in con.execute("SELECT symbol FROM panel WHERE date = ?", (d,))
+            }
+            integrity["days_with_a_ranking"] += 1
+            if [r[0] for r in ranking_rows] == list(range(1, CONFIG.panel_size + 1)):
+                integrity["ranks_are_1_to_30"] += 1
+            if {r[1] for r in ranking_rows} == set(mapping):
+                integrity["labels_match_the_mapping"] += 1
+            if {r[2] for r in ranking_rows} == panel_symbols:
+                integrity["symbols_match_the_panel"] += 1
+            if all(mapping.get(r[1]) == r[2] for r in ranking_rows):
+                integrity["label_to_symbol_is_consistent"] += 1
 
     report = fire(counts, window_clears_power_floor=window.clears_power_floor)
     full_rankings = sum(1 for d in dates if ranked.get(d) == CONFIG.panel_size)
@@ -66,6 +100,8 @@ def main() -> int:
         "spend_usd": round(spend.total_usd(), 4),
         "cap_usd": CONFIG.spend_cap_usd,
         "full_rankings_stored": full_rankings,
+        "escalated_days": escalated,
+        "integrity": dict(integrity),
     }
 
     lines = [
@@ -137,11 +173,26 @@ def main() -> int:
         f"- input tokens: {tokens_in:,}",
         f"- output tokens: {tokens_out:,}, of which reasoning {reasoning:,}",
         "",
+        "## Stored ranking integrity",
+        "",
+        "Structural only. No forward return was read and no output was joined to any",
+        "outcome.",
+        "",
+        "| check | days |",
+        "|---|---|",
+        f"| days with a ranking in the store | {integrity['days_with_a_ranking']} |",
+        f"| ranks are exactly 1 to {CONFIG.panel_size} | {integrity['ranks_are_1_to_30']} |",
+        f"| labels match that day mapping | {integrity['labels_match_the_mapping']} |",
+        f"| symbols match that day panel | {integrity['symbols_match_the_panel']} |",
+        f"| label to symbol is consistent | {integrity['label_to_symbol_is_consistent']} |",
+        "",
         "## Operational health",
         "",
         f"- days needing more than one attempt: **{len(retried)}**",
         f"- total attempts across all days: **{len(gate_rows)}**",
         f"- calibration rows: **{len(calib)}**",
+        f"- attempts by reasoning effort: **{dict(collections.Counter(str(r.get('reasoning_effort') or 'superseded') for r in gate_rows))}**",
+        f"- days whose stored answer came from `low` after an escalation: **{escalated}**",
     ]
     if retried:
         lines += ["", "| date | attempts |", "|---|---|"]

@@ -39,6 +39,12 @@ names it fails the seal guard.
 
 - The gate model is `gpt-5-2025-08-07`, the dated snapshot. Never the bare
   `gpt-5` alias. An alias silently repoints when a successor ships.
+- Three amendments are in force and REGISTRATION.md Section 17 carries the
+  evidence for each. `temperature` is not sent, because the endpoint rejects any
+  non-default value for this model. `reasoning_effort` starts at `minimal`,
+  chosen by the registered spend rule against measured tokens. A parse failure
+  escalates that day to `low` and it stays there, because at `minimal` the model
+  often cannot hold a 30 label permutation.
 - Read-only source paths, and only these two:
   `~/Documents/GitHub/AiTrader/analysis_bars.db` and
   `~/Documents/GitHub/AiTrader/backtest/universe.py`.
