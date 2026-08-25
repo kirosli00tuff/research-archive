@@ -267,3 +267,151 @@ def test_a_refused_batch_sends_nothing(tmp_path: Path) -> None:
     assert adapter.calls == []
     assert result.stopped_early.startswith("spend_refused")
     assert spend.total_usd() == 0.0
+
+
+# --- Amendment 3, the reasoning effort ladder ------------------------------
+
+
+def test_the_ladder_starts_at_the_registered_effort_and_climbs_once() -> None:
+    from npd.collect.collector import effort_for_attempt
+
+    assert effort_for_attempt(1, CONFIG) == "minimal"
+    assert effort_for_attempt(2, CONFIG) == "low"
+    assert effort_for_attempt(3, CONFIG) == "low"
+    assert effort_for_attempt(CONFIG.max_retries, CONFIG) == "low"
+
+
+def test_the_ladder_is_identical_for_every_day() -> None:
+    """The procedure is uniform even though the realized effort is not."""
+    from npd.collect.collector import effort_for_attempt
+
+    ladders = {
+        tuple(effort_for_attempt(a, CONFIG) for a in range(1, CONFIG.max_retries + 1))
+        for _ in range(5)
+    }
+    assert len(ladders) == 1
+
+
+def test_a_config_without_a_ladder_falls_back_to_the_registered_effort() -> None:
+    from npd.collect.collector import effort_for_attempt
+
+    bare = dataclasses.replace(CONFIG, reasoning_effort_ladder=())
+    assert effort_for_attempt(1, bare) == CONFIG.reasoning_effort
+    assert effort_for_attempt(4, bare) == CONFIG.reasoning_effort
+
+
+def test_the_evidence_ledger_records_the_effort_each_attempt_used(tmp_path: Path) -> None:
+    path = _store(tmp_path)
+    spend, evidence = _ledgers(tmp_path)
+    adapter = MockAdapter(fail_dates=frozenset({DATES[1]}))
+    collect(
+        DATES,
+        adapter,
+        spend=spend,
+        evidence=evidence,
+        sleeper=_no_sleep,
+        pass_date_to_adapter=True,
+        store_path=path,
+    )
+    rows = [r for r in evidence.rows() if r["date"] == DATES[1]]
+    efforts = [r["reasoning_effort"] for r in rows]
+    assert efforts[0] == "minimal"
+    assert set(efforts[1:]) == {"low"}
+
+
+def test_retry_failed_reopens_days_that_failed_under_a_superseded_procedure(tmp_path: Path) -> None:
+    path = _store(tmp_path)
+    spend, evidence = _ledgers(tmp_path)
+    doomed = frozenset({DATES[1]})
+    collect(
+        DATES,
+        MockAdapter(fail_dates=doomed),
+        spend=spend,
+        evidence=evidence,
+        sleeper=_no_sleep,
+        pass_date_to_adapter=True,
+        store_path=path,
+    )
+
+    # Without the flag a failed day stays closed.
+    quiet = MockAdapter(seed=3)
+    collect(
+        DATES,
+        quiet,
+        spend=spend,
+        evidence=evidence,
+        sleeper=_no_sleep,
+        pass_date_to_adapter=True,
+        store_path=path,
+    )
+    assert quiet.calls == []
+
+    # With it, and only it, the day is attempted once more.
+    reopened = MockAdapter(seed=4)
+    result = collect(
+        DATES,
+        reopened,
+        spend=spend,
+        evidence=evidence,
+        sleeper=_no_sleep,
+        pass_date_to_adapter=True,
+        store_path=path,
+        retry_failed=True,
+    )
+    assert reopened.calls == [DATES[1]]
+    assert result.counts[CallState.STORED] == len(DATES)
+
+
+def test_a_day_stored_under_a_superseded_procedure_is_recollected(tmp_path: Path) -> None:
+    """Amendment 3 changed the retry procedure, so its predecessors do not count.
+
+    A row written before the ladder existed carries no reasoning_effort. The
+    resume logic treats that day as not yet collected, so every day in the final
+    sample came from one identical procedure. The superseded rows stay in the
+    ledger, because a ledger is history.
+    """
+    path = _store(tmp_path)
+    spend, evidence = _ledgers(tmp_path)
+
+    # A row shaped like the pre-Amendment-3 ledger: stored, no effort recorded.
+    evidence._ledger.append(
+        {
+            "ts": "2026-08-25T17:12:52+00:00",
+            "date": DATES[0],
+            "state": "stored",
+            "model": CONFIG.gate_model,
+            "attempt": 1,
+            "input_tokens": 1753,
+            "cached_input_tokens": 0,
+            "output_tokens": 106,
+            "reasoning_tokens": 0,
+            "cost_usd": 0.003251,
+            "latency_s": 2.3,
+            "raw_response": "{}",
+            "detail": "",
+        }
+    )
+    adapter = MockAdapter()
+    collect(
+        DATES,
+        adapter,
+        spend=spend,
+        evidence=evidence,
+        sleeper=_no_sleep,
+        pass_date_to_adapter=True,
+        store_path=path,
+    )
+    assert DATES[0] in adapter.calls, "a superseded day was not recollected"
+
+    # And a day stored under the current procedure is not called again.
+    second = MockAdapter(seed=8)
+    collect(
+        DATES,
+        second,
+        spend=spend,
+        evidence=evidence,
+        sleeper=_no_sleep,
+        pass_date_to_adapter=True,
+        store_path=path,
+    )
+    assert second.calls == []

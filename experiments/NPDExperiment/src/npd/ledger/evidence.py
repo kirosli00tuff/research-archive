@@ -24,6 +24,7 @@ class EvidenceRow:
     state: str
     model: str
     attempt: int
+    reasoning_effort: str
     input_tokens: int
     cached_input_tokens: int
     output_tokens: int
@@ -49,6 +50,7 @@ class EvidenceLedger:
         state: CallState,
         model: str,
         attempt: int,
+        reasoning_effort: str = "",
         input_tokens: int = 0,
         cached_input_tokens: int = 0,
         output_tokens: int = 0,
@@ -64,6 +66,7 @@ class EvidenceLedger:
             state=state.value,
             model=model,
             attempt=attempt,
+            reasoning_effort=reasoning_effort,
             input_tokens=input_tokens,
             cached_input_tokens=cached_input_tokens,
             output_tokens=output_tokens,
@@ -84,4 +87,11 @@ class EvidenceLedger:
         out: dict[str, CallState] = {}
         for r in self._ledger.iter_rows():
             out[str(r["date"])] = CallState(r["state"])
+        return out
+
+    def last_row_by_date(self) -> dict[str, dict[str, Any]]:
+        """The last recorded row for each date, whatever its state."""
+        out: dict[str, dict[str, Any]] = {}
+        for r in self._ledger.iter_rows():
+            out[str(r["date"])] = r
         return out

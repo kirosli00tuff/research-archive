@@ -56,10 +56,16 @@ class Answer:
 class Adapter(Protocol):
     name: str
 
-    def rank(self, prompt: Prompt, date: str = "") -> Answer:
-        """Rank one panel. `date` is passed by the mock so a scenario can script
-        a fault on a specific day. The live adapter ignores it, because the date
-        is exactly what must never reach the model."""
+    def rank(self, prompt: Prompt, date: str = "", effort: str | None = None) -> Answer:
+        """Rank one panel.
+
+        `date` is passed by the mock so a scenario can script a fault on a
+        specific day. The live adapter ignores it, because the date is exactly
+        what must never reach the model.
+
+        `effort` overrides the registered reasoning effort for this attempt. The
+        collector raises it one rung after a parse failure. See Amendment 3.
+        """
         ...
 
 
@@ -119,7 +125,7 @@ class OpenAIAdapter:
     def disable_temperature(self) -> None:
         self._send_temperature = False
 
-    def rank(self, prompt: Prompt, date: str = "") -> Answer:
+    def rank(self, prompt: Prompt, date: str = "", effort: str | None = None) -> Answer:
         _ = date  # never sent. See the Adapter protocol.
         body: dict[str, object] = {
             "model": self._cfg.gate_model,
@@ -129,7 +135,7 @@ class OpenAIAdapter:
             ],
             "response_format": {"type": "json_object"},
             "max_completion_tokens": self._cfg.max_output_tokens,
-            "reasoning_effort": self._cfg.reasoning_effort,
+            "reasoning_effort": effort or self._cfg.reasoning_effort,
         }
         if self._send_temperature:
             body["temperature"] = self._cfg.temperature

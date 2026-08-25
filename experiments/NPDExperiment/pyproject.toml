@@ -46,12 +46,13 @@ ignore = ["E501", "N818"]
 "src/npd/cli.py" = ["T20"]
 "src/npd/collect/__main__.py" = ["T20"]
 "src/npd/data/build.py" = ["T20"]
+"scripts/*" = ["T20"]
 
 [tool.mypy]
 python_version = "3.11"
 strict = true
 warn_unreachable = true
-files = ["src/npd", "tests"]
+files = ["src/npd", "tests", "scripts"]
 
 [[tool.mypy.overrides]]
 module = ["sklearn.*", "scipy.*", "pandas.*", "numpy.*"]

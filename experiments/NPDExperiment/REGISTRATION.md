@@ -487,3 +487,51 @@ hindsight.
 **Both calibration calls are in the spend ledger** under kind `calibration`,
 keyed to the sentinel date `calibration`, excluded from the sample, and costing
 0.030522 USD together.
+
+### Amendment 3. A reasoning effort ladder, because minimal cannot hold the format
+
+**Raised 2026-08-25, 14 gate calls into B.1. The run was stopped to record this
+before it went further.**
+
+Amendment 2 set `reasoning_effort` to `minimal`. The calibration call parsed
+cleanly at that setting, but one call is not a sample. Across the first 14 live
+attempts the model failed to return a usable permutation of the 30 labels on 9 of
+them, and 2024-11-11 exhausted all five retries and landed in `model_failed`.
+
+The failures are format compliance, not judgement:
+
+| failure | count |
+|---|---|
+| ranking omitted or duplicated a label | 5 |
+| ranking had 31, 32, 35, or 37 entries instead of 30 | 4 |
+
+**Effect.** `reasoning_effort_ladder` is registered as `("minimal", "low")`.
+Attempt one uses `minimal`. Any parse failure sends the next attempt to `low`,
+where it stays. The ladder is identical for every day, so the procedure is
+uniform even though the realized effort is not. The effort used is recorded on
+every evidence row.
+
+**Why this is an operational fix and not a design change.** Section 15 classifies
+`model_failed` as **operational health**, not sample composition. Nothing here
+touches the hypothesis, the features, the panel, the baselines, the horizon, or
+the inference. It changes how reliably a ranking the model already produced gets
+captured.
+
+**The confound this creates, stated plainly.** Days that needed `low` are days
+where `minimal` could not hold the format. If that difficulty correlates with
+anything about the panel, the sample mixes two configurations in a way that is
+not random. The realized effort is stored per day for exactly this reason, and
+B.2 reports the outcome split by realized effort alongside the primary contrast.
+The split is descriptive. It does not become a verdict, under Clause 1.
+
+**Days already collected are recollected.** The 7 days stored before this
+amendment followed the superseded procedure. Their evidence rows carry no
+`reasoning_effort`, and the resume logic treats such a day as not yet collected,
+so every day in the final sample came from one identical procedure. The
+superseded rows stay in the ledger. A ledger is history and history is not
+edited. The 9 superseded attempts cost 0.0286 USD and that spend still counts
+against the cap.
+
+**Spend.** At an assumed one fifth of days needing one escalated attempt, the
+projection is roughly 3.8 USD against the 10 USD cap. The per-batch refusal uses
+measured cost, so the cap holds regardless of how the assumption turns out.

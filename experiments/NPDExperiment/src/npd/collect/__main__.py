@@ -64,7 +64,7 @@ def cmd_mock(which: str) -> int:
     return 0 if outcome.get("all_passed", False) else 1
 
 
-def cmd_live() -> int:
+def cmd_live(*, retry_failed: bool = False) -> int:
     from npd.collect.adapter import OpenAIAdapter
     from npd.env import load_env
 
@@ -73,7 +73,24 @@ def cmd_live() -> int:
 
     dates = window_dates()
     adapter = OpenAIAdapter()
-    result = collect(dates, adapter, cfg=CONFIG, spend=SpendLedger(), evidence=EvidenceLedger())
+    spend = SpendLedger()
+
+    def show(date: str, state: CallState, done: int, total: int) -> None:
+        if done % 10 == 0 or state is not CallState.STORED:
+            print(
+                f"  {done}/{total}  {date}  {state.value}  {spend.total_usd():.4f} USD",
+                flush=True,
+            )
+
+    result = collect(
+        dates,
+        adapter,
+        cfg=CONFIG,
+        spend=spend,
+        evidence=EvidenceLedger(),
+        retry_failed=retry_failed,
+        progress=show,
+    )
     counts = {st: result.counts.get(st, 0) for st in ALL_STATES}
     report = fire(counts, window_clears_power_floor=clears_floor())
     print(
@@ -98,6 +115,11 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--adapter", choices=("mock", "openai"))
     ap.add_argument("--scenarios", default="all")
     ap.add_argument("--status", action="store_true")
+    ap.add_argument(
+        "--retry-failed",
+        action="store_true",
+        help="reopen days that reached model_failed under a superseded procedure",
+    )
     args = ap.parse_args(argv)
 
     if args.status:
@@ -105,7 +127,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.adapter == "mock":
         return cmd_mock(args.scenarios)
     if args.adapter == "openai":
-        return cmd_live()
+        return cmd_live(retry_failed=args.retry_failed)
     ap.print_help()
     return 2
 

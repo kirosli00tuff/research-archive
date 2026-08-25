@@ -47,6 +47,9 @@ def check(path: Path = REGISTRATION, cfg: Config = CONFIG) -> list[Disagreement]
     want("bootstrap_resamples", f"{cfg.bootstrap_resamples:,}")
     want("spend_cap_usd", f"{cfg.spend_cap_usd:.2f} USD")
     want("primary_horizon_sessions", f"next-{cfg.primary_horizon_sessions}-session")
+    want("reasoning_effort", cfg.reasoning_effort)
+    for rung in cfg.reasoning_effort_ladder:
+        want("reasoning_effort_ladder", f"`{rung}`")
 
     low, high = cfg.realistic_effect_band
     want("realistic_effect_band", f"{low:g} to {high:g}")

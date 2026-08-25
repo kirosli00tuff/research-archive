@@ -50,7 +50,8 @@ class MockAdapter:
     calls: list[str] = field(default_factory=list)
     _rng: Random = field(default_factory=lambda: Random(7))
 
-    def rank(self, prompt: Prompt, date: str = "") -> Answer:
+    def rank(self, prompt: Prompt, date: str = "", effort: str | None = None) -> Answer:
+        _ = effort
         self.calls.append(date)
         if self.kill_after is not None and len(self.calls) > self.kill_after:
             raise KilledMidRun(f"scripted kill after {self.kill_after} calls")

@@ -113,13 +113,20 @@ def collect(
     sleeper: Callable[[float], None] = time.sleep,
     pass_date_to_adapter: bool = False,
     store_path: Path = STORE_DB,
+    retry_failed: bool = False,
+    progress: Callable[[str, CallState, int, int], None] | None = None,
 ) -> CollectionResult:
     """Run the collection over the given dates. Resumes, retries, and refuses."""
     spend = spend or SpendLedger(cfg=cfg)
     evidence = evidence or EvidenceLedger()
     result = CollectionResult()
 
-    done = {d: s for d, s in evidence.terminal_state_by_date().items() if s in TERMINAL_STATES}
+    terminal = TERMINAL_STATES - ({CallState.MODEL_FAILED} if retry_failed else frozenset())
+    done = {
+        d: CallState(row["state"])
+        for d, row in evidence.last_row_by_date().items()
+        if CallState(row["state"]) in terminal and _procedure_is_current(row)
+    }
     for d, s in done.items():
         if d in set(dates):
             result.bump(s)
@@ -156,6 +163,8 @@ def collect(
                     )
                     record_day_state(con, date, CallState.SOURCE_FAILED.value, "incomplete panel")
                     result.bump(CallState.SOURCE_FAILED)
+                    if progress is not None:
+                        progress(date, CallState.SOURCE_FAILED, result.calls_sent, len(todo))
                     continue
 
                 built = prompt_mod.build(payload.labels, payload.z_by_label, cfg)
@@ -182,9 +191,25 @@ def collect(
                 con.commit()
                 result.bump(state)
                 result.calls_sent += 1
+                if progress is not None:
+                    progress(date, state, result.calls_sent, len(todo))
 
     result.spend_usd = spend.total_usd()
     return result
+
+
+def _procedure_is_current(row: dict[str, object]) -> bool:
+    """Whether a stored day was produced by the procedure now in force.
+
+    Amendment 3 replaced a flat retry with a reasoning effort ladder. Rows
+    written before it carry no reasoning_effort, so a day stored under the
+    superseded procedure is recollected rather than mixed into a sample whose
+    other days followed a different one. The superseded rows stay in the ledger,
+    because a ledger is history and history is not edited.
+    """
+    if CallState(str(row["state"])) is not CallState.STORED:
+        return True
+    return bool(str(row.get("reasoning_effort", "")))
 
 
 def reconcile(con: sqlite3.Connection, evidence: EvidenceLedger, dates: Sequence[str]) -> int:
@@ -199,8 +224,13 @@ def reconcile(con: sqlite3.Connection, evidence: EvidenceLedger, dates: Sequence
     wanted = set(dates)
     stored_in_ledger: dict[str, str] = {}
     for row in evidence.rows():
-        if row.get("date") in wanted and row.get("state") == CallState.STORED.value:
-            stored_in_ledger[str(row["date"])] = str(row.get("raw_response", ""))
+        if row.get("date") not in wanted or row.get("state") != CallState.STORED.value:
+            continue
+        if not _procedure_is_current(row):
+            # Superseded by an amendment. The day is recollected, not rebuilt.
+            stored_in_ledger.pop(str(row["date"]), None)
+            continue
+        stored_in_ledger[str(row["date"])] = str(row.get("raw_response", ""))
 
     have = (
         {
@@ -222,7 +252,12 @@ def reconcile(con: sqlite3.Connection, evidence: EvidenceLedger, dates: Sequence
         payload = load_day(con, date)
         if payload is None:
             continue
-        ranking = parse_ranking(raw, payload.labels)
+        try:
+            ranking = parse_ranking(raw, payload.labels)
+        except UnparseableResponse:
+            # The ledger kept a response this panel cannot be rebuilt from. Left
+            # for the collector to call again rather than repaired by a guess.
+            continue
         con.executemany(
             "INSERT OR REPLACE INTO model_ranking(date, rank, label, symbol) VALUES(?,?,?,?)",
             [(date, i + 1, lab, payload.label_to_symbol[lab]) for i, lab in enumerate(ranking)],
@@ -231,6 +266,19 @@ def reconcile(con: sqlite3.Connection, evidence: EvidenceLedger, dates: Sequence
         repaired += 1
     con.commit()
     return repaired
+
+
+def effort_for_attempt(attempt: int, cfg: Config) -> str:
+    """Which reasoning effort this attempt uses. Amendment 3.
+
+    Attempt one uses the registered effort. A parse failure means the model did
+    not return a usable permutation of the labels, which is a format compliance
+    problem rather than a judgement problem, so the next attempt climbs one rung
+    of the ladder and stays there. The ladder is identical for every day, so the
+    procedure is uniform even though the realized effort is not.
+    """
+    ladder = cfg.reasoning_effort_ladder or (cfg.reasoning_effort,)
+    return ladder[min(attempt - 1, len(ladder) - 1)]
 
 
 def _call_with_retries(
@@ -246,14 +294,18 @@ def _call_with_retries(
     """Return the terminal state for one day, or None to stop the whole run."""
     last_detail = ""
     for attempt in range(1, cfg.max_retries + 1):
+        effort = effort_for_attempt(attempt, cfg)
         try:
-            answer = adapter.rank(built, date) if pass_date else adapter.rank(built)
+            answer = (
+                adapter.rank(built, date, effort) if pass_date else adapter.rank(built, "", effort)
+            )
         except QuotaExhausted as exc:
             evidence.record(
                 date=date,
                 state=CallState.NO_DATA,
                 model=cfg.gate_model,
                 attempt=attempt,
+                reasoning_effort=effort,
                 detail=f"insufficient_quota: {exc}",
             )
             return None, None, f"quota_exhausted: {exc}"
@@ -263,6 +315,7 @@ def _call_with_retries(
                 state=CallState.MODEL_FAILED,
                 model=cfg.gate_model,
                 attempt=attempt,
+                reasoning_effort=effort,
                 detail=f"auth: {exc}",
             )
             return None, None, f"auth_fault: {exc}"
@@ -275,6 +328,7 @@ def _call_with_retries(
                     state=CallState.MODEL_FAILED,
                     model=cfg.gate_model,
                     attempt=attempt,
+                    reasoning_effort=effort,
                     detail=f"parameter rejected, retrying without it: {exc}",
                 )
                 continue
@@ -286,6 +340,7 @@ def _call_with_retries(
                 state=CallState.MODEL_FAILED,
                 model=cfg.gate_model,
                 attempt=attempt,
+                reasoning_effort=effort,
                 detail=last_detail,
             )
             if attempt < cfg.max_retries:
@@ -302,6 +357,7 @@ def _call_with_retries(
         spend.record(
             date=date,
             kind="gate",
+            note=f"reasoning_effort={effort}, attempt={attempt}",
             input_tokens=answer.usage.input_tokens,
             cached_input_tokens=answer.usage.cached_input_tokens,
             output_tokens=answer.usage.output_tokens,
@@ -311,6 +367,7 @@ def _call_with_retries(
             state=CallState.STORED,
             model=cfg.gate_model,
             attempt=attempt,
+            reasoning_effort=effort,
             input_tokens=answer.usage.input_tokens,
             cached_input_tokens=answer.usage.cached_input_tokens,
             output_tokens=answer.usage.output_tokens,

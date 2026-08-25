@@ -5,8 +5,8 @@ install:
 	uv pip install -e ".[dev]"
 
 lint:
-	uv run ruff check src tests
-	uv run ruff format --check src tests
+	uv run ruff check src tests scripts
+	uv run ruff format --check src tests scripts
 
 type:
 	uv run mypy

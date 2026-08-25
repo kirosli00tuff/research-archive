@@ -43,6 +43,7 @@ class Config:
     send_temperature: bool
     max_output_tokens: int
     reasoning_effort: str
+    reasoning_effort_ladder: tuple[str, ...]
     request_timeout_seconds: float
     max_retries: int
     backoff_base_seconds: float
@@ -98,6 +99,7 @@ CONFIG: Final = Config(
     send_temperature=False,  # Amendment 1. The endpoint rejects it for this model.
     max_output_tokens=4096,
     reasoning_effort="minimal",  # Amendment 2. Set by the registered decision rule.
+    reasoning_effort_ladder=("minimal", "low"),  # Amendment 3. Escalate on a parse failure.
     request_timeout_seconds=180.0,
     max_retries=5,
     backoff_base_seconds=2.0,
