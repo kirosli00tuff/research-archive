@@ -48,7 +48,7 @@ WAIT_S = 8.0
 READ_ONLY_MARKERS = ("read-only", "read only", "readonly")
 
 
-class OrderCapExceeded(RuntimeError):
+class OrderCapExceededError(RuntimeError):
     pass
 
 
@@ -95,7 +95,7 @@ class A1b:
     def _order_rails(self, order: Order) -> Order:
         self.orders_placed += 1
         if self.orders_placed > ORDER_CAP:
-            raise OrderCapExceeded(f"order cap {ORDER_CAP} reached")
+            raise OrderCapExceededError(f"order cap {ORDER_CAP} reached")
         order.account = self.account
         order.tif = "DAY"
         return order
@@ -163,9 +163,9 @@ class A1b:
             )
         self.ib.errorEvent += self._on_error
 
-    def _on_error(self, reqId: int, code: int, msg: str,
+    def _on_error(self, req_id: int, code: int, msg: str,
                   *args: Any) -> None:
-        self.ev.rec("api_error", req_id=reqId, code=code, message=msg)
+        self.ev.rec("api_error", req_id=req_id, code=code, message=msg)
         lowered = msg.lower()
         if any(m in lowered for m in READ_ONLY_MARKERS):
             self.read_only_detected = f"error {code}: {msg}"
