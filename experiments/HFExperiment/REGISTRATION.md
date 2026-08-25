@@ -293,3 +293,12 @@ the A.2 spread measurement over sessions 2026-08-19 to 2026-08-21, and
 zero shadow observations, because the series has not started. Amendment
 1 stays reserved for the deferred parameters of Section 5 and has not
 landed. Nothing above this log changes.
+
+### 2026-08-25: Section 0 verdict
+
+BLOCKED. The IBKR TWS API refused fractional quantities however
+phrased on paper account [paper account ID removed], error 10243 on decimal
+totalQuantity across two book names and two order types, error 10244
+on cashQty, while a whole-share control order was accepted, evidence
+in reports/stage_a1b. Per Section 0 phases C and D stop and phase B
+proceeds unchanged. No parameter changes.

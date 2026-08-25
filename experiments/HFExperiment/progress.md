@@ -2,6 +2,39 @@
 
 Append-only. One dated entry per stage, newest at top.
 
+## 2026-08-25: Stage A.1b
+
+ETA stated before starting: 60 minutes. Actual: 35 minutes.
+
+Measured. The fractional question, settled by paper order behaviour on
+[paper account ID removed], market closed, which did not matter because every answer
+came at order validation. All 20 names of the 2026-08-03 width-20 book
+advertise MinSize 0.0001 and SizeIncrement 0.0001, fractionable at the
+instrument layer. Every fractional order was refused by the API
+channel: error 10243 on decimal totalQuantity, market and limit, MU
+and TE, and error 10244 on cashQty. A one-share control order was
+accepted and queued for the open, proving the channel works, Read-Only
+is off, and the refusal is specific to fractional sizing. Five of the
+ten authorized orders used. No fills, no commissions, positions
+verified flat twice. Evidence ledger and report in reports/stage_a1b.
+
+Fired. Section 0 verdict BLOCKED, recorded in the REGISTRATION.md
+amendment log as a dated factual entry. Per Section 0 phases C and D
+stop and phase B proceeds unchanged. Per Section 6 the DEGRADED
+whole-share branch stays closed at this stake. The shadow series
+carries the experiment alone and answers the signal question, which
+was the design's point. ADR-003's reopening clause stands: an Alpaca
+Canadian launch or IBKR shipping API fractional support reopens the
+table as a new measurement.
+
+Resolved. The cashQty-versus-decimal documentation contradiction,
+ADR-022, by observed behaviour with verbatim errors as citation.
+
+Open. Operator re-checks Read-Only API in the Gateway, which stays on
+until a live phase exists to need otherwise. The B.1a assets-endpoint
+fix before 2026-09-01 remains the critical pre-start item. C.2 and
+D.1 as previously scoped are now moot at this stake.
+
 ## 2026-08-25: Stage C.1
 
 ETA stated before starting: 120 minutes. Actual: 50 minutes.

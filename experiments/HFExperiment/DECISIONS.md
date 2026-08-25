@@ -387,3 +387,33 @@ data/ledger/spend.jsonl stays untouched until D.1 writes real records.
 
 Changes them: a stated assumption failing, or the stage that owns the
 touched surface.
+
+## ADR-022: The cashQty contradiction, resolved by behaviour
+
+A.1 recorded the conflict and refused to resolve it from
+documentation: IBKR staff wrote in June 2026 that the API does not
+support cash-quantity orders outside crypto, a third-party guide from
+March 2026 claimed the opposite, and an Elite Trader thread reported
+silent rounding. A.1b resolved it by behaviour on 2026-08-25, paper
+account [paper account ID removed], Gateway server version 187.
+
+Observed, verbatim in reports/stage_a1b/evidence.jsonl: a market DAY
+buy with cashQty 45.00 and no share quantity was refused at validation
+with error 10244, "Cash Quantity cannot be used for this order". No
+silent rounding occurred because nothing was accepted to round. The
+decimal path was refused in the same session with error 10243,
+"Fractional-sized order cannot be placed via API. Please use desktop
+version to place this order", across two names and two order types,
+while a whole-share control order was accepted and queued. The staff
+claim stands, the third-party claim is refuted, and the rounding
+report is moot on this channel.
+
+Both fractional phrasings refusing while whole shares accept is what
+fired Section 0's BLOCKED. The eligibility layer advertises 0.0001
+increments on all 20 book names, so the instruments are fractionable
+and the refusal is the API channel itself, which matches the error
+text's own words.
+
+Changes it: IBKR shipping fractional support in the TWS API, or an
+Alpaca Canadian launch per ADR-003. Either is a new measurement, not
+a reinterpretation of this one.
