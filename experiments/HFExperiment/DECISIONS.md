@@ -302,3 +302,88 @@ guard.
 
 Changes them: a stated assumption failing, or the operator before
 2026-09-01. Nothing after the series starts.
+
+## ADR-018: Account pinning in lieu of the scoped username
+
+The operator declined the scoped IBKR username and runs the Gateway
+from the full-access main login. The session can therefore see and
+trade accounts holding money that is not this project's, and software
+is the only thing standing between a defect and those holdings. The
+pin is refusal 8, first-class and checked before every other check
+including the deferred steady state: the intent's account must be
+present, must exactly equal IBKR_ACCOUNT_ID from .env, and must carry
+the declared mode's prefix, DU under paper, U under live. Absent,
+empty, mismatched, and mode-inconsistent each refuse with the
+arithmetic named. Empty is its own case because the TWS API treats an
+empty account field as a request for the default account, which on
+this login is the operator's main account. The C.1 probe found the
+paper session managing exactly one account, [paper account ID removed], which narrows
+the exposure today, and the pin stands anyway because the live login
+will not be so narrow.
+
+Changes it: the operator adopting the scoped username, which would
+demote this from sole defense to defense in depth. The check itself
+never comes out.
+
+## ADR-019: The probe imports no order endpoint
+
+The connectivity probe speaks the minimal v100 TWS wire protocol
+itself rather than importing a broker library, so no order vocabulary
+exists in its import graph at all. Its encoder can produce exactly two
+outbound messages, START_API and REQ_CURRENT_TIME, and refuses every
+other message id including placeOrder's id 3. The Gateway's Read-Only
+API setting backs this from the other side and this stage never asks
+for it off. Unreachable is a recorded state, not an error, so C.3's
+dry formation can use the probe as its pre-flight and the operator
+gets the Sunday-reauth deadness check in software.
+
+Changes it: D.1's real adapter, which will import an order path behind
+the gate. The probe itself stays order-free forever.
+
+## ADR-020: The intent-construction refusal boundary
+
+Two walls, both demonstrated. construct_intent refuses any intent with
+an absent field, so a malformed intent cannot travel, and it refuses a
+missing captured quote with its own reason, no_arrival_mid, mirroring
+the registered termination fill_without_arrival_mid: the intent layer
+refuses earlier, before anything exists that could fill. The gate then
+re-checks the account on whatever object arrives, because the second
+wall exists precisely for the defect that builds an Intent directly
+and skips the first. The demonstration produced both walls, and
+mutation 1 proved the suite notices when the second one goes missing.
+
+Changes it: nothing. Removing either wall must fail the suite.
+
+## ADR-021: Choices Stage C.1 made autonomously
+
+Formation source: the stage names the real 2026-08-03 formation from
+the bar store, but the B.1 store records formations only from the
+2026-09-01 series start, so it can never hold 2026-08-03. The
+formation was computed fresh through the registered rule with the
+project's own Alpaca keys into data/c1_formation.db, a store C.1 owns.
+The B.1 store, ledgers, and timer were not touched. Changes it: a
+recorded instruction to backfill formations into the B.1 store, which
+today's B.1 code deliberately refuses.
+
+The paper-api finding: Alpaca serves trading-API endpoints for paper
+keys from paper-api.alpaca.markets, and B.1 pinned api.alpaca.markets,
+which 401s on /v2/assets with the keys in .env. C.1 may not touch B.1
+source, so the override is confined to scripts/fetch_c1_formation.py.
+Consequence traced: B.1's nightly runs succeed until 2026-08-31
+because no formation is due and no assets call happens, and the
+2026-09-01 formation run fails loudly on the 401 and retries daily
+until the one-line fix lands under B.1 authorization. Bars backfill,
+so the series heals whenever the fix lands, but it should land before
+2026-09-01. Changes it: the fix landing, which closes this note.
+
+Declared mode: a code constant, paper, in brokerconfig.py rather than
+an operator-editable .env variable, so the mode, the port, and the
+account prefix are three facts that must cohere and only D.1 changes
+the first by amendment. Demo constants: notional 45.00 and broker
+minimum 1.00, labelled DEMO everywhere, resolving nothing registered.
+The demonstration ledgers under reports/stage_c1 are evidence
+artifacts regenerated per run. The real spend ledger at
+data/ledger/spend.jsonl stays untouched until D.1 writes real records.
+
+Changes them: a stated assumption failing, or the stage that owns the
+touched surface.

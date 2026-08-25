@@ -2,6 +2,52 @@
 
 Append-only. One dated entry per stage, newest at top.
 
+## 2026-08-25: Stage C.1
+
+ETA stated before starting: 120 minutes. Actual: 50 minutes.
+
+Built. The order intent pipeline as pure data: formation to target
+book to diff to intents to gate (intents.py). The wired gate with the
+eight refusals, account pinning first (gatewire.py, brokerconfig.py).
+The spend ledger on the A.1 append-only primitive with the
+rolling-year query and D.1's reconciliation stub (spendledger.py).
+The read-only connectivity probe speaking minimal v100 TWS wire with
+an encoder that can only emit START_API and REQ_CURRENT_TIME
+(ibkrprobe.py). The mock broker with the adapter shape and no submit
+method (mockbroker.py). Nothing places an order, paper or live.
+
+Demonstrated. All eight refusals produced with named arithmetic
+against the real 2026-08-03 width-20 formation, computed fresh into
+C.1's own store. The account pin shown four ways at the gate plus the
+construction wall. The steady state shown: all 20 intents refused at
+deferred_parameter_unresolved because Amendment 1 has not landed. One
+intent reached priced-and-ready under DEMO-resolved parameters and
+stopped exactly at Amendment 1 under the registered ones. Evidence in
+reports/stage_c1/refusals.md with the demonstration ledgers beside it.
+
+Probed. The paper Gateway is live at 127.0.0.1:4002, server version
+187. [paper account ID removed] verified in a managed list of exactly one account,
+server time read, disconnected. Mode-port asserted before connecting.
+Read-Only API stays on.
+
+Found. Alpaca serves trading-API endpoints for paper keys from
+paper-api.alpaca.markets. B.1 pinned api.alpaca.markets, which 401s on
+/v2/assets. B.1's nightly runs succeed until 2026-08-31 because no
+assets call happens before a formation is due, and the 2026-09-01
+formation run will fail loudly until a one-line fix lands under B.1
+authorization. Recorded in ADR-021. The fix should land before
+2026-09-01.
+
+Tested. 158 tests green under mypy strict and ruff, the B.1 monitor
+guard among them. All four required mutations applied to real source,
+each caught, restored green: pin check deleted, empty account passing
+as default, SmartRouting bypassed, deferred parameter read as 45.0.
+Evidence in reports/stage_c1/mutation_tests.txt.
+
+Open. C.2 waits on A.1b's paper fills for the three deferred
+parameters. The B.1 paper-api fix before 2026-09-01. Alpaca keys are
+in .env and the timer's first collection runs tonight 23:30 UTC.
+
 ## 2026-08-24: Stage B.1
 
 ETA stated before starting: 150 minutes. Actual: 80 minutes.
