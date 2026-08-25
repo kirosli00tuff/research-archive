@@ -14,6 +14,7 @@ from npd.collect.adapter import UnparseableResponse, parse_ranking
 from npd.collect.collector import collect, load_day, reconcile
 from npd.collect.mock import MockAdapter
 from npd.collect.prompt import build as build_prompt
+from npd.collect.prompt import slot_names, template_digest
 from npd.config import CONFIG
 from npd.data.anonymize import build as build_mapping
 from npd.data.anonymize import new_nonce
@@ -61,15 +62,19 @@ def _no_sleep(_s: float) -> None:
 # --- parsing ---------------------------------------------------------------
 
 
+def _slots(order: list[str]) -> str:
+    """Render an order in the registered output shape, r01 through rNN."""
+    return json.dumps(dict(zip(slot_names(len(order)), order, strict=True)))
+
+
 def test_parse_accepts_a_clean_ranking() -> None:
     labels = ("AB", "CD", "EF")
-    raw = json.dumps({"ranking": ["CD", "AB", "EF"]})
-    assert parse_ranking(raw, labels) == ("CD", "AB", "EF")
+    assert parse_ranking(_slots(["CD", "AB", "EF"]), labels) == ("CD", "AB", "EF")
 
 
 def test_parse_accepts_a_fenced_block() -> None:
     labels = ("AB", "CD")
-    raw = '```json\n{"ranking": ["AB", "CD"]}\n```'
+    raw = "```json\n" + _slots(["AB", "CD"]) + "\n```"
     assert parse_ranking(raw, labels) == ("AB", "CD")
 
 
@@ -77,11 +82,12 @@ def test_parse_accepts_a_fenced_block() -> None:
     "raw",
     [
         "not json at all",
-        json.dumps({"order": ["AB", "CD"]}),
-        json.dumps({"ranking": "AB,CD"}),
-        json.dumps({"ranking": ["AB"]}),
-        json.dumps({"ranking": ["AB", "AB"]}),
-        json.dumps({"ranking": ["AB", "ZZ"]}),
+        json.dumps(["AB", "CD"]),
+        json.dumps({"ranking": ["AB", "CD"]}),
+        json.dumps({"r01": "AB"}),
+        json.dumps({"r01": "AB", "r02": "AB"}),
+        json.dumps({"r01": "AB", "r02": "ZZ"}),
+        json.dumps({"r01": "AB", "r02": 7}),
     ],
 )
 def test_parse_refuses_anything_unusable(raw: str) -> None:
@@ -89,12 +95,20 @@ def test_parse_refuses_anything_unusable(raw: str) -> None:
         parse_ranking(raw, ("AB", "CD"))
 
 
-def test_a_partial_ranking_is_not_patched() -> None:
-    """A ranking missing a label is unusable, not a thing to complete."""
-    with pytest.raises(UnparseableResponse, match="2 entries, expected 3"):
-        parse_ranking(json.dumps({"ranking": ["AB", "CD"]}), ("AB", "CD", "EF"))
+def test_a_duplicate_is_the_failure_the_schema_cannot_prevent() -> None:
+    """Strict mode pins the shape but cannot express uniqueness.
+
+    The grammar guarantees exactly 30 fields each holding a presented label, so a
+    wrong length and an invented label are both impossible. A repeat is still
+    possible, so the parser catches it and the collector retries.
+    """
     with pytest.raises(UnparseableResponse, match="label mismatch"):
-        parse_ranking(json.dumps({"ranking": ["AB", "CD", "ZZ"]}), ("AB", "CD", "EF"))
+        parse_ranking(_slots(["AB", "CD", "AB"]), ("AB", "CD", "EF"))
+
+
+def test_a_missing_slot_is_not_patched() -> None:
+    with pytest.raises(UnparseableResponse, match="missing slots"):
+        parse_ranking(json.dumps({"r01": "AB", "r02": "CD"}), ("AB", "CD", "EF"))
 
 
 # --- day loading -----------------------------------------------------------
@@ -275,9 +289,11 @@ def test_a_refused_batch_sends_nothing(tmp_path: Path) -> None:
 def test_the_ladder_starts_at_the_registered_effort_and_climbs_once() -> None:
     from npd.collect.collector import effort_for_attempt
 
+    # Amendment 4. The schema fixed the format, so four cheap independent samples
+    # come first and the expensive rung is a last resort.
     assert effort_for_attempt(1, CONFIG) == "minimal"
-    assert effort_for_attempt(2, CONFIG) == "low"
-    assert effort_for_attempt(3, CONFIG) == "low"
+    assert effort_for_attempt(4, CONFIG) == "minimal"
+    assert effort_for_attempt(5, CONFIG) == "low"
     assert effort_for_attempt(CONFIG.max_retries, CONFIG) == "low"
 
 
@@ -315,8 +331,8 @@ def test_the_evidence_ledger_records_the_effort_each_attempt_used(tmp_path: Path
     )
     rows = [r for r in evidence.rows() if r["date"] == DATES[1]]
     efforts = [r["reasoning_effort"] for r in rows]
-    assert efforts[0] == "minimal"
-    assert set(efforts[1:]) == {"low"}
+    assert efforts == ["minimal", "minimal", "minimal", "minimal", "low"]
+    assert all(r["prompt_digest"] == template_digest() for r in rows)
 
 
 def test_retry_failed_reopens_days_that_failed_under_a_superseded_procedure(tmp_path: Path) -> None:
@@ -362,12 +378,11 @@ def test_retry_failed_reopens_days_that_failed_under_a_superseded_procedure(tmp_
     assert result.counts[CallState.STORED] == len(DATES)
 
 
-def test_a_day_stored_under_a_superseded_procedure_is_recollected(tmp_path: Path) -> None:
-    """Amendment 3 changed the retry procedure, so its predecessors do not count.
+def test_a_day_stored_under_a_superseded_prompt_is_recollected(tmp_path: Path) -> None:
+    """A day answered under a different prompt belongs to a different experiment.
 
-    A row written before the ladder existed carries no reasoning_effort. The
-    resume logic treats that day as not yet collected, so every day in the final
-    sample came from one identical procedure. The superseded rows stay in the
+    Supersession keys on the prompt template digest, so any future prompt change
+    invalidates stale days without further code. The superseded rows stay in the
     ledger, because a ledger is history.
     """
     path = _store(tmp_path)
@@ -389,6 +404,8 @@ def test_a_day_stored_under_a_superseded_procedure_is_recollected(tmp_path: Path
             "latency_s": 2.3,
             "raw_response": "{}",
             "detail": "",
+            "reasoning_effort": "minimal",
+            "prompt_digest": "a-prompt-that-is-no-longer-in-force",
         }
     )
     adapter = MockAdapter()

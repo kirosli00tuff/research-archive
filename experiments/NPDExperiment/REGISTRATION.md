@@ -535,3 +535,77 @@ against the cap.
 **Spend.** At an assumed one fifth of days needing one escalated attempt, the
 projection is roughly 3.8 USD against the 10 USD cap. The per-batch refusal uses
 measured cost, so the cap holds regardless of how the assumption turns out.
+
+### Amendment 4. A strict output schema, and the prompt freeze re-established
+
+**Raised 2026-08-25, 29 gate days into B.1. The run was stopped again.**
+
+Amendment 3 assumed the format failures were a reasoning budget problem and that
+escalating to `low` would fix them. The live data says otherwise.
+
+| effort | attempts | failed | failure rate |
+|---|---|---|---|
+| `minimal` | 29 | 12 | 41 percent |
+| `low` | 19 | 9 | 47 percent |
+
+**`low` fails as often as `minimal`.** The problem is the output format, not the
+reasoning budget. Amendment 3 was the wrong diagnosis, correctly recorded, and it
+is superseded here rather than quietly dropped.
+
+**The fix.** The request now carries a strict JSON schema. The output is an
+object with 30 required fields, `r01` through `r30`, each constrained by an enum
+to the labels of that call. The grammar cannot produce a ranking of the wrong
+length or a label that was never presented, which were eight of the nine observed
+failures. Uniqueness is not expressible in strict mode, so the parser checks it
+and the collector retries.
+
+**Measured on 8 held-out window days at `minimal`:**
+
+| metric | free-form array | strict schema |
+|---|---|---|
+| first-attempt compliance | 17 of 29, 59 percent | 7 of 8, 88 percent |
+| mean latency | 16.3 s per attempt | 2.3 s |
+| projected total over 432 days | 9.12 USD | **2.86 USD** |
+
+The single failure was a repeat, not a length error.
+
+**The ladder is re-tuned.** `("minimal", "minimal", "minimal", "minimal", "low")`.
+Retries are independent samples, and at 88 percent per attempt four cheap
+attempts leave an expected failure rate near zero. The expensive rung stays as a
+last resort, where it is expected to run on a fraction of a day.
+
+**The prompt freeze is re-established here.** B.0b froze a prompt that had never
+met the real model, and no mock scenario could have exposed the problem, because
+the mock returns a valid permutation by construction. That is a real gap in
+mock-only verification and it is recorded as such. The corrected template digest
+is
+
+    7e6f3d6801506bd7b158d7937b8fc3bae82c8fffac6770acaeb924bc4391c7fb
+
+and every B.3 replay uses these bytes. Re-freezing costs nothing scientifically
+because no replay has run and the gate sample is recollected in full.
+
+**Supersession now keys on the prompt digest.** Every evidence row records the
+template digest that produced it. A day whose stored answer came from a different
+prompt is recollected, because it answered a different question. This
+generalizes what Amendment 3 needed and what Amendment 4 needs, and it will catch
+the next one without further code.
+
+### Amendment 5. Rejected answers are billed, so the ledger records them
+
+**Raised 2026-08-25, during the same stop.**
+
+The spend ledger recorded nothing for an attempt whose answer failed to parse.
+Those calls were billed. Measured across the first 29 gate days the ledger read
+
+    recorded 0.3494 USD against an actual 0.6429 USD, a 46 percent undercount
+
+**A cap enforced against a number 46 percent too low is not a cap.** This is the
+mechanism Section 12 relies on, so the defect matters more than its size.
+
+**Effect.** `UnparseableResponse` carries the usage of the call that produced it.
+The collector records that spend under kind `gate` with the note `rejected
+answer`, and the evidence row carries the tokens and the rejected text. The
+undercounted 0.2936 USD from the superseded attempts is not recoverable, because
+the usage was discarded before it was seen. It is stated here instead, and the
+superseded ledger rows stay exactly as they were written.

@@ -25,6 +25,7 @@ class EvidenceRow:
     model: str
     attempt: int
     reasoning_effort: str
+    prompt_digest: str
     input_tokens: int
     cached_input_tokens: int
     output_tokens: int
@@ -51,6 +52,7 @@ class EvidenceLedger:
         model: str,
         attempt: int,
         reasoning_effort: str = "",
+        prompt_digest: str = "",
         input_tokens: int = 0,
         cached_input_tokens: int = 0,
         output_tokens: int = 0,
@@ -67,6 +69,7 @@ class EvidenceLedger:
             model=model,
             attempt=attempt,
             reasoning_effort=reasoning_effort,
+            prompt_digest=prompt_digest,
             input_tokens=input_tokens,
             cached_input_tokens=cached_input_tokens,
             output_tokens=output_tokens,

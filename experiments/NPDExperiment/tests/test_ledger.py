@@ -96,3 +96,26 @@ def test_the_raw_response_is_kept_verbatim(tmp_path: Path) -> None:
     raw = '{"ranking": ["AB", "CD"]}'
     led.record(date="2025-01-02", state=CallState.STORED, model="m", attempt=1, raw_response=raw)
     assert led.rows()[0]["raw_response"] == raw
+
+
+def test_a_rejected_answer_is_still_billed_and_still_recorded(tmp_path: Path) -> None:
+    """A parse failure costs money. The ledger has to see it.
+
+    The first B.1 attempt recorded zero tokens for every rejected answer, so the
+    ledger read 46 percent under actual and the cap was being enforced against
+    the wrong number. UnparseableResponse now carries the usage of the call that
+    produced it.
+    """
+    from npd.collect.adapter import UnparseableResponse as Unparseable
+    from npd.collect.adapter import Usage, parse_ranking
+
+    usage = Usage(
+        input_tokens=1753, cached_input_tokens=0, output_tokens=2508, reasoning_tokens=2432
+    )
+    try:
+        parse_ranking('{"ranking": ["AB"]}', ("AB", "CD"), usage)
+    except Unparseable as exc:
+        assert exc.usage is usage
+        assert exc.raw == '{"ranking": ["AB"]}'
+    else:
+        raise AssertionError("a short ranking was accepted")

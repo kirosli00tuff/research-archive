@@ -15,7 +15,7 @@ from typing import Protocol
 
 import httpx
 
-from npd.collect.prompt import Prompt
+from npd.collect.prompt import Prompt, slot_names
 from npd.config import CONFIG, Config
 
 OPENAI_URL = "https://api.openai.com/v1/chat/completions"
@@ -26,7 +26,18 @@ class TransientFault(RuntimeError):
 
 
 class UnparseableResponse(RuntimeError):
-    """The model answered, but not with a usable ranking. Retried."""
+    """The model answered, but not with a usable ranking. Retried.
+
+    Carries the usage of the call that produced it. A rejected answer was still
+    billed, so the spend ledger has to see those tokens. Leaving them out made the
+    ledger read 46 percent under actual during the first B.1 attempt, which meant
+    a cap enforced against the wrong number.
+    """
+
+    def __init__(self, message: str, usage: Usage | None = None, raw: str = "") -> None:
+        super().__init__(message)
+        self.usage = usage
+        self.raw = raw
 
 
 class QuotaExhausted(RuntimeError):
@@ -69,7 +80,9 @@ class Adapter(Protocol):
         ...
 
 
-def parse_ranking(raw: str, expected: tuple[str, ...]) -> tuple[str, ...]:
+def parse_ranking(
+    raw: str, expected: tuple[str, ...], usage: Usage | None = None
+) -> tuple[str, ...]:
     """Pull the ranking out of a response and check it covers every label once.
 
     A ranking that repeats or omits a label is not a partial answer that can be
@@ -82,18 +95,27 @@ def parse_ranking(raw: str, expected: tuple[str, ...]) -> tuple[str, ...]:
     try:
         payload = json.loads(text)
     except json.JSONDecodeError as exc:
-        raise UnparseableResponse(f"response is not JSON: {exc}") from exc
-    if not isinstance(payload, dict) or "ranking" not in payload:
-        raise UnparseableResponse("response has no ranking field")
-    ranking = payload["ranking"]
-    if not isinstance(ranking, list) or not all(isinstance(x, str) for x in ranking):
-        raise UnparseableResponse("ranking is not a list of strings")
+        raise UnparseableResponse(f"response is not JSON: {exc}", usage, raw) from exc
+    if not isinstance(payload, dict):
+        raise UnparseableResponse("response is not a JSON object", usage, raw)
+
+    slots = slot_names(len(expected))
+    missing_slots = [s for s in slots if s not in payload]
+    if missing_slots:
+        raise UnparseableResponse(f"response is missing slots {missing_slots[:5]}", usage, raw)
+    ranking = [payload[s] for s in slots]
+    if not all(isinstance(x, str) for x in ranking):
+        raise UnparseableResponse("a slot does not hold a string", usage, raw)
     if len(ranking) != len(expected):
-        raise UnparseableResponse(f"ranking has {len(ranking)} entries, expected {len(expected)}")
+        raise UnparseableResponse(
+            f"ranking has {len(ranking)} entries, expected {len(expected)}", usage, raw
+        )
     if set(ranking) != set(expected):
         missing = sorted(set(expected) - set(ranking))
         extra = sorted(set(ranking) - set(expected))
-        raise UnparseableResponse(f"label mismatch. missing={missing[:5]} extra={extra[:5]}")
+        raise UnparseableResponse(
+            f"label mismatch. missing={missing[:5]} extra={extra[:5]}", usage, raw
+        )
     return tuple(ranking)
 
 
@@ -133,7 +155,14 @@ class OpenAIAdapter:
                 {"role": "system", "content": prompt.system},
                 {"role": "user", "content": prompt.user},
             ],
-            "response_format": {"type": "json_object"},
+            "response_format": {
+                "type": "json_schema",
+                "json_schema": {
+                    "name": "ranking",
+                    "strict": True,
+                    "schema": prompt.response_schema(),
+                },
+            },
             "max_completion_tokens": self._cfg.max_output_tokens,
             "reasoning_effort": effort or self._cfg.reasoning_effort,
         }
@@ -178,7 +207,7 @@ class OpenAIAdapter:
             output_tokens=int(usage_block.get("completion_tokens", 0)),
             reasoning_tokens=int(details.get("reasoning_tokens", 0) or 0),
         )
-        ranking = parse_ranking(raw, prompt.labels)
+        ranking = parse_ranking(raw, prompt.labels, usage)
         return Answer(ranking=ranking, raw=raw, usage=usage, latency_s=latency)
 
 

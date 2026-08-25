@@ -1,12 +1,12 @@
 # Stage B.0b. Mock run evidence
 
-Generated 2026-08-25T17:16:53.981662+00:00.
+Generated 2026-08-25T17:34:50.827104+00:00.
 
 Gate model `gpt-5-2025-08-07`.
 
 **Prompt template digest, frozen here and used by every B.3 replay:**
 
-    9a174e0155fadfbf12906773ff26e3c13fb01d30c2a9207831520b02df54bbae
+    7e6f3d6801506bd7b158d7937b8fc3bae82c8fffac6770acaeb924bc4391c7fb
 
 All five scenarios must pass before Stage B.1 sends a single real call.
 

@@ -12,7 +12,7 @@ from dataclasses import dataclass, field
 from random import Random
 
 from npd.collect.adapter import Answer, TransientFault, Usage
-from npd.collect.prompt import Prompt
+from npd.collect.prompt import Prompt, slot_names
 
 SCENARIO_CLEAN = "clean"
 SCENARIO_KILL_RESUME = "kill_resume"
@@ -62,7 +62,7 @@ class MockAdapter:
 
         order = list(prompt.labels)
         self._rng.shuffle(order)
-        raw = json.dumps({"ranking": order})
+        raw = json.dumps(dict(zip(slot_names(len(order)), order, strict=True)))
         return Answer(
             ranking=tuple(order),
             raw=raw,

@@ -125,7 +125,7 @@ def collect(
     done = {
         d: CallState(row["state"])
         for d, row in evidence.last_row_by_date().items()
-        if CallState(row["state"]) in terminal and _procedure_is_current(row)
+        if CallState(row["state"]) in terminal and _procedure_is_current(row, cfg)
     }
     for d, s in done.items():
         if d in set(dates):
@@ -138,7 +138,7 @@ def collect(
         batch_estimate = measured if measured is not None else _registered_estimate(cfg)
 
     with open_store(store_path) as con:
-        result.reconciled = reconcile(con, evidence, dates)
+        result.reconciled = reconcile(con, evidence, dates, cfg)
         for offset in range(0, len(todo), cfg.batch_size):
             batch = todo[offset : offset + cfg.batch_size]
             measured = spend.mean_cost_per_call("gate")
@@ -198,21 +198,29 @@ def collect(
     return result
 
 
-def _procedure_is_current(row: dict[str, object]) -> bool:
+def _procedure_is_current(row: dict[str, object], cfg: Config = CONFIG) -> bool:
     """Whether a stored day was produced by the procedure now in force.
 
-    Amendment 3 replaced a flat retry with a reasoning effort ladder. Rows
-    written before it carry no reasoning_effort, so a day stored under the
-    superseded procedure is recollected rather than mixed into a sample whose
-    other days followed a different one. The superseded rows stay in the ledger,
-    because a ledger is history and history is not edited.
+    The test is the prompt template digest. A day whose stored answer came from a
+    different prompt belongs to a different experiment, so it is recollected
+    rather than mixed into a sample whose other days answered a different
+    question. This generalizes what Amendment 3 needed and what Amendment 4
+    needed, and it will catch the next one without further code.
+
+    The superseded rows stay in the ledger. A ledger is history and history is
+    not edited.
     """
     if CallState(str(row["state"])) is not CallState.STORED:
         return True
-    return bool(str(row.get("reasoning_effort", "")))
+    return str(row.get("prompt_digest", "")) == prompt_mod.template_digest(cfg)
 
 
-def reconcile(con: sqlite3.Connection, evidence: EvidenceLedger, dates: Sequence[str]) -> int:
+def reconcile(
+    con: sqlite3.Connection,
+    evidence: EvidenceLedger,
+    dates: Sequence[str],
+    cfg: Config = CONFIG,
+) -> int:
     """Rebuild any ranking the ledger recorded but the store never committed.
 
     A process killed between the ledger append and the store commit leaves a
@@ -226,7 +234,7 @@ def reconcile(con: sqlite3.Connection, evidence: EvidenceLedger, dates: Sequence
     for row in evidence.rows():
         if row.get("date") not in wanted or row.get("state") != CallState.STORED.value:
             continue
-        if not _procedure_is_current(row):
+        if not _procedure_is_current(row, cfg):
             # Superseded by an amendment. The day is recollected, not rebuilt.
             stored_in_ledger.pop(str(row["date"]), None)
             continue
@@ -293,6 +301,7 @@ def _call_with_retries(
 ) -> tuple[CallState | None, Answer | None, str]:
     """Return the terminal state for one day, or None to stop the whole run."""
     last_detail = ""
+    digest = prompt_mod.template_digest(cfg)
     for attempt in range(1, cfg.max_retries + 1):
         effort = effort_for_attempt(attempt, cfg)
         try:
@@ -306,6 +315,7 @@ def _call_with_retries(
                 model=cfg.gate_model,
                 attempt=attempt,
                 reasoning_effort=effort,
+                prompt_digest=digest,
                 detail=f"insufficient_quota: {exc}",
             )
             return None, None, f"quota_exhausted: {exc}"
@@ -316,6 +326,7 @@ def _call_with_retries(
                 model=cfg.gate_model,
                 attempt=attempt,
                 reasoning_effort=effort,
+                prompt_digest=digest,
                 detail=f"auth: {exc}",
             )
             return None, None, f"auth_fault: {exc}"
@@ -329,18 +340,43 @@ def _call_with_retries(
                     model=cfg.gate_model,
                     attempt=attempt,
                     reasoning_effort=effort,
+                    prompt_digest=digest,
                     detail=f"parameter rejected, retrying without it: {exc}",
                 )
                 continue
             return None, None, f"unsupported_parameter: {exc}"
         except (TransientFault, UnparseableResponse) as exc:
             last_detail = f"{type(exc).__name__}: {exc}"
+            # A rejected answer was still billed. The ledger sees those tokens or
+            # the cap is enforced against a number that is too low.
+            billed = getattr(exc, "usage", None)
+            rejected_raw = str(getattr(exc, "raw", ""))
+            failed_cost = 0.0
+            if billed is not None:
+                failed_cost = cost_of(
+                    billed.input_tokens, billed.cached_input_tokens, billed.output_tokens, cfg
+                )
+                spend.record(
+                    date=date,
+                    kind="gate",
+                    input_tokens=billed.input_tokens,
+                    cached_input_tokens=billed.cached_input_tokens,
+                    output_tokens=billed.output_tokens,
+                    note=f"rejected answer, reasoning_effort={effort}, attempt={attempt}",
+                )
             evidence.record(
                 date=date,
                 state=CallState.MODEL_FAILED,
                 model=cfg.gate_model,
                 attempt=attempt,
                 reasoning_effort=effort,
+                prompt_digest=digest,
+                input_tokens=billed.input_tokens if billed else 0,
+                cached_input_tokens=billed.cached_input_tokens if billed else 0,
+                output_tokens=billed.output_tokens if billed else 0,
+                reasoning_tokens=billed.reasoning_tokens if billed else 0,
+                cost_usd=failed_cost,
+                raw_response=rejected_raw,
                 detail=last_detail,
             )
             if attempt < cfg.max_retries:
@@ -368,6 +404,7 @@ def _call_with_retries(
             model=cfg.gate_model,
             attempt=attempt,
             reasoning_effort=effort,
+            prompt_digest=digest,
             input_tokens=answer.usage.input_tokens,
             cached_input_tokens=answer.usage.cached_input_tokens,
             output_tokens=answer.usage.output_tokens,
