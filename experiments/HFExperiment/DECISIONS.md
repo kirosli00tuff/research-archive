@@ -216,3 +216,89 @@ registered prior folded into Section 12 with monitors and amendments.
 
 Changes it: the operator at acceptance, for the prior. The others stand
 unless a stated assumption fails.
+
+## ADR-014: Acceptance by delegation, recorded
+
+The operator accepted Sections 1 through 12 by delegation on
+2026-08-24, with the drafted 0.15 prior standing unchanged. The act of
+running the B.1 stage prompt was the acceptance, and the REGISTRATION.md
+amendment log carries the dated record. Data existing at acceptance:
+the A.1 reproduction through the 2026-07-24 pull, the A.2 spread
+measurement over 2026-08-19 to 2026-08-21, and zero shadow
+observations. The shadow series is authorized to start at the
+2026-09-01 formation. Amendment 1 stays reserved for the Section 5
+deferred parameters.
+
+Changes it: nothing. An acceptance is a fact about a date.
+
+## ADR-015: Formation-aligned start on 2026-09-01
+
+The first accrual day is the 2026-09-01 formation, equal-weighted, so
+no pre-registration price history enters weight computation. A
+mid-month start would demand reconstructing drifted weights from a
+formation the series never observed, and every reconstruction choice
+would be a researcher degree of freedom. The roughly five sessions this
+forfeits against a mid-month start cost 0.2 percent of a 2,061-day
+clock. Formation-aligned entry removes every question about mid-month
+weight reconstruction at a price too small to measure.
+
+Changes it: nothing after the series starts. Section 12 forbids
+amendments that respond to observed shadow outcomes.
+
+## ADR-016: Fresh-adjustment queries, append-only store
+
+The Task 0 reconciliation confirmed the 28 percent A.1-to-A.2 price gap
+was market movement, not a stale adjustment: zero corporate actions in
+the 2026-07-24 to 2026-08-24 window across all 20 names of the width-20
+book, checked name by name against a public corporate-actions source
+(reports/stage_b1/price_reconciliation.md). The pipeline is designed so
+that check never has to be run by hand again. Every daily run
+re-queries the session fresh with adjustment=all. Every formation run
+re-queries the full trailing window fresh rather than trusting stored
+history. Every result is appended with its query timestamp, reads take
+the latest row per key, and no stored row is ever mutated, so an
+adjustment landing between runs re-enters the store rather than aging
+out of it. tests/test_barstore.py pins the no-mutation property.
+
+Changes it: nothing. This is the stage's spine against the fabrication
+class that sank the predecessor project.
+
+## ADR-017: Choices Stage B.1 made autonomously
+
+Benchmark member handling: a halted or delisted member marks at its
+last available close, contributes exactly zero return, and stays in the
+denominator until the next formation, which is Section 3's rule applied
+to members as to book names. A member with a missing bar or failed
+source excludes the day for every width, because a mean over a silently
+shrunken membership is a different benchmark. Changes it: evidence that
+the recorded round handled a missing member differently, which must be
+reported and corrected before 2026-09-01.
+
+Halt confirmation: an active name with no bar classifies missing_bar
+until evidence arrives. Evidence is a bar at a later session, meaning
+the name skipped this one while listed, or three consecutive absent
+sessions under successful fetches. Both resolve to halted. This keeps
+missing_bar strictly transient so no day blocks forever. Changes it: a
+real halt feed, which Alpaca's daily bars do not carry.
+
+Sequential lineage accrual: sessions accrue strictly in order within a
+formation lineage, an excluded day blocks its lineage until retry heals
+it, and the session return into a formation date belongs to the old
+membership. The benchmark chain gates every width. Changes it: nothing,
+this is arithmetic necessity, since day t+1 needs day t's state.
+
+Credential separation: HFExperiment reads its own Alpaca keys from its
+own .env, never AiTrader's resolver, and its timer fires at 23:30 UTC
+against AiTrader's 22:30, so the two collectors never share a rate
+window. The Task 0 corporate-actions check used a public web source for
+the same reason. Changes it: nothing this stage.
+
+Monitor rendering: plain-text renders written to reports/monitor/, no
+service, per the Section 12 choice left to the session. The verdict
+view validates every line it emits against an allowlist of
+confidence-sequence shapes and fails the render otherwise. Changes it:
+a later stage may add HTML on top of the same data, never bypassing the
+guard.
+
+Changes them: a stated assumption failing, or the operator before
+2026-09-01. Nothing after the series starts.

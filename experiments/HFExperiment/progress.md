@@ -2,6 +2,56 @@
 
 Append-only. One dated entry per stage, newest at top.
 
+## 2026-08-24: Stage B.1
+
+ETA stated before starting: 150 minutes. Actual: 80 minutes.
+
+Accepted. Sections 1 through 12 accepted by operator delegation,
+2026-08-24, prior standing at 0.15, recorded in the REGISTRATION.md
+amendment log. Shadow series authorized to start at the 2026-09-01
+formation.
+
+Reconciled. The 28 percent gap between A.1's 143.89 median (adjusted
+closes, 2026-07-01) and A.2's 103.25 median mid (live quotes,
+2026-08-19 to 21) is market movement. All 20 width-20 names checked
+against a public corporate-actions source: zero splits, zero in-window
+dividends between 2026-07-24 and 2026-08-24. The two suspicious ratios,
+MXL at 0.518 and WOLF at 0.546, are real declines confirmed by
+current-basis 52-week ranges. Evidence in
+reports/stage_b1/price_reconciliation.md. The gap RECONCILES. Proceed
+authorized.
+
+Built. Append-only bar store with query timestamps, no row ever mutated
+(barstore.py). Alpaca source with adjustment=all on every bar query and
+injected transport (alpaca_source.py). Credential loader that refuses
+loudly with BLOCKED-ON-OPERATOR (envfile.py). The five accrual states
+with a single classification site (states.py). Book and panel accrual
+arithmetic that refuses to accrue past an absence (shadow.py). The
+cited benchmark definition (benchmark.py). Fresh-full-window formation
+runs (formationrun.py). Sequential lineage accrual over append-only
+ledgers (accrual.py). The verdict engine at frozen rho 0.071641 with
+the registered projection in every record (verdictengine.py). The two
+structurally separated monitor views with the render-failing guard
+(monitor.py). The 23:30 UTC daily entry point (scripts/daily_run.py).
+
+Armed. systemd user timer installed and enabled: Mon to Fri 23:30 UTC,
+Persistent=true, MemoryMax=2G, one hour staggered from AiTrader's
+22:30. Linger confirmed. Next trigger 2026-08-25 23:30 UTC. First run
+will fail loudly with exit 2 until the operator copies Alpaca keys into
+.env. The verdict view renders its empty pre-start state. First accrual
+lands after the 2026-09-02 close if keys exist by then.
+
+Tested. 123 tests green under mypy strict and ruff. All three required
+mutations applied to real source, each caught, restored green:
+synthesized carried-forward price, source_failed merged into
+missing_bar, accrual row in the verdict view. Evidence in
+reports/stage_b1/mutation_tests.txt.
+
+Open. Operator copies Alpaca data keys into .env, the only blocker on
+the signal clock. IBKR account for Stage A.1b Task 3 remains open.
+Benchmark missing-member handling recorded as ADR-017's first entry:
+if the recorded round differed, correct before 2026-09-01.
+
 ## 2026-08-23: Stage A.2
 
 ETA stated before starting: 60 minutes. Actual: 35 minutes.

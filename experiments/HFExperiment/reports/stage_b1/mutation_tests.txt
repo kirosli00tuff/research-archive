@@ -1,0 +1,41 @@
+# Stage B.1 mutation tests
+
+Three mutations applied to real source, each caught by the suite,
+source restored, suite green. Full pytest output excerpts below.
+
+# Stage B.1 mutation tests, run 2026-08-25T00:33:50Z
+
+## Mutation 1: shadow._name_return returns 0.0 (carried-forward price) for excluding states
+        book = _book()
+>       with pytest.raises(ValueError, match="missing_bar"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_shadow.py:89: Failed
+=========================== short test summary info ============================
+FAILED tests/test_shadow.py::test_missing_bar_refuses_a_synthesized_price - F...
+restored shadow.py
+
+## Mutation 2: states.classify_name_day returns MISSING_BAR when the fetch failed
+
+tests/test_states.py:52: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_accrual.py::test_source_failed_is_recorded_as_its_own_state
+FAILED tests/test_states.py::test_classifier_produces_each_of_the_five_states
+FAILED tests/test_states.py::test_source_failed_never_merges_into_missing_bar
+restored states.py
+
+## Mutation 3: monitor.verdict_view appends an accrual row to its render
+                )
+E               hfexperiment.monitor.VerdictViewError: verdict view guard refused the line: '  2026-09-02 w5 accrual computed excess +12.30 bp'
+
+src/hfexperiment/monitor.py:235: VerdictViewError
+=========================== short test summary info ============================
+FAILED tests/test_monitor_guard.py::test_pre_start_state_is_empty_confidence_sequence_only
+FAILED tests/test_monitor_guard.py::test_live_record_renders_bounds_and_nothing_else
+restored monitor.py
+
+## Restored, full suite
+........................................................................ [ 58%]
+...................................................                      [100%]
+123 passed

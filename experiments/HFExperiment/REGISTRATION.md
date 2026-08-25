@@ -281,4 +281,15 @@ to 60 USD a year at the traded width, per the Section 7 drag table.
 
 ## Amendment log
 
-Append-only. No entries yet.
+Append-only.
+
+### 2026-08-24: Acceptance record
+
+Sections 1 through 12 accepted by operator delegation. The registered
+prior stands at 0.15 as drafted. The shadow series is authorized to
+start at the 2026-09-01 formation. Data existing at this entry: the A.1
+reproduction against the recorded round through the 2026-07-24 pull,
+the A.2 spread measurement over sessions 2026-08-19 to 2026-08-21, and
+zero shadow observations, because the series has not started. Amendment
+1 stays reserved for the deferred parameters of Section 5 and has not
+landed. Nothing above this log changes.
