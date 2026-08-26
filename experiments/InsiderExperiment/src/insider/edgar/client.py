@@ -53,7 +53,9 @@ def fetch(url: str, *, cfg: Config = CONFIG) -> bytes:
     cached = _cache_path(url)
     if cached.exists():
         payload = cached.read_bytes()
-        record_fetch(url, status=200, served_from="cache", waited_seconds=0.0, bytes_read=len(payload))
+        record_fetch(
+            url, status=200, served_from="cache", waited_seconds=0.0, bytes_read=len(payload)
+        )
         return payload
 
     cached.parent.mkdir(parents=True, exist_ok=True)

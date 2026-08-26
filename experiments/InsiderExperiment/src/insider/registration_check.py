@@ -18,9 +18,7 @@ EMPTY_MARKER = "[ EMPTY."
 _PRIOR_RE = re.compile(
     r"^>\s*Operator prior[^\n]*?:\s*([01](?:\.\d+)?)\s*$", re.IGNORECASE | re.MULTILINE
 )
-_SECTION_RE = re.compile(
-    r"^##\s*Section 12\..*?$(.*?)(?=^##\s|\Z)", re.MULTILINE | re.DOTALL
-)
+_SECTION_RE = re.compile(r"^##\s*Section 12\..*?$(.*?)(?=^##\s|\Z)", re.MULTILINE | re.DOTALL)
 
 
 class OperatorPriorMissing(RuntimeError):

@@ -46,6 +46,8 @@ ignore = ["E501", "N818"]
 "src/insider/market/build.py" = ["T20"]
 "src/insider/portfolio/build.py" = ["T20"]
 "src/insider/power/report.py" = ["T20"]
+"src/insider/corpus/validate.py" = ["T20"]
+"scripts/refuse_env_commit.py" = ["T20"]
 
 [tool.mypy]
 python_version = "3.12"

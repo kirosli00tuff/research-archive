@@ -206,7 +206,11 @@ def main() -> int:
 
     print("counting the full-index archives against the structured data sets")
     coverage = index_versus_datasets(cfg)
-    ratios = [c["rows_per_document"] for c in coverage if c["rows_per_document"] is not None]
+    ratios = [
+        float(c["rows_per_document"])  # type: ignore[arg-type]
+        for c in coverage
+        if c["rows_per_document"] is not None
+    ]
     print(f"  {len(coverage)} quarters, rows per document {min(ratios):.2f} to {max(ratios):.2f}")
 
     print(f"fetching {SAMPLE_SIZE} ownership documents and comparing every rule field")
@@ -214,7 +218,9 @@ def main() -> int:
     for check in checks:
         if not check.agrees:
             print(f"  {check.accession} {check.symbol}: {check.detail}")
-    print(f"  {tally['agrees']} agree, {tally['disagrees']} disagree, {tally['unreachable']} unreachable")
+    print(
+        f"  {tally['agrees']} agree, {tally['disagrees']} disagree, {tally['unreachable']} unreachable"
+    )
     print(f"  10b5-1 box absent in the XML for {tally['flag_not_reported_in_xml']} of the sample")
 
     print(f"asking the submissions API about {SAMPLE_SIZE} issuer CIKs")
@@ -233,7 +239,12 @@ def main() -> int:
     }
     (out / "validation.json").write_text(json.dumps(payload, indent=2), encoding="utf-8")
     (out / "refusals.md").write_text(write_refusals_report(), encoding="utf-8")
-    record("corpus_validation", agrees=tally["agrees"], disagrees=tally["disagrees"], unreachable=tally["unreachable"])
+    record(
+        "corpus_validation",
+        agrees=tally["agrees"],
+        disagrees=tally["disagrees"],
+        unreachable=tally["unreachable"],
+    )
     print("wrote reports/stage_a1/validation.json and reports/stage_a1/refusals.md")
     return 0 if tally["disagrees"] == 0 else 1
 

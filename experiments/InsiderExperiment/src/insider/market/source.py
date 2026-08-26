@@ -94,7 +94,9 @@ def sessions(con: sqlite3.Connection, start: str, end: str) -> list[str]:
     return [r[0] for r in rows]
 
 
-def stored_membership(con: sqlite3.Connection, rule: str, formation_date: str) -> list[tuple[str, int, float, float, int]]:
+def stored_membership(
+    con: sqlite3.Connection, rule: str, formation_date: str
+) -> list[tuple[str, int, float, float, int]]:
     rows = con.execute(
         "SELECT symbol, rank, median_dollar_volume, median_close, window_bars "
         "FROM universe_membership WHERE rule = ? AND formation_date = ? ORDER BY rank",
@@ -125,7 +127,7 @@ def daily_bars_for(
         batch = symbols[i : i + chunk]
         placeholders = ",".join("?" * len(batch))
         cursor = con.execute(
-            f"SELECT symbol, substr(timestamp,1,10), close, volume FROM bars "  # noqa: S608
+            f"SELECT symbol, substr(timestamp,1,10), close, volume FROM bars "
             f"WHERE timeframe = '1day' AND adjustment = 'all' AND venue = 'alpaca' "
             f"AND symbol IN ({placeholders}) "
             f"AND substr(timestamp,1,10) >= ? AND substr(timestamp,1,10) <= ?",

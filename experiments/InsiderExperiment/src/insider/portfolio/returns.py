@@ -23,7 +23,6 @@ from dataclasses import dataclass
 
 import numpy as np
 
-from insider.config import CONFIG, Config
 from insider.market import store as market_store
 from insider.paths import DISPERSION_DB, SEALED_DB, ensure_dirs
 from insider.portfolio.membership import MembershipSeries
@@ -31,25 +30,28 @@ from insider.portfolio.membership import MembershipSeries
 SEALED_SCHEMA = """
 CREATE TABLE IF NOT EXISTS raw_excess (
     hold_sessions INTEGER NOT NULL,
+    weighting TEXT NOT NULL,
     date TEXT NOT NULL,
     excess REAL NOT NULL,
-    PRIMARY KEY (hold_sessions, date)
+    PRIMARY KEY (hold_sessions, weighting, date)
 );
 """
 
 DISPERSION_SCHEMA = """
 CREATE TABLE IF NOT EXISTS centered_excess (
     hold_sessions INTEGER NOT NULL,
+    weighting TEXT NOT NULL,
     date TEXT NOT NULL,
     centered REAL NOT NULL,
     book_width INTEGER NOT NULL,
-    PRIMARY KEY (hold_sessions, date)
+    PRIMARY KEY (hold_sessions, weighting, date)
 );
 CREATE TABLE IF NOT EXISTS dropped (
     hold_sessions INTEGER NOT NULL,
+    weighting TEXT NOT NULL,
     reason TEXT NOT NULL,
     n INTEGER NOT NULL,
-    PRIMARY KEY (hold_sessions, reason)
+    PRIMARY KEY (hold_sessions, weighting, reason)
 );
 """
 
@@ -104,6 +106,24 @@ def _weights(
     return rows, raw
 
 
+def _share(weights: np.ndarray, top: int) -> float:
+    """Weight share held by the heaviest `top` names. A concentration measure."""
+    total = weights.sum()
+    if total <= 0:
+        return 0.0
+    ordered = np.sort(weights)[::-1]
+    return float(ordered[:top].sum() / total)
+
+
+def _effective_names(weights: np.ndarray) -> float:
+    """Inverse Herfindahl. How many equally weighted names the book behaves like."""
+    total = weights.sum()
+    if total <= 0:
+        return 0.0
+    p = weights / total
+    return float(1.0 / np.square(p).sum())
+
+
 def _weighted(values: np.ndarray, weights: np.ndarray) -> float | None:
     finite = np.isfinite(values) & (weights > 0)
     if not finite.any():
@@ -118,10 +138,14 @@ def _weighted(values: np.ndarray, weights: np.ndarray) -> float | None:
 @dataclass(frozen=True, slots=True)
 class SeriesBuild:
     hold_sessions: int
+    weighting: str
     dates: tuple[str, ...]
     raw_excess: tuple[float, ...]
     book_width: tuple[int, ...]
     dropped: dict[str, int]
+    # Second moments and weight shares only. No first moment of any return
+    # series is computed here or anywhere else outside insider.eval.evaluator.
+    diagnostics: dict[str, float]
 
 
 def build_series(
@@ -130,7 +154,6 @@ def build_series(
     rets: np.ndarray,
     series: MembershipSeries,
     weighting: str,
-    cfg: Config = CONFIG,
 ) -> SeriesBuild:
     """One portfolio excess return per session with a non-empty book."""
     row_of = panel.index_of()
@@ -141,12 +164,17 @@ def build_series(
     excess: list[float] = []
     widths: list[int] = []
     dropped = {"empty_book": 0, "no_finite_member_return": 0, "no_benchmark": 0, "not_priced": 0}
+    port_track: list[float] = []
+    bench_track: list[float] = []
+    top1: list[float] = []
+    top5: list[float] = []
+    btop1: list[float] = []
+    btop5: list[float] = []
+    eff_n: list[float] = []
 
     governing_index = 0
     for j, date in enumerate(series.sessions):
-        while (
-            governing_index + 1 < len(formations) and formations[governing_index + 1] <= date
-        ):
+        while governing_index + 1 < len(formations) and formations[governing_index + 1] <= date:
             governing_index += 1
         formation = formations[governing_index]
         if formation > date:
@@ -180,13 +208,37 @@ def build_series(
         dates.append(date)
         excess.append(port - bench)
         widths.append(len(priced))
+        port_track.append(port)
+        bench_track.append(bench)
+        top1.append(_share(w, 1))
+        top5.append(_share(w, 5))
+        btop1.append(_share(bw, 1))
+        btop5.append(_share(bw, 5))
+        eff_n.append(_effective_names(w))
+
+    port_arr = np.asarray(port_track, dtype=np.float64)
+    bench_arr = np.asarray(bench_track, dtype=np.float64)
+    diagnostics: dict[str, float] = {
+        "sd_portfolio_daily": float(port_arr.std(ddof=1)) if port_arr.size > 1 else 0.0,
+        "sd_benchmark_daily": float(bench_arr.std(ddof=1)) if bench_arr.size > 1 else 0.0,
+        "corr_portfolio_benchmark": (
+            float(np.corrcoef(port_arr, bench_arr)[0, 1]) if port_arr.size > 1 else 0.0
+        ),
+        "book_weight_top1_share": float(np.mean(top1)) if top1 else 0.0,
+        "book_weight_top5_share": float(np.mean(top5)) if top5 else 0.0,
+        "bench_weight_top1_share": float(np.mean(btop1)) if btop1 else 0.0,
+        "bench_weight_top5_share": float(np.mean(btop5)) if btop5 else 0.0,
+        "book_effective_names": float(np.mean(eff_n)) if eff_n else 0.0,
+    }
 
     return SeriesBuild(
         hold_sessions=series.hold_sessions,
+        weighting=weighting,
         dates=tuple(dates),
         raw_excess=tuple(excess),
         book_width=tuple(widths),
         dropped=dropped,
+        diagnostics=diagnostics,
     )
 
 
@@ -223,29 +275,31 @@ def write(builds: list[SeriesBuild]) -> None:
     """
     with _sealed() as sealed:
         for build in builds:
-            sealed.execute("DELETE FROM raw_excess WHERE hold_sessions = ?", (build.hold_sessions,))
+            key = (build.hold_sessions, build.weighting)
+            sealed.execute("DELETE FROM raw_excess WHERE hold_sessions = ? AND weighting = ?", key)
             sealed.executemany(
-                "INSERT INTO raw_excess(hold_sessions, date, excess) VALUES (?,?,?)",
-                [(build.hold_sessions, d, v) for d, v in zip(build.dates, build.raw_excess, strict=True)],
+                "INSERT INTO raw_excess(hold_sessions, weighting, date, excess) VALUES (?,?,?,?)",
+                [(*key, d, v) for d, v in zip(build.dates, build.raw_excess, strict=True)],
             )
 
     with _dispersion() as disp:
         for build in builds:
+            key = (build.hold_sessions, build.weighting)
             disp.execute(
-                "DELETE FROM centered_excess WHERE hold_sessions = ?", (build.hold_sessions,)
+                "DELETE FROM centered_excess WHERE hold_sessions = ? AND weighting = ?", key
             )
-            disp.execute("DELETE FROM dropped WHERE hold_sessions = ?", (build.hold_sessions,))
+            disp.execute("DELETE FROM dropped WHERE hold_sessions = ? AND weighting = ?", key)
             values = np.asarray(build.raw_excess, dtype=np.float64)
             centered = values - values.mean() if values.size else values
             disp.executemany(
-                "INSERT INTO centered_excess(hold_sessions, date, centered, book_width) "
-                "VALUES (?,?,?,?)",
+                "INSERT INTO centered_excess"
+                "(hold_sessions, weighting, date, centered, book_width) VALUES (?,?,?,?,?)",
                 [
-                    (build.hold_sessions, d, float(c), int(w))
+                    (*key, d, float(c), int(w))
                     for d, c, w in zip(build.dates, centered, build.book_width, strict=True)
                 ],
             )
             disp.executemany(
-                "INSERT INTO dropped(hold_sessions, reason, n) VALUES (?,?,?)",
-                [(build.hold_sessions, k, v) for k, v in sorted(build.dropped.items())],
+                "INSERT INTO dropped(hold_sessions, weighting, reason, n) VALUES (?,?,?,?)",
+                [(*key, k, v) for k, v in sorted(build.dropped.items())],
             )

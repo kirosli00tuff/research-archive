@@ -1,16 +1,16 @@
 {
   "qualifying_events": 4585,
   "events_per_year": {
-    "2016": 262,
-    "2017": 406,
-    "2018": 524,
-    "2019": 457,
-    "2020": 717,
-    "2021": 297,
-    "2022": 502,
-    "2023": 505,
-    "2024": 410,
-    "2025": 363,
+    "2016": 263,
+    "2017": 409,
+    "2018": 531,
+    "2019": 462,
+    "2020": 728,
+    "2021": 298,
+    "2022": 504,
+    "2023": 508,
+    "2024": 418,
+    "2025": 365,
     "2026": 99
   },
   "attrition": {
@@ -38,8 +38,8 @@
     "filtered_role/roles_other": 32536,
     "filtered_role/tenpercentowner": 46958,
     "filtered_role/tenpercentowner_also_titled": 46706,
-    "filtered_routine/insufficient_history": 2058,
-    "filtered_routine/routine": 155,
+    "filtered_routine/insufficient_history": 2057,
+    "filtered_routine/routine": 156,
     "outside_universe/not_a_member_at_entry": 148883,
     "parsed/qualifying": 4585,
     "unparseable/purchase_missing_shares_price_or_acq": 8308,
@@ -55,9 +55,9 @@
     "transaction_on_form_5": 92902
   },
   "routine_labels": {
-    "insufficient_history": 2472,
+    "insufficient_history": 2471,
     "opportunistic": 4167,
-    "routine": 159
+    "routine": 160
   },
   "unclassifiable_by_year": {
     "2008": 1,
@@ -66,7 +66,7 @@
     "2015": 11,
     "2016": 449,
     "2017": 257,
-    "2018": 257,
+    "2018": 256,
     "2019": 188,
     "2020": 174,
     "2021": 110,

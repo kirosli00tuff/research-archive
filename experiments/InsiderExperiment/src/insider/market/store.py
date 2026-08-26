@@ -74,7 +74,9 @@ def write_membership(
 
 def write_bars(con: sqlite3.Connection, rows: Iterable[tuple[str, str, float, float]]) -> int:
     batch = list(rows)
-    con.executemany("INSERT OR REPLACE INTO bar(symbol, date, close, volume) VALUES (?,?,?,?)", batch)
+    con.executemany(
+        "INSERT OR REPLACE INTO bar(symbol, date, close, volume) VALUES (?,?,?,?)", batch
+    )
     return len(batch)
 
 
@@ -92,9 +94,7 @@ def sessions(con: sqlite3.Connection) -> list[str]:
 
 
 def formation_dates(con: sqlite3.Connection) -> list[str]:
-    return [
-        r[0] for r in con.execute("SELECT DISTINCT formation_date FROM membership ORDER BY 1")
-    ]
+    return [r[0] for r in con.execute("SELECT DISTINCT formation_date FROM membership ORDER BY 1")]
 
 
 def members_at(con: sqlite3.Connection, formation_date: str) -> dict[str, float]:

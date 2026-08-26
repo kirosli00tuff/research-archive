@@ -10,6 +10,7 @@ from insider.paths import CORPUS_DB, ensure_dirs
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS event (
+    event_id INTEGER PRIMARY KEY AUTOINCREMENT,
     accession TEXT NOT NULL,
     filer_cik INTEGER NOT NULL,
     issuer_cik INTEGER NOT NULL,
@@ -20,8 +21,7 @@ CREATE TABLE IF NOT EXISTS event (
     value_usd REAL NOT NULL,
     routine_class TEXT NOT NULL,
     in_surviving_cluster INTEGER NOT NULL,
-    flag_reported INTEGER NOT NULL,
-    PRIMARY KEY (accession, filer_cik, transaction_date, value_usd)
+    flag_reported INTEGER NOT NULL
 );
 CREATE INDEX IF NOT EXISTS idx_event_entry ON event(entry_session);
 CREATE TABLE IF NOT EXISTS attrition (
@@ -80,9 +80,17 @@ def reset(con: sqlite3.Connection) -> None:
 
 
 def write_events(con: sqlite3.Connection, rows: Iterable[tuple[object, ...]]) -> int:
+    """Insert every qualifying event under a surrogate key.
+
+    A composite natural key here once collapsed 43 events: two identical
+    purchase lines on one filing are two reported transactions, and a key built
+    from their fields silently merged them, so the reported count and the stored
+    count disagreed. The surrogate key means the number this returns is the
+    number the table holds.
+    """
     batch = list(rows)
     con.executemany(
-        "INSERT OR REPLACE INTO event(accession, filer_cik, issuer_cik, symbol, "
+        "INSERT INTO event(accession, filer_cik, issuer_cik, symbol, "
         "transaction_date, filing_date, entry_session, value_usd, routine_class, "
         "in_surviving_cluster, flag_reported) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
         batch,
@@ -122,9 +130,7 @@ def write_refusal(con: sqlite3.Connection, kind: str, ordinal: int, detail: str)
 def refusals(con: sqlite3.Connection, kind: str) -> list[str]:
     return [
         r[0]
-        for r in con.execute(
-            "SELECT detail FROM refusal WHERE kind = ? ORDER BY ordinal", (kind,)
-        )
+        for r in con.execute("SELECT detail FROM refusal WHERE kind = ? ORDER BY ordinal", (kind,))
     ]
 
 

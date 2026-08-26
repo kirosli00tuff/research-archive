@@ -327,20 +327,20 @@
       "detail": "every checked field agrees"
     },
     {
-      "accession": "0000895126-16-000555",
-      "symbol": "CHK",
+      "accession": "0001127602-16-063277",
+      "symbol": "RRC",
       "agrees": true,
       "detail": "every checked field agrees"
     },
     {
-      "accession": "0001231205-17-000045",
-      "symbol": "GE",
+      "accession": "0001523711-17-000032",
+      "symbol": "MAT",
       "agrees": true,
       "detail": "every checked field agrees"
     },
     {
-      "accession": "0001225208-17-013321",
-      "symbol": "KMB",
+      "accession": "0001297996-17-000103",
+      "symbol": "DLR",
       "agrees": true,
       "detail": "every checked field agrees"
     },
@@ -357,26 +357,26 @@
       "detail": "every checked field agrees"
     },
     {
-      "accession": "0001562180-18-004457",
-      "symbol": "VMC",
+      "accession": "0001667731-18-000267",
+      "symbol": "ECA",
       "agrees": true,
       "detail": "every checked field agrees"
     },
     {
-      "accession": "0001127602-19-010795",
+      "accession": "0001127602-19-010801",
       "symbol": "CVS",
       "agrees": true,
       "detail": "every checked field agrees"
     },
     {
-      "accession": "0001225208-19-010912",
-      "symbol": "ADM",
+      "accession": "0001246360-19-001913",
+      "symbol": "CXO",
       "agrees": true,
       "detail": "every checked field agrees"
     },
     {
-      "accession": "0001506307-19-000167",
-      "symbol": "KMI",
+      "accession": "0001373715-19-000313",
+      "symbol": "NOW",
       "agrees": true,
       "detail": "every checked field agrees"
     },
@@ -387,8 +387,8 @@
       "detail": "every checked field agrees"
     },
     {
-      "accession": "0001043333-20-000012",
-      "symbol": "OKE",
+      "accession": "0001562180-20-002626",
+      "symbol": "VMC",
       "agrees": true,
       "detail": "every checked field agrees"
     },
@@ -399,8 +399,8 @@
       "detail": "every checked field agrees"
     },
     {
-      "accession": "0001209191-20-062479",
-      "symbol": "MDLZ",
+      "accession": "0001127602-20-030991",
+      "symbol": "DLTR",
       "agrees": true,
       "detail": "every checked field agrees"
     },
@@ -411,8 +411,8 @@
       "detail": "every checked field agrees"
     },
     {
-      "accession": "0001140361-22-006299",
-      "symbol": "KKR",
+      "accession": "0001633917-22-000053",
+      "symbol": "PYPL",
       "agrees": true,
       "detail": "every checked field agrees"
     },
@@ -423,26 +423,26 @@
       "detail": "every checked field agrees"
     },
     {
-      "accession": "0001209191-22-056137",
-      "symbol": "ET",
+      "accession": "0001225208-22-011468",
+      "symbol": "BA",
       "agrees": true,
       "detail": "every checked field agrees"
     },
     {
-      "accession": "0001127602-23-007069",
-      "symbol": "INTC",
+      "accession": "0001062993-23-005566",
+      "symbol": "NEE",
       "agrees": true,
       "detail": "every checked field agrees"
     },
     {
-      "accession": "0001086222-23-000199",
-      "symbol": "AKAM",
+      "accession": "0001225208-23-006099",
+      "symbol": "RF",
       "agrees": true,
       "detail": "every checked field agrees"
     },
     {
-      "accession": "0001062993-23-020512",
-      "symbol": "EMR",
+      "accession": "0001178913-23-003641",
+      "symbol": "SEDG",
       "agrees": true,
       "detail": "every checked field agrees"
     },
@@ -459,13 +459,13 @@
       "detail": "every checked field agrees"
     },
     {
-      "accession": "0000950170-25-047735",
-      "symbol": "NTAP",
+      "accession": "0001127602-25-011736",
+      "symbol": "CRM",
       "agrees": true,
       "detail": "every checked field agrees"
     },
     {
-      "accession": "0001104659-25-107857",
+      "accession": "0001104659-25-108843",
       "symbol": "NCLH",
       "agrees": true,
       "detail": "every checked field agrees"

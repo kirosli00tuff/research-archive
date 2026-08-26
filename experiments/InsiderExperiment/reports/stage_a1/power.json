@@ -1,0 +1,137 @@
+{
+  "series": [
+    {
+      "hold_sessions": 126,
+      "weighting": "value_weighted",
+      "n_sessions": 2581,
+      "variance_inflation": 0.8993,
+      "effective_periods": 2869.9,
+      "sd_daily_excess_bp": 62.9519,
+      "annualized_tracking_error_pct": 9.9933,
+      "standard_error_monthly_bp": 24.6771,
+      "mde_bp_per_month": 49.3543,
+      "autocorr_lag_1": 0.00645,
+      "autocorr_lag_5": -0.03824,
+      "autocorr_lag_21": 0.01029,
+      "book_width_mean": 66.93,
+      "book_width_min": 1,
+      "book_width_p10": 46,
+      "book_width_p50": 67,
+      "book_width_p90": 89,
+      "book_width_max": 103,
+      "role": "primary"
+    },
+    {
+      "hold_sessions": 21,
+      "weighting": "value_weighted",
+      "n_sessions": 2513,
+      "variance_inflation": 0.9667,
+      "effective_periods": 2599.7,
+      "sd_daily_excess_bp": 98.9209,
+      "annualized_tracking_error_pct": 15.7032,
+      "standard_error_monthly_bp": 40.7425,
+      "mde_bp_per_month": 81.4849,
+      "autocorr_lag_1": -0.0418,
+      "autocorr_lag_5": -0.00572,
+      "autocorr_lag_21": -0.01498,
+      "book_width_mean": 15.39,
+      "book_width_min": 1,
+      "book_width_p10": 5,
+      "book_width_p50": 14,
+      "book_width_p90": 27,
+      "book_width_max": 64,
+      "role": "secondary hold"
+    },
+    {
+      "hold_sessions": 63,
+      "weighting": "value_weighted",
+      "n_sessions": 2563,
+      "variance_inflation": 0.8606,
+      "effective_periods": 2978.2,
+      "sd_daily_excess_bp": 74.505,
+      "annualized_tracking_error_pct": 11.8273,
+      "standard_error_monthly_bp": 28.6699,
+      "mde_bp_per_month": 57.3398,
+      "autocorr_lag_1": 0.0435,
+      "autocorr_lag_5": -0.04815,
+      "autocorr_lag_21": -0.03075,
+      "book_width_mean": 39.49,
+      "book_width_min": 1,
+      "book_width_p10": 24,
+      "book_width_p50": 38,
+      "book_width_p90": 55,
+      "book_width_max": 83,
+      "role": "secondary hold"
+    },
+    {
+      "hold_sessions": 126,
+      "weighting": "equal_weighted",
+      "n_sessions": 2581,
+      "variance_inflation": 0.9224,
+      "effective_periods": 2798.1,
+      "sd_daily_excess_bp": 43.1862,
+      "annualized_tracking_error_pct": 6.8556,
+      "standard_error_monthly_bp": 17.1449,
+      "mde_bp_per_month": 34.2897,
+      "autocorr_lag_1": 0.04769,
+      "autocorr_lag_5": -0.04927,
+      "autocorr_lag_21": -0.02317,
+      "book_width_mean": 66.93,
+      "book_width_min": 1,
+      "book_width_p10": 46,
+      "book_width_p50": 67,
+      "book_width_p90": 89,
+      "book_width_max": 103,
+      "role": "secondary weighting"
+    }
+  ],
+  "newey_west_grid": [
+    {
+      "lags": 5,
+      "variance_inflation": 0.9301,
+      "effective_periods": 2775.1,
+      "mde_bp_per_month": 50.1903
+    },
+    {
+      "lags": 21,
+      "variance_inflation": 0.8993,
+      "effective_periods": 2869.9,
+      "mde_bp_per_month": 49.3543
+    },
+    {
+      "lags": 63,
+      "variance_inflation": 0.8903,
+      "effective_periods": 2899.0,
+      "mde_bp_per_month": 49.1057
+    },
+    {
+      "lags": 126,
+      "variance_inflation": 0.9058,
+      "effective_periods": 2849.4,
+      "mde_bp_per_month": 49.5319
+    }
+  ],
+  "dropped_primary": {
+    "empty_book": 12,
+    "no_benchmark": 0,
+    "no_finite_member_return": 22,
+    "not_priced": 13750
+  },
+  "decayed_gross_band_bp": [
+    30.0,
+    40.0
+  ],
+  "net_band_bp_per_month": [
+    13.3333,
+    34.6667
+  ],
+  "round_trip_drag_bp_per_month": [
+    5.3333,
+    16.6667
+  ],
+  "mde_bp_per_month": 49.3543,
+  "band_position_gross": "above the decayed gross band 30 to 40 bp, so no effect the literature reports would resolve",
+  "verdict": "BLOCKED",
+  "rationale": "the minimum detectable effect is 49.35 bp per month, above the 40 bp bar. The design cannot detect an effect anywhere in the range the literature reports. Stage B is never written and the repo closes on the finding.",
+  "stage_b_authorized": false
+}

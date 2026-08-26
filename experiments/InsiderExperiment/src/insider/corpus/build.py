@@ -36,7 +36,8 @@ from insider.edgar.client import reachable
 from insider.ledger.evidence import record
 from insider.market import store as market_store
 from insider.paths import REPORTS, ensure_dirs
-from insider.portfolio.membership import Event, build as build_membership, entry_session_for
+from insider.portfolio.membership import Event, entry_session_for
+from insider.portfolio.membership import build as build_membership
 from insider.section0 import fire_corpus_gate
 
 
@@ -302,7 +303,7 @@ def _record_refusals(
         shown += 1
 
 
-def main() -> int:  # noqa: C901
+def main() -> int:
     global _UNIVERSE, _SESSIONS
     ensure_dirs()
     cfg = CONFIG
@@ -361,8 +362,9 @@ def main() -> int:  # noqa: C901
                 "ON b.symbol = w.symbol AND b.date = w.date"
             )
         }
-    print(f"  distinct entry (symbol, session) pairs present {len(have)} "
-          f"of {len(set(wanted))} wanted")
+    print(
+        f"  distinct entry (symbol, session) pairs present {len(have)} of {len(set(wanted))} wanted"
+    )
 
     rows: list[tuple[object, ...]] = []
     lags: Counter[int] = Counter()
@@ -410,6 +412,12 @@ def main() -> int:  # noqa: C901
     with store.connect() as ccon:
         store.reset(ccon)
         written = store.write_events(ccon, rows)
+        stored = store.event_count(ccon)
+        if stored != written:
+            raise RuntimeError(
+                f"offered {written} events and the store holds {stored}. "
+                f"A silent collapse is a fabricated count."
+            )
         store.write_clusters(
             ccon,
             [

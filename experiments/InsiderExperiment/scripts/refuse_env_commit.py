@@ -10,7 +10,9 @@ def main() -> int:
     staged = subprocess.run(
         ["git", "diff", "--cached", "--name-only"], capture_output=True, text=True, check=False
     ).stdout.split()
-    offenders = [p for p in staged if p == ".env" or p.startswith(".env.") and p != ".env.example"]
+    offenders = [
+        p for p in staged if p == ".env" or (p.startswith(".env.") and p != ".env.example")
+    ]
     if offenders:
         print(f"refusing to commit: {offenders}")
         return 1
