@@ -1,0 +1,693 @@
+{
+  "index_versus_datasets": [
+    {
+      "quarter": "2013q1",
+      "form4_index_rows": 124857,
+      "dataset_form4_documents": 60675,
+      "rows_per_document": 2.058
+    },
+    {
+      "quarter": "2013q2",
+      "form4_index_rows": 105984,
+      "dataset_form4_documents": 51177,
+      "rows_per_document": 2.071
+    },
+    {
+      "quarter": "2013q3",
+      "form4_index_rows": 81878,
+      "dataset_form4_documents": 39372,
+      "rows_per_document": 2.08
+    },
+    {
+      "quarter": "2013q4",
+      "form4_index_rows": 87415,
+      "dataset_form4_documents": 41951,
+      "rows_per_document": 2.084
+    },
+    {
+      "quarter": "2014q1",
+      "form4_index_rows": 128967,
+      "dataset_form4_documents": 62997,
+      "rows_per_document": 2.047
+    },
+    {
+      "quarter": "2014q2",
+      "form4_index_rows": 104946,
+      "dataset_form4_documents": 50899,
+      "rows_per_document": 2.062
+    },
+    {
+      "quarter": "2014q3",
+      "form4_index_rows": 78141,
+      "dataset_form4_documents": 37613,
+      "rows_per_document": 2.077
+    },
+    {
+      "quarter": "2014q4",
+      "form4_index_rows": 88400,
+      "dataset_form4_documents": 42248,
+      "rows_per_document": 2.092
+    },
+    {
+      "quarter": "2015q1",
+      "form4_index_rows": 131274,
+      "dataset_form4_documents": 64108,
+      "rows_per_document": 2.048
+    },
+    {
+      "quarter": "2015q2",
+      "form4_index_rows": 106183,
+      "dataset_form4_documents": 51233,
+      "rows_per_document": 2.073
+    },
+    {
+      "quarter": "2015q3",
+      "form4_index_rows": 78325,
+      "dataset_form4_documents": 37398,
+      "rows_per_document": 2.094
+    },
+    {
+      "quarter": "2015q4",
+      "form4_index_rows": 82124,
+      "dataset_form4_documents": 39169,
+      "rows_per_document": 2.097
+    },
+    {
+      "quarter": "2016q1",
+      "form4_index_rows": 124732,
+      "dataset_form4_documents": 60393,
+      "rows_per_document": 2.065
+    },
+    {
+      "quarter": "2016q2",
+      "form4_index_rows": 101131,
+      "dataset_form4_documents": 48422,
+      "rows_per_document": 2.089
+    },
+    {
+      "quarter": "2016q3",
+      "form4_index_rows": 75302,
+      "dataset_form4_documents": 35714,
+      "rows_per_document": 2.108
+    },
+    {
+      "quarter": "2016q4",
+      "form4_index_rows": 78950,
+      "dataset_form4_documents": 37663,
+      "rows_per_document": 2.096
+    },
+    {
+      "quarter": "2017q1",
+      "form4_index_rows": 128181,
+      "dataset_form4_documents": 62097,
+      "rows_per_document": 2.064
+    },
+    {
+      "quarter": "2017q2",
+      "form4_index_rows": 102229,
+      "dataset_form4_documents": 48943,
+      "rows_per_document": 2.089
+    },
+    {
+      "quarter": "2017q3",
+      "form4_index_rows": 69313,
+      "dataset_form4_documents": 33276,
+      "rows_per_document": 2.083
+    },
+    {
+      "quarter": "2017q4",
+      "form4_index_rows": 76849,
+      "dataset_form4_documents": 36485,
+      "rows_per_document": 2.106
+    },
+    {
+      "quarter": "2018q1",
+      "form4_index_rows": 124344,
+      "dataset_form4_documents": 60501,
+      "rows_per_document": 2.055
+    },
+    {
+      "quarter": "2018q2",
+      "form4_index_rows": 100934,
+      "dataset_form4_documents": 48520,
+      "rows_per_document": 2.08
+    },
+    {
+      "quarter": "2018q3",
+      "form4_index_rows": 72402,
+      "dataset_form4_documents": 34377,
+      "rows_per_document": 2.106
+    },
+    {
+      "quarter": "2018q4",
+      "form4_index_rows": 77562,
+      "dataset_form4_documents": 37062,
+      "rows_per_document": 2.093
+    },
+    {
+      "quarter": "2019q1",
+      "form4_index_rows": 122931,
+      "dataset_form4_documents": 59924,
+      "rows_per_document": 2.051
+    },
+    {
+      "quarter": "2019q2",
+      "form4_index_rows": 99600,
+      "dataset_form4_documents": 47698,
+      "rows_per_document": 2.088
+    },
+    {
+      "quarter": "2019q3",
+      "form4_index_rows": 70321,
+      "dataset_form4_documents": 33497,
+      "rows_per_document": 2.099
+    },
+    {
+      "quarter": "2019q4",
+      "form4_index_rows": 71861,
+      "dataset_form4_documents": 34311,
+      "rows_per_document": 2.094
+    },
+    {
+      "quarter": "2020q1",
+      "form4_index_rows": 127601,
+      "dataset_form4_documents": 62017,
+      "rows_per_document": 2.058
+    },
+    {
+      "quarter": "2020q2",
+      "form4_index_rows": 97346,
+      "dataset_form4_documents": 46840,
+      "rows_per_document": 2.078
+    },
+    {
+      "quarter": "2020q3",
+      "form4_index_rows": 71621,
+      "dataset_form4_documents": 34024,
+      "rows_per_document": 2.105
+    },
+    {
+      "quarter": "2020q4",
+      "form4_index_rows": 79706,
+      "dataset_form4_documents": 37745,
+      "rows_per_document": 2.112
+    },
+    {
+      "quarter": "2021q1",
+      "form4_index_rows": 133902,
+      "dataset_form4_documents": 64665,
+      "rows_per_document": 2.071
+    },
+    {
+      "quarter": "2021q2",
+      "form4_index_rows": 110413,
+      "dataset_form4_documents": 52394,
+      "rows_per_document": 2.107
+    },
+    {
+      "quarter": "2021q3",
+      "form4_index_rows": 80058,
+      "dataset_form4_documents": 37416,
+      "rows_per_document": 2.14
+    },
+    {
+      "quarter": "2021q4",
+      "form4_index_rows": 84790,
+      "dataset_form4_documents": 39978,
+      "rows_per_document": 2.121
+    },
+    {
+      "quarter": "2022q1",
+      "form4_index_rows": 130389,
+      "dataset_form4_documents": 63194,
+      "rows_per_document": 2.063
+    },
+    {
+      "quarter": "2022q2",
+      "form4_index_rows": 105830,
+      "dataset_form4_documents": 50481,
+      "rows_per_document": 2.096
+    },
+    {
+      "quarter": "2022q3",
+      "form4_index_rows": 70823,
+      "dataset_form4_documents": 33681,
+      "rows_per_document": 2.103
+    },
+    {
+      "quarter": "2022q4",
+      "form4_index_rows": 74009,
+      "dataset_form4_documents": 34958,
+      "rows_per_document": 2.117
+    },
+    {
+      "quarter": "2023q1",
+      "form4_index_rows": 128774,
+      "dataset_form4_documents": 62557,
+      "rows_per_document": 2.059
+    },
+    {
+      "quarter": "2023q2",
+      "form4_index_rows": 105977,
+      "dataset_form4_documents": 50854,
+      "rows_per_document": 2.084
+    },
+    {
+      "quarter": "2023q3",
+      "form4_index_rows": 70041,
+      "dataset_form4_documents": 33190,
+      "rows_per_document": 2.11
+    },
+    {
+      "quarter": "2023q4",
+      "form4_index_rows": 73418,
+      "dataset_form4_documents": 34786,
+      "rows_per_document": 2.111
+    },
+    {
+      "quarter": "2024q1",
+      "form4_index_rows": 126273,
+      "dataset_form4_documents": 61366,
+      "rows_per_document": 2.058
+    },
+    {
+      "quarter": "2024q2",
+      "form4_index_rows": 101373,
+      "dataset_form4_documents": 48887,
+      "rows_per_document": 2.074
+    },
+    {
+      "quarter": "2024q3",
+      "form4_index_rows": 68366,
+      "dataset_form4_documents": 32530,
+      "rows_per_document": 2.102
+    },
+    {
+      "quarter": "2024q4",
+      "form4_index_rows": 74603,
+      "dataset_form4_documents": 35197,
+      "rows_per_document": 2.12
+    },
+    {
+      "quarter": "2025q1",
+      "form4_index_rows": 118126,
+      "dataset_form4_documents": 57797,
+      "rows_per_document": 2.044
+    },
+    {
+      "quarter": "2025q2",
+      "form4_index_rows": 97227,
+      "dataset_form4_documents": 46845,
+      "rows_per_document": 2.076
+    },
+    {
+      "quarter": "2025q3",
+      "form4_index_rows": 66537,
+      "dataset_form4_documents": 31672,
+      "rows_per_document": 2.101
+    },
+    {
+      "quarter": "2025q4",
+      "form4_index_rows": 69165,
+      "dataset_form4_documents": 33223,
+      "rows_per_document": 2.082
+    },
+    {
+      "quarter": "2026q1",
+      "form4_index_rows": 116125,
+      "dataset_form4_documents": 56853,
+      "rows_per_document": 2.043
+    }
+  ],
+  "xml_field_checks": [
+    {
+      "accession": "0001086222-16-000279",
+      "symbol": "AKAM",
+      "agrees": true,
+      "detail": "every checked field agrees"
+    },
+    {
+      "accession": "0001127602-16-063277",
+      "symbol": "RRC",
+      "agrees": true,
+      "detail": "every checked field agrees"
+    },
+    {
+      "accession": "0001523711-17-000032",
+      "symbol": "MAT",
+      "agrees": true,
+      "detail": "every checked field agrees"
+    },
+    {
+      "accession": "0001297996-17-000103",
+      "symbol": "DLR",
+      "agrees": true,
+      "detail": "every checked field agrees"
+    },
+    {
+      "accession": "0001179110-18-003061",
+      "symbol": "ABT",
+      "agrees": true,
+      "detail": "every checked field agrees"
+    },
+    {
+      "accession": "0001127602-18-023932",
+      "symbol": "T",
+      "agrees": true,
+      "detail": "every checked field agrees"
+    },
+    {
+      "accession": "0001667731-18-000267",
+      "symbol": "ECA",
+      "agrees": true,
+      "detail": "every checked field agrees"
+    },
+    {
+      "accession": "0001127602-19-010801",
+      "symbol": "CVS",
+      "agrees": true,
+      "detail": "every checked field agrees"
+    },
+    {
+      "accession": "0001246360-19-001913",
+      "symbol": "CXO",
+      "agrees": true,
+      "detail": "every checked field agrees"
+    },
+    {
+      "accession": "0001373715-19-000313",
+      "symbol": "NOW",
+      "agrees": true,
+      "detail": "every checked field agrees"
+    },
+    {
+      "accession": "0000919574-20-002397",
+      "symbol": "TDG",
+      "agrees": true,
+      "detail": "every checked field agrees"
+    },
+    {
+      "accession": "0001562180-20-002626",
+      "symbol": "VMC",
+      "agrees": true,
+      "detail": "every checked field agrees"
+    },
+    {
+      "accession": "0000919574-20-003308",
+      "symbol": "TDG",
+      "agrees": true,
+      "detail": "every checked field agrees"
+    },
+    {
+      "accession": "0001127602-20-030991",
+      "symbol": "DLTR",
+      "agrees": true,
+      "detail": "every checked field agrees"
+    },
+    {
+      "accession": "0000009389-21-000131",
+      "symbol": "BLL",
+      "agrees": true,
+      "detail": "every checked field agrees"
+    },
+    {
+      "accession": "0001633917-22-000053",
+      "symbol": "PYPL",
+      "agrees": true,
+      "detail": "every checked field agrees"
+    },
+    {
+      "accession": "0000919574-22-003607",
+      "symbol": "TDG",
+      "agrees": true,
+      "detail": "every checked field agrees"
+    },
+    {
+      "accession": "0001225208-22-011468",
+      "symbol": "BA",
+      "agrees": true,
+      "detail": "every checked field agrees"
+    },
+    {
+      "accession": "0001062993-23-005566",
+      "symbol": "NEE",
+      "agrees": true,
+      "detail": "every checked field agrees"
+    },
+    {
+      "accession": "0001225208-23-006099",
+      "symbol": "RF",
+      "agrees": true,
+      "detail": "every checked field agrees"
+    },
+    {
+      "accession": "0001178913-23-003641",
+      "symbol": "SEDG",
+      "agrees": true,
+      "detail": "every checked field agrees"
+    },
+    {
+      "accession": "0001104659-24-070583",
+      "symbol": "Z",
+      "agrees": true,
+      "detail": "every checked field agrees"
+    },
+    {
+      "accession": "0000092380-24-000138",
+      "symbol": "LUV",
+      "agrees": true,
+      "detail": "every checked field agrees"
+    },
+    {
+      "accession": "0001127602-25-011736",
+      "symbol": "CRM",
+      "agrees": true,
+      "detail": "every checked field agrees"
+    },
+    {
+      "accession": "0001104659-25-108843",
+      "symbol": "NCLH",
+      "agrees": true,
+      "detail": "every checked field agrees"
+    }
+  ],
+  "xml_tally": {
+    "agrees": 25,
+    "flag_not_reported_in_xml": 19
+  },
+  "submissions_ticker_check": [
+    {
+      "cik": 1800,
+      "symbol": "ABT",
+      "tickers": [
+        "ABT"
+      ],
+      "symbol_present": true
+    },
+    {
+      "cik": 16732,
+      "symbol": "CPB",
+      "tickers": [
+        "CPB"
+      ],
+      "symbol_present": true
+    },
+    {
+      "cik": 35527,
+      "symbol": "FITB",
+      "tickers": [
+        "FITB",
+        "FITB-PA",
+        "FITB-PI",
+        "FITB-PK",
+        "FITB-PM"
+      ],
+      "symbol_present": true
+    },
+    {
+      "cik": 51143,
+      "symbol": "IBM",
+      "tickers": [
+        "IBM"
+      ],
+      "symbol_present": true
+    },
+    {
+      "cik": 72971,
+      "symbol": "WFC",
+      "tickers": [
+        "WFC",
+        "WFC-PY",
+        "WFC-PL",
+        "WFC-PC",
+        "WFCNP",
+        "WFC-PA",
+        "WFC-PD",
+        "WFC-PZ"
+      ],
+      "symbol_present": true
+    },
+    {
+      "cik": 93751,
+      "symbol": "STT",
+      "tickers": [
+        "STT",
+        "STT-PG"
+      ],
+      "symbol_present": true
+    },
+    {
+      "cik": 202058,
+      "symbol": "LHX",
+      "tickers": [
+        "LHX"
+      ],
+      "symbol_present": true
+    },
+    {
+      "cik": 713676,
+      "symbol": "PNC",
+      "tickers": [
+        "PNC"
+      ],
+      "symbol_present": true
+    },
+    {
+      "cik": 783325,
+      "symbol": "WEC",
+      "tickers": [
+        "WEC"
+      ],
+      "symbol_present": true
+    },
+    {
+      "cik": 820313,
+      "symbol": "APH",
+      "tickers": [
+        "APH"
+      ],
+      "symbol_present": true
+    },
+    {
+      "cik": 875045,
+      "symbol": "BIIB",
+      "tickers": [
+        "BIIB"
+      ],
+      "symbol_present": true
+    },
+    {
+      "cik": 899689,
+      "symbol": "VNO",
+      "tickers": [
+        "VNO",
+        "VNORP",
+        "VNO-PL",
+        "VNO-PM",
+        "VNO-PN",
+        "VNO-PO"
+      ],
+      "symbol_present": true
+    },
+    {
+      "cik": 1001082,
+      "symbol": "DISH",
+      "tickers": [],
+      "symbol_present": false
+    },
+    {
+      "cik": 1043277,
+      "symbol": "CHRW",
+      "tickers": [
+        "CHRW"
+      ],
+      "symbol_present": true
+    },
+    {
+      "cik": 1067983,
+      "symbol": "BRK.A",
+      "tickers": [
+        "BRK-B",
+        "BRK-A"
+      ],
+      "symbol_present": false
+    },
+    {
+      "cik": 1103982,
+      "symbol": "MDLZ",
+      "tickers": [
+        "MDLZ"
+      ],
+      "symbol_present": true
+    },
+    {
+      "cik": 1156375,
+      "symbol": "CME",
+      "tickers": [
+        "CME"
+      ],
+      "symbol_present": true
+    },
+    {
+      "cik": 1279363,
+      "symbol": "WCG",
+      "tickers": [],
+      "symbol_present": false
+    },
+    {
+      "cik": 1356104,
+      "symbol": "MLNX",
+      "tickers": [],
+      "symbol_present": false
+    },
+    {
+      "cik": 1403568,
+      "symbol": "ULTA",
+      "tickers": [
+        "ULTA"
+      ],
+      "symbol_present": true
+    },
+    {
+      "cik": 1467623,
+      "symbol": "DBX",
+      "tickers": [
+        "DBX"
+      ],
+      "symbol_present": true
+    },
+    {
+      "cik": 1543151,
+      "symbol": "UBER",
+      "tickers": [
+        "UBER"
+      ],
+      "symbol_present": true
+    },
+    {
+      "cik": 1617640,
+      "symbol": "Z",
+      "tickers": [
+        "ZG",
+        "Z"
+      ],
+      "symbol_present": true
+    },
+    {
+      "cik": 1705696,
+      "symbol": "VICI",
+      "tickers": [
+        "VICI"
+      ],
+      "symbol_present": true
+    },
+    {
+      "cik": 1783879,
+      "symbol": "HOOD",
+      "tickers": [
+        "HOOD"
+      ],
+      "symbol_present": true
+    }
+  ]
+}

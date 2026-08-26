@@ -1,0 +1,12 @@
+{
+  "sessions": 2615,
+  "formations": 124,
+  "distinct_symbols": 1218,
+  "bars_copied": 2713496,
+  "bars_sha256_before": "d599ccf0b8d70a5b2b8c7fca2461f0d6e0e09f0e8c990405f7c25e3fa767e924",
+  "bars_sha256_after": "d599ccf0b8d70a5b2b8c7fca2461f0d6e0e09f0e8c990405f7c25e3fa767e924",
+  "universe_sha256_before": "8188eea0aef8a4d737e220095b9081071e26e4b4d30cceafb5082d7bfe525529",
+  "universe_sha256_after": "8188eea0aef8a4d737e220095b9081071e26e4b4d30cceafb5082d7bfe525529",
+  "bars_size_bytes": 7320629248,
+  "unchanged": true
+}

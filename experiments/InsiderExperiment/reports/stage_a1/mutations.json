@@ -1,0 +1,50 @@
+{
+  "mutations": [
+    {
+      "mutation": "power module returns a mean",
+      "intent": "give the dispersion result a first moment of the return series",
+      "file": "src/insider/power/dispersion.py",
+      "guard": "tests/test_guards.py::test_the_power_dataclasses_carry_exactly_the_registered_fields tests/test_guards.py::test_no_name_in_the_power_package_says_first_moment_of_a_return",
+      "guard_failed_when_mutated": true,
+      "guard_green_when_restored": true,
+      "mutated_summary": "FAILED tests/test_guards.py::test_no_name_in_the_power_package_says_first_moment_of_a_return"
+    },
+    {
+      "mutation": "non-evaluator module reads the sealed alpha table",
+      "intent": "let insider.power open the store whose mean is the realized alpha",
+      "file": "src/insider/power/dispersion.py",
+      "guard": "tests/test_guards.py::test_only_the_permitted_set_names_the_sealed_store",
+      "guard_failed_when_mutated": true,
+      "guard_green_when_restored": true,
+      "mutated_summary": "FAILED tests/test_guards.py::test_only_the_permitted_set_names_the_sealed_store"
+    },
+    {
+      "mutation": "a sale is admitted past the purchases-only filter",
+      "intent": "add transaction code S to the registered admitted codes",
+      "file": "src/insider/config.py",
+      "guard": "tests/test_guards.py::test_purchases_only_a_sale_is_refused",
+      "guard_failed_when_mutated": true,
+      "guard_green_when_restored": true,
+      "mutated_summary": "FAILED tests/test_guards.py::test_purchases_only_a_sale_is_refused - Assertio..."
+    },
+    {
+      "mutation": "a routine insider is admitted past the three-year rule",
+      "intent": "require four consecutive years, so a three-year routine insider reads as opportunistic and reaches the portfolio",
+      "file": "src/insider/config.py",
+      "guard": "tests/test_guards.py::test_a_routine_insider_is_refused_by_the_three_year_rule",
+      "guard_failed_when_mutated": true,
+      "guard_green_when_restored": true,
+      "mutated_summary": "FAILED tests/test_guards.py::test_a_routine_insider_is_refused_by_the_three_year_rule"
+    },
+    {
+      "mutation": "the EDGAR throttle loses its enforcement site",
+      "intent": "hard-code the rate so sec_requests_per_second is read nowhere, while the throttle still behaves correctly",
+      "file": "src/insider/edgar/throttle.py",
+      "guard": "tests/test_guards.py::test_every_config_field_has_an_enforcement_site",
+      "guard_failed_when_mutated": true,
+      "guard_green_when_restored": true,
+      "mutated_summary": "FAILED tests/test_guards.py::test_every_config_field_has_an_enforcement_site"
+    }
+  ],
+  "final_suite": ".................................                                        [100%]"
+}
