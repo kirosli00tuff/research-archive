@@ -798,3 +798,99 @@ measurement, in a repository that is not this one.
 ## Section 16. Amendments
 
 None in force. Section 0 fired BLOCKED, so no amendment can authorize Stage B.
+
+---
+
+## Section 17. Closure
+
+Stage Z.1, 2026-08-25. This section writes records. It computes no statistic,
+reads no alpha, opens no sealed store, sends no request, and changes no result.
+The Stage A.1 power verdict stands exactly as fired.
+
+### 17.1 The verdict
+
+**The registered primary design cannot resolve the effect at achievable power.
+The minimum detectable effect is 49.35 bp per month against a registered BLOCKED
+floor of 40 and against a decayed literature band of 30 to 40 bp per month gross
+and 13 to 35 bp per month net at the six-month hold. Stage B is never written.
+The repo closes on the finding.**
+
+### 17.2 The corpus did not fail
+
+A later reader will see BLOCKED and assume the data was thin. It was not.
+
+| Quantity | Achieved | Registered floor |
+|---|---|---|
+| Qualifying events | 4,585 | 1,000 |
+| Session coverage | 99.5 percent | 80 percent |
+
+53 quarterly SEC structured Form 345 data sets covering 2013q1 to 2026q1,
+retrieved in **214 wire requests** totalling **2.78 GB** with **zero non-200
+responses** under an 8 per second throttle against the SEC's stated 10 per second
+ceiling. **Zero dollars were spent. No paid API was used.**
+
+Every byte fetched was cached. The cache on disk is 2,783,280,665 bytes, which
+equals the wire total exactly, so nothing was fetched twice.
+
+### 17.3 What did fail
+
+**Weight concentration in the registered primary.**
+
+The value-weighted book holds a mean of **71.9 names and behaves like 29.7
+effective names**, because the heaviest name carries **14.9 percent** of the book
+and the heaviest five carry **33.8 percent**. Median dollar volume is heavily
+skewed, so weighting by it collapses a wide book into a narrow one.
+
+Annualized tracking error came in at **9.993 percent** across **2,869.9 effective
+independent periods from 2,581 sessions**, and **that tracking error is the whole
+of the 49.35**. The period count worked in the design's favour: the variance
+inflation of 0.899 is below one, so effective periods exceeded raw sessions.
+Nothing about the sample size caused this verdict.
+
+### 17.4 The equal-weighted secondary, and the temptation it creates
+
+On the identical names, the equal-weighted book holds **71.9 and behaves like
+66.9**, with tracking error of **6.86 percent** and an MDE of **34.29 bp per
+month, which would have fired DEGRADED**.
+
+It was registered as the secondary weighting in Section 7 and labelled
+non-verdict-bearing in Section 10, both before any number was visible. **It is
+not promoted.**
+
+Section 7 named value-weighted as primary for a stated reason: wide book, not
+concentrated, because concentrated books are what killed H-F at 42 to 66 percent
+tracking error. The primary chosen to avoid concentration was concentrated by its
+weighting rather than by its name count. Both books hold 71.9 names.
+
+**The reopening boundary.** The 34.29 is now visible and a later session will find
+it. A fresh registration naming equal-weight as primary is **not a clean
+experiment**, because the choice would be informed by a number produced under
+this registration. If such a test is ever run it must state in its own Section 0
+that its primary weighting was selected after seeing a secondary result from
+InsiderExperiment A.1, and it must carry a correspondingly higher bar.
+
+The assistant's assessment: **that is borderline at best.** The honest
+alternative is a different universe or a different disclosure regime, neither of
+which inherits the seen number.
+
+### 17.5 Section 12 closes unfilled
+
+The operator prior was reserved and remains empty. It blocks Stage B
+structurally, and Stage B is blocked independently by the power gate, so nothing
+waited on it operationally.
+
+It remains outstanding for the calibration ledger. The assistant's 0.12 recorded
+beside it is not the operator's number. NPDExperiment's prior was adopted rather
+than formed, so **the calibration ledger still holds zero independently formed
+entries.**
+
+### 17.6 Scope of the finding, restated at closure
+
+This closes on power, not on absent signal. No abnormal return was computed and
+the realized alpha sits unread in `var/insider_sealed.db`. Verdict row **V7**
+fired, not V3.
+
+Section 4's narrowing stands on the record: 94.2 percent of qualifying-shaped
+insider purchases happen outside this universe. This finding does not refute
+Cohen-Malloy-Pomorski or Ozlen-Batumoglu. It says the design that could be built
+inside the operator's measurable cost band cannot resolve their effect.

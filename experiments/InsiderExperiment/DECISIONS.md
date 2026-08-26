@@ -278,3 +278,139 @@ minimum detectable effect and moves the verdict toward GO. The gate fired
 BLOCKED, so the leak makes the finding conservative rather than fragile. The leak
 would have to be fixed before any Stage B first moment, and Stage B is not
 authorized.
+
+---
+
+## ADR-010. The repository closes at BLOCKED, and every artifact is preserved
+
+**Status.** Accepted, Stage Z.1, 2026-08-25.
+
+**Decision.** The registered primary design cannot resolve the effect at
+achievable power. The minimum detectable effect is 49.35 bp per month against a
+registered BLOCKED floor of 40 and against a decayed literature band of 30 to 40
+bp per month gross and 13 to 35 bp per month net at the six-month hold. Stage B
+is never written. The repo closes on the finding.
+
+**What closed it, stated so a stranger cannot mistake it.** Not the corpus. 4,585
+qualifying events against a floor of 1,000 and 99.5 percent session coverage
+against a floor of 80. Weight concentration closed it: the value-weighted book
+holds 71.9 names and behaves like 29.7, and the resulting 9.993 percent tracking
+error is the whole of the 49.35.
+
+**Nothing is deleted.** Every file, ledger, report and the 2.78 GB corpus cache
+stays in place. A closure that destroys its own inputs cannot be audited.
+
+**No schedule was installed.** This repository never ran a collector on a timer.
+Stage A.1 was a one-shot batch, so there is no systemd unit to disable and none
+remains scheduled. Verified in Stage Z.1 against the user and system unit
+directories, `systemctl --user list-units` and `list-timers`, and crontab.
+
+**What would overturn it.** Nothing inside this repository. The verdict was fired
+against bars committed before the measurement existed, and Section 16 records
+that no amendment can authorize Stage B.
+
+---
+
+## ADR-011. The reopening boundary, because the DEGRADED secondary is now visible
+
+**Status.** Accepted, Stage Z.1, 2026-08-25.
+
+**Context.** The equal-weighted secondary landed at 34.29 bp per month, inside
+DEGRADED. It holds the identical 71.9 names and behaves like 66.9, with 6.86
+percent tracking error against the primary's 9.993. That number is on the record
+and a later session will find it.
+
+**Decision.** The secondary is not promoted. It was registered as secondary in
+Section 7 and labelled non-verdict-bearing in Section 10, both before any number
+was visible, and promoting it now would be selecting a weighting scheme by its
+answer.
+
+**The boundary for any future work.** A fresh registration naming equal-weight as
+primary is not a clean experiment. The choice would be informed by a number
+produced under this registration. If such a test is ever run it must state in its
+own Section 0 that its primary weighting was selected after seeing a secondary
+result from InsiderExperiment A.1, and it must carry a correspondingly higher
+bar.
+
+**Assessment.** Borderline at best. A disclosed selection is better than a hidden
+one, but the disclosure does not undo the information. The honest alternative is
+a different universe or a different disclosure regime, neither of which inherits
+the seen number.
+
+**The irony, recorded without editorial.** Section 7 chose value-weighted as
+primary to get a wide book rather than a concentrated one, citing H-F at 42 to 66
+percent tracking error. The primary chosen to avoid concentration was concentrated
+by its weighting rather than by its name count.
+
+---
+
+## ADR-012. A guard that has never failed is not a guard
+
+**Status.** Accepted, Stage Z.1, 2026-08-25. The most reusable finding this
+repository produced.
+
+**Context.** Three defects surfaced in the mutation exercise, the only task that
+ran over its ETA, and it ran over for the right reason. Two of the three were
+guards that had been passing vacuously across the entire A.1 suite.
+
+**Defect 1. The config-enforcement guard scanned raw text.** A mutation replaced
+an enforcement site with a literal while leaving the config key in a trailing
+comment. The text search matched the comment and called it enforcement. That is
+precisely the decoration the guard exists to catch. It now walks the parse tree
+and counts only identifiers a module reads.
+
+This guard was ported from AiTrader, where six Level 1 config keys were parsed,
+validated, printed at startup, and enforced nowhere.
+
+**A correction to the record, and a residual risk.** The Z.1 brief states the
+ported version could not have caught the original defect. That is true of the
+text-scanning version and it is only conditionally true of the parse-tree
+version. Neither version distinguishes an identifier read to enforce a rule from
+an identifier read to display a value. If AiTrader printed those six keys by
+explicit attribute access, the parse-tree guard would count the print as a read
+and pass, exactly as the text guard would. It catches decoration, not misuse.
+Only a generic loop over the config fields would hide the names from both. A
+future scaffold that wants the stronger property has to express it differently,
+and this repository did not solve it.
+
+**Defect 2. The routine-rule guard had a slack fixture.** Its insider carried
+four years of history, so raising the requirement from three to four did not flip
+her label and the guard had been passing vacuously. Tightening the fixture to the
+registered boundary then exposed a real source defect: `classify` tested the
+history gate before the routine pattern, so an insider who traded the candidate
+month in three consecutive prior years, but whose earliest trade fell eight days
+short of three calendar years, was filed `insufficient_history` when she is
+definitionally routine. ADR-008 records the correction. One transaction moved
+label. The qualifying set and the MDE did not move.
+
+**Defect 3. The mutation harness reported results from source no longer on
+disk.** `routine_consecutive_years=3,` and `=4,` are the same byte length, so
+restoring inside the same second left the mutated bytecode valid under CPython's
+mtime-and-size cache check, and the harness reported a restore as still red. The
+harness now purges bytecode before every run.
+
+**The lesson, for any scaffold ported from this one.** A guard that has never
+been shown to fail is not a guard. A harness that can report on absent source is
+worse than no harness. Both belong in the next scaffold, and so does the habit of
+putting every guard's fixture on the registered boundary rather than comfortably
+inside it.
+
+---
+
+## ADR-013. A silent merge is a synthesized agreement
+
+**Status.** Accepted, Stage Z.1, 2026-08-25. Records a defect corrected in A.1.
+
+**The defect.** `write_events` first used a composite natural key over
+`(accession, filer_cik, transaction_date, value_usd)`. Two identical purchase
+lines on one filing are two reported transactions, and the key silently merged 43
+of them. The build reported 4,585 qualifying events while the table held 4,542.
+
+**The correction.** The store uses a surrogate key, and the build raises when the
+offered count and the stored count diverge.
+
+**The standing rule it belongs to.** Absence is a recorded state, never a
+synthesized value. A silent merge is a synthesized agreement: the count and the
+store disagreed, and nothing in the pipeline said so. This is the same shape as
+AiTrader Level 4 computing whale scores from two empty tables and emitting
+plausible numbers, one layer up.
