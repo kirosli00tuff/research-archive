@@ -586,8 +586,215 @@ Stage B would have found worse.
 
 ## Section 15. Results
 
-Filled by Task 4 and Task 5. Empty at the time Section 0 was committed.
+Filled by Task 4 and Task 5. Empty at the time Section 0 was committed at 18:34
+on 2026-08-25.
+
+### 15.1 The CORPUS gate
+
+**CORPUS-GO.** 4,585 qualifying events against a registered floor of 1,000, with
+99.5 percent of in-span sessions carrying a non-empty book against a floor of 80
+percent. Mean book width 71.9 names at the six-month hold.
+
+Qualifying events by entry year. 2016 opens on 2016-04-01 and 2026 closes on
+2026-03-31, so both are partial.
+
+| Year | Events | Year | Events |
+|---|---|---|---|
+| 2016 | 262 | 2022 | 502 |
+| 2017 | 406 | 2023 | 505 |
+| 2018 | 524 | 2024 | 410 |
+| 2019 | 457 | 2025 | 363 |
+| 2020 | 717 | 2026 | 99 |
+| 2021 | 297 | | |
+
+The 2020 peak and the 2021 trough are the expected shape. Insider purchases
+concentrate after price declines.
+
+### 15.2 Filter attrition
+
+The funnel runs in the registered order and each transaction is charged to the
+first state it hits.
+
+| Stage | Charged | Share of intake |
+|---|---|---|
+| Intake, non-derivative transactions on original Form 4 filings in span | 2,876,095 | 100.00% |
+| `unparseable` | 8,613 | 0.30% |
+| `filtered_code`, not transaction code P | 2,578,217 | 89.64% |
+| `filtered_role`, not officer or director, or ten percent owner | 131,222 | 4.56% |
+| `outside_universe` | 148,883 | 5.18% |
+| `filtered_programmatic` | 2,362 | 0.08% |
+| `filtered_routine` | 2,213 | 0.08% |
+| `no_bar` | 0 | 0.00% |
+| **`parsed`, qualifying** | **4,585** | **0.16%** |
+
+Sub-reasons, never merged with their parent state.
+
+| State | Sub-reason | n |
+|---|---|---|
+| `unparseable` | purchase missing shares, price, or acquisition code | 8,308 |
+| `unparseable` | transaction dated after its own filing | 305 |
+| `filtered_role` | ten percent owner, no other title | 46,958 |
+| `filtered_role` | ten percent owner who is also an officer or director | 46,706 |
+| `filtered_role` | roles present but neither officer nor director | 32,536 |
+| `filtered_role` | relationship string unreadable, no roles | 5,022 |
+| `filtered_programmatic` | below the 10,000 USD floor | 2,023 |
+| `filtered_programmatic` | rejected by the Johnsen same-date-same-price filter | 274 |
+| `filtered_programmatic` | 10b5-1 flagged | 65 |
+| `filtered_routine` | insufficient history to classify | 2,057 |
+| `filtered_routine` | routine by the three-year rule | 156 |
+
+Dropped before the funnel and reported separately: 50,859 Form 4 amendments,
+92,902 transactions carried on a Form 4 but reported as Form 5 transactions, and
+248,586 Form 3 and Form 5 documents.
+
+**Three facts this table settles.**
+
+The strict ten-percent-owner reading, registered in Section 3.3, cost **46,706**
+officer-or-director purchases. That is 51 percent of all role rejections and
+roughly ten times the surviving corpus.
+
+The liquid-universe narrowing, registered in Section 4, cost **148,883**
+purchases against 9,160 that reached the universe filter and passed. **Only 5.8
+percent of qualifying-shaped insider purchases happen at a liquid-500 name.**
+The narrowing removes sixteen of every seventeen candidates, and it removes
+exactly the band the literature says carries the signal.
+
+The 10b5-1 box is **absent for 3,350 of the 4,585 qualifying events**, 73.1
+percent, because the checkbox became a Form 4 cover-page field only in 2023.
+Section 3.7 registered that absence as a recorded state and it admits the
+transaction. Reading those 3,350 as affirmatively not-10b5-1 would have been a
+fabrication across a decade of filings.
+
+### 15.3 Transaction-date to filing-date lag
+
+Calendar days, over the 4,585 qualifying events.
+
+| Statistic | Days |
+|---|---|
+| p25 | 1 |
+| p50 | 1 |
+| p75 | 3 |
+| p90 | 4 |
+| p95 | 4 |
+| p99 | 230 |
+| max | 1,988 |
+| mean | 9.52 |
+
+73.0 percent file within two calendar days and 95.9 percent within four, which
+is the two-business-day rule showing through the weekend. A tail of 91 events
+files more than ten days late, and one at 1,988 days. Entry is driven by the
+filing date, so a late filing produces a late entry rather than a look-ahead.
+
+### 15.4 The refusals, produced rather than asserted
+
+Both are serialized in `reports/stage_a1/refusals.md` from the run that produced
+them.
+
+The Johnsen filter rejected 209 of 773 clusters. The largest is Darden
+Restaurants, 2020-04-23 to 2020-04-27, twelve distinct filers, every buy at
+58.50 on one day, modal date-and-price fraction 1.00 against a threshold of 0.80.
+Round dollar targets across the twelve. That is one mechanism filling twelve
+tickets, not twelve independent judgements.
+
+An insider is recorded `insufficient_history` with her first observed trade
+falling on the candidate transaction itself, zero years of look-back against the
+three the rule requires. 2,057 transactions carry that state. The front
+truncation it causes is visible in the by-year counts: 449 unclassifiable in
+2016, 257 in 2017, 257 in 2018, falling to 84 by 2023 as the look-back window
+fills.
+
+### 15.5 The power gate
+
+**BLOCKED.**
+
+| Series | Role | N | VIF | N_eff | TE annual | MDE bp/month |
+|---|---|---|---|---|---|---|
+| 126 sessions, value-weighted | **primary** | 2,581 | 0.899 | 2,869.9 | 9.993% | **49.35** |
+| 21 sessions, value-weighted | secondary hold | 2,513 | 0.967 | 2,599.7 | 15.703% | 81.48 |
+| 63 sessions, value-weighted | secondary hold | 2,563 | 0.861 | 2,978.2 | 11.827% | 57.34 |
+| 126 sessions, equal-weighted | secondary weighting | 2,581 | 0.922 | 2,798.1 | 6.856% | 34.29 |
+
+Primary chain: daily excess-return standard deviation 62.95 bp, effective
+periods 2,869.9, monthly standard error 24.68 bp, times the registered critical
+value of 2.0, giving **49.35 bp per month**.
+
+Newey-West lag sensitivity on the primary series: 50.19 at lag 5, **49.35 at the
+registered lag 21**, 49.11 at lag 63, 49.53 at lag 126. The verdict does not turn
+on the bandwidth choice.
+
+The variance inflation is **below one** at every lag. The daily excess-return
+series is mildly mean reverting, so the effective period count exceeds the raw
+session count rather than falling below it. This is the opposite of
+NPDExperiment, whose overlapping five-session horizons cut 427 evaluable days to
+125.6 effective. The calendar-time structure did what Section 5 chose it to do.
+
+**Where the MDE lands.**
+
+| Band | Range | Position of the 49.35 bp MDE |
+|---|---|---|
+| Decayed gross, per Section 0.2 | 30 to 40 bp per month | **above the whole band** |
+| Net at the six-month hold, per Section 8 | 13.3 to 34.7 bp per month | **above the whole band** |
+
+The design cannot resolve any effect the literature reports, gross or net.
+
+### 15.6 Why it fired, measured
+
+The corpus is not the cause. It cleared its floor by a factor of four and a half
+and covers 99.5 percent of sessions.
+
+**Weight concentration is the cause.**
+
+| Series | Names held | Effective names | Top 1 weight | Top 5 weight | Correlation to benchmark |
+|---|---|---|---|---|---|
+| 126, value-weighted | 71.9 | **29.7** | 14.9% | 33.8% | 0.904 |
+| 126, equal-weighted | 71.9 | **66.9** | 1.9% | 8.5% | 0.953 |
+
+Effective names is the inverse Herfindahl of the daily weight vector. Median
+dollar volume is heavily skewed, so weighting by it collapses a 72-name book into
+one that behaves like 30. Section 0.4 computed that staying out of BLOCKED needs
+about 23 effective names at 30 percent idiosyncratic volatility, and the realized
+book carries 29.7 with residuals that are not independent, because insider
+buying clusters by sector during stress.
+
+Section 7 registered this hazard in advance: wide book, not concentrated, because
+concentrated books are what killed H-F at 42 to 66 percent tracking error. The
+value-weighted book is concentrated by construction, and value-weighted was
+registered as primary before any number was visible.
+
+**The equal-weighted secondary would have fired DEGRADED at 34.29 bp.** It was
+registered as non-verdict-bearing in Section 10 before measurement and it is not
+promoted. Promoting it now would be selecting a weighting scheme after seeing
+which one survived, which is the exact move Section 1's governing rule forbids.
+
+### 15.7 What this finding is, and what it is not
+
+**It is not a null on the hypothesis.** No abnormal return was computed. The
+realized alpha sits sealed in `var/insider_sealed.db` and was never read. Verdict
+row V3, a measured null, is not what fired. Row V7 fired, which says the design
+could not have found anything and says it before looking.
+
+**It is scoped by Section 4.** A liquid-500 universe excludes where the
+literature places the effect, and the attrition table puts a number on that:
+94.2 percent of qualifying-shaped insider purchases happen outside this
+universe. This finding does not refute Cohen-Malloy-Pomorski or
+Ozlen-Batumoglu. It says the design that could be built inside the operator's
+measurable cost band cannot resolve their effect.
+
+**It is conservative in three registered directions.** Section 14.2, dollar-volume
+weights are more dispersed than market capitalization, raising tracking error.
+Section 14.3, the Stage A.1 benchmark is the universe rather than the Carhart
+residual, and residual dispersion after factor adjustment is bounded above by raw
+excess-return dispersion. ADR-009, names dropped on leaving the universe mid-hold
+reduce dispersion. Each moves the measured MDE toward BLOCKED or leaves it there.
+
+The Section 14.3 conservatism is the only one large enough to matter. A Carhart
+regression would absorb the persistent size tilt between a mid-cap book and a
+mega-cap-weighted benchmark, and the residual MDE would be lower than 49.35 by an
+amount this stage did not measure and will not measure, because measuring it
+after seeing BLOCKED is choosing a method by its answer. Any future attempt to
+revisit it must register the change as a numbered amendment, formed before
+measurement, in a repository that is not this one.
 
 ## Section 16. Amendments
 
-None in force.
+None in force. Section 0 fired BLOCKED, so no amendment can authorize Stage B.
