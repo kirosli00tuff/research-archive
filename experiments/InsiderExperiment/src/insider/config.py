@@ -21,7 +21,6 @@ class Config:
 
     # --- span --------------------------------------------------------------
     universe_id: str
-    benchmark_id: str
     bars_start: str
     bars_end: str
     event_span_start: str
@@ -87,7 +86,6 @@ class Config:
 
 CONFIG: Final = Config(
     universe_id="U-LIQ-500-stk-w60-m40-p5",
-    benchmark_id="U-LIQ-500-VW",
     # The first formation date the source universe carries, and the last daily
     # bar in the source store. Both read from analysis_bars.db at A.1 and fixed.
     bars_start="2016-04-01",
