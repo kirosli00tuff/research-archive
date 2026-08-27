@@ -311,3 +311,64 @@ its git add -A. The A.3 and A.4 commits carry the arming evidence, the
 mutation evidence, and the close-out. Nothing was armed before the GO
 verdict fired: the systemd install, the first watcher pass, and the
 backfill launch all postdate 05:28:09Z.
+
+## 2026-08-27T09:20Z — Stage A.3 collection runs complete; Stage A.4 close-out
+
+Backfill and assignment, measured: the A.3 Task 2 pass completed at
+09:09:35Z — all 546 plan rows, 312 event candle windows sealed, 8,710
+funding pages across 386 instrument archives (407 MB), 0 incomplete,
+12,118 requests against the 15,000 soft budget. The A.3 Task 6 assignment
+pass then assigned 176 controls of 176 feasible (n = 312 events; the 136
+no-candidate events drop from P3 only, counted; 0 deferred), pairs ledger
+at 176 append-only rows. A control-outcome top-up pass launched at 09:10Z
+was externally stopped after sealing 7 of 176 control candle windows; the
+stop is respected, the remaining 169 windows are queued as 176 idempotent
+plan rows (one per control-event window; 7 will no-op re-seal under the
+plan's naming), and the 2026-08-28T01:40Z daily pass completes them under
+the budget. Timers re-enabled 09:15Z; the persistent watch timer fired its
+catch-up pass immediately.
+
+## Stage A.4 record
+
+| Task | ETA | Actual |
+|---|---|---|
+| 1. Gates | 10 min | green throughout; final run 147 tests, mypy strict on 39 files, ruff clean |
+| 2. Mutations | 20 min | 5 of 5 CAUGHT at 05:44Z, source restored byte-for-byte, bytecode purged before every run; evidence in reports/stage_a4/mutations.md |
+| 3. Docs | 15 min | README one page; ACCESS.md final (4 measured sections); DECISIONS.md ADR-001..012 |
+| 4. Close-out | 15 min | this entry; final commit; push nothing |
+
+Overall Stage A: ETA 4.5–6 h stated at 00:31:45Z; wall clock 00:31:45Z →
+09:20Z includes an operator-side session suspension (~3 h) and two long
+paced network passes that ran unattended; active session work ≈ 4.5 h.
+Requests: 12,489 this UTC day + 949 on 2026-08-26, zero dollars, no keys,
+nothing pushed.
+
+### End state
+
+- **Section 0 verdict: GO** (fired 05:28:09Z), inputs recorded beside it in
+  REGISTRATION.md's amendment log: retro-eligible N = 312 (112 vanilla, 46
+  hyperp_conversion, 154 hip3; 10 truncated_by_delisting retained), match
+  rate 176/312 = 56.4%, delisting observability PASS 6/6, powers at
+  achieved N 1.000 / 0.9993 / 0.9995 against minimum-N 34 / 103 / 60 pairs,
+  combined N 430 by 2026-12-31 and 485 by 2027-03-31 at 18.5 events/month.
+- **Sealed stores:** 312 event candle windows + 386 funding archives
+  (8,710 pages) + 176 control assignments; 7 of 176 control candle windows
+  sealed, remainder at the next daily pass. No candle price and no
+  post-entry funding value has been parsed by any code path; the verdict
+  machinery has only ever seen synthetic fixtures.
+- **Next dated events:** the first forward entry is the first
+  watcher-sighted birth + 2 days (watcher live hourly; earliest possible
+  entry 2026-08-29T00:00Z for a birth today, its spread snapshot at
+  00:05Z and its +2 checkpoint the same day); the first +32 checkpoint
+  follows that birth + 32 days (earliest 2026-09-28); control candle
+  windows complete at the 2026-08-28T01:40Z daily pass; the earliest Stage
+  B date is **2026-08-28** — after that pass, the achieved retro cohort
+  (N = 312, all co-primaries ≥ 0.999 power) is fully sealed and Section
+  10's two remaining conditions are both the operator's.
+- **Open operator items: the Section 13 prior slot, and nothing else** —
+  plus the standing postscript conflict recorded at the top of this file:
+  the registered protocol says push nothing, the postscript said push. The
+  repo has 4 local commits and no remote; if the postscript was intended,
+  the operator's commands are:
+  `gh repo create NPLExperiment --private --source . --push`
+  (or `git remote add origin <url> && git push -u origin main`).
