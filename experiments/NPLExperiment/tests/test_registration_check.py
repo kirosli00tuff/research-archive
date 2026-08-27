@@ -15,11 +15,28 @@ from npl.registration_check import (
 )
 
 
-def test_the_real_registration_slot_is_still_empty_and_blocks_stage_b() -> None:
-    assert operator_prior() is None, "the operator prior must be written by the operator"
-    assert not operator_prior_filled()
+def test_the_real_registration_slot_is_filled_0_40_adopted() -> None:
+    """The operator instructed the fill on 2026-08-27; the pin now holds the filled state."""
+    found = operator_prior()
+    assert found is not None, "the slot was filled by operator instruction on 2026-08-27"
+    assert found[0] == pytest.approx(0.40)
+    assert found[1] == "adopted"
+    assert operator_prior_filled()
+    assert require_operator_prior() == found
+
+
+def test_an_empty_slot_still_produces_the_structural_refusal(tmp_path: Path) -> None:
+    empty = tmp_path / "REGISTRATION.md"
+    empty.write_text(
+        "> Operator prior on the Stage B bars clearing: _reserved — empty. The\n"
+        "> operator fills this line by replacing everything after the colon with a\n"
+        "> probability and a label._\n",
+        encoding="utf-8",
+    )
+    assert operator_prior(empty) is None
+    assert not operator_prior_filled(empty)
     with pytest.raises(OperatorPriorMissing, match="structurally blocked"):
-        require_operator_prior()
+        require_operator_prior(empty)
 
 
 def test_a_section_that_claims_a_prior_without_recording_one_is_blank(tmp_path: Path) -> None:

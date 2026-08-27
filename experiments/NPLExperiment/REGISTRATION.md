@@ -284,9 +284,7 @@ slot below.
 
 **The operator prior slot, reserved and empty:**
 
-> Operator prior on the Stage B bars clearing: _reserved — empty. The
-> operator fills this line by replacing everything after the colon with a
-> probability and a label._
+> Operator prior on the Stage B bars clearing: 0.40 (adopted)
 
 The accepted formats for the fill are a probability in [0, 1] followed by
 `(independent)` or `(adopted)` — nothing else parses. **The empty slot blocks
