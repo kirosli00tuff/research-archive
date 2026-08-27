@@ -20,20 +20,7 @@ BLINDNESS_FILE = SRC / "blindness.py"
 # names the task. The test asserts the unread set EQUALS this set, so landing
 # a consumer forces the entry off this list, and the list must be empty by the
 # end of Stage A.3.
-PENDING_ENFORCEMENT: frozenset[str] = frozenset(
-    {
-        "watcher_poll_minutes",  # A.3 Task 1, listing watcher
-        "checkpoint_offsets_days",  # A.3 Task 3, forward checkpoints
-        "catch_up_window_days",  # A.3 Task 3, forward checkpoints
-        "min_outcome_coverage_candles",  # A.3 Task 3, coverage module
-        "min_outcome_coverage_funding",  # A.3 Task 3, coverage module
-        "spread_snapshot_window_minutes",  # A.3 Task 5, spread snapshot
-        "backfill_candle_start_offset_days",  # A.3 Task 2, retro backfill
-        "backfill_candle_end_offset_days",  # A.3 Task 2, retro backfill
-        "backfill_funding_start_offset_hours",  # A.3 Task 2, retro backfill
-        "backfill_funding_end_offset_days",  # A.3 Task 2, retro backfill
-    }
-)
+PENDING_ENFORCEMENT: frozenset[str] = frozenset()
 
 # OHLCV keys, and the l2Book level keys, as subscripts or .get() lookups.
 # The l2Book touch state (px, sz) is a registered descriptive cost input

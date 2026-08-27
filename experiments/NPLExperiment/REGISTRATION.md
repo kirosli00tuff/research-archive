@@ -375,3 +375,48 @@ events' anchors LATER (to the funded phase), which shortens their drift
 runway and, if anything, biases the measured listing-age effect toward the
 null. A negative on the conversion stratum carries that caveat; a positive
 is not inflated by it.
+
+### Section 0 verdict record — 2026-08-27, fired at Stage A.2 Task 5
+
+**Verdict: GO. Cohort basis: retro plus forward. Collectors are armed.**
+
+Recorded here in the amendment log as Section 0 requires, with every input
+figure beside it. No outcome value was read at any point; every input is a
+count, a timestamp, or a registered assumption.
+
+- Census: **503 instruments** enumerated (232 main dex, 271 across 10 HIP-3
+  dexs), 450 with served candle history, 449 with served funding, 179
+  flagged delisted, 53 with no served candles.
+- Retro-eligible events: **N = 312** (112 vanilla, 46 hyperp_conversion by
+  the Amendment 1 mechanical tag, 154 hip3), of which 10 are
+  truncated_by_delisting and retained. Pending (younger than horizon): 62.
+  Excluded: 129 — epoch_censored 74, no_candles 53, no_funding_rows 1,
+  died_before_entry 1. **The funding-coverage bar excluded zero measured
+  events** (312 of 312 measured windows at or above 0.95).
+- Delisting observability: **PASS in full** (A.1 Task 4, 6 of 6 probed
+  delisted perps serve candles and funding).
+- Listing dates: inferable to ±1 day via the Amendment 1 candle-funding
+  cross-check (7 of 7 post-epoch probes agree same-day).
+- Funding retention: 90-day retro windows servable (archive reaches the
+  2023-05-12 epoch or the listing; 500-row pages).
+- Control feasibility: **176 of 312 events (56.4 percent)** have at least
+  one same-dex candidate aged 180+ days by census dates; the 136 unmatched
+  (young HIP-3 dexs, mostly) stay in P1 and P2 and drop from P3 only.
+- Projection: trailing 182-day rate **18.5 events/month** (vanilla 0.5,
+  hip3 18.0); combined N **430 by 2026-12-31**, **485 by 2027-03-31**;
+  forward-only N by the deadline 173.
+- Exact binomial power at alpha_adj = 0.016952, registered assumptions
+  (0.85 / 0.65 / 0.70):
+  - achieved retro N = 312, pairs = 176: **P1 1.000, P2 0.9993, P3 0.9995**
+  - combined by 2026-12-31 (430 / 243): P1 1.000, P2 0.99999, P3 0.99999
+  - combined by 2027-03-31 (485 / 274): P1 1.000, P2 0.999997, P3 0.999998
+  - forward-only by 2027-03-31 (173 / 98): P1 0.99999998, P2 0.9704, P3 0.9755
+  - minimum N clearing 0.80: **P1 34 events, P2 103 events, P3 60 pairs.**
+- Section 10 note: the achieved eligible N already clears every co-primary
+  power bar, so the earliest Stage B date is bounded by the sealed-data
+  backfill and the two operator conditions (the prior slot and explicit
+  instruction), not by sample accrual.
+
+Inputs produced by: docs/ACCESS.md (A.1), the census ledger
+(data/census/census.jsonl, 503 rows), the A.2 eligibility assessments, and
+npl.power at the registered assumptions. Fired by npl.section0.fire_section0.

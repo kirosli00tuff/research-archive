@@ -1,0 +1,12 @@
+[Unit]
+Description=NPLExperiment daily pass at 01:40 UTC (clear of solattn 00:40 and AiTrader 22:30)
+
+[Timer]
+OnCalendar=*-*-* 01:40:00 UTC
+# Persistent: a run missed while the machine was off fires on next boot. It
+# complements the checkpoint catch-up window rather than replacing it.
+Persistent=true
+AccuracySec=1min
+
+[Install]
+WantedBy=timers.target

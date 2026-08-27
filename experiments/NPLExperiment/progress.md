@@ -245,3 +245,35 @@ Next: Stage A.2 (ETA 75-90 min from 01:37Z): census (~350 instruments at
 the measured candle pace — the census now also pulls each instrument's
 first funding page), eligibility with per-event funding coverage, control
 feasibility, power gate, Section 0 fire.
+
+## 2026-08-27T02:20Z — Stage A.2 complete — Section 0 fires GO
+
+Correction to the A.1 entry above, appended per the append-only rule: its
+header timestamp "01:36Z" was written ahead of the clock; A.1 actually
+closed at 01:22:36Z (~27 min against the 45 ETA, under), and the A.1 total
+line should read 27 min, not 50.
+
+ETA against actual (A.2 armed at 01:24Z, ETA 75-90 min):
+
+| Task | ETA | Actual |
+|---|---|---|
+| 1. Census, 503 instruments | 40 min | 44 min (background) |
+| 2. Eligibility with funding coverage | 25 min | 47 min (background, 312 coverage fetches at the measured pace) |
+| 3. Control feasibility | 5 min | <1 min (local) |
+| 4. Power gate | 5 min | <1 min (local) |
+| 5. Fire Section 0 | 5 min | <1 min |
+
+Stage A.2 total: ~85 min ETA, ~93 min actual (01:24Z -> 02:57Z wall for the
+network passes; Tasks 1 and 2 overlapped module-building for A.3). Ledger:
+2,539 requests at the fire.
+
+**The verdict: GO, retro plus forward, collectors armed.** Every input
+figure is recorded beside the verdict in REGISTRATION.md's amendment log
+(Section 0 verdict record, 2026-08-27): census 503; retro-eligible N = 312
+(112 vanilla / 46 hyperp_conversion / 154 hip3; 10 truncated_by_delisting
+retained; funding-coverage bar excluded zero of 312 measured); pending 62;
+excluded 129 (74 epoch_censored, 53 no_candles, 1 no_funding_rows, 1
+died_before_entry); match rate 176/312 = 56.4 percent; trailing rate 18.5
+events/month; combined N 430 by 2026-12-31 and 485 by 2027-03-31; powers at
+achieved N=312/176 pairs already 1.000/0.9993/0.9995 against minimum-N bars
+of 34/103/60.

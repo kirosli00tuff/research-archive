@@ -1,0 +1,12 @@
+[Unit]
+Description=NPLExperiment daily pass (seal yesterday, checkpoints, funding archive)
+Documentation=file:///home/kiros-li/Documents/GitHub/NPLExperiment/REGISTRATION.md
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/kiros-li/Documents/GitHub/NPLExperiment
+Environment=PATH=/home/kiros-li/.local/bin:/usr/local/bin:/usr/bin:/bin
+MemoryMax=2G
+ExecStart=/home/kiros-li/.local/bin/uv run python -m npl.cli daily

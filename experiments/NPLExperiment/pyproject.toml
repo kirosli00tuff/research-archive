@@ -34,7 +34,7 @@ select = ["E", "F", "W", "I", "UP", "B", "C4", "SIM", "RUF"]
 [tool.mypy]
 strict = true
 python_version = "3.13"
-files = ["src/npl", "tests"]
+files = ["src/npl", "tests", "scripts/mutations.py"]
 mypy_path = "src"
 
 [tool.pytest.ini_options]
