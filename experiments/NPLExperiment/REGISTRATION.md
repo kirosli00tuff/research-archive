@@ -299,3 +299,79 @@ exercised by `tests/test_registration_check.py`).
 
 None yet. An amendment is dated, reasoned, states exactly what data existed
 when it was made, and never edits anything above its own line.
+
+### Amendment 1 — 2026-08-27 — the event date gains a funding cross-check, the pre-epoch era is censored, and the hyperp tag becomes mechanical
+
+**What data existed when this amendment was made.** Stage A.1 access,
+rate-ceiling, retention, and delisting telemetry only: timestamps, row
+counts, HTTP statuses, and the request ledger (897 requests). **No census
+row existed, no event had been enumerated, no eligibility had been
+computed, no power number existed, and no outcome value of any kind had
+been read** — the blindness readers served every probe, so no candle price
+and no post-entry funding value has ever been parsed by this repository.
+The figures behind this amendment are in docs/ACCESS.md Tasks 3 and 4.
+
+**The measured facts that force it** (n = 12 retention instruments, 6
+delisted instruments):
+
+1. The venue serves **index-backfilled 1d candles predating its own funding
+   archive epoch of 2023-05-12T00:00Z** — majors' candles begin in 2020. A
+   first served 1d candle is therefore NOT a listing date for instruments
+   whose candles reach the epoch.
+2. For **every probed instrument listed after the epoch (7 of 7)**, the
+   first 1d candle, first 1h candle, and first funding row agree on the
+   same UTC day — Section 3's inference holds, but only with the funding
+   cross-check attached.
+3. **UNIBOT's candles begin 49 days before its first archived funding row
+   and CYBER's 10 days** — a pre-vanilla phase trading without archived
+   funding, mechanically visible. Section 2's documentation-based hyperp
+   identification found no machine-readable source; this signature is the
+   better instrument and cannot be fitted to outcomes, because it reads
+   timestamps only.
+
+**The amended rules.**
+
+1. **Listing day (Section 3), amended:** the listing day of an event is the
+   UTC date of its first served 1d candle, **cross-checked against the UTC
+   date of its first archived funding row. The two must agree within the
+   registered tolerance of one day** for the instrument to carry a
+   `vanilla` (or `hip3`) event tag with that listing day.
+2. **Epoch censoring (new):** an instrument whose first funding row lands
+   exactly at the archive epoch 2023-05-12T00:00Z, or whose first candle
+   predates the epoch, is **epoch-censored**: its venue listing date is not
+   inferable to plus or minus one day, it is `excluded_ineligible` as an
+   event (counted), and it **remains usable as a Section 6 control**, with
+   its listing date treated as at-or-before its first candle (a lower
+   bound suffices for the 180-day age rule).
+3. **The hyperp tag (Section 2), amended to mechanical:** an instrument
+   whose first funding day exceeds its first candle day by **more than one
+   day** is tagged `hyperp_conversion`, its recorded pre-vanilla phase
+   running from first candle to first funding row. **Its event date for
+   primaries is its first funding day** — the start of the funded vanilla
+   phase, which is the phase the hypothesis is about — and the entry anchor
+   is the second daily close from that day. The documentation-based rule of
+   Section 2 remains as a supplementary source where documentation exists;
+   the mechanical signature governs.
+4. **Section 12 pacing figures, recorded as measured** (docs/ACCESS.md
+   Task 2): operating paces per endpoint — meta 0.8 s, metaAndAssetCtxs
+   0.8 s, perpDexs 1.6 s, candleSnapshot 5.3 s, fundingHistory 1.4 s,
+   l2Book 0.5 s — each at half its measured ceiling where one was found
+   (perpDexs ~79/min; candleSnapshot ~23/min at 5,000 rows) and half the
+   highest verified-clean rate where none was (`npl.pacing`). Funding pull
+   cadence: daily, 500-row pages, ~19 days of catch-up margin.
+
+**What is unchanged.** The universe rule, the entry anchor's second-daily-
+close definition, the outcome definition, costs, the control rule, horizons
+and deaths, all of Section 8's bars and assumptions, the power method, the
+Stage B trigger, and the priors. The census (A.2 Task 1) now records the
+first funding timestamp beside the first candle timestamp for every
+instrument, reading times and counts only.
+
+**The bias direction, stated now.** Epoch censoring removes only the
+oldest instruments from the event set — instruments whose listing predates
+the archive by construction cannot have a measurable funding leg, so
+nothing measurable is lost. The mechanical hyperp rule moves conversion
+events' anchors LATER (to the funded phase), which shortens their drift
+runway and, if anything, biases the measured listing-age effect toward the
+null. A negative on the conversion stratum carries that caveat; a positive
+is not inflated by it.

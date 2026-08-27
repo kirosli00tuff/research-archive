@@ -22,23 +22,6 @@ BLINDNESS_FILE = SRC / "blindness.py"
 # end of Stage A.3.
 PENDING_ENFORCEMENT: frozenset[str] = frozenset(
     {
-        "alpha_adj",  # A.2 Task 4, power gate
-        "p1_bar",  # A.2 Task 4, power gate
-        "p1_true_share",  # A.2 Task 4, power gate
-        "p2_true_share",  # A.2 Task 4, power gate
-        "p3_true_share",  # A.2 Task 4, power gate
-        "p2_net_threshold",  # A.3 Task 8, verdict machinery
-        "horizon_primary_days",  # A.2 Task 2, eligibility
-        "horizon_secondary_days",  # A.2 Task 2, eligibility
-        "entry_anchor_offset_days",  # A.2 Task 2, eligibility
-        "listing_tolerance_days",  # A.2 Task 2, eligibility
-        "funding_coverage_bar",  # A.2 Task 2, eligibility
-        "retro_history_required_days",  # A.2 Task 2, eligibility
-        "interim_deadline",  # A.2 Task 2, projection
-        "vanilla_round_trip_bp",  # A.3 Task 8, outcome construction
-        "hip3_round_trip_bp",  # A.3 Task 8, outcome construction
-        "control_min_age_days",  # A.2 Task 3, control feasibility
-        "control_trailing_window_hours",  # A.2 Task 3, control feasibility
         "watcher_poll_minutes",  # A.3 Task 1, listing watcher
         "checkpoint_offsets_days",  # A.3 Task 3, forward checkpoints
         "catch_up_window_days",  # A.3 Task 3, forward checkpoints

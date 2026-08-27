@@ -59,6 +59,10 @@ class Config:
     retro_history_required_days: int
     interim_deadline: str
     projection_deadline: str
+    # Amendment 1: the venue funding archive epoch, measured 2026-08-27.
+    # First funding rows at or before this instant are archive-start
+    # censoring, not listings; candles before it are index backfill.
+    funding_archive_epoch_ms: int
 
     # --- collectors (Stage A.3) ---------------------------------------------
     watcher_poll_minutes: int
@@ -113,6 +117,8 @@ CONFIG: Final = Config(
     retro_history_required_days=90,
     interim_deadline="2026-12-31",
     projection_deadline="2027-03-31",
+    # 2023-05-12T00:00:00Z, measured on 5 of 5 venue-launch-era instruments.
+    funding_archive_epoch_ms=1_683_849_600_000,
     watcher_poll_minutes=60,
     checkpoint_offsets_days=(2, 32, 92),
     catch_up_window_days=5,

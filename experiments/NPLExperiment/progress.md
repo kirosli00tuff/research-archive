@@ -188,3 +188,60 @@ Next: Stage A.1 (ETA 45 min from 00:55Z): access verification with verbatim
 fragments, per-endpoint rate ceilings measured, retention measured on a
 10-instrument probe set, delisting observability on at least five delisted
 perps.
+
+## 2026-08-27T01:36Z — Stage A.1 complete
+
+ETA against actual:
+
+| Task | ETA | Actual |
+|---|---|---|
+| 1. Access verification, docs/ACCESS.md | 12 min | 8 min |
+| 2. Rate ceilings, measured per endpoint | 15 min | 20 min (13 min probe wall clock) |
+| 3. Retention on 12 instruments | 10 min | 6 min |
+| 4. Delisting observability, 6 delisted perps | 5 min | rode with Task 3, ~2 min |
+| Amendment 1 + census/eligibility integration | not in the A.1 ETA | 14 min |
+
+Stage A.1 total: 45 min ETA, ~50 min actual (00:55Z → 01:36Z). The overrun
+is the unplanned Amendment 1, and it ran over for the right reason: the
+retention probe falsified the naive first-candle listing inference.
+
+Findings, each with its n:
+
+- All six documented request types verified live with verbatim fragments
+  (n = 9 requests): 232 main-dex perps, 56 flagged isDelisted, 10 HIP-3
+  builder dexs (117 instruments on xyz alone), candles at 1h and 1d,
+  fundingHistory paging by startTime with a served-empty end-of-feed,
+  l2Book with px/sz/n levels.
+- Rate ceilings measured per endpoint (n = 846 ledgered requests): refusals
+  exist at probe scale on exactly two endpoints — perpDexs (~79/min) and
+  candleSnapshot at 5,000 rows (~23/min, sustained clean at 23/min) — and
+  the refusal body is verbatim `null` with HTTP 429. The documented 1200
+  weight/min budget does not describe admission (meta absorbed a nominal
+  1600 weight inside 23 s without refusal). Operating paces registered at
+  half the measured ceilings (npl.pacing).
+- Retention (n = 12 instruments): 1d candles serve full instrument life
+  (majors back to 2020 — index backfill, since the funding archive epoch is
+  2023-05-12T00:00Z, measured on 5 of 5 launch-era instruments); 1h is a
+  rolling ~5,000-bar window; fundingHistory pages at exactly 500 rows and
+  reaches back to the epoch or the listing, so 90-day retro funding windows
+  are servable. For 7 of 7 post-epoch instruments, first 1d candle, first
+  1h candle, and first funding row agree on the same UTC day.
+- Delisting observability: PASS in full, n = 6 of 6 delisted perps serve
+  both candle and funding history (docs/ACCESS.md Task 4, verbatim spans).
+  The retro cohort is not survivorship-manufactured. UNIBOT and CYBER show
+  candles beginning 49 and 10 days before their first funding rows — the
+  mechanical pre-vanilla (hyperp) signature.
+- REGISTRATION.md Amendment 1 (no census, no eligibility, no power number,
+  no outcome value existed): the event date gains a funding cross-check at
+  the registered ±1 day; instruments at or before the 2023-05-12 archive
+  epoch are epoch-censored (never events, usable as controls); the hyperp
+  tag becomes mechanical (funding day > candle day + 1), with the event
+  date at the funded phase's start; measured pacing recorded. Census and
+  eligibility implement it, pinned by 13 new tests.
+
+Gates green: 123 tests, mypy strict, ruff. Ledger: 949 requests today.
+
+Next: Stage A.2 (ETA 75-90 min from 01:37Z): census (~350 instruments at
+the measured candle pace — the census now also pulls each instrument's
+first funding page), eligibility with per-event funding coverage, control
+feasibility, power gate, Section 0 fire.
