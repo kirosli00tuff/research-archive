@@ -277,3 +277,37 @@ died_before_entry); match rate 176/312 = 56.4 percent; trailing rate 18.5
 events/month; combined N 430 by 2026-12-31 and 485 by 2027-03-31; powers at
 achieved N=312/176 pairs already 1.000/0.9993/0.9995 against minimum-N bars
 of 34/103/60.
+
+## 2026-08-27T05:45Z — Stage A.3 armed (on the GO verdict)
+
+Wall-clock corrections, appended per the append-only rule: the A.2 entry's
+header "02:20Z" was written from an estimate. Measured boundaries from the
+artifact mtimes: census closed 02:07:32Z (43 min against 40 ETA);
+eligibility spanned 01:47Z to 05:26:14Z wall, containing an operator-side
+session suspension of roughly three hours during which the paced fetches
+were suspended (active fetch time ~50 min against 25 ETA — the 312 coverage
+fetches at the measured funding pace, two pages each, cost double the
+estimate); the gate fired at 05:28:09Z and the A.2 commit landed 05:29Z.
+
+ETA against actual (A.3 armed 05:29Z, ETA 90 min for the session-side
+tasks; the backfill continues in background and under the daily pass):
+
+| Task | ETA | Actual |
+|---|---|---|
+| 1. Listing watcher | in A.2 build overlap | first supervised pass 05:30Z: 11 dexs, 0 failed, 503 instruments, 0 new births |
+| 2. Retro backfill | launched, ~2.5 h background | running (312 events + candidate archives; sealed raw) |
+| 3. Forward checkpoints | in A.2 build overlap | armed under npl-daily |
+| 4. Funding recorder | in A.2 build overlap | armed (archive advance under the daily pass) |
+| 5. Spread snapshot | in A.2 build overlap | armed under npl-watch at :05 |
+| 6. Control assignment | module + tests done | runs when archives land; deferred set retried by the daily pass |
+| 7. systemd | 10 min | units installed 05:29Z, timers enabled; no npl-* collision; AiTrader 22:30 UTC (news-collect) and solattn 00:40 UTC verified untouched after install; timers PAUSED during the in-session backfill (the ADR-018 rationale: two clients must not share one measured ceiling) and re-enabled at close-out |
+| 8. Verdict machinery, dark | in A.2 build overlap | verdict.py + synthetic fixtures + the structural dark pin, 147-test suite |
+
+A boundary-discipline note, recorded rather than smoothed over: the A.3
+module code (watcher, checkpoints, controls, archive, coverage, seals,
+spread, cli, verdict) and the A.4 harness were written during A.2's
+background network passes and were therefore swept into the A.2 commit by
+its git add -A. The A.3 and A.4 commits carry the arming evidence, the
+mutation evidence, and the close-out. Nothing was armed before the GO
+verdict fired: the systemd install, the first watcher pass, and the
+backfill launch all postdate 05:28:09Z.
