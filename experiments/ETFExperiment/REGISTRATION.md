@@ -694,3 +694,124 @@ alpha_adj, the registered 0.09 effect assumption and its honest range, the
 Stage B trigger, the epistemic boundary, the per-source caps, and the priors.
 **The anchor has not moved and cannot move until the A.1 Task 3 measurement
 exists.**
+
+### Amendment 2 — 2026-08-28 — the Amendment 1 archive-density figure is falsified by measurement, and the retro revision rate is recorded
+
+**What data existed when this amendment was made.** Everything in Amendment 1,
+plus 37 archived captures of the flow source fetched from the Wayback Machine
+(the pre-anchor capture for every archive-admissible out-of-sample day), the
+sealed outcome substrate (5,002 hourly candle rows and 11 funding pages), the
+pre-period carve-out inputs, the admissible-day census (336 rows), and one
+forward flow capture taken at 2026-08-28T20:17:11Z. **Flow values are signal and
+are readable. No outcome value has been read. The only price and funding values
+this repository has parsed are the pre-period carve-out inputs, every one
+stamped strictly before 2025-05-01 and gated by `etf.preperiod`.** No power
+number existed when this amendment was written.
+
+#### 1. The correction: 11 of 333, not 37 of 333
+
+**Amendment 1 recorded an archive capture density of 37 of 333 (0.1111).** That
+figure was computed from the timemap alone, and it counted **captures**, not
+**served values**. Section 3 requires a capture that *serves a flow value for
+that day*, and a capture showing a dash serves no value.
+
+**Measured, by fetching all 37 archived captures:**
+
+| outcome of the pre-anchor archived capture | n |
+|---|---|
+| **served the day's value** | **11** |
+| showed the day still dashed — not yet printed at capture time | **23** |
+| carried no row for the day at all | 2 |
+| fetch returned HTTP 403 (operational, admissibility unknown) | 1 |
+| **total archive-admissible days by the timemap** | **37** |
+
+**The archive capture density is therefore 11 of 333 = 0.0330**, against the
+registered 0.60 bar — short by a factor of 18. **Amendment 1's 0.1111 is
+falsified and is recorded here as falsified rather than corrected in place**;
+Amendment 1 stands unedited above, as the append-only rule requires.
+
+This is Section 14.7's correction landing on this repository rather than being
+quoted at it: **a figure that was not measured end-to-end entered a record, and
+measurement moved it by a factor of 3.4.** The lesson generalises exactly as
+NPLExperiment stated it — *the timemap answers "was there a capture", and only
+fetching the capture answers "was there a value", and only the second question
+is the registered one.*
+
+#### 2. The retro cohort is 8 days
+
+Intersecting the 11 days whose archived capture served a value with the days
+inside the measured rolling hourly-candle window (2026-02-01 onward), **the
+retro cohort is 8 trading days**: 2026-06-15, 2026-07-07, 2026-07-09,
+2026-07-10, 2026-07-30, 2026-07-31, 2026-08-25, 2026-08-26.
+
+**Eight days is not a cohort.** It is recorded here as the ceiling on anything
+the retrospective leg can contribute to any verdict, before any power number
+exists.
+
+#### 3. The retro revision rate, measured — and the H11 hazard does not reproduce
+
+On the 11 days where an as-printed archived value can be compared against the
+value the source serves today:
+
+| figure | value |
+|---|---|
+| days revised | **0 of 11** |
+| sign flips | **0 of 11** |
+| threshold crosses | **0 of 11** |
+| intact | **11 of 11** |
+
+**The MLCryptoEngine H11 whole-file-regeneration hazard does not reproduce on
+this source at n = 11.** Every archived as-printed value matched the current
+live value to the digit the source prints.
+
+**This is below the registered minimum sample of 30** (Section 12 / A.1 Task 4),
+and it is recorded as below it. **The retro revision leg does not meet its
+registered minimum and cannot carry a verdict.** It is genuinely reassuring
+about the source and it is not evidence at the registered strength.
+
+#### 4. A retro estimate of the print window — corroborating, NOT the registered measurement
+
+The 34 archived captures that parsed carry their own capture times, and they
+separate cleanly. Expressed as hours past midnight UTC on day D+1 (the
+provisional anchor sits at +08:00):
+
+- **captures that served a value (n = 11): +04:05 to +08:00**, the earliest at
+  **+04:05**;
+- **captures that showed a dash (n = 23): −03:38 to +04:29**, the latest at
+  **+04:29**.
+
+The two ranges overlap only between +04:05 and +04:29. **The print appears to
+land between roughly 04:00 and 08:00 UTC on D+1.**
+
+**This is corroborating evidence and explicitly not the registered A.1 Task 3
+measurement**, which requires this repository's own captures at the registered
+20-minute cadence across at least 15 US trading days. These archived capture
+times are censored by whenever the archive happened to crawl, which is a
+schedule this project did not choose and cannot characterise. **The anchor has
+not moved and will not move on this evidence.** Section 3 permits exactly one
+input to move it — the measured 95th percentile first-print time — and that
+measurement does not yet exist.
+
+It is recorded because it makes a prediction the forward measurement will
+either confirm or falsify, and recording it now means the forward result cannot
+be read as confirming whatever was convenient.
+
+#### 5. Two census defects found and fixed, recorded because both were silent
+
+1. **The `capture_too_late` test was unbounded.** It asked whether *any*
+   memento anywhere in the archive's history landed at or after the anchor,
+   which is true for almost every day once one late capture exists. It reported
+   296 days too-late against the true 53. Now bounded to the day following the
+   anchor.
+2. **A failed archive fetch was recorded as an exclusion.** One day returned
+   HTTP 403, and it was being filed `excluded_ineligible` — an instrument fault
+   masquerading as a narrowed cohort, which is precisely what the six
+   never-merging call states exist to prevent. It is now `source_failed`, and
+   its admissibility is recorded as **unknown** rather than as excluded.
+
+#### 6. What is unchanged
+
+Every registered bar, both co-primaries, alpha_adj, the effect assumptions, the
+cost bands, the anchor and its single amendment rule, the Stage B trigger, the
+priors, and the Section 0 map. **Nothing above this amendment line has been
+edited.**

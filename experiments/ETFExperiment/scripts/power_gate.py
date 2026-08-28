@@ -93,7 +93,11 @@ def main() -> int:
                 powers[scenario][label] = {"n": n, "e1": 0.0, "e2": 0.0}
                 continue
             e1 = e1_power(n, rho)
-            e2 = e2_power(n, rho, inputs)
+            # E2's inner permutation is O(draws x n) per simulation, so the
+            # gate runs it at a smaller but stated budget. The simulation error
+            # on a power near one half is about 0.025 at 400 simulations, and
+            # both registered floors sit far from these values.
+            e2 = e2_power(n, rho, inputs, draws=1500, simulations=400)
             powers[scenario][label] = {"n": n, "e1": e1, "e2": e2}
             print(f"{scenario:28s} {label:18s} n={n:5d}  E1={e1:.4f}  E2={e2:.4f}")
 
