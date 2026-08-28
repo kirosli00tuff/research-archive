@@ -610,3 +610,50 @@ this record may be reused as a prior-free second look at the same sealed
 outcomes. Epistemic boundary (Section 11): this closure says the
 registered short would not have cleared its bars on this sample; it is
 not a forward prediction.
+
+### Amendment 4 — 2026-08-28 — the register architecture: this file becomes the archived H1 registration
+
+**What data existed when this amendment was made.** The complete closed
+H-NPL record above: the spent Stage B read of 2026-08-28T03:01:08Z (latch
+sha256 2d204ccb…438f67e, artifact sha256 44554896…be840c), the census (503
+rows), the pairs ledger (176 rows), the sealed stores, and the request
+ledgers. **No successor-hypothesis data of any kind existed: no fresh
+eligibility had been computed, no fresh control had been assigned, no
+successor power number existed, and no outcome value beyond the single
+spent H1 read had ever been parsed by this repository.**
+
+**The amended rule, by operator instruction dated 2026-08-28 (Stage A
+register prompt, logged verbatim in progress.md).** NPLExperiment converts
+from a single-hypothesis experiment into a **multi-hypothesis register**:
+
+1. **HYPOTHESES.md at the repo root is the register index.** H1 (H-NPL,
+   this file's hypothesis) migrates in as the founding entry, CLOSED —
+   NEGATIVE 2026-08-28, with its FAIL row, co-primary figures, and
+   spent-read hashes. This file is **archived as H1's registration**;
+   nothing above this amendment is edited, ever.
+2. **Three successor hypotheses are co-registered** under
+   `registrations/H2/REGISTRATION.md` (the age-contrast pair),
+   `registrations/H3/REGISTRATION.md` (the population-corrected naive
+   short), and `registrations/H4/REGISTRATION.md` (the funding-conditioned
+   short). Each tests on **fresh, unread data only**, shares the single
+   collection substrate, and sits under one familywise error budget:
+   alpha_h = 1 − 0.95^(1/k), k fixed by the outcome-blind power cull of
+   the successor Stage A.2.
+3. **The quarantine.** The Stage B read is spent. `reports/stage_b/
+   read.json`, every value inside it, and every outcome window read on
+   2026-08-28 are quarantined from all H2, H3, H4 code paths, enforced by
+   AST pin and by test. The 312 retro events and their 176 control windows
+   are the **generating sample**: usable for power assumptions, labelled
+   generating-sample-derived wherever carried, never admissible to a
+   successor verdict (`data/state/generating_sample.json`,
+   `npl.register.generating_sample`).
+4. **The pre-entry feature rule (standing rule 13).** A trailing funding
+   rate stamped at or before its event entry is a feature, never an
+   outcome; the blindness pin lists say exactly this and are unchanged.
+5. **This file's Section 13 slot (filled 0.40 adopted) belongs to H1 and
+   is spent with it.** Each successor registration reserves its own empty
+   operator prior slot, each blocking that hypothesis's Stage B
+   structurally; none may be filled by the assistant.
+
+The stage ladder is rewritten for the register architecture in
+docs/STAGES.md; the substrate specification lives in docs/SUBSTRATE.md.

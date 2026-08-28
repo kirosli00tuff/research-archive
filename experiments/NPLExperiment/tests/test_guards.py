@@ -21,7 +21,13 @@ BLINDNESS_FILE = SRC / "blindness.py"
 # names the task. The test asserts the unread set EQUALS this set, so landing
 # a consumer forces the entry off this list, and the list must be empty by the
 # end of Stage A.3.
-PENDING_ENFORCEMENT: frozenset[str] = frozenset()
+PENDING_ENFORCEMENT: frozenset[str] = frozenset(
+    {
+        # Register Stage A.3 Task 5: the dark H2 pair reader consumes the
+        # E2 economic-floor multiple.
+        "h2_cost_floor_multiple",
+    }
+)
 
 # OHLCV keys, and the l2Book level keys, as subscripts or .get() lookups.
 # The l2Book touch state (px, sz) is a registered descriptive cost input
@@ -156,6 +162,89 @@ def test_only_the_stage_b_cli_imports_the_reader() -> None:
                 break
     assert importers == ["stageb/cli.py"], (
         f"the sealed reader's importers drifted from the registered single CLI: {importers}"
+    )
+
+
+# --- the register quarantine (Amendment 4, standing rule 12) ----------------
+# The spent Stage B read is quarantined from every successor code path. The
+# scanner below reads string constants from the parse tree; a module that
+# names the stage_b artifact directory in any string — a path join, an
+# open(), a docstringed constant — is flagged. The equality pin holds the
+# reachable surface at exactly the two registered H1 modules.
+
+STAGE_B_ARTIFACT_MARKER = "stage_b"
+STAGE_B_SURFACE_FILES = {"stageb/cli.py", "stageb/preconditions.py"}
+
+
+def stage_b_string_offenders(paths: list[Path], root: Path) -> list[str]:
+    """Modules whose parse tree carries a string naming the stage_b stores."""
+    offenders: list[str] = []
+    for path in paths:
+        tree = ast.parse(path.read_text(encoding="utf-8"))
+        for node in ast.walk(tree):
+            if (
+                isinstance(node, ast.Constant)
+                and isinstance(node.value, str)
+                and STAGE_B_ARTIFACT_MARKER in node.value
+            ):
+                offenders.append(path.relative_to(root).as_posix())
+                break
+    return offenders
+
+
+def test_stage_b_artifacts_are_reachable_only_from_the_registered_h1_surface() -> None:
+    """No successor module opens reports/stage_b/ or the spent latch.
+
+    Equality, not subset: the surface can neither widen (a successor module
+    reaching the spent read) nor silently shrink (the H1 record moving
+    somewhere unpinned).
+    """
+    offenders = set(stage_b_string_offenders(source_files(), SRC))
+    assert offenders == STAGE_B_SURFACE_FILES, (
+        f"the stage_b quarantine surface drifted: unexpected "
+        f"{sorted(offenders - STAGE_B_SURFACE_FILES)}, missing "
+        f"{sorted(STAGE_B_SURFACE_FILES - offenders)}. The spent read is "
+        f"quarantined from all successor code paths."
+    )
+
+
+def test_the_quarantine_scanner_flags_a_module_that_opens_the_spent_read(
+    tmp_path: Path,
+) -> None:
+    """The refusal is produced, never asserted: a synthetic offender module
+    that opens reports/stage_b/read.json is flagged by the same scanner the
+    repo-wide pin runs."""
+    offender = tmp_path / "h2_module.py"
+    offender.write_text(
+        'import json\n\npayload = json.loads(open("reports/stage_b/read.json").read())\n',
+        encoding="utf-8",
+    )
+    clean = tmp_path / "h2_clean.py"
+    clean.write_text("x = 1\n", encoding="utf-8")
+    assert stage_b_string_offenders([offender, clean], tmp_path) == ["h2_module.py"]
+
+
+def test_no_module_outside_stageb_imports_the_stage_b_package() -> None:
+    """The H1 read surface is import-isolated: successor code cannot reach
+    the sealed reader, the preconditions, or the latch machinery."""
+    offenders: list[str] = []
+    for path in source_files():
+        rel = path.relative_to(SRC).as_posix()
+        if rel.startswith("stageb/"):
+            continue
+        tree = ast.parse(path.read_text(encoding="utf-8"))
+        for node in ast.walk(tree):
+            names: list[str] = []
+            if isinstance(node, ast.ImportFrom) and node.module:
+                names.append(node.module)
+            elif isinstance(node, ast.Import):
+                names.extend(alias.name for alias in node.names)
+            if any(name == "npl.stageb" or name.startswith("npl.stageb.") for name in names):
+                offenders.append(rel)
+                break
+    assert offenders == [], (
+        f"modules outside the stageb package import npl.stageb: {offenders}. "
+        f"The spent H1 read surface is quarantined from successor code."
     )
 
 

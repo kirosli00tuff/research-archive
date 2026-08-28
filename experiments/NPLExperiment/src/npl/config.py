@@ -80,6 +80,43 @@ class Config:
     assistant_prior_edge: float
     assistant_prior_stage_b: float
 
+    # --- the register (Amendment 4): familywise budget -----------------------
+    # alpha_h = 1 - family_confidence ** (1/k), k fixed by the A.2 cull.
+    family_confidence: float
+
+    # --- H2, the age-contrast pair (registrations/H2) ------------------------
+    # Generating-sample-derived true shares: P3 pair share 114/175 = 0.651.
+    h2_e1_true_share: float
+    h2_e2_true_share: float
+    # E2's economic floor: pair net at or above this multiple of the pair's
+    # registered central cost.
+    h2_cost_floor_multiple: float
+
+    # --- H3, the population-corrected naive short (registrations/H3) ---------
+    # Main-dex share positive, generating-sample-derived (107/158 = 0.677).
+    h3_share_positive_true: float
+    # The magnitude leg's honest range: the H1 registered assumption and the
+    # H1 measured overall share (111/312 = 0.356); the generating figure
+    # governs the cull, the registered figure is reported beside it.
+    h3_magnitude_true_h1_registered: float
+    h3_magnitude_true_generating: float
+
+    # --- H4, the funding-conditioned short (registrations/H4) ----------------
+    # The pre-registered threshold grid, percent per year, signed; the
+    # conditioning feature is the trailing 168h mean hourly funding at entry.
+    h4_funding_thresholds_annualized: tuple[float, float, float]
+    # The honest range for the conditional share positive: the H1 registered
+    # P1 assumption and the generating-sample overall (197/312 = 0.631); the
+    # generating figure governs the cull.
+    h4_true_share_h1_registered: float
+    h4_true_share_generating: float
+
+    # --- register priors (one Section 13 analog per hypothesis) --------------
+    h2_assistant_prior_edge: float
+    h2_assistant_prior_bars: float
+    h3_assistant_prior_bars: float
+    h4_assistant_prior_bars: float
+
     def field_names(self) -> tuple[str, ...]:
         return tuple(f.name for f in fields(self))
 
@@ -135,4 +172,28 @@ CONFIG: Final = Config(
     # it, and the empty slot blocks Stage B structurally.
     assistant_prior_edge=0.20,
     assistant_prior_stage_b=0.40,
+    # The register familywise budget: 0.05 across the survivors of the cull.
+    family_confidence=0.95,
+    # H2 assumptions, generating-sample-derived and labelled so in the
+    # registration: E1 from the P3 pair share 114/175 = 0.651, E2 one notch
+    # under it for the economic floor.
+    h2_e1_true_share=0.65,
+    h2_e2_true_share=0.60,
+    h2_cost_floor_multiple=2.0,
+    # H3 assumptions: main-dex share positive 107/158 (generating sample);
+    # the magnitude leg's honest range (H1 registered / H1 measured overall).
+    h3_share_positive_true=0.677,
+    h3_magnitude_true_h1_registered=0.65,
+    h3_magnitude_true_generating=0.356,
+    # H4: the registered threshold grid, signed percent per year, and the
+    # conditional-share honest range (H1 registered / generating overall).
+    h4_funding_thresholds_annualized=(-0.10, -0.20, -0.40),
+    h4_true_share_h1_registered=0.85,
+    h4_true_share_generating=0.631,
+    # Register assistant priors, recorded 2026-08-28 in chat. The adoption
+    # warning carries over verbatim; the three operator slots stay empty.
+    h2_assistant_prior_edge=0.25,
+    h2_assistant_prior_bars=0.35,
+    h3_assistant_prior_bars=0.10,
+    h4_assistant_prior_bars=0.05,
 )

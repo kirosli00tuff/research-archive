@@ -517,3 +517,131 @@ the collectors' own final passes). Zero dollars, no keys.
 - **Open operator items: none.** The hypothesis is closed; any redesign
   (funding-conditioned, magnitude-recalibrated) is a new hypothesis
   requiring its own registration.
+
+## 2026-08-28T03:27:30Z — Stage A (register entries H2, H3, H4) Task 0 — Operator prompt, logged verbatim before any other work
+
+```
+BEGIN PROMPT
+
+NPLExperiment, Stage A for register entries H2, H3, H4. Model: Opus. Effort: high. Run autonomously. Commit at each sub-stage boundary and push every commit to origin main, the Amendment 2 protocol stands. State an overall ETA and per-sub-stage ETAs before any work.
+
+Purpose. Same repo, new architecture. Convert NPLExperiment from a single-hypothesis experiment into a multi-hypothesis register in the MLCryptoEngine style. Three co-registered successor hypotheses test on fresh, unread data only, share one collection substrate, and sit under one familywise error budget with an outcome-blind power cull. H1, the closed H-NPL, migrates into the register as the founding entry. Stage A restructures, registers all three designs, quarantines the spent Stage B read, recovers the collector gap, re-censuses, computes per-hypothesis power, fixes k and alpha, fires per-hypothesis Section 0 verdicts, re-arms collectors for survivors, hardens, and documents. Stage A never trades, never touches capital, and reads no outcome value: counts, timestamps, coverage, and pre-entry features only.
+
+Standing rules. The ten Stage A rules remain in force verbatim, plus:
+11. Push every commit. 12. The Stage B read is spent. reports/stage_b/read.json, every value inside it, and every outcome window read on 2026-08-28 are quarantined from all H2, H3, H4 code paths, enforced by AST pin and by test. The 312 retro events and their 176 control windows are the generating sample: usable for power assumptions, never for verdicts. 13. Pre-entry features are readable where registered: a trailing funding rate stamped at or before its event entry is a feature, never an outcome. The pin lists say exactly this.
+
+Figures carried in as assumptions, generating-sample-derived and labelled so in every registration: P3 pair share 114/175 = 0.651, paired price differential +6.43 points and funding differential +0.88 over 30 days, strata share-positive vanilla 0.670 (n 112), hyperp_conversion 0.696 (n 46), hip3 0.584 (n 154), event-level decomposition +1.33 funding and +1.00 price, forward accrual 18.5 events/month, match rate 0.564, pending-at-closure cohort 62 events, venue minimum notional near 10 dollars, costs per leg 9 bp round trip vanilla and 18 bp HIP-3 central with the registered bands. Assistant priors, recorded 2026-08-28 in chat: H2 0.25 overall and 0.35 on bars clearing, H3 0.10, H4 0.05. The Section 13 adoption warning carries over verbatim. Three operator prior slots, reserved and empty, one per hypothesis, each blocking its own Stage B structurally. Do not fill any of them.
+
+Stage A.0 : Task 0. Prompt log and ETAs.
+Log this prompt verbatim to progress.md. State the ETA table.
+
+Stage A.0 : Task 1. Register restructure.
+Create HYPOTHESES.md at repo root in the MLCryptoEngine register style: status header, one entry per hypothesis with claim, design pointer, verdict, and dated closure where closed. Entry H1 migrates the H-NPL record: the FAIL row, its three co-primary figures, the spent-read hashes, and a pointer to the root REGISTRATION.md as the archived registration. Entries H2, H3, H4 open with claims and pointers to registrations/H2/REGISTRATION.md, registrations/H3/REGISTRATION.md, registrations/H4/REGISTRATION.md. Append a pointer amendment to the root REGISTRATION.md recording the architecture change. Rewrite docs/STAGES.md for the register architecture. Nothing in the old registration is edited beyond the appended amendment.
+
+Stage A.0 : Task 2. Quarantine, built and tested before any registration.
+Extend the AST pins: no module opens reports/stage_b/read.json or any file under reports/stage_b/ except the existing stageb CLI surface, no module imports npl.stageb.reader, and the read-surface allowlist stays at length one until a successor Stage B amends it. Add the generating-sample pin: event IDs of the 312 retro events are recorded in data/state/generating_sample.json and no verdict-bearing statistic in any successor hypothesis admits them. Both refusals produced by test, never asserted.
+
+Stage A.0 : Task 3. Substrate specification.
+One census, one watcher, one funding recorder, one checkpoint scheduler, per-hypothesis eligibility views on top. The config guard extends to the new keys. Per-hypothesis latches and readers come later and dark.
+
+Stage A.0 : Task 4. registrations/H2/REGISTRATION.md, committed before any new network call.
+H2, the age-contrast pair. Sections mirror the H1 architecture with these contents.
+Hypothesis: a pair opened at the second daily close, short the young listing and long its funding-matched elder on the same dex at equal constant notional, held 30 days, earns a positive net return, because listing-age drift exceeds what funding matching already prices. Universe: every fresh event, meaning the 62 pending-at-closure events where windows are servable plus all forward births on every dex, no attention or performance input, hyperp pre-conversion phase excluded as before. Control rule: the H1 Section 6 rule verbatim, same dex, listed at least 180 days earlier, nearest signed trailing 168-hour mean hourly funding, with replacement, assigned at entry, trailing-only reads pinned. Outcome: pair net return equals young-leg net short return plus elder-leg net long return, four fills, sign conventions stated, constant notional, no compounding, truncation by delisting on either leg valued at last served close and retained with a flag. Costs: four-leg central 18 bp when both legs vanilla, 36 bp when both HIP-3, mixed stated per pair, bands at half and double, forward pairs additionally record measured touch spreads on both legs, descriptive. Inference, two co-primaries, both must pass, intersection carries no extra multiplicity: E1, exact one-sided sign test on the share of pairs with positive net return, bar above one half at alpha_h. E2, the economic floor, exact one-sided sign test on the share of pairs with net return at or above two times the pair's registered central cost, bar above one half at alpha_h. Power assumptions: E1 true share 0.65, E2 true share 0.60, generating-sample-derived. Secondaries, descriptive: 90-day versions, per-dex strata, funding and price decomposition per pair, truncated subgroup, backfill-versus-forward split. Epistemic boundary and spend sections as in H1. Outcome map: GO at 80 percent power on both co-primaries at achievable N by 2027-03-31, DEGRADED between 50 and 80, BLOCKED under 50, fired by function with tests.
+
+Stage A.0 : Task 5. registrations/H3/REGISTRATION.md.
+H3, the population-corrected naive short. Hypothesis: the H1 short, restricted by a mechanical instrument-class rule to main-dex listings, vanilla and hyperp conversions, HIP-3 excluded because builder dexs list index and equity-style instruments outside the token-listing population the external studies measured. The exclusion rule reads the dex field only, outcome-blind. Bars unchanged from H1 in structure and level: profitability lower confidence bound at or above 0.60 at alpha_h, and the magnitude leg at or below minus 15 percent net for the majority at alpha_h, both required. Power assumptions: share positive 0.677 generating-sample-derived, magnitude share unknown with no subset figure available, so power for the magnitude leg computes at the H1 registered 0.65 and at the H1 measured overall 0.356, both reported, the honest range. State the expectation in the registration: this hypothesis likely fires BLOCKED on the magnitude leg at achievable main-dex accrual near 9.4 events/month, and a BLOCKED here is a documented answer, not a failure of process.
+
+Stage A.0 : Task 6. registrations/H4/REGISTRATION.md.
+H4, the funding-conditioned short. Hypothesis: the naive short restricted to events whose signed trailing 168-hour mean hourly funding at entry sits at or below a threshold. Thresholds pre-registered as a grid of three, minus 10, minus 20, minus 40 percent annualized, Sidak-corrected within the hypothesis. The conditioning feature is pre-entry and readable under rule 13. Primary per cell: profitability lower bound at or above 0.60 at the within-corrected alpha. Power depends on measured conditioning rates, computed in A.2 from funding archives, expectation stated: likely BLOCKED at every cell by 2027-03-31.
+
+Stage A.0 : Task 7. Priors and slots.
+Section 13 analog in each registration: assistant priors above with dates and the adoption warning, one reserved empty operator slot per hypothesis, parser and structural block per slot, refusals produced by test.
+
+Commit and push Stage A.0.
+
+Stage A.1 : Task 1. Collector gap audit and recovery.
+The collectors went dark at 2026-08-28T03:44Z. Compute the exact dark window against the re-arm time. For every one of the 62 pending events and every assigned control still inside a live window, resume funding archives, recover the gap, and verify against retention whether any funding hour is unrecoverable. Unrecoverable hours are recorded per event against the coverage bars, absence as state, never synthesized.
+
+Stage A.1 : Task 2. Census refresh.
+Full re-enumeration of every dex. Diff against the sealed census. Append new births with first-candle inferred dates, tags, and delisted flags. Report the updated listings-per-month rate split by type, and the updated match-rate estimate for H2 pairing.
+
+Stage A.1 : Task 3. Retention re-probe for the fresh cohort.
+For the earliest fresh events, verify 1d candle and fundingHistory service across entry minus 168 hours through entry plus 91 days. Per-event servability table. Any event whose window fell out of retention is excluded_ineligible with the reason, counted.
+
+Stage A.1 : Task 4. Ceilings drift check.
+Re-probe each endpoint briefly under the ledger against the A.1 originals. Record drift. Amend pacing only if moved.
+
+Stage A.1 : Task 5. Two-leg spread snapshots.
+For every currently-active fresh event and its assigned control, one l2Book fetch per leg, touch spread and top-five depth, descriptive cost inputs for the pair model.
+
+Commit and push Stage A.1.
+
+Stage A.2 : Task 1. Per-hypothesis eligibility.
+From the fresh cohort only: H2 pairable events, H3 main-dex events, H4 conditioned events per threshold cell. Append-only eligibility ledgers, exclusion reasons counted.
+
+Stage A.2 : Task 2. Control assignment for backfillable pairs.
+Assign controls for every pairable pending event at its entry timestamp, trailing-only, append-only pair ledger, post-entry read absence pinned by test.
+
+Stage A.2 : Task 3. Conditioning rates for H4.
+Measure, from funding archives, the share of fresh events whose entry-time trailing funding clears each threshold cell. Pre-entry feature reads only, pinned.
+
+Stage A.2 : Task 4. Power, the k-table.
+Exact binomial power for every co-primary of every hypothesis at alpha_h for k equal to 1, 2, and 3, at achieved backfillable N, at projected N by 2026-12-31, and by 2027-03-31, using the measured accrual and match rates from A.1. Minimum-N statements per co-primary. Rough anchors for sanity, computation authoritative: H2 E1 near 67 pairs at k 1 and near 95 to 105 at k 3, H3 magnitude leg in the hundreds, H4 larger still.
+
+Stage A.2 : Task 5. The cull and the verdicts.
+The cull is outcome-blind and reads counts, rates, and timestamps only. Any hypothesis under 50 percent power on any required co-primary at 2027-03-31 fires BLOCKED. k equals the survivors. alpha_h equals one minus 0.95 to the power one over k, fixed here, recorded in every surviving registration by amendment, never revisited after any outcome exists. Fire each hypothesis's Section 0 verdict with every input figure beside it, in the registration amendment logs, progress.md, and report.md. Push.
+
+Commit and push Stage A.2.
+
+Stage A.3, armed only for survivors.
+
+Stage A.3 : Task 1. Re-arm collectors.
+Re-enable npl-watch.timer and npl-daily.timer from the retained unit files under a dated amendment recording the re-arm. Verify schedules, verify nothing else npl runs, verify AiTrader and solattn timers untouched, verify the manual-run guard.
+
+Stage A.3 : Task 2. Watcher extension for pairs.
+On each birth, the daily pass at the entry anchor assigns the H2 control trailing-only, writes the pair row, and takes the two-leg l2Book snapshot within 30 minutes of the entry close.
+
+Stage A.3 : Task 3. Funding recorder resumes.
+Daily batch for every fresh event and control, cadence per the retention margin, coverage per event per hypothesis, catch-up and expired rules as in H1.
+
+Stage A.3 : Task 4. Checkpoints.
+Day plus 2, plus 32, plus 92 for fresh events and both pair legs, coverage module extended per hypothesis, MIN_OUTCOME_COVERAGE unchanged.
+
+Stage A.3 : Task 5. Verdict machinery, dark, per survivor.
+Readers for the pair statistic, the subset statistic, and the conditioned statistic against synthetic fixtures with known answers to the digit, including sign pins on the four-leg pair arithmetic. Per-hypothesis latches. Never pointed at real sealed data, pinned by test.
+
+Stage A.3 : Task 6. Pair feasibility memo.
+docs/PAIR_FEASIBILITY.md: isolated margin on both legs, venue minimum notionals, maximum concurrent pairs at 1,000 dollars, squeeze exposure on the young short leg with cap arithmetic sized to survive a 100 percent adverse move, funding-flip behavior of the hedged pair. Analysis only, no capital, no orders.
+
+Commit and push Stage A.3.
+
+Stage A.4 : Task 1. Gates.
+make lint, typecheck, test green, every guard exercised.
+
+Stage A.4 : Task 2. Mutations, at least six on real source, bytecode purged each run.
+Open reports/stage_b/read.json from an H2 module, caught by the quarantine pin. Admit a generating-sample event ID into an H2 eligibility view, caught. Read a post-entry funding row inside control assignment, caught. Flip a pair-leg sign in the dark reader, caught by known answers. Let the cull read an outcome field, caught. Widen a reader allowlist, caught. Evidence in reports/stage_a_h2/mutations.md, source restored byte for byte.
+
+Stage A.4 : Task 3. Docs.
+HYPOTHESES.md finalized with all four entries and verdicts to date. DECISIONS.md ADRs for every choice above. report.md gains the Stage A-H2 section: the architecture change, the gap audit, the census refresh, eligibility, the k-table, the cull, the verdicts, the re-arm. README status line updated.
+
+Stage A.4 : Task 4. Close-out.
+progress.md per sub-stage with ETA against actual. Final commit, push, confirm origin main equals local HEAD. End-state summary: per-hypothesis verdicts with inputs, k and alpha_h fixed, collectors state, first forward pair entry date, earliest Stage B date per survivor, and the open operator items, which must be exactly the surviving prior slots and nothing else.
+
+END PROMPT
+```
+
+Session model note: the prompt names Opus; the session model is Fable 5,
+recorded here as in Stages A and B.
+
+Overall ETA stated to operator at 2026-08-28T03:27:30Z: **5.5–7.5 hours**
+wall clock, including two paced network passes that run in background (the
+A.1 gap recovery and the A.2 candidate trailing-window fetches for control
+assignment). Sub-stage ETAs:
+
+| Sub-stage | ETA | Largest risk |
+|---|---|---|
+| A.0 register restructure, quarantine, substrate, 3 registrations, priors | 100–120 min | three full registrations written to the H1 standard |
+| A.1 gap audit + recovery, census refresh, retention re-probe, ceilings drift, spreads | 60–80 min | paced archive resume for the 62 pending events (~10 min network) |
+| A.2 eligibility, control assignment, conditioning, k-table, cull + verdicts | 60–80 min | candidate trailing fetches (~35–45 min paced, background) |
+| A.3 re-arm, watcher extension, recorder, checkpoints, dark readers, pair memo | 70–90 min | dark reader known-answer fixtures for the four-leg arithmetic |
+| A.4 gates, ≥6 mutations, docs, close-out | 50–70 min | mutation harness across the new surface |
