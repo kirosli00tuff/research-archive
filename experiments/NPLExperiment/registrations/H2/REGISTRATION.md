@@ -631,3 +631,159 @@ horizons, truncation rule, and coverage bars (Section 7), the epistemic
 boundary (Section 11), the zero-dollar keyless spend rule (Section 12),
 and the reserved, empty operator prior slot (Section 13) — all unchanged.
 **The operator prior slot remains the structural block on every H2 look.**
+
+### Amendment H2-4 — 2026-08-28 — the boundary record, the futility numbers, and one correction to H2-3
+
+**What data existed when this amendment was made.** Everything listed in
+Amendment H2-3, plus the Task 2 backfill: the H2 pairs ledger at **62 rows
+(38 `same_dex`, 24 `cross_dex`)**, its 62 entry timestamps, the pair tags,
+the fresh plan at 124 rows, 24 control-leg funding archives caught up (133
+pages, 57,584 rows), and 24 loud `expired` control-leg l2Book records.
+**Counts, tags, and timestamps only. No pair net return, no candle close,
+and no post-entry funding rate has been read; the H2 pair reader has still
+seen only synthetic fixtures.** Every arithmetic input below is either a
+registered constant or one of those counts. Full record:
+`reports/stage_a_h2/ktable_amended.json`.
+
+#### 1. The alpha split, confirmed as registered: alpha_1 = 0.02, alpha_2 = 0.03
+
+Amendment H2-3 permitted replacement only on its two-clause materiality
+test. Evaluated at the projected look-2 N of **135 pairs**, on the
+governing co-primary E2:
+
+| split | two-look power | P(look-1 boundary fires) | min n₂ | clause (a) gain ≥ 0.01 | clause (b) stop-loss ≤ 0.05 | replaces? |
+|---|---|---|---|---|---|---|
+| **0.02 / 0.03 (registered)** | **0.8629** | **0.5042** | **117** | — | — | — |
+| 0.025 / 0.025 | 0.8629 | 0.5042 | 120 | no (0.0000) | yes | no |
+| 0.015 / 0.035 | 0.8574 | 0.4050 | 114 | no (−0.0055) | no | no |
+| 0.01 / 0.04 | 0.8900 | 0.3112 | 112 | yes (+0.0270) | **no** (−0.1930) | no |
+| 0.005 / 0.045 | 0.8891 | 0.2277 | 109 | yes (+0.0262) | **no** (−0.2765) | no |
+| 0.03 / 0.02 | 0.8262 | 0.5042 | 123 | no (−0.0367) | yes | no |
+
+**No candidate passes both clauses. The registered split stands.** The two
+splits that buy power do it by nearly halving the chance the interim ever
+fires — exactly what clause (b) was written to refuse.
+
+#### 2. Minimum N per co-primary, both looks, at both E2 assumptions
+
+Stays-at-or-above-0.80 semantics; planning interim n₁ = ⌈n₂/2⌉.
+
+| co-primary | look-1 min N | look-2 min N | single-look min N at alpha_h |
+|---|---|---|---|
+| **E1** (share 0.65) | **42** | **84** | 76 |
+| **E2, 1× floor** (share 0.625, governing) | **59** | **117** | **111** |
+| E2, 1× floor at the unchanged 0.60 (reported beside) | 92 | 184 | 169 |
+| **E2, pre-amendment 2× floor** (share 0.60, one look) | — | — | **169** |
+
+**The cost of the weakening, legible in one line.** Under the old 2× floor
+H2 needed **169** achieved pairs at a single look. Under the 1× floor it
+needs **117** at look 2 and can stop at **59**. Of that saving, the part
+attributable to the *interpolated* share is the difference between the
+0.625 row and the 0.600 row — 117 against 184 — so a reader who rejects the
+interpolation and holds E2 at 0.60 should read **184 / 92**, and the design
+then does not reach 0.80 by the deadline. **Both figures are carried at
+every look.** The 169 recomputes here from the same registered inputs and
+reproduces Amendment H2-1 exactly, which is the arithmetic's own check.
+
+**The governing figures: look-1 minimum N = 59 pairs, look-2 minimum N =
+117 pairs** (the larger of the two co-primaries' at each look).
+
+#### 3. The boundary table
+
+| scenario | n₂ | n₁ | k₁ | k₂ | alpha spent (look 1 + look 2) | E1 power | E2 power |
+|---|---|---|---|---|---|---|---|
+| at look-1 min N | 59 | 30 | 22 | 37 | 0.0173 + 0.0200 = 0.0373 | 0.7031 | 0.5529 |
+| **at look-2 min N** | **117** | **59** | **38** | **69** | 0.0182 + 0.0240 = **0.0422** | **0.9322** | **0.8237** |
+| at the deadline | 135 | 68 | 43 | 79 | 0.0176 + 0.0227 = 0.0403 | 0.9552 | **0.8629** |
+
+Every total spend sits **inside** alpha_h = 0.05 — the exact construction
+is conservative, never at the budget, and never over it. The script refuses
+loudly if any row ever exceeds it.
+
+#### 4. The look-1 futility boundary, and the n₂ it uses
+
+Amendment H2-3 defined f₁ as a function of (n₁, n₂) but did not name which
+n₂ the look-1 computation uses, because the real n₂ is not observable at
+look 1. **Named now, before any outcome exists: n₂ for the look-1 futility
+computation is the co-primary's registered look-2 minimum N (table 2), or
+the observed n₁ where that is larger.** At the projected look-1 size
+n₁ = 59, with the registered conditional-power floor of 0.10:
+
+| co-primary | n₁ | n₂ used | k₁ | k₂ | **f₁** |
+|---|---|---|---|---|---|
+| E1 | 59 | 84 | 38 | 51 | **31** |
+| E2 | 59 | 117 | 38 | 69 | **27** |
+
+**Futility fires at look 1 when E1's positive count is 31 or fewer of 59,
+or E2's floor-clearing count is 27 or fewer of 59.** Both boundaries are
+registrable and are registered. They are recomputed at the actual n₁ by the
+same function; the numbers above are the projection, not a substitute for
+the computation.
+
+#### 5. The projected look dates
+
+A fresh pair becomes readable when its candle window seals at entry + 92
+days (ADR-019); a forward birth's pair is readable at listing + 94 days.
+At the A.1-measured accrual of **18.57 events/month** and the amended match
+rate of **1.000** (62/62 — the fallback removes the same-dex age gate, so
+by-dex and flat projections now coincide; at the pre-amendment 0.613 the
+deadline count would be 82 instead of 135):
+
+| as of | backfill pairs readable | forward | total |
+|---|---|---|---|
+| 2026-09-30 | 18 | 0 | 18 |
+| 2026-10-31 | 34 | 0 | 34 |
+| **2026-11-30** | **62** | 0 | **62** |
+| 2026-12-31 | 62 | 18 | 80 |
+| 2027-01-31 | 62 | 37 | 99 |
+| 2027-02-28 | 62 | 54 | 116 |
+| **2027-03-31** | 62 | 73 | **135** |
+
+- **Look 1 projects to 2026-11-26** — the day the 59th backfill pair
+  becomes readable.
+- **Look 2 projects to 2027-03-01** — the day the 117th pair becomes
+  readable, one month inside the registered 2027-03-31 deadline.
+
+**What the amendment bought, stated plainly:** Amendment H2-1 put H2's
+earliest read near 2027-06, past its own deadline. The amended design reads
+at **2026-11-26** and terminates by **2027-03-01**.
+
+#### 6. Recomputed power beside the registered target (the DEGRADED rule)
+
+At the projected deadline N of 135, on single-look power — the basis
+Section 0's map is stated on — E1 reaches **0.9665** and E2 **0.8886**
+(0.7318 at the reported-beside 0.60), so the governing figure is **0.8886**
+and the Section 0 function returns **GO**. On the two-look design that
+actually governs, the governing figure is **0.8629**. **Both are above the
+registered 0.80 target.** Section 0's DEGRADED record of Amendment H2-1 is
+not edited and is not re-fired; this is the recomputed power the DEGRADED
+rule requires to travel beside the target at every later reading.
+
+#### 7. A correction to Amendment H2-3's look-2 outcome map
+
+**The defect, found while implementing the reader and recorded rather than
+smoothed over.** Amendment H2-3 wrote the look-2 GO condition as "E1 and E2
+both reject at k₂", with the look-2 rejection event defined as
+`S₁ < k₁ and S₂ ≥ k₂`. Read literally, a co-primary whose look-1 count had
+already crossed k₁ — while the *other* co-primary had not, so the trial
+correctly continued — could never satisfy `S₁ < k₁` at look 2, and the
+design would fire **FAIL** at look 2 precisely because the evidence at look
+1 was too strong. That is perverse, and it is not what the plan is for.
+
+**The correction, made now, before any outcome value exists and before the
+reader has seen anything but synthetic fixtures: a co-primary passes at
+look 2 when the two-look procedure has rejected its null *by* look 2 — that
+is, when `S₁ ≥ k₁` **or** `S₂ ≥ k₂`.** A GO at look 2 still requires both
+co-primaries to have done so.
+
+**This does not weaken the error control.** The rejection region is the
+union of the two registered regions, whose null probability is exactly
+alpha_spent(look 1) + alpha_spent(look 2) ≤ alpha_1 + alpha_2 = 0.05 — the
+same construction, the same budget, the same numbers in table 3. The
+conjunction's familywise error is bounded by the weaker co-primary's, so it
+too stays at or under 0.05.
+
+`S₁ < k₁ and S₂ ≥ k₂` remains the definition of the **look-2 rejection
+event** used to compute the exact spend. Only the verdict question — has
+this co-primary rejected by this look — is corrected. Everything else in
+Amendment H2-3 stands unchanged.

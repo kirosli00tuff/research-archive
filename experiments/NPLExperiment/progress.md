@@ -903,3 +903,54 @@ called `assign_control` without `pairs_path`, whose default is **H1's**
 `data/controls/pairs.jsonl`. It would have appended 24 successor rows to
 the spent hypothesis's ledger. Fixed before execution; H1's ledger hash is
 unchanged (`3f82809…`), verified after the run.
+
+### Task 3 — power and boundaries (ETA 35–50 min · actual ~30 min, 07:40→08:10Z)
+
+`reports/stage_a_h2/ktable_amended.json`; recorded as **Amendment H2-4**.
+Exact binomial arithmetic over counts, tags, timestamps, and registered
+constants. No outcome value read.
+
+| | E1 | E2 (1× floor, 0.625) | E2 at 0.600, beside | E2 pre-amendment (2×, one look) |
+|---|---|---|---|---|
+| look-1 min N | 42 | **59** | 92 | — |
+| look-2 min N | 84 | **117** | 184 | — |
+| single-look min N | 76 | 111 | 169 | **169** |
+
+The pre-amendment 169 recomputes exactly from the same registered inputs
+and reproduces Amendment H2-1 — the arithmetic's own check.
+
+- **Alpha split 0.02 / 0.03 stands.** Six splits evaluated against the
+  registered two-clause materiality test at n₂ = 135. (0.01, 0.04) and
+  (0.005, 0.045) gain +0.027 and +0.026 power but cut the look-1 firing
+  probability by 0.193 and 0.277 — clause (b) refuses them. Nothing passes
+  both clauses.
+- **Boundaries.** At look-2 min N (117): n₁ 59, k₁ 38, k₂ 69, spend
+  0.0182 + 0.0240 = 0.0422; powers 0.9322 / 0.8237. At the deadline (135):
+  n₁ 68, k₁ 43, k₂ 79, spend 0.0403; powers 0.9552 / 0.8629. Every total
+  spend sits inside alpha_h = 0.05; the script refuses loudly if one ever
+  does not.
+- **Futility is registrable and registered.** n₂ for the look-1 computation
+  is the co-primary's registered look-2 min N (or n₁ if larger) — the rule
+  H2-3 left unnamed, named now before any outcome exists. At n₁ = 59:
+  **E1 f₁ = 31, E2 f₁ = 27**.
+- **Projected looks: look 1 on 2026-11-26 (59 readable pairs), look 2 on
+  2027-03-01 (117), one month inside the 2027-03-31 deadline.** Amendment
+  H2-1 had put the earliest read near 2027-06, past its own deadline.
+- **Recomputed power beside the registered 0.80 target:** single-look
+  governing 0.8886 (the Section 0 function returns GO), two-look governing
+  0.8629. Section 0's DEGRADED record is not edited and not re-fired.
+- Projection models: by-dex and flat now **coincide** — the fallback removes
+  the same-dex age gate, so the measured match rate is 1.000 and the
+  divergence that made the flat variant fire k = 0 at H2-1 is gone. The
+  withdrawal sensitivity is recorded: at the pre-amendment 0.613 the
+  deadline count would be 82 instead of 135.
+
+**A defect in my own Amendment H2-3, found while implementing the reader and
+corrected in H2-4 §7 rather than smoothed over.** H2-3's look-2 GO
+condition, read literally, would have fired FAIL whenever one co-primary's
+look-1 count had already crossed k₁ while the other had not — punishing
+strong early evidence. Corrected before any outcome value exists: a
+co-primary passes at look 2 when the procedure has rejected its null **by**
+look 2 (S₁ ≥ k₁ or S₂ ≥ k₂). The rejection region is the union of the two
+registered regions, so the exact spend and every number in the boundary
+table are unchanged.

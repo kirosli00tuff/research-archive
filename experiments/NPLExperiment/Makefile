@@ -1,15 +1,20 @@
-.PHONY: install lint fmt typecheck test all guards mutations mutations-b mutations-register mutations-amend backfill-fallback mutations-amend backfill-fallback
+SCRIPTS = scripts/mutations.py scripts/mutations_stage_b.py scripts/mutations_register.py \
+          scripts/mutations_amend.py scripts/backfill_fallback.py scripts/ktable_amended.py
+
+.PHONY: install lint fmt typecheck test all guards \
+        mutations mutations-b mutations-register mutations-amend \
+        backfill-fallback ktable-amended
 
 install:
 	uv sync
 
 lint:
-	uv run ruff format --check src tests scripts/mutations.py scripts/mutations_stage_b.py scripts/mutations_register.py scripts/backfill_fallback.py
-	uv run ruff check src tests scripts/mutations.py scripts/mutations_stage_b.py scripts/mutations_register.py scripts/backfill_fallback.py
+	uv run ruff format --check src tests $(SCRIPTS)
+	uv run ruff check src tests $(SCRIPTS)
 
 fmt:
-	uv run ruff format src tests scripts/mutations.py scripts/mutations_stage_b.py scripts/mutations_register.py scripts/backfill_fallback.py
-	uv run ruff check --fix src tests scripts/mutations.py scripts/mutations_stage_b.py scripts/mutations_register.py scripts/backfill_fallback.py
+	uv run ruff format src tests $(SCRIPTS)
+	uv run ruff check --fix src tests $(SCRIPTS)
 
 typecheck:
 	uv run mypy
@@ -29,4 +34,13 @@ mutations-b:
 	uv run python scripts/mutations_stage_b.py
 
 mutations-register:
-	uv run python scripts/mutations_register.py scripts/backfill_fallback.py
+	uv run python scripts/mutations_register.py
+
+mutations-amend:
+	uv run python scripts/mutations_amend.py
+
+backfill-fallback:
+	uv run python scripts/backfill_fallback.py
+
+ktable-amended:
+	uv run python scripts/ktable_amended.py

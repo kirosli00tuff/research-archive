@@ -1,0 +1,607 @@
+{
+  "alpha_split_evaluation": {
+    "candidates": [
+      {
+        "alpha_1": 0.02,
+        "alpha_2": 0.03,
+        "alpha_spent_look1": 0.01923,
+        "alpha_spent_look2": 0.021113,
+        "alpha_spent_total": 0.040343,
+        "clause_a_power_gain": false,
+        "clause_b_stop_loss_ok": true,
+        "futility_boundary_f1": 31,
+        "k1": 43,
+        "k2": 79,
+        "look1_stop_loss_vs_registered": 0.0,
+        "materially_better": false,
+        "min_n2_governing": 117,
+        "n1": 68,
+        "n2": 135,
+        "p_look1_boundary_fires": 0.504193,
+        "power": 0.862922,
+        "power_gain_vs_registered": 0.0
+      },
+      {
+        "alpha_1": 0.025,
+        "alpha_2": 0.025,
+        "alpha_spent_look1": 0.01923,
+        "alpha_spent_look2": 0.021113,
+        "alpha_spent_total": 0.040343,
+        "clause_a_power_gain": false,
+        "clause_b_stop_loss_ok": true,
+        "futility_boundary_f1": 31,
+        "k1": 43,
+        "k2": 79,
+        "look1_stop_loss_vs_registered": 0.0,
+        "materially_better": false,
+        "min_n2_governing": 120,
+        "n1": 68,
+        "n2": 135,
+        "p_look1_boundary_fires": 0.504193,
+        "power": 0.862922,
+        "power_gain_vs_registered": 0.0
+      },
+      {
+        "alpha_1": 0.015,
+        "alpha_2": 0.035,
+        "alpha_spent_look1": 0.010263,
+        "alpha_spent_look2": 0.023917,
+        "alpha_spent_total": 0.03418,
+        "clause_a_power_gain": false,
+        "clause_b_stop_loss_ok": false,
+        "futility_boundary_f1": 31,
+        "k1": 44,
+        "k2": 79,
+        "look1_stop_loss_vs_registered": 0.099149,
+        "materially_better": false,
+        "min_n2_governing": 114,
+        "n1": 68,
+        "n2": 135,
+        "p_look1_boundary_fires": 0.405044,
+        "power": 0.857442,
+        "power_gain_vs_registered": -0.00548
+      },
+      {
+        "alpha_1": 0.01,
+        "alpha_2": 0.04,
+        "alpha_spent_look1": 0.005169,
+        "alpha_spent_look2": 0.038969,
+        "alpha_spent_total": 0.044137,
+        "clause_a_power_gain": true,
+        "clause_b_stop_loss_ok": false,
+        "futility_boundary_f1": 30,
+        "k1": 45,
+        "k2": 78,
+        "look1_stop_loss_vs_registered": 0.19304,
+        "materially_better": false,
+        "min_n2_governing": 112,
+        "n1": 68,
+        "n2": 135,
+        "p_look1_boundary_fires": 0.311153,
+        "power": 0.889952,
+        "power_gain_vs_registered": 0.02703
+      },
+      {
+        "alpha_1": 0.005,
+        "alpha_2": 0.045,
+        "alpha_spent_look1": 0.002452,
+        "alpha_spent_look2": 0.040589,
+        "alpha_spent_total": 0.043041,
+        "clause_a_power_gain": true,
+        "clause_b_stop_loss_ok": false,
+        "futility_boundary_f1": 30,
+        "k1": 46,
+        "k2": 78,
+        "look1_stop_loss_vs_registered": 0.276499,
+        "materially_better": false,
+        "min_n2_governing": 109,
+        "n1": 68,
+        "n2": 135,
+        "p_look1_boundary_fires": 0.227694,
+        "power": 0.88913,
+        "power_gain_vs_registered": 0.026208
+      },
+      {
+        "alpha_1": 0.03,
+        "alpha_2": 0.02,
+        "alpha_spent_look1": 0.01923,
+        "alpha_spent_look2": 0.013073,
+        "alpha_spent_total": 0.032303,
+        "clause_a_power_gain": false,
+        "clause_b_stop_loss_ok": true,
+        "futility_boundary_f1": 32,
+        "k1": 43,
+        "k2": 80,
+        "look1_stop_loss_vs_registered": 0.0,
+        "materially_better": false,
+        "min_n2_governing": 123,
+        "n1": 68,
+        "n2": 135,
+        "p_look1_boundary_fires": 0.504193,
+        "power": 0.826231,
+        "power_gain_vs_registered": -0.036691
+      }
+    ],
+    "decision": "no candidate split passes both clauses; alpha_1 = 0.02 and alpha_2 = 0.03 stand as registered",
+    "evaluated_at_n2": 135,
+    "governing_co_primary": "E2",
+    "materiality_test": {
+      "clause_a": "governing power gain at the projected look-2 N >= 0.01",
+      "clause_b": "reduction in the governing co-primary's probability of a look-1 GO under the registered alternative <= 0.05"
+    },
+    "materially_better_splits": [],
+    "registered": [
+      0.02,
+      0.03
+    ]
+  },
+  "amendment": "H2-3 (Changes 1-3); the boundary record is Amendment H2-4",
+  "boundaries": {
+    "achieved_readable_today": {
+      "n_as_look2": 0,
+      "note": "too few pairs for a boundary"
+    },
+    "at_look1_min_n": {
+      "E1": {
+        "alpha_1": 0.02,
+        "alpha_2": 0.03,
+        "alpha_spent_look1": 0.008062,
+        "alpha_spent_look2": 0.029206,
+        "alpha_spent_total": 0.037268,
+        "futility_boundary_f1": 14,
+        "k1": 22,
+        "k2": 37,
+        "n1": 30,
+        "n2": 59,
+        "p_look1_boundary_fires": 0.224696,
+        "power": 0.703083
+      },
+      "E2": {
+        "alpha_1": 0.02,
+        "alpha_2": 0.03,
+        "alpha_spent_look1": 0.008062,
+        "alpha_spent_look2": 0.029206,
+        "alpha_spent_total": 0.037268,
+        "futility_boundary_f1": 15,
+        "k1": 22,
+        "k2": 37,
+        "n1": 30,
+        "n2": 59,
+        "p_look1_boundary_fires": 0.149474,
+        "power": 0.552854
+      },
+      "E2_reported_beside_at_0.600": {
+        "alpha_1": 0.02,
+        "alpha_2": 0.03,
+        "alpha_spent_look1": 0.008062,
+        "alpha_spent_look2": 0.029206,
+        "alpha_spent_total": 0.037268,
+        "futility_boundary_f1": 15,
+        "k1": 22,
+        "k2": 37,
+        "n1": 30,
+        "n2": 59,
+        "p_look1_boundary_fires": 0.094011,
+        "power": 0.397492
+      },
+      "n_as_look2": 59
+    },
+    "at_look2_min_n": {
+      "E1": {
+        "alpha_1": 0.02,
+        "alpha_2": 0.03,
+        "alpha_spent_look1": 0.018172,
+        "alpha_spent_look2": 0.024025,
+        "alpha_spent_total": 0.042197,
+        "futility_boundary_f1": 26,
+        "k1": 38,
+        "k2": 69,
+        "n1": 59,
+        "n2": 117,
+        "p_look1_boundary_fires": 0.596647,
+        "power": 0.932234
+      },
+      "E2": {
+        "alpha_1": 0.02,
+        "alpha_2": 0.03,
+        "alpha_spent_look1": 0.018172,
+        "alpha_spent_look2": 0.024025,
+        "alpha_spent_total": 0.042197,
+        "futility_boundary_f1": 27,
+        "k1": 38,
+        "k2": 69,
+        "n1": 59,
+        "n2": 117,
+        "p_look1_boundary_fires": 0.437687,
+        "power": 0.823731
+      },
+      "E2_reported_beside_at_0.600": {
+        "alpha_1": 0.02,
+        "alpha_2": 0.03,
+        "alpha_spent_look1": 0.018172,
+        "alpha_spent_look2": 0.024025,
+        "alpha_spent_total": 0.042197,
+        "futility_boundary_f1": 28,
+        "k1": 38,
+        "k2": 69,
+        "n1": 59,
+        "n2": 117,
+        "p_look1_boundary_fires": 0.290708,
+        "power": 0.647648
+      },
+      "n_as_look2": 117
+    },
+    "backfill_cohort_fully_readable_2026-11-30": {
+      "E1": {
+        "alpha_1": 0.02,
+        "alpha_2": 0.03,
+        "alpha_spent_look1": 0.014725,
+        "alpha_spent_look2": 0.021603,
+        "alpha_spent_total": 0.036327,
+        "futility_boundary_f1": 14,
+        "k1": 22,
+        "k2": 39,
+        "n1": 31,
+        "n2": 62,
+        "p_look1_boundary_fires": 0.311045,
+        "power": 0.70315
+      },
+      "E2": {
+        "alpha_1": 0.02,
+        "alpha_2": 0.03,
+        "alpha_spent_look1": 0.014725,
+        "alpha_spent_look2": 0.021603,
+        "alpha_spent_total": 0.036327,
+        "futility_boundary_f1": 15,
+        "k1": 22,
+        "k2": 39,
+        "n1": 31,
+        "n2": 62,
+        "p_look1_boundary_fires": 0.217268,
+        "power": 0.550544
+      },
+      "E2_reported_beside_at_0.600": {
+        "alpha_1": 0.02,
+        "alpha_2": 0.03,
+        "alpha_spent_look1": 0.014725,
+        "alpha_spent_look2": 0.021603,
+        "alpha_spent_total": 0.036327,
+        "futility_boundary_f1": 16,
+        "k1": 22,
+        "k2": 39,
+        "n1": 31,
+        "n2": 62,
+        "p_look1_boundary_fires": 0.143376,
+        "power": 0.39334
+      },
+      "n_as_look2": 62
+    },
+    "deadline_2027-03-31": {
+      "E1": {
+        "alpha_1": 0.02,
+        "alpha_2": 0.03,
+        "alpha_spent_look1": 0.01923,
+        "alpha_spent_look2": 0.021113,
+        "alpha_spent_total": 0.040343,
+        "futility_boundary_f1": 29,
+        "k1": 43,
+        "k2": 79,
+        "n1": 68,
+        "n2": 135,
+        "p_look1_boundary_fires": 0.670817,
+        "power": 0.955244
+      },
+      "E2": {
+        "alpha_1": 0.02,
+        "alpha_2": 0.03,
+        "alpha_spent_look1": 0.01923,
+        "alpha_spent_look2": 0.021113,
+        "alpha_spent_total": 0.040343,
+        "futility_boundary_f1": 31,
+        "k1": 43,
+        "k2": 79,
+        "n1": 68,
+        "n2": 135,
+        "p_look1_boundary_fires": 0.504193,
+        "power": 0.862922
+      },
+      "E2_reported_beside_at_0.600": {
+        "alpha_1": 0.02,
+        "alpha_2": 0.03,
+        "alpha_spent_look1": 0.01923,
+        "alpha_spent_look2": 0.021113,
+        "alpha_spent_total": 0.040343,
+        "futility_boundary_f1": 33,
+        "k1": 43,
+        "k2": 79,
+        "n1": 68,
+        "n2": 135,
+        "p_look1_boundary_fires": 0.339617,
+        "power": 0.692372
+      },
+      "n_as_look2": 135
+    },
+    "interim_2026-12-31": {
+      "E1": {
+        "alpha_1": 0.02,
+        "alpha_2": 0.03,
+        "alpha_spent_look1": 0.019239,
+        "alpha_spent_look2": 0.020646,
+        "alpha_spent_total": 0.039885,
+        "futility_boundary_f1": 18,
+        "k1": 27,
+        "k2": 49,
+        "n1": 40,
+        "n2": 80,
+        "p_look1_boundary_fires": 0.440766,
+        "power": 0.809855
+      },
+      "E2": {
+        "alpha_1": 0.02,
+        "alpha_2": 0.03,
+        "alpha_spent_look1": 0.019239,
+        "alpha_spent_look2": 0.020646,
+        "alpha_spent_total": 0.039885,
+        "futility_boundary_f1": 19,
+        "k1": 27,
+        "k2": 49,
+        "n1": 40,
+        "n2": 80,
+        "p_look1_boundary_fires": 0.316141,
+        "power": 0.661247
+      },
+      "E2_reported_beside_at_0.600": {
+        "alpha_1": 0.02,
+        "alpha_2": 0.03,
+        "alpha_spent_look1": 0.019239,
+        "alpha_spent_look2": 0.020646,
+        "alpha_spent_total": 0.039885,
+        "futility_boundary_f1": 20,
+        "k1": 27,
+        "k2": 49,
+        "n1": 40,
+        "n2": 80,
+        "p_look1_boundary_fires": 0.21116,
+        "power": 0.486003
+      },
+      "n_as_look2": 80
+    }
+  },
+  "computed_at": "2026-08-28T07:44:41Z",
+  "governing_look1_min_n": 59,
+  "governing_look2_min_n": 117,
+  "inputs": {
+    "achieved_pairs_by_tag": {
+      "cross_dex": 24,
+      "same_dex": 38
+    },
+    "achieved_pairs_total": 62,
+    "alpha_1": 0.02,
+    "alpha_2": 0.03,
+    "alpha_h": 0.05,
+    "cost_floor_multiple": 1.0,
+    "cost_floor_multiple_secondary": 2.0,
+    "futility_conditional_power_floor": 0.1,
+    "k": 1,
+    "measured_accrual_events_per_month": 18.57,
+    "measured_match_rate_backfillable_cohort": 1.0,
+    "planning_interim_fraction": 0.5,
+    "readable_lag_days_backfill": 92,
+    "readable_lag_days_forward": 94,
+    "today": "2026-08-28",
+    "true_shares": {
+      "E1": 0.65,
+      "E2": 0.625,
+      "E2_at_two_times_share": 0.6
+    }
+  },
+  "look1_futility": {
+    "E1": {
+      "alpha_1": 0.02,
+      "alpha_2": 0.03,
+      "alpha_spent_look1": 0.018172,
+      "alpha_spent_look2": 0.020162,
+      "alpha_spent_total": 0.038334,
+      "futility_boundary_f1": 31,
+      "k1": 38,
+      "k2": 51,
+      "n1": 59,
+      "n2": 84,
+      "p_look1_boundary_fires": 0.596647,
+      "power": 0.836697
+    },
+    "E2": {
+      "alpha_1": 0.02,
+      "alpha_2": 0.03,
+      "alpha_spent_look1": 0.018172,
+      "alpha_spent_look2": 0.024025,
+      "alpha_spent_total": 0.042197,
+      "futility_boundary_f1": 27,
+      "k1": 38,
+      "k2": 69,
+      "n1": 59,
+      "n2": 117,
+      "p_look1_boundary_fires": 0.437687,
+      "power": 0.823731
+    },
+    "conditional_power_floor": 0.1,
+    "n1_at_the_projected_look1": 59,
+    "n2_rule": "the co-primary's registered look-2 minimum N, or the observed n1 where that is larger \u2014 the real n2 is not observable at look 1"
+  },
+  "minimum_n": {
+    "E1": {
+      "boundary_at_min_n": {
+        "alpha_1": 0.02,
+        "alpha_2": 0.03,
+        "alpha_spent_look1": 0.00976,
+        "alpha_spent_look2": 0.026489,
+        "alpha_spent_total": 0.036249,
+        "futility_boundary_f1": 19,
+        "k1": 29,
+        "k2": 51,
+        "n1": 42,
+        "n2": 84,
+        "p_look1_boundary_fires": 0.354383,
+        "power": 0.831889
+      },
+      "look1_min_n": 42,
+      "look2_min_n": 84,
+      "single_look_min_n_at_alpha_h": 76
+    },
+    "E2_1x_floor_share_0.600_reported_beside": {
+      "boundary_at_min_n": {
+        "alpha_1": 0.02,
+        "alpha_2": 0.03,
+        "alpha_spent_look1": 0.014008,
+        "alpha_spent_look2": 0.02588,
+        "alpha_spent_total": 0.039888,
+        "futility_boundary_f1": 43,
+        "k1": 57,
+        "k2": 105,
+        "n1": 92,
+        "n2": 184,
+        "p_look1_boundary_fires": 0.393648,
+        "power": 0.821749
+      },
+      "look1_min_n": 92,
+      "look2_min_n": 184,
+      "single_look_min_n_at_alpha_h": 169
+    },
+    "E2_1x_floor_share_0.625": {
+      "boundary_at_min_n": {
+        "alpha_1": 0.02,
+        "alpha_2": 0.03,
+        "alpha_spent_look1": 0.018172,
+        "alpha_spent_look2": 0.024025,
+        "alpha_spent_total": 0.042197,
+        "futility_boundary_f1": 27,
+        "k1": 38,
+        "k2": 69,
+        "n1": 59,
+        "n2": 117,
+        "p_look1_boundary_fires": 0.437687,
+        "power": 0.823731
+      },
+      "look1_min_n": 59,
+      "look2_min_n": 117,
+      "single_look_min_n_at_alpha_h": 111
+    },
+    "E2_pre_amendment_2x_floor_share_0.600_single_look": {
+      "note": "Amendment H2-1 recorded 169; recomputed here from the same registered inputs",
+      "single_look_min_n_at_alpha_h": 169
+    }
+  },
+  "outcome_values_read": 0,
+  "pair_projection_models": {
+    "by_dex_measured": "per-dex accrual with pairability onsets \u2014 under the Amendment H2-3 fallback every dex is pairable at every entry, because the main-dex candidate universe (174 elders aged 180d+, and growing) is available to every event. Pairs = events.",
+    "flat": "measured match rate x forward events. The measured rate is now 62/62 = 1.000, so the flat and by-dex models COINCIDE under the fallback \u2014 the divergence that made the flat variant fire k = 0 at Amendment H2-1 is gone.",
+    "withdrawal_sensitivity": "at the pre-amendment same-dex-only match rate of 0.613 the deadline pair count would be 82 instead of 135 \u2014 the cost if the relaxation were withdrawn."
+  },
+  "projected_look_dates": {
+    "look1": "2026-11-26",
+    "look1_condition": "both co-primaries at their look-1 minimum N (E1 42, E2 59; governing 59 readable eligible pairs)",
+    "look2": "2027-03-01",
+    "look2_condition": "the earlier of 2027-03-31 and the date both reach their look-2 minimum N (E1 84, E2 117; governing 117), reached 2027-03-01"
+  },
+  "projection_by_month": [
+    {
+      "as_of": "2026-08-31",
+      "backfill_pairs_readable": 2,
+      "forward_pairs_readable": 0,
+      "total_pairs_readable": 2
+    },
+    {
+      "as_of": "2026-09-30",
+      "backfill_pairs_readable": 18,
+      "forward_pairs_readable": 0,
+      "total_pairs_readable": 18
+    },
+    {
+      "as_of": "2026-10-31",
+      "backfill_pairs_readable": 34,
+      "forward_pairs_readable": 0,
+      "total_pairs_readable": 34
+    },
+    {
+      "as_of": "2026-11-30",
+      "backfill_pairs_readable": 62,
+      "forward_pairs_readable": 0,
+      "total_pairs_readable": 62
+    },
+    {
+      "as_of": "2026-12-31",
+      "backfill_pairs_readable": 62,
+      "forward_pairs_readable": 18,
+      "total_pairs_readable": 80
+    },
+    {
+      "as_of": "2027-01-31",
+      "backfill_pairs_readable": 62,
+      "forward_pairs_readable": 37,
+      "total_pairs_readable": 99
+    },
+    {
+      "as_of": "2027-02-28",
+      "backfill_pairs_readable": 62,
+      "forward_pairs_readable": 54,
+      "total_pairs_readable": 116
+    },
+    {
+      "as_of": "2027-03-31",
+      "backfill_pairs_readable": 62,
+      "forward_pairs_readable": 73,
+      "total_pairs_readable": 135
+    }
+  ],
+  "section0_gate_recomputed": {
+    "governing_two_look_power_at_deadline": 0.862922,
+    "note": "the Section 0 map is stated on single-look power (Amendment H2-1); the two-look figure is what actually governs the amended design and is reported beside it, per the DEGRADED rule that recomputed power travels with the registered target",
+    "single_look_gate": {
+      "governing_power": 0.888596,
+      "rationale": "the required co-primaries reach 0.889 power at the achievable N by 2027-03-31, at or above the 0.80 floor. Collectors are armed for H2.",
+      "verdict": "GO"
+    }
+  },
+  "single_look_k_table_extension_at_deadline": {
+    "H2/E1": {
+      "n": 135,
+      "power_governing": 0.966471,
+      "power_reported": null
+    },
+    "H2/E2": {
+      "n": 135,
+      "power_governing": 0.888596,
+      "power_reported": 0.731814
+    }
+  },
+  "two_look_at_deadline": {
+    "E1": {
+      "alpha_1": 0.02,
+      "alpha_2": 0.03,
+      "alpha_spent_look1": 0.01923,
+      "alpha_spent_look2": 0.021113,
+      "alpha_spent_total": 0.040343,
+      "futility_boundary_f1": 29,
+      "k1": 43,
+      "k2": 79,
+      "n1": 68,
+      "n2": 135,
+      "p_look1_boundary_fires": 0.670817,
+      "power": 0.955244
+    },
+    "E2": {
+      "alpha_1": 0.02,
+      "alpha_2": 0.03,
+      "alpha_spent_look1": 0.01923,
+      "alpha_spent_look2": 0.021113,
+      "alpha_spent_total": 0.040343,
+      "futility_boundary_f1": 31,
+      "k1": 43,
+      "k2": 79,
+      "n1": 68,
+      "n2": 135,
+      "p_look1_boundary_fires": 0.504193,
+      "power": 0.862922
+    }
+  }
+}
