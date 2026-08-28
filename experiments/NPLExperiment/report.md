@@ -151,3 +151,56 @@ network requests. The results, each figure with its n:
   see file — any post-B.1 diff voids the read authorization).
 - **The latch:** data/state/stage_b_read.json does not exist. The read is
   unspent.
+
+### B.1 Task 1 — Amendment 3: the verdict table, registered before the read
+
+Amendment 3 was committed and pushed (commit 6399d63) while the only data
+in existence were counts, timestamps, and coverage — before the reader
+existed. It registers the three-row table (GO / PARTIAL_DRIFT / FAIL) with
+consequences, the riding rules (secondaries never move a row; central
+costs decide with the 3, 18 / 6, 36 bands descriptive; a latch written
+first so a crash spends the read), and seven reading rules fixing every
+discretion point — entry close, exit close and its last-served-close
+fallback, the funding sum's window and sign, symmetric control
+truncation, cost classes, pending exclusion, and the closed secondaries
+list. The blindness allowlist gains exactly one module,
+npl/stageb/reader.py, with npl/stageb/cli.py as its only importer, both
+held by new AST pins in tests/test_guards.py (an equality pin on the
+allowlist tuple and an importer scan).
+
+### B.1 Task 2 — the reader and the known-answer gate
+
+npl/stageb/reader.py implements Sections 3–7 and the reading rules;
+npl/stageb/cli.py is the single entrypoint (`hash` and `read`), applying
+the Amendment 3 table mechanically. The full verdict path re-ran on the
+synthetic fixtures — 172 tests green (ruff clean, mypy --strict on 53
+files) — and the known answers reproduce to the digit:
+
+- Price 1.0 → 0.7 over 30 days with 720 hourly rates at +1e-5:
+  price term **0.3**, funding term **+0.0072** (n = 720 rows), net at
+  central 9 bp **0.3063**.
+- Flat price with 720 hourly rates at −1e-4: funding term **−0.072**,
+  net **−0.0729** — the Stage A.3 fixture answer reproduced through the
+  sealed path (the funding-sign pin).
+- Delisting after day 9 (close 0.5): valued at the last served close,
+  price term **0.5**, funding stops at truncation (n = 240 of 720 rows,
+  +0.0024).
+- Missing exact horizon candle: exit falls back to the last served close
+  at or before entry + H (day-28 close 0.8 → price term 0.2).
+- Missing entry candle: a recorded absence (no_candles), underpowered,
+  never a number.
+- End-to-end paired fixture (event 1.0 → 0.7 at +1e-5 funding against
+  control 2.0 → 1.9 at −1e-5): event net30 **0.3063** (low 0.3069, high
+  0.3054), net90 **0.4207**, control net30 **0.0419**, paired H8 funding
+  differential **+0.0144**, price differential **+0.25**, P3 1 of 1.
+- The latch: a read spends it; a second read refuses (ReadAlreadySpent);
+  a pre-existing latch refuses before any work; a tampered or missing
+  hash record voids the authorization (ReadAuthorizationVoided).
+
+**The B.1 re-hash** (reports/stage_b/hashes_b1.json, 21 modules): exactly
+one diff against B.0 — stageb/__init__.py, gaining the registered
+allowlist constant, the diff Amendment 3 itself sanctions — plus the two
+new modules (reader.py, cli.py). Every other read-surface module is
+byte-identical to its B.0 hash. From this point any diff voids the read
+authorization; the CLI verifies the full 21-module surface before writing
+the latch.

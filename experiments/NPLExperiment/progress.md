@@ -451,3 +451,19 @@ event entry — excluded underpowered, counted); effective N 312/312/175
 against minimums 34/103/60; gates green (159 tests, mypy strict 50 files);
 19 read-surface hashes in reports/stage_b/hashes_b0.json; latch absent.
 Session network requests: 0.
+
+## 2026-08-28T03:25Z — Stage B.1 complete
+
+| Task | ETA | Actual |
+|---|---|---|
+| 1. Amendment 3, committed + pushed pre-read | 20 min | 12 min |
+| 2. Reader, CLI, AST pins, known-answer gate | 60 min | 40 min |
+
+Amendment 3 (commit 6399d63) registered the table and seven reading rules
+before the reader existed. npl/stageb/reader.py (the single allowlisted
+module), npl/stageb/cli.py (its only importer, `hash`/`read`), AST pins
+amended with an equality pin on the allowlist and an importer scan. Known
+answers to the digit in report.md; 172 tests, mypy strict 53 files, ruff
+clean. B.1 re-hash: 21 modules, exactly the sanctioned diff
+(stageb/__init__.py) plus the two new modules. Session network requests
+still 0.

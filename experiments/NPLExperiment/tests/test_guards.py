@@ -11,6 +11,7 @@ import ast
 from pathlib import Path
 
 from npl.config import CONFIG
+from npl.stageb import STAGE_B_OUTCOME_EXEMPT
 
 SRC = Path(__file__).resolve().parents[1] / "src" / "npl"
 CONFIG_FILE = SRC / "config.py"
@@ -96,9 +97,15 @@ def _string_key_lookups(tree: ast.AST) -> set[str]:
 
 
 def test_no_module_reads_a_priced_candle_field_anywhere() -> None:
-    """The blindness rule, repo-wide: OHLCV keys are read by no code path."""
+    """The blindness rule, repo-wide: OHLCV keys are read by no code path.
+
+    Amendment 3: the allowlist gains exactly one module, the Stage B sealed
+    reader; the length-one pin below holds it there.
+    """
     offenders: list[str] = []
     for path in source_files():
+        if path.relative_to(SRC).as_posix() in STAGE_B_OUTCOME_EXEMPT:
+            continue
         tree = ast.parse(path.read_text(encoding="utf-8"))
         keys = _string_key_lookups(tree)
         priced = keys & FORBIDDEN_PRICE_KEYS
@@ -115,10 +122,40 @@ def test_funding_rate_is_read_only_inside_the_gated_reader() -> None:
     for path in source_files():
         if path.name in FUNDING_RATE_ALLOWED_FILES:
             continue
+        if path.relative_to(SRC).as_posix() in STAGE_B_OUTCOME_EXEMPT:
+            continue
         if FUNDING_RATE_KEY in path.read_text(encoding="utf-8"):
             offenders.append(str(path.relative_to(SRC)))
     assert not offenders, (
         f"modules naming {FUNDING_RATE_KEY} outside the gated blindness reader: {offenders}"
+    )
+
+
+def test_the_stage_b_exemption_is_exactly_one_module() -> None:
+    """Amendment 3: the blindness allowlist gains exactly one module, ever.
+
+    The equality pin (not just the length) means widening the allowlist to a
+    second module, or swapping the registered one, is a caught mutation.
+    """
+    assert STAGE_B_OUTCOME_EXEMPT == ("stageb/reader.py",)
+
+
+def test_only_the_stage_b_cli_imports_the_reader() -> None:
+    """Amendment 3: npl.stageb.reader has exactly one importer, the Stage B CLI."""
+    importers: list[str] = []
+    for path in source_files():
+        tree = ast.parse(path.read_text(encoding="utf-8"))
+        for node in ast.walk(tree):
+            names: list[str] = []
+            if isinstance(node, ast.ImportFrom) and node.module:
+                names.append(node.module)
+            elif isinstance(node, ast.Import):
+                names.extend(alias.name for alias in node.names)
+            if any("stageb.reader" in name for name in names):
+                importers.append(path.relative_to(SRC).as_posix())
+                break
+    assert importers == ["stageb/cli.py"], (
+        f"the sealed reader's importers drifted from the registered single CLI: {importers}"
     )
 
 
