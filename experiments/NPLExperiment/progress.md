@@ -1182,3 +1182,61 @@ entry**, recorded here rather than silently adopted.
 | 5 — fire the outcome map | 15–25 min |
 | 6 — gates, mutations, docs, close-out | 45–70 min |
 | **total** | **3 h 55 m – 6 h 15 m** |
+
+### Task 1 — the registration, the mapping, the calendar, the dark map (ETA 45–70 min · actual ~34 min, 21:22→21:56Z)
+
+`registrations/H5/REGISTRATION.md`, Sections 0–9, **committed before any H5
+network call** — this entry had sent zero requests at the moment of the
+commit. Four pieces of registered machinery are committed with it, as tested
+code rather than prose, because each is a rule that has to exist before the
+data does:
+
+| module | what it registers | tests |
+|---|---|---|
+| `npl.h5.resolution` | the exact-string ticker→underlying mapping (Section 2) | partition, states, kinds, unknown-ticker refusal |
+| `npl.h5.calendar` | the US market calendar and the four session tags (Section 5) | 16 boundary fixtures, all ON the edges |
+| `npl.h5.basis` | the basis definition and the same-snapshot rule (Section 3) | cross-snapshot refusal, absent-reference absence, no carry-forward |
+| `npl.h5.outcome` | the outcome map, built dark (Section 6) | fixtures ON 18.00, 54.00, 20 instruments, 10-of-20 funding |
+| `npl.h5.spend` | the request budget arithmetic (Section 7) | 172/pass, cap refusal |
+| `npl.h5.stores` | the write containment gate | refusal produced on a real H2 store path |
+| `npl.h5.gate` | the retrospective blindness gate | refusal produced per cohort |
+| `npl.h5.priors` | the empty operator slot (Section 9) | the slot is empty; the successor draft is blocked |
+| `npl.h5.stats` | descriptive summaries, every figure with its n | median/IQR/exceedance, absent-only sample |
+
+**The mapping, as committed:** 198 registered ticker strings — **104
+resolved, 57 excluded_non_equity, 37 excluded_unresolvable** — which is
+exactly the distinct bare-ticker set of the stored census, with **no
+unmapped ticker and no dead table entry** (both pinned by a test that
+compares the tables against the census). Applied to the 272 stored HIP-3
+(dex, coin) pairs it projects **151 resolved** (118 equity, 18 index, 15
+ETF), 80 non-equity, 41 unresolvable, over 8 of 10 HIP-3 dexs. **That is a
+projection from stored metadata, not a measurement**; Task 2's live
+enumeration governs.
+
+**Three registered consequences written before measurement, not after:**
+
+1. **A retrospective basis cannot come from `candleSnapshot`.** A candle read
+   blind is `t`, `T` and a row count — not a price. A candle read with a
+   price violates standing rule 7. So Task 3's series can only come from a
+   venue-served field carrying a deviation directly, or from nothing.
+   `tests/test_h5_guards.py` pins that no H5 module reaches for a candle.
+2. **H5 reads no funding rate value, anywhere.** Funding is recorded as
+   *service* — field presence, row counts, timestamps — which answers the
+   operator's first question without a rate. Pinned: no H5 module subscripts
+   `funding`, `fundingRate`, or `premium`.
+3. **The retrospective read is gated** for any coin in the generating
+   sample, the fresh plan, or either leg of an assigned H2 pair, because a
+   historical deviation series is a funding-rate proxy over an open
+   registered window. The contemporaneous snapshot is unaffected, on the
+   precedent H1 Section 5 already set for the entry-anchor `l2Book` state.
+
+**Section 6 boundaries, fixed before data:** VIABLE is **strictly greater**
+than 54 bp; CLOSED needs **strictly under** 18 bp in *every* tag; funding
+clears at **at least** one half (10/20 passes, 9/20 closes); the instrument
+bar is **at least** 20. A fourth, **non-terminal** PENDING state records an
+open census window and is not a verdict. A named secondary deviation series
+**may fire CLOSED but never VIABLE**, with the asymmetry's reasoning
+registered.
+
+**Gates after Task 1:** ruff clean, mypy strict **83 source files**,
+**318 passed** (up from 249; 69 new tests).

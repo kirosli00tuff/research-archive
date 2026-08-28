@@ -133,6 +133,21 @@ class Config:
     h3_assistant_prior_bars: float
     h4_assistant_prior_bars: float
 
+    # --- H5, the HIP-3 equity-style basis feasibility entry (registrations/H5) ---
+    # Coverage bars of the Section 6 outcome map.
+    h5_min_instruments_with_reference: int
+    h5_min_coverage_days: int
+    h5_funding_service_share: float
+    # The VIABLE bar as arithmetic on the registered cost band, never a free
+    # number: hip3_round_trip_bp[1] is the 18 bp floor; 3 x 18 = 54 bp.
+    h5_viable_basis_multiple: float
+    # Retrospective read: how far back, and the per-instrument page ceiling.
+    h5_retro_lookback_days: int
+    h5_retro_page_budget: int
+    # The H5 pass's own cap, well under the shared registered daily cap.
+    h5_daily_request_cap: int
+    h5_assistant_prior_edge: float
+
     def field_names(self) -> tuple[str, ...]:
         return tuple(f.name for f in fields(self))
 
@@ -224,4 +239,21 @@ CONFIG: Final = Config(
     h2_assistant_prior_bars=0.35,
     h3_assistant_prior_bars=0.10,
     h4_assistant_prior_bars=0.05,
+    # H5 bars, registered 2026-08-28 before any H5 network call. 20 instruments
+    # with a served reference and 30 days of coverage each; funding served on
+    # at least half of them; the VIABLE bar at 3 x the 18 bp HIP-3 round-trip
+    # taker central. The retrospective span is 180 days at 12 fundingHistory
+    # pages per instrument (12 x 500 hourly rows = 250 days of headroom). The
+    # H5 pass cap of 1,000 is 5 percent of the 20,000 daily cap.
+    h5_min_instruments_with_reference=20,
+    h5_min_coverage_days=30,
+    h5_funding_service_share=0.5,
+    h5_viable_basis_multiple=3.0,
+    h5_retro_lookback_days=180,
+    h5_retro_page_budget=12,
+    h5_daily_request_cap=1_000,
+    # Assistant prior, recorded 2026-08-28 in chat: 0.05 that a real capturable
+    # edge exists in this family. The adoption warning carries over verbatim;
+    # the H5 operator slot stays empty and blocks the successor draft.
+    h5_assistant_prior_edge=0.05,
 )

@@ -41,3 +41,15 @@ GENERATING_SAMPLE_JSON = STATE_DIR / "generating_sample.json"
 ELIGIBILITY_DIR = DATA / "eligibility"
 H2_PAIRS_LEDGER = CONTROLS_DIR / "h2_pairs.jsonl"
 FRESH_PLAN = STATE_DIR / "fresh_plan.jsonl"
+
+# --- register entry H5 (2026-08-28): HIP-3 equity-style basis feasibility ---
+# Every H5 write lands under H5_DIR and nowhere else; npl.h5.stores enforces
+# the containment and the refusal is produced by test, not asserted.
+H5_REGISTRATION_MD = REGISTRATIONS / "H5" / "REGISTRATION.md"
+H5_DIR = DATA / "h5"
+H5_CENSUS = H5_DIR / "census.jsonl"
+H5_ACCESS = H5_DIR / "access.jsonl"
+H5_SNAPSHOTS = H5_DIR / "snapshots.jsonl"
+H5_RETRO = H5_DIR / "retro.jsonl"
+H5_REPORTS = REPORTS / "h5"
+H5_ACCESS_MD = DOCS / "H5_ACCESS.md"
