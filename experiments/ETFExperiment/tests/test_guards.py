@@ -30,7 +30,10 @@ PENDING_ENFORCEMENT: frozenset[str] = frozenset({})
 FORBIDDEN_PRICE_KEYS = {"o", "h", "l", "c", "v", "open", "high", "low", "close", "volume"}
 
 FUNDING_RATE_KEY = "fundingRate"
-FUNDING_RATE_ALLOWED_FILES = {"blindness.py"}
+# blindness.py is the gated reader. mutations.py must be able to NAME the key it
+# mutates, or the harness cannot describe its own mutation; the parse-tree test
+# below proves it never actually READS it, which is the property that matters.
+FUNDING_RATE_ALLOWED_FILES = {"blindness.py", "mutations.py"}
 
 # The Section 9 pre-period carve-out has exactly one address. This is the only
 # file in the repository permitted to read a close, and only strictly before
@@ -131,17 +134,41 @@ def test_no_module_reads_a_priced_candle_field_anywhere() -> None:
 
 
 def test_funding_rate_is_read_only_inside_the_gated_reader() -> None:
-    offenders: list[str] = []
+    """Parse-tree first: no module may LOOK UP the key outside the gated reader.
+
+    This is the check that matters, and it is deliberately structural. The text
+    check below is the belt to this braces: it catches a key reached by some
+    spelling the subscript scan would miss, and it carries a narrow allowlist
+    for the one file that must name the key without reading it.
+    """
+    readers: list[str] = []
     for path in source_files():
-        if path.name in FUNDING_RATE_ALLOWED_FILES:
+        if path.name in {"blindness.py"} or _rel(path) in STAGE_B_OUTCOME_EXEMPT:
             continue
-        if _rel(path) in STAGE_B_OUTCOME_EXEMPT:
+        tree = ast.parse(path.read_text(encoding="utf-8"))
+        if FUNDING_RATE_KEY in _string_key_lookups(tree):
+            readers.append(_rel(path))
+    assert not readers, (
+        f"modules reading {FUNDING_RATE_KEY} outside the gated blindness reader: {readers}"
+    )
+
+    namers: list[str] = []
+    for path in source_files():
+        if path.name in FUNDING_RATE_ALLOWED_FILES or _rel(path) in STAGE_B_OUTCOME_EXEMPT:
             continue
         if FUNDING_RATE_KEY in path.read_text(encoding="utf-8"):
-            offenders.append(_rel(path))
-    assert not offenders, (
-        f"modules naming {FUNDING_RATE_KEY} outside the gated blindness reader: {offenders}"
+            namers.append(_rel(path))
+    assert not namers, (
+        f"modules naming {FUNDING_RATE_KEY} outside the gated reader and the harness: {namers}"
     )
+
+
+def test_the_mutation_harness_names_the_funding_key_without_reading_it() -> None:
+    """The allowance above is safe only while this holds."""
+    harness = SCRIPTS / "mutations.py"
+    tree = ast.parse(harness.read_text(encoding="utf-8"))
+    assert FUNDING_RATE_KEY not in _string_key_lookups(tree)
+    assert FUNDING_RATE_KEY in harness.read_text(encoding="utf-8")
 
 
 def test_the_stage_b_exemption_is_empty_in_stage_a() -> None:

@@ -93,15 +93,22 @@ def main() -> int:
 
     # Revised days: measured at A.1 Task 4's retro leg where a comparison exists.
     revised: set[date] = set()
+    failed: set[date] = set()
     retro_path = REPORTS / "stage_a1" / "retro_revision.json"
     as_printed: dict[date, float] = {}
+    served: set[date] | None = None
     if retro_path.exists():
         retro = json.loads(retro_path.read_text(encoding="utf-8"))
+        served = set()
         for row in retro.get("rows", []):
+            day = date.fromisoformat(str(row["trade_date"]))
+            if row.get("state") == "source_failed":
+                failed.add(day)
+                continue
             if row.get("state") != "stored":
                 continue
-            day = date.fromisoformat(str(row["trade_date"]))
             as_printed[day] = float(row["as_printed_usd"])
+            served.add(day)
             if row.get("revised"):
                 revised.add(day)
 
@@ -113,6 +120,8 @@ def main() -> int:
         mementos=mementos,
         forward_captures=forward,
         revised_days=frozenset(revised),
+        archive_served_values=frozenset(served) if served is not None else None,
+        archive_fetch_failed=frozenset(failed),
     )
 
     ledger = AppendOnlyLedger(CENSUS_LEDGER)
@@ -120,6 +129,7 @@ def main() -> int:
         ledger.append({"census_run_at": iso_z(now), **entry.as_ledger_dict()})
 
     admissible = [r for r in rows if r.admissible]
+    operational = [r for r in rows if r.state.value == "source_failed"]
     by_month: dict[str, dict[str, int]] = {}
     for entry in rows:
         key = entry.trade_date.strftime("%Y-%m")
@@ -175,6 +185,7 @@ def main() -> int:
         "admissible_retro_archive": sum(1 for r in admissible if r.source == "retro_archive"),
         "admissible_forward_capture": sum(1 for r in admissible if r.source == "forward_capture"),
         "revised_flagged": sum(1 for r in rows if r.revised),
+        "operational_unknown": len(operational),
         "exclusion_reasons": reasons,
         "by_month": dict(sorted(by_month.items())),
         "signal_distribution_admissible": summarise(admissible_values, "admissible_as_printed"),
@@ -189,6 +200,7 @@ def main() -> int:
     )
     print(f"  exclusion reasons: {reasons}")
     print(f"  revised flagged: {out['revised_flagged']}")
+    print(f"  operational (admissibility unknown, never excluded): {len(operational)}")
     for key in ("signal_distribution_admissible", "signal_distribution_live_descriptive"):
         d = out[key]
         assert isinstance(d, dict)

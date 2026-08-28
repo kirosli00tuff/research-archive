@@ -1,0 +1,6 @@
+[1-delete-a-blindness-pin] SKIPPED: anchor text not found in /home/kiros-li/Documents/GitHub/ETFExperiment/src/etf/blindness.py
+[2-coerce-an-absence-to-zero] caught=True restored_green=True :: a dash becomes a fabricated flat day, which on the open day would make every capture before the print look like a printed zero
+[3-merge-rate-limited-into-no-data] caught=True restored_green=True :: a source refusing a request becomes indistinguishable from a source answering emptily
+[4-move-the-anchor-boundary] caught=True restored_green=True :: a capture taken exactly at the anchor becomes admissible, which admits a value the registered rule could not have read before entering
+[5-substitute-a-live-value-for-a-missing-capture] caught=True restored_green=True :: a day with no qualifying archive capture is admitted anyway, so its value could only come from the source's current page - the substitution Section 3 forbids
+[6-read-a-post-carve-out-price] caught=True restored_green=False :: the carve-out reader stops enforcing its own date pin, so a window straddling 2025-05-01 would serve test-sample closes to the power computation

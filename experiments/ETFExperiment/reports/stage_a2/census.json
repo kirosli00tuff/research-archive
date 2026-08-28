@@ -1,0 +1,122 @@
+{
+  "admissible": 11,
+  "admissible_forward_capture": 0,
+  "admissible_retro_archive": 11,
+  "by_month": {
+    "2025-05": {
+      "admissible": 1,
+      "days": 22
+    },
+    "2025-06": {
+      "admissible": 0,
+      "days": 21
+    },
+    "2025-07": {
+      "admissible": 1,
+      "days": 22
+    },
+    "2025-08": {
+      "admissible": 0,
+      "days": 21
+    },
+    "2025-09": {
+      "admissible": 0,
+      "days": 21
+    },
+    "2025-10": {
+      "admissible": 1,
+      "days": 23
+    },
+    "2025-11": {
+      "admissible": 0,
+      "days": 19
+    },
+    "2025-12": {
+      "admissible": 0,
+      "days": 22
+    },
+    "2026-01": {
+      "admissible": 0,
+      "days": 20
+    },
+    "2026-02": {
+      "admissible": 0,
+      "days": 19
+    },
+    "2026-03": {
+      "admissible": 0,
+      "days": 22
+    },
+    "2026-04": {
+      "admissible": 0,
+      "days": 21
+    },
+    "2026-05": {
+      "admissible": 0,
+      "days": 20
+    },
+    "2026-06": {
+      "admissible": 1,
+      "days": 21
+    },
+    "2026-07": {
+      "admissible": 5,
+      "days": 22
+    },
+    "2026-08": {
+      "admissible": 2,
+      "days": 20
+    }
+  },
+  "census_date": "2026-08-28",
+  "census_run_at": "2026-08-28T20:34:47Z",
+  "exclusion_reasons": {
+    "archive_fetch_failed": 1,
+    "capture_served_no_value": 25,
+    "capture_too_late": 53,
+    "no_capture": 243,
+    "no_printed_value": 3
+  },
+  "oos_start": "2025-05-01",
+  "operational_unknown": 1,
+  "revised_flagged": 0,
+  "rows": 336,
+  "signal_distribution_admissible": {
+    "above_plus_T": 5,
+    "below_minus_T": 3,
+    "flat_days": 3,
+    "inside_band": 3,
+    "label": "admissible_as_printed",
+    "long_days": 5,
+    "max": 674900000.0,
+    "mean": 139609090.9090909,
+    "median": 86800000.0,
+    "min": -265400000.0,
+    "n": 11,
+    "p05": -265400000.0,
+    "p25": -102900000.0,
+    "p75": 302800000.0,
+    "p95": 674900000.0,
+    "short_days": 3,
+    "trade_share": 0.7272727272727273
+  },
+  "signal_distribution_live_descriptive": {
+    "above_plus_T": 138,
+    "below_minus_T": 114,
+    "flat_days": 81,
+    "inside_band": 81,
+    "label": "live_values_descriptive",
+    "long_days": 138,
+    "max": 1142400000.0,
+    "mean": 39980780.78078078,
+    "median": 27400000.0,
+    "min": -860900000.0,
+    "n": 333,
+    "p05": -503700000.0,
+    "p25": -164100000.0,
+    "p75": 224500000.0,
+    "p95": 613600000.0,
+    "short_days": 114,
+    "trade_share": 0.7567567567567568
+  }
+}

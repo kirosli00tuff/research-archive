@@ -15,7 +15,7 @@ from __future__ import annotations
 
 from collections.abc import Iterable, Sequence
 from dataclasses import dataclass
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 
 from etf.absence import Absent
 from etf.archive import Memento
@@ -67,8 +67,15 @@ def build_census(
     mementos: Iterable[Memento],
     forward_captures: dict[date, datetime],
     revised_days: frozenset[date],
+    archive_served_values: frozenset[date] | None = None,
+    archive_fetch_failed: frozenset[date] = frozenset(),
 ) -> tuple[CensusRow, ...]:
-    """One row per date the flow source serves inside the window. Nothing is imputed."""
+    """One row per date the flow source serves inside the window. Nothing is imputed.
+
+    `archive_served_values`, when supplied, restricts retro admissibility to the
+    days whose qualifying capture actually **served a value**. Passing None
+    keeps the capture-only test, which is what the timemap alone can answer.
+    """
     ordered = sorted(mementos, key=lambda m: m.captured_at)
     rows: list[CensusRow] = []
     for day in day_rows:
@@ -110,6 +117,47 @@ def build_census(
         qualifying = (
             [m for m in ordered if window[0] <= m.captured_at < window[1]] if window else []
         )
+        if qualifying and day.trade_date in archive_fetch_failed:
+            # Operational health, never sample composition. A fetch that failed
+            # leaves this day's admissibility UNKNOWN. Recording it as excluded
+            # would let an instrument fault masquerade as a narrowed cohort,
+            # which is exactly what the six call states exist to prevent.
+            rows.append(
+                CensusRow(
+                    trade_date=day.trade_date,
+                    admissible=False,
+                    state=CallState.SOURCE_FAILED,
+                    source=None,
+                    capture_timestamp=None,
+                    revised=False,
+                    exclusion_reason="archive_fetch_failed",
+                    printed_signal_present=True,
+                )
+            )
+            continue
+        if (
+            qualifying
+            and archive_served_values is not None
+            and day.trade_date not in archive_served_values
+        ):
+            # Section 3 requires a capture that **serves a flow value**, not
+            # merely a capture. Measured at A.1 Task 4: 23 of 34 parseable
+            # pre-anchor archive captures showed the day still dashed, i.e. not
+            # yet printed. A dash is not a value, so the day is inadmissible and
+            # its reason is its own - it never merges with no_capture.
+            rows.append(
+                CensusRow(
+                    trade_date=day.trade_date,
+                    admissible=False,
+                    state=CallState.EXCLUDED_INELIGIBLE,
+                    source=None,
+                    capture_timestamp=None,
+                    revised=False,
+                    exclusion_reason="capture_served_no_value",
+                    printed_signal_present=True,
+                )
+            )
+            continue
         if qualifying:
             rows.append(
                 CensusRow(
@@ -127,7 +175,13 @@ def build_census(
             )
             continue
 
-        later = window is not None and any(m.captured_at >= window[1] for m in ordered)
+        # Bounded, deliberately: "a capture exists for this day but landed too
+        # late" means a capture within a day of the anchor, not any capture
+        # anywhere in the archive's history. An unbounded test would call every
+        # day capture_too_late once a single later memento existed anywhere.
+        later = window is not None and any(
+            window[1] <= m.captured_at < window[1] + timedelta(days=1) for m in ordered
+        )
         rows.append(
             CensusRow(
                 trade_date=day.trade_date,

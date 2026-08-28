@@ -6,7 +6,11 @@ from datetime import UTC, date, datetime
 
 from etf.absence import DASH_IN_CELL
 from etf.archive import Memento, qualifying_window
-from etf.callstate import CallState
+from etf.callstate import (
+    OPERATIONAL_HEALTH_STATES,
+    SAMPLE_COMPOSITION_STATES,
+    CallState,
+)
 from etf.census import AdmissibilitySource, build_census
 from etf.flow import FlowCell
 from etf.snapshot import DayRow
@@ -167,3 +171,86 @@ def test_the_ledger_dict_carries_every_recorded_field() -> None:
         "printed_signal_present",
     }
     assert payload["capture_timestamp"] == "2025-05-05T23:00:00Z"
+
+
+def test_an_admissible_day_always_carries_the_capture_that_admitted_it() -> None:
+    """The invariant that forbids substituting a live value for a missing capture.
+
+    A day admitted with no capture timestamp is a day whose as-printed value
+    can only have come from the source's current page, which Section 3 forbids
+    absolutely: "a later value for the same day, however authoritative, is never
+    substituted".
+    """
+    rows = build_census(
+        [day(D, 150e6), day(date(2025, 5, 6), 150e6)],
+        oos_start=OOS,
+        census_date=CENSUS,
+        archive_windows=windows(D, date(2025, 5, 6)),
+        mementos=[Memento(datetime(2025, 5, 5, 23, tzinfo=UTC), "u")],
+        forward_captures={},
+        revised_days=frozenset(),
+    )
+    for row in rows:
+        if row.admissible:
+            assert row.capture_timestamp is not None, (
+                f"{row.trade_date} was admitted with no capture; its value could only "
+                "come from the live page, which Section 3 forbids"
+            )
+            assert row.source in {"retro_archive", "forward_capture"}
+        else:
+            assert row.capture_timestamp is None
+            assert row.exclusion_reason is not None
+
+
+def test_a_capture_that_served_no_value_is_excluded_with_its_own_reason() -> None:
+    """Section 3 needs a capture that SERVES A VALUE, not merely a capture.
+
+    Measured at A.1 Task 4: 23 of 34 parseable pre-anchor archive captures
+    showed the day still dashed. A dash is not a value.
+    """
+    rows = build_census(
+        [day(D, 150e6)],
+        oos_start=OOS,
+        census_date=CENSUS,
+        archive_windows=windows(D),
+        mementos=[Memento(datetime(2025, 5, 5, 23, tzinfo=UTC), "u")],
+        forward_captures={},
+        revised_days=frozenset(),
+        archive_served_values=frozenset(),
+    )
+    assert not rows[0].admissible
+    assert rows[0].exclusion_reason == "capture_served_no_value"
+    assert rows[0].state is CallState.EXCLUDED_INELIGIBLE
+
+
+def test_a_failed_archive_fetch_is_operational_and_never_an_exclusion() -> None:
+    """A fetch fault must not masquerade as a narrowed cohort."""
+    rows = build_census(
+        [day(D, 150e6)],
+        oos_start=OOS,
+        census_date=CENSUS,
+        archive_windows=windows(D),
+        mementos=[Memento(datetime(2025, 5, 5, 23, tzinfo=UTC), "u")],
+        forward_captures={},
+        revised_days=frozenset(),
+        archive_served_values=frozenset(),
+        archive_fetch_failed=frozenset({D}),
+    )
+    assert rows[0].state is CallState.SOURCE_FAILED
+    assert rows[0].state in OPERATIONAL_HEALTH_STATES
+    assert rows[0].state not in SAMPLE_COMPOSITION_STATES
+    assert rows[0].exclusion_reason == "archive_fetch_failed"
+
+
+def test_the_capture_too_late_test_is_bounded_to_the_day_after_the_anchor() -> None:
+    """An unbounded test would call every day too-late once one later memento existed."""
+    rows = build_census(
+        [day(D, 150e6)],
+        oos_start=OOS,
+        census_date=CENSUS,
+        archive_windows=windows(D),
+        mementos=[Memento(datetime(2026, 8, 1, 12, tzinfo=UTC), "much later")],
+        forward_captures={},
+        revised_days=frozenset(),
+    )
+    assert rows[0].exclusion_reason == "no_capture"
