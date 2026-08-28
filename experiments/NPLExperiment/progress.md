@@ -1101,3 +1101,84 @@ point.**
   (`npl.register.priors`). H3's and H4's slots remain reserved but are moot
   — both are BLOCKED and neither has a Stage B to gate. The assistant fills
   none of them.
+
+---
+
+## 2026-08-28T21:22:00Z — Register entry H5, Stage A — Task 0 — Operator prompt, logged verbatim before any other work
+
+Standing rule 1. The prompt below is reproduced exactly as received, before
+any precondition check, any file was written, and any network call.
+
+> NPLExperiment, register entry H5, Stage A. Model: Opus. Effort: high. Run autonomously. Commit at each task boundary and push every commit to origin main.
+>
+> Purpose. Register and execute a measurement-only feasibility study on HIP-3 equity-style perpetuals. The question: does the perp mark deviate from its underlying enough to matter, is funding served on these instruments at all, and is a daily-latency expression conceivable for this operator. H5 is a feasibility entry, not a trade hypothesis. It authorizes no capital, no Stage B read of a trading outcome, and no Stage C. Its terminal states are VIABLE, meaning a successor hypothesis is worth registering in a fresh repo, or CLOSED.
+>
+> Standing rules. All thirteen register rules remain in force. The generating-sample quarantine holds. H2's collectors, ledgers, latches, and stores are untouched by every path in this entry, pinned by test. Zero dollars, keyless endpoints, request ledger charges before sending. Absence is a recorded state. Every figure travels with its n.
+>
+> Preconditions, refuse loudly and stop on failure. npl-daily.service inactive, recorded. Gates green, tree clean, origin equal to HEAD. No H2 latch exists. H2's pair count and ledger hashes recorded before any work and re-verified unchanged at close.
+>
+> Context carried in, each labelled measured or assumed. Measured on 2026-08-27: the daily pass logged no_data with caught_up true on funding for xyz:AAPL, xyz:NVDA, xyz:META, xyz:XYZ100. Measured: 505 instruments across 11 dexs, 271 of them HIP-3 at the A.1 census. Measured: HIP-3 default fees double the native rate, 3 bp maker and 9 bp taker per side, so 18 bp round trip taker central with bands at 6 and 36. Closed and carried: the equity leg through IBKR refuses fractional orders at error 10243 and bills whole-share round trips at 40 to 100 bp at this operator's sizes, HFExperiment ADR-026, so no cross-venue pair design is registrable here. Assistant prior, recorded 2026-08-28 in chat: 0.05 that a real capturable edge exists in this family.
+>
+> Task 1. registrations/H5/REGISTRATION.md, committed and pushed before any new network call.
+> Section 1, question. Do HIP-3 equity-style perps trade at a persistent, measurable deviation from their underlying reference, and is that deviation large relative to the 18 bp round-trip cost floor.
+> Section 2, universe. Every instrument on every HIP-3 dex whose ticker resolves to an identifiable equity, ETF, or index underlying, enumerated mechanically from the venue meta endpoints. The resolution rule is a registered string mapping written before any price is read, with unresolvable tickers recorded as excluded_unresolvable and counted, never guessed.
+> Section 3, measurements, all descriptive, none verdict-bearing on returns. Per instrument, at the daily cadence: perp mark, the venue's own oracle or index price where served, funding rate and whether funding is served at all, open interest, touch spread and top-five depth from one l2Book fetch, and the venue-served reference. Basis is defined as perp mark minus reference over reference, in bp, computed only from fields the venue serves in the same snapshot. If no reference is served for an instrument, that is recorded as reference_unserved and the instrument contributes to the coverage census only.
+> Section 4, the honesty clause. This entry reads no external equity price feed. A basis computed against a stale or venue-internal reference measures the venue's own bookkeeping, not a tradable gap. State this plainly: a wide measured basis is a lead, never evidence of a trade, and the successor repo would need an independent underlying feed to make any claim about tradability.
+> Section 5, session structure. Every snapshot is tagged by underlying-market session, meaning regular hours, extended, closed weekday, and weekend, computed from the snapshot timestamp against a registered US market calendar written before collection. Deviation is characterized within each tag separately.
+> Section 6, outcome map, fired at the end of the census window.
+> VIABLE: at least 20 instruments carry a served reference and at least 30 days of coverage each, the median absolute basis in at least one session tag exceeds 54 bp, meaning three times the 18 bp round-trip floor, and funding is served on at least half those instruments. Consequence: draft a successor hypothesis for a fresh repo, with an independent underlying feed and its own registration. No capital.
+> INDETERMINATE: coverage bars met but the basis sits between 18 and 54 bp median absolute. Consequence: recorded as a lead requiring the independent feed to resolve, no successor authorized on this evidence alone.
+> CLOSED: median absolute basis under 18 bp in every session tag, or fewer than 20 instruments carry a served reference, or funding is served on fewer than half. Consequence: the family closes, the entry is written in the register style, collection stops.
+> Section 7, spend and pacing. Zero dollars. The daily H5 census rides the existing daily pass under the measured pacing with its own charge accounting, and must not delay or displace H2 work. State the request budget per pass and its share of the daily cap.
+> Section 8, epistemic boundary. A VIABLE row states that a deviation exists on venue-served fields at a size worth investigating with better data. It states nothing about returns, tradability, or capital.
+> Section 9, priors. The assistant prior above with its date and the adoption warning. One reserved empty operator slot. Do not fill it.
+>
+> Task 2. Instrument resolution and coverage census.
+> Enumerate every HIP-3 instrument. Apply the registered mapping. Report resolved, unresolvable, and by-dex counts. For every resolved instrument, one probe of meta, metaAndAssetCtxs, fundingHistory, and l2Book, recording exactly which fields the venue serves and which it does not. Produce docs/H5_ACCESS.md with verbatim response fragments, the served-field matrix, and the funding-service answer per instrument, which is the first real question and may resolve most of the entry alone.
+>
+> Task 3. Retrospective basis, where history permits.
+> For resolved instruments with servable candle history, compute the basis series from venue-served fields only, back as far as retention allows. Tag every observation by session. Report per instrument and pooled: n, median absolute basis, interquartile range, and the share of observations exceeding 18 and 54 bp, split by session tag. Absence recorded per instrument, never interpolated.
+>
+> Task 4. Forward collector, armed only if Task 2 shows at least 20 instruments with a served reference.
+> A daily H5 snapshot riding the existing pass, its own append-only store under data/h5/, its own coverage module reporting the six call states, and its own charge accounting. If Task 2 falls short of 20, skip this task, record the shortfall, and proceed to fire.
+>
+> Task 5. Fire the outcome map.
+> On sufficient retrospective coverage, fire now from Task 3. Where retention is too thin, record the census window needed and the projected fire date, arm the collector, and fire on schedule. Record the verdict with every input figure beside it in the registration amendment log, HYPOTHESES.md, progress.md, and report.md.
+>
+> Task 6. Gates, mutations, docs, close-out.
+> make all green. At least four mutations on the new surface: compute a basis from a field the venue did not serve in the same snapshot, caught. Let an H5 path write into an H2 store, caught. Interpolate an absent reference, caught. Mis-tag a weekend snapshot as regular hours, caught. Evidence in reports/h5/mutations.md, source restored byte for byte. HYPOTHESES.md gains the H5 entry. DECISIONS.md gains ADRs for the resolution mapping, the reference honesty clause, the session tagging, and the 54 bp threshold with its arithmetic. report.md gains the H5 section. progress.md per task with ETA against actual. Verify H2's pair count and ledger hashes unchanged from the precondition record. Final commit, push, confirm origin equals HEAD. End-state summary: the row fired or its projected fire date, instruments resolved and served, the basis table by session, funding service, collector state, H2 verified untouched, and open operator items.
+
+### One deviation from the prompt, stated up front
+
+The prompt's Task 1 says the registration is **committed and pushed before
+any new network call**, and the repository's own commit convention
+(CLAUDE.md) says **"Push nothing."** Amendment 2 of the root registration
+resolved the same collision on 2026-08-28 by operator instruction. The
+operator instruction in this prompt is explicit and repeated ("push every
+commit to origin main"), so **pushing is the registered behaviour for this
+entry**, recorded here rather than silently adopted.
+
+### Preconditions — PASS (2026-08-28T21:24:00Z, `reports/h5/preconditions.json`)
+
+| check | result |
+|---|---|
+| `npl-daily.service` inactive | **inactive** (user scope; no system-scope unit). Next `npl-daily.timer` fire 2026-08-29T01:40Z. `npl-watch.timer` stays armed hourly at :05 — its passes are H2 substrate, recorded so a moved hash on the two shared append-only files is explained by the watcher and not by H5 |
+| gates green | ruff clean (74 files), mypy strict 71 files no issues, **249 passed** |
+| tree clean | **true** |
+| origin equals HEAD | **true**, `fc639c772e596221619d7f6b0718c50183010325` |
+| no H2 latch exists | **true** — `h2_read_latch.json`, `h2_look1_latch.json`, `h2_look2_latch.json` all absent |
+| H2 pair count recorded | **62** pairs (38 same_dex + 24 cross_dex, unchanged from the amendment close) |
+| H2 ledger hashes recorded | 11 stores hashed: `h2_pairs.jsonl` `6f2bc967…`, `pairs.jsonl` `3f828095…`, `eligibility/h2.jsonl` `19f88c08…`, `h3` `87af2c72…`, `h4` `82a424c8…`, `fresh_plan.jsonl` `0920dd94…`, `retro_plan.jsonl` `01288a03…`, `generating_sample.json` `2595baa4…`, `stage_b_read.json` `2d204ccb…`, `census.jsonl` `2def4ca5…`, `pair_spreads.jsonl` `1c72569a…` |
+| shared append-only ledgers | `requests.jsonl` (3,489,078 bytes) and `watcher.jsonl` recorded by **prefix**: these two grow by design — the watcher hourly, and H5 charges into the one request ledger under standing rule 9. The close-out check is that the recorded prefix still hashes to the recorded value, never that the file is byte-identical |
+
+### ETA, stated before arming (standing rule 2)
+
+| task | ETA |
+|---|---|
+| 1 — registration, resolution mapping, market calendar, dark outcome map | 45–70 min |
+| 2 — instrument resolution and the access/coverage census | 50–80 min |
+| 3 — retrospective basis where history permits | 40–70 min |
+| 4 — forward collector (armed only at ≥ 20 served references) | 40–60 min |
+| 5 — fire the outcome map | 15–25 min |
+| 6 — gates, mutations, docs, close-out | 45–70 min |
+| **total** | **3 h 55 m – 6 h 15 m** |

@@ -1,0 +1,64 @@
+{
+  "carried_context": {
+    "assistant_prior_2026_08_28": 0.05,
+    "closed_and_carried": "HFExperiment ADR-026: IBKR refuses fractional orders (error 10243) and bills whole-share round trips at 40-100 bp at this operator's sizes; no cross-venue pair design is registrable here",
+    "measured_2026_08_27_daily_pass": "no_data with caught_up true on funding for xyz:AAPL, xyz:NVDA, xyz:META, xyz:XYZ100",
+    "measured_a1_census": "505 instruments across 11 dexs, 271 HIP-3",
+    "measured_census_now": "505 census rows on disk at precondition",
+    "measured_hip3_fees": "3 bp maker / 9 bp taker per side; 18 bp round-trip taker central, bands 6 and 36"
+  },
+  "checked_at": "2026-08-28T21:24:00Z",
+  "counts": {
+    "census_rows": 505,
+    "eligibility_h2_rows": 62,
+    "fresh_plan_rows": 124,
+    "h2_pairs_rows": 62
+  },
+  "gates": {
+    "mypy_strict": "71 source files, no issues",
+    "pytest": "249 passed",
+    "ruff": "clean (74 files formatted, all checks passed)"
+  },
+  "h2_latches_absent": {
+    "data/state/h2_look1_latch.json": true,
+    "data/state/h2_look2_latch.json": true,
+    "data/state/h2_read_latch.json": true
+  },
+  "h2_pair_count": 62,
+  "h2_store_sha256": {
+    "data/census/census.jsonl": "2def4ca54b3c734b3f5fa8367e71779269ed475d2398c53023c949c9063c4d78",
+    "data/controls/h2_pairs.jsonl": "6f2bc967d70a2e2c8bedd2978b1bb6ea5773300cf89ae8b949d107b522158ae9",
+    "data/controls/pairs.jsonl": "3f8280959ad52a97fa7b15a49f68c057fec763386816da45e762d4448ddeaaef",
+    "data/eligibility/h2.jsonl": "19f88c0865a5ef81f5a55291ccff228efbc6d42f5108036c239be584ad903556",
+    "data/eligibility/h3.jsonl": "87af2c7285aa9c4f13e9cd6fffe292427260a6729fede28583a1c33dd62df42e",
+    "data/eligibility/h4.jsonl": "82a424c892bd2f1038aaa0dccfd9f11c8568c1086255df6b195a26354553482d",
+    "data/spreads/pair_spreads.jsonl": "1c72569a6789bd3d96dfde880b78da4c786a9147944937d9ff89d559f1de1b35",
+    "data/state/fresh_plan.jsonl": "0920dd94091cf7541255b1f947a7097a3a6bcb85a455a9cb92e11e689a5092fb",
+    "data/state/generating_sample.json": "2595baa45b38f2d1eaa6c5f0b719b8c39a141944a95948deea216cdc00786bd2",
+    "data/state/retro_plan.jsonl": "01288a03b8f58f98ab21640e31fd10324c8e3e82ea407ad11785228649f6e5c1",
+    "data/state/stage_b_read.json": "2d204ccb23c4961597d2e4a3263b2abffeb1f8f2e32230ee3c4b97857438f67e"
+  },
+  "head": "fc639c772e596221619d7f6b0718c50183010325",
+  "no_h2_latch_exists": true,
+  "npl_daily_service": "inactive",
+  "npl_daily_wait_recorded": "npl-daily.service inactive at check time (user scope; the system-scope unit does not exist), so no wait was required. npl-daily.timer next fires 2026-08-28T18:40 local = 2026-08-29T01:40Z. npl-watch.timer stays armed and fires hourly at :05; its passes append to data/state/watcher.jsonl and data/ledgers/requests.jsonl and are H2 substrate, not an H5 path. Both facts are recorded so a hash that moves on those two shared append-only files at close is explained by the watcher, not by H5.",
+  "npl_watch_service": "inactive",
+  "origin_equals_head": true,
+  "origin_main": "fc639c772e596221619d7f6b0718c50183010325",
+  "shared_append_only_ledgers": {
+    "data/ledgers/requests.jsonl": {
+      "bytes_at_precondition": 3489078,
+      "note": "Shared substrate: the H2 watcher charges here hourly and H5 charges here too (standing rule 9, one ledger, one cap). This file is expected to GROW. The close-out verification is prefix-stable: the first 3489078 bytes must still hash to abcb4a20a083610f2eb616ca1f88bddb7100cd682518560184f35a8d3472939f.",
+      "rows_at_precondition": 30505,
+      "sha256_at_precondition": "abcb4a20a083610f2eb616ca1f88bddb7100cd682518560184f35a8d3472939f"
+    },
+    "data/state/watcher.jsonl": {
+      "bytes_at_precondition": 5832,
+      "note": "H2 watcher heartbeat; grows hourly by the systemd timer, never by an H5 path.",
+      "sha256_at_precondition": "a25689cb33be22423b9b525d1bb55023b3331474fe312de2fa0bad1281f19802"
+    }
+  },
+  "stage": "register entry H5, Stage A (HIP-3 equity-style perp basis feasibility)",
+  "tree_clean": true,
+  "verdict": "PASS"
+}
