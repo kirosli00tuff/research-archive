@@ -1,12 +1,16 @@
 # NPLExperiment
 
-**Status: CLOSED, NEGATIVE — Stage B fired FAIL on 2026-08-28.** On the
-registered retro cohort (n = 312) the short was profitable in 63.1% of
-events but the exact lower bound (0.5707) missed the 0.60 bar and the
-magnitude share (35.6% at ≤ −15%) failed decisively; the listing-age
-contrast passed (114/175, p = 3.8e-05) — the effect exists but is too
-thin per event. Collectors disarmed; the sealed stores remain. See
-REGISTRATION.md (Stage B verdict record, H-NPL closure) and report.md.
+**Status: MULTI-HYPOTHESIS REGISTER — H1 closed negative; H2 open
+(DEGRADED, collectors armed); H3 and H4 BLOCKED (2026-08-28).** The
+founding H-NPL short (H1) fired FAIL on its sealed read — profitable in
+63.1% of 312 events, lower bound 0.5707 under the 0.60 bar, magnitude
+leg far under — while its listing-age contrast passed (114/175,
+p = 3.8e-05). That residual is now H2, the age-contrast pair, testing on
+fresh data only under alpha_h = 0.05 (k = 1 after the outcome-blind
+cull; E1/E2 deadline powers 0.974/0.760; earliest Stage B ≈ mid-2027).
+H3 and H4 fired BLOCKED on measured rates — documented answers. See
+HYPOTHESES.md first; then registrations/H*/REGISTRATION.md and
+report.md.
 
 **A measurement-only test of one hypothesis family: newly listed Hyperliquid
 perpetuals drift down over 30 and 90 days by more than a short pays in
@@ -54,8 +58,7 @@ revised to fit a result.
 
 ## Open operator items
 
-None. The Section 13 slot was filled 0.40 (adopted) on operator
-instruction 2026-08-27; Stage B ran 2026-08-28 and fired FAIL; the
-hypothesis is closed and the collectors are disarmed. A funding-conditioned
-or magnitude-recalibrated redesign is a new hypothesis requiring its own
-registration.
+Exactly the three reserved operator prior slots (registrations/H2, H3,
+H4, Section 13 analogs), and nothing else. H2's is the one that will
+matter — its Stage B cannot run without it. The assistant fills none of
+them. (H1's slot was filled 0.40 adopted and is spent with its closure.)

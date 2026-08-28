@@ -146,3 +146,111 @@ and one poll costs ~12 requests against a measured meta ceiling of
 160+/min. 01:40 UTC clears solattn's 00:40 pass and AiTrader's 22:30
 collection (both verified present and untouched on 2026-08-27), and lands
 after the venue's 00:00Z daily close with 100 minutes of slack.
+
+## ADR-013: The register architecture and the familywise fixed-point cull
+
+**Date:** 2026-08-28 · **Status:** accepted · HYPOTHESES.md, npl/register/cull.py
+
+One repo, one substrate, many hypotheses: H1 closed, H2/H3/H4 co-registered
+on fresh data under one familywise budget (alpha_h = 1 − 0.95^(1/k)). The
+cull runs to a k/alpha fixed point with simultaneous removal per pass:
+any hypothesis under 0.50 required power at the current alpha_h drops, and
+alpha_h recomputes. Power weakly grows as k falls, so removal is final and
+the iteration terminates. Measured sensitivity, recorded plainly: under
+the flat pair projection H2 would have dropped in pass 1 alongside H3/H4
+(k = 0) — the simultaneous-drop semantics can cull a hypothesis that
+would survive alone. A future register weighing sequential (worst-first)
+removal should decide BEFORE any projection exists; this one registered
+simultaneous-drop at A.0 and applied it unchanged.
+
+## ADR-014: The quarantine is structural — string pin, import isolation, recorded sample
+
+**Date:** 2026-08-28 · **Status:** accepted · tests/test_guards.py, npl/register/generating_sample.py
+
+The spent H1 read is quarantined by three mechanisms, each with its
+refusal produced by test: an AST string pin holding the reachable stage_b
+surface at exactly the two H1 modules (scanned on synthetic offenders,
+not just asserted clean); import isolation of the npl.stageb package; and
+the 312 generating-sample event IDs recorded write-once in
+data/state/generating_sample.json, refused by every successor view. The
+sample is usable for power assumptions, labelled so wherever carried,
+never admissible to a successor verdict.
+
+## ADR-015: Fresh means the complement of the generating sample
+
+**Date:** 2026-08-28 · **Status:** accepted · npl/register/fresh.py
+
+No clock defines the fresh cohort — the recorded generating-sample set
+does. Fresh = every Amendment-1-resolved event not in the sample and not
+dead before entry. On the sealed census this reproduces the registered 62
+pending-at-closure exactly (pinned), and census refresh rows extend it
+without a boundary rule that could drift.
+
+## ADR-016: The by-dex pair projection governs; the flat summary rides beside
+
+**Date:** 2026-08-28 · **Status:** accepted · registrations/H2 Amendment H2-1
+
+Pairability on this venue is a deterministic function of measured dex age
+(xyz measured 36/36 pairable; young dexs cross the 180-day candidate age
+on known dates), so projecting pairs as per-dex accrual × onset windows
+is the faithful application of the A.1 measurement. The flat share
+(0.613 × forward events) is a knowingly-wrong stationary summary and is
+reported beside as sensitivity — including that it would have culled
+everything. Both projections use only A.1-measured quantities committed
+before any cull arithmetic ran.
+
+## ADR-017: Generating-sample figures govern every honest range
+
+**Date:** 2026-08-28 · **Status:** accepted · registrations/H3 §8, H4 §8
+
+Where a subset figure is unknown (H3's magnitude leg, H4's conditional
+share), power computes at both ends of the honest range and the
+generating-sample-derived end governs the cull — adopting the optimistic
+end after seeing the pessimistic one would be outcome-fitting, and
+assuming the conditional share exceeds the unconditional one would assume
+H4's conclusion. Both ends are always reported.
+
+## ADR-018: Candidate trailing windows — trail files on the main dex, archive extension on hip3
+
+**Date:** 2026-08-28 · **Status:** accepted · npl/register/forward.py, docs/ACCESS.md
+
+Assignment needs each candidate's (entry−168h, entry] funding. Main-dex
+candidates (~173) needed one page each for two nearby entries → sealed
+raw trail files (trail-*.raw, outside the page-* cursor globs, so the
+contiguous archive discipline of ADR-010 is untouched). xyz candidates
+overlapped 36 entries spanning 90 days → contiguous archive extension.
+380 pages total against ~905 for blanket extension.
+
+## ADR-019: The fresh cohort seals at maturity; checkpoints are forward-only; pair legs ride the event schedule
+
+**Date:** 2026-08-28 · **Status:** accepted · npl/cli.py, registrations/H2 Amendment H2-2
+
+The 62 backfillable events' candle windows seal once, at entry+92d, under
+the fresh plan (the H1 retro-backfill shape) — a write-once seal of a
+partial window would block its own completion, and 1d retention is
+measured-full so nothing ages out. Checkpoints (+2/+32/+92, unchanged
+bars) run for forward births, with the pair's elder leg checkpointing on
+its event's schedule; H2 coverage requires both legs.
+
+## ADR-020: Pair costs are per-leg centrals with half/double bands; E2's floor is per pair
+
+**Date:** 2026-08-28 · **Status:** accepted · npl/register/pairs.py, registrations/H2 §5, §8
+
+Pair central = sum of the legs' H1 centrals (18/27/36 bp); bands half and
+double per the register prompt (unlike H1's third/double single-leg
+bands — recorded to prevent silent reconciliation). E2's economic floor
+is 2× the pair's own central cost, so a mixed pair is held to its own
+bar, not a family average. Requirement modes registered: H2/H3 all-legs,
+H4 best-cell.
+
+## ADR-021: Collectors take their write roots as parameters
+
+**Date:** 2026-08-28 · **Status:** accepted · npl/register/forward.py, registrations/H2 Amendment H2-2
+
+A test drove the trail fetcher into the real data/funding store through a
+default-parameter root (7.2M fake-coin seal files before the run was
+stopped; verified test-only and removed). The lesson generalizes: any
+function that writes a store takes the root explicitly, the test pins
+that artifacts land in the given root and nowhere else, and unbounded
+fetch loops carry a loud cap. Defect recorded in Amendment H2-2 and
+progress.md rather than smoothed over.

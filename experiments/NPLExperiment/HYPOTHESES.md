@@ -8,8 +8,10 @@ The register holds four entries: **H1, the founding H-NPL naive short, closed
 negative on 2026-08-28** by the single registered Stage B read; and **H2, H3,
 H4, three co-registered successors** that test on fresh, unread data only,
 share one collection substrate, and sit under one familywise error budget
-(0.05 across the register's survivors, alpha_h = 1 − 0.95^(1/k)) with an
-outcome-blind power cull at Stage A.2. The spent Stage B read and every value
+with an outcome-blind power cull. **The cull fired 2026-08-28: k = 1,
+alpha_h = 0.05. H2 survives (DEGRADED, collectors armed, earliest Stage B
+≈ mid-2027); H3 and H4 fired BLOCKED on measured rates — documented
+answers, closed below with what would reopen them.** The spent Stage B read and every value
 inside it are quarantined from all successor code paths by AST pin and test;
 the 312 retro events and their 176 control windows are the **generating
 sample** — usable for power assumptions, labelled so wherever carried, and

@@ -382,3 +382,50 @@ answer), H4-2 (BLOCKED — the registered expectation confirmed by the
 measured rates). H4-1, recorded before any conditioning value existed,
 resolved a drafting contradiction in the conditioning feature's absence
 rule in favor of the governing H1 event-side definition.
+
+**A.3 armed the survivor alone.** The collectors re-enabled at 06:21Z
+under Amendment H2-2 — watch hourly at :05 (Persistent catch-up clean:
+11 dexs, 0 failed), daily at 01:40 UTC (no double-fire; today's pass
+predated the H1 disarm), AiTrader and solattn verified untouched, the
+manual-run guard verified refusing while armed. The watcher now runs the
+H2 pair pass at each birth's entry anchor: trailing-only assignment
+through the pinned matcher, the pair row, both legs onto the fresh plan
+(100 rows seeded: 62 events + 38 control legs), and the two-leg l2Book
+snapshot inside the registered 30-minute window — a late pass writes the
+loud expired row and the daily pass catches up the assignment. The fresh
+cohort's candle windows seal once at maturity (entry+92d) under the
+fresh plan; forward births checkpoint at +2/+32/+92 with the pair's
+elder leg on its event's schedule; H2 coverage requires both legs. The
+dark machinery exists for the survivor only: the pair reader reproduces
+known answers to the digit with sign pins on all four legs, and the H2
+latch refuses a second read — H3 and H4, BLOCKED, got no readers and no
+latches, and asking for theirs refuses loudly by test. The pair
+feasibility memo (docs/PAIR_FEASIBILITY.md) sizes the design: ~2.2N
+capital per pair with the young short's isolated margin at 1.2N
+surviving a +100 percent squeeze by construction, a 45-pair hard cap at
+$1,000 against ~19 accrual-bound concurrent pairs — capital is not the
+binding constraint, accrual is.
+
+One defect surfaced during hardening and is recorded, not smoothed over
+(Amendment H2-2, ADR-021): the first forward-pass test drove the trail
+fetcher into the real data/funding store through a default-parameter
+root — 7.2M fake-coin seal files, verified test-only and removed; the
+fetcher now takes its root explicitly, the test pins the isolation, and
+a page cap bounds the loop.
+
+**A.4 hardened and closed.** Gates green throughout (217 tests, mypy
+--strict, ruff). The register mutation exercise ran six mutations on
+real source, bytecode purged before every run, **6 of 6 CAUGHT**
+(reports/stage_a_h2/mutations.md): the spent read opened from an H2
+module (string quarantine pin), a generating-sample ID admitted to a
+view (the produced refusal), a post-entry funding read inside assignment
+(PostEntryRead), a flipped pair-leg sign (the known-answer gate), the
+cull reading an outcome field (the repo-wide OHLCV pin), and a widened
+reader allowlist (the equality pin). Source restored byte-for-byte after
+each. ADR-013 through ADR-021 record every choice; HYPOTHESES.md carries
+all four entries with verdicts; the register's end state — per-hypothesis
+verdicts, k = 1, alpha_h = 0.05, collectors armed for H2, earliest H2
+Stage B near mid-2027 — is in the A.4 close-out of progress.md. Open
+operator items: **the three reserved prior slots, and nothing else** —
+H2's slot is the one that will matter, and the assistant fills none of
+them.

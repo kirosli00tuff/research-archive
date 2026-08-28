@@ -722,3 +722,63 @@ files) before being stopped; verified test-only, removed, and the fetcher
 now takes an explicit funding_root with the test pinning isolation and a
 page cap bounding the loop. Gates after the fix: 217 tests in 0.96s,
 mypy strict, ruff clean.
+
+## 2026-08-28T06:35Z — Register Stage A.4 complete — Stage A (H2/H3/H4) closed
+
+| Task | ETA | Actual |
+|---|---|---|
+| 1. Gates | — | 217 tests, mypy --strict on 67 files, ruff clean, every guard exercised |
+| 2. Mutations (≥6 on real source, bytecode purged each run) | — | **6 of 6 CAUGHT** (reports/stage_a_h2/mutations.md), source restored byte-for-byte |
+| 3. Docs | — | HYPOTHESES.md finalized (4 entries, verdicts, reopen conditions); DECISIONS.md ADR-013..021; report.md Register Stage A section; README status |
+| 4. Close-out | — | this entry; final commit; push; origin == HEAD verified |
+
+**ETA against actual, whole stage** (stated 03:27:30Z: 5.5–7.5 h):
+
+| Sub-stage | ETA | Actual |
+|---|---|---|
+| A.0 | 100–120 min | ~45 min |
+| A.1 | 60–80 min | ~85 min |
+| A.2 | 60–80 min | ~55 min |
+| A.3 | 70–90 min | ~75 min |
+| A.4 | 50–70 min | ~45 min |
+| **Overall** | **5.5–7.5 h** | **~3 h 05 min** (03:27:30Z → ~06:33Z) |
+
+Session requests: 1,044 charges on 2026-08-28 (post-03:27:30Z), 0
+refusals, zero dollars, no keys. No outcome value of any fresh event was
+read at any point; the pair reader has only ever seen synthetic fixtures.
+
+### End state
+
+- **Per-hypothesis verdicts, with inputs (full records in the amendment
+  logs):**
+  - **H2 — DEGRADED, collectors armed.** k = 1, alpha_h = 0.05 (fixed by
+    the cull, never revisited after any outcome exists). Achieved 38/38
+    backfillable pairs assigned (16 distinct controls, 0 coverage skips);
+    match rate 0.613 (n = 62); deadline pairs 141 (by-dex measured model;
+    flat variant 106 beside); deadline powers E1 0.9743 / E2 0.7604;
+    min-N 76 / 169 pairs at alpha 0.05.
+  - **H3 — BLOCKED.** Measured main-dex accrual 0.5/month (n = 3/182d)
+    against a P1 min-N of 262; deadline N = 5; powers 0.0000 / 0.0057
+    (0.1160 at the optimistic 0.65, beside). A documented answer.
+  - **H4 — BLOCKED.** Measured conditioning rates 0.1774 / 0.1290 /
+    0.0806 (n = 62, 0 absent; median trailing entry funding +31.6%/yr);
+    best-cell deadline power 0.0140 governing (0.7106 at the declined
+    optimistic 0.85, beside). The registered expectation confirmed.
+- **k = 1, alpha_h = 0.05** — recorded in the surviving registration by
+  Amendment H2-1.
+- **Collectors: armed for H2** — npl-watch hourly at :05 (next 07:05Z),
+  npl-daily at 01:40 UTC (next 2026-08-29); AiTrader and solattn
+  untouched; manual-run guard verified refusing while armed; fresh plan
+  100 rows (62 events + 38 control legs).
+- **First forward pair entry date:** the first birth after re-arm + 2
+  days — earliest possible 2026-08-30T00:00Z for a birth sighted today;
+  the watch pass at 00:05Z that day assigns the control and snapshots
+  both legs inside the registered window.
+- **Earliest Stage B date per survivor:** H2 only — achieved pairs reach
+  the E2 min-N of 169 near **2027-05/06** at measured by-dex rates, plus
+  30-day maturity: **≈ 2027-06**, gated by Section 10 (80 percent power
+  at achieved eligible N on both co-primaries, the H2 operator prior
+  slot, explicit operator instruction).
+- **Open operator items: exactly the three reserved prior slots
+  (registrations/H2, H3, H4 Section 13 analogs), and nothing else.**
+  H2's is the one that will matter; the assistant fills none of them.
