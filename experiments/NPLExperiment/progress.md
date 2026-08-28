@@ -372,3 +372,82 @@ nothing pushed.
   the operator's commands are:
   `gh repo create NPLExperiment --private --source . --push`
   (or `git remote add origin <url> && git push -u origin main`).
+
+## 2026-08-28T02:31:22Z — Stage B.0 Task 0 — Operator prompt, logged verbatim before any other work
+
+```
+BEGIN PROMPT
+
+NPLExperiment, Stage B. Model: Opus. Effort: high. Run autonomously. Commit at each sub-stage boundary and push every commit to origin main per B.0 Task 1. State an overall ETA first.
+
+Purpose. Execute the registered single read of the sealed Stage A retro cohort, fire the verdict, and act on a verdict table registered before the read. Stage B opens the sealed outcomes exactly once. Stage B trades nothing, touches no capital, and sends no network request. Every input is already on disk.
+
+Standing rules. All ten Stage A rules remain in force, with two sanctioned changes executed below: the push rule of B.0 Task 1 and the single blindness exemption of B.1 Task 1. Log this prompt verbatim to progress.md before any other work. State an ETA before arming each task, record actual after. Every figure travels with its n. The request ledger records zero new charges this stage, and any gap discovered in the sealed stores resolves by waiting for the next daily pass, never by an in-session fetch.
+
+Stage B.0 : Task 0. Prompt log and report.md.
+Log the prompt. Create report.md, the append-only stage narrative in the MLCryptoEngine style, one section per stage, written for the moment it lands. Seed it with the Stage A section condensed from progress.md and the Section 0 verdict record: the Amendment 1 story with the epoch-censoring and mechanical hyperp findings, census 503, retro N 312 with its 112, 46, 154 split, match 176 of 312, delisting PASS 6 of 6, the measured pacing, the powers against minimum-N 34, 103, 60, the mutation results, and the arming timeline. From this stage forward progress.md stays the slim state log and report.md carries the narrative.
+
+Stage B.0 : Task 1. Remote and push, by operator instruction.
+Record Amendment 2 in REGISTRATION.md: operator instruction dated 2026-08-28 supersedes the Stage A push-nothing protocol, all commits push to origin main from here, and the Stage A postscript conflict recorded at the top of progress.md resolves in favor of pushing. If no remote exists, create a private one: gh repo create NPLExperiment --private --source . --push. If gh is absent or unauthenticated, stop this task, record BLOCKED-ON-OPERATOR with the exact commands, and continue the stage locally with pushes queued as an open item. Never create a public remote. Push all existing commits.
+
+Stage B.0 : Task 2. Preconditions, each refusing loudly on failure.
+
+The operator prior. npl.registration_check.require_operator_prior must pass on the filled Section 13 slot. On an empty or malformed slot, stop the entire stage, report BLOCKED-ON-OPERATOR with the accepted format, push the report, end. Never fill it.
+Sealed completeness, counted from local files and lifecycle logs only. 312 of 312 event candle windows sealed, 176 of 176 control candle windows sealed, funding archives advanced past every verdict window. Report any shortfall with reasons from the registered call states and stop with the dated resume condition, the next 01:40Z pass.
+Coverage bars. Per event and per control, candle coverage at or above 0.90 and funding-hour coverage at or above 0.95 inside each verdict window, counting rows and timestamps only. A failing event or control is excluded underpowered with its count. Recompute effective N per co-primary: events for P1 and P2, both-covered pairs for P3. If any effective N falls below its minimum, 34, 103, or 60, refuse the read, report, stop.
+Gates. make lint, typecheck, test green. Record sha256 of verdict.py and of every module the read will touch.
+The latch. data/state/stage_b_read.json must not exist. If it exists, the read is spent, stop and report.
+
+Stage B.1 : Task 1. The verdict table, registered before the read.
+Record Amendment 3, committed and pushed before any outcome value is parsed, stating what data existed at write time, which is counts, timestamps, and coverage only. The table:
+GO: P1, P2, and P3 all pass at alpha_adj 0.016952 on the sealed retro cohort at central costs. Consequence: authorizes drafting a Stage C sketch, paper simulation with squeeze tails, liquidation modelling, and per-name loss caps, as a future separate registration, no capital. The forward cohort accruing at 18.5 events per month becomes a named out-of-sample confirmation set, read only under its own future registration, never pooled into this verdict. Collectors stay armed.
+PARTIAL_DRIFT: P1 and P2 pass, P3 fails. Reading: the short clears its bars but shows no listing-age effect beyond funding-matched older perps, the H8-consistent outcome. Consequence: the listing-age claim closes, no Stage C on this design, a funding-conditioned redesign is a new hypothesis requiring its own registration, collectors stay armed for the pending cohort then disarm by default.
+FAIL: P1 or P2 fails. The registered short does not clear its bars on this sample. Consequence: the hypothesis closes, the closure entry is written in the register style, collectors disarm immediately, the 62 pending events are recorded pending-at-closure, nothing deleted.
+Rules riding with the table: secondaries never move a row. The verdict reads at central costs, 9 bp vanilla and 18 bp HIP-3, with the 3, 18 and 6, 36 band results reported beside as sensitivity, descriptive. The read is a single CLI invocation behind a latch written first, so a crash after the latch spends the read and recovery works from partial artifacts under an amendment, never a silent re-run. The blindness allowlist gains exactly one module, npl/stageb/reader.py, and the AST pins are amended to hold the allowlist at length one with the Stage B CLI as its only importer.
+
+Stage B.1 : Task 2. Reader and known-answer gate.
+Implement the reader to Sections 3 through 7 verbatim: entry at the second daily close, hyperp conversions anchored per Amendment 1, net short return equal to minus the price return plus received funding minus registered cost, positive funding pays the short, constant notional, truncated events valued at last served close and retained, pending events excluded per horizon with counts, paired differentials for P3. Re-run the full verdict path on the synthetic fixtures and reproduce every fixture answer to the digit, recorded in report.md. Re-hash the modules. Any diff between this hash and the B.0 hash after this point voids the read authorization and requires an amendment.
+
+Stage B.2 : Task 1. The read, exactly once.
+Write the latch with a timestamp and the module hashes. Invoke the single entrypoint. Compute: P1 as the one-sided Clopper-Pearson lower bound at 0.016952 on the share of events with positive 30-day net short return, against 0.60. P2 as the exact sign test on the share at or below minus 15 percent net, against one half. P3 as the exact paired sign test on young minus control differentials, against zero from below. Named secondaries, descriptive: the 90-day versions, strata by vanilla, hyperp_conversion, and hip3, the truncated-by-delisting subgroup, the forward-versus-retro placeholder noting zero forward events are readable yet, the H8 decomposition splitting every event into its funding term and its price term with the paired version, and the cost-band sensitivity. Nothing beyond the registered list is computed. A statistic not named in the registration is a second look and is refused.
+
+Stage B.2 : Task 2. Fire the verdict.
+Apply the Amendment 3 table mechanically. Record the fired row in the REGISTRATION.md amendment log with every input figure beside it, in progress.md, and as the Stage B section of report.md carrying the full narrative: preconditions, effective Ns, the three co-primaries with their intervals, every secondary with its n, the sensitivity table, the row fired, and its consequence. Update the README status line. Commit and push.
+
+Stage B.3 : Task 1. Consequence execution.
+On GO: write docs/STAGE_C_SKETCH.md, a sketch and not a registration, covering the paper-fill model, squeeze-tail treatment, per-name loss cap sized to survive a 100 percent adverse move, funding-flip kill criterion, entry-rule grid boundaries, and the forward-cohort confirmation plan. Collectors stay armed. On PARTIAL_DRIFT: write the listing-age closure note, collectors stay armed for the pending cohort with the default disarm date recorded. On FAIL: systemctl --user disable --now npl-watch.timer npl-daily.timer, verify nothing npl remains scheduled, verify AiTrader and solattn timers untouched, record the closure entry.
+
+Stage B.3 : Task 2. Gates and mutations.
+make all green. Three mutations on the new surface, applied to real source, bytecode purged before every run: bypass the latch so a second read is allowed, caught. Widen the blindness allowlist to two modules, caught. Flip the funding sign convention inside the reader, caught by the known-answer gate. Restore byte for byte, evidence in reports/stage_b/mutations.md.
+
+Stage B.3 : Task 3. Close-out.
+progress.md entries per sub-stage with ETA against actual. Final commit, push, confirm origin main matches local HEAD. End-state summary: the row fired with its inputs, the latch and artifact hashes, collectors state, remote URL, and open operator items, which on GO is the Stage C authorization decision and on any other row should be nothing.
+
+END PROMPT
+```
+
+Overall ETA stated to operator at 2026-08-28T02:31:22Z: 3.5–4.5 hours.
+Sub-stage ETAs: B.0 60–75 min, B.1 75–90 min, B.2 25–35 min, B.3 50–70 min.
+Largest ETA risk: the sealed-completeness precondition — if the control
+candle windows did not complete under the 2026-08-28T01:40Z daily pass, the
+stage stops with the dated resume condition instead of running long.
+
+Session model note: the prompt names Opus; the session model is Fable 5,
+recorded here as in Stage A.
+
+## 2026-08-28T02:52Z — Stage B.0 complete
+
+| Task | ETA | Actual |
+|---|---|---|
+| 0. Prompt log + report.md seed | 20 min | 15 min |
+| 1. Amendment 2, remote + push | 10 min | 6 min (remote pre-existing, PRIVATE, origin/main current) |
+| 2. Preconditions | 40 min | 22 min |
+
+Preconditions PASS at 02:47:28Z (narrative in report.md): operator prior
+0.40 (adopted); sealed completeness 312/312 event + 176/176 control
+windows, hash-verified, archives advanced; coverage 312/312 events and
+175/176 controls at 30d (NEIROETH, control for APEX@20360, delisted at the
+event entry — excluded underpowered, counted); effective N 312/312/175
+against minimums 34/103/60; gates green (159 tests, mypy strict 50 files);
+19 read-surface hashes in reports/stage_b/hashes_b0.json; latch absent.
+Session network requests: 0.

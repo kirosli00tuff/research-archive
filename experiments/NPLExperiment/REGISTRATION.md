@@ -418,3 +418,28 @@ count, a timestamp, or a registered assumption.
 Inputs produced by: docs/ACCESS.md (A.1), the census ledger
 (data/census/census.jsonl, 503 rows), the A.2 eligibility assessments, and
 npl.power at the registered assumptions. Fired by npl.section0.fire_section0.
+
+### Amendment 2 — 2026-08-28 — the push protocol, by operator instruction
+
+**What data existed when this amendment was made.** The complete Stage A
+sealed stores (312 event candle windows, 176 control candle windows, 386
+funding archives), the census, pairs, and plan ledgers, and the request
+ledger — all readable only as counts and timestamps under the blindness
+boundary. **No outcome value has been parsed: no candle price and no
+post-entry funding rate has been read by any code path in this
+repository.** No Stage B precondition had been computed and no verdict
+input existed.
+
+**The amended rule.** The operator instruction dated 2026-08-28 (Stage B
+prompt, B.0 Task 1, logged verbatim in progress.md) supersedes the Stage A
+push-nothing protocol: **from this amendment forward, all commits push to
+origin main.** The Stage A postscript conflict recorded at the top of
+progress.md — the registered header said push nothing, the postscript said
+push — resolves in favor of pushing, by that dated instruction.
+
+**Remote state at amendment time, measured.** A remote already exists:
+`origin = git@github.com:kirosli00tuff/NPLExperiment.git`, visibility
+**PRIVATE** (verified via `gh repo view`, n = 1 check), with origin/main
+already at the Stage A close commit `aaddb23` — the operator created and
+pushed it between sessions. No new remote is created; the repository
+remains private; all Stage B commits push to this origin.

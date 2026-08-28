@@ -1,0 +1,21 @@
+{
+  "absence.py": "4bc58c2531b294c35ef9c2a424d6ea804fa2c6c9755684c238b444c756134f2b",
+  "blindness.py": "1ae2d642abe7b42ba8568842debeded60d06885f3c9e8356e1040e826dac4af3",
+  "callstate.py": "12ace791c012e22b69422a906a9af5981dfd1b29d62344747af90cac7ea12afd",
+  "census.py": "00d23a9a97855ccc588924232caa0874f2dc4bac269fa4f03b085ac41b287654",
+  "clock.py": "42cd8d40a276871a4fc555c65590b7ea31fdb473c0fa7d3025e756150aee0015",
+  "config.py": "52020fca832ea494a31f786eab639e6393f1a076f73b38a36e8f5492963d8e7e",
+  "coverage.py": "a3e64576487f6a499a5f8113508173bf1e813fd1c8b1b66bd608f096248acc46",
+  "eligibility.py": "ac4b9e5b0d23fc8292c0ed53f6d82d9938f820a873df5c9b07bfeb0fb78a7350",
+  "intervals.py": "6aefe62faf24344099abc22b7067216be9e509907ad5058382bfa19107865a8b",
+  "ledger/__init__.py": "620e30c54486b7ceadb1a2cdb8ce82930f9477d26b964e590c4886cffbac6447",
+  "ledger/append_only.py": "27e529ebdedb391e849884f4dc21dd37fe1632bf836f26f90febca884aded3b9",
+  "outcome.py": "16d3d9713f1266226f10a88451531b955d66476c46f6e95ec61551869723c6b9",
+  "paths.py": "2d8225a4c19f3f198d9e2a0e2a3e5e6fd3065aad4f1faa82c2edcb0e32795264",
+  "power.py": "7007e0d0e6677eb6baeefc46adff0fe8333b5e34422bdeaff5df385deba40c2f",
+  "registration_check.py": "840b86e6eed8b4fe123bcac23f0341288c8fae1a874b15c78a5f9255ae6e189d",
+  "seals.py": "474b4caabeb5c2eecaaa297b66e95d949f51e5c145c73067bf954f741a2d156c",
+  "stageb/__init__.py": "d428b1c94d9d37a5a44a4c25ec59712bf7033fd0d0b9f209c28758d4bf6009cd",
+  "stageb/preconditions.py": "e7ffbffee81cd1fef0252636073535542ca7ebf138e6fa05bd7a2fee54ff74b9",
+  "verdict.py": "638d542b1cc2ac76a5feff5b4da00182a3d38041e755a0fde8943a72746c8c98"
+}
