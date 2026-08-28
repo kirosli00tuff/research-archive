@@ -429,3 +429,96 @@ registration says the retro backfill runs only on as-printed observability PASS
 and that PARTIAL records a forward-only demotion. PASS is closed, so the
 demotion is recorded and the task does not run. **The 8-day retro cohort is
 descriptive and will carry no verdict.**
+
+## Entry 6 — 2026-08-28 — STAGE A close-out and end state
+
+### The Section 0 verdict, with every input beside it
+
+**GO is eliminated and closed. The remaining choice between DEGRADED and
+BLOCKED turns on one unmeasured input, whose earliest completion is
+2026-09-22.**
+
+| input | measured | registered bar |
+|---|---|---|
+| archive capture density | **11 of 333 = 0.0330** | 0.60 — **missed by 18×, and unrestorable** |
+| forward revision integrity | **not measured** | 0.90 — calendar-bound to 2026-09-22 |
+| E1 power at the published 0.18, achievable N by 2027-03-31 | **0.6105** (n = 163) | 0.50 BLOCKED floor — **cleared** |
+| E1 power at the registered 0.09, same N | **0.2015** | 0.80 GO floor |
+| E2 power at the published 0.18, same N | **0.5225** | 0.80 |
+| unstable as-printed share | **0 of 11** on the retro leg | > 0.50 fires BLOCKED — not met |
+
+### The measured lag distribution
+
+**Not quoted.** The registration requires **15 US trading days** of forward
+capture before any lag figure is; **2 captures exist**, both taken 2026-08-28
+and both recording the open day as `Absent(dash_in_cell)`. **An absence is a
+recorded state.** The 15th US trading day is 2026-09-21 and its print lands
+2026-09-22.
+
+A **retro** estimate exists and is labelled corroborating rather than measured:
+across 34 parseable archived captures, those serving a value fall at +04:05 to
++08:00 past midnight UTC on D+1 (n = 11) and those still dashed at −03:38 to
++04:29 (n = 23), so the print appears to land between roughly **04:00 and 08:00
+UTC**. **The anchor has not moved and will not move on it.**
+
+### The measured revision and sign-flip rates
+
+**Retro leg, n = 11: 0 revised, 0 sign flips, 0 threshold crosses, 11 intact.**
+The MLCryptoEngine H11 whole-file-regeneration hazard does not reproduce on this
+source. **n = 11 is below the registered minimum of 30, so it carries no
+verdict, and it was not promoted to fill the Section 0 gap it would have
+closed.**
+
+**Forward leg: not measured.**
+
+### Archive capture density
+
+**11 of 333 = 0.0330**, failing on crawl rate (**0.316 mementos per calendar
+day**), not on the registered window — 48.37% of mementos already fall inside
+it, and an unbounded window reaches only **112 of 333 = 0.3363**.
+
+### Achieved and projected admissible N
+
+| | N |
+|---|---|
+| achieved today | **11** (all retro-archive; forward-capture 0) |
+| projected by 2026-12-31, forward-only | 88 |
+| projected by 2027-03-31, all cohorts | **163** |
+| **minimum required by Section 10** (governing co-primary, published assumption) | **300** |
+| minimum at the registered 0.09 assumption | **above 1,200** |
+
+### The earliest Stage B date
+
+**Around 2027-10-26** — when achieved N reaches the governing minimum of 300 at
+the measured accrual rate of 20.8 admissible days per month. That is **roughly
+seven months past the registered 2027-03-31 deadline**.
+
+**Section 0's power floor is cleared; the registered deadline is not.** This is
+the untestable-at-achievable-power shape, arriving through the calendar rather
+than through the arithmetic, and it is recorded now — before the verdict
+completes — so it cannot later be presented as a discovery that excuses a
+disappointing result.
+
+### The open operator items
+
+**One. The operator prior slot in REGISTRATION.md Section 13, and nothing
+else.** It is empty and blocks Stage B structurally
+(`etf.registration_check.require_operator_prior`). Nothing waits on it
+operationally, since Stage B is blocked independently by power and by deadline.
+It stays outstanding because the calibration ledger needs an independently
+formed number, and **the assistant's recorded 0.10 is not that number and may
+not be copied into the slot**.
+
+### Cost, measured rather than asserted
+
+**Zero dollars. No capital. No credential.** **220 charged requests** across the
+whole stage — 33 flow, 79 archive, 108 venue — settling 213 × 200, 5 × 404, 1 ×
+401, 1 × 403. No paid tier, no key, and `.env.example` is empty on purpose.
+
+### Boundaries held
+
+Nothing was pushed to any remote; no remote exists. The four pre-existing user
+timers were verified untouched throughout: **npl-watch** (60 min),
+**news-collect** (22:31 UTC), **solattn-daily** (00:40 UTC), **npl-daily**
+(01:40 UTC). No unit-name collision. No file outside this repository was
+written.
