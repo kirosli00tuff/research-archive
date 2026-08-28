@@ -20,6 +20,8 @@ from npl.checkpoints import CheckpointRunner, classify_due
 from npl.clock import MS_PER_DAY, now_utc, utc_ms
 from npl.config import CONFIG
 from npl.controls import control_dex_of_row
+from npl.h5.collector import H5YieldedToH2, record_yield, run_daily_pass
+from npl.h5.gate import CohortLedgerUnavailable, load_cohorts
 from npl.http import InfoClient
 from npl.ledger.append_only import AppendOnlyLedger
 from npl.ledger.requests import RequestLedger
@@ -184,6 +186,33 @@ def cmd_daily() -> int:
                     f"fresh funding {coin}: +{advance.pages_fetched} pages "
                     f"({advance.terminal_state}, caught_up={advance.caught_up})"
                 )
+
+    # Register entry H5 (Task 4): the forward basis snapshot runs LAST and
+    # yields to H2. It postpones to tomorrow rather than competing for the
+    # day's budget, and the postponement is a recorded state, never a
+    # swallowed exception.
+    try:
+        h5_result = run_daily_pass(
+            venue,
+            ledger,
+            load_cohorts(),
+            soft_budget=DAILY_SOFT_BUDGET,
+            progress=lambda message: print(f"h5 {message}"),
+        )
+    except H5YieldedToH2 as exc:
+        record_yield(str(exc))
+        print(f"h5 yielded to H2: {exc}")
+    except CohortLedgerUnavailable as exc:
+        record_yield(str(exc))
+        print(f"h5 refused (cohort ledger absent): {exc}")
+    else:
+        coverage = h5_result.coverage
+        print(
+            f"h5 pass {h5_result.pass_id}: {coverage.instruments_live} live of "
+            f"{coverage.instruments_resolved} resolved, reference served "
+            f"{coverage.reference_served}, basis served {coverage.basis_served}, "
+            f"{h5_result.requests_charged} requests ({coverage.session_tag})"
+        )
 
     print(f"daily done; ledger today: {ledger.spent_on(today.isoformat())} (was {spent})")
     return 0

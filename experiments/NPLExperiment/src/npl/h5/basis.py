@@ -140,8 +140,11 @@ def parse_asset_contexts(
     for row, ctx in zip(universe, ctxs, strict=True):
         if not isinstance(row, dict) or not isinstance(ctx, dict):
             raise AssetContextShape("metaAndAssetCtxs row is not an object; refusing to guess")
-        name = str(row["name"])
-        coin = f"{dex}:{name}" if dex else name
+        # The venue already serves the dex prefix inside `name` on a HIP-3 dex
+        # (measured 2026-08-28: `{"name": "xyz:XYZ100", ...}`), so the coin is
+        # the served name verbatim. Re-prefixing here would invent `xyz:xyz:...`
+        # and silently detach every H5 row from the census and the cohorts.
+        coin = str(row["name"])
         out.append(
             AssetContext(
                 coin=coin,

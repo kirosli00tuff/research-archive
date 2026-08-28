@@ -156,7 +156,7 @@ def test_every_tag_is_one_of_the_four_registered_ones() -> None:
 
 _CTX_PAYLOAD = json.dumps(
     [
-        {"universe": [{"name": "AAPL"}, {"name": "NOREF"}]},
+        {"universe": [{"name": "xyz:AAPL"}, {"name": "xyz:NOREF"}]},
         [
             {
                 "markPx": "101.0",
@@ -173,6 +173,7 @@ _CTX_PAYLOAD = json.dumps(
 
 
 def test_parse_asset_contexts_records_served_fields_and_the_reference_used() -> None:
+    """The coin is the served name verbatim: the venue prefixes it already."""
     ctxs = h5basis.parse_asset_contexts(_CTX_PAYLOAD, "xyz", "snap-1", 1_700_000_000_000)
     assert [c.coin for c in ctxs] == ["xyz:AAPL", "xyz:NOREF"]
     first, second = ctxs
@@ -339,7 +340,15 @@ def test_indeterminate_between_the_floor_and_the_bar_including_on_the_floor() ->
 def test_closed_when_every_tag_sits_under_the_floor() -> None:
     verdict = _fire(medians={"regular": 17.99, "weekend": 2.0})
     assert verdict.state == h5out.STATE_CLOSED
-    assert "cost floor in every session tag" in verdict.reasons[0]
+    assert "cost floor in every measured session tag" in verdict.reasons[0]
+
+
+def test_the_floor_clause_cannot_fire_before_the_coverage_bars_are_met() -> None:
+    """Amendment H5-1 Change 1: a single cross-section lands in one session
+    tag, and one tag under the floor is not a statement about every tag."""
+    verdict = _fire(n_ref=151, n_cov=0, funding=151, medians={"extended": 1.2})
+    assert verdict.state == h5out.STATE_PENDING
+    assert "census window is open" in verdict.reasons[0]
 
 
 def test_one_tag_over_the_floor_is_not_closed() -> None:

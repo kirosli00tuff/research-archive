@@ -1,0 +1,105 @@
+{
+  "at_ms": 1787953914051,
+  "by_dex_live": {
+    "io": 2,
+    "mkts": 3,
+    "para": 16,
+    "xyz": 73
+  },
+  "by_dex_resolved": {
+    "abcd": 1,
+    "cash": 12,
+    "flx": 6,
+    "io": 4,
+    "km": 15,
+    "mkts": 15,
+    "para": 20,
+    "xyz": 78
+  },
+  "by_dex_total": {
+    "abcd": 1,
+    "cash": 17,
+    "flx": 16,
+    "hyna": 25,
+    "io": 6,
+    "km": 23,
+    "mkts": 23,
+    "para": 30,
+    "vntl": 15,
+    "xyz": 117
+  },
+  "by_resolution_reason": {
+    "ambiguous_ticker": 15,
+    "basket_no_named_reference": 14,
+    "commodity": 37,
+    "crypto": 28,
+    "crypto_index": 3,
+    "equity": 118,
+    "etf": 15,
+    "fx": 7,
+    "index": 18,
+    "not_in_registered_mapping": 1,
+    "private_no_public_underlying": 11,
+    "rate": 5,
+    "venue_house_index": 1
+  },
+  "by_resolution_state": {
+    "excluded_non_equity": 80,
+    "excluded_unresolvable": 42,
+    "resolved": 151
+  },
+  "census_pass_requests_arithmetic": "1 perpDexs + 10 meta + 10 metaAndAssetCtxs + 151 fundingHistory + 151 l2Book = 323",
+  "excluded_delisted": 57,
+  "forward_daily_pass_arithmetic": "1 perpDexs + 10 meta + 10 metaAndAssetCtxs + 94 l2Book (+94 fundingHistory service probes) on the live universe",
+  "forward_daily_pass_requests": 115,
+  "forward_share_of_daily_cap": 0.00575,
+  "funding_field_served_resolved": 151,
+  "funding_history_states_live": {
+    "stored": 94
+  },
+  "funding_history_states_resolved": {
+    "no_data": 25,
+    "stored": 126
+  },
+  "funding_served_of_live_reference_carrying": 94,
+  "instruments_total": 273,
+  "l2_states_live": {
+    "stored": 94
+  },
+  "l2_states_resolved": {
+    "no_data": 57,
+    "stored": 94
+  },
+  "ledger_day_after": 3599,
+  "ledger_day_before": 3276,
+  "listing_conflicting": 0,
+  "live": 94,
+  "live_by_kind": {
+    "equity": 77,
+    "etf": 11,
+    "index": 6
+  },
+  "quarantined_live": 92,
+  "quarantined_resolved": 124,
+  "ran_at": "2026-08-28T21:55:39Z",
+  "reference_field_used": {
+    "oraclePx": 151
+  },
+  "reference_served_live": 94,
+  "reference_served_resolved": 151,
+  "reference_unserved_live": 0,
+  "requests_charged": 323,
+  "resolved": 151,
+  "resolved_by_kind": {
+    "equity": 118,
+    "etf": 15,
+    "index": 18
+  },
+  "served_field_sets_resolved": {
+    "dayBaseVlm|dayNtlVlm|funding|impactPxs|markPx|midPx|openInterest|oraclePx|premium|prevDayPx": 151
+  },
+  "session_tag": "extended",
+  "snapshot_id": "h5-census-2026-08-28T21:51:54Z",
+  "stage": "H5 Task 2 - instrument resolution and access census",
+  "ungated_live": 2
+}

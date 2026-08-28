@@ -1240,3 +1240,108 @@ registered.
 
 **Gates after Task 1:** ruff clean, mypy strict **83 source files**,
 **318 passed** (up from 249; 69 new tests).
+
+**Correction to the Task 1 line above:** Task 1 ran 21:22→21:38Z, **16
+minutes** against the 45–70 minute ETA, not the 34 minutes first written.
+The figure is corrected here rather than edited above.
+
+### Task 2 — instrument resolution and the access census (ETA 50–80 min · actual ~21 min, 21:38→21:59Z)
+
+**Two full census passes, 323 requests each, plus a 6-request reconnaissance
+probe — 652 requests, zero dollars, every one charged before it was sent.
+Both passes returned identical counts on every figure.** The recorded pass is
+`h5-census-2026-08-28T21:51:54Z`, session tag `extended`.
+`docs/H5_ACCESS.md` carries the verbatim fragments, the served-field matrix
+and the per-instrument funding answer; `reports/h5/census.json` the counts.
+
+**The first real question, answered:** *funding is served.* The `funding`
+field is present on **151 of 151** resolved contexts, and `fundingHistory`
+returns rows for **94 of 94 live** instruments, every one stamped inside the
+last two hours. The 2026-08-27 `no_data` / `caught_up=true` records carried
+into this entry were **an archive cursor at its end, not an absent field** —
+a measured correction to the context the entry was opened on.
+
+**The reference is served too:** `oraclePx` on **151 of 151**;
+`reference_unserved` is **zero**; `indexPx` was never needed. Every resolved
+instrument serves the identical ten context fields, on every dex, live or
+dead.
+
+| figure | measured |
+|---|---|
+| HIP-3 instruments enumerated | **273** over **10** dexs |
+| resolved to an equity / ETF / index underlying | **151** (118 equity, 15 ETF, 18 index) |
+| `excluded_non_equity` | **80** (37 commodity, 28 crypto, 7 fx, 5 rate, 3 crypto index) |
+| `excluded_unresolvable` | **42** (15 ambiguous, 14 unnamed basket, 11 private, 1 house index, 1 not in the mapping) |
+| **live** after the H5-2 three-field rule | **94** (77 equity, 11 ETF, 6 index) |
+| `excluded_delisted` | **57**, with **0 conflicting** |
+| live instruments carrying a served reference | **94 of 94** |
+| live instruments with funding served | **94 of 94** |
+| live instruments with a two-sided book | **94 of 94** |
+| contemporaneous median absolute basis, live | **3.72 bp**, IQR 0.73–7.31, max 51.4, **0.0 % over 54 bp** (n = 94) |
+| live median touch spread | **4.18 bp**, IQR 1.31–10.78 (n = 94) |
+
+**Three findings the entry turns on.**
+
+1. **The delisted stratum is where every large basis lives.** 57 of 151
+   resolved instruments are delisted, and all three fields agree on every
+   one: `isDelisted`, `openInterest` exactly 0, `dayNtlVlm` exactly 0, zero
+   conflicting. Their median absolute basis is **30.5 bp with 45.6 percent
+   over the 54 bp bar**, against **3.72 bp and 0.0 percent** for live
+   instruments. **Amendment H5-2** excludes them, which deletes this entry's
+   only route to VIABLE — the conservative direction, stated in the
+   amendment.
+2. **The venue accrues funding on dead markets.** 32 of the 57 delisted
+   instruments are still served an unbroken hourly funding series — 168 rows
+   each, latest stamped 2026-08-28T21:00Z — on markets with zero open
+   interest, zero volume and no book. Section 4's claim, demonstrated rather
+   than argued.
+3. **The live family is two dexs.** `xyz` (73) and `para` (16) hold 89 of
+   the 94 live instruments. Four dexs — `abcd`, `cash`, `flx`, `km` — are
+   entirely delisted across their 34 equity-style instruments.
+
+**Two amendments registered during this task**, both before any map fired:
+
+- **H5-1** — the CLOSED floor clause waits for the coverage bars, because a
+  single cross-section lands in one session tag and "under 18 bp in every
+  tag" would have been satisfied vacuously. Makes CLOSED **strictly harder**;
+  it cost this entry the same-day close. Also records that the retrospective
+  branch resolved to the **named secondary**: no historical mark or oracle
+  exists, `premium` does, and it is measured to be an impact-price deviation
+  (verified to every served digit against the BTC context).
+- **H5-2** — the delisted exclusion, on a conjunctive three-field rule, plus
+  listing status recorded in the retrospective stratum.
+
+**One defect found by measurement and fixed before anything was written:**
+the venue already carries the dex prefix inside `name`, so the context
+parser would have produced `xyz:xyz:AAPL` and silently detached every H5 row
+from the census and the cohorts. Caught by the reconnaissance probe, fixed,
+pinned by test.
+
+### Task 3 — retrospective deviation, where history permits (ETA 40–70 min · actual ~4 min, 21:56→22:00Z)
+
+**27 requests. The honest answer is that history permits almost nothing, and
+the reason is structural.**
+
+- **Retrospective registered basis: does not exist.** No historical mark, no
+  historical oracle, and `candleSnapshot` is closed to this entry by standing
+  rule 7. Recorded as an absence, not worked around.
+- **The named secondary (`premium`) is gated** to coins outside the
+  generating sample, the fresh plan, and both legs of every assigned H2 pair.
+  That leaves **27 of 151** resolved instruments — **124 excluded_quarantined**.
+- Of those 27, **25 are long-dead**: `fundingHistory` returns **no rows at
+  all** over the registered 180-day window. The other **2 are brand new**:
+  `io:NBIS` (n = 8 observations, 1 covered day) and `xyz:XBI` (n = 31, 2
+  days).
+- **Total: 39 served observations across 2 instruments. Instruments meeting
+  the 30-day coverage bar: 0.**
+
+Pooled by session tag, with its n and stated as far too thin to carry
+anything: `regular` median 14.17 bp (n = 17), `extended` 14.12 bp (n = 14),
+`closed_weekday` 20.60 bp (n = 8), `weekend` **no observations**. Two new
+listings over two days is not a measurement of a family, and this table is
+recorded so the shortfall is legible, not so it can be read.
+
+**Consequence, per Section 6 and Amendment H5-2 Change 2:** the secondary
+cannot fire in either direction. It cannot fire CLOSED because that is
+evaluated on instruments live at firing and 0 of them meet coverage; it can
+never fire VIABLE by registration.

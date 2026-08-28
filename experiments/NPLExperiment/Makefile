@@ -1,9 +1,10 @@
 SCRIPTS = scripts/mutations.py scripts/mutations_stage_b.py scripts/mutations_register.py \
-          scripts/mutations_amend.py scripts/backfill_fallback.py scripts/ktable_amended.py
+          scripts/mutations_amend.py scripts/backfill_fallback.py scripts/ktable_amended.py \
+          scripts/h5_census.py scripts/h5_retro.py
 
 .PHONY: install lint fmt typecheck test all guards \
         mutations mutations-b mutations-register mutations-amend \
-        backfill-fallback ktable-amended
+        backfill-fallback ktable-amended h5-census h5-retro
 
 install:
 	uv sync
@@ -44,3 +45,9 @@ backfill-fallback:
 
 ktable-amended:
 	uv run python scripts/ktable_amended.py
+
+h5-census:
+	uv run python scripts/h5_census.py
+
+h5-retro:
+	uv run python scripts/h5_retro.py

@@ -106,6 +106,9 @@ def fire(
     )
     max_median = max(present.values()) if present else None
 
+    # Amendment H5-1 Change 1: the structural clauses are facts about field
+    # service and fire whenever they are measured; the floor clause is a
+    # statement about every session tag and waits for the census window.
     closed: list[str] = []
     if instruments_with_reference < cfg.h5_min_instruments_with_reference:
         closed.append(
@@ -118,12 +121,6 @@ def fire(
             f"{instruments_with_reference} reference-carrying instruments "
             f"({funding_share:.3f}), under the registered "
             f"{cfg.h5_funding_service_share:.2f} share"
-        )
-    if present and all(value < floor for value in present.values()):
-        closed.append(
-            f"the median absolute basis is under the {floor:.0f} bp cost floor in every "
-            f"session tag (max {max(present.values()):.2f} bp over "
-            f"{len(present)} tag(s))"
         )
 
     def build(state: str, reasons: list[str]) -> Verdict:
@@ -155,6 +152,15 @@ def fire(
         )
     if max_median is None:
         return build(STATE_PENDING, ["no session tag carries a served median; nothing to fire on"])
+    if all(value < floor for value in present.values()):
+        return build(
+            STATE_CLOSED,
+            [
+                f"the median absolute basis is under the {floor:.0f} bp cost floor in every "
+                f"measured session tag (max {max_median:.2f} bp over {len(present)} tag(s), "
+                f"at {instruments_meeting_coverage} instruments meeting the coverage bar)"
+            ],
+        )
     if max_median > viable:
         if series_kind == SERIES_SECONDARY_DEVIATION:
             return build(

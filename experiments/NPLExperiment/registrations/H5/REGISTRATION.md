@@ -361,3 +361,193 @@ it would authorize waits.
 ---
 
 ## Amendments
+
+### Amendment H5-1 — 2026-08-28 — the map's firing order, and the retrospective branch resolved by measurement
+
+**What data existed when this amendment was made.** The Task 2
+reconnaissance probe had run: **six requests**, charged to the shared ledger
+at 2026-08-28T21:41Z. It established, and nothing more:
+
+- `metaAndAssetCtxs` **accepts a `dex` parameter** and returns the full
+  builder-dex universe with contexts positionally aligned (117 rows for
+  `xyz`);
+- the HIP-3 asset context serves, uniformly across all 117 `xyz`
+  instruments, exactly `dayBaseVlm, dayNtlVlm, funding, impactPxs, markPx,
+  midPx, openInterest, oraclePx, premium, prevDayPx` — so **the registered
+  reference `oraclePx` is served**;
+- `fundingHistory` returns rows for `xyz:AAPL` and `xyz:GOOGL` with keys
+  `coin, fundingRate, premium, time` — so **funding is served** on HIP-3
+  equity instruments, and the 2026-08-27 `no_data`/`caught_up=true` records
+  were an archive cursor at its end, not an absent field;
+- `l2Book` serves 20 levels per side with `px`, `sz`, `n`.
+
+Two contemporaneous basis values were visible in that probe's output
+(BTC −4.6 bp; `xyz:XYZ100` −0.68 bp). **No H5 census had been run. No basis
+table existed. No session-tagged sample existed. No verdict had been fired,
+and no store under `data/h5/` had been created.** That is the whole of what
+was known.
+
+#### Change 1 — the floor clause of CLOSED waits for the coverage bars
+
+**The defect.** Section 6's CLOSED reads "the median absolute basis is under
+18 bp in **every session tag**". As implemented, that clause was evaluated
+over whichever tags happened to carry a served median. A **single
+cross-sectional snapshot** lands entirely in one session tag, so the clause
+would be satisfied by that one tag and fire CLOSED — a verdict from one
+instant, on one session, dressed as a statement about every session. That is
+precisely the vacuous pass this repository's guards exist to refuse.
+
+Section 6 already says the map is "**fired at the end of the census
+window**". The floor clause has to obey that sentence.
+
+**The change.** The map's firing order becomes, explicitly:
+
+1. **CLOSED on the structural clauses, evaluated whenever they are
+   measured** — fewer than 20 instruments carry a served reference, or
+   funding is served on fewer than half of them. These need no window: they
+   are facts about field service, and the operator's Task 2 names the
+   funding answer as the question that "may resolve most of the entry
+   alone".
+2. **PENDING while the coverage bars are unmet** — at least 20 instruments
+   carrying a served reference *and* 30 days of coverage each.
+3. **Only then the basis clauses**: under the floor in every measured tag →
+   CLOSED; over the 54 bp bar in at least one → VIABLE; otherwise
+   INDETERMINATE.
+
+**Direction of the change, stated because it matters.** This makes CLOSED
+**strictly harder** to fire. Under the unamended order this entry would have
+closed today on a single cross-section; under the amended order it cannot
+close on the basis until a census window has actually elapsed. The amendment
+costs the assistant the quick close and buys the entry thirty days of work.
+Nothing here was moved toward a convenient answer.
+
+**Unchanged:** every threshold, every bar, every boundary convention, the
+non-terminal status of PENDING, and the secondary asymmetry.
+
+#### Change 2 — the retrospective branch, resolved by measurement (a record, not a change)
+
+Section 3 registered the retrospective series **conditionally**, before
+measurement, in three branches. The probe resolves which branch holds, and
+it is the second one:
+
+- **There is no historical series of the registered basis's construction.**
+  The venue serves no historical mark and no historical oracle in the same
+  row, anywhere on the info endpoint, and `candleSnapshot` is closed to this
+  entry by standing rule 7 (Section 0). **Retrospective registered basis:
+  unavailable.** Recorded as an absence, per instrument, not worked around.
+- **The venue does serve a historical deviation series**: `premium`, hourly,
+  carried in the same `fundingHistory` row as its `time`, back to retention.
+  Its construction was verified arithmetically against the contemporaneous
+  BTC context in the same probe: served `premium` −0.0003482613 equals
+  **(77501.0 − 77528.0) / 77528.0** exactly, where 77501.0 is the served
+  impact ask and 77528.0 the served oracle. It is an **impact-price**
+  deviation, clamped inside the impact band — **not** mark against oracle.
+
+Therefore `premium` is a **named secondary deviation series** under Section
+3's registered rule, and Section 6's registered asymmetry governs it
+unchanged: **it may fire CLOSED, and it may never fire VIABLE.** No
+threshold, bar, or consequence is altered by this record; the branch the
+registration anticipated is simply the branch that holds.
+
+**One consequence for Task 3, stated now.** Because `premium` is a
+near-deterministic function of the funding rate, the Section 0 retrospective
+gate applies to it in full: no coin in the generating sample, the fresh
+plan, or either leg of an assigned H2 pair contributes a retrospective
+observation. Those instruments record `excluded_quarantined` and count in
+the coverage census only.
+
+### Amendment H5-2 — 2026-08-28 — the delisted exclusion, and listing status in the retrospective stratum
+
+**What data existed when this amendment was made.** The Task 2 census had
+completed: **323 requests**, one pass, snapshot `h5-census-2026-08-28T21:44:11Z`,
+session tag `extended`. Stated in full, because this amendment is being made
+with the census in hand and the reader is entitled to know exactly what was
+visible:
+
+- 273 HIP-3 instruments over 10 dexs; **151 resolved** (118 equity, 15 ETF,
+  18 index), 80 `excluded_non_equity`, 42 `excluded_unresolvable`;
+- **`oraclePx` served on 151 of 151** resolved instruments —
+  `reference_unserved` is **zero** — and the `funding` field present on all
+  151; the served field set is identical on every one of them;
+- `fundingHistory` returned rows on the 7-day service probe for **126 of
+  151**; `l2Book` returned a two-sided book for **94 of 151**;
+- **57 of the 151 resolved instruments carry `isDelisted: true`**, and those
+  57 are **exactly** the 57 with no two-sided book, and they contain **all
+  25** of the instruments with no recent funding row;
+- **every one of those 57 has `openInterest` exactly 0 and `dayNtlVlm`
+  exactly 0**; none of the 94 live instruments has either;
+- the contemporaneous absolute basis, in the one `extended` snapshot:
+  **all 151** — median 4.14 bp, 25.8 percent over 18 bp, 17.2 percent over
+  54 bp, max 2,481 bp; **live 94** — median 3.72 bp, IQR 0.73–7.31, 8.5
+  percent over 18 bp, **0.0 percent over 54 bp**, max 51.4 bp; **delisted
+  57** — median 30.5 bp, 54.4 percent over 18 bp, **45.6 percent over 54
+  bp**, max 2,481 bp.
+
+**No map has been fired. No verdict exists. The retrospective read has not
+run.**
+
+#### Change 1 — a delisted instrument is excluded from the contemporaneous universe
+
+**The defect.** Section 2 admits "every instrument on every HIP-3 dex whose
+ticker resolves to an identifiable equity, ETF, or index underlying". It says
+nothing about whether the instrument still trades. **A delisted perpetual has
+no market**: no open interest, no volume, no book. Its `markPx` is a frozen
+last value and its `oraclePx` may go on updating against it, so the
+difference between them is an **artefact of the delisting**, not a deviation
+anyone could observe as a market. Including it is the purest possible
+instance of the error Section 4 exists to prevent — measuring the venue's
+bookkeeping and calling it a gap.
+
+That argument stands on its own and would have been written into Section 2
+had the omission been noticed. It is a defect in the specification, not a
+result to be fitted.
+
+**The rule, mechanical and conjunctive.** An instrument is
+`excluded_delisted` **iff all three** of the following hold in the same
+snapshot: the venue reports `isDelisted` true, `openInterest` is exactly
+zero, and `dayNtlVlm` is exactly zero. Any other combination — a delisted
+flag with live open interest, say — is recorded as **`conflicting`** and
+reported loudly rather than resolved by this rule. A one-flag exclusion
+would be a rule that trusts a single field; three independent fields
+agreeing, plus the venue's own empty book, is a measurement.
+
+Measured against the census: **57 of 57** delisted instruments satisfy all
+three; **0 of 94** live instruments satisfies any; zero `conflicting`.
+
+**Direction of the change, stated because it matters.** This makes VIABLE
+**strictly harder**. The excluded stratum is where **every** observation
+above the 54 bp bar lives: 45.6 percent of delisted instruments clear it,
+against **0.0 percent** of live ones. Under the unamended universe this
+entry had a route to VIABLE through dead markets. The amendment removes it.
+Nothing here was moved toward a convenient answer; the convenient answer is
+exactly what it deletes.
+
+**What is kept.** The delisted stratum is **reported in full beside every
+primary figure**, as a named descriptive stratum, never verdict-bearing. It
+is the sharpest available evidence for Section 4's claim, and deleting it
+from the record would lose that.
+
+#### Change 2 — the retrospective stratum records listing status and never fires on it
+
+A delisted instrument's **history** is not dead data: its `premium` series
+covers the period in which it was trading, and it stops when the instrument
+stopped. So the retrospective read admits it, with three conditions:
+
+1. every retrospective series records the instrument's **listing status** and
+   its own first and last observation timestamps, so a series that ended
+   months ago is visible as such and never reads as current;
+2. pooled retrospective figures are reported **both** overall **and** split
+   by listing status, each with its n;
+3. the secondary series' ability to fire CLOSED (Section 6's asymmetry) is
+   evaluated on **instruments live at the moment of firing only**. A family
+   is not closed on the evidence of markets that no longer exist.
+
+#### One further record: a ticker outside the registered mapping
+
+The census found exactly one instrument whose ticker is not in the mapping —
+`para:IGV`, born 2026-08-28 and already `isDelisted` — recorded as
+`excluded_unresolvable / not_in_registered_mapping` and counted, which is
+the registered behaviour for a string the mapping has never seen. **It is
+not being added.** The mapping was registered before any price was read, and
+extending it after a census is how a universe gets fitted. A later
+amendment may add it; this one does not.

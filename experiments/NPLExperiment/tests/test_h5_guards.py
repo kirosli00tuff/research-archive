@@ -168,3 +168,42 @@ def test_no_h5_module_imports_the_stage_b_package() -> None:
             if any(name.startswith("npl.stageb") for name in names):
                 offenders.append(path.name)
     assert offenders == []
+
+
+def test_the_deviation_reader_has_exactly_one_importer() -> None:
+    """`deviation_rows` reads the venue premium index; only H5's gated
+    retrospective path may reach it, and the pin is equality, not a subset."""
+    importers: list[str] = []
+    for path in sorted(p for p in SRC.rglob("*.py")):
+        for node in ast.walk(_tree(path)):
+            names: list[str] = []
+            if isinstance(node, ast.ImportFrom) and node.module:
+                names = [alias.name for alias in node.names]
+            if "deviation_rows" in names:
+                importers.append(path.relative_to(SRC).as_posix())
+    assert importers == ["h5/retro.py"], (
+        f"the deviation reader's importers drifted from the registered single "
+        f"gated path: {importers}"
+    )
+
+
+def test_the_retrospective_gate_runs_before_the_first_request() -> None:
+    """`fetch_series` calls require_ungated before anything else in its body.
+
+    The mutation target: deleting the gate call. A structural pin, because a
+    gate the caller may forget is not a gate.
+    """
+    tree = _tree(H5 / "retro.py")
+    func = next(
+        node
+        for node in ast.walk(tree)
+        if isinstance(node, ast.FunctionDef) and node.name == "fetch_series"
+    )
+    first = func.body[1] if len(func.body) > 1 else func.body[0]
+    assert isinstance(first, ast.Expr), "fetch_series does not open with a bare call"
+    call = first.value
+    assert isinstance(call, ast.Call) and isinstance(call.func, ast.Name)
+    assert call.func.id == "require_ungated", (
+        "fetch_series no longer opens with the cohort gate; a quarantined coin "
+        "could reach the network"
+    )
