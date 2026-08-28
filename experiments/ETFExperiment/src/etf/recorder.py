@@ -28,7 +28,9 @@ from etf.http import PacedClient
 from etf.paths import FUNDING_DIR, OUTCOMES_DIR
 from etf.seal import SealedWrite, seal_bytes
 
-HOLD_HOURS = 24
+# The registered one-day primary horizon (Section 7), in hours. A literal 24
+# here would duplicate the registered figure and drift from it silently.
+HOLD_HOURS = CONFIG.horizon_primary_days * 24
 
 
 @dataclass(frozen=True, slots=True)

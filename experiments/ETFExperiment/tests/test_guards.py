@@ -23,11 +23,7 @@ PREPERIOD_FILE = SRC / "preperiod.py"
 # names the task. The test asserts the unread set EQUALS this set, so landing a
 # consumer forces the entry off this list, and the list must be empty by the
 # end of Stage A.3.
-PENDING_ENFORCEMENT: frozenset[str] = frozenset(
-    {
-        "horizon_primary_days",  # A.3 Task 5, verdict machinery
-    }
-)
+PENDING_ENFORCEMENT: frozenset[str] = frozenset({})
 
 # OHLCV keys as subscripts or .get() lookups, in every spelling. Candle price
 # fields are readable nowhere outside the sealed raw writers, which never parse.
@@ -279,3 +275,8 @@ def test_no_module_under_src_calls_the_carve_out_reader() -> None:
         and "pre_period_closes" in p.read_text(encoding="utf-8")
     ]
     assert not offenders, f"the carve-out reader is called from the package: {offenders}"
+
+
+def test_the_pending_enforcement_list_is_empty_at_the_close_of_stage_a() -> None:
+    """Every registered config field has a real enforcement site. No decoration."""
+    assert not PENDING_ENFORCEMENT
