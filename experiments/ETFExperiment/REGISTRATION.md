@@ -943,3 +943,49 @@ Every registered bar, both co-primaries, alpha_adj, the three effect
 assumptions, the cost bands, the anchor and its single amendment rule, the
 Stage B trigger, the epistemic boundary, and the priors. **The operator prior
 slot remains empty and continues to block Stage B structurally.**
+
+### Amendment 4 — 2026-08-28 — the governing minimum N is E2's, not E1's, and the deadline finding moves with it
+
+**What data existed when this amendment was made.** Everything in Amendments
+1–3, plus the E2 minimum-N grid. **No outcome value has been read.** Every
+figure below is a simulated power at a registered assumption.
+
+**Amendment 3 §4 named N = 237 as the minimum Stage B requires, which is E1's
+minimum. Section 10 requires BOTH co-primaries at or above the target, so the
+governing figure is the larger of the two, and Amendment 3's figure understated
+it.** Recorded here rather than corrected in place.
+
+**E2 minimum N**, exact permutation power by simulation at alpha_adj, 1,200
+draws and 300 simulations per cell:
+
+| assumption | n = 200 | 250 | 300 | 600 | 900 | 1200 | minimum clearing 0.80 |
+|---|---|---|---|---|---|---|---|
+| **published 0.18** | 0.6767 | 0.7100 | **0.8000** | — | — | — | **300** |
+| registered 0.09 | 0.2133 | 0.2133 | 0.3100 | 0.4867 | 0.7200 | 0.7467 | **above 1,200** |
+
+**The simulation budget is stated because the grid is not monotone.** At 300
+simulations the standard error on a power near one half is **0.0289**, and the
+registered-assumption row shows it directly: 0.3567 at n = 350 against 0.3433 at
+n = 400. **That non-monotonicity is simulation noise, not a property of the
+test**, and it is recorded rather than smoothed by refitting a curve through it.
+The reported minimum is the first grid point at or above 0.80, and the grid step
+is the resolution — nothing finer is claimed.
+
+**The governing minimum N is therefore 300, not 237.**
+
+| figure | E1 | E2 | **governing** |
+|---|---|---|---|
+| minimum N at the published 0.18 | 237 | 300 | **300** |
+| minimum N at the registered 0.09 | 845 | > 1,200 | **> 1,200** |
+
+**The deadline finding, restated at the governing figure.** At the measured
+forward accrual rate of 20.8 admissible days per month:
+
+- projected achieved N at the registered deadline of **2027-03-31: 163**;
+- **achieved N = 300 arrives around 2027-10-26 — roughly seven months past the
+  registered deadline**, where Amendment 3's understated figure put it at four.
+
+**Nothing else moves.** The Section 0 verdict of Amendment 3 is unchanged: GO
+eliminated and closed, BLOCKED not fired on power, the remaining choice turning
+on the forward revision-integrity leg alone, earliest completion 2026-09-22.
+Amendment 3's power table, its verdict, and every registered bar stand.
