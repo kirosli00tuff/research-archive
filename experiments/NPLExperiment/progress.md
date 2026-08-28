@@ -850,7 +850,7 @@ END PROMPT
 | 6. Docs and close-out | 30–45 min |
 | **Total** | **3 h 45 min – 5 h 45 min** |
 
-### Task 1 — Amendment H2-3 (ETA 25–35 min · actual ~22 min, 06:49→07:11Z)
+### Task 1 — Amendment H2-3 (ETA 25–35 min · actual ~12 min, 06:49→07:01Z)
 
 Registered before any code change and pushed (`f31f7a3`). Three changes,
 each stated as the weakening or relaxation it is: the main-dex fallback
@@ -872,7 +872,7 @@ code would have to read. The pair-count half needs no registration: counts
 and coverage already come from row counts and timestamps. **Nothing is
 registered for 2026-09-30.**
 
-### Task 2 — the fallback backfill (ETA 45–70 min · actual ~48 min, 07:11→07:59Z)
+### Task 2 — the fallback backfill (ETA 45–70 min · actual ~39 min, 07:01→07:40Z)
 
 **24 of 24 previously unpairable events assigned. Zero exclusions.**
 
@@ -904,7 +904,7 @@ called `assign_control` without `pairs_path`, whose default is **H1's**
 the spent hypothesis's ledger. Fixed before execution; H1's ledger hash is
 unchanged (`3f82809…`), verified after the run.
 
-### Task 3 — power and boundaries (ETA 35–50 min · actual ~30 min, 07:40→08:10Z)
+### Task 3 — power and boundaries (ETA 35–50 min · actual ~6 min of its own, 07:40→07:46Z; the boundary module it needed was written during Task 2's 16-minute fetch window, so the elapsed figure understates the work)
 
 `reports/stage_a_h2/ktable_amended.json`; recorded as **Amendment H2-4**.
 Exact binomial arithmetic over counts, tags, timestamps, and registered
@@ -954,3 +954,62 @@ co-primary passes at look 2 when the procedure has rejected its null **by**
 look 2 (S₁ ≥ k₁ or S₂ ≥ k₂). The rejection region is the union of the two
 registered regions, so the exact spend and every number in the boundary
 table are unchanged.
+
+### Task 4 — substrate extension (ETA 60–90 min · actual ~35 min, overlapping Tasks 2–3, closed 07:50Z)
+
+- **Forward pairing on the fallback rule.** `npl.register.forward` gathers
+  same-dex candidates through the shared `npl.register.fallback` filter,
+  attempts assignment, and consults the main-dex universe **only after that
+  attempt has actually failed** — a birth on a pairable dex never pays for
+  the 174-elder fetch. Every new birth now pairs on exactly the logic the
+  backfill used.
+- **Funding recorder and checkpoints on the new legs.** The 24 control legs
+  are on the fresh plan (124 rows), so the daily pass advances their
+  archives and seals their windows at maturity like any other leg. The
+  checkpoint scheduler now takes each elder leg's **own** dex from the pair
+  row — under a cross_dex pair that is not the event's dex, and the old code
+  would have scheduled it on the wrong one.
+- **Coverage per pair type.** `npl.coverage.coverage_by_pair_type` reports
+  both registered types always, even at zero pairs — an absent row would
+  read as "no such pairs" where the truth is "none yet" — and refuses an
+  unregistered tag.
+- **The dark reader, look-aware.** `npl.register.sequential` holds the exact
+  boundary construction (no path, no parser); `npl.register.pairs` gained
+  look-aware outcomes, the common-look GO rule, per-look futility, the
+  `same_dex` stratum, and the 2× floor secondary. `npl.register.latches`
+  gained per-look latches with the look-1-before-look-2 ordering pin.
+- **Known answers to the digit, on synthetic fixtures**, including all three
+  cases the prompt named: **look-1 CONTINUE** (35/30 of 59 — neither crosses
+  k₁ = 38, neither is futile, no row fires), **look-1 GO** (38/38 — exactly
+  on k₁; 38/37 is a CONTINUE, so the fixture sits ON the boundary), and
+  **futility** (E2 at 27 fires, 28 does not — ON f₁). Plus the look-2 case
+  Amendment H2-4 §7 corrects: E1 crossed at look 1, E2 crosses k₂ = 69 at
+  look 2, and the row is GO.
+- **The reader is still dark.** `data/state/h2_look1_latch.json` and
+  `h2_look2_latch.json` do not exist; `data/state/h2_read.json` does not
+  exist; the dark structural pin still holds `pairs.py` to pure imports,
+  no file API, and no string naming a sealed location. **The H2 pair reader
+  has seen only synthetic fixtures, and has still seen only synthetic
+  fixtures at the close of this stage.**
+
+### Task 5 — gates and mutations (ETA 30–45 min · actual ~10 min, 07:46→07:56Z)
+
+`make all` green: ruff clean, `mypy --strict` on 71 files, **249 tests**.
+
+**6 of 6 mutations CAUGHT** on real source, bytecode purged before every run
+(`reports/stage_a_h2/mutations_amend.md`) — the four the prompt named, plus
+two the amendment's surface earned:
+
+| | mutation | caught by |
+|---|---|---|
+| MA1 | spend look 2's alpha at look 1 | the recorded boundary — k₁ is 38 at alpha₁ alone and 37 at the whole budget |
+| MA2 | admit a cross_dex pair into the same_dex stratum | the stratum is 20 of 30, not 30 |
+| MA3 | read a post-entry funding row inside fallback assignment | `PostEntryRead` produced through the fallback path; the silent pre-filter swallows it |
+| MA4 | bypass a per-look latch | a spent look must refuse a second read |
+| MA5 | drop the pair-type tag from a fallback assignment | the tag is pinned in the assignment and in the ledger row |
+| MA6 | let the look-2 read run without look 1's counts | the refusal is produced, not asserted |
+
+Source restored byte-for-byte, verified by sha256 against a pre-run
+snapshot of all four mutated files and by an empty `git diff`. The register
+A.4 harness still catches **6 of 6** against the amended source, so the
+older pins did not rot under the new code.
