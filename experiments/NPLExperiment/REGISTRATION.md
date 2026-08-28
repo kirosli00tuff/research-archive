@@ -443,3 +443,90 @@ push — resolves in favor of pushing, by that dated instruction.
 already at the Stage A close commit `aaddb23` — the operator created and
 pushed it between sessions. No new remote is created; the repository
 remains private; all Stage B commits push to this origin.
+
+### Amendment 3 — 2026-08-28 — the Stage B verdict table, registered before the read
+
+**What data existed when this amendment was made.** Counts, timestamps,
+and coverage only: the B.0 precondition report of 2026-08-28T02:47:28Z
+(312 of 312 event and 176 of 176 control windows sealed and verified;
+coverage 312/312 events and 175/176 controls at 30 days; effective N
+312 / 312 / 175 against minimums 34 / 103 / 60; latch absent; module
+hashes in reports/stage_b/hashes_b0.json). **No outcome value has been
+parsed: no candle price and no post-entry funding rate has been read by
+any code path in this repository.** This table is registered, committed,
+and pushed before the reader exists and before the read.
+
+**The verdict table.** The Stage B read fires exactly one row, applied
+mechanically to the three co-primaries at alpha_adj = 0.016952 on the
+sealed retro cohort at central costs:
+
+- **GO** — P1, P2, and P3 all pass. Consequence: authorizes drafting a
+  Stage C sketch (paper simulation with squeeze tails, liquidation
+  modelling, per-name loss caps) as a future separate registration, no
+  capital. The forward cohort accruing at 18.5 events/month becomes a
+  named out-of-sample confirmation set, read only under its own future
+  registration, never pooled into this verdict. Collectors stay armed.
+- **PARTIAL_DRIFT** — P1 and P2 pass, P3 fails. Reading: the short clears
+  its bars but shows no listing-age effect beyond funding-matched older
+  perps — the H8-consistent outcome. Consequence: the listing-age claim
+  closes, no Stage C on this design; a funding-conditioned redesign is a
+  new hypothesis requiring its own registration; collectors stay armed
+  for the pending cohort, then disarm by default.
+- **FAIL** — P1 or P2 fails. The registered short does not clear its bars
+  on this sample. Consequence: the hypothesis closes, the closure entry
+  is written in the register style, collectors disarm immediately, the 62
+  pending events are recorded pending-at-closure, nothing deleted.
+
+**Rules riding with the table.**
+
+1. Secondaries never move a row.
+2. The verdict reads at central costs — 9 bp vanilla, 18 bp HIP-3 — with
+   the 3, 18 and 6, 36 band results reported beside as sensitivity,
+   descriptive.
+3. The read is a single CLI invocation behind a latch written first: a
+   crash after the latch spends the read, and recovery works from partial
+   artifacts under an amendment, never a silent re-run.
+4. The blindness allowlist gains **exactly one module**,
+   `npl/stageb/reader.py`, and the AST pins are amended to hold the
+   allowlist at length one with the Stage B CLI (`npl/stageb/cli.py`) as
+   its only importer.
+5. Any diff in a B.0-hashed read-surface module after the B.1 re-hash
+   voids the read authorization and requires an amendment.
+
+**Reading rules, fixed now so no discretion exists at read time.** These
+implement Sections 3–7 and Amendment 1 verbatim; every one is pinned by
+the known-answer gate before the read:
+
+1. **Entry close** is the close of the candle whose close timestamp
+   equals the entry anchor (open t = entry − 1 day). An event whose
+   sealed window lacks that candle is a recorded absence — underpowered,
+   never interpolated, never a zero.
+2. **Exit close at horizon H** is the close of the candle with close
+   timestamp entry + H days; where that candle is absent inside a
+   covered window, the **last served close at or before entry + H days**
+   — the same last-served-close valuation Section 7 registers for
+   truncation. Truncated events are valued at the last served close and
+   retained, flagged, counted.
+3. **The funding sum** runs over the served hourly rows with time in
+   (entry, min(entry + H days, truncation)]. A positive rate pays the
+   short, with its sign, on constant notional. Missing hours contribute
+   nothing and are never filled — the 0.95 coverage bar bounds what can
+   be missing, and the served-row count travels with the figure.
+4. **Controls are valued by the same Sections 4 and 7 arithmetic** over
+   the same window, including symmetric truncation at the control's last
+   served close where the control was delisted — dropping a dying
+   control would manufacture exactly the survivorship solclear measured.
+5. **Costs by venue class of the instrument**: `hip3` events at the
+   HIP-3 band, everything else (vanilla and hyperp conversions, both
+   main-dex) at the vanilla band; a control's class comes from its own
+   dex.
+6. **Pending events are excluded per horizon with counts** (this cohort
+   matured ≥ 90 days by construction, so the expected count is zero, and
+   a nonzero count is reported loudly).
+7. **The named secondaries**, descriptive, and nothing else: the 90-day
+   versions of P1–P3; strata by vanilla, hyperp_conversion, hip3; the
+   truncated-by-delisting subgroup; the forward-versus-retro placeholder
+   (zero forward events are readable yet); the H8 decomposition of every
+   event into funding term and price term, with the paired version; and
+   the cost-band sensitivity. A statistic not named here is a second
+   look and is refused.
