@@ -1496,3 +1496,22 @@ the correction recorded inside the file. The Section 6 verdict record's
 fired at **22:04:30Z**. No computed figure moves: every number in the
 verdict record was produced by `npl.h5.outcome.fire` and written by the
 script, never transcribed.
+
+### Correction — the entry's spend, measured from the ledger
+
+The Task 6 line above gives "1,124 requests" with a component labelled "236
+watcher/other". **That 236 was a guess.** Counted from
+`data/ledgers/requests.jsonl` instead:
+
+| | charges |
+|---|---:|
+| on the ledger before H5 opened (H1/H2 substrate, earlier work) | **2,947** |
+| **H5's own spend** | **888** — 6 reconnaissance + 323 census pass 1 + 323 census pass 2 + 27 retrospective + 209 forward pass; the firing script sends nothing |
+| the hourly H2 watcher, riding inside H5's window | **12** (1 `perpDexs` + 11 `meta`, 22:05Z) |
+| **day total, 2026-08-28** | **3,847** of the registered 20,000 cap (**19.2 %**) |
+
+**H5's 888 is 4.44 percent of the daily cap.** By endpoint inside the H5
+window: 423 `fundingHistory`, 396 `l2Book`, 30 `metaAndAssetCtxs`, 41
+`meta`, 4 `perpDexs`. The **recurring** cost is the forward pass alone —
+**209 a day, 1.05 percent of the cap** — and it runs last, behind a yield
+that postpones H5 rather than competing with H2.
