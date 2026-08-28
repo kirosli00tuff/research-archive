@@ -214,6 +214,9 @@ def _append(snapshot: Snapshot, *, state: str, ledger_path: object) -> None:
     ledger.append(
         {
             "captured_at": iso_z(snapshot.captured_at),
+            # The attribution the source itself prints beside the table, carried
+            # in every artifact this repository writes (docs/ACCESS.md s1).
+            "source": CONFIG.flow_source_name,
             "url": snapshot.url,
             "http_status": snapshot.http_status,
             "state": state,

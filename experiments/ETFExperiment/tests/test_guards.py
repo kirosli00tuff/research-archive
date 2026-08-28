@@ -12,7 +12,9 @@ from pathlib import Path
 
 from etf.config import CONFIG
 
-SRC = Path(__file__).resolve().parents[1] / "src" / "etf"
+ROOT = Path(__file__).resolve().parents[1]
+SRC = ROOT / "src" / "etf"
+SCRIPTS = ROOT / "scripts"
 CONFIG_FILE = SRC / "config.py"
 BLINDNESS_FILE = SRC / "blindness.py"
 PREPERIOD_FILE = SRC / "preperiod.py"
@@ -23,19 +25,7 @@ PREPERIOD_FILE = SRC / "preperiod.py"
 # end of Stage A.3.
 PENDING_ENFORCEMENT: frozenset[str] = frozenset(
     {
-        "flow_all_data_url",  # A.2 Task 1, the census read of the full history
-        "flow_source_name",  # A.4 Task 3, source attribution in the report
-        "kraken_ohlc_url",  # A.1 Task 1, cross-check source
-        "wayback_availability_url",  # A.1 Task 1, archive access
-        "wayback_timemap_url",  # A.1 Task 4, archive capture density
         "horizon_primary_days",  # A.3 Task 5, verdict machinery
-        "reversal_horizon_max_days",  # A.3 Task 5, named secondary
-        "threshold_grid_usd",  # A.3 Task 5, named secondary
-        "rho_registered",  # A.2 Task 4, power gate
-        "rho_undecayed",  # A.2 Task 4, power gate
-        "rho_quartered",  # A.2 Task 4, power gate
-        "retro_revision_sample_min",  # A.1 Task 4, retro revision rate
-        "interim_deadline",  # A.2 Task 4, projection
     }
 )
 
@@ -57,8 +47,19 @@ PRE_PERIOD_PRICE_ALLOWED_FILES = {"preperiod_prices.py"}
 STAGE_B_OUTCOME_EXEMPT: tuple[str, ...] = ()
 
 
+def _rel(path: Path) -> str:
+    return path.relative_to(ROOT).as_posix()
+
+
 def source_files() -> list[Path]:
-    return sorted(p for p in SRC.rglob("*.py"))
+    """Every module the blindness and enforcement guards scan.
+
+    Scripts are scanned too. They are real enforcement sites in this repository
+    - the census, the power gate and the access probes live there - and a
+    blindness rule that stops at the package boundary would let a script read a
+    close with nothing failing.
+    """
+    return sorted([*SRC.rglob("*.py"), *SCRIPTS.rglob("*.py")])
 
 
 def referenced_names(path: Path) -> set[str]:
@@ -122,14 +123,14 @@ def test_no_module_reads_a_priced_candle_field_anywhere() -> None:
     """The blindness rule, repo-wide: OHLCV keys are read by no code path."""
     offenders: list[str] = []
     for path in source_files():
-        if path.relative_to(SRC).as_posix() in STAGE_B_OUTCOME_EXEMPT:
+        if _rel(path) in STAGE_B_OUTCOME_EXEMPT:
             continue
-        tree = ast.parse(path.read_text(encoding="utf-8"))
         if path.name in PRE_PERIOD_PRICE_ALLOWED_FILES:
             continue
+        tree = ast.parse(path.read_text(encoding="utf-8"))
         priced = _string_key_lookups(tree) & FORBIDDEN_PRICE_KEYS
         if priced:
-            offenders.append(f"{path.relative_to(SRC)} reads {sorted(priced)}")
+            offenders.append(f"{_rel(path)} reads {sorted(priced)}")
     assert not offenders, f"outcome blindness violated: {offenders}"
 
 
@@ -138,10 +139,10 @@ def test_funding_rate_is_read_only_inside_the_gated_reader() -> None:
     for path in source_files():
         if path.name in FUNDING_RATE_ALLOWED_FILES:
             continue
-        if path.relative_to(SRC).as_posix() in STAGE_B_OUTCOME_EXEMPT:
+        if _rel(path) in STAGE_B_OUTCOME_EXEMPT:
             continue
         if FUNDING_RATE_KEY in path.read_text(encoding="utf-8"):
-            offenders.append(str(path.relative_to(SRC)))
+            offenders.append(_rel(path))
     assert not offenders, (
         f"modules naming {FUNDING_RATE_KEY} outside the gated blindness reader: {offenders}"
     )
@@ -187,8 +188,10 @@ def test_the_pre_period_boundary_is_read_from_config_in_exactly_one_module() -> 
             continue
         if "pre_period_end_ms" in referenced_names(path):
             readers.append(path.name)
-    assert readers == ["preperiod.py"], (
-        f"the carve-out boundary is read outside its enforcement site: {readers}"
+    assert sorted(readers) == ["preperiod.py", "preperiod_inputs.py"], (
+        f"the carve-out boundary is read outside its enforcement site: {sorted(readers)}. "
+        "Only the pin itself and the single A.2 input script that bounds its own fetch "
+        "window may name it."
     )
 
 
@@ -248,11 +251,31 @@ def test_the_pre_period_reader_cannot_open_a_socket_or_choose_its_own_window() -
     assert not (modules & forbidden), f"the carve-out reader imports a network module: {modules}"
 
 
-def test_no_other_module_reads_a_close_even_inside_the_carve_out() -> None:
-    offenders: list[str] = []
-    for path in source_files():
-        if path.name in PRE_PERIOD_PRICE_ALLOWED_FILES or path == CONFIG_FILE:
-            continue
-        if "pre_period_closes" in path.read_text(encoding="utf-8"):
-            offenders.append(path.name)
-    assert not offenders, f"the carve-out reader is called from src modules: {offenders}"
+# The carve-out reader has exactly one caller, and it is a script that fetches a
+# window wholly inside the carve-out and hands it over. A second caller could
+# hand it a window that straddles the boundary.
+PRE_PERIOD_READER_CALLERS = {"preperiod_inputs.py"}
+
+
+def test_the_carve_out_reader_has_exactly_one_caller() -> None:
+    callers = sorted(
+        path.name
+        for path in source_files()
+        if path.name not in PRE_PERIOD_PRICE_ALLOWED_FILES
+        and path != CONFIG_FILE
+        and "pre_period_closes" in path.read_text(encoding="utf-8")
+    )
+    assert callers == sorted(PRE_PERIOD_READER_CALLERS), (
+        f"the carve-out reader's caller set changed: {callers}"
+    )
+
+
+def test_no_module_under_src_calls_the_carve_out_reader() -> None:
+    """The package itself never reads a close. Only the one A.2 input script does."""
+    offenders = [
+        p.name
+        for p in SRC.rglob("*.py")
+        if p.name not in PRE_PERIOD_PRICE_ALLOWED_FILES
+        and "pre_period_closes" in p.read_text(encoding="utf-8")
+    ]
+    assert not offenders, f"the carve-out reader is called from the package: {offenders}"
