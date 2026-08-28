@@ -170,26 +170,54 @@ SmartRouting is therefore a registered constraint on the order path. A
 directly routed API order forfeits Tiered pricing. Stage C.1's order gate
 must refuse non-SmartRouted orders.
 
-## Task 3: fractional through the API, BLOCKED-ON-OPERATOR
+## Task 3: fractional through the API — SUPERSEDED by A.1b, 2026-08-25
 
-The operator holds no IBKR account. Every sub-test below is blocked until
+**Correction, recorded 2026-08-28 (ADR-026).** The paragraph below stated
+that the operator holds no IBKR account. It was true when A.1 wrote it and
+false by the time A.1b ran. Stage A.1b connected on **2026-08-25, 02:57 to
+03:07 UTC, to Gateway 127.0.0.1:4002, server version 187, account
+[paper account ID removed], declared mode paper**, and settled four of the six sub-tests by
+behaviour (`reports/stage_a1b/a1b_report.md`). The table was never amended
+and this document therefore reported a stale blocker for three days. The
+original text is retained below, struck, rather than deleted.
+
+~~The operator holds no IBKR account. Every sub-test below is blocked until
 one exists, live, with the Trade in Fractions permission enabled in
 Client Portal, because a paper account inherits the live account's
-permissions. No sub-test was resolved by reading documentation.
+permissions.~~ **The operator holds a funded live IBKR account and a paper
+account, [paper account ID removed], reachable through a running Gateway on port 4002
+(operator statement, 2026-08-28, consistent with the A.1b session log).**
+No sub-test was resolved by reading documentation.
 
-| sub-test | status | what must be true to run |
+| sub-test | status | evidence or precondition |
 |---|---|---|
-| decimal totalQuantity order on a liquid tier-1 name, paper gateway | BLOCKED-ON-OPERATOR | live account exists, Trade in Fractions enabled, paper gateway reachable |
-| cashQty order on the same name | BLOCKED-ON-OPERATOR | same |
-| decimal order via SmartRouting and direct, compared | BLOCKED-ON-OPERATOR | same |
-| MinSize and SizeIncrement from reqContractDetails on the same symbol | BLOCKED-ON-OPERATOR | same |
-| billing plan of a SmartRouted API order confirmed on a real paper fill | BLOCKED-ON-OPERATOR | same |
-| billing of a mixed integer-plus-fraction order against the fractional schedule | BLOCKED-ON-OPERATOR | same, added by the fractional-schedule finding above |
+| decimal totalQuantity order on a liquid tier-1 name, paper gateway | **RESOLVED — REFUSED** | error 10243 on 3 orders, 2 symbols (MU, TE), 2 order types: "Fractional-sized order cannot be placed via API. Please use desktop version to place this order." Immediate at validation, independent of market hours and outsideRth |
+| cashQty order on the same name | **RESOLVED — REFUSED** | error 10244: "Cash Quantity cannot be used for this order." IBKR staff's June 2026 claim confirmed, the March 2026 third-party claim refuted, no silent rounding because nothing was accepted to round |
+| MinSize and SizeIncrement from reqContractDetails on the same symbol | **RESOLVED — ELIGIBLE** | all 20 names of the 2026-08-03 width-20 book advertise MinSize 0.0001 and SizeIncrement 0.0001. The instruments are fractional-eligible; the API channel is what refuses |
+| whole-share control order | **RESOLVED — ACCEPTED** | accepted and queued, which also verified Read-Only API off by behaviour. Whole-share through the API stays open; only slicing is closed |
+| decimal order via SmartRouting and direct, compared | MOOT | decimal is refused on the channel however routed, so the comparison has nothing to compare |
+| billing plan of a SmartRouted API order confirmed on a real paper fill | **RUNNABLE** | gateway reachable and account pinned. Unresolved by documentation and settled only by a fill. The one sub-test still worth running |
+| billing of a mixed integer-plus-fraction order against the fractional schedule | MOOT | a mixed order carries a fractional component and is refused at validation by 10243 |
 
-The documentation conflict stands unresolved on purpose: IBKR staff wrote
-in June 2026 that the API does not support cash-quantity orders outside
-crypto, a third-party guide from March 2026 claims the opposite, and an
-Elite Trader thread reports cashQty rounding down to whole shares through
-the Web API. The likely resolution is that cashQty is unsupported while
-decimal share quantities work, which the quote-first-divide-then-submit
-path handles. Likely is not measured. The verdict waits for the test.
+**What the correction does not change.** The A.1b closure rested on
+measurement, not on the absence of an account, so the fractional verdict
+stands exactly as recorded. The commission arithmetic above is read off
+IBKR's published tiers and is independent of account access. Whole-share
+API trading was never closed.
+
+**Standing safety constraint (ADR-018, reaffirmed).** The Gateway
+authenticates from the full-access main login, so a session sees accounts
+holding money outside this project, and the operator has now confirmed one
+of them is funded and live. Any work on the runnable sub-test pins
+[paper account ID removed] and refuses every other account id (the `account_not_pinned`
+refusal is demonstrated against DU999999 in
+`reports/stage_c1/refusals.md`), asserts port 4002 before connecting, and
+leaves Read-Only API on except inside a registered order test.
+
+The documentation conflict, for the record, is now resolved rather than
+open: IBKR staff wrote in June 2026 that the API does not support
+cash-quantity orders outside crypto, a third-party guide from March 2026
+claimed the opposite, and an Elite Trader thread reported cashQty rounding
+down to whole shares through the Web API. Behaviour on 2026-08-25 sided
+with IBKR staff on cashQty and refuted the decimal-share path as well.
+Both routes refuse. The verdict no longer waits for the test.

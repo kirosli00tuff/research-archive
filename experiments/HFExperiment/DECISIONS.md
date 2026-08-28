@@ -44,6 +44,16 @@ in docs/ACCESS.md. The verdict was not read from documentation because
 the documentation contradicts itself, which is the reason the outcome map
 demanded a test.
 
+> **Superseded 2026-08-28, see ADR-026.** The two sentences above about
+> the operator holding no IBKR account and every sub-test being
+> BLOCKED-ON-OPERATOR were true when written and false by 2026-08-25,
+> when A.1b connected to paper Gateway 127.0.0.1:4002, account [paper account ID removed],
+> and settled the deciding bar by behaviour: error 10243 refused decimal
+> quantities and error 10244 refused cashQty, while the whole-share
+> control was accepted. The UNDECIDED verdict recorded here was resolved
+> to BLOCKED by A.1b on measurement, not on account access. The text is
+> left standing rather than rewritten so the sequence stays legible.
+
 Two facts from the measurement bind stage C regardless of the verdict.
 SmartRouting is required to keep Tiered pricing on API orders, in IBKR's
 own words. And fractional orders carry their own schedule, the greater of
@@ -417,3 +427,53 @@ text's own words.
 Changes it: IBKR shipping fractional support in the TWS API, or an
 Alpaca Canadian launch per ADR-003. Either is a new measurement, not
 a reinterpretation of this one.
+
+
+## ADR-026: The stale no-account blocker, corrected 2026-08-28
+
+Two documents carried a claim the repository's own evidence had already
+overtaken. docs/ACCESS.md Task 3 opened with "The operator holds no IBKR
+account" and marked all six sub-tests BLOCKED-ON-OPERATOR, and ADR-003
+recorded the GO-versus-DEGRADED verdict as UNDECIDED for the same reason.
+Both were written during A.1 and were true then. A.1b connected on
+2026-08-25 to paper Gateway 127.0.0.1:4002, server version 187, account
+[paper account ID removed], and settled the deciding bar by behaviour, which ADR-022 and
+reports/stage_a1b record in full. Neither document was amended, so the
+repository advertised a blocker that no longer existed and an UNDECIDED
+verdict that A.1b had already resolved to BLOCKED.
+
+The gap surfaced on 2026-08-28 when the operator, reading the stale line
+quoted back to him, stated he holds a funded live IBKR account and a paper
+account reachable through a running Gateway. The session log corroborates
+the statement rather than resting on it.
+
+Decided. ACCESS.md Task 3 is re-headed SUPERSEDED, the false sentence is
+struck rather than deleted, and the sub-test table is re-statused against
+the A.1b evidence: four RESOLVED, two MOOT, one RUNNABLE. ADR-003 keeps
+its original text with a superseded note beneath it. Nothing is rewritten
+to look as though it was always right.
+
+Three consequences worth stating plainly, because the correction is about
+record hygiene and changes no verdict.
+
+The fractional closure stands unchanged. It rested on error 10243 and
+error 10244 against an accepted whole-share control, which is measurement,
+not an inference from missing access.
+
+The commission arithmetic stands unchanged. The table above is read off
+IBKR's published tiers, and account access does not move a fee schedule.
+
+One sub-test is genuinely unblocked and worth running: the billing plan of
+a SmartRouted API order confirmed on a real paper fill, which documentation
+contradicts itself about and only a fill settles.
+
+ADR-018's account pinning is reaffirmed rather than revised, and it now
+guards a stated fact instead of a hypothetical one. The Gateway
+authenticates from the full-access main login and the operator has
+confirmed a funded live account sits behind it. Work on the runnable
+sub-test pins [paper account ID removed], refuses every other account id, asserts port 4002
+before connecting, and leaves Read-Only API on outside a registered order
+test.
+
+Changes it: nothing about the verdicts. A future measurement supersedes a
+measurement. This ADR supersedes only a stale sentence.

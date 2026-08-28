@@ -221,3 +221,51 @@ Evidence in reports/stage_a1/mutation_tests.txt.
 
 Verdict inputs for A.2. GO versus DEGRADED undecided pending Task 3.
 BLOCKED ruled out on documented bars.
+
+
+## 2026-08-28T22:10Z — ADR-026: the stale no-account blocker, corrected
+
+Not a stage. A record-hygiene amendment, made in chat with the operator
+present, touching two documents and no code.
+
+The defect. docs/ACCESS.md Task 3 opened with "The operator holds no IBKR
+account" and marked all six sub-tests BLOCKED-ON-OPERATOR. ADR-003 recorded
+the GO-versus-DEGRADED verdict as UNDECIDED on the same ground. Both were
+true when A.1 wrote them. A.1b overtook them on 2026-08-25 by connecting to
+paper Gateway 127.0.0.1:4002, server version 187, account [paper account ID removed], and
+settling the deciding bar by behaviour. Neither document was amended, so the
+repository advertised a blocker that had already dissolved and an UNDECIDED
+verdict that A.1b had resolved to BLOCKED.
+
+How it surfaced. The assistant quoted the stale ACCESS.md line to the
+operator as current on 2026-08-28. The operator replied that he holds a
+funded live account and a paper account behind a running Gateway. The A.1b
+session log corroborates him, so the correction rests on the repository's
+own evidence rather than on the statement alone.
+
+The fix. ACCESS.md Task 3 re-headed SUPERSEDED, the false sentence struck
+rather than deleted, the sub-test table re-statused against A.1b: four
+RESOLVED (decimal REFUSED at 10243, cashQty REFUSED at 10244, MinSize and
+SizeIncrement ELIGIBLE at 0.0001 on all 20 names, whole-share control
+ACCEPTED), two MOOT (routing comparison, mixed-order billing, both moot
+because decimal refuses however routed), one RUNNABLE (billing plan on a
+real paper fill). ADR-003 keeps its text with a superseded note beneath it.
+ADR-026 written. Nothing rewritten to look as though it was always right.
+
+What did not change, and this is the point. The fractional closure rested on
+measurement, not on absent access, so the Section 0 BLOCKED stands exactly as
+recorded. The commission arithmetic is read off published tiers and account
+access does not move a fee schedule. Whole-share API trading was never
+closed; only slicing is.
+
+Safety, reaffirmed rather than revised. ADR-018's account pinning now guards
+a stated fact instead of a hypothetical one: the Gateway authenticates from
+the full-access main login and a funded live account sits behind it. Work on
+the runnable sub-test pins [paper account ID removed], refuses every other account id, asserts
+port 4002 before connecting, and leaves Read-Only API on outside a registered
+order test.
+
+Open item: the billing-plan sub-test is runnable and unscheduled. It is not
+required by any live hypothesis, since HFExperiment is closed at the
+registered stake. It resolves a documentation contradiction cheaply whenever
+an equity leg is next proposed.
