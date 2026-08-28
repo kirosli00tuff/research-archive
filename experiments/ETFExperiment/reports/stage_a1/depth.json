@@ -1,0 +1,40 @@
+[
+  {
+    "first_open_utc": "2026-02-01T11:00:00+00:00",
+    "last_close_utc": "2026-08-28T19:59:59.999000+00:00",
+    "probe": "candle_cap_1h",
+    "requested_days": 400,
+    "row_count": 5001
+  },
+  {
+    "first_open_utc": "2020-08-19T00:00:00+00:00",
+    "last_close_utc": "2026-08-28T23:59:59.999000+00:00",
+    "probe": "candle_cap_1d",
+    "requested_days": 3000,
+    "row_count": 2201
+  },
+  {
+    "first_time_utc": "2024-01-01T00:00:00.151000+00:00",
+    "gated_rows": 0,
+    "http_status": 200,
+    "last_time_utc": "2024-01-21T19:00:00.334000+00:00",
+    "probe": "funding_2024_01",
+    "row_count": 500
+  },
+  {
+    "first_time_utc": "2023-05-13T00:00:00.278000+00:00",
+    "gated_rows": 0,
+    "http_status": 200,
+    "last_time_utc": "2023-06-25T13:00:00.066000+00:00",
+    "probe": "funding_2023_05",
+    "row_count": 500
+  },
+  {
+    "first_time_utc": "2025-05-01T00:00:00.104000+00:00",
+    "gated_rows": 500,
+    "http_status": 200,
+    "last_time_utc": "2025-05-21T19:00:00.018000+00:00",
+    "probe": "funding_2025_05_page",
+    "row_count": 500
+  }
+]

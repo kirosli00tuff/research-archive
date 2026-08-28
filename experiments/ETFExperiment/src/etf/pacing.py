@@ -20,6 +20,10 @@ from typing import Final
 # and this map is replaced by amendment with half the measured ceiling, further
 # reduced wherever the recorded terms of service ask for it.
 PROVISIONAL_MIN_SPACING_S: Final[dict[str, float]] = {
+    # Terms-of-service reconnaissance. Fetched once per host before anything
+    # else, so the pace here only ever spaces one-shot probes.
+    "meta.robots": 5.0,
+    "meta.terms": 5.0,
     "flow.table": 30.0,
     "archive.timemap": 10.0,
     "archive.availability": 10.0,

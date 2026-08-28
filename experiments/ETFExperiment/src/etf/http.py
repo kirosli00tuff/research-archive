@@ -14,7 +14,9 @@ import urllib.error
 import urllib.request
 from collections.abc import Callable
 from dataclasses import dataclass
+from datetime import datetime
 
+from etf.clock import now_utc
 from etf.config import CONFIG
 from etf.ledger.requests import RequestLedger
 from etf.pacing import min_spacing_s
@@ -41,20 +43,35 @@ class PacedClient:
         pacing_overrides: dict[str, float] | None = None,
         sleeper: Callable[[float], None] = time.sleep,
         monotonic: Callable[[], float] = time.monotonic,
+        clock: Callable[[], datetime] = now_utc,
     ) -> None:
         self._ledger = ledger
         self._overrides = dict(pacing_overrides or {})
         self._sleep = sleeper
         self._monotonic = monotonic
+        self._now = clock
         self._last_sent: dict[str, float] = {}
 
     def _pace(self, endpoint: str) -> None:
+        """Wait out the registered spacing, against both clocks that matter.
+
+        The in-process monotonic clock paces successive calls inside one run.
+        The ledger paces across processes: the collectors fire as separate
+        systemd invocations, and a limiter that lives in a client instance
+        paces nothing between them. Whichever wait is longer governs.
+        """
         interval = min_spacing_s(endpoint, self._overrides)
+        waits: list[float] = []
         last = self._last_sent.get(endpoint)
         if last is not None:
-            wait = interval - (self._monotonic() - last)
-            if wait > 0:
-                self._sleep(wait)
+            waits.append(interval - (self._monotonic() - last))
+        last_charge = self._ledger.last_charge_at(endpoint)
+        if last_charge is not None:
+            elapsed = (self._now() - last_charge).total_seconds()
+            waits.append(interval - elapsed)
+        wait = max(waits) if waits else 0.0
+        if wait > 0:
+            self._sleep(wait)
 
     def _send(self, request: urllib.request.Request, source: str, endpoint: str) -> Response:
         self._ledger.charge(source, endpoint)

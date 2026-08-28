@@ -14,7 +14,7 @@ shared cap invites.
 from __future__ import annotations
 
 from collections.abc import Callable
-from datetime import datetime
+from datetime import UTC, datetime
 from pathlib import Path
 
 from etf.clock import iso_z, now_utc
@@ -68,6 +68,26 @@ class RequestLedger:
             for r in rows
             if r.get("day") == day and r.get("kind") == "charge" and r.get("source") == source
         )
+
+    def last_charge_at(self, endpoint: str) -> datetime | None:
+        """When this endpoint was last charged, across every process.
+
+        Pacing state held in a client instance dies with the process, and the
+        collectors run as separate systemd invocations, so a per-instance
+        limiter paces nothing between fires. The ledger is the only shared
+        state, so the pace reads from it.
+        """
+        latest: datetime | None = None
+        for row in self._ledger.read().rows:
+            if row.get("kind") != "charge" or row.get("endpoint") != endpoint:
+                continue
+            stamp = row.get("ts")
+            if not isinstance(stamp, str):
+                continue
+            moment = datetime.strptime(stamp, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=UTC)
+            if latest is None or moment > latest:
+                latest = moment
+        return latest
 
     def charge(self, source: str, endpoint: str) -> None:
         """Charge one request before it is sent. Refuses past the cap, naming arithmetic."""
