@@ -1,0 +1,157 @@
+{
+ "measured_utc": "2026-08-24T04:23:29Z",
+ "feed": "sip",
+ "endpoint": "/v2/stocks/{symbol}/quotes (historical)",
+ "book_formation": "2026-07-01 width 20",
+ "sessions": [
+  "2026-08-19",
+  "2026-08-20",
+  "2026-08-21"
+ ],
+ "windows": [
+  "14:00Z",
+  "16:30Z",
+  "19:30Z"
+ ],
+ "per_name": {
+  "WOLF": {
+   "n_cells": 9,
+   "median_bp": 19.603999215840307,
+   "median_ticks": 5.000000000000071,
+   "median_mid": 26.355
+  },
+  "AXTI": {
+   "n_cells": 9,
+   "median_bp": 16.764459346186722,
+   "median_ticks": 12.000000000000455,
+   "median_mid": 73.05
+  },
+  "SNDK": {
+   "n_cells": 9,
+   "median_bp": 7.449833015494031,
+   "median_ticks": 116.99999999998454,
+   "median_mid": 1595.1925
+  },
+  "BE": {
+   "n_cells": 9,
+   "median_bp": 13.075182298214278,
+   "median_ticks": 26.000000000001933,
+   "median_mid": 201.90750000000003
+  },
+  "LITE": {
+   "n_cells": 9,
+   "median_bp": 12.471169528742283,
+   "median_ticks": 109.49999999999704,
+   "median_mid": 863.9075
+  },
+  "PL": {
+   "n_cells": 9,
+   "median_bp": 4.6178711613953185,
+   "median_ticks": 1.0000000000001563,
+   "median_mid": 22.305
+  },
+  "WDC": {
+   "n_cells": 9,
+   "median_bp": 12.325301985282005,
+   "median_ticks": 57.00000000000216,
+   "median_mid": 465.25
+  },
+  "MU": {
+   "n_cells": 9,
+   "median_bp": 3.8480861116160217,
+   "median_ticks": 36.000000000001364,
+   "median_mid": 957.51
+  },
+  "CIEN": {
+   "n_cells": 9,
+   "median_bp": 18.706236266661907,
+   "median_ticks": 74.00000000000091,
+   "median_mid": 395.59000000000003
+  },
+  "ONDS": {
+   "n_cells": 9,
+   "median_bp": 11.435105774728171,
+   "median_ticks": 0.9999999999999787,
+   "median_mid": 8.745000000000001
+  },
+  "HUT": {
+   "n_cells": 9,
+   "median_bp": 20.730576764495733,
+   "median_ticks": 16.499999999999915,
+   "median_mid": 82.57499999999999
+  },
+  "MXL": {
+   "n_cells": 9,
+   "median_bp": 24.657112035752284,
+   "median_ticks": 16.00000000000108,
+   "median_mid": 66.27
+  },
+  "AAOI": {
+   "n_cells": 9,
+   "median_bp": 14.498590414820185,
+   "median_ticks": 17.99999999999926,
+   "median_mid": 126.495
+  },
+  "STX": {
+   "n_cells": 9,
+   "median_bp": 15.102556898522135,
+   "median_ticks": 128.99999999999636,
+   "median_mid": 853.4449999999999
+  },
+  "TSEM": {
+   "n_cells": 9,
+   "median_bp": 27.432374699255064,
+   "median_ticks": 60.99999999999852,
+   "median_mid": 224.39249999999998
+  },
+  "WULF": {
+   "n_cells": 9,
+   "median_bp": 6.36739891754318,
+   "median_ticks": 0.9999999999999787,
+   "median_mid": 15.71
+  },
+  "DOCN": {
+   "n_cells": 9,
+   "median_bp": 17.23246596587996,
+   "median_ticks": 20.000000000000284,
+   "median_mid": 114.85999999999999
+  },
+  "INTC": {
+   "n_cells": 9,
+   "median_bp": 2.141327623125912,
+   "median_ticks": 1.999999999999602,
+   "median_mid": 91.64500000000001
+  },
+  "CIFR": {
+   "n_cells": 9,
+   "median_bp": 6.311139160618358,
+   "median_ticks": 0.9999999999999787,
+   "median_mid": 15.844999999999999
+  },
+  "VIAV": {
+   "n_cells": 9,
+   "median_bp": 7.73295527774227,
+   "median_ticks": 3.0000000000001137,
+   "median_mid": 38.835
+  }
+ },
+ "unmeasured": [],
+ "distribution": {
+  "n_names_measured": 20,
+  "min_bp": 2.141327623125912,
+  "p25_bp": 6.36739891754318,
+  "median_bp": 12.77317591347828,
+  "p75_bp": 17.23246596587996,
+  "p90_bp": 20.730576764495733,
+  "max_bp": 27.432374699255064
+ },
+ "discarded": {
+  "crossed": 6,
+  "locked": 88,
+  "zero": 0,
+  "no_size": 0,
+  "http": 0,
+  "no_quotes": 0,
+  "all_filtered": 0
+ }
+}

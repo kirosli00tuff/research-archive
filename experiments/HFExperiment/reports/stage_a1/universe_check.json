@@ -1,0 +1,102 @@
+[
+ {
+  "formation_date": "2016-04-01",
+  "recorded_rows": 500,
+  "reproduced_rows": 500,
+  "missing_from_reproduction": [],
+  "extra_in_reproduction": [],
+  "rank_mismatches": [],
+  "value_mismatches": [],
+  "exact_match": true
+ },
+ {
+  "formation_date": "2020-03-02",
+  "recorded_rows": 500,
+  "reproduced_rows": 500,
+  "missing_from_reproduction": [],
+  "extra_in_reproduction": [],
+  "rank_mismatches": [],
+  "value_mismatches": [],
+  "exact_match": true
+ },
+ {
+  "formation_date": "2024-01-02",
+  "recorded_rows": 500,
+  "reproduced_rows": 500,
+  "missing_from_reproduction": [],
+  "extra_in_reproduction": [],
+  "rank_mismatches": [],
+  "value_mismatches": [],
+  "exact_match": true
+ },
+ {
+  "formation_date": "2026-01-02",
+  "recorded_rows": 500,
+  "reproduced_rows": 500,
+  "missing_from_reproduction": [],
+  "extra_in_reproduction": [],
+  "rank_mismatches": [],
+  "value_mismatches": [],
+  "exact_match": true
+ },
+ {
+  "formation_date": "2026-02-02",
+  "recorded_rows": 500,
+  "reproduced_rows": 500,
+  "missing_from_reproduction": [],
+  "extra_in_reproduction": [],
+  "rank_mismatches": [],
+  "value_mismatches": [],
+  "exact_match": true
+ },
+ {
+  "formation_date": "2026-03-02",
+  "recorded_rows": 500,
+  "reproduced_rows": 500,
+  "missing_from_reproduction": [],
+  "extra_in_reproduction": [],
+  "rank_mismatches": [],
+  "value_mismatches": [],
+  "exact_match": true
+ },
+ {
+  "formation_date": "2026-04-01",
+  "recorded_rows": 500,
+  "reproduced_rows": 500,
+  "missing_from_reproduction": [],
+  "extra_in_reproduction": [],
+  "rank_mismatches": [],
+  "value_mismatches": [],
+  "exact_match": true
+ },
+ {
+  "formation_date": "2026-05-01",
+  "recorded_rows": 500,
+  "reproduced_rows": 500,
+  "missing_from_reproduction": [],
+  "extra_in_reproduction": [],
+  "rank_mismatches": [],
+  "value_mismatches": [],
+  "exact_match": true
+ },
+ {
+  "formation_date": "2026-06-01",
+  "recorded_rows": 500,
+  "reproduced_rows": 500,
+  "missing_from_reproduction": [],
+  "extra_in_reproduction": [],
+  "rank_mismatches": [],
+  "value_mismatches": [],
+  "exact_match": true
+ },
+ {
+  "formation_date": "2026-07-01",
+  "recorded_rows": 500,
+  "reproduced_rows": 500,
+  "missing_from_reproduction": [],
+  "extra_in_reproduction": [],
+  "rank_mismatches": [],
+  "value_mismatches": [],
+  "exact_match": true
+ }
+]

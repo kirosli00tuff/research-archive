@@ -1,0 +1,11 @@
+# The service the timer fires. One shot per session evening.
+# Fails loudly without credentials, exit code 2, per Stage B.1.
+
+[Unit]
+Description=HFExperiment daily bars, shadow accrual, verdict
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Documents/GitHub/HFExperiment
+ExecStart=%h/Documents/GitHub/HFExperiment/.venv/bin/python %h/Documents/GitHub/HFExperiment/scripts/daily_run.py
+MemoryMax=2G

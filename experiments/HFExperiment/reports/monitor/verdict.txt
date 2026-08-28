@@ -1,0 +1,29 @@
+VERDICT VIEW
+Confidence sequence only, per REGISTRATION.md Section 12.
+
+width 5 (primary, alpha 0.05 one-sided, rho 0.071641)
+  observations: 0
+  bounds: none, the series has not started
+  verdict: CONTINUE
+  success bar: lower bound above 4.07 bp/day
+  futility bar: upper bound below 10.0 bp/day
+  registered projection at the recorded width-5 mean 27.99 bp/day:
+    clears zero at day 2061, clears the hurdle at day 2852
+
+width 20 (secondary, alpha 0.025 one-sided, rho 0.071641)
+  observations: 0
+  bounds: none, the series has not started
+  verdict: CONTINUE
+  success bar: lower bound above 4.07 bp/day
+  futility bar: upper bound below 10.0 bp/day
+  registered projection at the recorded width-5 mean 27.99 bp/day:
+    clears zero at day 2061, clears the hurdle at day 2852
+
+width 50 (secondary, alpha 0.025 one-sided, rho 0.071641)
+  observations: 0
+  bounds: none, the series has not started
+  verdict: CONTINUE
+  success bar: lower bound above 4.07 bp/day
+  futility bar: upper bound below 10.0 bp/day
+  registered projection at the recorded width-5 mean 27.99 bp/day:
+    clears zero at day 2061, clears the hurdle at day 2852

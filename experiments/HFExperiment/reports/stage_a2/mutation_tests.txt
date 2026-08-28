@@ -1,0 +1,26 @@
+Stage A.2 mutation tests, 2026-08-23. Each mutation was applied to real
+source, the suite was run, and the source was restored green.
+
+MUTATION 1: collapse the fractional regime into Tiered
+File: src/hfexperiment/costmodel.py, regime_commission
+Change: the FRACTIONAL branch returned commission(TIERED, ...) instead
+of the flat 1 percent schedule.
+Result: CAUGHT. 5 failures, 71 passed.
+  tests/test_costmodel.py::TestRegimeDispatch::test_fractional_is_flat_one_percent_everywhere
+  tests/test_costmodel.py::TestRegimesNeverBlend::test_fractional_differs_from_tiered_at_every_notional
+  tests/test_costmodel.py::TestRegimesNeverBlend::test_fractional_has_no_size_relief
+  tests/test_costmodel.py::TestAnnualDrag::test_width5_fractional_at_measured_churn
+  tests/test_registered.py::test_registered_hurdle_re_derives_from_the_measured_spreads
+Note: the last failure is the registered hurdle refusing to re-derive,
+which means the registration itself notices the blend, not just the
+unit tests.
+
+MUTATION 2: remove the restart-versus-termination distinction
+File: src/hfexperiment/kill.py, classify
+Change: the floor breach branch returned StopKind.TERMINATION, making
+every stop a termination.
+Result: CAUGHT. 2 failures, 74 passed.
+  tests/test_kill.py::test_floor_breach_is_a_restart_not_a_termination
+  tests/test_kill.py::test_breach_record_pauses_capital_and_keeps_the_measurement
+
+Suite after both restores: 76 passed, ruff clean, mypy strict clean.

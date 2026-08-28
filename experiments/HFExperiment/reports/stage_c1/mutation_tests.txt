@@ -1,0 +1,43 @@
+# Stage C.1 mutation tests
+
+Four mutations applied to real source, each caught by the suite,
+source restored, suite green. Pytest excerpts below.
+
+# Stage C.1 mutation tests, run 2026-08-25T02:44:26Z
+
+## Mutation 1: gatewire.evaluate skips pin_account entirely
+
+tests/test_gatewire.py:136: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_gatewire.py::test_refusal_8_account_pin_four_ways - Asserti...
+FAILED tests/test_gatewire.py::test_pin_precedes_even_the_deferred_steady_state
+restored gatewire.py
+
+## Mutation 2: brokerconfig.pin_account lets an empty field fall to the default account
+tests/test_gatewire.py:136: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_brokerconfig.py::test_pin_refuses_empty_account_the_tws_default_trap
+FAILED tests/test_gatewire.py::test_refusal_8_account_pin_four_ways - Asserti...
+FAILED tests/test_gatewire.py::test_pin_precedes_even_the_deferred_steady_state
+restored brokerconfig.py
+
+## Mutation 3: gatewire maps every route to smart_routed=True
+
+tests/test_gatewire.py:47: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_gatewire.py::test_refusal_6_not_smart_routed - AssertionErr...
+restored gatewire.py
+
+## Mutation 4: gate.check_order reads a deferred per-name notional as 45.0
+>       assert refusal is not None
+E       assert None is not None
+
+tests/test_gate.py:44: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_gate.py::test_deferred_per_name_notional_refuses - assert N...
+restored gate.py
+
+## Restored, full suite
+........................................................................ [ 91%]
+..............                                                           [100%]
+158 passed

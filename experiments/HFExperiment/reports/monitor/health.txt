@@ -1,0 +1,22 @@
+HEALTH VIEW  generated 2026-08-25T00:34:28Z
+series start: 2026-09-01 formation
+credentials: /home/kiros-li/Documents/GitHub/HFExperiment/.env does not exist. BLOCKED-ON-OPERATOR: copy the Alpaca data keys into .env by hand. Variable names are in .env.example.
+timer:
+  is-enabled: enabled
+  is-active: active
+  list-timers: Tue 2026-08-25 16:30:00 PDT 22h - - hfexperiment-bars.timer hfexperiment-bars.service
+last run: never
+last complete session: unknown
+next formation: 2026-09-01, in 7 days
+gaps: none
+accrual state counts (all records):
+  none, no accrual has run
+book membership:
+  none, first formation has not run
+benchmark membership: not formed
+chain pointers:
+  none
+accrual ledger tail:
+  empty
+recent fetches:
+  none

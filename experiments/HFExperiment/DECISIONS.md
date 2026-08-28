@@ -1,0 +1,479 @@
+# Decisions
+
+Numbered ADRs, append-only. Each records the decision, the reason, and
+what would change it.
+
+## ADR-001: Two series, two questions
+
+The SHADOW series is the signal instrument. The registered book computed
+daily from price data alone, no fills, no commissions. It accumulates the
+statistics the verdict reads. It would run identically if nobody traded a
+dollar. The LIVE series is the execution instrument. Actual fills at a
+real broker at micro size. The difference between the two IS the
+execution cost, measured directly rather than modelled.
+
+One week is enough to measure execution. One week is nowhere near enough
+to measure signal. The registration must say so in those words.
+
+Changes it: nothing at this stage. This is the design's spine.
+
+## ADR-002: The stage map, and B.1's independence from the broker
+
+Stages A.1 through D.1 as registered in the stage prompt. The property
+that matters: B.1 does not wait on the broker. The shadow series needs no
+account and no money. If the broker question resolves BLOCKED, phase B
+still runs and still answers the signal question. Only phases C and D
+die. This property is the reason the two-series design was chosen.
+
+Changes it: nothing. A later stage that couples the shadow series to a
+broker dependency violates this ADR.
+
+## ADR-003: Broker verdict under the Section 0 outcome map
+
+Measured in docs/ACCESS.md. IBKR Canada is the only reachable broker
+clearing residency, US equities, and an order-placing API at once.
+Alpaca excludes Canadian residents. Questrade's API trades for partner
+developers only. Wealthsimple has no official API and its terms prohibit
+API trading.
+
+BLOCKED is ruled out on documented bars. The GO versus DEGRADED verdict
+is UNDECIDED, because the deciding bar, fractional through the API at 45
+USD, resolves only by the Task 3 paper test and the operator holds no
+IBKR account yet. Every Task 3 sub-test is recorded BLOCKED-ON-OPERATOR
+in docs/ACCESS.md. The verdict was not read from documentation because
+the documentation contradicts itself, which is the reason the outcome map
+demanded a test.
+
+> **Superseded 2026-08-28, see ADR-026.** The two sentences above about
+> the operator holding no IBKR account and every sub-test being
+> BLOCKED-ON-OPERATOR were true when written and false by 2026-08-25,
+> when A.1b connected to paper Gateway 127.0.0.1:4002, account [paper account ID removed],
+> and settled the deciding bar by behaviour: error 10243 refused decimal
+> quantities and error 10244 refused cashQty, while the whole-share
+> control was accepted. The UNDECIDED verdict recorded here was resolved
+> to BLOCKED by A.1b on measurement, not on account access. The text is
+> left standing rather than rewritten so the sequence stays legible.
+
+Two facts from the measurement bind stage C regardless of the verdict.
+SmartRouting is required to keep Tiered pricing on API orders, in IBKR's
+own words. And fractional orders carry their own schedule, the greater of
+1 percent of value or one cent, which doubles the projected commission
+against the settled 50 bp assumption if it applies to the whole order.
+Neither touches the slippage measurement. Commission is deterministic and
+subtracts exactly.
+
+Changes it: the Task 3 test resolves GO or DEGRADED. An Alpaca Canadian
+launch would reopen the table.
+
+## ADR-004: Width 20, chosen for the measurement, not the book
+
+The live book's information ratio does not matter, because the verdict
+reads the shadow series. Width serves the execution measurement, which is
+fill-count-limited: per-fill slippage carries a sigma near 10 to 20 bp,
+so a mean tight to 1 bp needs a couple of hundred fills. Width buys
+calendar speed at roughly flat commission. A.2 registers 20 as the
+primary, since it is what trades, with 5 and 50 as pre-registered
+secondaries under a multiplicity correction. The traded book stays
+identical to the primary measured book, the principle that ruled out a
+buffer rule.
+
+Measured input from Task 4: churn at width 20 averaged 5.2 names per
+month over the last 6 months, about 10 to 11 fills per month. The A.2
+cost model must project fill accumulation from this measured rate rather
+than from an assumed one.
+
+Changes it: Amendment 1, if Task 3 forces whole-share sizing.
+
+## ADR-005: Reproduction horizon pinned to the recorded pull end
+
+The database carries daily bars past the recorded round's pull end of
+2026-07-24 for exactly 1,535 symbols, a partial refresh. A universe
+computed on that partial pool would be garbage. The reproduction uses
+analysis_meta.universe_pull_end as its horizon, which reproduces the
+recorded 124 formation dates identically.
+
+Changes it: a full-pool refresh with a recorded new pull end.
+
+## ADR-006: Momentum anchor convention, fixed by this repository
+
+The recorded round's formation code is outside the two permitted read
+paths, so the 12-1 ranking is implemented from its registered
+description. Conventions fixed here: far anchor is the session before the
+formation date 12 months back in the formation-date sequence, near anchor
+is the session before the formation date 1 month back, each close is the
+last bar at or before its anchor, a bar more than 20 sessions before its
+anchor disqualifies, and both bars must sit in the same listing segment.
+The recorded formation books at widths 5 and 50 are not stored in the
+permitted database, so the disagreement gate ran against the recorded
+universe membership instead and matched exactly at every checked date,
+including all 500 rows at each of the last 7 formations and 3 historical
+spot checks.
+
+Changes it: A.2 registers these conventions as binding. If the recorded
+round's formation code ever enters scope and differs, the reproduction
+reruns and the difference is reported, not reconciled.
+
+## ADR-007: Worst-case cost bounds held until a fill measures them
+
+The one cent TAF floor is confirmed nowhere. FINRA's schedule has no
+per-trade minimum. The model holds the floor as a worst-case bound. The
+fractional schedule's treatment of mixed integer-plus-fraction orders is
+not determinable from IBKR's page. The model holds the whole-order 1
+percent reading. Both resolve from a real fill statement in stage C.
+
+Changes it: measured billing on paper and live fills.
+
+## ADR-008: Correction one, the traded book need not equal the primary book
+
+Chat Claude asserted the traded book must equal the primary measured
+book, importing a principle from the buffer question where a divergence
+would confound attribution. The principle does not apply here. The live
+book never feeds the verdict, so nothing the live book does can confound
+it. The primary width is chosen for information ratio and the traded
+width for fill rate. They are different objectives and they select
+different widths. This supersedes the coupling sentence in ADR-004.
+Recorded here so a later session does not restore the wrong version from
+the conversation.
+
+Changes it: any design change that lets live data feed the verdict, which
+ADR-001 forbids.
+
+## ADR-009: Correction two, width 20 costs 41 percent on the signal clock
+
+Chat Claude stated 15 to 20 percent. Fitting a power law to the two
+recorded widths gives TE exponent -0.321 and excess exponent -0.445, so
+excess decays faster than tracking error as the book widens. Width 20
+carries IR 0.894 against width 5's 1.062, and time to verdict scales as
+one over IR squared, giving 1.41. Widths 10 and 20 are interpolations
+from a two-point fit and are labelled as such everywhere they appear.
+Recorded here so a later session does not restore the wrong figure.
+
+The exponent itself is a registered risk. Independent names would give
+-0.5 on tracking error. The measured -0.321 says the book is four
+correlated sector bets wearing twenty tickers: crypto miners, uranium
+and nuclear, metals, optical and storage. A property of the rule, not a
+defect to correct. The rule does not change.
+
+Changes it: recorded measurements at more widths would replace the
+two-point fit.
+
+## ADR-010: Primary width 5, traded width 20, secondaries under Bonferroni
+
+Width 5 is the primary for the verdict on its recorded IR of 1.062,
+chosen before any forward data exists, on the already-spent holdout.
+Widths 20 and 50 are pre-registered secondaries at alpha 0.025 each.
+Width 20 is the traded width for fill rate, 10.4 fills per month against
+4.0. ADR-008 makes the split legitimate. This supersedes ADR-004's
+choice of 20 as primary.
+
+Changes it: an amendment before the shadow series starts. Nothing after.
+
+## ADR-011: The kill floor is a restart at 500 USD
+
+Chat Claude proposed 600, which the A.1 numbers break: at width 20's
+interpolated 42.54 percent tracking error, 600 is 1.04 sigma with a
+driftless touch probability near 30 percent in year one, before beta
+inflation on a high-beta book. A floor that fires on noise near fill 100
+of the roughly 200 needed teaches nothing. 500 is 1.31 sigma, near 19
+percent. 400 is 1.57 sigma, near 12 percent, and buys those 7 points at
+the price of resuming with too little capital to matter.
+
+The floor is a RESTART, not a termination. Breach halts the sleeve,
+appends the breach record, and waits for an explicit operator decision.
+Fill history survives, because a drawdown is not evidence about
+execution cost. The four operational stops in Section 9 are
+terminations. src/hfexperiment/kill.py enforces the distinction and a
+mutation removing it is caught.
+
+Changes it: a measured book beta would refine the touch probabilities.
+The floor level itself changes only by amendment before the first live
+order.
+
+## ADR-012: The DEGRADED branch is closed
+
+Section 0 left DEGRADED open as reduced whole-share sizing. A.1's
+measured median book share price of 144 USD closes it: a 20-name
+whole-share book needs about 2,880 USD against 900 deployed, and a
+5-name book collapses to one share per name with equal weighting
+destroyed. The registered consequence of a DEGRADED Task 3 result is no
+live sleeve at this stake. Phase B continues either way.
+
+Changes it: a materially larger stake, which is a new registration, not
+an amendment. A collapse in book share prices does not reopen it,
+because the branch decision must not track the thing it sizes.
+
+## ADR-013: Choices this stage made autonomously
+
+Spread measurement: the 2026-07-01 width-20 book was measured over the
+three most recent complete sessions, 2026-08-19 to 2026-08-21, using the
+same route, windows, and discard taxonomy as AiTrader's tick-multiple
+measurement, through AiTrader's credential resolver, read-only. Result:
+book median 12.77 bp, below the inherited band's lower edge, because the
+book's names currently trade at large dollar volume. The measured
+distribution replaces the band. Measuring at recent sessions rather than
+at the formation date was chosen for relevance to what trading costs
+now. Re-measuring near each future formation would change it.
+
+Spend cap: 100 USD per rolling 365 days, about 1.75 times the worst-case
+fractional projection of 56.84. A measured billing regime halves the
+projection under Tiered and the cap stays as a guard.
+
+Registered prior: drafted at 0.15 for the operator to confirm or replace
+at acceptance, before the shadow series starts.
+
+Section numbering: the stage prompt lists 13 items for 12 sections. The
+registered prior folded into Section 12 with monitors and amendments.
+
+Changes it: the operator at acceptance, for the prior. The others stand
+unless a stated assumption fails.
+
+## ADR-014: Acceptance by delegation, recorded
+
+The operator accepted Sections 1 through 12 by delegation on
+2026-08-24, with the drafted 0.15 prior standing unchanged. The act of
+running the B.1 stage prompt was the acceptance, and the REGISTRATION.md
+amendment log carries the dated record. Data existing at acceptance:
+the A.1 reproduction through the 2026-07-24 pull, the A.2 spread
+measurement over 2026-08-19 to 2026-08-21, and zero shadow
+observations. The shadow series is authorized to start at the
+2026-09-01 formation. Amendment 1 stays reserved for the Section 5
+deferred parameters.
+
+Changes it: nothing. An acceptance is a fact about a date.
+
+## ADR-015: Formation-aligned start on 2026-09-01
+
+The first accrual day is the 2026-09-01 formation, equal-weighted, so
+no pre-registration price history enters weight computation. A
+mid-month start would demand reconstructing drifted weights from a
+formation the series never observed, and every reconstruction choice
+would be a researcher degree of freedom. The roughly five sessions this
+forfeits against a mid-month start cost 0.2 percent of a 2,061-day
+clock. Formation-aligned entry removes every question about mid-month
+weight reconstruction at a price too small to measure.
+
+Changes it: nothing after the series starts. Section 12 forbids
+amendments that respond to observed shadow outcomes.
+
+## ADR-016: Fresh-adjustment queries, append-only store
+
+The Task 0 reconciliation confirmed the 28 percent A.1-to-A.2 price gap
+was market movement, not a stale adjustment: zero corporate actions in
+the 2026-07-24 to 2026-08-24 window across all 20 names of the width-20
+book, checked name by name against a public corporate-actions source
+(reports/stage_b1/price_reconciliation.md). The pipeline is designed so
+that check never has to be run by hand again. Every daily run
+re-queries the session fresh with adjustment=all. Every formation run
+re-queries the full trailing window fresh rather than trusting stored
+history. Every result is appended with its query timestamp, reads take
+the latest row per key, and no stored row is ever mutated, so an
+adjustment landing between runs re-enters the store rather than aging
+out of it. tests/test_barstore.py pins the no-mutation property.
+
+Changes it: nothing. This is the stage's spine against the fabrication
+class that sank the predecessor project.
+
+## ADR-017: Choices Stage B.1 made autonomously
+
+Benchmark member handling: a halted or delisted member marks at its
+last available close, contributes exactly zero return, and stays in the
+denominator until the next formation, which is Section 3's rule applied
+to members as to book names. A member with a missing bar or failed
+source excludes the day for every width, because a mean over a silently
+shrunken membership is a different benchmark. Changes it: evidence that
+the recorded round handled a missing member differently, which must be
+reported and corrected before 2026-09-01.
+
+Halt confirmation: an active name with no bar classifies missing_bar
+until evidence arrives. Evidence is a bar at a later session, meaning
+the name skipped this one while listed, or three consecutive absent
+sessions under successful fetches. Both resolve to halted. This keeps
+missing_bar strictly transient so no day blocks forever. Changes it: a
+real halt feed, which Alpaca's daily bars do not carry.
+
+Sequential lineage accrual: sessions accrue strictly in order within a
+formation lineage, an excluded day blocks its lineage until retry heals
+it, and the session return into a formation date belongs to the old
+membership. The benchmark chain gates every width. Changes it: nothing,
+this is arithmetic necessity, since day t+1 needs day t's state.
+
+Credential separation: HFExperiment reads its own Alpaca keys from its
+own .env, never AiTrader's resolver, and its timer fires at 23:30 UTC
+against AiTrader's 22:30, so the two collectors never share a rate
+window. The Task 0 corporate-actions check used a public web source for
+the same reason. Changes it: nothing this stage.
+
+Monitor rendering: plain-text renders written to reports/monitor/, no
+service, per the Section 12 choice left to the session. The verdict
+view validates every line it emits against an allowlist of
+confidence-sequence shapes and fails the render otherwise. Changes it:
+a later stage may add HTML on top of the same data, never bypassing the
+guard.
+
+Changes them: a stated assumption failing, or the operator before
+2026-09-01. Nothing after the series starts.
+
+## ADR-018: Account pinning in lieu of the scoped username
+
+The operator declined the scoped IBKR username and runs the Gateway
+from the full-access main login. The session can therefore see and
+trade accounts holding money that is not this project's, and software
+is the only thing standing between a defect and those holdings. The
+pin is refusal 8, first-class and checked before every other check
+including the deferred steady state: the intent's account must be
+present, must exactly equal IBKR_ACCOUNT_ID from .env, and must carry
+the declared mode's prefix, DU under paper, U under live. Absent,
+empty, mismatched, and mode-inconsistent each refuse with the
+arithmetic named. Empty is its own case because the TWS API treats an
+empty account field as a request for the default account, which on
+this login is the operator's main account. The C.1 probe found the
+paper session managing exactly one account, [paper account ID removed], which narrows
+the exposure today, and the pin stands anyway because the live login
+will not be so narrow.
+
+Changes it: the operator adopting the scoped username, which would
+demote this from sole defense to defense in depth. The check itself
+never comes out.
+
+## ADR-019: The probe imports no order endpoint
+
+The connectivity probe speaks the minimal v100 TWS wire protocol
+itself rather than importing a broker library, so no order vocabulary
+exists in its import graph at all. Its encoder can produce exactly two
+outbound messages, START_API and REQ_CURRENT_TIME, and refuses every
+other message id including placeOrder's id 3. The Gateway's Read-Only
+API setting backs this from the other side and this stage never asks
+for it off. Unreachable is a recorded state, not an error, so C.3's
+dry formation can use the probe as its pre-flight and the operator
+gets the Sunday-reauth deadness check in software.
+
+Changes it: D.1's real adapter, which will import an order path behind
+the gate. The probe itself stays order-free forever.
+
+## ADR-020: The intent-construction refusal boundary
+
+Two walls, both demonstrated. construct_intent refuses any intent with
+an absent field, so a malformed intent cannot travel, and it refuses a
+missing captured quote with its own reason, no_arrival_mid, mirroring
+the registered termination fill_without_arrival_mid: the intent layer
+refuses earlier, before anything exists that could fill. The gate then
+re-checks the account on whatever object arrives, because the second
+wall exists precisely for the defect that builds an Intent directly
+and skips the first. The demonstration produced both walls, and
+mutation 1 proved the suite notices when the second one goes missing.
+
+Changes it: nothing. Removing either wall must fail the suite.
+
+## ADR-021: Choices Stage C.1 made autonomously
+
+Formation source: the stage names the real 2026-08-03 formation from
+the bar store, but the B.1 store records formations only from the
+2026-09-01 series start, so it can never hold 2026-08-03. The
+formation was computed fresh through the registered rule with the
+project's own Alpaca keys into data/c1_formation.db, a store C.1 owns.
+The B.1 store, ledgers, and timer were not touched. Changes it: a
+recorded instruction to backfill formations into the B.1 store, which
+today's B.1 code deliberately refuses.
+
+The paper-api finding: Alpaca serves trading-API endpoints for paper
+keys from paper-api.alpaca.markets, and B.1 pinned api.alpaca.markets,
+which 401s on /v2/assets with the keys in .env. C.1 may not touch B.1
+source, so the override is confined to scripts/fetch_c1_formation.py.
+Consequence traced: B.1's nightly runs succeed until 2026-08-31
+because no formation is due and no assets call happens, and the
+2026-09-01 formation run fails loudly on the 401 and retries daily
+until the one-line fix lands under B.1 authorization. Bars backfill,
+so the series heals whenever the fix lands, but it should land before
+2026-09-01. Changes it: the fix landing, which closes this note.
+
+Declared mode: a code constant, paper, in brokerconfig.py rather than
+an operator-editable .env variable, so the mode, the port, and the
+account prefix are three facts that must cohere and only D.1 changes
+the first by amendment. Demo constants: notional 45.00 and broker
+minimum 1.00, labelled DEMO everywhere, resolving nothing registered.
+The demonstration ledgers under reports/stage_c1 are evidence
+artifacts regenerated per run. The real spend ledger at
+data/ledger/spend.jsonl stays untouched until D.1 writes real records.
+
+Changes them: a stated assumption failing, or the stage that owns the
+touched surface.
+
+## ADR-022: The cashQty contradiction, resolved by behaviour
+
+A.1 recorded the conflict and refused to resolve it from
+documentation: IBKR staff wrote in June 2026 that the API does not
+support cash-quantity orders outside crypto, a third-party guide from
+March 2026 claimed the opposite, and an Elite Trader thread reported
+silent rounding. A.1b resolved it by behaviour on 2026-08-25, paper
+account [paper account ID removed], Gateway server version 187.
+
+Observed, verbatim in reports/stage_a1b/evidence.jsonl: a market DAY
+buy with cashQty 45.00 and no share quantity was refused at validation
+with error 10244, "Cash Quantity cannot be used for this order". No
+silent rounding occurred because nothing was accepted to round. The
+decimal path was refused in the same session with error 10243,
+"Fractional-sized order cannot be placed via API. Please use desktop
+version to place this order", across two names and two order types,
+while a whole-share control order was accepted and queued. The staff
+claim stands, the third-party claim is refuted, and the rounding
+report is moot on this channel.
+
+Both fractional phrasings refusing while whole shares accept is what
+fired Section 0's BLOCKED. The eligibility layer advertises 0.0001
+increments on all 20 book names, so the instruments are fractionable
+and the refusal is the API channel itself, which matches the error
+text's own words.
+
+Changes it: IBKR shipping fractional support in the TWS API, or an
+Alpaca Canadian launch per ADR-003. Either is a new measurement, not
+a reinterpretation of this one.
+
+
+## ADR-026: The stale no-account blocker, corrected 2026-08-28
+
+Two documents carried a claim the repository's own evidence had already
+overtaken. docs/ACCESS.md Task 3 opened with "The operator holds no IBKR
+account" and marked all six sub-tests BLOCKED-ON-OPERATOR, and ADR-003
+recorded the GO-versus-DEGRADED verdict as UNDECIDED for the same reason.
+Both were written during A.1 and were true then. A.1b connected on
+2026-08-25 to paper Gateway 127.0.0.1:4002, server version 187, account
+[paper account ID removed], and settled the deciding bar by behaviour, which ADR-022 and
+reports/stage_a1b record in full. Neither document was amended, so the
+repository advertised a blocker that no longer existed and an UNDECIDED
+verdict that A.1b had already resolved to BLOCKED.
+
+The gap surfaced on 2026-08-28 when the operator, reading the stale line
+quoted back to him, stated he holds a funded live IBKR account and a paper
+account reachable through a running Gateway. The session log corroborates
+the statement rather than resting on it.
+
+Decided. ACCESS.md Task 3 is re-headed SUPERSEDED, the false sentence is
+struck rather than deleted, and the sub-test table is re-statused against
+the A.1b evidence: four RESOLVED, two MOOT, one RUNNABLE. ADR-003 keeps
+its original text with a superseded note beneath it. Nothing is rewritten
+to look as though it was always right.
+
+Three consequences worth stating plainly, because the correction is about
+record hygiene and changes no verdict.
+
+The fractional closure stands unchanged. It rested on error 10243 and
+error 10244 against an accepted whole-share control, which is measurement,
+not an inference from missing access.
+
+The commission arithmetic stands unchanged. The table above is read off
+IBKR's published tiers, and account access does not move a fee schedule.
+
+One sub-test is genuinely unblocked and worth running: the billing plan of
+a SmartRouted API order confirmed on a real paper fill, which documentation
+contradicts itself about and only a fill settles.
+
+ADR-018's account pinning is reaffirmed rather than revised, and it now
+guards a stated fact instead of a hypothetical one. The Gateway
+authenticates from the full-access main login and the operator has
+confirmed a funded live account sits behind it. Work on the runnable
+sub-test pins [paper account ID removed], refuses every other account id, asserts port 4002
+before connecting, and leaves Read-Only API on outside a registered order
+test.
+
+Changes it: nothing about the verdicts. A future measurement supersedes a
+measurement. This ADR supersedes only a stale sentence.
