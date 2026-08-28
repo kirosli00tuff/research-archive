@@ -265,3 +265,42 @@ the 62 pending census events are recorded pending-at-closure; nothing is
 deleted. The operator's Section 13 prior of 0.40 (adopted) on the bars
 clearing resolves against the prior; the assistant's 0.40 likewise. A
 documented negative was a registered, expected outcome; this is one.
+
+### B.3 — consequence, mutations, close-out
+
+**The disarm, executed and verified** (2026-08-28T03:44Z):
+`systemctl --user disable --now npl-watch.timer npl-daily.timer` removed
+both unit links; `list-timers --all` and `list-units --all` show nothing
+npl scheduled or active (n = 0 of each); the AiTrader news-collect timer
+(next 15:31 PDT) and the solattn-daily timer are untouched, verified in
+the same listing. The unit files remain in ops/systemd/ as history;
+nothing was deleted. The request ledger recorded **zero charges by this
+stage** — the last ledger rows are the collectors' own final passes.
+
+**Mutations on the new surface, 3 of 3 CAUGHT**
+(reports/stage_b/mutations.md; bytecode purged before every run, source
+restored byte-for-byte, suite green after each restore; the latch already
+existed, so no mutation could touch a live verdict):
+
+1. Bypass the latch so a second read is allowed — caught by the
+   ReadAlreadySpent tests (the refusal is produced, not asserted).
+2. Widen the blindness allowlist to two modules — caught by the equality
+   pin holding the allowlist at length one.
+3. Flip the funding sign convention inside the reader — caught by the
+   known-answer gate (the −0.0729 sign pin).
+
+After restore: `make all` green (172 tests, mypy --strict on 54 files,
+ruff clean) and all 21 read-surface modules verify byte-identical against
+reports/stage_b/hashes_b1.json; the latch and read artifact hashes are
+unchanged (2d204ccb…438f67e, 44554896…be840c).
+
+**End state.** The row fired was FAIL, on effective N 312 / 312 / 175
+with P1 197/312 (lower bound 0.5707 < 0.60), P2 111/312 (p = 1.000), P3
+114/175 (p = 3.767e-05), cost-insensitive across the registered bands.
+The hypothesis register carries the H-NPL closure entry; the collectors
+are disarmed; the 62 pending events are pending-at-closure; the sealed
+stores (312 event windows, 176 control windows, 386 funding archives),
+the census, the pairs ledger, and all request ledgers remain on disk,
+unread beyond the single registered read. The remote is
+git@github.com:kirosli00tuff/NPLExperiment.git (private), origin/main at
+the close-out commit. Open operator items: none.

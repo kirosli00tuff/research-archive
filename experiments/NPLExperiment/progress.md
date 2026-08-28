@@ -483,3 +483,37 @@ Cost-insensitive (P1 lb 0.5740/0.5707/0.5609 across bands, n = 312 each).
 Full record: REGISTRATION.md Stage B verdict record + H-NPL closure
 entry; narrative in report.md; README status line updated. The 62 pending
 census events recorded pending-at-closure. Zero network requests.
+
+## 2026-08-28T03:55Z — Stage B.3 complete — Stage B closed
+
+| Task | ETA | Actual |
+|---|---|---|
+| 1. Consequence execution (FAIL row) | 10 min | 4 min — both npl timers disabled+stopped, nothing npl scheduled, news-collect and solattn verified untouched; closure entry in REGISTRATION.md |
+| 2. Gates and mutations | 25 min | 14 min — make all green (172 tests, mypy strict 54 files); MB1/MB2/MB3 all CAUGHT, restored byte-for-byte, 21-module surface re-verified against hashes_b1.json |
+| 3. Close-out | 20 min | this entry + final commit/push |
+
+Overall Stage B: ETA 3.5–4.5 h stated at 02:31:22Z; actual 02:31Z →
+03:55Z ≈ 1 h 24 min. Requests this stage: 0 (the ledger's last rows are
+the collectors' own final passes). Zero dollars, no keys.
+
+### End state
+
+- **Row fired: FAIL** (read 03:01:08Z, latch 03:01:01Z). Inputs: P1
+  197/312, CP lower bound 0.5707 vs bar 0.60; P2 111/312, p = 1.000; P3
+  114/175, p = 3.767e-05; effective N 312/312/175 vs minimums 34/103/60;
+  pending 0/0; 224,633 funding rows inside the 30d windows;
+  cost-insensitive across bands (P1 lb 0.5740/0.5707/0.5609).
+- **Hashes:** latch data/state/stage_b_read.json sha256
+  2d204ccb23c4961597d2e4a3263b2abffeb1f8f2e32230ee3c4b97857438f67e (21
+  module hashes inside); artifact reports/stage_b/read.json sha256
+  4455489675c3774f05c977cb7edb9d8b26928f851400077b31263f5826be840c;
+  read-surface hashes reports/stage_b/hashes_b0.json and hashes_b1.json.
+- **Collectors: disarmed** (npl-watch.timer, npl-daily.timer disabled and
+  stopped 03:44Z; nothing npl scheduled; AiTrader and solattn untouched).
+  62 pending events recorded pending-at-closure; sealed stores, census,
+  pairs, and ledgers retained; nothing deleted.
+- **Remote:** git@github.com:kirosli00tuff/NPLExperiment.git (PRIVATE);
+  origin/main confirmed equal to local HEAD at the final push.
+- **Open operator items: none.** The hypothesis is closed; any redesign
+  (funding-conditioned, magnitude-recalibrated) is a new hypothesis
+  requiring its own registration.
