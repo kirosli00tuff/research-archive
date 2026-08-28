@@ -213,12 +213,13 @@ task and the actual recorded after. Stated here, before A.0 Task 1 is armed.
 | Task | ETA stated before starting | Actual |
 |---|---|---|
 | A.0 T0. Repo init, prompt log, six prior-art files | 12 min | 6 min (07:53:57Z → 07:59:5xZ) |
-| A.0 T1. Scaffold and the five guards | 25 min | _pending_ |
-| A.0 T2. CLAUDE.md | 8 min | _pending_ |
-| A.0 T3. REGISTRATION Section 0 + fire function + tests | 20 min | _pending_ |
-| A.0 T4. REGISTRATION Sections 1–12 | 30 min | _pending_ |
-| A.0 T5. Section 13, priors | 5 min | _pending_ |
-| A.0 T6. HYPOTHESES.md | 12 min | _pending_ |
+| A.0 T1. Scaffold and the five guards | 25 min | 5 min |
+| A.0 T2. CLAUDE.md | 8 min | 1 min |
+| A.0 T3. REGISTRATION Section 0 + fire function + tests | 20 min | 2 min |
+| A.0 T4. REGISTRATION Sections 1–12 | 30 min | 2 min |
+| A.0 T5. Section 13, priors, and Section 14 carried figures | 5 min | 2 min |
+| A.0 T6. HYPOTHESES.md | 12 min | 1 min |
+| **A.0 total** | **112 min** | **18 min** |
 
 ### Prior art read at A.0 Task 0 — six files, patterns taken, no text copied
 
@@ -255,4 +256,71 @@ task and the actual recorded after. Stated here, before A.0 Task 1 is armed.
    defects found only by mutation (text-scanning config guard passing vacuously,
    a fixture comfortably inside its boundary, a mutation harness reporting on
    bytecode from source no longer on disk).
+
+## Entry 2 — 2026-08-28T08:11Z — STAGE A.0 closed
+
+**Every ETA in the table above was long, by a factor of about six in
+aggregate: 112 minutes stated against 18 actual.** Recorded rather than
+smoothed. The stated figures were drawn from InsiderExperiment's Stage A.1
+table, where a comparable scaffold-plus-registration took 18 minutes of the 51
+recorded; the error is that those numbers included corpus building and a power
+computation this stage does not do. The A.1 estimates below are re-based on
+this stage's measured rate for the work that is comparable, and left long for
+the work that is not — the lag measurement is bounded by 15 US trading days of
+wall clock and by nothing this session controls.
+
+### What was built
+
+- **Scaffold.** uv project, package `etf`, ruff + mypy strict + pytest +
+  pre-commit + Makefile with `lint`, `typecheck`, `test`, `all`.
+  `.env.example` empty on purpose. `.gitignore` covering `.env`, `data/`,
+  `.venv`. **105 tests, ruff clean, mypy strict clean on 37 files.**
+- **The four standing guards, ported by copying shape** from NPLExperiment and
+  InsiderExperiment: the recorded-absence type refusing numeric coercion
+  (`etf.absence`, and it refuses `float`, `int`, `__index__`, and addition in
+  both directions); the **parse-tree** config-enforcement guard (not a text
+  search — a key left in a comment while its enforcement site became a literal
+  is exactly the defect, and the text version passes vacuously); the
+  append-only fsynced ledger primitive reporting a truncated line rather than
+  repairing it; the six-state call-state enum with the three partitions pinned
+  disjoint so `rate_limited` can never merge into `no_data`.
+- **The fifth guard, specific to this repository: the pre-period date pin.**
+  `etf.preperiod` refuses any price or funding read stamped **on or after
+  2025-05-01** outside the sealed writers. Three structural guards hold it:
+  `blindness.funding_rows` must route every rate through `gate_pre_period`
+  (checked on the parse tree, so an inlined comparison fails); no module
+  outside `preperiod.py` may read the boundary from config; and no module
+  outside `config.py` may hardcode its literal. Boundary fixtures sit exactly
+  on the instant — 2025-04-30T23:59:59.999Z passes, 2025-05-01T00:00:00.000Z
+  is refused.
+- **REGISTRATION.md Sections 0–14, both halves committed before any network
+  call.** Section 0 at 08:08Z; Sections 1–12 at 08:09Z; Sections 13–14 at
+  08:11Z. The request ledger did not exist at any of those moments.
+- **HYPOTHESES.md** seeded with H1 OPEN and the four closure kinds.
+
+### Three design decisions taken inside A.0, each recorded
+
+1. **The Section 0 residual band is registered rather than left as a gap.** The
+   three clauses of the outcome map leave one case unnamed: E1 power at the
+   published magnitude between the 0.50 BLOCKED floor and the 0.80 GO floor,
+   with observability passing in full. It is registered as DEGRADED. Naming it
+   before any number exists is cheaper than discovering the gap while holding
+   one.
+2. **Request caps are per source, not one shared budget.** A flow source at
+   200/day and a venue API at 5,000/day are different budgets, and a single cap
+   lets the archive sweep of A.1 Task 4 exhaust the flow snapshotter that is
+   the actual experiment.
+3. **`etf.flow.aggregate` makes the whole aggregate absent when any one of the
+   five funds is absent.** Deliberately strict. On a day the largest fund
+   reports late, substituting zero fabricates the *sign* of the aggregate,
+   which is the quantity Section 4 trades on.
+
+### Stated before arming STAGE A.1
+
+| Task | ETA stated before starting |
+|---|---|
+| A.1 T1. Access verification, robots.txt and terms first, docs/ACCESS.md | 35 min |
+| A.1 T2. Rate ceilings measured per endpoint | 30 min |
+| A.1 T3. Publication lag — snapshotter armed, then **15 US trading days** of wall clock before any figure is quoted | 25 min to arm; the measurement itself is calendar-bound and cannot be compressed |
+| A.1 T4. As-printed observability and revision rate | 45 min for the archive-density sweep; the forward revision leg shares T3's calendar bound |
 
