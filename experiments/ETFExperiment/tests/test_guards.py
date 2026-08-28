@@ -23,7 +23,9 @@ PREPERIOD_FILE = SRC / "preperiod.py"
 # end of Stage A.3.
 PENDING_ENFORCEMENT: frozenset[str] = frozenset(
     {
-        "hyperliquid_info_url",  # A.1 Task 1, access verification
+        "hyperliquid_info_url",  # A.2 Task 3, the sealed price and funding recorder
+        "flow_all_data_url",  # A.2 Task 1, the census read of the full history
+        "flow_source_name",  # A.4 Task 3, source attribution in the report
         "kraken_ohlc_url",  # A.1 Task 1, cross-check source
         "wayback_availability_url",  # A.1 Task 1, archive access
         "wayback_timemap_url",  # A.1 Task 4, archive capture density
@@ -37,9 +39,7 @@ PENDING_ENFORCEMENT: frozenset[str] = frozenset(
         "rho_undecayed",  # A.2 Task 4, power gate
         "rho_quartered",  # A.2 Task 4, power gate
         "power_simulations",  # A.2 Task 4, power gate
-        "lag_min_trading_days",  # A.1 Task 3, lag measurement
         "retro_revision_sample_min",  # A.1 Task 4, retro revision rate
-        "revision_settle_hours",  # A.1 Task 4, forward revision rate
         "min_outcome_coverage_candles",  # A.2 Task 3, sealed coverage
         "min_outcome_coverage_funding",  # A.2 Task 3, sealed coverage
         "interim_deadline",  # A.2 Task 4, projection

@@ -35,6 +35,10 @@ class Config:
     """Registered parameters. Frozen at A.0, amended only by numbered amendment."""
 
     # --- access (Section 12) ------------------------------------------------
+    # The flow source, selected at A.1 Task 1 and registered by Amendment 1.
+    flow_recent_url: str
+    flow_all_data_url: str
+    flow_source_name: str
     hyperliquid_info_url: str
     kraken_ohlc_url: str
     wayback_availability_url: str
@@ -109,6 +113,14 @@ class Config:
 
 
 CONFIG: Final = Config(
+    # Farside Investors, selected at A.1 Task 1: keyless, server-rendered,
+    # per-fund, 676 date rows, and no stated prohibition (docs/ACCESS.md §1).
+    # The recent page carries the most recent 15 date rows and is what the
+    # 20-minute snapshotter reads; the all-data page carries the full history
+    # and is read once per daily pass.
+    flow_recent_url="https://farside.co.uk/btc/",
+    flow_all_data_url="https://farside.co.uk/bitcoin-etf-flow-all-data/",
+    flow_source_name="Farside Investors",
     hyperliquid_info_url="https://api.hyperliquid.xyz/info",
     kraken_ohlc_url="https://api.kraken.com/0/public/OHLC",
     wayback_availability_url="https://archive.org/wayback/available",
