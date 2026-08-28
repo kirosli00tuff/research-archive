@@ -467,3 +467,19 @@ answers to the digit in report.md; 172 tests, mypy strict 53 files, ruff
 clean. B.1 re-hash: 21 modules, exactly the sanctioned diff
 (stageb/__init__.py) plus the two new modules. Session network requests
 still 0.
+
+## 2026-08-28T03:40Z — Stage B.2 complete — THE ROW FIRED: FAIL
+
+| Task | ETA | Actual |
+|---|---|---|
+| 1. The read, exactly once | 10 min | latch 03:01:01Z, read complete 03:01:08Z (18 s wall) |
+| 2. Fire the verdict, record everywhere | 25 min | 22 min |
+
+Latch sha256 2d204ccb…438f67e (21 module hashes inside); artifact
+reports/stage_b/read.json sha256 44554896…be840c. P1 197/312, lower
+bound 0.5707 < 0.60 FAIL; P2 111/312, p = 1.000 FAIL; P3 114/175,
+p = 3.767e-05 PASS; the Amendment 3 table fires FAIL mechanically.
+Cost-insensitive (P1 lb 0.5740/0.5707/0.5609 across bands, n = 312 each).
+Full record: REGISTRATION.md Stage B verdict record + H-NPL closure
+entry; narrative in report.md; README status line updated. The 62 pending
+census events recorded pending-at-closure. Zero network requests.

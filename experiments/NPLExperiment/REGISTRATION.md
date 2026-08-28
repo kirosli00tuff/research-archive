@@ -530,3 +530,83 @@ the known-answer gate before the read:
    event into funding term and price term, with the paired version; and
    the cost-band sensitivity. A statistic not named here is a second
    look and is refused.
+
+### Stage B verdict record — 2026-08-28, fired at Stage B.2
+
+**The row fired: FAIL.** P1 and P2 fail; P3 passes; the Amendment 3 table
+is mechanical and secondaries move no row. **The registered short does
+not clear its bars on this sample.**
+
+The read: latch written 2026-08-28T03:01:01Z (sha256
+2d204ccb23c4961597d2e4a3263b2abffeb1f8f2e32230ee3c4b97857438f67e, 21
+module hashes inside), single CLI invocation completed 03:01:08Z,
+artifact reports/stage_b/read.json (sha256
+4455489675c3774f05c977cb7edb9d8b26928f851400077b31263f5826be840c). Zero
+network requests this stage; every input was on disk.
+
+**Every input figure, with its n:**
+
+- Preconditions (02:47:28Z): 312/312 event and 176/176 control windows
+  sealed and hash-verified; effective N 312 (P1), 312 (P2), 175 (P3)
+  against minimums 34/103/60; operator prior 0.40 (adopted); 10
+  truncated_by_delisting retained; pending at read: 0 at 30d, 0 at 90d;
+  funding rows summed inside the 30-day windows: n = 224,633.
+- **P1, profitability share:** 197 of 312 events (63.14 percent) with
+  positive 30-day net short return at central costs; exact
+  Clopper–Pearson lower bound at alpha_adj 0.016952 = **0.5707**, bar
+  0.60 — **FAIL** (the point share clears the bar; the registered lower
+  confidence bound does not).
+- **P2, magnitude:** 111 of 312 events (35.58 percent) at or below −15
+  percent net asset-side; exact sign-test p-value against one half =
+  **1.000** — **FAIL** decisively.
+- **P3, control contrast:** 114 of 175 pairs (65.14 percent) with young
+  net below matched control net; exact sign-test p-value = **3.767e-05**
+  — **PASS**. The listing-age effect against funding-matched controls is
+  real on this sample; it is not large enough per event to carry P1/P2.
+- Cost-band sensitivity (descriptive): P1 lower bound 0.5740 (low, 198
+  successes) / 0.5707 (central, 197) / 0.5609 (high, 194) of n = 312; P2
+  and P3 unchanged at every band (111/312 p = 1.000; 114/175 p =
+  3.767e-05). **The FAIL is cost-insensitive.**
+- 90-day versions (descriptive): share positive 208/312 = 66.67 percent,
+  lower bound 0.6069; P2-90d 159/312, p = 0.3886; P3-90d 111/175, p =
+  2.36e-04.
+- Strata, share positive at 30d: vanilla 67.0 percent (n = 112),
+  hyperp_conversion 69.6 percent (n = 46), hip3 58.4 percent (n = 154).
+- Truncated-by-delisting subgroup: share positive 5/10.
+- H8 decomposition (n = 312): mean funding term **+0.0133**, mean price
+  term **+0.0100** per event over 30 days. Paired (n = 175): mean
+  funding-term differential **+0.0088**, mean price-term differential
+  **+0.0643** — young perps' shorts earned 6.4 points more from price
+  than their funding-matched controls, consistent with the P3 pass.
+- Forward-versus-retro: zero forward events readable; retro n = 312.
+
+**Consequence, per the Amendment 3 FAIL row: the hypothesis closes.**
+The closure entry follows below in the register style. Collectors disarm
+immediately (npl-watch.timer, npl-daily.timer). The 62 pending events of
+the Stage A census are recorded **pending-at-closure**; nothing is
+deleted — the census, births manifests, pairs ledger, sealed stores, and
+request ledgers remain on disk as measured history.
+
+### H-NPL closure entry — 2026-08-28 (register style)
+
+**H-NPL: CLOSED, NEGATIVE, 2026-08-28.** Tested on the registered retro
+cohort of 312 Hyperliquid perp listings (2023-05-12 archive epoch through
+maturity, 112 vanilla / 46 hyperp_conversion / 154 hip3, 10 truncated by
+delisting retained, delisting observability PASS 6/6). The registered
+short — entry at the second daily close, 30-day horizon, net of received
+funding and central round-trip costs — was profitable in 63.1 percent of
+events (n = 312) with a mean 30-day net near +2.2 percent (funding
++1.33, price +1.00, costs ≈ 0.1), **but the registered bars do not
+clear**: the exact lower bound on the profitability share (0.5707) misses
+0.60, and the ≥15-point magnitude share (35.6 percent) is nowhere near
+one half. The listing-age contrast (P3) passed at p = 3.8e-05 with a
++6.4-point mean paired price differential (n = 175): young listings do
+underperform funding-matched older perps — the effect exists but is too
+small per event for the registered trade. The H8 lesson repeats with a
+listing-age sort: the market prices most of the decline into funding and
+the residual drift is thin. A funding-conditioned or magnitude-recalibrated
+design is a **new hypothesis requiring its own registration**; nothing in
+this record may be reused as a prior-free second look at the same sealed
+outcomes. Epistemic boundary (Section 11): this closure says the
+registered short would not have cleared its bars on this sample; it is
+not a forward prediction.

@@ -204,3 +204,64 @@ new modules (reader.py, cli.py). Every other read-surface module is
 byte-identical to its B.0 hash. From this point any diff voids the read
 authorization; the CLI verifies the full 21-module surface before writing
 the latch.
+
+### B.2 — the read, and the row that fired: FAIL
+
+The latch was written at 2026-08-28T03:01:01Z with the 21 module hashes
+inside (latch sha256 2d204ccb…438f67e), and the single CLI invocation
+completed at 03:01:08Z, writing reports/stage_b/read.json (sha256
+44554896…be840c). The preconditions re-verified inside the same
+invocation: 312 events, 176 controls, effective N 312 / 312 / 175,
+pending 0 at both horizons, 224,633 funding rows summed inside the
+30-day windows, zero network requests.
+
+**The three co-primaries at alpha_adj = 0.016952, central costs:**
+
+| test | figure | n | statistic | bar | verdict |
+|---|---|---|---|---|---|
+| P1 profitability | 197 positive (63.14%) | 312 | lower bound 0.5707 | ≥ 0.60 | **FAIL** |
+| P2 magnitude | 111 at ≤ −15% (35.58%) | 312 | p = 1.000 | > ½ at alpha | **FAIL** |
+| P3 listing-age contrast | 114 young < control (65.14%) | 175 | p = 3.767e-05 | negative | **PASS** |
+
+The Amendment 3 table is mechanical: P1 or P2 failing fires **FAIL**.
+
+**The secondaries, descriptive, each with its n:**
+
+- Cost bands: P1 lower bound 0.5740 / 0.5707 / 0.5609 at low / central /
+  high (198 / 197 / 194 successes of 312); P2 and P3 identical at every
+  band. The verdict is cost-insensitive.
+- 90 days: share positive 208/312 = 66.7%, lower bound 0.6069 (would sit
+  above 0.60 — descriptive only); P2-90d 159/312, p = 0.389; P3-90d
+  111/175, p = 2.36e-04.
+- Strata, share positive at 30d: vanilla 67.0% (n = 112),
+  hyperp_conversion 69.6% (n = 46), hip3 58.4% (n = 154) — the HIP-3
+  stratum, 154 of the 312, is the weakest.
+- Truncated by delisting: 5 of 10 positive.
+- H8 decomposition (n = 312): mean funding term +1.33%, mean price term
+  +1.00% per event over 30 days — the average short earned about +2.2%
+  net, dominated by funding, not price. Paired (n = 175): funding
+  differential +0.88 points, price differential +6.43 points against
+  funding-matched controls.
+- Forward-versus-retro: zero forward events readable; the forward cohort
+  was never pooled and now closes unread (pending-at-closure).
+
+**What the sample actually said.** The listing-age effect is real — P3
+passed at 3.8e-05 and young perps underperformed their funding-matched
+controls by 6.4 price points on average — but it is thin per event: most
+young listings do not fall 15 net points in 30 days (35.6% do, against
+the registered assumption of 65%), and the profitability share's exact
+lower bound misses its 0.60 bar. The H8 lesson repeats under a
+listing-age sort: the market prices most of the decline into funding, and
+the drift left over is too small for the registered trade. Amendment 3's
+PARTIAL_DRIFT row anticipated the mirror image of this outcome (bars
+clear, no age effect); the sample delivered the opposite (age effect, no
+bars) — and both map to closure of this design, by the registered table.
+The registered assumption that failed hardest was P2's true share of
+0.65; the measured share was 0.356 (n = 312).
+
+**Consequence executed (the FAIL row):** the hypothesis closes with the
+H-NPL closure entry in REGISTRATION.md; collectors disarm immediately;
+the 62 pending census events are recorded pending-at-closure; nothing is
+deleted. The operator's Section 13 prior of 0.40 (adopted) on the bars
+clearing resolves against the prior; the assistant's 0.40 likewise. A
+documented negative was a registered, expected outcome; this is one.

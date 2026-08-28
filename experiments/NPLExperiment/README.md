@@ -1,5 +1,13 @@
 # NPLExperiment
 
+**Status: CLOSED, NEGATIVE — Stage B fired FAIL on 2026-08-28.** On the
+registered retro cohort (n = 312) the short was profitable in 63.1% of
+events but the exact lower bound (0.5707) missed the 0.60 bar and the
+magnitude share (35.6% at ≤ −15%) failed decisively; the listing-age
+contrast passed (114/175, p = 3.8e-05) — the effect exists but is too
+thin per event. Collectors disarmed; the sealed stores remain. See
+REGISTRATION.md (Stage B verdict record, H-NPL closure) and report.md.
+
 **A measurement-only test of one hypothesis family: newly listed Hyperliquid
 perpetuals drift down over 30 and 90 days by more than a short pays in
 funding and fees.** It does not trade, touches no capital, holds no keys,
@@ -44,8 +52,10 @@ revised to fit a result.
     make guards      the structural guards alone
     make mutations   the registered mutation exercise (Stage A.4)
 
-## The operator's one open item
+## Open operator items
 
-REGISTRATION.md Section 13 reserves the operator prior slot, empty. The
-assistant priors recorded beside it are not the operator's number, and the
-empty slot blocks Stage B structurally.
+None. The Section 13 slot was filled 0.40 (adopted) on operator
+instruction 2026-08-27; Stage B ran 2026-08-28 and fired FAIL; the
+hypothesis is closed and the collectors are disarmed. A funding-conditioned
+or magnitude-recalibrated redesign is a new hypothesis requiring its own
+registration.
