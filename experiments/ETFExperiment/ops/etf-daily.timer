@@ -1,0 +1,11 @@
+[Unit]
+Description=ETFExperiment daily pass at 12:20 UTC
+
+[Timer]
+OnCalendar=*-*-* 12:20:00 UTC
+Persistent=true
+AccuracySec=1min
+Unit=etf-daily.service
+
+[Install]
+WantedBy=timers.target

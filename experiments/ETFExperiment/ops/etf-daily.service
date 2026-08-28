@@ -1,0 +1,10 @@
+[Unit]
+Description=ETFExperiment daily pass (seal yesterday, refresh the full history, record price and funding)
+Documentation=file:///home/kiros-li/Documents/GitHub/ETFExperiment/REGISTRATION.md
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/kiros-li/Documents/GitHub/ETFExperiment
+ExecStart=/home/kiros-li/.local/bin/uv run python scripts/daily.py --scheduled
+MemoryMax=2G
+Nice=10

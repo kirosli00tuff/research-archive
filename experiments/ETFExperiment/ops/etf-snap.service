@@ -1,0 +1,10 @@
+[Unit]
+Description=ETFExperiment flow snapshotter (A.1 Task 3, the publication-lag measurement)
+Documentation=file:///home/kiros-li/Documents/GitHub/ETFExperiment/REGISTRATION.md
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/kiros-li/Documents/GitHub/ETFExperiment
+ExecStart=/home/kiros-li/.local/bin/uv run python scripts/snap.py --scheduled
+MemoryMax=2G
+Nice=10

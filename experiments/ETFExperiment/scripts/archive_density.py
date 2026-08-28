@@ -16,7 +16,7 @@ import sys
 from datetime import date
 
 from etf.absence import Absent
-from etf.archive import density, parse_timemap
+from etf.archive import Memento, density, parse_timemap
 from etf.clock import iso_z, now_utc
 from etf.config import CONFIG
 from etf.http import PacedClient
@@ -89,7 +89,7 @@ def main() -> int:
     # because the recent page carries the most recent rows and the all-data
     # page carries every row. Union the intervals before summing (standing
     # rule 9), which here means unioning the memento sets, not adding shares.
-    merged = []
+    merged: list[Memento] = []
     for label, _ in PAGES:
         merged.extend(parse_timemap((OUT / f"timemap-{label}.txt").read_bytes()))
     union = density(universe, merged)
