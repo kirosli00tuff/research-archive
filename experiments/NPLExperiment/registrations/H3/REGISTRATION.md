@@ -144,5 +144,45 @@ must not be copied into the slot below.
 
 ## Amendments
 
-None yet. An amendment is dated, reasoned, states exactly what data
-existed when it was made, and never edits anything above its own line.
+An amendment is dated, reasoned, states exactly what data existed when it
+was made, and never edits anything above its own line.
+
+### Amendment H3-1 — 2026-08-28 — Section 0 verdict record: BLOCKED
+
+**What data existed when this amendment was made.** Counts, rates, and
+timestamps only (docs/ACCESS.md "Register A.1"; data/eligibility/h3.jsonl;
+reports/stage_a_h2/ktable_cull.json). **No outcome value of any fresh
+event has been read.**
+
+**The verdict: BLOCKED. Nothing is armed for H3.** Fired by
+`npl.register.cull.fire_hypothesis_section0` at the cull's pass-1 alpha
+(k = 3, alpha_h = 0.016952); every input beside it:
+
+- **The measured main-dex accrual is 0.5 events/month (n = 3 listings in
+  the trailing 182 days) — the register prompt's planning figure of ~9.4/
+  month is falsified by measurement**, and the measured figure governs
+  (standing rule 3). Achieved fresh main-dex N = **2**; projected N = 3
+  by 2026-12-31 and **5 by 2027-03-31**.
+- H3 eligibility ledger: 2 eligible, 60 excluded `hip3_builder_dex`
+  (the mechanical dex-field rule), counted.
+- **Powers at the deadline (n = 5):** P1 (true share 0.677) **0.0000**;
+  MAG at the governing generating-sample share 0.356 **0.0057** (0.1160
+  at the optimistic H1-registered 0.65, reported beside — the honest
+  range). Both required co-primaries sit under the 0.50 floor at every
+  alpha considered; the verdict is insensitive to the k/alpha question
+  and to the magnitude-leg assumption.
+- Minimum-N statements: P1 needs **262 main-dex events** at alpha 0.05
+  (361 at the k = 3 alpha) against 5 achievable; the magnitude leg at its
+  governing share reaches 0.80 at **no n** (the governing true share sits
+  below the sign-test null).
+
+**Consequence, per Section 0: BLOCKED is a documented answer, not a
+failure of process.** The population-corrected question cannot be powered
+on this venue's main-dex listing rate by the deadline — that is the
+answer. Nothing is armed for H3; its operator prior slot stays reserved
+and empty (a BLOCKED design has no Stage B to unblock); the register
+records the closure in HYPOTHESES.md. **What would reopen it:** a
+main-dex listing rate near 40–50/month sustained (min-N 262 against 0.5/
+month measured), a register deadline years longer, or a successor
+registration on a different venue whose main-population listing rate
+supports the bars.

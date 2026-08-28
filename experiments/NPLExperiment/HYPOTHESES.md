@@ -54,7 +54,7 @@ sealed reads established.
 
 | | |
 |---|---|
-| **Status** | **REGISTERED** · 2026-08-28 — verdict pending the Stage A.2 outcome-blind cull |
+| **Status** | **OPEN — SURVIVOR, DEGRADED** · Section 0 fired 2026-08-28 (Amendment H2-1): k = 1, alpha_h = 0.05; E1/E2 deadline powers 0.974/0.760 at 141 projected pairs; collectors armed; earliest Stage B ≈ mid-2027 (E2 min-N 169 achieved pairs + 30d maturity) |
 | **Registration** | `registrations/H2/REGISTRATION.md` |
 | **Design in one line** | Every fresh event (the 62 pending-at-closure events with servable windows plus all forward births, every dex); the H1 Section 6 control verbatim; pair net = young-leg net short + elder-leg net long, four fills; co-primaries E1 (share of pairs positive) and E2 (share at or above 2× pair central cost), both exact sign tests above one half at alpha_h. |
 | **Power assumptions** | E1 true share 0.65, E2 true share 0.60 — generating-sample-derived (P3 pair share 114/175 = 0.651; paired price differential +6.43 points, funding differential +0.88, n = 175). |
@@ -71,7 +71,7 @@ sealed reads established.
 
 | | |
 |---|---|
-| **Status** | **REGISTERED** · 2026-08-28 — verdict pending the Stage A.2 outcome-blind cull |
+| **Status** | **BLOCKED** · Section 0 fired 2026-08-28 (Amendment H3-1) — measured main-dex accrual 0.5/month (n = 3/182d) against a P1 min-N of 262; deadline N = 5; both required legs at ~0 power. A documented answer. Reopens only on an order-of-magnitude higher main-dex listing rate or a longer-horizon successor registration |
 | **Registration** | `registrations/H3/REGISTRATION.md` |
 | **Design in one line** | Fresh main-dex events only (the exclusion reads the dex field, outcome-blind); bars unchanged from H1 in structure and level — profitability lower bound ≥ 0.60 and the ≥15-point magnitude majority, both at alpha_h, both required. |
 | **Power assumptions** | Share positive 0.677 (generating-sample-derived, main-dex strata 107/158); magnitude share unknown — no subset figure exists — so power computes at the H1 registered 0.65 and the H1 measured overall 0.356, both reported, the honest range. **Registered expectation: likely BLOCKED on the magnitude leg** at achievable main-dex accrual; a BLOCKED is a documented answer, not a failure of process. |
@@ -88,7 +88,7 @@ sealed reads established.
 
 | | |
 |---|---|
-| **Status** | **REGISTERED** · 2026-08-28 — verdict pending the Stage A.2 outcome-blind cull |
+| **Status** | **BLOCKED** · Section 0 fired 2026-08-28 (Amendment H4-2) — measured conditioning rates 0.177/0.129/0.081 (n = 62; median trailing entry funding +31.6%/yr — deep negative entry funding is rare); best-cell deadline power 0.014 governing (0.711 even at the declined optimistic 0.85). The registered expectation confirmed. Reopens only on a persistent negative-funding listing regime — a new registration |
 | **Registration** | `registrations/H4/REGISTRATION.md` |
 | **Design in one line** | Fresh events on every dex, conditioned on a pre-registered grid of three entry-funding thresholds (−10, −20, −40 percent annualized), Sidak-corrected within the hypothesis; the conditioning feature is pre-entry and readable under standing rule 13. Primary per cell: profitability lower bound ≥ 0.60 at the within-corrected alpha. |
 | **Power assumptions** | Depend on measured conditioning rates (Stage A.2 Task 3, from funding archives, pre-entry reads only). **Registered expectation: likely BLOCKED at every cell by 2027-03-31.** |

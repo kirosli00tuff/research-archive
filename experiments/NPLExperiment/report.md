@@ -304,3 +304,81 @@ the census, the pairs ledger, and all request ledgers remain on disk,
 unread beyond the single registered read. The remote is
 git@github.com:kirosli00tuff/NPLExperiment.git (private), origin/main at
 the close-out commit. Open operator items: none.
+
+---
+
+## Register Stage A — the multi-hypothesis conversion (2026-08-28)
+
+The operator instruction arrived hours after the H1 closure: same repo,
+new architecture. NPLExperiment converts into a multi-hypothesis register
+in the MLCryptoEngine style — HYPOTHESES.md at the root, H1 migrated in as
+the founding closed entry, and three co-registered successors (H2 the
+age-contrast pair, H3 the population-corrected naive short, H4 the
+funding-conditioned short) that test on fresh, unread data only, share the
+one collection substrate, and sit under one familywise budget with an
+outcome-blind power cull. The spent Stage B read was quarantined from
+every successor code path before any successor registration existed: an
+AST string pin holds the reachable stage_b surface at exactly the two H1
+modules, import isolation seals the stageb package, the 312 retro event
+IDs are recorded in data/state/generating_sample.json, and every successor
+view refuses them — the refusals produced by test on synthetic offenders,
+never asserted. The register substrate (views, conditioning, cull, priors,
+fresh-cohort reconstruction) landed with the suite green before the first
+new network call, and all three registrations — each with its Section 0
+outcome map, its generating-sample-labelled assumptions, its epistemic
+boundary, and its own reserved empty operator prior slot — were committed
+and pushed before any successor measurement.
+
+**A.1 measured, and one carried figure died.** The collector gap
+(01:40Z last archive advance → 03:55Z recovery, disarm 03:44Z between)
+lost nothing: the venue retains full 1d and funding history, the 62
+pending-at-closure events reconstructed exactly from the sealed census
+(60 hip3, 2 vanilla), and their archives were built from scratch — 156
+pages, 60,010 funding hours, **0 unrecoverable hours** (every leading gap
+is pre-launch structural absence). The census refresh found 504
+instruments (one new: io:EWY, delisted at birth, never an event; one
+relist: xyz:XBI). Accrual re-measured at **18.57 events/month** (n = 113
+listings/182d) — the carried 18.5 confirmed — but **main-dex accrual
+measured 0.5/month (n = 3), falsifying the prompt's ~9.4/month planning
+figure for H3**. The H2 match rate on the fresh cohort measured 0.613
+(38/62): xyz 36/36 pairable, main 2/2, and the young dexs (para, mkts,
+io) zero until their instruments cross the 180-day candidate age at
+deterministic dates. Retention: 62/62 fresh windows fully servable.
+Ceilings: 0 refusals in 60 probes at the A.1-measured rates — no drift,
+pacing unamended.
+
+**A.2 assigned, measured, and culled.** Control assignment ran the H1
+Section 6 rule verbatim at each backfillable entry, trailing-only through
+the pinned matcher: **38 of 38 pairable events assigned, 0 candidates
+skipped for coverage, 16 distinct controls**, both legs' touch spreads
+snapshotted (descriptive). The H4 conditioning rates measured **0.1774 /
+0.1290 / 0.0806** (n = 62, 0 absent) — the fresh cohort's median trailing
+entry funding is **+31.6 percent/yr**, so deeply negative entry funding
+is rare, exactly the failure mode H4's registered expectation named. The
+k-table (reports/stage_a_h2/ktable_cull.json) computed every co-primary
+at k = 1, 2, 3 across achieved / interim / deadline sample sizes, and the
+cull ran to its registered fixed point:
+
+- **Pass 1 (k = 3, alpha_h = 0.016952):** H2 required 0.5771; H3 0.0000;
+  H4 best cell 0.0140 → **H3 and H4 fire BLOCKED.**
+- **Pass 2 (k = 1, alpha_h = 0.05):** H2 required 0.7604 → fixed point.
+- **k = 1. alpha_h = 0.05. H2 fires DEGRADED** (E1 0.9743 / E2 0.7604 at
+  141 projected deadline pairs; min-N 76 / 169). Collectors arm for H2
+  alone.
+
+The pair projection that fed the cull is the by-dex measured model —
+per-dex accrual times deterministic 180-day pairability onsets, all
+A.1-measured — with the flat 0.613 summary reported beside as
+sensitivity. The sensitivity is not cosmetic and is recorded plainly:
+under the flat variant H2's E2 leg sits at 0.4318 at the pass-1 alpha and
+the register would have culled everything (k = 0). The by-dex model
+governs because pairability on this venue is a deterministic function of
+measured dex age (xyz measured 36/36), not a stationary share.
+
+Three amendments carry the record: H2-1 (DEGRADED; k and alpha_h fixed,
+never revisited after any outcome exists), H3-1 (BLOCKED — the measured
+0.5/month main-dex rate against a 262-event min-N is the documented
+answer), H4-2 (BLOCKED — the registered expectation confirmed by the
+measured rates). H4-1, recorded before any conditioning value existed,
+resolved a drafting contradiction in the conditioning feature's absence
+rule in favor of the governing H1 event-side definition.

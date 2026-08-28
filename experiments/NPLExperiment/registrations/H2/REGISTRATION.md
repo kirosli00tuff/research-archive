@@ -245,5 +245,61 @@ must not be copied into the slot below.
 
 ## Amendments
 
-None yet. An amendment is dated, reasoned, states exactly what data
-existed when it was made, and never edits anything above its own line.
+An amendment is dated, reasoned, states exactly what data existed when it
+was made, and never edits anything above its own line.
+
+### Amendment H2-1 — 2026-08-28 — Section 0 verdict record: DEGRADED; k and alpha_h fixed
+
+**What data existed when this amendment was made.** Counts, rates, and
+timestamps only: the A.1 recovery/census/retention/drift record
+(docs/ACCESS.md "Register A.1"), the A.2 eligibility ledgers
+(data/eligibility/), the H2 pairs ledger (38 rows), the measured
+conditioning rates, and the exact-power arithmetic
+(reports/stage_a_h2/ktable_cull.json). **No outcome value of any fresh
+event has been read; the H2 verdict machinery does not yet exist.**
+
+**k and alpha_h, fixed now and never revisited after any outcome exists:**
+the register cull (Section 9 procedure, `npl.register.cull.run_cull`) ran
+at the k/alpha fixed point on the deadline sample sizes. Pass 1 (k = 3,
+alpha_h = 0.016952): H2 required power 0.5771, H3 0.0000, H4 best cell
+0.0140 — H3 and H4 fire BLOCKED. Pass 2 (k = 1, alpha_h = 0.05): H2
+required power 0.7604 — fixed point. **k = 1. alpha_h = 0.05.**
+
+**The verdict: DEGRADED. Collectors are armed for H2.** Fired by
+`npl.register.cull.fire_hypothesis_section0`; every input beside it:
+
+- Fresh cohort 62 (60 hip3, 2 vanilla), reproducing the registered
+  pending-at-closure count; retention 62/62 servable; funding archives
+  complete with 0 unrecoverable hours (60,010 hours).
+- H2 eligibility: **38 pairable of 62** (24 `no_control_candidate`,
+  counted); assignment **38 of 38** at entry, trailing-only, 0 candidates
+  skipped for coverage, 16 distinct controls, pairs ledger
+  `data/controls/h2_pairs.jsonl` at 38 append-only rows.
+- Measured match rate 38/62 = **0.613** (xyz 36/36, main 2/2, para 0/18,
+  mkts 0/4, io 0/2 — the young dexs cross the 180-day candidate age at
+  deterministic dates: para 2026-09-26, mkts 2026-12-26, io 2027-02-13).
+- Measured accrual **18.57 events/month** (trailing 182d, n = 113).
+- **Projected pairs, by-dex measured model (governing):** 88 by
+  2026-12-31, **141 by 2027-03-31** — per-dex accrual × deterministic
+  pairability onsets, all A.1-measured quantities. The flat summary
+  (0.613 × forward events: 72 / 106) is reported beside as sensitivity;
+  **under the flat variant H2's E2 leg sits at 0.4318 at the pass-1
+  alpha and the cull would fire k = 0** — recorded plainly. The by-dex
+  model governs because pairability is a deterministic function of
+  measured dex age (xyz measured 36/36 pairable), not a stationary share.
+- **Powers at the deadline (n = 141 pairs, alpha_h = 0.05):** E1 **0.9743**,
+  E2 **0.7604** — the weaker required co-primary lands in [0.50, 0.80):
+  **DEGRADED**, per the Section 0 map. At achieved n = 38: E1 0.5339,
+  E2 0.2897. At interim n = 88: E1 0.8530, E2 0.5289.
+- **Minimum-N statements (stays-at-or-above-0.80 semantics, as H1):**
+  E1 **76 pairs** at alpha 0.05 (103 at the k = 3 alpha — the register
+  prompt's sanity anchors, near 67 first-crossing and 95–105 at k 3,
+  bracket these; computation authoritative), E2 **169 pairs** at 0.05.
+  The Stage B trigger therefore projects to achieved-pair count 169,
+  reached near **2027-05/06** at the measured by-dex rates, plus 30-day
+  maturity.
+
+**Consequence.** Collection proceeds for H2 under the DEGRADED rule:
+recomputed power is stated beside the registered 0.80 target at every
+later reading; A.3 arms the collectors for H2 alone (H3 and H4 armed
+nothing, per their own Section 0 records).

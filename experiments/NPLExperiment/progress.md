@@ -667,3 +667,39 @@ measurement and the measured figure governs A.2**; H2 match rate 38/62 =
 0.613 (xyz 36/36, main 2/2, para 0/18, mkts 0/4, io 0/2); session requests
 418, refusals 0, zero dollars, no keys. Evidence: docs/ACCESS.md
 "Register A.1".
+
+## 2026-08-28T06:20Z — Register Stage A.2 complete — the cull fires: k = 1, alpha_h = 0.05; H2 DEGRADED, H3 BLOCKED, H4 BLOCKED
+
+| Task | ETA | Actual |
+|---|---|---|
+| 1. Per-hypothesis eligibility ledgers | — | H2 38/62 pairable (24 no_control_candidate); H3 2/62 (60 hip3 excluded); H4 cells 11/8/5 of 62 |
+| 2. Control assignment (backfillable pairs) | — | 38/38 assigned at entry, trailing-only, 0 coverage skips, 16 distinct controls; +16 control-leg spreads (A.1 Task 5 completion) |
+| 3. Conditioning rates | — | 0.1774 / 0.1290 / 0.0806 (n = 62, 0 absent; median trailing entry funding +31.6%/yr) |
+| 4. k-table | — | reports/stage_a_h2/ktable_cull.json — every co-primary at k = 1, 2, 3 × achieved/interim/deadline, min-N per co-primary |
+| 5. Cull + verdicts | — | pass 1 (k = 3, α 0.016952): H2 0.5771, H3 0.0000, H4 0.0140 → H3, H4 BLOCKED; pass 2 (k = 1, α 0.05): H2 0.7604 → fixed point |
+| A.2 total | 60–80 min | ~55 min (05:25Z → 06:20Z; candidate fetch 380 pages background) |
+
+**Verdicts, recorded in the registration amendment logs (H2-1, H3-1,
+H4-2), each with every input figure beside it:**
+
+- **H2: DEGRADED, collectors armed.** k = 1, alpha_h = 0.05 fixed.
+  Deadline pairs 141 (by-dex measured model; flat-0.613 variant 106
+  reported beside — under which E2 sits at 0.4318 at the pass-1 alpha and
+  the cull would fire k = 0, recorded plainly). Deadline powers E1 0.9743,
+  E2 0.7604; min-N E1 76 / E2 169 pairs at α 0.05. Earliest H2 Stage B ≈
+  mid-2027.
+- **H3: BLOCKED.** Measured main-dex accrual 0.5/month (n = 3/182d)
+  against the falsified ~9.4 planning figure; deadline N = 5 vs P1 min-N
+  262; powers 0.0000 / 0.0057 (0.1160 at the optimistic 0.65, beside).
+- **H4: BLOCKED.** Conditioning rates 0.1774/0.1290/0.0806 (n = 62);
+  deadline cell Ns 30/22/13; best-cell power 0.0140 governing (0.7106 at
+  the declined optimistic 0.85, beside). The registered expectation
+  confirmed.
+
+Amendment H4-1 (recorded before any conditioning value existed) resolved
+the conditioning feature's absence rule: the H1 event-side partial-window
+mean governs; the 0.95 bar applies to control candidates only.
+
+Session requests to the fire: ~830 (418 A.1 + ~412 A.2: 380 candidate
+pages/trails + 16 control-leg spreads + census remainder); refusals 0;
+zero dollars; no keys. No outcome value read.

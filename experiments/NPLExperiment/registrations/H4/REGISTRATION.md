@@ -161,5 +161,74 @@ must not be copied into the slot below.
 
 ## Amendments
 
-None yet. An amendment is dated, reasoned, states exactly what data
-existed when it was made, and never edits anything above its own line.
+An amendment is dated, reasoned, states exactly what data existed when it
+was made, and never edits anything above its own line.
+
+### Amendment H4-1 — 2026-08-28 — the conditioning feature's absence rule, resolved before any conditioning value existed
+
+**What data existed when this amendment was made.** The A.1 recovery and
+census refresh only: archive timestamps, row counts, servability, and
+rates. **No conditioning value had been computed: no trailing mean of any
+fresh event had been read**, and no eligibility ledger row existed.
+
+**The contradiction, reported rather than silently chosen.** Section 3's
+governing sentence defines the feature as "the same quantity the H1
+Section 6 matcher computes" — `npl.controls`' event-side trailing mean,
+which is **partial by design** (the mean over the present pre-entry rows
+inside the 168-hour window; absent only when no pre-entry row exists),
+because a two-day-old instrument cannot have 168 funded hours. The
+parenthetical in the same section ("coverage under the 0.95 bar over the
+trailing window") contradicts that: under a 0.95-of-168h bar every fresh
+event's feature would be absent and H4's universe would be empty by
+construction.
+
+**The amended rule.** The governing sentence governs, verbatim: the
+conditioning feature is the event-side trailing mean exactly as
+`npl.controls._event_trailing_mean` computes it — the mean over present
+pre-entry rows in the trailing 168-hour window, **absent only when no
+pre-entry row exists** (and then excluded from every cell with its
+reason, counted). **The 0.95 coverage bar applies to control candidates
+only** (H2 Section 6 / H1 Section 6), never to the event's own
+conditioning feature. The bias direction: a partial-window mean over a
+young instrument's first funded hours is exactly the information a
+forward trader would have at entry, so the rule is implementable and
+introduces no look-ahead.
+
+### Amendment H4-2 — 2026-08-28 — Section 0 verdict record: BLOCKED
+
+**What data existed when this amendment was made.** Counts, rates, and
+timestamps only (docs/ACCESS.md "Register A.1"; data/eligibility/h4.jsonl
+— eligibility flags and pre-entry trailing means, standing rule 13;
+reports/stage_a_h2/ktable_cull.json). **No outcome value of any fresh
+event has been read.**
+
+**The verdict: BLOCKED. Nothing is armed for H4.** Fired by
+`npl.register.cull.fire_hypothesis_section0` at the cull's pass-1 alpha
+(k = 3, alpha_h = 0.016952; alpha_cell = 0.00568 Sidak-within); every
+input beside it:
+
+- **Measured conditioning rates (A.2 Task 3, n = 62 fresh events, 0
+  absent trailing means, Amendment H4-1 rule):** le −10%/yr **0.1774**
+  (11/62), le −20%/yr **0.1290** (8/62), le −40%/yr **0.0806** (5/62).
+  The fresh cohort's trailing entry funding is predominantly positive:
+  median **+31.6 percent/yr annualized** (n = 62, min −132.4, max
+  +403.5) — longs pay shorts on most new listings, and deep negative
+  entry funding is rare.
+- **Cell sample sizes at the deadline (rate × 173 projected events):**
+  30 / 22 / 13; at achieved 62: 11 / 8 / 5.
+- **Powers at the deadline, governing generating-sample share 0.631:**
+  best cell **0.0140** (le −10%), 0.0037, 0.0025 — every cell far under
+  the 0.50 floor. At the optimistic H1-registered 0.85 (reported beside,
+  the honest range): 0.7106 / 0.3382 / 0.1209 — under the GO floor even
+  at the assumption the register declined to adopt.
+- Minimum-N per cell at the governing share: not reached by n = 1200
+  (power at 1200 = 0.354 at the k = 3 alpha) against 30 achievable.
+
+**Consequence, per Section 0 and the registered expectation ("likely
+BLOCKED at every cell"): BLOCKED is the documented answer.** Nothing is
+armed for H4; the operator prior slot stays reserved and empty; the
+register records the closure in HYPOTHESES.md. **What would reopen it:**
+a funding regime in which deeply negative entry funding stops being rare
+(conditioning rates several times higher, sustained), a much larger
+listing rate, or a redesign of the conditioning claim strong enough to
+justify the near-0.85 conditional share — each a new registration.
