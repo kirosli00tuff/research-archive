@@ -989,3 +989,106 @@ forward accrual rate of 20.8 admissible days per month:
 eliminated and closed, BLOCKED not fired on power, the remaining choice turning
 on the forward revision-integrity leg alone, earliest completion 2026-09-22.
 Amendment 3's power table, its verdict, and every registered bar stand.
+
+### Amendment 5 — 2026-08-28 — H1 closes at untestable-at-achievable-power, on the deadline finding, before the Section 0 map completes
+
+**What data existed when this amendment was made.** Everything in Amendments
+1 through 4. **No outcome value has been read.** The only price and funding
+values this repository has parsed are the pre-period carve-out inputs, every one
+stamped strictly before 2025-05-01 and gated by `etf.preperiod`. The forward
+revision-integrity leg has **not** completed and will not; its earliest
+completion was 2026-09-22 and the closure precedes it.
+
+#### 1. What closes, and on what
+
+**H1 closes at `untestable-at-achievable-power`.** The registered design cannot
+resolve the effect at the sample size reachable by the registered deadline of
+2027-03-31. The signal was never read and this closure is not evidence about it.
+
+| figure | measured | its n |
+|---|---|---|
+| projected achieved N at the registered deadline | **163** | forward accrual 20.8 admissible days/month |
+| E1 minimum N at the published 0.18 | **237** | 1,200 draws, 300 sims/cell |
+| E2 minimum N at the published 0.18 | **300** | 1,200 draws, 300 sims/cell |
+| governing minimum N (Section 10 requires both) | **300** | Amendment 4 |
+| shortfall at the deadline, governing figure | **137 days** | |
+| shortfall at the deadline, **most favourable figure on the record** | **74 days** | E1's 237, ignoring E2 entirely |
+
+**The closure is robust to the one figure that is not pinned.** Amendment 4's
+E2 power at n = 300 reads exactly 0.8000 from 300 simulations. Binomial standard
+error on a 0.80 estimate at 300 draws is **0.0231**, so an estimate landing
+precisely on its bar has roughly even odds of sitting below it, and the true E2
+minimum could be 350 or 400. **That uncertainty cannot rescue the hypothesis.**
+Discard E2 entirely, take E1's 237 as the minimum, and 163 still falls short by
+74 days. Every direction the unpinned figure could move makes the shortfall
+larger, never smaller. **Recorded as an open caveat on the reopen path, not as a
+blocker on the closure.**
+
+#### 2. Why this is not a Section 0 firing
+
+**Section 0 never completed and is left partially fired.** Amendment 3
+eliminated GO on measured inputs and did not fire BLOCKED on power. The
+remaining DEGRADED-versus-BLOCKED choice turned on the forward revision-integrity
+leg alone, whose earliest completion was 2026-09-22.
+
+**That choice is moot and is recorded as moot rather than resolved.** Under
+either branch, Stage B cannot fire inside the registered deadline, because the
+Stage B trigger of Section 10 requires the governing minimum N at the assumption
+the verdict fires on, and no branch of Section 0 changes the accrual rate or the
+deadline. **DEGRADED and BLOCKED differ in label and not in operational
+consequence here.** The closure is therefore an **operator decision on a
+measured, outcome-blind finding** (the Amendment 4 deadline finding), taken
+before the map completed, in the MLCryptoEngine H7 shape.
+
+**Nothing in this amendment resolves the revision-integrity question.** It is
+recorded as unmeasured, with its measured retro corroboration standing at
+**0 revised, 0 sign flips, 0 threshold crosses on n = 11**, below the registered
+minimum of 30 and carrying no verdict.
+
+#### 3. The epistemic boundary, stated because it is the line most easily misread
+
+**This closure is not evidence that ETF flow prints fail to predict the next
+day's BTC return.** No outcome value was read at any point. The verdict
+machinery was built dark, never pointed at sealed data, and is not run by this
+amendment. **The type is `untestable-at-achievable-power`, not `signal-absent`,
+and mistyping it later would be the expensive error this register exists to
+prevent.** What is established is narrower and is a fact about data
+availability, not about markets: **the as-printed history required to test this
+design at power does not exist in any free archive**, and building it forward
+takes longer than the registration allowed.
+
+#### 4. What the stage established, kept because it outlives the hypothesis
+
+- **Archive capture density 11 of 333 = 0.0330** against a 0.60 bar, failing on
+  a crawl rate of **0.316 mementos per calendar day**, not on the registered
+  window. An unbounded window reaches only **112 of 333 = 0.3363**. This is a
+  general fact about archiving daily-updated finance pages and it constrains any
+  future as-printed retrospective design in this house.
+- **No surviving flow source serves a per-row publication timestamp (n = 2 of
+  2)**, and none documents a publication time at all.
+- **The venue serves a rolling 5,001-row hourly window** sliding one hour per
+  hour (n = 17 probes), so sealed collection cannot wait on a decision.
+- **The timemap answers "was there a capture"; only fetching answers "was there
+  a value".** Amendment 1's 0.1111 became Amendment 2's 0.0330 on that
+  distinction alone, a factor of 3.4.
+
+#### 5. Collection, on closure
+
+- **`etf-daily` (sealed price and funding recorder) is disarmed.** It serves a
+  hypothesis that is closed.
+- **`etf-snap` (flow snapshotter) continues, decoupled from any registered
+  hypothesis**, in the MLCryptoEngine H7 shape where recorders accrue at zero
+  cost past a closure. The reason is specific: §4 establishes that forward
+  capture is the **only** route to as-printed flow data, and a gap in a
+  forward-recorded ledger cannot be backfilled. Disarming it permanently
+  forecloses reopen path (b). It costs roughly 33 requests per day and zero
+  dollars. **It writes to a ledger that no verdict path reads, so it cannot
+  contaminate anything.**
+
+#### 6. The operator prior slot
+
+**Remains empty and is not filled by this closure.** No verdict was formed, so
+there is nothing for a prior to be scored against. The assistant's recorded
+**0.10** stands where it is and **was not copied into the slot** at any point.
+The calibration ledger records this repository as closed without a scored
+prediction, which is the honest entry.

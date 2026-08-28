@@ -428,3 +428,67 @@ that lesson and is in place from the first commit.
 before the registered Stage B read of Section 10, which requires both
 co-primaries at 80 percent power at achieved admissible N, the operator prior
 slot filled and labelled, and explicit operator instruction.
+
+## Stage A close — H1 closes at untestable-at-achievable-power
+
+Two independent findings came out of Stage A, and the second one governs.
+
+**The first killed the retrospective leg.** As-printed admissibility requires an
+archive capture that served a value before the entry anchor. Across the 333
+printed out-of-sample trading days, **11 qualify (0.0330)** against a registered
+bar of 0.60. The failure is a crawl-rate failure, **0.316 mementos per calendar
+day**, not a window failure: 48.37 percent of mementos already fall inside the
+registered window, and removing the window entirely reaches only **112 of 333
+(0.3363)**. Those captures do not exist and cannot be created. GO closed on this
+and closed irreversibly.
+
+**The second killed the forward leg, through the calendar rather than the
+arithmetic.** Section 10's Stage B trigger needs the governing minimum N.
+Amendment 4 put that at **300**. Measured forward accrual is **20.8 admissible
+days per month**, which projects **163** at the registered 2027-03-31 deadline
+and reaches 300 around **2027-10-26**.
+
+**The power floor was cleared and the deadline was not.** E1 reaches 0.6105 at
+the published magnitude at the achievable count, comfortably above the 0.50
+BLOCKED floor. Nothing here says the sample is too weak in principle. It says
+the sample does not arrive in time.
+
+**One figure in that chain is not pinned, and the closure is written so it does
+not matter.** Amendment 4's E2 power at n = 300 reads exactly 0.8000 from 300
+simulations, where the binomial standard error is 0.0231. Sitting on its own bar
+at that precision, the true minimum could be 350 or 400. So the closure is
+stated against **E1's 237** instead, the smallest minimum on the record, at the
+undecayed published magnitude, discarding E2 altogether. **163 still falls short
+by 74 days.** The unpinned figure can only enlarge the shortfall, never close
+it. It is carried forward as a caveat on reopen threshold (c), where it binds.
+
+**Section 0 is left partially fired.** The forward revision-integrity leg never
+completed and its earliest completion was 2026-09-22. It would have chosen
+between DEGRADED and BLOCKED. **Neither branch alters the accrual rate or the
+deadline**, so the choice is recorded as moot rather than resolved, and the
+closure is an operator decision on a measured outcome-blind finding rather than
+a Section 0 firing.
+
+**What this section does not establish, stated plainly because it is the line
+most easily misread later.** Nothing here is evidence about whether ETF flow
+prints predict the next day's BTC return. **No outcome value was read at any
+point in this repository.** The verdict machinery was built dark, refused sealed
+paths in code, and was never run. The finding is about data availability: the
+as-printed history required to test this design at power does not exist in any
+free archive, and building it forward takes longer than the registration
+allowed.
+
+**What survives the hypothesis.** The archive-density measurement is a general
+fact about archiving daily-updated finance pages and constrains any future
+as-printed retrospective design here. The lag-and-revision harness is reusable
+intact. And the Amendment 1 to Amendment 2 correction records the sharpest
+methodological lesson of the stage in a single line: **the timemap answers "was
+there a capture", and only fetching the capture answers "was there a value", and
+only the second question is the registered one.** That distinction alone moved
+the density figure by a factor of 3.4.
+
+### Stage B
+
+**Not written. Never will be under this registration.** Stage B is written once
+and only after the latch, and the latch was never spent. The sealed outcome
+substrate stands untouched at 142 of 333 days covered.

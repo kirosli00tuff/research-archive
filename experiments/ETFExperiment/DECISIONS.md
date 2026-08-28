@@ -517,3 +517,54 @@ machine that has no systemd at all.
 
 **Consequences.** The scheduled invocations pass `--scheduled` and bypass the
 check by design; nothing else does.
+
+## ADR-019: H1 closes on the deadline finding, and the closure is deliberately robust to the one unpinned figure
+
+**Date:** 2026-08-28 · **Status:** accepted
+
+**Context.** Amendment 3 eliminated GO on measured inputs and left the
+DEGRADED-versus-BLOCKED choice turning on a forward revision-integrity leg whose
+earliest completion was 2026-09-22. Amendment 4 then established that Section
+10's Stage B trigger needs a governing minimum N of 300 against a projected 163
+at the registered deadline. **The two findings are independent, and the second
+governs.** Waiting 24 days for a label that changes no operational consequence
+is a delay, not a decision.
+
+**Decision.** H1 closes at `untestable-at-achievable-power`, by operator
+decision, on 2026-08-28. Section 0 is left partially fired and the residual
+choice is recorded as moot rather than resolved.
+
+**The closure is constructed so it does not rest on the weakest figure in the
+record.** Amendment 4's governing minimum of 300 comes from an E2 power estimate
+reading exactly 0.8000 at 300 simulations, where the binomial standard error is
+0.0231. An estimate sitting precisely on its own bar is not pinned, and the true
+minimum could be 350 or 400. **Rather than close on it, the closure is stated
+against E1's 237** — the smallest minimum anywhere on the record, at the
+undecayed published magnitude, discarding the second co-primary entirely. The
+projected 163 falls short of even that by 74 days. **Every direction the
+unpinned figure could move enlarges the shortfall.** The caveat is carried on
+the reopen path, where it does bind, and a reopening under threshold (c) must
+pin it first.
+
+**Alternatives rejected.** *Waiting for 2026-09-22*: the revision leg
+distinguishes DEGRADED from BLOCKED and neither branch alters the accrual rate
+or the deadline, so it buys a label. *Amending the deadline to 2027-12-31 and
+continuing*: legitimate, outcome-blind, and nearly free in compute, and it was
+declined on what it purchases rather than on what it costs. An extension buys
+the **published 0.18** assumption only; at the **registered 0.09** assumption
+the minimum N exceeds 1,200, which at 20.8 admissible days per month arrives
+around 2031. A Stage B under the extension answers only whether the effect
+persists at its published magnitude, and a FAIL still cannot separate decay from
+absence, which is the distinction the registered assumption exists to draw.
+*Closing at `signal-absent`*: refused, and refused emphatically. No outcome
+value was read. Mistyping a power closure as a signal closure would be the
+precise failure this register was written to prevent.
+
+**Consequences.** `etf-daily` is disarmed. `etf-snap` continues, decoupled from
+any registered hypothesis, because §4 of Amendment 5 establishes forward capture
+as the only route to as-printed flow data and a forward ledger gap cannot be
+backfilled. The operator prior slot stays empty; no verdict was formed, so there
+is nothing to score, and the assistant's 0.10 was never copied into it. The
+archive-density finding (0.0330 measured, 0.3363 unbounded ceiling, 0.316
+mementos per calendar day) outlives this hypothesis and constrains any future
+as-printed retrospective design in this house.

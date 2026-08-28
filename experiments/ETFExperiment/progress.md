@@ -522,3 +522,46 @@ timers were verified untouched throughout: **npl-watch** (60 min),
 **news-collect** (22:31 UTC), **solattn-daily** (00:40 UTC), **npl-daily**
 (01:40 UTC). No unit-name collision. No file outside this repository was
 written.
+
+## Entry 7 — 2026-08-28 — H1 closed at untestable-at-achievable-power
+
+**Operator decision, taken on the Amendment 4 deadline finding, before Section 0
+completed.** Recorded in REGISTRATION.md Amendment 5, HYPOTHESES.md H1,
+DECISIONS.md ADR-019, report.md final stage section.
+
+**The closing figures, each with its n.** Projected achieved N at the registered
+2027-03-31 deadline **163**, at a measured forward accrual of **20.8 admissible
+days per month**. Governing minimum N **300**. Shortfall **137 days**, or **74
+days** against E1's 237, the most favourable minimum on the record. Achieved N
+on the closing date **11**, all retro-archive, forward-capture 0.
+
+**The closure was deliberately not rested on the E2 figure.** It reads exactly
+0.8000 at 300 simulations, SE 0.0231, sitting on its own bar and therefore
+unpinned. Stating the closure against E1's 237 instead makes it robust to every
+direction that figure could move. Recorded as a caveat on reopen threshold (c),
+which must pin it before any reopening.
+
+**One registered measurement never completed and is recorded as unmeasured, not
+as resolved.** The forward revision-integrity leg needed 15 US trading days from
+arming, earliest completion 2026-09-22. Its retro corroboration stands at 0
+revised, 0 sign flips, 0 threshold crosses on **n = 11**, below the registered
+minimum of 30 and carrying no verdict. The DEGRADED-versus-BLOCKED choice it
+would have settled is moot, because neither branch alters the accrual rate or
+the deadline.
+
+**Collection state.** `etf-daily` disarmed. `etf-snap` continues, decoupled from
+any registered hypothesis, writing to a ledger no verdict path reads. Reason:
+forward capture is the only route to as-printed flow data and a forward ledger
+gap cannot be backfilled, so disarming it would permanently foreclose reopen
+path (b). Roughly 33 requests per day, zero dollars.
+
+**Open operator items: none.** The prior slot stays empty and is no longer an
+open item, because no verdict was formed and there is nothing to score. The
+assistant's recorded 0.10 was never copied into it. The calibration ledger
+records this repository as closed without a scored prediction.
+
+**Cost across the whole repository.** Zero dollars, no capital, no credential,
+**220 charged requests** (33 flow, 79 archive, 108 venue), settling 213 x 200,
+5 x 404, 1 x 401, 1 x 403. Four pre-existing user timers verified untouched
+throughout: npl-watch (60 min), news-collect (22:31 UTC), solattn-daily (00:40
+UTC), npl-daily (01:40 UTC).
