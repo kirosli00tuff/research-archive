@@ -126,10 +126,7 @@ MUTATIONS: tuple[Mutation, ...] = (
     Mutation(
         name="5-substitute-a-live-value-for-a-missing-capture",
         path=SRC / "census.py",
-        find=(
-            "        later = window is not None and any("
-            "m.captured_at >= window[1] for m in ordered)"
-        ),
+        find="        later = window is not None and any(\n",
         replace=(
             "        if not qualifying:\n"
             "            rows.append(\n"
@@ -145,8 +142,7 @@ MUTATIONS: tuple[Mutation, ...] = (
             "                )\n"
             "            )\n"
             "            continue\n"
-            "        later = window is not None and any("
-            "m.captured_at >= window[1] for m in ordered)"
+            "        later = window is not None and any(\n"
         ),
         expect_failing_tests=("tests/test_census.py",),
         why=(
