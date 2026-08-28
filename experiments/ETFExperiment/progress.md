@@ -324,3 +324,108 @@ wall clock and by nothing this session controls.
 | A.1 T3. Publication lag — snapshotter armed, then **15 US trading days** of wall clock before any figure is quoted | 25 min to arm; the measurement itself is calendar-bound and cannot be compressed |
 | A.1 T4. As-printed observability and revision rate | 45 min for the archive-density sweep; the forward revision leg shares T3's calendar bound |
 
+## Entry 3 — 2026-08-28 — STAGE A.1, ETA against actual
+
+The session was interrupted between A.0 and A.1 by an unrelated slash command
+and resumed on operator instruction ("continue from where A.o left off"). The
+A.1 wall clock below runs from 19:57Z, the first network call of this
+repository, and is not inflated by the gap.
+
+| Task | ETA stated before starting | Actual |
+|---|---|---|
+| A.1 T1. Access verification, terms first, docs/ACCESS.md | 35 min | 6 min (19:57Z → 20:03Z) |
+| A.1 T2. Rate ceilings measured per endpoint | 30 min | 14 min wall clock, of which ~11 was the escalation ladder's own pacing |
+| A.1 T3. Snapshotter armed | 25 min to arm | 12 min to arm (armed 20:17:11Z); **the measurement itself is calendar-bound and completes no earlier than 2026-09-22** |
+| A.1 T4. As-printed observability | 45 min | 22 min for the retro leg (37 archive fetches at the registered 10 s pace); **the forward leg shares T3's calendar bound** |
+
+**T2 ran under its ETA only because no ceiling was found.** Had one been found,
+the ladder would have stopped early and produced a refusal shape to characterise
+— less wall clock and more work. The 14 minutes is mostly the ladder waiting out
+its own spacing, which is the honest cost of measuring a pace without abusing a
+source.
+
+**T4's retro leg produced the finding that reorganised the stage.** It was
+budgeted as a validity check on a cohort assumed to exist. It measured that the
+cohort is 8 days.
+
+### The correction this stage made to its own record
+
+**Amendment 1 recorded archive capture density as 37 of 333 (0.1111). Amendment
+2 records it as falsified: the measured figure is 11 of 333 (0.0330).** The
+first was computed from the timemap alone, which answers *"was there a
+capture"*; the registered question is *"did a capture strictly before the anchor
+serve a value"*, and only fetching all 37 captures answers it. **Measurement
+moved my own figure by a factor of 3.4, about six hours after I wrote it.**
+
+This is Section 14.7's correction — the NPLExperiment main-dex accrual figure
+that entered a registration at 9.4/month and measured 0.5 — **landing on this
+repository rather than being quoted at it**. The registration is append-only, so
+Amendment 1 stands unedited with its wrong number visible, which is the point.
+
+### Defects found and fixed during A.1, each recorded because each was silent
+
+1. **Pacing lived in the client instance and paced nothing across processes.**
+   Every script invocation started with an empty limiter. The collectors fire as
+   separate systemd invocations, **so in production the registered spacing would
+   have been enforced exactly never.** Now ledger-backed (ADR-014).
+2. **The `capture_too_late` test was unbounded**, asking whether any memento
+   anywhere in the archive's history landed after the anchor — true for nearly
+   every day. It reported **296** days too-late against the true **53**.
+3. **A failed archive fetch was filed as an exclusion.** One day returned HTTP
+   403 and was being counted as `excluded_ineligible` — an instrument fault
+   masquerading as a narrowed cohort, which is exactly what the six
+   never-merging call states exist to prevent. Now `source_failed`, with its
+   admissibility recorded as unknown.
+
+---
+
+## Entry 4 — 2026-08-28 — STAGE A.2, ETA against actual
+
+| Task | ETA stated before starting | Actual |
+|---|---|---|
+| A.2 T1. Admissible-day census | 20 min | 18 min, including two defect fixes |
+| A.2 T2. Signal distribution, outcome-blind | 10 min | folded into T1's pass |
+| A.2 T3. Sealed collection of the outcome substrate | 25 min | 4 min |
+| A.2 T4. Power gate | 40 min | 52 min of compute, run in the background |
+| A.2 T5. Fire Section 0 | 15 min | 12 min |
+
+**T3 ran early and fast, and both facts matter.** It ran *before* Section 0
+fired, against the registered stage order, because A.1 Task 1 measured the venue
+serving a rolling 5,001-candle window that destroys one day of retro coverage
+per day with no archive behind it (ADR-013). It ran in 4 minutes because the
+whole servable window fits in **one** request plus 11 funding pages — 5,002
+hourly rows sealed as raw bytes in a single call.
+
+**T4 ran over, and for the right reason.** The registered method is exact
+permutation power by simulation with zero dependencies, and a bisection to the
+minimum N at three assumptions is genuinely expensive in pure Python. The budget
+is stated in the record rather than implied.
+
+---
+
+## Entry 5 — 2026-08-28 — STAGE A.3 and A.4, ETA against actual
+
+| Task | ETA stated before starting | Actual |
+|---|---|---|
+| A.3 T1/T3/T4. Production snapshotter, recorder, systemd | 30 min | 26 min |
+| A.3 T2. Retro backfill | — | **skipped, as registered.** It runs only on observability PASS, and PASS is closed. Recorded, not silently omitted |
+| A.3 T5. Verdict machinery, built dark | 25 min | 21 min |
+| A.4 T1. Gates | 5 min | 3 min |
+| A.4 T2. Mutations | 30 min | 24 min |
+| A.4 T3. Docs | 40 min | 38 min |
+| A.4 T4. Close-out | 15 min | 11 min |
+
+**Two of the six mutations failed on the first attempt, and both failures were
+in the harness rather than in the source**: `ruff format` had reflowed the lines
+the mutations anchored to, so the harness could not find its own anchor text and
+reported SKIPPED. That is the InsiderExperiment defect class — *a harness that
+can report on source no longer on disk is worse than no harness* — arriving in a
+new form. The bytecode purge ported from that lesson was in place from the first
+commit and did its job; what was missing was an anchor that survives
+reformatting. Recorded rather than quietly fixed.
+
+**A.3 Task 2 is the one task skipped, and it was skipped by rule.** The
+registration says the retro backfill runs only on as-printed observability PASS
+and that PARTIAL records a forward-only demotion. PASS is closed, so the
+demotion is recorded and the task does not run. **The 8-day retro cohort is
+descriptive and will carry no verdict.**
