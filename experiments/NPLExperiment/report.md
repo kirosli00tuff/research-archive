@@ -598,3 +598,120 @@ sealed location. **The H2 pair reader had seen only synthetic fixtures when
 this stage opened, and has seen only synthetic fixtures at its close.** The
 one open operator item is unchanged and unchangeable by the assistant: the
 **H2 operator prior slot**, which now blocks both looks.
+
+---
+
+## Register entry H5 — HIP-3 equity-style perpetual basis (2026-08-28)
+
+**A feasibility entry, not a hypothesis.** H5 asks whether the perp mark on
+HIP-3 equity-style instruments sits far enough from its underlying reference
+to be worth investigating, whether funding is served on these instruments at
+all, and whether a daily-latency expression is conceivable for this operator.
+It authorizes no capital, no Stage B read of a trading outcome, and no
+Stage C. Its terminal states are **VIABLE** — meaning a successor is worth
+registering **in a fresh repository, with an independent underlying feed** —
+or **CLOSED**, with INDETERMINATE as the registered middle.
+
+### What was registered before anything was read
+
+`registrations/H5/REGISTRATION.md` was committed and pushed with **zero H5
+requests sent**, and it carries its machinery as tested code rather than
+prose: the exact-string ticker mapping (198 entries), the US market calendar
+for 2024–2027 with its four session tags, the basis definition with the
+same-snapshot rule enforced by snapshot id, the outcome map built dark with
+fixtures sitting exactly on 18.00 bp, 54.00 bp, 20 instruments and a 10-of-20
+funding share, the request-budget arithmetic, the write containment gate, and
+the empty operator prior slot.
+
+Three consequences were registered **before** measurement, because the
+obvious implementation breaks all three: no retrospective basis can come from
+`candleSnapshot` under standing rule 7; H5 reads no funding rate value
+anywhere and records funding as *service*; and the retrospective read is
+gated away from every registered cohort because the venue's historical
+deviation field is a funding-rate proxy.
+
+### What the venue actually serves
+
+Two full census passes, 323 requests each, returning **identical** counts,
+plus a 6-request reconnaissance probe. `docs/H5_ACCESS.md` carries the
+verbatim fragments.
+
+| question | answer |
+|---|---|
+| Is a reference served? | **Yes — `oraclePx` on 151 of 151** resolved instruments. `reference_unserved`: **zero**. |
+| Is funding served? | **Yes.** The `funding` field on 151 of 151 contexts; `fundingHistory` rows on **94 of 94 live** instruments, every one stamped inside the last two hours. The 2026-08-27 `no_data`/`caught_up=true` records carried into this entry were **an archive cursor at its end, not an absent field**. |
+| Is there a book? | Two-sided on 94 of 94 live; empty on all 57 delisted. Live median touch spread **4.18 bp** (IQR 1.31–10.78). |
+| Historical mark-vs-oracle? | **No.** The venue serves neither historically. **A retrospective basis of the registered construction does not exist.** |
+| Historical deviation of any kind? | **Yes, differently built**: `premium`, hourly. Verified arithmetically against the contemporaneous BTC context — served premium −0.0003482613 equals (77501.0 − 77528.0)/77528.0 exactly, where 77501.0 is the served impact ask. An **impact-price** deviation, therefore a named secondary that may fire CLOSED and never VIABLE. |
+
+### The universe, and the exclusion that mattered
+
+273 HIP-3 instruments over 10 dexs → **151 resolved** (118 equity, 15 ETF,
+18 index), 80 `excluded_non_equity`, 42 `excluded_unresolvable` → **94 live**.
+
+**57 of the 151 resolved instruments are delisted, and they are where every
+large basis lives.** All three fields agree on all 57 — `isDelisted`,
+`openInterest` exactly 0, `dayNtlVlm` exactly 0 — with zero conflicting cases
+and zero of the 94 live instruments matching any of them.
+
+| stratum | n | median abs basis | IQR | max | > 18 bp | **> 54 bp** |
+|---|---:|---:|---:|---:|---:|---:|
+| **live** | **94** | **3.72 bp** | 0.73 – 7.31 | 51.4 bp | 8.5 % | **0.0 %** |
+| delisted | 57 | 30.52 bp | 0.00 – 210.79 | 2,481 bp | 54.4 % | **45.6 %** |
+
+Amendment H5-2 excludes them, on a conjunctive three-field rule. **The
+amendment deleted this entry's only route to VIABLE**, which is the direction
+that makes it credible: it was made with the census in hand, disclosed in
+full in its own text, and it costs rather than buys.
+
+### The row, fired 2026-08-28T22:20Z
+
+> ### **PENDING — the census window is open. Projected fire date 2026-09-26.**
+
+| clause | measured | bar | result |
+|---|---|---|---|
+| instruments carrying a served reference | **94** | ≥ 20 | **clears** |
+| funding served on those instruments | **94 of 94, share 1.000** | ≥ 0.500 | **clears** |
+| instruments at 30 days of coverage | **0** | ≥ 20 | **window open** |
+| median absolute basis, `extended` (n = 188) | **4.14 bp** | floor 18 / bar 54 | — |
+| `regular`, `closed_weekday`, `weekend` | **no observations yet** | — | recorded absent, not zero |
+
+Neither CLOSED clause fires. What is missing is time — and per **Amendment
+H5-1**, the floor clause of CLOSED is a statement about *every* session tag
+and cannot be made from two snapshots in one tag. That amendment was made
+before any firing and makes CLOSED **strictly harder**; it cost this entry a
+same-day close.
+
+**29 daily passes remain.** The collector is armed and runs last in the
+01:40Z daily pass, at 209 requests — **1.05 percent of the daily cap** —
+behind an H2 yield that postpones H5 rather than competing with H2 work.
+
+### The retrospective answer, and why it is a shortfall
+
+The cohort gate leaves **27 of 151** instruments eligible; **124 are
+`excluded_quarantined`**. Of the 27, **25 return no funding rows at all** over
+the registered 180-day window and **2 are days-old listings** — `io:NBIS`
+(n = 8, 1 covered day) and `xyz:XBI` (n = 31, 2 days). **39 observations, 2
+instruments, 0 meeting the 30-day bar.**
+
+The secondary is fired on the venue's field service rather than on the gate's
+residue — feeding it 2 instruments would have fired CLOSED on an artefact of
+this entry's own quarantine — and it lands **PENDING and not projectable**:
+its coverage cannot be reached. Its pooled figures are recorded so the
+shortfall is legible, not so they can be read.
+
+### The honesty clause, demonstrated rather than argued
+
+**32 of the 57 delisted instruments are still being served an unbroken hourly
+funding series** — 168 rows each, the most recent stamped 2026-08-28T21:00Z —
+on markets with zero open interest, zero volume and no book. The venue
+accrues funding where nothing trades.
+
+That is Section 4's whole point in one measurement: these fields are the
+venue's bookkeeping, and bookkeeping continues after the market stops. A wide
+measured basis is a **lead, never evidence of a trade**, and the successor
+repository would need an independent underlying feed before it could claim
+anything about tradability. The closed-and-carried IBKR economics — 40 to
+100 bp whole-share round trips at this operator's sizes, fractional orders
+refused at error 10243 — mean no cross-venue pair is registrable here in any
+case.

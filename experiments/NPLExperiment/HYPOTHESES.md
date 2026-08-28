@@ -21,6 +21,12 @@ the 312 retro events and their 176 control windows are the **generating
 sample** — usable for power assumptions, labelled so wherever carried, and
 never admissible to a successor verdict.
 
+A fifth entry, **H5**, was registered on 2026-08-28 as a **feasibility
+entry, not a trade hypothesis**: it authorizes no capital, no Stage B read of
+a trading outcome, and no Stage C, and its terminal states are VIABLE
+(meaning a successor is worth registering in a *fresh repo*) or CLOSED. It
+sits outside the familywise budget because it decides no bar on returns.
+
 Every entry carries the claim, the design pointer, the verdict with the
 figures that decided it, and — where closed — what would reopen it. The
 failure mode this file exists to prevent is retrying a settled question
@@ -102,6 +108,28 @@ sealed reads established.
 | **Design in one line** | Fresh events on every dex, conditioned on a pre-registered grid of three entry-funding thresholds (−10, −20, −40 percent annualized), Sidak-corrected within the hypothesis; the conditioning feature is pre-entry and readable under standing rule 13. Primary per cell: profitability lower bound ≥ 0.60 at the within-corrected alpha. |
 | **Power assumptions** | Depend on measured conditioning rates (Stage A.2 Task 3, from funding archives, pre-entry reads only). **Registered expectation: likely BLOCKED at every cell by 2027-03-31.** |
 | **Operator prior slot** | Reserved, empty. Blocks H4's Stage B structurally. |
+
+---
+
+### H5 — HIP-3 equity-style perpetual basis (a feasibility entry, not a hypothesis)
+
+> Do HIP-3 equity-style perps trade at a persistent, measurable deviation
+> from their underlying reference, and is that deviation large relative to
+> the 18 bp round-trip cost floor?
+
+| | |
+|---|---|
+| **Status** | **PENDING — the census window is open** · fired 2026-08-28T22:20Z. Both structural clauses **clear**; what is missing is time. **29 daily passes needed; projected fire date 2026-09-26.** Collector armed |
+| **Registration** | `registrations/H5/REGISTRATION.md` — Sections 0–9, Amendments H5-1 and H5-2, and the Section 6 verdict record |
+| **What it is** | **A feasibility entry.** No capital, no Stage B read of a trading outcome, no Stage C. A VIABLE row authorizes exactly one thing: writing a registration in a **different repository**, against an independent underlying feed. |
+| **Design in one line** | Every instrument on every HIP-3 dex whose ticker resolves, by an **exact-string mapping registered before any price was read**, to an equity, ETF or index underlying; a daily snapshot of mark, the venue's own oracle, funding **service**, open interest and one `l2Book`; basis = (mark − reference)/reference in bp, **computed only from fields the venue served in the same snapshot**, tagged by US market session against a calendar registered before collection. |
+| **Deciding numbers so far** | **94** live instruments carry a served reference (bar 20) — **clears**. Funding served on **94 of 94**, share **1.000** (bar 0.500) — **clears**. **0** instruments at 30 days of coverage (bar 20) — the window is open. Two snapshots, **188** observations, **0 absent**, session tag `extended`: **median absolute basis 4.14 bp**, IQR 0.71–9.15, **9.57 %** over the 18 bp floor, **1.60 %** over the 54 bp bar. |
+| **Universe** | 273 HIP-3 instruments over 10 dexs → **151 resolved** (118 equity, 15 ETF, 18 index), 80 `excluded_non_equity`, 42 `excluded_unresolvable`, → **94 live** after the three-field delisted rule (57 excluded, **0 conflicting**). The live family is two dexs: `xyz` 73, `para` 16. |
+| **The retrospective answer** | **No retrospective basis exists.** The venue serves no historical mark and no historical oracle in the same row, and `candleSnapshot` is closed to this entry by standing rule 7. It serves `premium` hourly — measured to be an **impact-price** deviation, so a **named secondary** that may fire CLOSED and never VIABLE. The secondary's cohort gate leaves **27 of 151** eligible, of which 25 have no funding history at all and 2 are days old: **39 observations, 2 instruments, 0 meeting coverage.** Fires nothing, recorded as a shortfall. |
+| **The honesty clause, demonstrated** | **32 delisted instruments — zero open interest, zero volume, no book — are still served an unbroken hourly funding series**, latest row 2026-08-28T21:00Z. And the delisted stratum is where **every** observation above the 54 bp bar lived: median 30.5 bp with 45.6 % over the bar, against 3.72 bp and **0.0 %** for live instruments in the same snapshot. Amendment H5-2 excludes them, which deleted this entry's only route to VIABLE. |
+| **Quarantine** | H2's collectors, ledgers, latches and stores are **read-only** to every H5 path, enforced by `npl.h5.stores` (write containment) and pinned by test; the cohort ledgers are read precisely so the quarantine can be honoured. H5 reads **no candle** and **no funding rate value**, anywhere. |
+| **Operator prior slot** | Reserved, empty. It blocks **the successor draft**, not the map: a verdict is never withheld for want of a prior. |
+| **What would close it early** | Nothing measured so far. Both structural CLOSED clauses are already cleared; the entry now turns on whether the median absolute basis, over a full 30-day census across all four session tags, sits under 18 bp everywhere (CLOSED), between 18 and 54 (INDETERMINATE), or over 54 in at least one tag (VIABLE). On the first 188 observations it sits at **4.14 bp**. |
 
 ---
 

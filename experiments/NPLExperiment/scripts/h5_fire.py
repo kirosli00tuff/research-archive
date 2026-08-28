@@ -38,7 +38,8 @@ def _all_observation_rows() -> list[dict[str, object]]:
 def main() -> int:
     today = now_utc().date()
     census = load_census()
-    live = [r for r in census if r.listing_status == STATUS_LIVE]
+    resolved = [r for r in census if r.resolution_state == "resolved"]
+    live = [r for r in resolved if r.listing_status == STATUS_LIVE]
     with_reference = [r for r in live if r.reference_served]
     funding_served = sum(1 for r in with_reference if r.funding_history_state == "stored")
 
@@ -47,8 +48,15 @@ def main() -> int:
     by_tag: dict[str, list[float]] = {}
     days_by_coin: dict[str, set[int]] = {}
     snapshots: Counter[str] = Counter()
+    skipped_pre_amendment = 0
     for row in observations:
         coin = str(row["coin"])
+        # Rows written before Amendment H5-2 carry no listing status. They are
+        # skipped and counted, never assumed live: the amendment's exclusion
+        # cannot be applied to a row that predates the field it turns on.
+        if "listing_status" not in row:
+            skipped_pre_amendment += 1
+            continue
         if coin not in live_coins or str(row["listing_status"]) != STATUS_LIVE:
             continue
         snapshots[str(row["snapshot_id"])] += 1
@@ -88,13 +96,20 @@ def main() -> int:
         tag: int(summary["n"])
         for tag, summary in retro.get("pooled_by_session_tag_live_only", {}).items()
     }
+    # The map's structural clauses ask what the VENUE serves, not what H5's own
+    # quarantine gate left standing. So the secondary is fired on the same
+    # field-service counts as the primary — 94 live instruments carrying a
+    # served reference, funding served on all of them — and differs only in
+    # its coverage, which is what the retrospective read actually measured.
+    # Feeding it the gate's 2-instrument residue would fire CLOSED on an
+    # artefact of this entry's own quarantine rather than on the family.
     secondary = h5out.fire(
         series_kind=h5out.SERIES_SECONDARY_DEVIATION,
-        instruments_with_reference=int(retro.get("instruments_eligible_live", 0)),
+        instruments_with_reference=len(with_reference),
         instruments_meeting_coverage=retro_live_meeting,
         median_abs_bp_by_tag=retro_medians,
         n_by_tag=retro_n,
-        funding_served_instruments=int(retro.get("instruments_eligible_live", 0)),
+        funding_served_instruments=funding_served,
     )
 
     projection: dict[str, object]
@@ -124,12 +139,13 @@ def main() -> int:
         "secondary_deviation": asdict(secondary),
         "inputs": {
             "instruments_enumerated": len(census),
-            "instruments_resolved": sum(1 for r in census if r.resolution_state == "resolved"),
+            "instruments_resolved": len(resolved),
             "instruments_live": len(live),
             "live_with_served_reference": len(with_reference),
             "live_with_funding_served": funding_served,
             "funding_share": funding_served / len(with_reference) if with_reference else 0.0,
             "snapshots_counted": dict(snapshots),
+            "rows_skipped_pre_amendment": skipped_pre_amendment,
             "observations_counted": sum(n_by_tag.values()),
             "instruments_meeting_coverage": meeting,
             "covered_days_max": max(covered) if covered else 0,
@@ -137,6 +153,11 @@ def main() -> int:
         },
         "census_window": projection,
         "retrospective_inputs": {
+            "note": (
+                "the secondary is fired on the venue's field service (the same 94 live "
+                "instruments as the primary) and on its own coverage; its eligible set is "
+                "the residue of H5's quarantine gate and is reported, never fired on"
+            ),
             "instruments_eligible": retro.get("instruments_eligible"),
             "instruments_eligible_live": retro.get("instruments_eligible_live"),
             "instruments_excluded_quarantined": retro.get("instruments_excluded_quarantined"),

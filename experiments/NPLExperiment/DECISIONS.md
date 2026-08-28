@@ -378,3 +378,169 @@ prose and a reader written in code disagree in the corners, and the
 disagreement is only visible when the code is written. Write the reader
 inside the same session as the amendment, and correct the amendment while
 the correction is still free.
+
+## ADR-026: The H5 ticker-to-underlying mapping is an exact-string table, written before any price was read
+
+**Date:** 2026-08-28 · **Status:** accepted · registrations/H5 Section 2, npl/h5/resolution.py
+
+The H5 universe is "every HIP-3 instrument whose ticker resolves to an
+identifiable equity, ETF or index underlying". Resolving a ticker is where a
+universe gets fitted: the temptation is to decide, after seeing which
+instruments are interesting, that `GIGADEV` obviously means GigaDevice and
+`STRC` obviously means whatever is convenient. So the mapping is a **table of
+exact strings, committed before the first price read** — 198 entries, in
+three disjoint tables whose disjointness is checked at import.
+
+The admission criterion is stated once and applied mechanically: a ticker is
+`resolved` only where it is **(a) an exact listed ticker symbol on a major
+exchange** or **(b) an unambiguous name or standard abbreviation of exactly
+one listed issuer or one named public index**. Everything failing both is
+excluded with a recorded reason — `ambiguous_ticker`, `private_no_public_underlying`,
+`basket_no_named_reference`, `venue_house_index`, `not_in_registered_mapping`
+— and counted. Several exclusions are tickers whose likely meaning a reader
+can guess (`QNT`, `STRC`, `SKHX`, `SKHY`, `CL`). **A likely meaning is a
+guess, and refusing it is the whole point of the table.**
+
+Measured: the 198 entries covered the enumerated census exactly — no unmapped
+ticker and no dead entry — until `para:IGV` was born mid-stage and recorded as
+`not_in_registered_mapping`. **It was not added.** Extending the table after a
+census is how a universe gets fitted; a later amendment may add it.
+
+Alternative rejected: fuzzy or prefix matching. It would have resolved
+`GIGADEV` and `SKHX` alike, and there is no way to audit afterwards which
+matches were right.
+
+## ADR-027: The reference is the venue's own oracle, and the honesty clause is a first-class part of the design
+
+**Date:** 2026-08-28 · **Status:** accepted · registrations/H5 Section 4, npl/h5/basis.py
+
+H5 reads **no external equity price feed**: zero dollars, keyless endpoints,
+one venue. Every reference is therefore the venue's own — `oraclePx`, with
+`indexPx` as a registered fallback that measurement showed was never needed
+(served on 151 of 151). `midPx`, `prevDayPx` and `impactPxs` are **registered
+non-references**, because substituting a book field for an unserved oracle is
+exactly how a basis becomes an artefact.
+
+The consequence is not a caveat at the end of the document; it is the
+design's boundary. A basis computed against a venue-internal reference
+measures **the venue's bookkeeping, not a tradable gap**. The registration
+states this three ways and pre-registers the expectation that a near-zero
+basis is the likely measurement — so a small number cannot later be sold as
+a surprise, and a large one cannot be sold as a discovery this data can
+make. A VIABLE row authorizes exactly one thing: a registration in a
+different repository, against an independent feed. It authorizes no capital,
+and the closed-and-carried IBKR economics (40–100 bp whole-share round trips,
+fractional orders refused at error 10243) mean no cross-venue pair is
+registrable here even if the deviation were real.
+
+The measurement supplied its own demonstration: **32 delisted instruments —
+zero open interest, zero volume, no book — are still served an unbroken
+hourly funding series.** Bookkeeping continues after the market stops.
+
+## ADR-028: Every observation is tagged by underlying-market session, against a calendar written out by date
+
+**Date:** 2026-08-28 · **Status:** accepted · registrations/H5 Section 5, npl/h5/calendar.py
+
+A perpetual on a closed underlying has no reference market at all. Pooling a
+Saturday snapshot with a Tuesday-morning one is the fastest way to
+manufacture a basis that is really a stale reference, so **deviation is
+characterized within each session tag separately** and every figure carries
+its tag and its n.
+
+Four tags, in `America/New_York`: `regular` (09:30 to the day's close),
+`extended` (04:00–09:30 and close to 20:00), `closed_weekday`, `weekend`.
+The NYSE full-closure and 13:00-close tables are **written out by date for
+2024–2027 rather than derived**, so a rule change in a later year is an
+amendment and not a silent recomputation, and a timestamp in an uncovered
+year is a **loud refusal** rather than a default to "open". Sixteen fixtures
+sit exactly on the boundaries — 09:30, 16:00, 13:00 on an early close, 20:00,
+Saturday 00:00, Monday 00:00, and an EST/EDT crossing — because a fixture
+comfortably inside its boundary lets a moved threshold pass unnoticed.
+
+Alternative rejected: deriving the calendar from weekday arithmetic plus a
+holiday library. It would have added a dependency to a zero-dependency
+project and made the registered calendar unauditable at the point of use.
+
+## ADR-029: The VIABLE bar is 54 bp, and it is arithmetic on the registered cost band
+
+**Date:** 2026-08-28 · **Status:** accepted · registrations/H5 Section 6, npl/h5/outcome.py
+
+The bar is not a number someone liked. HIP-3 builder markets default to
+**double** the venue's native fees — 3 bp maker and 9 bp taker per side — so
+a taker round trip is **18 bp central**, with the registered band at 6 and 36
+(ADR-003, `CONFIG.hip3_round_trip_bp = (6.0, 18.0, 36.0)`). The floor is that
+central figure; the VIABLE bar is `h5_viable_basis_multiple` × floor:
+
+    floor  = hip3_round_trip_bp[1]      = 18 bp
+    bar    = 3.0 x 18 bp                = 54 bp
+
+Three times the cost floor, so a deviation that clears it is not merely
+larger than the cost of crossing — it is large enough that a **third** of it
+could be spent on execution and something would remain to investigate. The
+multiple lives in config and the arithmetic is recomputed at every firing;
+neither 18 nor 54 is written as a literal anywhere in the map.
+
+Boundary conventions, fixed before data and each with a fixture sitting
+exactly on it: VIABLE is **strictly greater** than 54 (exactly 54.00 is
+INDETERMINATE); CLOSED needs **strictly under** 18 in *every* tag (exactly
+18.00 anywhere is not CLOSED); funding clears at **at least** one half (10 of
+20 passes, 9 of 20 closes); the instrument bar is **at least** 20.
+
+## ADR-030: A delisted instrument is excluded on three fields agreeing, not on a flag
+
+**Date:** 2026-08-28 · **Status:** accepted · registrations/H5 Amendment H5-2, npl/h5/listing.py
+
+Section 2 as written admitted every resolved instrument, trading or not. A
+delisted perpetual has **no market**: its mark is a frozen last value while
+its oracle goes on updating, so the gap between them is the delisting. The
+census measured what that costs: the delisted stratum's median absolute basis
+is **30.5 bp with 45.6 percent over the 54 bp bar**, against **3.72 bp and
+0.0 percent** for live instruments in the same snapshot. **Every observation
+above the bar lived in dead markets.**
+
+The exclusion is **conjunctive**: `isDelisted` true **and** `openInterest`
+exactly zero **and** `dayNtlVlm` exactly zero. A one-flag rule trusts a single
+field; three independent fields agreeing — plus the venue's own empty book —
+is a measurement. Any other combination is `conflicting` and is reported
+loudly, never resolved by the rule. Measured: 57 of 57 delisted instruments
+satisfied all three, 0 of 94 live ones satisfied any, zero conflicting. An
+**absent** field is never read as a zero.
+
+The amendment was made with the census in hand, which is disclosed in full in
+its own text. Its direction is the check: it makes VIABLE **strictly harder**
+and deleted this entry's only route to it. The argument stands without the
+numbers — a market with no participants cannot deviate — and would have been
+in Section 2 had the omission been noticed.
+
+## ADR-031: H5 writes only under data/h5/, reads no candle and no funding rate, and gates its retrospective read
+
+**Date:** 2026-08-28 · **Status:** accepted · registrations/H5 Section 0, npl/h5/stores.py, npl/h5/gate.py
+
+Three structural rules, each enforced rather than intended, because the
+obvious implementation of "measure the basis" breaks all three.
+
+**Writes.** Every H5 write goes through `npl.h5.stores.h5_store`, which
+resolves the target and refuses anything outside `data/h5/`. The refusal is
+**produced by a test against the real path** `data/controls/h2_pairs.jsonl`,
+and an AST guard pins that no H5 module constructs a ledger or opens a file
+in a write mode outside that one module. Reading is deliberately allowed and
+routed through a read-only helper: the cohort ledgers must be read for the
+quarantine to be honoured, and reading them is the mechanism, not a breach.
+
+**Candles and funding rates.** A candle read blind carries `t`, `T` and a row
+count, which is not a price; a candle read with a price violates standing
+rule 7. So **no retrospective basis can come from `candleSnapshot`**, and that
+consequence was registered before measurement rather than discovered after.
+Funding is recorded as **service** — field presence, row counts, timestamps —
+so the operator's first question is answered without reading a single rate.
+
+**The retrospective gate.** The venue serves `premium` hourly, which is a
+near-deterministic function of the funding rate: reading it across a
+registered event's open outcome window would be a post-entry funding read
+wearing a different field name. So the historical read alone is gated to
+coins outside the generating sample, the fresh plan, and both legs of every
+assigned H2 pair, and the gate is the **first statement of the fetch
+function** — structurally in the path, not left to the caller — with an AST
+pin on that position. It cost the entry its retrospective sample (27 of 151
+eligible, 39 usable observations) and was kept anyway: a gate relaxed after
+it turns out to be expensive is not a gate.

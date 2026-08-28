@@ -57,7 +57,7 @@ h5-pass:
 	uv run python scripts/h5_pass.py scripts/h5_fire.py scripts/mutations_h5.py
 
 h5-fire:
-	uv run python scripts/h5_fire.py scripts/mutations_h5.py
+	uv run python scripts/h5_fire.py
 
 mutations-h5:
 	uv run python scripts/mutations_h5.py

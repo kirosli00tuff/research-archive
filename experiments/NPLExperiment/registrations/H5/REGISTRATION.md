@@ -551,3 +551,80 @@ the registered behaviour for a string the mapping has never seen. **It is
 not being added.** The mapping was registered before any price was read, and
 extending it after a census is how a universe gets fitted. A later
 amendment may add it; this one does not.
+
+### Section 6 verdict record — 2026-08-28T22:20Z — the map fires PENDING; the census window closes 2026-09-26
+
+Fired by `npl.h5.outcome.fire` from `reports/h5/verdict.json`, on counts and
+medians only. No return was read on any path.
+
+#### The registered basis (primary)
+
+| input | measured |
+|---|---|
+| instruments enumerated | **273** HIP-3 instruments, 10 dexs |
+| resolved to an equity / ETF / index underlying | **151** (118 equity, 15 ETF, 18 index) |
+| **live** after the Amendment H5-2 three-field rule | **94** (77 equity, 11 ETF, 6 index), 0 conflicting |
+| **live instruments carrying a served reference** | **94 of 94** — bar **20** — **clears** |
+| reference field used | `oraclePx` on every one; `indexPx` never needed; `reference_unserved` **0** |
+| **funding served on those instruments** | **94 of 94, share 1.000** — bar **0.500** — **clears** |
+| instruments with **30 days of coverage** | **0** — bar **20** — **does not clear** |
+| snapshots so far | **2** (`h5-census-…21:51:54Z`, `…22:00:14Z`), both session tag `extended` |
+| observations | **188** (94 instruments × 2), **0 absent**, all from the same-snapshot rule |
+| median absolute basis, `extended` | **4.14 bp** (IQR 0.71–9.15, n = 188) |
+| share over the 18 bp floor / the 54 bp bar | **9.57 % / 1.60 %** |
+| `regular`, `closed_weekday`, `weekend` | **no observations yet** — recorded as absent, not as zero |
+| floor / bar | 18.00 bp / **54.00 bp** = 3 × 18 |
+
+> ## **PENDING — the census window is open.**
+>
+> Both structural clauses clear: 94 instruments carry a served reference
+> against a bar of 20, and funding is served on all 94 against a bar of one
+> half. **Neither CLOSED clause fires.** What is missing is time: 0
+> instruments have reached 30 days of coverage, and — per **Amendment H5-1
+> Change 1** — the floor clause of CLOSED is a statement about *every*
+> session tag and cannot be made from two snapshots in one tag.
+>
+> **Passes still needed: 29. Projected fire date: 2026-09-26**, the day the
+> 20th-best-covered instrument reaches 30 covered days at one pass per day.
+> The collector is armed and runs last in the 01:40Z daily pass.
+
+#### The named secondary (the venue premium index)
+
+| input | measured |
+|---|---|
+| instruments carrying a served reference | **94** (the same venue field service as the primary) |
+| funding served | **94 of 94** |
+| instruments with 30 days of **retrospective** coverage | **0** — bar **20** |
+| eligible after the retrospective cohort gate | **27 of 151**; **124 `excluded_quarantined`** |
+| of those 27 | **25** return no funding rows at all over the registered 180-day window; **2** are days-old listings |
+| observations served | **39**, across **2** instruments (`io:NBIS` n = 8 / 1 day; `xyz:XBI` n = 31 / 2 days) |
+| pooled median absolute, with its n | `regular` 14.17 bp (n = 17) · `extended` 14.12 bp (n = 14) · `closed_weekday` 20.60 bp (n = 8) · `weekend` **none** |
+
+> ## **PENDING — and not projectable.**
+>
+> The secondary is fired on the **venue's field service**, not on the
+> residue of this entry's own quarantine: feeding the map its 2 eligible
+> instruments would have fired CLOSED on an artefact of the H5 gate rather
+> than on the family, and that is not what Section 6's clause measures.
+>
+> Its coverage cannot be reached. The gate is permanent, the forward
+> collector records the registered basis rather than the premium history,
+> and 25 of the 27 ungated instruments have no funding history at all. **The
+> secondary is recorded as a shortfall and fires nothing, in either
+> direction.** Its 39 observations are reported so the shortfall is legible,
+> not so they can be read: two listings over two days is not a measurement
+> of a family.
+
+#### What this row does and does not say
+
+It says the venue serves every field the question needs — a mark, its own
+oracle, funding, open interest and a book — on 94 live HIP-3 equity-style
+instruments, and that on the two snapshots taken so far the mark sits
+**4.14 bp** from the venue's own oracle at the median.
+
+It says **nothing** about returns, tradability, or capital (Section 8), and
+under Section 4 a basis measured against a venue-internal reference is the
+venue's own bookkeeping in any case. The clearest evidence for that in this
+entry is not an argument: **32 delisted instruments, with zero open
+interest, zero volume and no book, are still being served an unbroken hourly
+funding series.**

@@ -1382,3 +1382,39 @@ it never displaces.**
 call states **even at zero**, because an omitted key reads as "no such
 state" while a zero reads as "measured, and none". An unregistered state is
 a loud refusal, never a new bucket.
+
+### Task 5 — the outcome map, fired (ETA 15–25 min · actual ~14 min, 22:18→22:32Z)
+
+**The row: PENDING. The census window closes 2026-09-26.** Recorded with
+every input figure beside it in `registrations/H5/REGISTRATION.md` (Section 6
+verdict record), `HYPOTHESES.md`, `report.md`, and here.
+Artifact: `reports/h5/verdict.json`.
+
+| clause | measured | bar | result |
+|---|---|---|---|
+| instruments carrying a served reference | **94** | ≥ 20 | **clears** |
+| funding served on those instruments | **94 of 94, share 1.000** | ≥ 0.500 | **clears** |
+| instruments at 30 days of coverage | **0** | ≥ 20 | **window open** |
+| median absolute basis, `extended`, n = 188 | **4.14 bp** (IQR 0.71–9.15) | floor 18 / bar 54 | — |
+| share over 18 bp / over 54 bp | **9.57 % / 1.60 %** | — | — |
+| `regular`, `closed_weekday`, `weekend` | **no observations yet** | — | absent, not zero |
+| passes needed / projected fire | **29** / **2026-09-26** | — | binding instrument at 1 covered day |
+
+**Neither CLOSED clause fires**, and per Amendment H5-1 the floor clause
+cannot be evaluated from two snapshots in one session tag. So the entry
+waits, and the collector is armed to fire it on schedule.
+
+**The secondary fires nothing**, in either direction: 0 live instruments meet
+the retrospective coverage bar and its coverage cannot be reached. It was
+fired on the venue's field service (94 live instruments carrying a served
+reference), **not** on the 2-instrument residue of H5's own quarantine gate —
+feeding the map the gate's leftovers would have fired CLOSED on an artefact
+of this entry rather than on the family.
+
+**Two input-wiring defects found and fixed while firing**, both in the
+firing script and neither in the registered map: the primary counted
+unresolved instruments as live (150 instead of 94, which had dragged the
+funding share to 0.627 from its true 1.000), and the secondary was being fed
+the gate residue. Both corrected before the recorded firing; the pre-
+amendment census rows, which carry no listing status, are skipped and
+**counted** (273) rather than assumed live.
