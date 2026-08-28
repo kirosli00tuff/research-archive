@@ -316,16 +316,121 @@ Recorded as **ADR-014**.
 
 ---
 
-## 6. Pacing figures in force at the close of A.1 Task 1
+## 6. A.1 Task 2 — rate ceilings, measured per endpoint
 
-**Provisional, registered at A.0 before any measurement, and replaced by
-amendment from the A.1 Task 2 measurement.** An endpoint with no registered
-pace is **refused, not defaulted fast** (`etf.pacing.PacingUnknown`).
+**Protocol, fixed before running:** descend a ladder of spacings, 6 requests per
+rung, record every status and the verbatim first 300 bytes of any non-200, and
+**stop the ladder at the first non-200** — the refusal is the measurement, and
+continuing past it is abuse rather than science. The ladder bottoms out at this
+repository's own absolute floor of **1.0 s**; a ceiling below a pace this
+project will never use is not actionable, so probing there would be aggression
+without information.
 
-| endpoint | provisional min spacing |
+**Result: no ceiling was found on any endpoint. 96 requests, every one HTTP
+200.** No refusal shape was produced, so none is recorded — an absence, stated
+as an absence.
+
+| endpoint | ladder | requests | statuses | highest verified-clean rate | **operating spacing** |
+|---|---|---|---|---|---|
+| `flow.table` | 20 / 10 / 5 s | 18 | all 200 | 12.17/min | **10.0 s** |
+| `archive.availability` | 5 / 2 / 1 s | 18 | all 200 | 59.92/min | **2.0 s** |
+| `archive.timemap` | 5 / 2 / 1 s | 18 | all 200 | 21.28/min | **2.0 s** |
+| `venue.candleSnapshot` | 2 / 1 s | 12 | all 200 | 59.90/min | **2.0 s** |
+| `venue.fundingHistory` | 2 / 1 s | 12 | all 200 | 59.91/min | **2.0 s** |
+| `kraken.ohlc` | 3 / 1.5 / 1 s | 18 | all 200 | 58.73/min | **2.0 s** |
+| `venue.meta` | **not probed** | — | — | — | **5.0 s** (unchanged) |
+| `archive.snapshot` | **not probed** | — | — | — | **10.0 s** (unchanged) |
+
+Operating paces are **twice the fastest verified-clean spacing** — half the
+highest verified-clean *rate*, since there is no ceiling to halve. **The two
+unprobed endpoints keep their slower pre-measurement figures rather than
+inheriting a sibling's**, which is the inference solattn ADR-021 exists to
+forbid. `flow.table` was given a deliberately gentler ladder because it is a
+small publisher's site and the registered collection duty cycle there is one
+capture per 20 minutes — a rate the 10.0 s pace never binds.
+
+An endpoint with no registered pace is **refused, not defaulted fast**
+(`etf.pacing.PacingUnknown`).
+
+---
+
+## 7. A.1 Task 4 — as-printed observability, the retro leg
+
+### 7.1 Archive capture density
+
+**11 of 333 out-of-sample trading days = 0.0330**, against a registered 0.60
+bar.
+
+| outcome of the pre-anchor archived capture | n |
 |---|---|
-| `meta.robots`, `meta.terms` | 5.0 s |
-| `flow.table` | 30.0 s |
-| `archive.availability`, `archive.timemap`, `archive.snapshot` | 10.0 s |
-| `venue.candleSnapshot`, `venue.fundingHistory`, `venue.meta` | 5.0 s |
-| `kraken.ohlc` | 5.0 s |
+| served the day's value | **11** |
+| showed the day still dashed — not yet printed at capture time | **23** |
+| carried no row for the day at all | 2 |
+| fetch returned HTTP 403 (operational; admissibility unknown, never excluded) | 1 |
+| **archive-admissible by the timemap alone** | **37** |
+| capture landed at or after the anchor | 53 |
+| no capture in the window at all | 243 |
+
+**The correction, recorded rather than smoothed.** Amendment 1 recorded this
+density as **37 of 333 (0.1111)** from the timemap alone. **The timemap answers
+"was there a capture"; only fetching the capture answers "was there a value",
+and only the second is the registered question.** Measurement moved the figure
+by a factor of **3.4**.
+
+**It fails on crawl rate, not on the registered window.** The archive crawls the
+flow pages **0.316 times per calendar day** (n = 153 out-of-sample mementos over
+484 calendar days). **48.37 percent of those mementos already fall inside the
+registered 20:00–08:00 UTC window** — about what a 12-hour window should catch —
+and an **unbounded** window admitting any capture on D or D+1 would reach only
+**112 of 333 (33.63 percent)**, still short of the bar by a factor of 1.8.
+**Widening the window is foreclosed as an explanation, and no widening is
+proposed.**
+
+### 7.2 The retro revision rate
+
+On the **11** days where an archived as-printed value can be compared against
+the value the source serves today:
+
+| figure | value |
+|---|---|
+| days revised | **0 of 11** |
+| sign flips | **0 of 11** |
+| threshold crosses | **0 of 11** |
+| intact | **11 of 11** |
+
+**The MLCryptoEngine H11 whole-file-regeneration hazard does not reproduce on
+this source at n = 11.** Every archived value matched the live value to the digit
+the source prints.
+
+**n = 11 is below the registered minimum sample of 30**, so this figure carries
+no verdict and is not promoted into Section 0.
+
+### 7.3 A retro estimate of the print window — corroborating, not registered
+
+Capture times of the 34 parseable archived captures, in hours past midnight UTC
+on D+1 (the provisional anchor sits at **+08:00**):
+
+- **served a value (n = 11):** +04:05, +04:29, +04:29, +06:24, +06:32, +07:11,
+  +07:12, +07:16, +07:16, +07:16, +08:00
+- **still dashed (n = 23):** −03:38 … +04:29 (latest still-dashed **+04:29**)
+
+The ranges overlap only between **+04:05 and +04:29**, so the print appears to
+land between roughly **04:00 and 08:00 UTC on D+1**.
+
+**This is not the registered measurement and the anchor will not move on it.**
+These capture times are censored by a crawl schedule this project did not choose
+and cannot characterise. Section 3 permits exactly one input to move the anchor —
+this repository's own measured 95th percentile first-print time across at least
+15 US trading days — and it does not yet exist.
+
+### 7.4 The forward leg
+
+**Not measured. Calendar-bound.** The snapshotter was armed
+2026-08-28T20:17:11Z; the registered minimum is **15 US trading days**, whose
+15th is **2026-09-21** and whose print lands **2026-09-22**.
+
+### 7.5 Verdict
+
+**PASS is closed.** The density leg cannot be restored: the archive captures
+that would be needed do not exist and cannot be created. **The verdict is
+PARTIAL or FAIL, and which one turns on the forward leg alone.**
