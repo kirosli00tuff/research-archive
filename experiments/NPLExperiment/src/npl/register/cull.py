@@ -63,7 +63,12 @@ def register_specs(cfg: Config = CONFIG) -> tuple[CoPrimarySpec, ...]:
     """Every co-primary of every registered successor hypothesis."""
     specs: list[CoPrimarySpec] = [
         CoPrimarySpec("H2", "E1", 0.5, cfg.h2_e1_true_share, None, 1),
-        CoPrimarySpec("H2", "E2", 0.5, cfg.h2_e2_true_share, None, 1),
+        # Amendment H2-3 Change 2: the governing share is the interpolated
+        # 1x-floor figure; the old 2x-floor 0.60 rides beside it as the
+        # reported figure, so the cost of the weakening stays legible.
+        CoPrimarySpec(
+            "H2", "E2", 0.5, cfg.h2_e2_true_share, cfg.h2_e2_true_share_two_times_floor, 1
+        ),
         CoPrimarySpec("H3", "P1", cfg.p1_bar, cfg.h3_share_positive_true, None, 1),
         CoPrimarySpec(
             "H3",

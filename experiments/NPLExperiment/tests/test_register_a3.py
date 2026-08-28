@@ -21,6 +21,7 @@ from npl.config import CONFIG
 from npl.coverage import WindowCoverage, assess_event_coverage
 from npl.http import InfoResponse
 from npl.ledger.append_only import AppendOnlyLedger
+from npl.pairtype import PAIR_TYPE_SAME_DEX
 from npl.power import critical_k
 from npl.register.forward import append_fresh_plan_row, forward_pair_pass
 from npl.register.latches import (
@@ -39,6 +40,7 @@ from npl.register.pairs import (
     pair_covered,
     pair_net_decomposition,
     run_h2_verdict,
+    two_times_floor_secondary,
 )
 from npl.venue import Venue
 
@@ -53,12 +55,14 @@ def _pair(
     cohort: str = "backfill",
     truncated_young: bool = False,
     central_bp: float = 36.0,
+    pair_type: str = PAIR_TYPE_SAME_DEX,
 ) -> PairNet:
     return PairNet(
         event_coin="Y",
         control_coin="E",
         dex=dex,
         cohort=cohort,
+        pair_type=pair_type,
         truncated_young=truncated_young,
         truncated_elder=False,
         pair_central_cost_bp=central_bp,
@@ -129,18 +133,26 @@ def test_e1_tie_at_zero_fails_and_boundary_counts() -> None:
 
 
 def test_e2_floor_is_inclusive_and_per_pair() -> None:
+    """Amendment H2-3 Change 2: the floor is 1x the pair's own central cost."""
+    assert CONFIG.h2_cost_floor_multiple == 1.0
     k_star = critical_k(100, 0.5, ALPHA_H)
     assert k_star is not None
-    floor_36 = CONFIG.h2_cost_floor_multiple * 36.0 / 1e4  # 0.0072
+    floor_36 = CONFIG.h2_cost_floor_multiple * 36.0 / 1e4  # 0.0036
     at_floor = [_pair(floor_36, central_bp=36.0)] * k_star
     under = [_pair(floor_36 - 1e-12, central_bp=36.0)] * (100 - k_star)
     result = e2_floor(at_floor + under, ALPHA_H)
     assert result.successes == k_star and result.passes
     # The floor is per pair: the same net clears a cheaper pair's floor.
-    cheaper = e2_floor([_pair(0.0040, central_bp=18.0)], ALPHA_H)
+    cheaper = e2_floor([_pair(0.0020, central_bp=18.0)], ALPHA_H)
     assert cheaper.successes == 1
-    dearer = e2_floor([_pair(0.0040, central_bp=36.0)], ALPHA_H)
+    dearer = e2_floor([_pair(0.0020, central_bp=36.0)], ALPHA_H)
     assert dearer.successes == 0
+    # The pre-amendment 2x floor survives as a named secondary, and a net
+    # between 1x and 2x is exactly what the weakening admits: it clears the
+    # primary and fails the secondary.
+    between = [_pair(0.0050, central_bp=36.0)]
+    assert e2_floor(between, ALPHA_H).successes == 1
+    assert two_times_floor_secondary(between)["successes"] == 0
 
 
 def test_absent_nets_are_underpowered_never_zeros() -> None:
@@ -202,9 +214,12 @@ def test_the_pair_machinery_is_structurally_incapable_of_reaching_sealed_data() 
         "npl.census",
         "npl.config",
         "npl.coverage",
+        "npl.pairtype",
         "npl.power",
+        "npl.register.sequential",
         "dataclasses",
         "collections.abc",
+        "enum",
         "__future__",
     }
     assert imports <= allowed, f"pairs.py imports outside the pure set: {imports - allowed}"

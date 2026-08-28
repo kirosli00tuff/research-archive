@@ -21,6 +21,15 @@ def _log_pmf(n: int, k: int, p: float) -> float:
     return lgamma(n + 1) - lgamma(k + 1) - lgamma(n - k + 1) + k * log(p) + (n - k) * log(1.0 - p)
 
 
+def pmf(n: int, k: int, p: float) -> float:
+    """P(X = k) for X ~ Binomial(n, p). Zero outside the support, never an error."""
+    if n < 0:
+        raise ValueError("n must be non-negative")
+    if k < 0 or k > n:
+        return 0.0
+    return exp(_log_pmf(n, k, p))
+
+
 def upper_tail(n: int, k: int, p: float) -> float:
     """P(X >= k) for X ~ Binomial(n, p), exactly summed in log space."""
     if n < 0:

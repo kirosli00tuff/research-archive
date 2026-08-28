@@ -849,3 +849,57 @@ END PROMPT
 | 5. Gates and mutations | 30–45 min |
 | 6. Docs and close-out | 30–45 min |
 | **Total** | **3 h 45 min – 5 h 45 min** |
+
+### Task 1 — Amendment H2-3 (ETA 25–35 min · actual ~22 min, 06:49→07:11Z)
+
+Registered before any code change and pushed (`f31f7a3`). Three changes,
+each stated as the weakening or relaxation it is: the main-dex fallback
+control with `same_dex`/`cross_dex` tagging and the `same_dex` named
+stratum; the economic floor 2× → 1× with the 2× figure retained as a named
+secondary and E2's true share moved to 0.625 by stated linear interpolation
+(every min-N also reported at the unchanged 0.60); and the two-look
+sequential plan with the exact binomial boundary construction, alpha_1 0.02
+/ alpha_2 0.03, and Section 10 extended from one open to two behind
+per-look latches.
+
+**The interim tripwire is OMITTED, and the amendment says why.** The E1
+statistic is the share of pairs with positive 30-day net pair return; it
+cannot be computed without each leg's entry and exit closes and its funding
+over the holding window — that is, without opening the sealed outcomes. A
+2026-09-30 tripwire reporting it would be an unregistered third opening, in
+breach of standing rule 7. Calling it descriptive does not change what the
+code would have to read. The pair-count half needs no registration: counts
+and coverage already come from row counts and timestamps. **Nothing is
+registered for 2026-09-30.**
+
+### Task 2 — the fallback backfill (ETA 45–70 min · actual ~48 min, 07:11→07:59Z)
+
+**24 of 24 previously unpairable events assigned. Zero exclusions.**
+
+| | |
+|---|---|
+| Events attempted | 24 (para 18, mkts 4, io 2 — the A.2 `no_control_candidate` rows) |
+| Assigned | **24, all `cross_dex`**, at their original entry timestamps |
+| Unassigned | **0** — no reason bucket was reached |
+| Distinct controls | 19 main-dex elders |
+| Candidates considered | 174 per event; **0 skipped for coverage** |
+| Pairs ledger now | **62 rows: 38 `same_dex` + 24 `cross_dex`** |
+| Match rate, backfillable cohort | **62/62 = 1.000** (was 38/62 = 0.613) |
+| Control-leg funding archives | 24/24 caught up (133 pages, 57,584 rows, terminal `no_data` = served-empty, the measured absence) |
+| Control-leg l2Book | **24/24 `expired`, recorded loudly** — every entry anchor is between 2026-07-02 and 2026-08-26, so every 30-minute window closed months ago and none is backfilled |
+| Fresh plan | 100 → **124 rows** (62 events + 62 control legs) |
+| Requests | 1,080 charged, 0 refusals, zero dollars, no keys |
+| Outcome values read | **0** |
+
+Method note: each candidate's trailing window was sealed **once** as a
+single wide raw window (175 coins × 4 pages) and read back **through the
+blindness gate at each event's own entry**, so no event ever sees a rate
+stamped after itself and the fetch cost fell from ~2,774 requests to 724
+pages. The matcher's `PostEntryRead` pin covers the fallback path and the
+refusal is produced through it by test.
+
+A defect was caught before the run, not after: the backfill's first draft
+called `assign_control` without `pairs_path`, whose default is **H1's**
+`data/controls/pairs.jsonl`. It would have appended 24 successor rows to
+the spent hypothesis's ledger. Fixed before execution; H1's ledger hash is
+unchanged (`3f82809…`), verified after the run.

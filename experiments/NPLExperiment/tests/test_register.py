@@ -236,7 +236,9 @@ def test_alpha_h_known_answers() -> None:
 def test_register_specs_carry_the_registered_assumptions() -> None:
     specs = {(s.hypothesis, s.name): s for s in register_specs()}
     assert specs[("H2", "E1")].p_true_governing == 0.65
-    assert specs[("H2", "E2")].p_true_governing == 0.60
+    # Amendment H2-3 Change 2: the 1x floor governs, the 2x figure reports beside.
+    assert specs[("H2", "E2")].p_true_governing == 0.625
+    assert specs[("H2", "E2")].p_true_reported == 0.60
     assert specs[("H3", "P1")].p0 == 0.60
     assert specs[("H3", "MAG")].p_true_governing == 0.356
     assert specs[("H3", "MAG")].p_true_reported == 0.65

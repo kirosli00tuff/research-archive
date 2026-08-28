@@ -89,8 +89,24 @@ class Config:
     h2_e1_true_share: float
     h2_e2_true_share: float
     # E2's economic floor: pair net at or above this multiple of the pair's
-    # registered central cost.
+    # registered central cost. Amendment H2-3 Change 2 moved it from 2.0 to
+    # 1.0 and retained 2.0 as a named secondary at every look.
     h2_cost_floor_multiple: float
+    h2_cost_floor_multiple_secondary: float
+    # The E2 true share under the OLD 2x floor, reported beside every
+    # amended minimum-N so the interpolated 0.625 is never taken on trust.
+    h2_e2_true_share_two_times_floor: float
+
+    # --- H2 two-look sequential plan (Amendment H2-3 Change 3) ---------------
+    # alpha_1 + alpha_2 = alpha_h = 0.05, the split fixed by the amendment
+    # and never revisited. The planning interim fraction sizes the minimum-N
+    # statements; the boundaries at each actual look use the actual counts.
+    h2_alpha_look1: float
+    h2_alpha_look2: float
+    h2_planning_interim_fraction: float
+    # Futility fires at look 1 where the conditional power of a look-2
+    # rejection, at the registered true share, falls under this floor.
+    h2_futility_conditional_power: float
 
     # --- H3, the population-corrected naive short (registrations/H3) ---------
     # Main-dex share positive, generating-sample-derived (107/158 = 0.677).
@@ -178,8 +194,20 @@ CONFIG: Final = Config(
     # registration: E1 from the P3 pair share 114/175 = 0.651, E2 one notch
     # under it for the economic floor.
     h2_e1_true_share=0.65,
-    h2_e2_true_share=0.60,
-    h2_cost_floor_multiple=2.0,
+    # Amendment H2-3 Change 2: the floor moved 2x -> 1x, so the registered
+    # true share moves with it, by linear interpolation in the floor
+    # multiple between multiple 0 (E1's sign share 0.65) and multiple 2
+    # (the registered 0.60), evaluated at multiple 1. Linear is the neutral
+    # interpolation, not a claim that the distribution is linear there.
+    h2_e2_true_share=0.625,
+    h2_e2_true_share_two_times_floor=0.60,
+    h2_cost_floor_multiple=1.0,
+    h2_cost_floor_multiple_secondary=2.0,
+    # The two-look split, fixed by Amendment H2-3 and never revisited.
+    h2_alpha_look1=0.02,
+    h2_alpha_look2=0.03,
+    h2_planning_interim_fraction=0.5,
+    h2_futility_conditional_power=0.10,
     # H3 assumptions: main-dex share positive 107/158 (generating sample);
     # the magnitude leg's honest range (H1 registered / H1 measured overall).
     h3_share_positive_true=0.677,

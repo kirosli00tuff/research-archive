@@ -19,6 +19,7 @@ from npl.census import CensusLedger
 from npl.checkpoints import CheckpointRunner, classify_due
 from npl.clock import MS_PER_DAY, now_utc, utc_ms
 from npl.config import CONFIG
+from npl.controls import control_dex_of_row
 from npl.http import InfoClient
 from npl.ledger.append_only import AppendOnlyLedger
 from npl.ledger.requests import RequestLedger
@@ -79,7 +80,7 @@ def cmd_watch() -> int:
         # Register A.3 Task 2: assign the H2 control at the entry anchor and
         # take the two-leg snapshot while the registered window is open.
         result = forward_pair_pass(venue, coin, dex, entry_ms, census_rows)
-        print(f"pair {coin}: {result['state']}")
+        print(f"pair {coin}: {result['state']} {result.get('pair_type', '')}".rstrip())
     return 0
 
 
@@ -92,8 +93,10 @@ def cmd_daily() -> int:
     today = now_utc().date()
     runner = CheckpointRunner(venue)
     attempted = runner.attempted()
+    # Amendment H2-3 Change 1: the elder leg checkpoints on its own dex,
+    # which under a cross_dex pair is not the event's dex.
     pair_controls = {
-        (str(r["event_coin"]), int(r["entry_ms"])): str(r["control_coin"])
+        (str(r["event_coin"]), int(r["entry_ms"])): (str(r["control_coin"]), control_dex_of_row(r))
         for r in AppendOnlyLedger(H2_PAIRS_LEDGER).read().rows
     }
     if BIRTHS_DIR.exists():
@@ -114,8 +117,9 @@ def cmd_daily() -> int:
                 control = pair_controls.get((str(row["coin"]), entry_ms))
                 if control is not None:
                     # Register A.3 Task 4: the pair's elder leg checkpoints
-                    # alongside its event, on the event's schedule.
-                    coins.append((control, str(row["dex"])))
+                    # alongside its event, on the event's schedule — under
+                    # its own dex (Amendment H2-3 Change 1).
+                    coins.append(control)
                 for coin, dex in coins:
                     due, expired, _ = classify_due(coin, dex, day, today, attempted)
                     for item in expired:

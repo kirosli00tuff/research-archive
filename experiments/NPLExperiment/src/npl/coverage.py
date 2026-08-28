@@ -9,6 +9,7 @@ a negative.
 
 from __future__ import annotations
 
+from collections.abc import Iterable
 from dataclasses import dataclass
 from enum import StrEnum
 
@@ -16,6 +17,7 @@ from npl.blindness import CandleTimes, FundingRow
 from npl.clock import MS_PER_DAY, MS_PER_HOUR
 from npl.config import CONFIG, Config
 from npl.intervals import total_covered_ms
+from npl.pairtype import REGISTERED_PAIR_TYPES
 
 
 class CoverageReason(StrEnum):
@@ -83,4 +85,44 @@ def assess_event_coverage(
         funding=funding,
         meets_bars=ok,
         label="covered" if ok else "underpowered",
+    )
+
+
+@dataclass(frozen=True, slots=True)
+class PairTypeCoverage:
+    """Pair counts for one registered pair type. Counts only, never a value."""
+
+    pair_type: str
+    pairs: int
+    covered: int
+    underpowered: int
+
+    def share(self) -> float:
+        return (self.covered / self.pairs) if self.pairs else 0.0
+
+
+def coverage_by_pair_type(
+    pairs: Iterable[tuple[str, bool]],
+) -> tuple[PairTypeCoverage, ...]:
+    """Amendment H2-3 Change 1: coverage reported per pair type.
+
+    Takes (pair_type, both_legs_meet_bars) per pair. Every registered pair
+    type appears in the result even at zero pairs — an absent row would read
+    as "no such pairs" where the truth is "none yet", and an unregistered
+    tag is a loud refusal, never a new bucket.
+    """
+    counted = {t: [0, 0] for t in REGISTERED_PAIR_TYPES}
+    for pair_type, covered in pairs:
+        if pair_type not in counted:
+            raise ValueError(
+                f"unregistered pair_type {pair_type!r} in a coverage view; "
+                f"the registered types are {list(REGISTERED_PAIR_TYPES)}"
+            )
+        counted[pair_type][0] += 1
+        counted[pair_type][1] += int(covered)
+    return tuple(
+        PairTypeCoverage(
+            pair_type=pair_type, pairs=total, covered=covered, underpowered=total - covered
+        )
+        for pair_type, (total, covered) in counted.items()
     )

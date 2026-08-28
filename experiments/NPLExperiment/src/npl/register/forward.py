@@ -16,15 +16,16 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-from npl.absence import Absent
+from npl.absence import NO_CONTROL_CANDIDATE, Absent
 from npl.blindness import FundingRow, funding_rows
 from npl.callstate import CallState
 from npl.census import CensusRow
 from npl.clock import MS_PER_DAY, MS_PER_HOUR, iso_z, now_utc, utc_ms
 from npl.config import CONFIG, Config
-from npl.controls import Candidate, assign_control
+from npl.controls import Candidate, ControlAssignment, assign_control
 from npl.ledger.append_only import AppendOnlyLedger
 from npl.paths import FRESH_PLAN, FUNDING_DIR, H2_PAIRS_LEDGER, SPREADS_DIR
+from npl.register.fallback import candidate_census_rows, main_dex_candidate_rows
 from npl.register.generating_sample import event_id, load_generating_sample
 from npl.seals import seal_raw
 from npl.spread import record_leg_spread
@@ -145,37 +146,59 @@ def forward_pair_pass(
         return {"event": coin, "state": "already_assigned"}
 
     latest = latest_census(census_rows)
-    cutoff = entry_ms - cfg.control_min_age_days * MS_PER_DAY
     trail_start = entry_ms - cfg.control_trailing_window_hours * MS_PER_HOUR
-    candidates: list[Candidate] = []
-    for (cand_coin, cand_dex), row in latest.items():
-        if cand_dex != dex or cand_coin == coin:
-            continue
-        if row.first_1d_open_ms is None or row.first_1d_open_ms > cutoff:
-            continue
-        last = row.last_1d_close_ms or row.first_1d_open_ms
-        if last < trail_start:
-            continue
-        candidates.append(
-            Candidate(
-                coin=cand_coin,
-                listing_open_ms=row.first_1d_open_ms,
-                rows=_fetch_trail(venue, cand_coin, trail_start, entry_ms, funding_root),
-            )
-        )
-    event_rows = _fetch_trail(venue, coin, trail_start, entry_ms, funding_root)
-    result = assign_control(coin, dex, entry_ms, event_rows, candidates, cfg, pairs_path=pairs_path)
 
-    out: dict[str, Any] = {"event": coin, "candidates": len(candidates)}
+    def build(rows: list[CensusRow]) -> list[Candidate]:
+        return [
+            Candidate(
+                coin=row.coin,
+                listing_open_ms=row.first_1d_open_ms or 0,
+                rows=_fetch_trail(venue, row.coin, trail_start, entry_ms, funding_root),
+            )
+            for row in rows
+        ]
+
+    same_dex_rows = candidate_census_rows(latest, dex, entry_ms, coin, cfg)
+    event_rows = _fetch_trail(venue, coin, trail_start, entry_ms, funding_root)
+    result: ControlAssignment | Absent = NO_CONTROL_CANDIDATE
+    fallback_n = 0
+    if same_dex_rows:
+        result = assign_control(
+            coin, dex, entry_ms, event_rows, build(same_dex_rows), cfg, pairs_path=pairs_path
+        )
+    if result == NO_CONTROL_CANDIDATE:
+        # Amendment H2-3 Change 1: the same-dex set yielded nothing, so the
+        # main-dex universe is consulted — and only now is it fetched.
+        fallback_rows = main_dex_candidate_rows(latest, entry_ms, coin, cfg)
+        fallback_n = len(fallback_rows)
+        if fallback_rows:
+            result = assign_control(
+                coin,
+                dex,
+                entry_ms,
+                event_rows,
+                [],
+                cfg,
+                pairs_path=pairs_path,
+                fallback_candidates=build(fallback_rows),
+            )
+
+    out: dict[str, Any] = {
+        "event": coin,
+        "candidates": len(same_dex_rows),
+        "fallback_candidates": fallback_n,
+    }
     if isinstance(result, Absent):
         out["state"] = f"unassigned_{result.reason.value}"
         append_fresh_plan_row("event", coin, dex, coin, listing_open_ms, cfg, plan_path)
         return out
     out["state"] = "assigned"
     out["control"] = result.control_coin
+    out["pair_type"] = result.pair_type
+    out["control_dex"] = result.control_dex
     append_fresh_plan_row("event", coin, dex, coin, listing_open_ms, cfg, plan_path)
     append_fresh_plan_row(
-        "control", result.control_coin, dex, coin, listing_open_ms, cfg, plan_path
+        "control", result.control_coin, result.control_dex, coin, listing_open_ms, cfg, plan_path
     )
 
     # The two-leg snapshot, inside the registered 30-minute window only.
