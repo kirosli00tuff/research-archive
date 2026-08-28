@@ -11,6 +11,7 @@ from etf.section0 import (
     DEGRADED_SCOPE,
     GO_SCOPE,
     CoPrimaryPowers,
+    Section0Gate,
     Section0Verdict,
     fire_section0,
 )
@@ -27,7 +28,7 @@ def fire(
     e2_pub: float = 0.99,
     observability: Observability = Observability.PASS,
     unstable: float = 0.0,
-):  # type: ignore[no-untyped-def]
+) -> Section0Gate:
     return fire_section0(
         powers_registered=CoPrimaryPowers(e1=e1_reg, e2=e2_reg),
         powers_published=CoPrimaryPowers(e1=e1_pub, e2=e2_pub),

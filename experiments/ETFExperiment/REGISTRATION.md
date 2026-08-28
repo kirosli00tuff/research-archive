@@ -448,3 +448,147 @@ Wealthsimple finding is the precedent.
 **Sealed coverage bars (A.2 Task 3):** `MIN_OUTCOME_COVERAGE` **0.95** for
 candles and **0.95** for funding hours over the hold windows. An under-covered
 day reports `underpowered`, never a return.
+
+## 13. Priors
+
+**Assistant prior, recorded 2026-08-27 in chat, before any census:**
+
+> **0.10** that a real capturable edge exists here — an effect that survives
+> publication, decay, the after-the-close information timing, and a 9 bp round
+> trip.
+
+Nothing found in the repositories or on the web since has moved it. The figure
+is recorded with its date so a future calibration ledger can score it.
+
+**The adoption warning, standing.** The NPDExperiment Amendment 0 lesson
+applies: **an adopted prior corrupts the calibration ledger**, because a number
+copied from the assistant measures the assistant twice and the operator not at
+all. The assistant's 0.10 above is context, not the operator's number, and it
+**must not be copied into the slot below**.
+
+**The operator prior slot, reserved and empty:**
+
+> **Operator prior on the Stage B bars clearing:** _(empty — reserved for the
+> operator)_
+
+The accepted formats for the fill are a probability in `[0, 1]` followed by
+`(independent)` or `(adopted)` — nothing else parses. **The empty slot blocks
+Stage B structurally** (`etf.registration_check.require_operator_prior`,
+exercised by `tests/test_registration_check.py`). It is the one open operator
+item this stage is expected to leave behind.
+
+## 14. Carried external figures — sources named, none measured by this repository
+
+**Every figure in this section was supplied to the design and is labelled
+`carried` wherever it is used. None was measured here.** Standing rule 3 says
+measured beats documented; nothing in this section is a measurement of this
+repository's, and no bar depends on one being true.
+
+### 14.1 The source study
+
+**Boon Chuan Lim, "The Price Impact of Spot Bitcoin ETF Flows", SSRN
+abstract_id 6592830, posted 2026-04-17.** Five largest US spot BTC ETFs,
+January 2024 through April 2025, **313 trading days**, Databento.
+
+| reported figure | value |
+|---|---|
+| same-day impact, OLS | **53 bp per 100M USD** |
+| same-day impact, instrumental variables | **74 bp per 100M USD**, first-stage F **21.58** |
+| share of daily return variation explained by flows | **21 percent**, t **8.99** |
+| **next-day prediction** | **Newey-West t 3.12** |
+| bidirectional Granger causality | beta **0.47**, t **9.75** |
+| unconditional reversal, horizons 1–20 days | **none** |
+| conditional reversal (controlling for future flows) | t **−2.42 to −3.99** |
+| total impact at 10 days | **96 bp per 100M USD**, t **4.49** |
+
+**Only the next-day leg is testable by this design** (Section 1, structural
+doubt 2). The same-day figures are carried for the Section 8 sanity check and
+for nothing else.
+
+### 14.2 The same author, later and longer — the single most important figure
+
+**SSRN abstract_id 6567058**, **563 days** January 2024 through April 2026,
+Farside data: **causal IV impact 0.20 percent per 100M USD at t 2.65**, against
+the earlier **0.41 percent OLS**.
+
+**The author's own estimate roughly halves on the extended sample.** This is
+the figure the registered 0.09 assumption of Section 9 rests on, and it is the
+single most important number carried into this registration.
+
+### 14.3 The claimed external replication — recorded as FAILED TO CONFIRM
+
+**Citi's note of 2026-07-01** cut its twelve-month BTC target to **82,000 USD**
+and cut assumed twelve-month net ETF inflows to **zero**. Reporting shows
+**Citi cited an external academic study rather than running its own
+regression**, and the dataset description is Lim's.
+
+**Citi's own quantified claim, from analyst Alex Saunders, is that flows
+explain roughly 45 percent of weekly BTC moves.** That is **weekly and
+contemporaneous**, not next-day and predictive.
+
+**Recorded here as FAILED TO CONFIRM, not as corroboration.** A weekly
+contemporaneous variance share is not an out-of-sample replication of a
+next-day predictive coefficient, and treating a citation of the original study
+as independent confirmation would double-count one measurement. Recorded as
+ADR-012.
+
+### 14.4 Contradicting evidence
+
+- **HashKey senior researcher Tim Sun, August 2026:** single-day ETF flows
+  alone yield **very limited predictive power for the next trading day**;
+  long-term correlation coefficient **below 0.5**; roughly **0.4 percent per
+  100M USD**; **a lagging trend-confirmation indicator rather than a leading
+  one**.
+- **CoinDesk, 2026-05-14, using SoSoValue data:** the **90-day rolling
+  coefficient** between daily BTC return and the daily change in cumulative net
+  inflows stands at **0.16, indistinguishable from zero**, down from a
+  **February peak of 0.68**.
+
+### 14.5 Regime
+
+**June 2026 net outflows reached 4.06 billion USD**, the worst month since
+launch in January 2024, inside a **13-day consecutive outflow streak totalling
+roughly 4.4 billion USD**. The out-of-sample window this design tests contains
+that regime. It is recorded, not adjusted for: conditioning the sample on a
+regime after seeing it is the selection this registration exists to prevent.
+
+### 14.6 In-house figures, from the repositories
+
+| figure | value | source |
+|---|---|---|
+| Hyperliquid base perp fees | **1.5 bp maker / 4.5 bp taker per side** | in-house |
+| Kraken Pro base tier | **0.25 percent maker / 0.40 percent taker** | MLCryptoEngine ADR-055, verified live 2026-08-08 |
+| Coinbase base tier | **0.40 maker / 0.60 taker** | MLCryptoEngine ADR-055, not in dispute |
+| IBKR fractional-order refusal | **error 10243** | HFExperiment `reports/stage_a1b/a1b_report.md` line 52 |
+
+### 14.7 The correction that governs this repository
+
+**In NPLExperiment a main-dex accrual figure near 9.4 events per month entered
+a registration as a planning number, and measurement falsified it at 0.5 events
+per month (n = 3 over 182 days), killing H3 on a figure rather than on the
+world.**
+
+**Therefore: no accrual, coverage, lag, retention, revision, or capture-density
+figure in this repository is registered before it is measured.** Every such
+figure is named as an A.1 or A.2 **measurement target**, never as an input:
+
+| figure | measured at |
+|---|---|
+| publication lag distribution, p50 / p90 / p95 | **A.1 Task 3** |
+| rate at which the largest fund reports late | **A.1 Task 3** |
+| rate at which a dash appears where a number later stands | **A.1 Task 3** |
+| days with no value before the provisional anchor | **A.1 Task 3** |
+| forward revision rate, sign-flip rate, threshold-cross rate | **A.1 Task 4** |
+| archive capture density per US trading day | **A.1 Task 4** |
+| retro revision rate | **A.1 Task 4** |
+| admissible days per month and the trailing rate | **A.2 Task 1** |
+| signal distribution and the trade count | **A.2 Task 2** |
+| sealed candle and funding coverage | **A.2 Task 3** |
+| per-endpoint rate ceilings and operating paces | **A.1 Task 2** |
+
+---
+
+## Amendments
+
+None yet. An amendment is dated, reasoned, states exactly what data existed
+when it was made, and never edits anything above its own line.

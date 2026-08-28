@@ -43,7 +43,6 @@ PENDING_ENFORCEMENT: frozenset[str] = frozenset(
         "min_outcome_coverage_candles",  # A.2 Task 3, sealed coverage
         "min_outcome_coverage_funding",  # A.2 Task 3, sealed coverage
         "interim_deadline",  # A.2 Task 4, projection
-        "assistant_prior_edge",  # A.0 Task 5, the priors check
     }
 )
 
