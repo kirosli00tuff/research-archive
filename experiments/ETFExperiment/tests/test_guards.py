@@ -31,12 +31,9 @@ PENDING_ENFORCEMENT: frozenset[str] = frozenset(
         "horizon_primary_days",  # A.3 Task 5, verdict machinery
         "reversal_horizon_max_days",  # A.3 Task 5, named secondary
         "threshold_grid_usd",  # A.3 Task 5, named secondary
-        "permutation_draws",  # A.3 Task 5, verdict machinery
-        "alpha_adj",  # A.2 Task 4, power gate
         "rho_registered",  # A.2 Task 4, power gate
         "rho_undecayed",  # A.2 Task 4, power gate
         "rho_quartered",  # A.2 Task 4, power gate
-        "power_simulations",  # A.2 Task 4, power gate
         "retro_revision_sample_min",  # A.1 Task 4, retro revision rate
         "interim_deadline",  # A.2 Task 4, projection
     }
