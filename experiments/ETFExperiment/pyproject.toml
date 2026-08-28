@@ -1,0 +1,50 @@
+[project]
+name = "etf"
+version = "0.1.0"
+description = "ETFExperiment: measurement-only test of whether US spot Bitcoin ETF net flow prints predict the next day's BTC return net of a Hyperliquid perp round trip. No trading, no capital, no execution path."
+requires-python = ">=3.13"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "ruff>=0.8",
+    "mypy>=1.14",
+    "pytest>=8.3",
+    "pre-commit>=4.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/etf"]
+
+[tool.uv]
+package = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "C4", "SIM", "RUF"]
+
+[tool.ruff.lint.per-file-ignores]
+# The flow table serves em dashes, en dashes, non-breaking hyphens and
+# non-breaking spaces where a number will later stand. Recognising each
+# rendering is the whole point of the parser, so the ambiguous-character rule
+# is suspended in exactly the two files that enumerate them and nowhere else.
+"src/etf/flow.py" = ["RUF001"]
+"tests/test_flow.py" = ["RUF001"]
+
+[tool.mypy]
+strict = true
+python_version = "3.13"
+files = ["src/etf", "tests", "scripts"]
+mypy_path = "src"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
