@@ -3,7 +3,9 @@
 Status at 2026-08-28: **H1 closed (FAIL). Register Stage A complete for
 H2, H3, H4 — H3 and H4 BLOCKED, H2 surviving and since amended to a
 two-look sequential plan (Amendments H2-3, H2-4), collecting toward look 1
-on 2026-11-26 and look 2 on 2027-03-01.** The single-hypothesis
+on 2026-11-26 and look 2 on 2027-03-01. H5, a feasibility entry outside the
+familywise budget, registered and fired PENDING with its census window
+closing 2026-09-26.** The single-hypothesis
 ladder that carried H1 from registration to closure is archived below the
 register ladder; its C and D rows never bound and are void with H1's
 closure. In the register architecture every hypothesis climbs its own
@@ -25,6 +27,19 @@ verdict-bearing read per registration. Secondaries never move a row.
 | **Per-hypothesis B — the sealed read** (the general form; H2's is the two rows above) | Did the registered design clear its bars on its fresh cohort? | That hypothesis's registered trigger: required co-primaries at or above 80 percent power at achieved eligible N; **its own operator prior slot filled**; explicit operator instruction | That hypothesis's registered verdict table, one row fires, applied mechanically at central costs; consequence executed as registered | none |
 | **C / D — execution stages** (unregistered) | — | A successor B fires its positive row; operator authorization; a new registration of its own | — | none until a future registration says otherwise |
 
+## The H5 ladder — a feasibility entry, outside the familywise budget
+
+H5 decides no bar on returns, so it carries no alpha and sits outside the
+cull. It has **no Stage B, no latch, and no Stage C**, and its terminal
+states are VIABLE — meaning *write a registration in a different repository*
+— or CLOSED, with INDETERMINATE as the registered middle.
+
+| stage | question it answers | entry gate | exit gate | capital |
+|---|---|---|---|---|
+| **H5 A — registration and access census** (complete, 2026-08-28) | Does the venue serve the fields the question needs, and on how many live instruments? | Operator prompt; preconditions PASS; the registration, mapping, calendar and dark map committed and pushed **before any H5 network call** | 94 live instruments, `oraclePx` on 151 of 151, funding on 94 of 94, and the delisted stratum excluded on three fields agreeing (Amendment H5-2) | none |
+| **H5 census window** (open; collector armed) | Over 30 days and all four session tags, how far does the mark sit from the venue's own oracle? | The Section 6 structural clauses cleared: ≥ 20 instruments with a served reference, funding served on at least half | The map fires on **2026-09-26**, when the 20th-best-covered instrument reaches 30 covered days at one pass per day | none |
+| **H5 terminal row** | — | The census window closes | **VIABLE** (median absolute basis over 54 bp in at least one tag) → draft a successor registration **in a fresh repo, with an independent underlying feed**, and only once the operator prior slot is filled; **INDETERMINATE** (18–54 bp) → a recorded lead, no successor authorized; **CLOSED** (under 18 bp in every tag) → the family closes, collection stops | **none, in every branch** |
+
 ## The path, dated
 
 - **A.0–A.2** run in this session (2026-08-28): restructure, quarantine,
@@ -38,6 +53,9 @@ verdict-bearing read per registration. Secondaries never move a row.
   minimum-N against measured accrual and is recorded in the close-out; no
   successor B runs before its cohort matures and its operator slot fills.
   **For H2 those dates are 2026-11-26 (look 1) and 2027-03-01 (look 2).**
+- **H5's census window** runs 2026-08-28 to **2026-09-26** on the armed
+  daily collector; its row fires on schedule and authorizes no capital in
+  any branch.
 - **Operator-only at every rung:** the priors (one reserved empty slot per
   hypothesis — the assistant never fills any), each Stage B instruction,
   and any authorization beyond measurement.

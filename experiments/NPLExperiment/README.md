@@ -48,6 +48,9 @@ revised to fit a result.
 - `DECISIONS.md` — numbered ADRs. Read before revisiting a settled question.
 - `docs/ACCESS.md` — the measured access table: verbatim fragments,
   per-endpoint ceilings, retention, delisting observability.
+- `docs/H5_ACCESS.md` — what the venue serves on HIP-3 equity-style perps:
+  the served-field matrix, verbatim fragments, and the funding-service
+  answer per instrument.
 - `src/npl/` — the package: guards (`absence`, `callstate`, `ledger`,
   `blindness`), the census and eligibility, the collectors, and the dark
   verdict machinery Stage B calls exactly once.
@@ -66,12 +69,23 @@ revised to fit a result.
     make mutations-register the register Stage A.4 exercise (6/6)
     make mutations-amend    the Amendment H2-3 exercise (6/6)
     make ktable-amended     recompute the H2 two-look boundary table
+    make h5-census          the H5 instrument resolution and access census
+    make h5-retro           the H5 retrospective deviation read (gated)
+    make h5-pass            one forward H5 snapshot, run alone
+    make h5-fire            fire the H5 outcome map from H5 stores only
+    make mutations-h5       the H5 mutation exercise (7/7)
 
 ## Open operator items
 
-**Exactly one that can still matter: the H2 operator prior slot**
+**Two.** First, **the H2 operator prior slot**
 (registrations/H2, Section 13). It blocks H2's Stage B structurally, and
 after Amendment H2-3 it blocks **both** looks. The assistant never fills
 it. H3's and H4's slots remain reserved and empty but are moot — both
 hypotheses are BLOCKED and neither has a Stage B to gate. (H1's slot was
 filled 0.40 adopted and is spent with its closure.)
+
+Second, **the H5 operator prior slot** (registrations/H5, Section 9). H5 has
+no Stage B, so the empty slot blocks no read: it blocks the **successor
+draft**, which is the only action a VIABLE row would authorize. The H5 row
+fires on 2026-09-26 either way — a verdict is never withheld for want of a
+prior. The assistant never fills it.

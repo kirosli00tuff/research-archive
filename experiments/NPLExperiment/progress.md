@@ -1418,3 +1418,46 @@ funding share to 0.627 from its true 1.000), and the secondary was being fed
 the gate residue. Both corrected before the recorded firing; the pre-
 amendment census rows, which carry no listing status, are skipped and
 **counted** (273) rather than assumed live.
+
+### Task 6 — gates, mutations, docs, close-out (ETA 45–70 min · actual ~16 min, 22:32→22:48Z)
+
+**Gates: `make all` green.** ruff format 96 files clean, ruff check clean,
+mypy strict **96 source files** no issues, **351 passed** (249 at the
+precondition; **102 new tests** across five H5 test modules).
+
+**Mutations: 7 of 7 CAUGHT** (`reports/h5/mutations.md`). Each edits real
+source, the suite goes red, the source is restored **byte-for-byte**, the
+suite goes green. Bytecode purged before every run. `git status` after the
+run showed **no modified file** — only the new report.
+
+| | mutation | file | caught by |
+|---|---|---|---|
+| MH1 | compute a basis from a field the venue did not serve in the same snapshot | `h5/basis.py` | the cross-snapshot refusal |
+| MH2 | let an H5 path write into an H2 store | `h5/stores.py` | the refusal produced on the real `data/controls/h2_pairs.jsonl` |
+| MH3 | interpolate an absent reference | `h5/basis.py` | a middle gap must stay Absent; served n drops 3 → 2 |
+| MH4 | mis-tag a weekend snapshot as regular hours | `h5/calendar.py` | the fixture sitting ON Saturday 2026-08-29 |
+| MH5 | bypass the retrospective cohort gate | `h5/retro.py` | a gated coin must reach nothing; plus the AST pin on the gate's position |
+| MH6 | let the named secondary fire VIABLE | `h5/outcome.py` | a secondary at 300 bp must land INDETERMINATE |
+| MH7 | exclude a delisted instrument on the flag alone | `h5/listing.py` | a flagged instrument with live open interest must read `conflicting` |
+
+**H2 verified untouched** (`reports/h5/h2_verification.json`):
+
+- **all 11 H2 store hashes identical** to the precondition record;
+- **pair count 62, unchanged**;
+- **all three H2 latches still absent**;
+- the two shared append-only ledgers grew **by append only** — `requests.jsonl`
+  by 199,896 bytes, `watcher.jsonl` by 162 — with **byte-identical prefixes**,
+  which is the correct verification for an append-only file the hourly H2
+  watcher and H5's own charges both write to;
+- H5 wrote **only** `data/h5/census.jsonl`, `snapshots.jsonl`, `retro.jsonl`.
+
+**Docs:** `HYPOTHESES.md` gains the H5 entry; `DECISIONS.md` gains
+**ADR-026…031**; `report.md` gains the H5 section; `docs/H5_ACCESS.md` is
+new; `docs/STAGES.md` gains the H5 ladder and its dated window; `README.md`
+gains the H5 commands, the access doc, and the second open operator item.
+
+**Spend for the whole entry: 1,124 requests, zero dollars** — 6
+reconnaissance + 323 + 323 census + 27 retrospective + 209 forward + 236
+watcher/other on the shared day. Against the registered 20,000 daily cap
+that is **5.6 percent**, and the H5 forward pass will cost **209 a day, 1.05
+percent**, running last and yielding to H2.
