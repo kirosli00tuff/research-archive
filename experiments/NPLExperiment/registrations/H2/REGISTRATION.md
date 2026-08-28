@@ -303,3 +303,61 @@ required power 0.7604 — fixed point. **k = 1. alpha_h = 0.05.**
 recomputed power is stated beside the registered 0.80 target at every
 later reading; A.3 arms the collectors for H2 alone (H3 and H4 armed
 nothing, per their own Section 0 records).
+
+### Amendment H2-2 — 2026-08-28 — the re-arm record (register A.3)
+
+**What data existed when this amendment was made.** Everything in
+Amendment H2-1, plus the fresh plan (100 rows: 62 events + 38 control
+legs) and the dark pair machinery's synthetic-fixture test record. **No
+outcome value of any fresh event has been read; the pair reader has only
+ever seen synthetic fixtures.**
+
+**The re-arm, executed and verified 2026-08-28T06:21–06:23Z:**
+
+- `systemctl --user enable --now npl-watch.timer npl-daily.timer` from
+  the retained unit files. Schedules verified: npl-watch hourly at :05
+  (next 07:05Z; its Persistent catch-up pass ran clean at 06:22:18Z — 11
+  dexs, 0 failed, 504 instruments, 0 births); npl-daily at 01:40 UTC
+  (next 2026-08-29 — today's pass ran before the H1 disarm, so
+  Persistent did not double-fire). Nothing else npl is scheduled (4 npl
+  units total: the two timers and their services). The AiTrader
+  news-collect timer (next 15:31 PDT) and solattn-daily are untouched,
+  verified in the same listing. The manual-run guard refuses while the
+  timers are active, verified by invocation.
+- **The watcher extension (A.3 Task 2):** on each birth, the entry-anchor
+  watch pass assigns the H2 control trailing-only through the pinned
+  matcher, writes the pair row, queues both legs on the fresh plan, and
+  takes the two-leg l2Book snapshot inside the registered 30-minute
+  window (a late pass writes a loud expired row; the 01:40Z daily pass is
+  the assignment catch-up). `npl.register.forward`, pinned by tests with
+  a socketless client.
+- **The funding recorder (A.3 Task 3):** the daily pass advances every
+  fresh-plan row's archive to min(now, entry+91d) under the soft budget,
+  and seals each leg's full candle window once, at maturity (now ≥
+  entry+92d) — the H1 retro-backfill shape, chosen because the venue's
+  1d retention is measured-full and a write-once seal of a partial
+  window would block its own completion. Backfillable-cohort checkpoints
+  before the re-arm date are superseded by the mature-window seal;
+  forward births checkpoint normally.
+- **Checkpoints (A.3 Task 4):** +2/+32/+92 for forward events and both
+  pair legs (the elder leg checkpoints on its event's schedule);
+  MIN_OUTCOME_COVERAGE unchanged (0.90 candles / 0.95 funding hours);
+  the H2 coverage view requires both legs (`npl.register.pairs.
+  pair_covered`).
+- **The dark machinery (A.3 Task 5, survivors only):** the H2 pair
+  reader (`npl.register.pairs`) reproduces known answers to the digit,
+  with sign pins on all four legs; the per-hypothesis latch exists for
+  H2 alone (`npl.register.latches` — a BLOCKED hypothesis has no Stage B
+  to latch, and asking for one refuses loudly, by test). The subset and
+  conditioned readers were not built: H3 and H4 fired BLOCKED and
+  nothing arms for them.
+
+**A defect found and corrected during hardening, recorded rather than
+smoothed over:** the first version of the forward-pass test let the
+trail fetcher write into the real data/funding store (two fake test
+coins, ELDER and NEW, accumulated ~3.6M trail seal files each before the
+run was stopped). The pollution was verified test-only (neither coin
+exists in any census, ledger, or plan) and removed; the fetcher now takes
+an explicit funding_root, the test pins that trail seals land there and
+nowhere else, and a page cap bounds the fetch loop. No experiment data
+was touched.

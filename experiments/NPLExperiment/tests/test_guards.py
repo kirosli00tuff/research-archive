@@ -21,13 +21,10 @@ BLINDNESS_FILE = SRC / "blindness.py"
 # names the task. The test asserts the unread set EQUALS this set, so landing
 # a consumer forces the entry off this list, and the list must be empty by the
 # end of Stage A.3.
-PENDING_ENFORCEMENT: frozenset[str] = frozenset(
-    {
-        # Register Stage A.3 Task 5: the dark H2 pair reader consumes the
-        # E2 economic-floor multiple.
-        "h2_cost_floor_multiple",
-    }
-)
+# The list burned down to empty at register Stage A.3 Task 5, as the H1
+# discipline requires: the dark H2 pair reader consumed the last entry
+# (h2_cost_floor_multiple).
+PENDING_ENFORCEMENT: frozenset[str] = frozenset()
 
 # OHLCV keys, and the l2Book level keys, as subscripts or .get() lookups.
 # The l2Book touch state (px, sz) is a registered descriptive cost input

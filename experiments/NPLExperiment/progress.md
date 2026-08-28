@@ -703,3 +703,22 @@ mean governs; the 0.95 bar applies to control candidates only.
 Session requests to the fire: ~830 (418 A.1 + ~412 A.2: 380 candidate
 pages/trails + 16 control-leg spreads + census remainder); refusals 0;
 zero dollars; no keys. No outcome value read.
+
+## 2026-08-28T06:35Z — Register Stage A.3 complete — collectors re-armed for H2 alone
+
+| Task | ETA | Actual |
+|---|---|---|
+| 1. Re-arm collectors | — | enabled 06:21Z; watch catch-up clean 06:22:18Z (11 dexs, 0 failed); daily next 2026-08-29T01:40Z; AiTrader + solattn untouched; manual-run guard refuses while armed |
+| 2. Watcher extension for pairs | — | npl.register.forward: entry-anchor assignment, pair row, fresh-plan rows, two-leg snapshot in-window, loud expired outside; daily catch-up |
+| 3. Funding recorder | — | fresh plan (100 rows: 62 events + 38 control legs) under the daily pass; mature-window candle seal |
+| 4. Checkpoints | — | forward events + both pair legs on the event schedule; MIN_OUTCOME_COVERAGE unchanged; pair coverage requires both legs |
+| 5. Dark machinery (survivors only) | — | H2 pair reader with four-leg sign pins, known answers to the digit; H2 latch; H3/H4 built nothing (BLOCKED); PENDING_ENFORCEMENT burned to empty |
+| 6. Pair feasibility memo | — | docs/PAIR_FEASIBILITY.md: ~2.2N capital/pair, 45-pair hard cap at $1,000 vs ~19 accrual-bound concurrent, squeeze capped at 1.2N by isolated margin, funding-flip bounded |
+| A.3 total | 70–90 min | ~75 min (05:25→06:35Z, overlapping A.2 close) |
+
+Defect record (also in Amendment H2-2): the first forward-pass test wrote
+trail seals for two fake coins into the real data/funding store (~7.2M
+files) before being stopped; verified test-only, removed, and the fetcher
+now takes an explicit funding_root with the test pinning isolation and a
+page cap bounding the loop. Gates after the fix: 217 tests in 0.96s,
+mypy strict, ruff clean.
