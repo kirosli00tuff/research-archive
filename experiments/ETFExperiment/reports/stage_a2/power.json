@@ -1,0 +1,123 @@
+{
+  "alpha_adj": 0.025320565519103666,
+  "assumptions": {
+    "published_0.18": 0.18,
+    "quartered_0.045": 0.045,
+    "registered_0.09": 0.09
+  },
+  "computed_at": "2026-08-28T20:35:37Z",
+  "economic_inputs": {
+    "daily_funding_sum": 0.0005343574667950626,
+    "daily_sd": 0.027430504889517645,
+    "n_funding_hours": 11423,
+    "n_volatility_returns": 475,
+    "round_trip_cost_bp": 9.0,
+    "trade_share": 0.7567567567567568,
+    "trade_share_n": 333
+  },
+  "minimum_n_for_e1": {
+    "published_0.18": 237,
+    "quartered_0.045": 3776,
+    "registered_0.09": 845
+  },
+  "permutation_draws": 20000,
+  "power_simulations": 2000,
+  "powers": {
+    "achieved_forward_only": {
+      "published_0.18": {
+        "e1": 0.0,
+        "e2": 0.0,
+        "n": 0
+      },
+      "quartered_0.045": {
+        "e1": 0.0,
+        "e2": 0.0,
+        "n": 0
+      },
+      "registered_0.09": {
+        "e1": 0.0,
+        "e2": 0.0,
+        "n": 0
+      }
+    },
+    "achieved_total": {
+      "published_0.18": {
+        "e1": 0.0815,
+        "e2": 0.06,
+        "n": 11
+      },
+      "quartered_0.045": {
+        "e1": 0.0385,
+        "e2": 0.03,
+        "n": 11
+      },
+      "registered_0.09": {
+        "e1": 0.05,
+        "e2": 0.0375,
+        "n": 11
+      }
+    },
+    "all_cohorts_by_deadline": {
+      "published_0.18": {
+        "e1": 0.6105,
+        "e2": 0.5225,
+        "n": 163
+      },
+      "quartered_0.045": {
+        "e1": 0.086,
+        "e2": 0.075,
+        "n": 163
+      },
+      "registered_0.09": {
+        "e1": 0.2015,
+        "e2": 0.17,
+        "n": 163
+      }
+    },
+    "forward_only_by_deadline": {
+      "published_0.18": {
+        "e1": 0.6,
+        "e2": 0.5325,
+        "n": 152
+      },
+      "quartered_0.045": {
+        "e1": 0.0675,
+        "e2": 0.0725,
+        "n": 152
+      },
+      "registered_0.09": {
+        "e1": 0.191,
+        "e2": 0.165,
+        "n": 152
+      }
+    },
+    "forward_only_by_interim": {
+      "published_0.18": {
+        "e1": 0.387,
+        "e2": 0.3325,
+        "n": 88
+      },
+      "quartered_0.045": {
+        "e1": 0.0495,
+        "e2": 0.045,
+        "n": 88
+      },
+      "registered_0.09": {
+        "e1": 0.1155,
+        "e2": 0.1075,
+        "n": 88
+      }
+    }
+  },
+  "printed_day_rate": 0.9910714285714286,
+  "scenarios": {
+    "achieved_forward_only": 0,
+    "achieved_total": 11,
+    "all_cohorts_by_deadline": 163,
+    "forward_only_by_deadline": 152,
+    "forward_only_by_interim": 88
+  },
+  "target_power": 0.8,
+  "weekdays_to_deadline": 153,
+  "weekdays_to_interim": 89
+}
