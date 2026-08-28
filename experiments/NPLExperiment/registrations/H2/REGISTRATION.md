@@ -361,3 +361,273 @@ exists in any census, ledger, or plan) and removed; the fetcher now takes
 an explicit funding_root, the test pins that trail seals land there and
 nowhere else, and a page cap bounds the fetch loop. No experiment data
 was touched.
+
+### Amendment H2-3 — 2026-08-28 — the two-look sequential plan, the fallback control, and the recalibrated economic floor
+
+**What data existed when this amendment was made.** Counts, timestamps,
+coverage figures, and pre-entry funding features — and nothing else.
+Specifically: the A.1 recovery/census/retention record; the A.2
+eligibility ledgers (`data/eligibility/`, 62 rows for H2: 38 pairable,
+24 `no_control_candidate`); the H2 pairs ledger at 38 append-only rows;
+the measured accrual and conditioning rates; the exact-power arithmetic
+of Amendment H2-1 (`reports/stage_a_h2/ktable_cull.json`); the fresh
+plan at 100 rows; the census at 504 distinct instruments across 11 dexs;
+and this stage's precondition scan
+(`reports/stage_a_h2/amend_preconditions.json`, PASS at
+2026-08-28T06:51:10Z: `data/state/h2_read.json` absent, the registered
+latch `data/state/h2_read_latch.json` absent, zero H2 outcome artifacts
+under `reports/`, gates green, tree clean, origin equal to HEAD,
+`npl-daily.service` inactive). **No pair net return, no candle close, and
+no post-entry funding rate has been read. The H2 pair reader has seen
+only synthetic fixtures.** Every figure carried below from the H1 read is
+generating-sample-derived and labelled so, usable as a power assumption
+only (standing rule 12).
+
+**This amendment weakens the registered bar. It is made for calendar
+reasons, on operator instruction dated 2026-08-28.** Amendment H2-1
+recorded that H2's governing co-primary E2 needed **169 achieved pairs**
+before its Stage B trigger could fire, reached near 2027-05/06 at the
+measured by-dex accrual, plus 30-day maturity — past the registered
+2027-03-31 projection deadline. Three changes below buy calendar: a
+fallback control that pairs the 24 events the same-dex rule cannot pair,
+a lower economic floor, and a two-look plan that creates an earlier
+opportunity to stop. **Each is a weakening or a relaxation, each is
+stated as such, and each was chosen before any pair outcome existed.**
+Nothing here is a second look at a spent read: no H2 outcome value has
+ever been parsed.
+
+---
+
+#### Change 1 — the fallback control rule (a relaxation of Section 6)
+
+Section 6's rule is unchanged where it applies. **At each event entry the
+control is the same-dex perp, listed at least 180 days earlier, with
+funding coverage of at least 95 percent of the trailing 168 hours,
+nearest by signed trailing 168-hour mean hourly funding, with
+replacement; ties to the earlier listing date, then coin name
+ascending.**
+
+**The fallback, registered now:** where that same-dex candidate set is
+empty — no instrument on the event's dex satisfies both the 180-day age
+condition and the coverage condition — the control is **the nearest
+funding-matched elder on the main dex** (`dex == ""`) meeting the same
+180-day and coverage conditions, selected by the identical distance,
+tie-break, and replacement rules. The fallback is consulted **only** when
+the same-dex set is empty; a same-dex candidate always wins, and an event
+with no candidate on either dex is still excluded, recorded
+`no_control_candidate`, counted.
+
+- **Pair type is tagged at assignment.** Every pair row carries
+  `pair_type` ∈ {`same_dex`, `cross_dex`}, written at assignment time to
+  the append-only pairs ledger. **The tag never filters anything.** Both
+  types enter every primary statistic.
+- **The `same_dex` subset is a named stratum, reported beside every
+  primary figure at every look** — n, successes, and share for E1 and E2,
+  descriptive, never verdict-bearing. The registered reason to report it:
+  a cross-dex pair matches funding but not venue microstructure, and the
+  reader must be able to see whether the primary rests on it.
+- **Matching stays trailing-only, assignment-time, and append-only.** The
+  fallback path runs through the same pinned matcher: a funding row
+  stamped after the event entry raises `npl.controls.PostEntryRead`, and
+  the refusal is produced through the fallback path by test
+  (`tests/test_amend.py`), not asserted.
+- **The 38 pair rows written 2026-08-28T05:37–05:38Z carry no
+  `pair_type` field.** The rule in force when they were written admitted
+  same-dex candidates only, so those 38 pairs are `same_dex` **by the
+  registered rule that produced them**, not by imputation of a missing
+  value. A reader treats an absent `pair_type` on a pre-amendment row as
+  `same_dex` and on any row written after this amendment as a defect.
+  Pinned by test.
+- **Direction of the change: a relaxation.** It admits pairs the
+  registered rule refused. It does not change any bar, any alpha, or any
+  outcome definition.
+
+#### Change 2 — the economic floor moves from 2× to 1× the pair's central cost
+
+**E2's bar was: the share of pairs whose 30-day net return is at or above
+`h2_cost_floor_multiple` = 2.0 times the pair's registered central cost
+(Section 5) exceeds one half. The multiple becomes 1.0.**
+
+- **This is a weakening, stated plainly.** A pair that returns between
+  one and two times its own execution cost now counts as a success where
+  it did not before. The bar still requires each pair to clear its own
+  round-trip execution costs — 18, 27, or 36 basis points by pair class —
+  so E2 remains an economic test and not a restatement of E1's sign test.
+  What it no longer requires is a doubling of that cost.
+- **The 2× figure is retained as a named secondary at every look**: the
+  E2 statistic recomputed at multiple 2.0, reported beside the primary,
+  descriptive and never verdict-bearing. The cost of the weakening stays
+  legible in the same artifact that records the benefit.
+- **The registered power assumption moves with the floor, and the move is
+  stated.** E2's true share was registered at **0.60** for the 2× floor —
+  itself a judgment discount from E1's 0.651, not a measurement, taken
+  because the pair distribution's spread is unmeasured. Halving the floor
+  halves the distance from the sign test's zero, so the registered
+  assumption for the 1× floor is set by **linear interpolation in the
+  floor multiple** between multiple 0 (E1's sign share, 0.65) and
+  multiple 2 (the registered 0.60), evaluated at multiple 1:
+  **h2_e2_true_share = 0.625**. Linear is chosen as the neutral
+  interpolation, not because the distribution is known to be linear
+  there; it is not known at all.
+- **Because that assumption is a choice and not a measurement, every
+  minimum-N figure for E2 is reported twice** — at 0.625 and at the
+  unchanged 0.60 — so no reader has to take the interpolation on trust.
+- **Chosen before any pair outcome existed.** At the moment this line was
+  written, zero pair net returns had been computed by this repository,
+  and the reader that computes them had seen only synthetic fixtures.
+
+#### Change 3 — the two-look sequential plan (a relaxation of Sections 8, 9, and 10)
+
+Section 8's two co-primaries are unchanged in form: **E1**, the exact
+one-sided sign test that the share of pairs with positive 30-day net pair
+return exceeds one half; **E2**, the same test on the share at or above
+the (now 1×) floor. What changes is that the pair is tested at **two
+registered looks** instead of one.
+
+**The looks.**
+
+- **Look 1** fires at the earliest date at which **both** co-primaries
+  have reached their **look-1 minimum N** in achieved eligible pairs
+  (Section 7 coverage bars on both legs).
+- **Look 2** fires at the **earlier** of the registered deadline
+  (2027-03-31) and the date both co-primaries reach their **look-2
+  minimum N**.
+- **Look sizes are outcome-blind by construction.** n₁ and n₂ are set by
+  eligible-pair counts and the calendar — quantities the coverage modules
+  compute from row counts and timestamps — and never by an observed
+  statistic. This is what makes the exact boundary below valid.
+
+**The alpha split, fixed here and never revisited: alpha₁ = 0.02,
+alpha₂ = 0.03, summing to alpha_h = 0.05 per co-primary.**
+
+The register prompt permits replacing this split only if the power
+computation shows a *materially better* split at the same total. The
+materiality test, defined here before it is applied: a candidate split
+(α₁′, α₂′) with α₁′ + α₂′ = 0.05 replaces (0.02, 0.03) only if, at the
+projected look-2 N, it (a) raises the **governing** co-primary's overall
+two-look power by at least **0.01 absolute**, **and** (b) does not reduce
+that co-primary's probability of a look-1 GO under the registered
+alternative by more than **0.05 absolute**. Clause (b) exists because
+look 1's entire purpose is the early stop; a split that buys power by
+making look 1 nearly inert has not improved a two-look design, it has
+deleted one of its looks. Both clauses are arithmetic over registered
+assumptions and contain no data.
+
+**The exact binomial boundary construction, registered.** With n₁ pairs
+and S₁ successes at look 1, n₂ ≥ n₁ pairs and S₂ successes at look 2, and
+the null p₀ = 1/2:
+
+    k₁ = min { k : P(Bin(n₁, ½) ≥ k) ≤ alpha₁ }
+
+    k₂ = min { k : Σ_{s=0}^{k₁−1} P(Bin(n₁, ½) = s)
+                     · P(Bin(n₂ − n₁, ½) ≥ k − s)  ≤ alpha₂ }
+
+    reject at look 1  ⟺  S₁ ≥ k₁
+    reject at look 2  ⟺  S₁ < k₁  and  S₂ ≥ k₂
+
+The look-2 spend is computed **conditional on not having rejected at look
+1**, over the independent increment Bin(n₂ − n₁, ½), so the total type-I
+error is at most alpha₁ + alpha₂ = 0.05 exactly, with no asymptotic
+approximation anywhere. **A look at which no k satisfies its inequality
+cannot reject**; that is recorded as such and the alpha is never relaxed
+to manufacture one.
+
+**Power at the registered true share p:**
+
+    Π(n₁, n₂, p) = P(Bin(n₁, p) ≥ k₁)
+                 + Σ_{s=0}^{k₁−1} P(Bin(n₁, p) = s) · P(Bin(n₂ − n₁, p) ≥ k₂ − s)
+
+**Minimum-N semantics, as H1 and Amendment H2-1:** the smallest n from
+which power stays at or above 0.80, never the first crossing. The
+**planning interim fraction is one half** — minimum-N figures are
+computed at n₁ = ⌈n₂ / 2⌉ — and the **look-1 minimum N of a co-primary is
+⌈(its look-2 minimum N) / 2⌉**. At the actual looks the boundaries are
+recomputed from the actual (n₁, n₂); the planning fraction sizes the
+design, it does not bind the reader.
+
+**The futility boundary, registered as a construction; its numbers
+computed in Task 3 and recorded in Amendment H2-4.** At look 1, define
+the conditional power of a look-2 rejection given S₁ = s, at the
+co-primary's registered true share p:
+
+    CP(s) = P( Bin(n₂ − n₁, p) ≥ k₂ − s )
+
+and let **f₁ = the largest s in [0, k₁) with CP(s) < 0.10**, taken from
+s = 0 upward (CP is non-decreasing in s, so the qualifying set is a lower
+interval and f₁ is well defined). **Futility fires at look 1 when S₁ ≤ f₁
+for either co-primary** — both are required, so one hopeless co-primary
+makes the conjunction hopeless. Where no s in [0, k₁) has CP(s) < 0.10,
+**no futility boundary exists at that (n₁, n₂) and none is registered**;
+the look then has no futility stop at all. **Futility is never declared
+on inspection**, only on this boundary, evaluated once at look 1.
+
+**The outcome map, per look, mechanical:**
+
+| at | condition | row |
+|---|---|---|
+| look 1 | E1 **and** E2 both reject at k₁ | **GO** |
+| look 1 | S₁ ≤ f₁ for either co-primary (where f₁ is registered) | **FAIL**, terminal |
+| look 1 | otherwise | **CONTINUE** — no row fires, collection proceeds |
+| look 2 | E1 **and** E2 both reject at k₂ | **GO** |
+| look 2 | otherwise | **FAIL**, terminal |
+
+**Both co-primaries must reject at the same look for a GO.** A look at
+which one co-primary rejects and the other does not is **not** a FAIL and
+is **not** a partial GO: at look 1 it is a CONTINUE, at look 2 it is a
+FAIL. **Only look 2 (and the look-1 futility boundary) fires a terminal
+row.**
+
+**A GO authorizes drafting Stage C — paper software — and never capital.**
+No wallet, no signer, no order, no venue credential, no position. A GO
+changes what may be written, not what may be traded.
+
+**Section 10 is extended, and the extension is stated plainly.** H2's
+sealed outcomes were registered to open **exactly once**. They now open
+**exactly twice — once at each registered look — behind a per-look latch
+written before that look's read**, so a crash after the latch spends that
+look. Look 1's latch is `data/state/h2_look1_latch.json`, look 2's is
+`data/state/h2_look2_latch.json`, each write-once and fsynced. A look
+whose latch exists refuses loudly and is never silently re-run. **Look 2
+cannot run before look 1's latch exists**; the order is pinned. The rest
+of Section 10's trigger is unchanged and still required at each look: the
+H2 operator prior slot (Section 13) filled and labelled, and explicit
+operator instruction. The power condition becomes the look's registered
+minimum N in achieved eligible pairs.
+
+**Named secondaries, extended.** The Section 8 list gains exactly two
+entries, both descriptive and never verdict-bearing, computed at every
+look: **(i) the `same_dex` stratum** — n, successes, and share for E1 and
+E2 restricted to same-dex pairs; **(ii) the 2× economic floor** — the E2
+statistic recomputed at `h2_cost_floor_multiple` = 2.0. A statistic not
+named in Section 8 or here is a second look and is refused.
+
+#### The interim tripwire: OMITTED, and why
+
+The register prompt offers an optional E1-only status check on
+2026-09-30, descriptive, spending no alpha — **to be omitted if it cannot
+be built without touching the reader, stating which. It is omitted.**
+
+The E1 statistic is the share of pairs with positive 30-day net pair
+return. Computing it requires each leg's entry and exit closes and each
+leg's funding over the holding window — that is, opening the sealed
+outcomes. There is no construction of the E1 statistic that does not read
+an outcome value, so a 2026-09-30 tripwire that reported it would be an
+unregistered third opening of the sealed data, in direct breach of
+standing rule 7 and of Section 10 as amended above. **A descriptive
+framing does not change what the code would have to read.** The
+pair-count half of the proposed tripwire needs no registration: pair
+counts and per-leg coverage are already computed from row counts and
+timestamps by the coverage modules and can be reported at any time
+without opening anything. **Nothing is registered for 2026-09-30.**
+
+#### What this amendment does not change
+
+k = 1 and alpha_h = 0.05, fixed by the cull and never revisited. The
+generating-sample quarantine: the 312 retro events remain barred from
+every H2 verdict statistic. The event rule and universe (Section 2), the
+entry anchor (Section 3), the four-leg outcome definition and its sign
+conventions (Section 4), the cost table and bands (Section 5), the
+horizons, truncation rule, and coverage bars (Section 7), the epistemic
+boundary (Section 11), the zero-dollar keyless spend rule (Section 12),
+and the reserved, empty operator prior slot (Section 13) — all unchanged.
+**The operator prior slot remains the structural block on every H2 look.**

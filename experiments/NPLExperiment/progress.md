@@ -782,3 +782,70 @@ read at any point; the pair reader has only ever seen synthetic fixtures.
 - **Open operator items: exactly the three reserved prior slots
   (registrations/H2, H3, H4 Section 13 analogs), and nothing else.**
   H2's is the one that will matter; the assistant fills none of them.
+
+---
+
+## 2026-08-28T06:49Z — Register H2 Amendment Stage — operator prompt, logged verbatim (standing rule 1)
+
+BEGIN PROMPT
+
+NPLExperiment, register entry H2, Amendment Stage. Model: Opus. Effort: high. Run autonomously. Commit at each task boundary and push every commit to origin main.
+
+Purpose. Amend the H2 registration to a two-look sequential plan with fallback controls and a recalibrated economic floor, then extend the substrate to collect under it. Nothing here reads an outcome value. The H2 pair reader has seen only synthetic fixtures and must still have seen only synthetic fixtures when this stage closes. Every change is registered before the data it governs is opened.
+
+Standing rules. All thirteen register rules remain in force. The generating-sample quarantine holds: the 312 retro events stay barred from every H2 verdict statistic. Pre-entry features only. Zero dollars, keyless endpoints, the request ledger charges before sending.
+
+Preconditions, refuse loudly and stop on any failure.
+
+data/state/h2_read.json must not exist. If it does, the H2 read is spent and no amendment may follow it.
+No H2 outcome artifact exists under reports/. Verify by scan, record the scan.
+Gates green, tree clean, origin equal to local HEAD.
+npl-daily.service must be inactive. If it is active or activating, wait for completion before touching the substrate, and record the wait.
+
+Task 1. Amendment H2-3, written and pushed before any code changes.
+Record in registrations/H2/REGISTRATION.md, in the amendment log, stating explicitly at the top what data existed at write time, which is counts, timestamps, coverage, pre-entry funding features, and nothing else, and stating that this amendment weakens the registered bar for calendar reasons on operator instruction dated 2026-08-28.
+Three changes.
+Change 1, fallback control rule. At each event entry, the control is the same-dex elder listed at least 180 days earlier nearest by signed trailing 168-hour mean hourly funding, as registered. Where no same-dex candidate exists, the control is the nearest funding-matched elder on the main dex meeting the same 180-day and coverage conditions. Pair type is tagged same_dex or cross_dex at assignment and never filtered. The same_dex subset is a named stratum reported beside every primary figure. Matching stays trailing-only, assignment-time, append-only, with the post-entry read absence pinned by test.
+Change 2, economic floor recalibration. E2's bar moves from twice the pair's registered central cost to one times that cost, a bar that still requires the pair to clear its own execution costs. The two-times figure is retained as a named secondary at every look. State the direction of the weakening plainly and state that it was chosen before any pair outcome existed.
+Change 3, two-look sequential plan. Look 1 at the earliest date both co-primaries reach their look-1 minimum N. Look 2 at the earlier of the deadline or the date both reach their look-2 minimum N. Alpha spends across the two looks by an exact binomial boundary construction, alpha_1 and alpha_2 summing to at most alpha_h equal to 0.05 per co-primary, with the split fixed here and never revisited. Use alpha_1 equal to 0.02 and alpha_2 equal to 0.03 unless the power computation of Task 3 shows a materially better split at the same total, in which case record the chosen split with its arithmetic. Both co-primaries must pass at the same look for a GO. A look where either fails is not a FAIL, it continues to the next look, and only look 2 fires a terminal row. Stopping for futility is permitted only on a pre-registered boundary computed in Task 3, never on inspection.
+Outcome map for each look, mechanical: GO when E1 and E2 both pass at that look's alpha. CONTINUE when look 1 is not a GO and the futility boundary is not crossed. FAIL at look 2, or at either look on the futility boundary. GO authorizes drafting Stage C, paper software, and never capital.
+Interim tripwire, optional and non-verdict-bearing: an E1-only status check on 2026-09-30 that reports the pair count and the E1 statistic against its look-1 boundary, spends no alpha, and cannot fire any row. Register it as descriptive-only or omit it if it cannot be built without touching the reader; state which.
+
+Task 2. Backfill the fallback controls.
+For the 24 pending events currently unpairable, assign main-dex fallback controls at their original entry timestamps, trailing-only, append-only, tagged cross_dex. Fetch and seal the control-leg windows and funding archives to the same coverage bars. Take control-leg l2Book snapshots where the entry window is still open, and record loud expired where it has closed. Report pairs achieved, by tag, with exclusion reasons counted.
+
+Task 3. Power and boundaries under the amended design.
+Recompute exact binomial power and minimum N for E1 and E2 at alpha_1 and alpha_2, at achieved pairs, and at projected pairs by month to the deadline, using the measured by-dex accrual and the new match rate, with the flat variant reported beside as before. Compute the look-1 and look-2 minimum N per co-primary, the futility boundary if one is registrable, and the projected look-1 and look-2 dates. State the E2 minimum under the one-times floor beside the old two-times figure so the cost of the weakening is legible. Record the k-table extension in reports/stage_a_h2/ktable_amended.json. Read no outcome value.
+
+Task 4. Substrate extension.
+Extend forward pairing to the fallback rule so every new birth pairs on the same logic. Extend the funding recorder and checkpoint scheduler to the new control legs. Extend the coverage module to report per pair type. Extend the dark pair reader for the two-look plan: look-aware boundaries, both co-primaries at a common look, the same_dex stratum and the two-times secondary computed as named secondaries, per-look latches so each look is spent exactly once. Known answers to the digit on synthetic fixtures including a look-1 CONTINUE case, a look-1 GO case, and a futility case. The reader stays dark, pinned by test.
+
+Task 5. Gates and mutations.
+make all green. At least four mutations on the new surface, real source, bytecode purged each run: spend look 2 alpha at look 1, caught. Admit a cross_dex pair into the same_dex stratum, caught. Read a post-entry funding row inside fallback assignment, caught. Bypass a per-look latch, caught. Restore byte for byte, evidence in reports/stage_a_h2/mutations_amend.md.
+
+Task 6. Docs and close-out.
+HYPOTHESES.md H2 entry updated with the amended design and dates. DECISIONS.md ADRs for the three changes, each recording that it was made before any outcome existed and why. report.md gains an amendment section: the preconditions, the three changes with the weakening stated plainly, the backfill result, the boundary table, the projected look dates, and the mutation results. docs/STAGES.md updated. README status line updated. progress.md per task with ETA against actual. Final commit, push, confirm origin equals HEAD. End-state summary: pairs achieved by tag, look-1 and look-2 minimum N and projected dates, the alpha split, collectors state, and open operator items, which must be the H2 prior slot and nothing else.
+
+END PROMPT
+
+### Preconditions — PASS (2026-08-28T06:51:10Z, `reports/stage_a_h2/amend_preconditions.json`)
+
+| check | result |
+|---|---|
+| `data/state/h2_read.json` absent | **PASS** — absent; the registered H2 latch `data/state/h2_read_latch.json` is also absent. The H2 read is unspent |
+| no H2 outcome artifact under `reports/` | **PASS** — 8 files scanned, all listed in the artifact. `reports/stage_b/*` is the spent **H1** read (P1/P2/P3 on the 312 retro events), quarantined by AST pin; `reports/stage_a_h2/*` is the outcome-blind k-table and the A.4 mutation evidence. Zero H2 outcome artifacts |
+| gates green | **PASS** — ruff clean (67 files), `mypy --strict` clean, 217 tests |
+| tree clean, origin == HEAD | **PASS** — clean; both `e89b187` |
+| `npl-daily.service` inactive | **PASS** — `inactive` (user scope; the system-scope unit does not exist). No wait was required. `npl-daily.timer` next fires 01:40Z 2026-08-29; `npl-watch.timer` stays armed hourly at :05 through this stage — the watcher is idempotent on the pair ledger and every pass is recorded |
+
+### ETA, stated before arming (standing rule 2)
+
+| Task | ETA |
+|---|---|
+| 1. Amendment H2-3 | 25–35 min |
+| 2. Fallback backfill (24 events; ~520 metered fetches) | 45–70 min |
+| 3. Power and boundaries | 35–50 min |
+| 4. Substrate extension | 60–90 min |
+| 5. Gates and mutations | 30–45 min |
+| 6. Docs and close-out | 30–45 min |
+| **Total** | **3 h 45 min – 5 h 45 min** |
