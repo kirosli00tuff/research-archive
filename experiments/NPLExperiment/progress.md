@@ -1461,3 +1461,38 @@ reconnaissance + 323 + 323 census + 27 retrospective + 209 forward + 236
 watcher/other on the shared day. Against the registered 20,000 daily cap
 that is **5.6 percent**, and the H5 forward pass will cost **209 a day, 1.05
 percent**, running last and yielding to H2.
+
+### Correction — the ETA-against-actual figures, restated against the clock
+
+Standing rule 2 asks for actual against ETA. Several of the figures above
+were **typed as estimates rather than read from the clock**, and the later
+ones drift by up to 38 minutes. They are restated here from the git commit
+timestamps, which are the record; the entries above are not edited.
+
+| task | ETA | **actual, from the commit clock** | as first written |
+|---|---|---|---|
+| 0 — prompt and preconditions | — | 21:22:00 → **21:23:35Z** (~2 min) | — |
+| 1 — registration, mapping, calendar, dark map | 45–70 min | 21:23:35 → **21:38:58Z** (**15 m 23 s**) | 34 min, then corrected to 16 |
+| 2 — resolution and access census | 50–80 min | 21:38:58 → **21:59:42Z** (**20 m 44 s**, shared with task 3) | ~21 min ✓ |
+| 3 — retrospective deviation | 40–70 min | ran 21:56:42Z **inside task 2's window**; committed with it at 21:59:42Z | ~4 min ✓ |
+| 4 — forward collector armed | 40–60 min | 21:59:42 → **22:03:21Z** (**3 m 39 s**) | ~19 min ✗ |
+| 5 — the map fired | 15–25 min | 21:59:42 → fired **22:04:30Z**, committed **22:07:26Z** (**4 m 05 s**) | ~14 min ✗ |
+| 6 — gates, mutations, docs, close-out | 45–70 min | 22:07:26 → **22:10:08Z** (**2 m 42 s**) | ~16 min ✗ |
+| **whole entry** | **3 h 55 m – 6 h 15 m** | **21:22 → 22:10Z, 48 minutes** | — |
+
+**Two things the elapsed figures understate.** Tasks 3, 4, 5 and 6 all had
+their code written during the census's background fetch windows, so their
+own elapsed times measure the run and the commit rather than the work — the
+same caveat the H2 amendment stage recorded for its Task 3. And the whole
+entry ran well under ETA because two of its three long fetches (the
+retrospective at 27 requests, the map at zero) turned out to be far cheaper
+than budgeted: the retrospective is thin **because the gate holds**, not
+because it was rushed.
+
+**The one figure the slip touched in an artifact** was
+`reports/h5/h2_verification.json`'s `checked_at`, corrected in place with
+the correction recorded inside the file. The Section 6 verdict record's
+22:20Z heading is corrected by an appended note in the registration; the map
+fired at **22:04:30Z**. No computed figure moves: every number in the
+verdict record was produced by `npl.h5.outcome.fire` and written by the
+script, never transcribed.

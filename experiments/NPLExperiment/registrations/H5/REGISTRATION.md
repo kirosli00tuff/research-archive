@@ -628,3 +628,20 @@ venue's own bookkeeping in any case. The clearest evidence for that in this
 entry is not an argument: **32 delisted instruments, with zero open
 interest, zero volume and no book, are still being served an unbroken hourly
 funding series.**
+
+### Correction to the Section 6 verdict record's timestamp — 2026-08-28
+
+The verdict record above is headed **22:20Z**. That figure was typed by the
+assistant as an estimate rather than read from the clock. **The map actually
+fired at 2026-08-28T22:04:30Z**, recorded by the artifact itself
+(`reports/h5/verdict.json`, field `fired_at`). The heading is not edited —
+nothing above an amendment line ever is — and the correct time is recorded
+here instead.
+
+**Nothing else in the record moves.** Every figure in it was computed by
+`npl.h5.outcome.fire` and written by the script, not transcribed: the 94
+instruments, the 1.000 funding share, the 188 observations, the 4.14 bp
+median, the 29 passes and the 2026-09-26 projection all stand as recorded.
+The same slip is corrected for the whole stage in `progress.md`, where
+several later ETA-against-actual figures were estimated in the same way and
+are restated against the git commit clock.
