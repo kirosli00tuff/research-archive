@@ -254,3 +254,127 @@ function that writes a store takes the root explicitly, the test pins
 that artifacts land in the given root and nowhere else, and unbounded
 fetch loops carry a loud cap. Defect recorded in Amendment H2-2 and
 progress.md rather than smoothed over.
+
+## ADR-022: The control falls back to the main dex where the event's own dex has no eligible elder
+
+**Date:** 2026-08-28 · **Status:** accepted · npl/controls.py, npl/register/fallback.py, registrations/H2 Amendment H2-3 Change 1
+
+**Made before any outcome existed.** At the moment this was decided the H2
+pair reader had seen only synthetic fixtures, no pair net return had been
+computed, and both per-look latches were absent.
+
+The A.2 measurement was unambiguous: 24 of the 62 fresh events sat on dexs
+whose oldest instrument was younger than the registered 180 days (para 18,
+mkts 4, io 2), so the same-dex rule could not pair them at all, and their
+dexs cross the age threshold only on deterministic future dates
+(2026-09-26, 2026-12-26, 2027-02-13). Waiting was the alternative, and
+waiting is what pushed H2's earliest read past its own deadline.
+
+The fallback is consulted **only** where the same-dex candidate set is
+empty after both the 180-day and coverage conditions; a same-dex candidate
+always wins, and the distance, tie-break, and replacement rules are
+identical. Every pair carries `pair_type`, and **the tag never filters a
+primary statistic** — it names a stratum. The `same_dex` subset is reported
+beside every primary figure at every look, because a cross-dex pair matches
+funding but not venue microstructure and a reader must be able to see
+whether the primary rests on it.
+
+Recorded plainly: this is a **relaxation**, admitting pairs the registered
+rule refused. It changed no bar, no alpha, and no outcome definition. It
+took the backfillable cohort's match rate from 0.613 to 1.000 (62/62), and
+it collapsed the by-dex and flat projection models into one, because
+pairability stopped being a function of the event's own dex age.
+
+Rows written before the amendment carry no `pair_type`. They are
+`same_dex` **by the registered rule that produced them**, not by imputation
+of a missing value — the rule in force admitted same-dex candidates only.
+`pair_type_of_row` encodes exactly that, and refuses an unregistered tag.
+
+## ADR-023: E2's economic floor moves from 2× to 1× the pair's central cost
+
+**Date:** 2026-08-28 · **Status:** accepted · npl/config.py, npl/register/pairs.py, registrations/H2 Amendment H2-3 Change 2
+
+**Made before any outcome existed**, on the same evidence as ADR-022:
+counts, tags, and timestamps.
+
+**This is a weakening, and it is recorded as one.** A pair returning between
+one and two times its own execution cost now counts as a success where it
+did not. The bar still requires each pair to clear its own round trip (18,
+27, or 36 bp by class), so E2 remains an economic test and not a
+restatement of E1's sign test; what it no longer requires is a doubling.
+
+Two guards travel with it. First, **the 2× figure is retained as a named
+secondary computed at every look**, so the cost of the weakening sits in the
+same artifact as its benefit. Second, the registered power assumption had to
+move with the floor — E2's 0.60 was itself a judgment discount from E1's
+0.651, not a measurement — and the new figure is set by **linear
+interpolation in the floor multiple** between multiple 0 (E1's 0.65) and
+multiple 2 (0.60), giving 0.625 at multiple 1. Linear is the neutral choice,
+not a claim about a distribution nobody has measured. Because it is a choice,
+**every minimum N is reported twice**, at 0.625 and at the unchanged 0.60:
+117/59 against 184/92. A reader who rejects the interpolation can read the
+second row and see that the design does not reach 0.80 by the deadline.
+
+The alternative considered and declined: keep 2× and accept a 169-pair
+single-look minimum reached near 2027-05/06, past the registered deadline.
+That is not a stricter experiment, it is an experiment that never reports.
+
+## ADR-024: H2 is decided at two looks, on an exact binomial boundary, with the split fixed in advance
+
+**Date:** 2026-08-28 · **Status:** accepted · npl/register/sequential.py, npl/register/pairs.py, npl/register/latches.py, registrations/H2 Amendment H2-3 Change 3 and H2-4
+
+**Made before any outcome existed.**
+
+A single look at the deadline is one chance to learn anything; a second,
+earlier look costs alpha but buys a date. The split is **alpha_1 = 0.02,
+alpha_2 = 0.03**, fixed at registration and confirmed by the Task 3
+arithmetic against a two-clause materiality test written before it was
+applied: a replacement must gain ≥ 0.01 governing power **and** must not cut
+the look-1 firing probability by more than 0.05. Two candidates —
+(0.01, 0.04) and (0.005, 0.045) — gain +0.027 and +0.026 power and fail
+clause (b) by cutting the interim's firing probability 0.193 and 0.277.
+**Clause (b) exists because a split that makes look 1 nearly inert has not
+improved a two-look design, it has deleted one of its looks.**
+
+The boundary is exact, not asymptotic: k₁ from alpha_1 alone, k₂ from the
+spend **conditional on not having rejected at look 1**, over the independent
+increment. Total type-I is at most alpha_1 + alpha_2 = 0.05 by construction
+and in practice lands under it (0.0422 at the look-2 minimum). Validity
+rests on n₁ and n₂ being fixed by outcome-blind quantities — pair counts and
+the calendar — which is a property of the substrate, so the substrate says
+so and a test pins it.
+
+Consequences accepted deliberately: Section 10's "exactly once" becomes
+**exactly twice**, one open per look, each behind a write-once fsynced
+latch, with look 2 structurally unable to run before look 1's latch exists.
+Futility may stop the trial early, but **only** on the registered boundary —
+conditional power under 0.10 at the registered true share — never on
+inspection.
+
+## ADR-025: A defect in ADR-024's own wording, corrected before any data existed
+
+**Date:** 2026-08-28 · **Status:** accepted · registrations/H2 Amendment H2-4 §7, npl/register/pairs.py
+
+Amendment H2-3 wrote the look-2 GO condition as "both reject at k₂", with
+the look-2 rejection event defined as `S₁ < k₁ and S₂ ≥ k₂`. Read literally,
+a co-primary whose look-1 count had already crossed k₁ — while the other had
+not, so the trial correctly continued — could never satisfy `S₁ < k₁` at
+look 2, and the design would fire **FAIL because the early evidence was too
+strong**. The defect surfaced while writing the look-aware reader, was
+recorded rather than smoothed over, and was corrected in the same session,
+**before any outcome value existed and while the reader had still seen only
+synthetic fixtures**.
+
+Corrected rule: a co-primary passes at look 2 when the procedure has
+rejected its null **by** look 2 — `S₁ ≥ k₁` or `S₂ ≥ k₂`. This is the union
+of the two registered rejection regions, so the exact spend and every number
+in the boundary table are unchanged, and the familywise error is untouched.
+`S₁ < k₁ and S₂ ≥ k₂` remains the definition of the look-2 rejection *event*
+used to compute that spend. The known-answer test for exactly this case —
+E1 crossed at look 1, E2 crosses k₂ = 69 at look 2, row is GO — is the pin.
+
+The general lesson, third time in this project: a registration written in
+prose and a reader written in code disagree in the corners, and the
+disagreement is only visible when the code is written. Write the reader
+inside the same session as the amendment, and correct the amendment while
+the correction is still free.

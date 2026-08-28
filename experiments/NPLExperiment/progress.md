@@ -955,7 +955,7 @@ look 2 (S₁ ≥ k₁ or S₂ ≥ k₂). The rejection region is the union of th
 registered regions, so the exact spend and every number in the boundary
 table are unchanged.
 
-### Task 4 — substrate extension (ETA 60–90 min · actual ~35 min, overlapping Tasks 2–3, closed 07:50Z)
+### Task 4 — substrate extension (ETA 60–90 min · actual ~35 min, overlapping Tasks 2–3, closed 07:51Z)
 
 - **Forward pairing on the fallback rule.** `npl.register.forward` gathers
   same-dex candidates through the shared `npl.register.fallback` filter,
@@ -992,7 +992,7 @@ table are unchanged.
   has seen only synthetic fixtures, and has still seen only synthetic
   fixtures at the close of this stage.**
 
-### Task 5 — gates and mutations (ETA 30–45 min · actual ~10 min, 07:46→07:56Z)
+### Task 5 — gates and mutations (ETA 30–45 min · actual ~5 min, 07:46→07:51Z)
 
 `make all` green: ruff clean, `mypy --strict` on 71 files, **249 tests**.
 
@@ -1013,3 +1013,91 @@ Source restored byte-for-byte, verified by sha256 against a pre-run
 snapshot of all four mutated files and by an empty `git diff`. The register
 A.4 harness still catches **6 of 6** against the amended source, so the
 older pins did not rot under the new code.
+
+### Task 6 — docs and close-out (ETA 30–45 min · actual ~7 min, 07:51→07:58Z)
+
+HYPOTHESES.md H2 entry rewritten with the amended design, the boundary
+row, and both look dates; DECISIONS.md **ADR-022 … ADR-025** (one per
+change, plus the H2-4 correction), each recording that it was made before
+any outcome existed and why; report.md gained the amendment section;
+docs/STAGES.md gained the A-amend rung and separate look-1 / look-2 rungs
+with their own entry and exit gates; README status line, commands, and
+open-operator-items rewritten.
+
+---
+
+## 2026-08-28T07:58Z — Register H2 Amendment Stage complete
+
+**ETA against actual, whole stage** (stated 06:51Z: 3 h 45 min – 5 h 45 min):
+
+| Task | ETA | Actual |
+|---|---|---|
+| 1. Amendment H2-3 | 25–35 min | ~12 min |
+| 2. Fallback backfill | 45–70 min | ~39 min |
+| 3. Power and boundaries | 35–50 min | ~6 min of its own (its module was written during Task 2's fetch window) |
+| 4. Substrate extension | 60–90 min | ~35 min, overlapping Tasks 2–3 |
+| 5. Gates and mutations | 30–45 min | ~5 min |
+| 6. Docs and close-out | 30–45 min | ~7 min |
+| **Overall** | **3 h 45 min – 5 h 45 min** | **~1 h 09 min** (06:49 → 07:58Z) |
+
+The overrun on the estimate was in one direction only, and the reason is
+recorded rather than claimed as speed: the two long poles were assumed to
+be serial and were not. Sealing 175 candidate trailing windows as one wide
+raw window each, instead of one per event entry, cut the metered fetch from
+~2,774 requests to 724 pages and ~65 minutes to ~16; and the boundary
+module, the reader extension, and their tests were written inside that
+window rather than after it.
+
+Session requests: **1,080 charged** (all in Task 2), 0 refusals, zero
+dollars, no keys. **No outcome value of any fresh event was read at any
+point.**
+
+### End state
+
+- **Pairs achieved, by tag: 62 of 62 — 38 `same_dex`, 24 `cross_dex`.**
+  19 distinct main-dex controls across the 24 fallback pairs; 174
+  candidates considered per fallback event, **0 skipped for coverage**, **0
+  exclusions**. The backfillable cohort's match rate: **0.613 → 1.000**.
+- **Look-1 minimum N: 59 readable eligible pairs** (E1 42, E2 59 — E2
+  governs). **Projected look-1 date: 2026-11-26.**
+- **Look-2 minimum N: 117** (E1 84, E2 117). **Projected look-2 date:
+  2027-03-01**, one month inside the registered 2027-03-31 deadline. At the
+  deadline the projection is 135 pairs.
+- **The alpha split: alpha_1 = 0.02, alpha_2 = 0.03**, summing to
+  alpha_h = 0.05, fixed by Amendment H2-3 and confirmed by the Task 3
+  arithmetic against the two-clause materiality test. At the look-2 minimum
+  the exact boundary is k₁ = 38, k₂ = 69, spending 0.0182 + 0.0240 =
+  0.0422 — inside the budget, never at it. Futility at n₁ = 59: E1 f₁ = 31,
+  E2 f₁ = 27.
+- **The cost of the weakening, carried at every look:** under the old 2×
+  floor H2 needed 169 pairs at one look; under the 1× floor it needs 117 at
+  look 2 and can stop at 59. Held at the un-interpolated 0.60 share it
+  needs 184/92 and does not reach 0.80 by the deadline. Both rows travel
+  together, and the 2× statistic is computed as a named secondary at every
+  look beside the `same_dex` stratum.
+- **Collectors: armed and unchanged.** `npl-watch.timer` hourly at :05,
+  `npl-daily.timer` at 01:40 UTC — neither was disarmed at any point in
+  this stage, and `npl-daily.service` was inactive throughout. The fresh
+  plan carries **124 rows** (62 events + 62 control legs); every new birth
+  now pairs on the same fallback logic, and each elder leg checkpoints on
+  its own dex.
+- **The reader is dark.** `data/state/h2_read.json`,
+  `h2_read_latch.json`, `h2_look1_latch.json`, `h2_look2_latch.json` — all
+  four absent. The structural pin holds `register/pairs.py` to pure
+  imports, no file API, and no string naming a sealed location.
+  **The H2 pair reader had seen only synthetic fixtures when this stage
+  opened, and has seen only synthetic fixtures at its close.**
+- **Two defects recorded rather than smoothed over.** The backfill's first
+  draft would have written 24 successor rows into H1's spent pairs ledger
+  through a default argument — caught before execution, and H1's ledger
+  hash verified unchanged after the run (the ADR-021 lesson, hit again from
+  a different direction). And Amendment H2-3's own look-2 wording would
+  have fired FAIL on strong early evidence — found while writing the
+  reader, corrected in Amendment H2-4 §7 and ADR-025 before any outcome
+  value existed, with the exact spend and every boundary number unchanged.
+- **Open operator items: the H2 operator prior slot, and nothing else.**
+  It is `registrations/H2/REGISTRATION.md` Section 13, reserved and empty,
+  and after this amendment it blocks **both** looks structurally
+  (`npl.register.priors`). H3's and H4's slots remain reserved but are moot
+  — both are BLOCKED and neither has a Stage B to gate. The assistant fills
+  none of them.

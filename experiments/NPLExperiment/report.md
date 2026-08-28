@@ -429,3 +429,172 @@ Stage B near mid-2027 — is in the A.4 close-out of progress.md. Open
 operator items: **the three reserved prior slots, and nothing else** —
 H2's slot is the one that will matter, and the assistant fills none of
 them.
+
+## Register H2 — the amendment stage (2026-08-28)
+
+Amendment H2-1 had left H2 in an awkward place. The design survived the
+cull at DEGRADED, its collectors were armed, and its arithmetic said the
+governing co-primary needed **169 achieved pairs** before its single
+registered read could fire — reached near 2027-05/06 at the measured
+accrual, plus 30 days of maturity, which is **past its own 2027-03-31
+projection deadline**. A registered experiment that cannot report inside
+its own horizon is not a strict experiment; it is an experiment that never
+answers. The operator's instruction of 2026-08-28 was to amend it, and this
+section records what was weakened, by how much, and what it bought.
+
+**The preconditions, checked and recorded before anything else**
+(`reports/stage_a_h2/amend_preconditions.json`, PASS at 07:51:10Z on the
+project clock): `data/state/h2_read.json` absent and the registered latch
+`data/state/h2_read_latch.json` absent — the H2 read is unspent; a scan of
+all eight files under `reports/` finding **zero H2 outcome artifacts**
+(`reports/stage_b/*` is the spent **H1** read, quarantined by AST pin;
+`reports/stage_a_h2/*` is the outcome-blind k-table and the A.4 mutation
+evidence); gates green; tree clean; origin equal to HEAD;
+`npl-daily.service` inactive, so no wait was required.
+
+**Amendment H2-3 registered three changes before a line of code moved,
+and was committed and pushed before any of them was implemented.**
+
+**Change 1, the fallback control — a relaxation.** Where the event's own
+dex has no instrument meeting both the 180-day age condition and the
+coverage condition, the control is the nearest funding-matched elder **on
+the main dex**, under identical distance, tie-break, and replacement rules.
+A same-dex candidate always wins. Every pair carries `pair_type`, and the
+tag **never filters a primary statistic** — the `same_dex` subset is a
+named stratum reported beside every primary figure at every look, because a
+cross-dex pair matches funding but not venue microstructure and the reader
+must be able to see whether the primary rests on it.
+
+**Change 2, the economic floor — a weakening, stated as one.** E2's bar
+moves from **twice** the pair's registered central cost to **once** it. A
+pair returning between one and two times its own execution cost now counts
+as a success where it did not. The bar still requires each pair to clear
+its own round trip (18, 27, or 36 bp by class), so E2 remains an economic
+test; what it no longer requires is a doubling. **The 2× figure is retained
+as a named secondary computed at every look**, so the cost of the weakening
+sits in the same artifact as its benefit. The registered power assumption
+had to move with the floor — E2's 0.60 was itself a judgment discount from
+E1's 0.651, never a measurement — and the new figure, **0.625**, comes from
+linear interpolation in the floor multiple between multiple 0 (E1's 0.65)
+and multiple 2 (0.60). Linear is the neutral choice, not a claim about a
+distribution nobody has measured, and because it is a choice **every
+minimum N below is reported twice**, at 0.625 and at the unchanged 0.60.
+
+**Change 3, the two-look plan — a relaxation of Sections 8, 9, and 10.**
+Two registered looks replace one, on an exact binomial boundary: k₁ from
+alpha_1 = 0.02 alone, k₂ from the spend **conditional on not having
+rejected at look 1**, over the independent increment, with alpha_2 = 0.03.
+Total type-I is at most 0.05 by construction, with no asymptotic
+approximation anywhere. Both co-primaries must clear the same look for a
+GO; look 1 can only GO, CONTINUE, or fire a pre-registered futility
+boundary; only look 2 and that boundary fire a terminal row. Section 10's
+"exactly once" becomes **exactly twice**, one open per look, each behind a
+write-once fsynced latch, with look 2 structurally unable to run before
+look 1's latch exists.
+
+**The interim tripwire was omitted, and the amendment says why.** The
+prompt offered an optional E1-only status check on 2026-09-30, descriptive,
+spending no alpha. The E1 statistic is the share of pairs with positive
+30-day net pair return; computing it requires each leg's entry and exit
+closes and its funding over the holding window — that is, opening the
+sealed outcomes. There is no construction of it that does not read an
+outcome value, so a 2026-09-30 tripwire would have been an unregistered
+third opening, in direct breach of standing rule 7. Calling it descriptive
+does not change what the code would have to read. **Nothing is registered
+for 2026-09-30.**
+
+**The backfill answered better than the projection.** All 24 previously
+unpairable events (para 18, mkts 4, io 2) were assigned main-dex fallback
+controls at their **original** entry timestamps, trailing-only,
+append-only, tagged `cross_dex`: **24 of 24, zero exclusions**, 19 distinct
+controls, 174 candidates considered per event and **none skipped for
+coverage**. The pairs ledger stands at **62 rows — 38 `same_dex` plus 24
+`cross_dex`** — and the backfillable cohort's match rate went from 0.613 to
+**1.000**. The 24 control legs joined the fresh plan (124 rows), their
+funding archives caught up in 133 pages and 57,584 rows, and all 24
+control-leg l2Book windows were recorded **`expired`, loudly** — every
+entry anchor lies between 2026-05-30 and 2026-08-28, so every 30-minute
+window closed long ago and none is backfilled. 1,080 requests, zero
+refusals, zero dollars, no keys, and **no outcome value read**. Each
+candidate's trailing window was sealed once as a single wide raw window and
+read back **through the blindness gate at each event's own entry**, so no
+event ever sees a rate stamped after itself; that cut the fetch from ~2,774
+requests to 724 pages without touching the rule.
+
+One defect was caught **before** the run rather than after: the backfill's
+first draft called `assign_control` without a path, and its default is
+**H1's** ledger. It would have appended 24 successor rows to the spent
+hypothesis's record. Fixed before execution; H1's ledger hash verified
+unchanged afterwards.
+
+**The boundary table (Amendment H2-4, `ktable_amended.json`).**
+
+| co-primary | look-1 min N | look-2 min N | single-look min N |
+|---|---|---|---|
+| E1 (share 0.65) | 42 | 84 | 76 |
+| **E2, 1× floor (0.625) — governing** | **59** | **117** | 111 |
+| E2, 1× floor at the unchanged 0.600 | 92 | 184 | 169 |
+| E2, pre-amendment 2× floor, one look | — | — | **169** |
+
+The pre-amendment 169 recomputes exactly from the same registered inputs
+and reproduces Amendment H2-1 — the arithmetic checking itself. **The cost
+of the weakening in one line: 169 pairs at a single look becomes 117 at
+look 2 with a stop available at 59; a reader who rejects the interpolated
+share and holds E2 at 0.60 should read 184/92, and the design then does not
+reach 0.80 by the deadline.** Both figures travel at every look.
+
+At the look-2 minimum (n₂ = 117): n₁ = 59, **k₁ = 38, k₂ = 69**, exact
+spend 0.0182 + 0.0240 = **0.0422**, powers 0.9322 / 0.8237. At the deadline
+(n₂ = 135): k₁ = 43, k₂ = 79, spend 0.0403, powers 0.9552 / **0.8629**.
+Every total spend sits **inside** alpha_h = 0.05 and the generator refuses
+loudly if one ever does not. **The alpha split 0.02 / 0.03 stands**: six
+splits were evaluated against a two-clause materiality test written before
+it was applied, and the only two that gain power — (0.01, 0.04) and
+(0.005, 0.045), at +0.027 and +0.026 — buy it by cutting the interim's
+firing probability by 0.193 and 0.277, which clause (b) refuses. Futility
+is registrable and registered: at n₁ = 59, **E1 f₁ = 31 and E2 f₁ = 27** at
+the 0.10 conditional-power floor.
+
+**The dates, which are the point of the whole exercise.** A pair becomes
+readable when its window seals at entry + 92 days. At the measured accrual
+of 18.57 events/month and the amended match rate of 1.000: 62 pairs by
+2026-11-30, 80 by year end, 117 by 2027-03-01, 135 by the deadline.
+**Look 1 projects to 2026-11-26 and look 2 to 2027-03-01 — one month
+inside the registered 2027-03-31 deadline**, against an unamended earliest
+read near 2027-06. Recomputed power beside the registered 0.80 target, as
+the DEGRADED rule requires: **0.8886 single-look, 0.8629 two-look**, both
+above it. Section 0's DEGRADED record is not edited and is not re-fired.
+
+**A defect in the amendment's own wording, found while writing the reader
+and corrected before any data existed.** H2-3's look-2 GO condition, read
+literally, would have fired **FAIL** whenever one co-primary's look-1 count
+had already crossed k₁ while the other had not — punishing strong early
+evidence. Amendment H2-4 §7 corrects it: a co-primary passes at look 2 when
+the procedure has rejected its null **by** look 2. That is the union of the
+two registered rejection regions, so the exact spend and every number in
+the table above are unchanged. The lesson, now recorded for the third time
+in this project: a registration written in prose and a reader written in
+code disagree in the corners, and only writing the code reveals it — so
+write the reader in the same session as the amendment, while the correction
+is still free.
+
+**Gates and mutations.** `make all` green throughout: ruff, `mypy --strict`
+on 71 files, **249 tests**. The amendment mutation exercise ran on real
+source with bytecode purged before every run, **6 of 6 CAUGHT**
+(`reports/stage_a_h2/mutations_amend.md`): spending look 2's alpha at look 1
+(k₁ is 38 at alpha_1 and 37 at the whole budget — a one-success gap, which
+is the size a boundary fixture must have), admitting a `cross_dex` pair into
+the `same_dex` stratum, reading a post-entry funding row inside fallback
+assignment, bypassing a per-look latch, dropping the pair-type tag, and
+letting the look-2 read run without look 1's counts. Source restored
+byte-for-byte, verified by sha256 against a pre-run snapshot and by an empty
+`git diff`; the register A.4 harness still catches **6 of 6** against the
+amended source, so the older pins did not rot under the new code.
+
+**The reader is still dark.** `data/state/h2_look1_latch.json` and
+`h2_look2_latch.json` do not exist. The structural pin still holds
+`register/pairs.py` to pure imports, no file API, and no string naming a
+sealed location. **The H2 pair reader had seen only synthetic fixtures when
+this stage opened, and has seen only synthetic fixtures at its close.** The
+one open operator item is unchanged and unchangeable by the assistant: the
+**H2 operator prior slot**, which now blocks both looks.

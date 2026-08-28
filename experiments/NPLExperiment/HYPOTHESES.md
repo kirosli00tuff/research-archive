@@ -9,9 +9,13 @@ negative on 2026-08-28** by the single registered Stage B read; and **H2, H3,
 H4, three co-registered successors** that test on fresh, unread data only,
 share one collection substrate, and sit under one familywise error budget
 with an outcome-blind power cull. **The cull fired 2026-08-28: k = 1,
-alpha_h = 0.05. H2 survives (DEGRADED, collectors armed, earliest Stage B
-≈ mid-2027); H3 and H4 fired BLOCKED on measured rates — documented
-answers, closed below with what would reopen them.** The spent Stage B read and every value
+alpha_h = 0.05. H2 survives; H3 and H4 fired BLOCKED on measured rates —
+documented answers, closed below with what would reopen them.** H2 was
+**amended the same day** (Amendments H2-3 and H2-4, before any pair outcome
+existed) to a two-look sequential plan with a main-dex fallback control and
+a 1× economic floor: **look 1 projects to 2026-11-26 and look 2 to
+2027-03-01**, both inside the registered deadline, where the unamended
+design had put the earliest read past it. The spent Stage B read and every value
 inside it are quarantined from all successor code paths by AST pin and test;
 the 312 retro events and their 176 control windows are the **generating
 sample** — usable for power assumptions, labelled so wherever carried, and
@@ -50,17 +54,20 @@ sealed reads established.
 ### H2 — the age-contrast pair
 
 > A pair opened at the second daily close — short the young listing, long its
-> funding-matched elder on the same dex at equal constant notional — held 30
-> days, earns a positive net return, because listing-age drift exceeds what
-> funding matching already prices.
+> funding-matched elder on the same dex at equal constant notional (or, where
+> that dex has no eligible elder, on the main dex) — held 30 days, earns a
+> positive net return, because listing-age drift exceeds what funding matching
+> already prices.
 
 | | |
 |---|---|
-| **Status** | **OPEN — SURVIVOR, DEGRADED** · Section 0 fired 2026-08-28 (Amendment H2-1): k = 1, alpha_h = 0.05; E1/E2 deadline powers 0.974/0.760 at 141 projected pairs; collectors armed; earliest Stage B ≈ mid-2027 (E2 min-N 169 achieved pairs + 30d maturity) |
-| **Registration** | `registrations/H2/REGISTRATION.md` |
-| **Design in one line** | Every fresh event (the 62 pending-at-closure events with servable windows plus all forward births, every dex); the H1 Section 6 control verbatim; pair net = young-leg net short + elder-leg net long, four fills; co-primaries E1 (share of pairs positive) and E2 (share at or above 2× pair central cost), both exact sign tests above one half at alpha_h. |
-| **Power assumptions** | E1 true share 0.65, E2 true share 0.60 — generating-sample-derived (P3 pair share 114/175 = 0.651; paired price differential +6.43 points, funding differential +0.88, n = 175). |
-| **Operator prior slot** | Reserved, empty. Blocks H2's Stage B structurally (`npl.register.priors`). |
+| **Status** | **OPEN — SURVIVOR, AMENDED TO A TWO-LOOK PLAN** · Section 0 fired DEGRADED 2026-08-28 (Amendment H2-1): k = 1, alpha_h = 0.05. Amended the same day, before any pair outcome existed (H2-3, H2-4): **62/62 pairs achieved (38 same_dex + 24 cross_dex)**; **look 1 projects to 2026-11-26 at 59 pairs, look 2 to 2027-03-01 at 117**, inside the 2027-03-31 deadline; recomputed power at the deadline 0.8886 single-look / 0.8629 two-look, both above the registered 0.80 target |
+| **Registration** | `registrations/H2/REGISTRATION.md` — Sections 0–13 and Amendments H2-1 … H2-4 |
+| **Design in one line** | Every fresh event (the 62 pending-at-closure events with servable windows plus all forward births, every dex); the H1 Section 6 control, **with a main-dex fallback where the same-dex candidate set is empty** (H2-3 Change 1, tagged `same_dex`/`cross_dex`, never filtered); pair net = young-leg net short + elder-leg net long, four fills; co-primaries E1 (share of pairs positive) and E2 (share at or above **1×** the pair's central cost — H2-3 Change 2, down from 2×), both exact sign tests above one half, **decided at two registered looks** against an exact binomial boundary with alpha_1 = 0.02 and alpha_2 = 0.03 summing to alpha_h = 0.05 (H2-3 Change 3). Both co-primaries at a common look for a GO; look 1 can only GO, CONTINUE, or fire the registered futility boundary. |
+| **Look boundaries** | Look-1 min N **59** (E1 42, E2 59), look-2 min N **117** (E1 84, E2 117). At the look-2 minimum: k₁ = 38, k₂ = 69, exact spend 0.0182 + 0.0240 = 0.0422 inside alpha_h. Futility at n₁ = 59: E1 f₁ = 31, E2 f₁ = 27 at the 0.10 conditional-power floor. Full table: `reports/stage_a_h2/ktable_amended.json`. |
+| **Power assumptions** | E1 true share 0.65; **E2 true share 0.625** under the 1× floor, by stated linear interpolation between multiple 0 (E1's 0.65) and multiple 2 (the registered 0.60) — a choice, not a measurement, so **every minimum N is also reported at the unchanged 0.60** (E2 then needs 92/184 and does not reach 0.80 by the deadline). All generating-sample-derived (P3 pair share 114/175 = 0.651; paired price differential +6.43 points, funding differential +0.88, n = 175). |
+| **Named secondaries added** | The `same_dex` stratum and the pre-amendment **2× floor**, both computed beside every primary figure at every look, both descriptive and never verdict-bearing. |
+| **Operator prior slot** | Reserved, empty. Blocks H2's Stage B structurally (`npl.register.priors`) — **at both looks**. |
 
 ---
 
