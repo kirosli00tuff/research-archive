@@ -53,6 +53,11 @@ FORBIDDEN_PRICE_KEYS = {"o", "h", "l", "c", "v", "open", "high", "low", "close",
 FUNDING_RATE_KEY = "fundingRate"
 FUNDING_RATE_ALLOWED_FILES = {"blindness.py"}
 
+# The Section 9 pre-period carve-out has exactly one address. This is the only
+# file in the repository permitted to read a close, and only strictly before
+# 2025-05-01, enforced inside it by etf.preperiod.require_pre_period.
+PRE_PERIOD_PRICE_ALLOWED_FILES = {"preperiod_prices.py"}
+
 # The Stage B sealed reader is the only module that may ever join the
 # allowlist, and it does not exist in Stage A. The equality pin below means
 # widening this tuple is a caught mutation.
@@ -127,6 +132,8 @@ def test_no_module_reads_a_priced_candle_field_anywhere() -> None:
         if path.relative_to(SRC).as_posix() in STAGE_B_OUTCOME_EXEMPT:
             continue
         tree = ast.parse(path.read_text(encoding="utf-8"))
+        if path.name in PRE_PERIOD_PRICE_ALLOWED_FILES:
+            continue
         priced = _string_key_lookups(tree) & FORBIDDEN_PRICE_KEYS
         if priced:
             offenders.append(f"{path.relative_to(SRC)} reads {sorted(priced)}")
@@ -201,3 +208,58 @@ def test_no_module_hardcodes_the_carve_out_timestamp() -> None:
         if path != CONFIG_FILE and literal in path.read_text(encoding="utf-8")
     ]
     assert not offenders, f"the carve-out boundary is hardcoded in {offenders}"
+
+
+def test_the_pre_period_price_reader_is_exactly_one_file() -> None:
+    """Widening the carve-out's allowlist is a caught mutation."""
+    assert sorted(PRE_PERIOD_PRICE_ALLOWED_FILES) == ["preperiod_prices.py"]
+    assert (SRC / "preperiod_prices.py").exists()
+
+
+def test_the_pre_period_reader_reads_only_t_T_and_c() -> None:
+    tree = ast.parse((SRC / "preperiod_prices.py").read_text(encoding="utf-8"))
+    keys = _string_key_lookups(tree)
+    assert keys <= {"t", "T", "c"}, f"the carve-out reader reads more than t, T, c: {sorted(keys)}"
+    assert "c" in keys, "the carve-out reader must actually read a close, or it is decoration"
+
+
+def test_the_pre_period_reader_gates_every_row_through_the_pin() -> None:
+    """The mutation this catches: dropping require_pre_period, or inlining a date."""
+    tree = ast.parse((SRC / "preperiod_prices.py").read_text(encoding="utf-8"))
+    called = {
+        node.func.id
+        for node in ast.walk(tree)
+        if isinstance(node, ast.Call) and isinstance(node.func, ast.Name)
+    }
+    assert "require_pre_period" in called
+    imported = {
+        alias.name
+        for node in ast.walk(tree)
+        if isinstance(node, ast.ImportFrom) and node.module == "etf.preperiod"
+        for alias in node.names
+    }
+    assert imported == {"require_pre_period"}
+
+
+def test_the_pre_period_reader_cannot_open_a_socket_or_choose_its_own_window() -> None:
+    """It parses what it is handed. A reader that fetches could widen its own window."""
+    source = (SRC / "preperiod_prices.py").read_text(encoding="utf-8")
+    tree = ast.parse(source)
+    modules: set[str] = set()
+    for node in ast.walk(tree):
+        if isinstance(node, ast.ImportFrom) and node.module:
+            modules.add(node.module)
+        elif isinstance(node, ast.Import):
+            modules |= {a.name for a in node.names}
+    forbidden = {"etf.http", "urllib", "urllib.request", "http.client", "socket"}
+    assert not (modules & forbidden), f"the carve-out reader imports a network module: {modules}"
+
+
+def test_no_other_module_reads_a_close_even_inside_the_carve_out() -> None:
+    offenders: list[str] = []
+    for path in source_files():
+        if path.name in PRE_PERIOD_PRICE_ALLOWED_FILES or path == CONFIG_FILE:
+            continue
+        if "pre_period_closes" in path.read_text(encoding="utf-8"):
+            offenders.append(path.name)
+    assert not offenders, f"the carve-out reader is called from src modules: {offenders}"

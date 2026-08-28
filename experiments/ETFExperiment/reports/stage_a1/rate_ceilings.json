@@ -1,0 +1,352 @@
+[
+  {
+    "burst_per_rung": 6,
+    "endpoint": "flow.table",
+    "finding": "no_ceiling_found_at_or_above_floor",
+    "highest_verified_clean_rate_per_min": 12.17,
+    "ladder": [
+      20.0,
+      10.0,
+      5.0
+    ],
+    "measured_at": "2026-08-28T20:09:05Z",
+    "operating_min_spacing_s": 10.0,
+    "rungs": [
+      {
+        "all_200": true,
+        "elapsed_s": 120.68,
+        "first_refusal_verbatim": null,
+        "observed_rate_per_min": 2.98,
+        "requests": 6,
+        "spacing_s": 20.0,
+        "statuses": [
+          200,
+          200,
+          200,
+          200,
+          200,
+          200
+        ]
+      },
+      {
+        "all_200": true,
+        "elapsed_s": 60.01,
+        "first_refusal_verbatim": null,
+        "observed_rate_per_min": 6.0,
+        "requests": 6,
+        "spacing_s": 10.0,
+        "statuses": [
+          200,
+          200,
+          200,
+          200,
+          200,
+          200
+        ]
+      },
+      {
+        "all_200": true,
+        "elapsed_s": 29.58,
+        "first_refusal_verbatim": null,
+        "observed_rate_per_min": 12.17,
+        "requests": 6,
+        "spacing_s": 5.0,
+        "statuses": [
+          200,
+          200,
+          200,
+          200,
+          200,
+          200
+        ]
+      }
+    ],
+    "source": "flow"
+  },
+  {
+    "burst_per_rung": 6,
+    "endpoint": "archive.availability",
+    "finding": "no_ceiling_found_at_or_above_floor",
+    "highest_verified_clean_rate_per_min": 59.92,
+    "ladder": [
+      5.0,
+      2.0,
+      1.0
+    ],
+    "measured_at": "2026-08-28T20:09:53Z",
+    "operating_min_spacing_s": 2.0,
+    "rungs": [
+      {
+        "all_200": true,
+        "elapsed_s": 29.75,
+        "first_refusal_verbatim": null,
+        "observed_rate_per_min": 12.1,
+        "requests": 6,
+        "spacing_s": 5.0,
+        "statuses": [
+          200,
+          200,
+          200,
+          200,
+          200,
+          200
+        ]
+      },
+      {
+        "all_200": true,
+        "elapsed_s": 11.9,
+        "first_refusal_verbatim": null,
+        "observed_rate_per_min": 30.26,
+        "requests": 6,
+        "spacing_s": 2.0,
+        "statuses": [
+          200,
+          200,
+          200,
+          200,
+          200,
+          200
+        ]
+      },
+      {
+        "all_200": true,
+        "elapsed_s": 6.01,
+        "first_refusal_verbatim": null,
+        "observed_rate_per_min": 59.92,
+        "requests": 6,
+        "spacing_s": 1.0,
+        "statuses": [
+          200,
+          200,
+          200,
+          200,
+          200,
+          200
+        ]
+      }
+    ],
+    "source": "archive"
+  },
+  {
+    "burst_per_rung": 6,
+    "endpoint": "archive.timemap",
+    "finding": "no_ceiling_found_at_or_above_floor",
+    "highest_verified_clean_rate_per_min": 21.28,
+    "ladder": [
+      5.0,
+      2.0,
+      1.0
+    ],
+    "measured_at": "2026-08-28T20:11:41Z",
+    "operating_min_spacing_s": 2.0,
+    "rungs": [
+      {
+        "all_200": true,
+        "elapsed_s": 62.33,
+        "first_refusal_verbatim": null,
+        "observed_rate_per_min": 5.78,
+        "requests": 6,
+        "spacing_s": 5.0,
+        "statuses": [
+          200,
+          200,
+          200,
+          200,
+          200,
+          200
+        ]
+      },
+      {
+        "all_200": true,
+        "elapsed_s": 16.92,
+        "first_refusal_verbatim": null,
+        "observed_rate_per_min": 21.28,
+        "requests": 6,
+        "spacing_s": 2.0,
+        "statuses": [
+          200,
+          200,
+          200,
+          200,
+          200,
+          200
+        ]
+      },
+      {
+        "all_200": true,
+        "elapsed_s": 29.29,
+        "first_refusal_verbatim": null,
+        "observed_rate_per_min": 12.29,
+        "requests": 6,
+        "spacing_s": 1.0,
+        "statuses": [
+          200,
+          200,
+          200,
+          200,
+          200,
+          200
+        ]
+      }
+    ],
+    "source": "archive"
+  },
+  {
+    "burst_per_rung": 6,
+    "endpoint": "venue.candleSnapshot",
+    "finding": "no_ceiling_found_at_or_above_floor",
+    "highest_verified_clean_rate_per_min": 59.9,
+    "ladder": [
+      2.0,
+      1.0
+    ],
+    "measured_at": "2026-08-28T20:11:59Z",
+    "operating_min_spacing_s": 2.0,
+    "rungs": [
+      {
+        "all_200": true,
+        "elapsed_s": 11.5,
+        "first_refusal_verbatim": null,
+        "observed_rate_per_min": 31.31,
+        "requests": 6,
+        "spacing_s": 2.0,
+        "statuses": [
+          200,
+          200,
+          200,
+          200,
+          200,
+          200
+        ]
+      },
+      {
+        "all_200": true,
+        "elapsed_s": 6.01,
+        "first_refusal_verbatim": null,
+        "observed_rate_per_min": 59.9,
+        "requests": 6,
+        "spacing_s": 1.0,
+        "statuses": [
+          200,
+          200,
+          200,
+          200,
+          200,
+          200
+        ]
+      }
+    ],
+    "source": "venue"
+  },
+  {
+    "burst_per_rung": 6,
+    "endpoint": "venue.fundingHistory",
+    "finding": "no_ceiling_found_at_or_above_floor",
+    "highest_verified_clean_rate_per_min": 59.91,
+    "ladder": [
+      2.0,
+      1.0
+    ],
+    "measured_at": "2026-08-28T20:12:17Z",
+    "operating_min_spacing_s": 2.0,
+    "rungs": [
+      {
+        "all_200": true,
+        "elapsed_s": 11.99,
+        "first_refusal_verbatim": null,
+        "observed_rate_per_min": 30.02,
+        "requests": 6,
+        "spacing_s": 2.0,
+        "statuses": [
+          200,
+          200,
+          200,
+          200,
+          200,
+          200
+        ]
+      },
+      {
+        "all_200": true,
+        "elapsed_s": 6.01,
+        "first_refusal_verbatim": null,
+        "observed_rate_per_min": 59.91,
+        "requests": 6,
+        "spacing_s": 1.0,
+        "statuses": [
+          200,
+          200,
+          200,
+          200,
+          200,
+          200
+        ]
+      }
+    ],
+    "source": "venue"
+  },
+  {
+    "burst_per_rung": 6,
+    "endpoint": "kraken.ohlc",
+    "finding": "no_ceiling_found_at_or_above_floor",
+    "highest_verified_clean_rate_per_min": 58.73,
+    "ladder": [
+      3.0,
+      1.5,
+      1.0
+    ],
+    "measured_at": "2026-08-28T20:12:50Z",
+    "operating_min_spacing_s": 2.0,
+    "rungs": [
+      {
+        "all_200": true,
+        "elapsed_s": 18.05,
+        "first_refusal_verbatim": null,
+        "observed_rate_per_min": 19.94,
+        "requests": 6,
+        "spacing_s": 3.0,
+        "statuses": [
+          200,
+          200,
+          200,
+          200,
+          200,
+          200
+        ]
+      },
+      {
+        "all_200": true,
+        "elapsed_s": 8.85,
+        "first_refusal_verbatim": null,
+        "observed_rate_per_min": 40.69,
+        "requests": 6,
+        "spacing_s": 1.5,
+        "statuses": [
+          200,
+          200,
+          200,
+          200,
+          200,
+          200
+        ]
+      },
+      {
+        "all_200": true,
+        "elapsed_s": 6.13,
+        "first_refusal_verbatim": null,
+        "observed_rate_per_min": 58.73,
+        "requests": 6,
+        "spacing_s": 1.0,
+        "statuses": [
+          200,
+          200,
+          200,
+          200,
+          200,
+          200
+        ]
+      }
+    ],
+    "source": "venue"
+  }
+]

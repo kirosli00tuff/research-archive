@@ -592,3 +592,105 @@ figure is named as an A.1 or A.2 **measurement target**, never as an input:
 
 None yet. An amendment is dated, reasoned, states exactly what data existed
 when it was made, and never edits anything above its own line.
+
+### Amendment 1 — 2026-08-28 — the flow source is selected, the paces are measured, and two structural constraints are recorded
+
+**What data existed when this amendment was made.** Stage A.1 access and
+rate-ceiling telemetry, the archive timemaps, and one capture each of the flow
+source's two pages: HTTP statuses, byte counts, capture timestamps, row counts,
+flow values, and the request ledger (143 charged requests). **Flow values are
+signal under standing rule 7 and are readable. No outcome value has been read:
+no BTC price has been parsed by any code path in this repository, and every
+funding rate stamped at or after 2025-05-01 that has passed through a reader
+has been gated — measured live at 572 of 572 post-boundary rows across three
+pages.** No census row existed, no admissibility had been computed, and no
+power number existed.
+
+#### 1. The flow source, selected
+
+**Farside Investors is the primary flow source** (`CONFIG.flow_recent_url`,
+`CONFIG.flow_all_data_url`). Keyless, server-rendered HTML, per-fund columns
+covering all five registered tickers, **676 date rows from 2024-01-11 to
+2026-08-28, of which 336 fall on or after 2025-05-01 and 333 carry a printed
+value**. Its `robots.txt` (33 bytes, verbatim in docs/ACCESS.md §1) contains one
+group naming `Twitterbot` and **no `User-agent: *` group**, so no directive
+applies to this collector; `/terms-of-use/` returns 404 and the only legal page
+is a GDPR privacy notice that says nothing about automated collection.
+
+**SoSoValue is retained as a cross-check and is never the signal**: its
+`totalNetInflow` spans all US spot BTC ETFs rather than the registered five,
+and the two differ by **a mean of 47.42M USD (median 27.20M, range −903.20M to
++1,205.20M, n = 333)** — large against the registered 100M threshold. The
+cross-check passes: **315 of 333 out-of-sample days agree within 2 percent**.
+
+**TheBlock and Glassnode are routed out on stated prohibitions**
+(`Disallow: /api/` and `Disallow: /api` under `User-agent: *`). **Their data
+endpoints were never requested.** The HFExperiment Wealthsimple precedent
+applies: a stated prohibition ends the enquiry.
+
+#### 2. Section 12 pacing figures, recorded as measured
+
+**No ceiling was found on any endpoint at or above this repository's own
+absolute floor of 1.0 s: 96 probe requests across 6 endpoints, every one HTTP
+200.** Operating paces are therefore set at **twice the fastest verified-clean
+spacing**, the NPLExperiment pattern for an endpoint whose ceiling was not
+found — half the highest verified-clean *rate*, because there is no ceiling to
+halve. The figures are bounded by what was probed, not by what the server would
+refuse, and that distinction is recorded rather than smoothed.
+
+| endpoint | highest verified-clean rate | operating min spacing |
+|---|---|---|
+| `flow.table` | 12.17/min (n = 18) | **10.0 s** |
+| `archive.availability` | 59.92/min (n = 18) | **2.0 s** |
+| `archive.timemap` | 21.28/min (n = 18) | **2.0 s** |
+| `venue.candleSnapshot` | 59.90/min (n = 12) | **2.0 s** |
+| `venue.fundingHistory` | 59.91/min (n = 12) | **2.0 s** |
+| `kraken.ohlc` | 58.73/min (n = 18) | **2.0 s** |
+| `venue.meta`, `archive.snapshot` | **not measured** | keep the slower pre-measurement figure |
+
+**Per endpoint, never per host** (solattn ADR-021): the two archive endpoints
+share a host and were measured separately, as did the venue endpoints, and an
+endpoint nobody measured **keeps its slower figure rather than inheriting a
+sibling's** — that inheritance is the inference ADR-021 exists to forbid. The
+per-source daily caps of Section 12 are unchanged; nothing measured asks them
+to move.
+
+#### 3. Two structural constraints, measured, that bind the retro cohort
+
+Neither changes a registered bar. Both are recorded here because they decide
+what the census can contain, and Section 14.7 requires such figures to be
+measured before they are relied on.
+
+**(a) The venue serves a rolling 5,001-candle window.** At `1h` that reaches
+back only to **2026-02-01T11:00:00Z** and **slides forward one hour per hour**
+(n = 17 bisection probes; 5,001 hours is 208.4 days and the served start
+matches to the hour). Section 5's anchor-to-anchor-plus-24-hours return is not
+computable from `1d` candles, whose boundaries are 00:00 UTC, so **a trading day
+older than the rolling window has no registered outcome and is `underpowered` —
+a recorded absence, never a return, and never a 1d substitute.**
+
+**(b) Archive capture density is 37 of 333, and it fails on crawl rate rather
+than on the registered window.** Measured across both flow pages' timemaps
+(451 mementos, of which 153 fall on or after 2025-05-01): **admissible 37,
+capture_too_late 53, no_capture 243, share 0.1111**, against the registered
+0.60 bar. **48.37 percent of out-of-sample mementos already fall inside the
+registered 20:00–08:00 UTC window, so the window is not the constraint**: the
+archive crawls the page **0.316 times per calendar day**, and even an unbounded
+window admitting any capture on D or D+1 would reach only **112 of 333
+(33.63 percent)** — still short of the bar by a factor of 1.8. **Widening the
+window is therefore foreclosed as an explanation, and no widening is proposed.**
+
+**Their intersection is the retro cohort: 17 of 333 out-of-sample trading days
+(5.11 percent) are both archive-admissible and inside the servable hourly
+window.** That figure is recorded here, before any power computation, as the
+ceiling on anything the retro cohort can ever contribute.
+
+#### 4. What is unchanged
+
+The hypothesis, the universe, the as-printed rule, the provisional 08:00 UTC
+anchor and its single amendment rule, the position rule and its 100M threshold,
+the outcome definition, the cost bands, the horizons, both co-primaries and
+alpha_adj, the registered 0.09 effect assumption and its honest range, the
+Stage B trigger, the epistemic boundary, the per-source caps, and the priors.
+**The anchor has not moved and cannot move until the A.1 Task 3 measurement
+exists.**
