@@ -352,11 +352,19 @@ unmeasured input** — the forward revision-integrity leg — and that input is 
 synthesized. **Earliest completion 2026-09-22.**
 
 **The deadline finding, recorded as distinct from the verdict.** Section 10 opens
-Stage B only at 80 percent power at *achieved* admissible N. Under DEGRADED that
-assumption is the published magnitude, needing **N = 237**. At the measured
-forward accrual rate, **achieved N = 237 arrives around 2027-07-26 — roughly four
-months past the registered 2027-03-31 deadline**, against a projected 163 at the
-deadline.
+Stage B only at 80 percent power at *achieved* admissible N, and it requires
+**both** co-primaries — so the governing figure is the larger of their minimums.
+Under DEGRADED that assumption is the published magnitude: **E1 needs 237 and E2
+needs 300, so 300 governs** (Amendment 4; Amendment 3 named E1's 237 and
+understated it, and that understatement is recorded rather than corrected in
+place). At the measured forward accrual rate of 20.8 admissible days per month,
+**achieved N = 300 arrives around 2027-10-26 — roughly seven months past the
+registered 2027-03-31 deadline**, against a projected 163 at the deadline.
+
+The E2 grid is non-monotone at the registered assumption — 0.3567 at n = 350
+against 0.3433 at n = 400. **That is simulation noise at a stated standard error
+of 0.0289, not a property of the test**, and it is recorded rather than smoothed
+by refitting a curve through it.
 
 **Section 0's BLOCKED floor is a statement about power, and it is cleared. The
 registered deadline is what is not met.** The design is not unpowered in
