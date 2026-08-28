@@ -350,6 +350,40 @@ def test_the_cull_is_structurally_incapable_of_reaching_sealed_data() -> None:
     assert not leaky, f"cull.py names sealed locations: {leaky}"
 
 
+# ------------------------------------------------------------------- fresh --
+
+
+def test_fresh_cohort_excludes_generating_events_and_pre_entry_deaths() -> None:
+    from dataclasses import replace as dc_replace
+
+    from npl.register.fresh import (
+        FreshCohortMismatch,
+        fresh_backfillable_events,
+        fresh_funding_span,
+        require_registered_pending_count,
+    )
+
+    old = _census_row("OLD", "", 10)
+    young = _census_row("YOUNG", "", 500)
+    # Died before its entry anchor: delisted with the last close before entry.
+    stillborn = dc_replace(
+        _census_row("STILLBORN", "", 510),
+        is_delisted=True,
+        last_1d_close_ms=EPOCH + 510 * DAY_MS + DAY_MS,
+    )
+    sample = frozenset({event_id("OLD", "", old.first_1d_open_ms or 0)})
+    events = fresh_backfillable_events([old, young, stillborn], sample)
+    assert [e.coin for e in events] == ["YOUNG"]
+
+    require_registered_pending_count(events, EPOCH + 500 * DAY_MS, expected=1)
+    with pytest.raises(FreshCohortMismatch, match="refusing to guess"):
+        require_registered_pending_count(events, EPOCH + 500 * DAY_MS, expected=62)
+
+    start, end = fresh_funding_span(events[0])
+    assert start == events[0].entry_ms - 168 * 3_600_000
+    assert end == events[0].entry_ms + 91 * DAY_MS
+
+
 # ------------------------------------------------------------------ priors --
 
 

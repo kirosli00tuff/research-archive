@@ -223,3 +223,75 @@ Amendment 1: the event date is the first candle day cross-checked against
 the first funding day, and a disagreement past the ±1 day tolerance tags the
 instrument `hyperp_conversion` mechanically, with the funded phase's start
 as the event date.
+
+---
+
+## Register A.1 — gap recovery, census refresh, retention re-probe, drift check (2026-08-28T03:55–05:20Z, n = 418 ledgered requests, 0 refusals)
+
+### Task 1 — collector gap audit and recovery (n = 218 fundingHistory requests)
+
+The H1 collectors' last passes: daily (archive advance) 2026-08-28T01:40Z,
+watch heartbeat 02:05Z; disarm executed 03:44Z (progress.md, Stage B.3).
+Recovery ran 03:55–04:05Z, so the dark window against recovery was ~2h15m
+for the archives and ~1h50m for the watcher — and, measured, **nothing in
+it was lost**: 1d candles and fundingHistory retain full instrument
+history (re-verified below), and zero retro-plan instruments had live
+windows left unadvanced by the final daily pass (audit over all 722 plan
+rows, n = 0 needing resume).
+
+The 62 pending-at-closure events (60 hip3, 2 vanilla — reconstructed from
+the sealed census against the generating-sample record, count reproducing
+the registered 62 exactly) had **no archives at all** under H1 (H1
+archived only its verdict cohort and candidates). All 62 were built from
+scratch: **156 pages, 60,010 rows, 62 of 62 caught up to the present**
+(terminal state `no_data` = served-empty end-of-feed). Coverage
+verification: **0 interior funding-hour gaps across all 62 archives**
+(window: first funded hour → now). Every archive's leading "missing"
+hours sit between the listing day's 00:00Z open and the instrument's
+actual mid-day launch hour — structural pre-launch absence, recorded as
+such, never synthesized. **Unrecoverable hours: 0 of 60,010+.**
+
+### Task 2 — census refresh (n = 12 enumeration + 4 instrument requests)
+
+Full re-enumeration, 11 dexs, **504 instruments** (503 known + 1 new).
+Diff against the sealed census: **1 new birth** — `io:EWY`, sighted
+2026-08-27T09:12Z, `isDelisted` at birth, serves no candles
+(`no_data`) — censused and never an event. **1 flag change** — `xyz:XBI`
+was `isDelisted` in the sealed census, now active (relisted); refreshed
+row appended. **0 instruments vanished** from the metas.
+
+**Updated rates, measured (trailing 182 days):** total **18.57
+events/month** (hip3 18.06, vanilla 0.5) — the carried 18.5 confirmed.
+**Main-dex accrual: 0.5/month (n = 3 listings in 182 days)** — the
+register prompt's planning figure of ~9.4/month for H3 is **falsified by
+measurement**; the measured 0.5 governs the A.2 projections. **H2
+match-rate estimate on the fresh cohort: 38 of 62 = 0.613** — by dex:
+xyz 36/36 pairable, main 2/2, para 0/18, mkts 0/4, io 0/2 (the young
+dexs have no instrument aged 180+ days yet; para crosses in mid-January
+2027, mkts late December 2026, io mid-February 2027).
+
+### Task 3 — retention re-probe, fresh cohort (n = 62 candleSnapshot requests)
+
+For **every** fresh event (not a sample), the 1d window entry−1d →
+min(now, entry+91d): **62 of 62 servable** — first served candle within
+one day of the window start, last close within two days of the window
+end, `stored` on every request. Funding servability was verified by the
+Task 1 recovery itself (every archive reaches its instrument's first
+funded hour). **Events excluded for retention: 0.**
+
+### Task 4 — ceilings drift check (n = 60 requests, 10 per endpoint)
+
+Probe at the A.1-measured clean/ceiling rates: meta 160/min,
+metaAndAssetCtxs 176/min, perpDexs 79/min, candleSnapshot(5,000 rows)
+23/min, fundingHistory 89/min, l2Book 240/min — **600 of 600 possible
+statuses were HTTP 200; refusals: 0 of 60 requests. No drift. The
+registered operating paces (npl/pacing.py) stand unamended.**
+
+### Task 5 — spread snapshots, fresh event legs (n = 62 l2Book requests)
+
+One l2Book touch-state fetch per currently-active fresh event (62 of 62
+active, 0 delisted): **62 stored** rows in
+`data/spreads/pair_spreads.jsonl` (touch spread bp, top-five depth both
+sides), descriptive cost inputs for the pair model. **Control legs are
+snapshotted after A.2 Task 2 assigns them**, recorded there as this
+task's completion.

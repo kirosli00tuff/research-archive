@@ -64,6 +64,61 @@ def parse_l2_snapshot(coin: str, entry_ms: int, body: bytes, fetched_at: str) ->
     )
 
 
+def record_leg_spread(
+    venue: Venue,
+    coin: str,
+    *,
+    hypothesis: str,
+    role: str,
+    event_coin: str,
+    ledger_path: Path = SPREADS_DIR / "pair_spreads.jsonl",
+) -> CallState:
+    """One descriptive touch-state fetch for a pair leg (register A.1/A.3).
+
+    Unlike the entry-anchor snapshot, this carries no registered timing
+    window: it is a descriptive cost input for the pair model, stamped with
+    its own fetch time, and never enters an outcome. A refusal or empty
+    book is recorded loudly with its state.
+    """
+    store = AppendOnlyLedger(ledger_path)
+    at = now_utc()
+    outcome = venue.request(l2_book_body(coin), EP_L2_BOOK)
+    if outcome.state is not CallState.STORED or outcome.body is None:
+        store.append(
+            {
+                "kind": "error",
+                "hypothesis": hypothesis,
+                "coin": coin,
+                "role": role,
+                "event_coin": event_coin,
+                "at": iso_z(at),
+                "state": outcome.state.value,
+            }
+        )
+        return outcome.state
+    try:
+        snapshot = parse_l2_snapshot(coin, 0, outcome.body, iso_z(at))
+    except ValueError as exc:
+        store.append(
+            {
+                "kind": "error",
+                "hypothesis": hypothesis,
+                "coin": coin,
+                "role": role,
+                "event_coin": event_coin,
+                "at": iso_z(at),
+                "state": CallState.NO_DATA.value,
+                "note": str(exc),
+            }
+        )
+        return CallState.NO_DATA
+    row: dict[str, object] = {"kind": "leg_spread", "hypothesis": hypothesis, "role": role}
+    row.update({"event_coin": event_coin, "state": CallState.STORED.value})
+    row.update(asdict(snapshot))
+    store.append(row)
+    return CallState.STORED
+
+
 def record_entry_spread(
     venue: Venue,
     coin: str,

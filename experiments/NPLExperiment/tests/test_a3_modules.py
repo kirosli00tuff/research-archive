@@ -388,3 +388,42 @@ def test_an_empty_book_side_is_a_refusal_not_a_spread() -> None:
     body = json.dumps({"coin": "X", "time": 1, "levels": [[], [{"px": "1", "sz": "1"}]]}).encode()
     with pytest.raises(ValueError, match="refusal"):
         parse_l2_snapshot("X", ENTRY, body, "t")
+
+
+def test_record_leg_spread_writes_a_descriptive_row_and_a_loud_error(tmp_path: Path) -> None:
+    from npl.spread import record_leg_spread
+
+    book = json.dumps(
+        {
+            "coin": "Y",
+            "time": 1,
+            "levels": [
+                [{"px": "99.0", "sz": "2.0", "n": 1}],
+                [{"px": "101.0", "sz": "1.0", "n": 1}],
+            ],
+        }
+    ).encode()
+
+    @dataclass
+    class _LegClient:
+        status: int
+        payload: bytes
+
+        def post(self, body: dict[str, object], endpoint: str) -> InfoResponse:
+            return InfoResponse(status=self.status, body=self.payload, elapsed_s=0.0)
+
+    ledger_path = tmp_path / "pair_spreads.jsonl"
+    venue = Venue(_LegClient(200, book))  # type: ignore[arg-type]
+    state = record_leg_spread(
+        venue, "Y", hypothesis="H2", role="control", event_coin="X", ledger_path=ledger_path
+    )
+    assert state is CallState.STORED
+    refusing = Venue(_LegClient(429, b"null"))  # type: ignore[arg-type]
+    state = record_leg_spread(
+        refusing, "Y", hypothesis="H2", role="control", event_coin="X", ledger_path=ledger_path
+    )
+    assert state is CallState.RATE_LIMITED
+    rows = AppendOnlyLedger(ledger_path).read().rows
+    assert [r["kind"] for r in rows] == ["leg_spread", "error"]
+    assert rows[0]["touch_spread_bp"] == pytest.approx((101 - 99) / 100 * 1e4)
+    assert rows[1]["state"] == "rate_limited"

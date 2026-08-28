@@ -645,3 +645,25 @@ assignment). Sub-stage ETAs:
 | A.2 eligibility, control assignment, conditioning, k-table, cull + verdicts | 60–80 min | candidate trailing fetches (~35–45 min paced, background) |
 | A.3 re-arm, watcher extension, recorder, checkpoints, dark readers, pair memo | 70–90 min | dark reader known-answer fixtures for the four-leg arithmetic |
 | A.4 gates, ≥6 mutations, docs, close-out | 50–70 min | mutation harness across the new surface |
+
+## 2026-08-28T05:25Z — Register Stage A.0 and A.1 complete
+
+| Task | ETA | Actual |
+|---|---|---|
+| A.0 (register restructure, quarantine, substrate, 3 registrations, priors) | 100–120 min | ~45 min (03:27:30Z → commit 77ee522 pushed ~04:12Z incl. gates) |
+| A.1.1 gap audit + recovery | — | 62/62 archives built, 156 pages, 60,010 rows, 0 unrecoverable hours |
+| A.1.2 census refresh | — | 504 instruments, 1 new (io:EWY, stillborn), 1 relist (xyz:XBI), rates re-measured |
+| A.1.3 retention re-probe | — | 62/62 windows servable, 0 retention exclusions |
+| A.1.4 ceilings drift | — | 0 refusals in 60 probes at measured rates; pacing unamended |
+| A.1.5 spread snapshots | — | 62/62 event legs stored; control legs ride A.2 assignment |
+| A.1 total | 60–80 min | ~85 min (03:55Z → 05:20Z, incl. two paced background passes) |
+
+A.1 figures, each with its n: dark window ~2h15m (01:40Z last archive
+advance → 03:55Z recovery), losses zero; fresh cohort 62 (60 hip3, 2
+vanilla), reproducing the registered pending-at-closure count exactly;
+accrual 18.57 events/month total (n = 113 listings/182d), **main-dex 0.5/
+month (n = 3/182d) — the prompt's ~9.4 planning figure is falsified by
+measurement and the measured figure governs A.2**; H2 match rate 38/62 =
+0.613 (xyz 36/36, main 2/2, para 0/18, mkts 0/4, io 0/2); session requests
+418, refusals 0, zero dollars, no keys. Evidence: docs/ACCESS.md
+"Register A.1".
