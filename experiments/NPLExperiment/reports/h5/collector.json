@@ -1,0 +1,46 @@
+{
+  "coverage": {
+    "at_ms": 1787954414181,
+    "basis_absent_by_reason": {},
+    "basis_served": 151,
+    "ctx_states": {
+      "excluded_ineligible": 0,
+      "expired": 0,
+      "no_data": 0,
+      "rate_limited": 0,
+      "source_failed": 0,
+      "stored": 273
+    },
+    "funding_field_served": 151,
+    "funding_states": {
+      "excluded_ineligible": 57,
+      "expired": 0,
+      "no_data": 0,
+      "rate_limited": 0,
+      "source_failed": 0,
+      "stored": 94
+    },
+    "instruments_enumerated": 273,
+    "instruments_live": 94,
+    "instruments_probed": 94,
+    "instruments_resolved": 151,
+    "l2_states": {
+      "excluded_ineligible": 57,
+      "expired": 0,
+      "no_data": 0,
+      "rate_limited": 0,
+      "source_failed": 0,
+      "stored": 94
+    },
+    "pass_id": "h5-census-2026-08-28T22:00:14Z",
+    "reference_served": 151,
+    "reference_unserved": 0,
+    "session_tag": "extended"
+  },
+  "ledger_day_after": 3835,
+  "ledger_day_before": 3626,
+  "pass_id": "h5-census-2026-08-28T22:00:14Z",
+  "ran_at": "2026-08-28T22:02:40Z",
+  "requests_charged": 209,
+  "stage": "H5 Task 4 - forward collector, one verified pass"
+}

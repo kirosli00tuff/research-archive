@@ -22,8 +22,9 @@ the registered kind.
 
 from __future__ import annotations
 
-from collections.abc import Mapping
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
+from datetime import date, timedelta
 from typing import Final
 
 from npl.absence import Maybe, is_absent
@@ -190,3 +191,32 @@ def fire(
             f"floor and the {viable:.0f} bp bar"
         ],
     )
+
+
+class CensusWindowNotProjectable(RuntimeError):
+    """Too few instruments carry any coverage to project a fire date. Loud."""
+
+
+def passes_needed(covered_days: Sequence[int], cfg: Config = CONFIG) -> int:
+    """Daily passes still needed before the coverage bars are met.
+
+    One pass adds one covered day to every instrument it reaches, so the
+    binding instrument is the `h5_min_instruments_with_reference`-th best
+    covered one: when it reaches `h5_min_coverage_days`, the bar is met.
+    Fewer instruments with any coverage than the bar is a loud refusal — a
+    projection off a sample that cannot reach the bar is a guess.
+    """
+    covering = sorted((d for d in covered_days if d > 0), reverse=True)
+    bar = cfg.h5_min_instruments_with_reference
+    if len(covering) < bar:
+        raise CensusWindowNotProjectable(
+            f"only {len(covering)} instruments carry any coverage against the bar of "
+            f"{bar}; no daily cadence reaches the bar from here, and nothing here guesses"
+        )
+    binding = covering[bar - 1]
+    return max(0, cfg.h5_min_coverage_days - binding)
+
+
+def projected_fire_date(covered_days: Sequence[int], today: date, cfg: Config = CONFIG) -> date:
+    """The day the census window closes, at one pass per day from today."""
+    return today + timedelta(days=passes_needed(covered_days, cfg))

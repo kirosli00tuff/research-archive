@@ -1345,3 +1345,40 @@ recorded so the shortfall is legible, not so it can be read.
 cannot fire in either direction. It cannot fire CLOSED because that is
 evaluated on instruments live at firing and 0 of them meet coverage; it can
 never fire VIABLE by registration.
+
+### Task 4 — the forward collector, armed (ETA 40–60 min · actual ~19 min, 21:59→22:18Z)
+
+**The arming condition was met and is recorded:** Task 2 measured **94 live
+instruments carrying a served reference**, against the registered bar of 20.
+Armed.
+
+The collector is `npl.h5.collector.run_daily_pass`, wired into
+`npl.cli.cmd_daily` as the **last** block of the daily pass, and verified by
+one live pass run on its own (`make h5-pass`, so no H2 collector ran):
+
+| | |
+|---|---|
+| pass | `h5-census-2026-08-28T22:00:14Z`, session tag `extended` |
+| requests charged | **209** (1 perpDexs + 10 meta + 10 metaAndAssetCtxs + 94 fundingHistory + 94 l2Book) |
+| share of the 20,000 daily cap | **1.05 %**; of the 15,000 soft budget, **1.39 %** |
+| enumerated / resolved / live / probed | 273 / 151 / **94** / 94 |
+| reference served | 151 of 151; **`reference_unserved` 0** |
+| basis served | 151 of 151; **no basis absence of any reason** |
+| six call states | all six reported for each of ctx, funding and l2 — `stored` 94, `excluded_ineligible` 57 (the delisted stratum), and **explicit zeros** on `no_data`, `rate_limited`, `source_failed`, `expired` |
+
+**Its own store:** `data/h5/` alone — `census.jsonl`, `snapshots.jsonl`,
+`retro.jsonl`. Every H5 write goes through `npl.h5.stores.h5_store`, which
+resolves the target and refuses anything outside that root; the refusal is
+produced by a test against the real path `data/controls/h2_pairs.jsonl`.
+
+**Its own charge accounting:** the shared ledger under standing rule 9, with
+an H5-only per-pass cap of 1,000 checked as arithmetic before anything is
+sent, plus the H2 yield — `require_headroom` refuses to start once the day's
+spend has reached the 15,000 soft budget, and the postponement is written to
+the H5 store as a `pass_yielded` row rather than swallowed. **H5 postpones;
+it never displaces.**
+
+**Its own coverage module:** `npl.h5.coverage` reports all six registered
+call states **even at zero**, because an omitted key reads as "no such
+state" while a zero reads as "measured, and none". An unregistered state is
+a loud refusal, never a new bucket.

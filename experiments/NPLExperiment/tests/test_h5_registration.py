@@ -517,3 +517,31 @@ def test_a_filled_slot_parses_only_in_the_registered_shape(tmp_path: Path) -> No
 
 def test_the_assistant_prior_is_the_recorded_number_and_not_the_operators() -> None:
     assert h5priors.assistant_prior() == 0.05 == CONFIG.h5_assistant_prior_edge
+
+
+# --------------------------------------------------------------------------
+# The census-window projection (Task 5)
+# --------------------------------------------------------------------------
+
+
+def test_the_binding_instrument_is_the_twentieth_best_covered() -> None:
+    """One pass adds one day to every instrument, so the 20th-best binds."""
+    from datetime import date
+
+    covered = [30] * 19 + [1] * 75  # 94 instruments, one covered day for most
+    assert h5out.passes_needed(covered) == 29
+    assert h5out.projected_fire_date(covered, date(2026, 8, 28)) == date(2026, 9, 26)
+
+
+def test_a_met_bar_needs_no_further_pass() -> None:
+    assert h5out.passes_needed([30] * 20 + [1] * 5) == 0
+
+
+def test_a_sample_too_small_to_reach_the_bar_refuses_rather_than_projecting() -> None:
+    with pytest.raises(h5out.CensusWindowNotProjectable, match="nothing here guesses"):
+        h5out.passes_needed([30] * 19)
+
+
+def test_instruments_with_no_coverage_do_not_count_toward_the_bar() -> None:
+    with pytest.raises(h5out.CensusWindowNotProjectable):
+        h5out.passes_needed([5] * 19 + [0] * 100)
