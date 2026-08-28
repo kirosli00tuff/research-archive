@@ -42,13 +42,8 @@ PENDING_ENFORCEMENT: frozenset[str] = frozenset(
         "revision_settle_hours",  # A.1 Task 4, forward revision rate
         "min_outcome_coverage_candles",  # A.2 Task 3, sealed coverage
         "min_outcome_coverage_funding",  # A.2 Task 3, sealed coverage
-        "assistant_prior_edge",  # A.0 Task 5, the priors check
-        "archive_density_pass_share",  # A.0 Task 3, the observability verdict
-        "revision_intact_pass_share",  # A.0 Task 3, the observability verdict
-        "power_go_floor",  # A.0 Task 3, Section 0
-        "power_blocked_floor",  # A.0 Task 3, Section 0
         "interim_deadline",  # A.2 Task 4, projection
-        "projection_deadline",  # A.0 Task 3, Section 0
+        "assistant_prior_edge",  # A.0 Task 5, the priors check
     }
 )
 
