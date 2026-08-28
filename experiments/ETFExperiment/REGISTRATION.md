@@ -815,3 +815,131 @@ Every registered bar, both co-primaries, alpha_adj, the effect assumptions, the
 cost bands, the anchor and its single amendment rule, the Stage B trigger, the
 priors, and the Section 0 map. **Nothing above this amendment line has been
 edited.**
+
+### Amendment 3 — 2026-08-28 — the Section 0 verdict record: GO is eliminated on measured inputs; the remaining choice awaits one measurement
+
+**What data existed when this amendment was made.** Everything in Amendments 1
+and 2, plus the admissible-day census (336 rows), the outcome-blind signal
+distribution, the pre-period carve-out inputs, and the completed power
+computation. **No outcome value has been read.** Every power figure below is a
+simulation at a registered assumption; every empirical input to it is a count, a
+timestamp, a flow value, or a pre-period figure stamped strictly before
+2025-05-01.
+
+#### 1. The power computation, and the registered sanity anchors held
+
+**Minimum N clearing the registered 0.80 power target for E1**, exact
+permutation power by simulation at alpha_adj = 0.0253205655, one-sided:
+
+| assumption | minimum N | Section 9's registered anchor | held? |
+|---|---|---|---|
+| **published 0.18** | **237** | "near 250 admissible days" | **yes** |
+| **registered 0.09** | **845** | "high hundreds to low thousands" | **yes** |
+| quartered 0.045 | 3,776 | — | — |
+
+**Both anchors registered in Section 9 held.** They were recorded so that a
+disagreement would be visible as a disagreement rather than absorbed; there is
+no disagreement to record.
+
+**Power at the achievable admissible-day counts:**
+
+| cohort basis | N | E1 @ 0.18 | E1 @ 0.09 | E1 @ 0.045 | E2 @ 0.18 | E2 @ 0.09 |
+|---|---|---|---|---|---|---|
+| achieved today | **11** | 0.0815 | 0.0500 | 0.0385 | 0.0600 | 0.0375 |
+| forward-only by 2026-12-31 | 88 | 0.3870 | 0.1155 | 0.0495 | 0.3325 | 0.1075 |
+| forward-only by 2027-03-31 | 152 | 0.6000 | 0.1910 | 0.0675 | 0.5325 | 0.1650 |
+| **all cohorts by 2027-03-31** | **163** | **0.6105** | **0.2015** | 0.0860 | **0.5225** | 0.1700 |
+
+Economic inputs, pre-period only: daily sd **0.027431** (n = 475 returns,
+2024-01-11 to 2025-04-30); 24-hour funding sum **0.000534** from a mean hourly
+rate of 0.00002226 (n = 11,423 hours); round trip **9 bp**; trade share
+**0.7568** (n = 333). Simulation budget stated: E1 at 20,000 permutation draws
+and 2,000 simulations; E2 at 1,500 draws and 400 simulations, whose simulation
+error near a power of one half is about 0.025 — both registered floors sit far
+from these values.
+
+#### 2. The Section 0 verdict, fired as far as the measured inputs determine it
+
+**GO is eliminated.** GO requires the as-printed observability test of A.1 Task 4
+to pass **in full**. Its archive-capture-density leg is measured at **11 of 333 =
+0.0330 against the registered 0.60 bar** (Amendment 2), short by a factor of 18.
+**No subsequent measurement can restore it**, because the archive captures that
+would be needed do not exist and cannot be created. **GO is closed.**
+
+**BLOCKED does not fire on power.** Its power trigger is E1 under 0.50 at the
+published-magnitude assumption at the achievable count by 2027-03-31. Measured:
+**0.6105**. The trigger is not met.
+
+**The remaining choice between DEGRADED and BLOCKED turns on exactly one
+unmeasured input**: the forward revision-integrity leg of A.1 Task 4.
+
+- If the forward revision rate leaves the signal's sign and threshold intact on
+  **at least 90 percent** of days, as-printed observability fires **PARTIAL** —
+  one leg holds, one does not — and **Section 0 fires DEGRADED**, demoting the
+  retro cohort to descriptive and leaving the forward cohort to carry the verdict
+  alone.
+- If it does not, observability fires **FAIL** and **Section 0 fires BLOCKED**.
+
+**That measurement does not exist and is not synthesized.** It requires this
+repository's own captures at the registered 20-minute cadence across at least 15
+US trading days (Section 12 / A.1 Task 3). The snapshotter was armed
+2026-08-28T20:17Z. **The 15th US trading day is 2026-09-21 and its print lands
+2026-09-22, which is the earliest date Section 0 can complete.**
+
+**The retro revision figure is not promoted to fill the gap.** It measured 0
+revisions, 0 sign flips and 0 threshold crosses on 11 comparable days — 11 of 11
+intact, which would clear the 90 percent bar — **and n = 11 is below the
+registered minimum sample of 30, which the registration set before any of it was
+visible.** Promoting it would be the InsiderExperiment temptation exactly: a
+labelled non-verdict-bearing figure that happens to point the convenient way.
+**It is not promoted.**
+
+#### 3. The verdict scope, stated now in the plain words Section 0 requires
+
+**Under DEGRADED, a Stage B FAIL establishes that the effect is not present at
+its published magnitude, and cannot distinguish a decayed effect from no effect
+at all.** Recomputed power at the registered 0.09 assumption is **E1 0.2015 and
+E2 0.1700** at the achievable count by 2027-03-31, against the registered 0.80
+target.
+
+#### 4. The deadline finding, recorded because it is not what the map measures
+
+Section 10 opens Stage B only at **80 percent power at achieved admissible N**
+under the assumption Section 0 fires on. Under DEGRADED that assumption is the
+published magnitude, requiring **N = 237** for E1.
+
+**At the measured forward accrual rate the achievable N by 2027-03-31 is 163.
+Achieved N = 237 arrives around 2027-07-26 — roughly four months past the
+registered deadline.**
+
+**This is a distinct finding from the Section 0 verdict and it is recorded as
+distinct.** Section 0's BLOCKED floor is a statement about *power*, and it is
+cleared. The registered *deadline* is what is not met. The design is not
+unpowered in principle; it is unpowered **within the window this registration
+gave itself**, which is the untestable-at-achievable-power shape named in
+HYPOTHESES.md, arriving through the calendar rather than through the arithmetic.
+
+Recording it now, before the verdict completes, means it cannot later be
+presented as a discovery that happened to excuse a disappointing result.
+
+#### 5. Consequences, armed and not armed
+
+- **Armed**, under A.1 Task 3's own authority as the measurement instrument
+  Section 0 depends on: `etf-snap.timer` (20 minutes) and `etf-daily.timer`
+  (12:20 UTC). Without them the missing input can never be measured, and A.1
+  Task 3 precedes A.2 Task 5 in the registered stage order.
+- **Armed**, under Amendment 1 §3(a): the sealed price and funding recorder,
+  because the rolling 5,001-candle window destroys one day of coverage per day
+  and has no archive.
+- **Not armed**: the A.3 Task 2 retro backfill. It runs **only on as-printed
+  observability PASS**, and PASS is closed. The retro cohort — 8 trading days —
+  is **demoted to descriptive** and will carry no verdict.
+- **Not armed**: any Stage B path. `verdict.py` is built dark against synthetic
+  fixtures, refuses sealed paths in code, and is imported by nothing.
+
+#### 6. What is unchanged
+
+Every registered bar, both co-primaries, alpha_adj, the three effect
+assumptions, the cost bands, the anchor and its single amendment rule, the
+Stage B trigger, the epistemic boundary, and the priors. **The operator prior
+slot remains empty and continues to block Stage B structurally.**
