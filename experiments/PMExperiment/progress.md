@@ -354,3 +354,170 @@ the new guards). **Total 75 min.** Actuals land in Entry 5.
 the prompt were read, read-only, before this entry was written, exactly as
 Entry 0 recorded for Stage A. No other work has been done and no request has
 been sent to any endpoint.
+
+---
+
+## Entry 5 — Stage B: the fee-versus-edge band — 2026-08-29
+
+**Verdict, one sentence: the band gate fires BAND-OPEN — at entry prices
+91–99c held to resolution an effect at the top of the registered band would
+clear the registered cost, needing 5.85 probability points against a band top
+of 8.00, so the tradeable question is not closed on cost — but the surviving
+region is the top 2.15 points of a 6-point band, no cited source places a
+magnitude there at that bucket, and the band's top is set by the one source
+whose n the registration never recorded.**
+
+**Zero requests sent. Zero dollars. No contract, price, order book or
+resolution was read from any venue**, so Sections 4 and 10 stand intact.
+
+### ETA against actual, per task (standing rule 2)
+
+Tasks 1, 2 and 4 were **not separable in execution**: the band arithmetic is
+simultaneously the reconstruction of the registered inputs, the unit check and
+the table. They are reported against the commit boundaries actually made,
+rather than split after the fact into the shape the ETA assumed.
+
+| task | ETA, with its basis | actual |
+|---|---|---|
+| 0 — log the prompt verbatim | 4 min, from Entry 2 Task 0's measured 14 min scaled by document volume | **1.7 min** (19:05:53Z → 19:07:37Z, `e2d8f10`) |
+| 1, 2, 4 — inputs, unit, band table | 35 min combined (7 + 10 + 18) | **13.7 min** combined: arithmetic and guards 8.3 min (`9b4bd4f`), documents 5.4 min (`34307b6`) |
+| 3 — FX treatment and its amendment | 10 min, from Entry 3's three-amendment session | **1.4 min** (`4d75f66`) |
+| 5 — fire the verdict | 6 min | **1.4 min** (`32dc10a`) |
+| 6 — tests, mutation, report, push | 20 min, from Entry 2.1's measured 6 min plus mutation runs | recorded at push in this entry's commit |
+
+**The ETAs ran long by roughly a factor of two.** The named cause: every ETA
+was derived from Stage A's document-writing rate, and Stage B's document half
+was smaller than Stage A's while its arithmetic half was already pinned in
+tests before the prose was written. Recorded so the next stage's estimates
+start from Stage B's rate rather than Stage A's.
+
+### The unit determination (Task 2), and why it was the stage's real risk
+
+**The band is in absolute probability points, not percent realized return.**
+Established by reconstructing each cited magnitude both ways and checking it
+against the numbers the registration itself prints, using `return = gap ÷
+price`. Bürgi's 5c contract winning 3 % is a 2-point gap *and* a −40 % return;
+his 95c contract winning 98 % is a 3-point gap *and* a +3.16 % return; both
+reproduce the record exactly, n = 313,972 contract prices on 46,282 contracts
+across 12,403 events. Krause's −0.077 settles it alone: read as a probability
+difference it implies a mean bucket price of 0.117, coherent for a "below 30c"
+bucket, while read as a return it implies 0.043 and would make the figure
+Section 3 calls "the largest single-category published figure" the smallest of
+the three. The fee is denominated identically, so no conversion was needed.
+ADR-009.
+
+**The half of that finding that changed the answer was direction.** At longshot
+prices the documented miscalibration is *over*pricing, so a longshot buyer has
+a negative edge while break-even needs *under*pricing; the exploitable
+expression is always the complement. Restated that way every registered
+magnitude sits at a **high** entry price — 0.883 to 0.95 — which is exactly
+where a price-proportional FX charge is largest.
+
+### The FX treatment (Task 3), registered as Amendment 4 before use
+
+Both candidate models are one formula with a turnover: `FX(p) = 0.03·p/k`.
+Section 2's participant is exactly k = 1. **k = 1 binds; k > 1 is reported
+beside it and never substituted**, because Section 2 forbids revising a cost
+component in the direction that helps H1, and because k = 1 biases toward
+BAND-EMPTY so a surviving band cannot be its artifact. **The verdict is
+invariant to the choice**, which is the best position a contested assumption
+can hold. ADR-010.
+
+Recorded rather than supplied: the prompt's "$10,000 CAD" FX tier is
+**registered nowhere** and was not used; Section 2 registers a flat 1.5 % per
+direction with no size break.
+
+### The band (Task 4, Pass 1) — full table in `docs/BAND.md`
+
+Required underpricing in probability points, held to resolution (R_H, one fee)
+and exited before resolution (R_X, two):
+
+| bucket | mid p | R_H k=1 | R_X k=1 | R_H k→∞ | registered magnitude |
+|---|---|---|---|---|---|
+| 1–10c | 0.055 | 0.0316 | 0.0517 | 0.0300 | 0.02–0.08, but *overpriced* — a buy has the wrong sign |
+| 41–50c | 0.455 | 0.0437 | 0.0636 | 0.0300 | not registered |
+| 81–90c | 0.855 | 0.0556 | 0.0756 | 0.0300 | not registered — Krause's complement lands here at 0.883 |
+| 91–99c | 0.950 | **0.0585** | **0.0785** | 0.0300 | 0.02–0.08; cited here: Bürgi's **0.020** and **0.030** |
+
+**The crossing points, stated rather than inferred: there are none inside the
+tradeable range.** R_H(p) = 0.03 + 0.03p meets the band bottom at p = −0.3333
+and the band top at p = +1.6667; R_X(p) = 0.05 + 0.03p meets them at −1.0000
+and at exactly +1.0000, a price that cannot be traded. **The registered cost
+floor runs entirely inside the registered effect band at every price** — which
+is what Section 2 predicted before any measurement, confirmed here to 0.0015.
+
+**Two figures carry the stage.** The fee and half-spread alone total **0.0300**
+before any FX, against a band bottom of **0.0200**: no FX treatment, no venue
+price and no exit route reaches the bottom of the band. And at the FX-free
+limit the held route requires exactly 0.0300 while Bürgi's favourite-tail gap
+is exactly 0.0300 — a dead heat at the one bucket where a magnitude is cited.
+
+Both quantifier readings of Amendment 2 are reported: existential (registered,
+per the amendment's own "could survive") gives 10/10 buckets surviving on both
+routes at every k; strict gives 0/10 at every k. The existential reading is the
+registered one and is the one used.
+
+### The Canadian filter (Task 4, Pass 2), reported separately
+
+**The filter's axes are category, maturity and volume; price is not one of
+them**, so no price bucket is excluded by its construction. What it can do is
+leave a bucket empty of contracts — a **count** this stage may not read, and
+one Section 0.4 assigns to the power gate in as many words. Two registered
+inputs point toward a populated region (Krause's 7.7 points is inside a
+permitted economic-indicator series; Page-Clemen puts the 30-day rule where the
+bias is larger), two point against (the CPI companion finds no classic bias at
+n = 95 contracts over 12 months; Amendment 1 registers that Polymarket's
+mispricing concentrates in the excluded categories, as a risk not a
+measurement), and one is **absent**: Section 1's volume floor was never
+registered because Stage A Task 2 never armed, so BAND-NARROW's "below usable
+volume" clause could not be evaluated at all.
+
+### The verdict (Task 5)
+
+**BAND-OPEN**, against Amendment 2's definitions unadjusted. Not BAND-EMPTY,
+because the band exceeds the requirement at 10 of 10 buckets under every
+treatment. Not BAND-NARROW, because its category clause is contradicted by
+Krause's permitted-category attribution and its volume clause cannot be
+evaluated. **The surviving region: entry prices 91–99c, held to resolution,
+either side of the book, above 5.85 points at k = 1.** The 1–10c half is out on
+sign, the eight non-tail deciles are out because no magnitude is registered
+there, and the round-trip route is out because its 0.0015 margin at 95c is
+thinner than the 0.00195 by which Section 2's FX base understates cost.
+
+**BAND-OPEN is not evidence that an edge exists.** It records that cost alone
+does not close the question. Amendment 3's phenomenon-study route is not
+triggered; it applies only on BAND-EMPTY.
+
+### What held
+
+`pmexperiment/band.py` was written against `tests/test_band.py`, which existed
+first and failed on import before the module did. Its load-bearing cross-check
+is that the round-trip route at k = 1 reproduces `power.cost_floor` exactly and
+lands on Section 11's stated C(0.95) = 0.0785 and C(0.05) = 0.0515 — a band
+module that could not reproduce the registered floor would be computing
+something unregistered. BAND-NARROW and BAND-OPEN are deliberately **not**
+derived in code, because they turn on a count this stage may not read, and
+encoding that judgement as arithmetic would dress it up as a measurement.
+
+**Nine new honesty tests, five verified by mutation** (standing rule 14): the
+suite fails when the no-edge-claimed sentence is weakened to "BAND-OPEN shows a
+tradeable edge exists", when the missing-n disclosure is softened, when the FX
+amendment is flipped to k = 12, when the band gate references an outcome field,
+and when the registered turnover loses its enforcement site. All five restore
+green. **63 tests, lint and typecheck clean.**
+
+### Recorded, not repaired
+
+DECISIONS.md already carried **two ADR-006 and two ADR-007 entries** from the
+2026-08-29 and 2026-08-30 sessions. Renumbering a committed ADR would silently
+break `Makefile:24` and `docs/ACCESS.md:76`, which cite the earlier pair, so the
+collision is written down with the instruction to cite an ambiguous number with
+its date. Numbering continued at ADR-009. Separately,
+`registry.FX_TURNOVER_REGISTERED` was committed one commit *before* the
+Amendment 4 text it cites; both sit inside the same task and no verdict fired
+between them, but the lag is recorded rather than rebased away.
+
+**Next:** the power gate, over 91–99c held to resolution and no other region.
+It was not designed here. It still needs a venue whose terms permit the read —
+Kalshi remains PENDING_ACCESS and the written-authorization request remains an
+open action with no assumed outcome.

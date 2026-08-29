@@ -10,6 +10,8 @@ specific sentence rather than a vague property.
 
 from pathlib import Path
 
+from pmexperiment import band
+
 ROOT = Path(__file__).resolve().parent.parent
 
 
@@ -157,3 +159,89 @@ def test_category_mismatch_is_registered_before_measurement() -> None:
     reg = _read("REGISTRATION.md")
     assert "concentrates in politics and sports" in reg
     assert "cannot later be offered as an explanation" in reg
+
+
+# --- Stage B: the fee band fired BAND-OPEN on 2026-08-29 ---------------------
+#
+# These pin the fired verdict and the figures it rests on. Amendment 2 fixes
+# the band as computed once, so a later session that wants a different verdict
+# needs a numbered amendment carrying new evidence — not an edit here.
+
+
+def test_band_verdict_and_its_figures_are_recorded() -> None:
+    reg = _read("REGISTRATION.md")
+    doc = _read("docs/BAND.md")
+    hyp = _read("HYPOTHESES.md")
+    assert "The fee-versus-edge band, fired 2026-08-29: BAND-OPEN" in reg
+    assert "BAND-OPEN" in doc
+    assert "BAND-OPEN" in hyp
+    for figure in ("5.85 points", "8.00 points", "0.0785"):
+        assert figure in reg, f"{figure} left the fired verdict"
+    for figure in ("0.0585", "0.0785", "0.0300"):
+        assert figure in hyp, f"{figure} left the hypothesis register"
+        assert figure in doc, f"{figure} left the band evidence"
+
+
+def test_the_band_bottom_is_recorded_as_unreachable_everywhere() -> None:
+    """The one decisive figure: a 3.0-point floor beneath a 2.0-point edge."""
+    reg = _read("REGISTRATION.md")
+    assert "0.0300" in reg
+    assert "0.0200" in reg
+    assert (
+        "No FX treatment, no venue price and no exit route reaches the bottom "
+        "of the band" in reg
+    )
+
+
+def test_the_unit_determination_survives_in_the_record() -> None:
+    """ADR-009: probability points, not percent return, with its derivation."""
+    dec = _read("DECISIONS.md")
+    doc = _read("docs/BAND.md")
+    assert "The band is in probability points" in dec
+    assert "return = gap ÷ price" in dec
+    assert "absolute probability points, not percent realized return" in doc
+    assert "313,972" in doc
+
+
+def test_the_fx_treatment_binds_at_turnover_one() -> None:
+    """Amendment 4: k = 1 binds, k > 1 is reported and never substituted."""
+    reg = _read("REGISTRATION.md")
+    assert "k = 1 binds" in reg
+    assert "never substituted" in reg
+    assert "It does not decide the verdict" in reg
+
+
+def test_band_open_is_never_claimed_as_an_edge() -> None:
+    """Cost failing to close a question is not evidence that an edge exists."""
+    reg = _read("REGISTRATION.md")
+    hyp = _read("HYPOTHESES.md")
+    assert "BAND-OPEN is not a finding that an edge exists" in reg
+    assert "**not** evidence that a tradeable edge exists" in hyp
+
+
+def test_the_band_top_is_recorded_as_carrying_no_n() -> None:
+    """Standing rule 13, applied to the figure the verdict actually rests on."""
+    reg = _read("REGISTRATION.md")
+    assert "The band's top carries no n" in reg
+    assert "313,972 contract prices on 46,282 contracts" in reg
+
+
+def test_stage_b_records_that_it_read_no_venue() -> None:
+    doc = _read("docs/BAND.md")
+    assert "No venue was read" in doc
+    assert "Zero dollars spent" in doc
+
+
+def test_the_surviving_region_is_named_and_closed_to_everything_else() -> None:
+    reg = _read("REGISTRATION.md")
+    hyp = _read("HYPOTHESES.md")
+    assert "the only region the power gate may fire over" in reg
+    assert "held to resolution" in reg
+    assert "and no other region" in hyp
+
+
+def test_the_verdict_strings_in_code_match_the_registration() -> None:
+    """A verdict the code spells differently from the document is a drift bug."""
+    reg = _read("REGISTRATION.md")
+    for verdict in band.BandVerdict:
+        assert verdict.value in reg
