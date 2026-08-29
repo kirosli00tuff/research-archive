@@ -415,3 +415,239 @@ agreement half of the integrity gate came out weaker than it was designed to
 be**: narrower in window, and pointed at a redistribution pipeline rather than at
 two independent feeds. **The revision half is intact, and it is the half that
 killed H11 elsewhere in this house.**
+
+---
+
+# The amendment pass — written for the moment it landed, 2026-08-29
+
+**Seven tasks. Six amendments, 11 through 16. Five ADRs, 027 through 031. Three
+falsified planning figures and one falsified premise of the method. `n = 954`
+requests sent, `0` dollars spent, and neither latch touched.**
+
+**The verdict is unchanged: `PENDING_REVISION`.** That is not a null result. The
+pass was asked to close gaps between what the registration *says* and what
+measurement *shows*, and every one of them turned out to be a place where the
+document was wrong rather than the world.
+
+## What the registration got wrong, and what falsified each one
+
+### 1. The carve-out was never reachable
+
+Section 9 reserved the E2 dispersion input to bars stamped **strictly before
+2016-01-04**. That is a clean rule with a clean rationale, and A.1 TASK 5 had
+already measured it into the ground: **Alpaca's earliest served session is
+2016-01-04 — exactly the in-sample start — and Massive's is 2024-08-29.**
+**`n = 2` credentials, 0 serving.** The reserved region contained **no bar this
+repository could ever have read**, and E2 power was recorded `Absent(not_served)`
+for that reason and no other.
+
+**The carve-out is now two-sided**, and the second half is the region **strictly
+after the holdout ends** — at `2026-07-01T04:00:00.000Z`, which is Eastern
+midnight rather than UTC midnight, because UTC midnight on 2026-07-01 is **20:00
+Eastern on 2026-06-30** and would have admitted the last holdout session's
+after-hours bars.
+
+**The cost is registered, not argued away.** The post-holdout region is outside
+both windows, so reading it leaks nothing a verdict is computed on — **and it is
+not equivalent to what it replaced.** A dispersion estimated after 2026-06-30
+reflects a **later** regime than the sample it is applied to; the original would
+have reflected an **earlier** one. **The compromise now runs forward rather than
+backward, and the figure may misstate in-sample dispersion in either direction by
+an amount this repository has not measured and does not claim to bound.** That
+sentence is attached to every E2 figure produced, in the amendment, in the
+verdict record, in `HYPOTHESES.md` and in `README.md`.
+
+### 2. The trigger rate was never 55 percent
+
+A figure of **0.55** had been sitting in a non-binding per-trade power note. It
+was never measured, and Section 9 says in as many words that the trigger rate is
+*a measurement target and never an assumption*.
+
+**Measured: 0.982143, `n = 560` selected name-sessions.** A disagreement of
+**+0.432**. The measurement wins and the disagreement is recorded — the
+NPLExperiment shape, where a planning figure near 9.4 events per month met
+measurement at 0.5, `n = 3`.
+
+**Stated narrowly, so it is not over-read.** It is the realized share of
+registered top-20 selections producing a registered entry, on **28 post-holdout
+sessions**, over a **200-name systematic sample of a 5,317-name listing**, in a
+**post-holdout regime**. **It is not the in-sample trigger rate.**
+
+**One coincidence is recorded with no claim attached.** The **long-only** rate is
+**0.525**, close to 0.55. That is consistent with the assumption having been
+about one side only, and it is consistent with chance. Nothing in the repository
+records which was meant, and this pass does not decide it.
+
+### 3. E2's power never needed a dispersion input at all
+
+This is the one that matters most, and it is about the method rather than a
+number.
+
+**E2 power came out equal to E1 power to five decimal places at every assumption
+and every horizon.** Not approximately: analytically, differing only by the
+rounding of an implied trade count to a whole number.
+
+The reason is Section 8's own design. **E2's permutation clusters on session
+date.** A session holding `k` trades with per-trade mean `μ` and dispersion `σ`
+has session mean `kμ` and session dispersion `σ√k`, so the session-level ratio is
+`√k·(μ/σ)` — and **`σ` cancels**. A test whose independent unit is the session
+has its power fixed by the session-level Sharpe, whatever the per-trade
+dispersion happens to be.
+
+**So Section 9's premise is wrong**, and Section 9 anticipated exactly this:
+*where the computation disagrees with the figures in this table, the computation
+wins and the disagreement is recorded as an amendment.* It is Amendment 15.
+
+**The dispersion is not idle, though.** It converts a **dollar** net edge into an
+information ratio, which is the use Section 9 actually describes — and that is
+where the uncomfortable number lives.
+
+## The uncomfortable number
+
+Against the **carried** gross edge of **0.070 USD per share** (C-6, from the
+independent replication of the **sibling index strategy** — a cross-application,
+and labelled as one), scaled by `S / 2.81`, and the **modeled** round-trip cost:
+
+| exit leg | assumption | gross/share | cost/share | **net/share** |
+|---|---|---:|---:|---:|
+| close | 2.81 | 0.070000 | 0.038631 | **+0.031369** |
+| close | **1.40** | 0.034875 | 0.038631 | **−0.003756** |
+| close | 0.70 | 0.017438 | 0.038631 | **−0.021193** |
+| stop | 2.81 | 0.070000 | 0.068631 | **+0.001369** |
+| stop | **1.40** | 0.034875 | 0.068631 | **−0.033756** |
+| stop | 0.70 | 0.017438 | 0.068631 | **−0.051193** |
+
+**At the registered assumption the modeled net edge per share is negative on both
+exit legs.** At the published magnitude, on a stop exit, **two percent of the
+gross edge survives the cost model**.
+
+**This is not a verdict and it is not evidence about H1.** It is a statement
+about what the registered cost model does to a carried edge at a discounted
+effect size, recorded **before any read exists** so it cannot be discovered later
+and rationalised.
+
+## The measurement that was refused, and delivered anyway
+
+**The frozen Section 6 cost model refused all 550 trades.** That is A.2 TASK 2
+working exactly as designed: the SEC Section 31 rate was measured at
+**0.0000206 per dollar** and **its effective date was not**, so the schedule is
+empty and **the model refuses to price a trade rather than take a fee from the
+wrong year.**
+
+It was attempted again. **`sec.gov` returned HTTP 403 "Request Rate Threshold
+Exceeded" on two further attempts — `n = 4` across two sessions** — and the
+**stored** IBKR schedule carries the rate with **no effective date anywhere on
+the page**, so it is not recoverable offline either.
+
+**So the figure was delivered as a bracket rather than as an absence or an
+invention.** The one unmeasured component was varied across **both** ends —
+**zero**, because a fee cannot be negative, which is arithmetic rather than an
+assumption; and **0.0000206**, the one rate measured — with everything else held
+frozen.
+
+**The bracket came out 0.0084 percent wide.** `2.0294139` against `2.0295850` USD
+per share. **The unmeasured effective date does not matter for this figure, and
+that is a measurement rather than a hope.** The registered figure under the
+frozen model is still reported, and it is still **`Absent`**.
+
+## Two structural holes closed, neither of which was a wrong value
+
+**The tape was a function default.** `feed: str = "sip"` on
+`orb.vendors.alpaca_minute_bars`. **The default was correct.** Every call site
+passed or inherited it, and the sealed slice really was pulled on the
+consolidated tape. **The defect was that nothing made a call site say which tape
+it wanted**, so nothing would have noticed one that said the wrong thing — and
+the measured cost of the wrong branch is a feed carrying a **median 0.027761 of
+consolidated first-5-minute volume over `n = 100` pairs**, whose bars are all
+real, all wrong about the market, and **invisible in every downstream figure**.
+
+It is now a guarded config field, required at every call site across `src/orb`
+**and** `tools/`, with a **named escape hatch that demands a stated reason** for
+the one registered use — the Amendment 7 tape control. **Mutation 14** flips the
+configured value and is caught by a **guard**, not by a number that moved.
+
+**And the sealed slice's feed was confirmed rather than assumed.** The manifest
+records `"feed": "sip"`, which is an assertion about a code path written by the
+tool that chose the feed. So each of eight sampled chunks was re-requested on
+**both** feeds and each served bar count compared against the sealed file's own
+recount. **Seven discriminated; all seven matched the consolidated count and none
+matched the single-venue count.** One served **0 bars on both feeds** and is
+recorded as **uninformative and excluded** — the first run counted that `0 == 0`
+tie as a match to the single-venue feed and returned `NOT_CONFIRMED`, and **the
+classifier was fixed rather than the verdict.**
+
+**The in-sample window is single-sourced, and that now lives in the
+registration.** Cross-vendor agreement covers **459 holdout sessions and 0
+in-sample sessions**. **All 1,762 in-sample sessions rest on a single unverified
+feed.** Until this pass that fact lived only as a field on a verdict record. It
+is now **SL-3**, a numbered scope limitation in Section 11, and it says what a
+PASS would mean: **conditional on one vendor's rendering of that window being
+faithful, with no measurement supporting the condition.**
+
+## The ceiling, measured — and then measured properly
+
+A.1 TASK 7 recorded Alpaca's ceiling as *not reached*. **The registered protocol
+could not have reached it**, and the reason is structural: a sequential client
+sends at most `60 / latency` per minute whatever spacing it asks for, and the
+documented figure is 200 per minute. Escalating spacing measures latency.
+
+**With bounded concurrency the refusal came at cumulative request 385**, after
+**384 admitted in 55.96 s** — `{"message": "too many requests."}`.
+
+**And that is a burst allowance, not a ceiling.** The whole escalation fit inside
+one rolling minute, so **a token bucket of capacity near 400 refilling at the
+documented 200 per minute produces exactly that observation** — and so does a
+hard 411-per-minute limiter. The measurement does not distinguish them, and
+recording **411.72 per minute** as *the ceiling* would have been ADR-026's error
+running in reverse. **The tool's first analysis did exactly that**, proposing an
+operating pace of **689.37 per minute**, and it was corrected before anything was
+registered.
+
+**So the missing quantity was measured.** After a cooldown, **250 of 250 admitted
+over 75.10 s at a scheduled 200 per minute, 0 refusals** — longer than one
+rolling minute. **The sustained ceiling is at or above 199.73 per minute and is
+not known exactly**, the ceiling entry stays `None`, and the test now refuses to
+let a lower bound be written into it.
+
+**One figure was falsified in passing**: the A.1 TASK 7 **134.05 per minute** was
+that moment's latency and not a limiter — the identical request shape achieved
+**223.16 per minute** today, `n = 25`.
+
+## What the harness caught that a reader would not have
+
+**Mutation 13 changed category, and the harness is what noticed.** It was written
+at TASK 1 to demonstrate the InsiderExperiment lesson on the new post-holdout
+edge, and it **went green**: the edge had exactly one pin, and disabling it left
+nothing behind. That demonstration is on the record.
+
+**Then TASK 5 added `orb.dispersion`, whose own boundary fixture sits on the same
+instant** and is not among the tests mutation 13 disables. The next run reported
+**`HARNESS FAILURE`** — **and the failure was the harness being right.** The
+mutation's premise had stopped being true. It is now `expect_green=False` and is
+**caught**. **Nothing about the mutation changed; what changed is that the
+boundary is pinned twice.**
+
+**One test fixture was caught by a registered filter rather than by an
+assertion.** The first draft of the dispersion tests built sessions with a
+**0.20 USD** range and evaluated **nothing**, because the registered 14-session
+ATR filter requires **above 0.50 USD**. The fixture was wrong and the filter was
+right — the InsiderExperiment lesson arriving from the other side.
+
+## What a reader should take from this section
+
+**Nothing here moved the verdict, and that is the correct outcome.** The binding
+constraint was a calendar before this pass and it is a calendar after it:
+**2026-09-12**.
+
+**What changed is that four things this repository was asserting are now things
+it has measured** — the reachability of the carve-out, the trigger rate, the
+feed the sealed slice was pulled on, and Alpaca's rate behaviour — **and one
+thing it was asserting turned out not to be true of its own method**, in that
+E2's clustered permutation makes the per-trade dispersion cancel.
+
+**The uncomfortable number is the net edge.** At the registered assumption the
+modeled net edge per share is **negative on both exit legs**. That is not a
+verdict on H1 and it does not close anything. **It is the cost model, measured,
+applied to a carried edge, at the effect size this registration chose in advance
+for reasons it wrote down** — and it is on the record before any read exists,
+which is the only place it can be honest.

@@ -1,0 +1,20 @@
+baseline GREEN, n = 15 mutations
+
+   1. delete the blindness pin                                   PASS                 
+   2. coerce a recorded absence to zero                          PASS                 FAILED tests/test_absence.py::test_absent_refuses_float_and_int - Failed: DID...
+   3. merge rate_limited into no_data                            PASS                 
+   4. move a boundary fixture off the registered 09:35:00.000 boundary PASS                 
+   5. replace the DST-aware Eastern anchor with a fixed UTC offset PASS                 
+   6. read a bar stamped on or after 2016-01-04 through the carve-out PASS                 FAILED tests/test_dispersion.py::test_a_bar_inside_the_sealed_window_is_refused_rather_than_dropped
+   7. make the sealed comparator return a bar value to a caller  PASS                 FAILED tests/test_guards.py::test_comparator_returns_no_bar_value - Assertion...
+   8. point the verdict module at real bars before the latch     PASS                 FAILED tests/test_guards.py::test_no_stage_a_module_imports_a_latched_module
+   9. let a manifest seal attest the open session                PASS                 FAILED tests/test_collector.py::test_the_open_session_is_never_sealed - Faile...
+  10. allow a second read of a spent window                      PASS                 FAILED tests/test_latch.py::test_a_second_read_of_the_same_window_is_refused
+  11. remove the secret redactor                                 PASS                 FAILED tests/test_guards.py::test_no_credential_value_reaches_a_recorded_string
+  12. force the tape verdict to SAME_TAPE                        PASS                 FAILED tests/test_tape.py::test_one_ulp_below_the_lower_same_tape_bar_is_ambiguous
+  13. move the post-holdout boundary fixture off its registered edge PASS                 FAILED tests/test_dispersion.py::test_a_bar_inside_the_sealed_window_is_refused_rather_than_dropped
+  14. flip the configured tape to the single-venue feed          PASS                 FAILED tests/test_guards.py::test_the_configured_feed_is_the_consolidated_tape
+  15. make the carve-out dispersion writer return a trade list   PASS                 FAILED tests/test_guards.py::test_the_dispersion_writer_returns_two_scalars
+
+wrote /home/kiros-li/Documents/GitHub/ORBExperiment/reports/stage_a4/mutations.md
+harness failures: 0

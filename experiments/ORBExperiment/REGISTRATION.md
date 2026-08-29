@@ -2766,3 +2766,142 @@ spent read.**
 - **It closes nothing.** H1 remains **OPEN**, and `PENDING_REVISION` is
   explicitly **not** the `source-integrity-blocked` closure kind.
 - **It opens no latch and authorises no spend.**
+
+---
+
+## Amendment 17 — close-out; and a correction to Amendment 11 §6
+
+**Date:** 2026-08-29 · **Status:** accepted · corrects a statement in
+**Amendment 11 §6** that has since stopped being true
+
+**What data existed when this amendment was made.** Everything held at
+Amendments 11 through 16, plus those amendments. **Zero dollars spent. Neither
+latch exists.**
+
+### 1. The correction, named rather than edited
+
+**Amendment 11 §6 states of mutation 13: *"The suite goes green, which is the
+point: the fixture stops binding."*** **That was true when it was written and it
+is no longer true.** Section 14 rule 1 forbids editing it, so it is corrected
+here.
+
+**What happened.** Mutation 13 was written at A.0 TASK 1 to demonstrate the
+InsiderExperiment lesson on the newly registered post-holdout edge: move the
+fixture off the edge, move the threshold with it, and watch the suite go green
+because nothing else pins the boundary. **It did, and that demonstration stands
+as a record of the state of the repository at that hour.**
+
+**A.1 TASK 5 then added `orb.dispersion`**, whose own boundary fixture —
+`tests/test_dispersion.py::test_a_bar_inside_the_sealed_window_is_refused_rather_than_dropped`
+— sits on the **same instant**, `CONFIG.post_holdout_start_ms − 1`, and is **not
+among the tests mutation 13 disables**. **The next harness run reported
+`**HARNESS FAILURE**` on mutation 13, and the failure was the harness being
+right**: the mutation's premise had stopped being true.
+
+**Mutation 13 is now `expect_green=False` and is CAUGHT.** **Nothing about the
+mutation changed. What changed is that the post-holdout boundary is pinned
+twice**, by two fixtures in two modules written for two different purposes.
+
+**The harness discovered this, not a reader.** That is the whole argument for
+running one.
+
+### 2. Close-out state
+
+| gate | result |
+|---|---|
+| `ruff format --check` and `ruff check` over `src` and `tests` | **clean, 55 files** |
+| `mypy --strict` | **clean, 55 source files** |
+| `pytest` | **385 passing** — 356 before this pass |
+| mutation harness | **`n = 15` mutations, 0 harness failures**, bytecode purged before every run |
+| **`expect_green` mutations** | **2** — mutations 1 and 4. Mutation 13 left that category, above. |
+| requests sent in this pass | **`n = 954`** — 848 Alpaca, 6 Massive reference, 2 sec.gov (both refused `403`), 98 in the earlier tasks of the day counted separately |
+| Alpaca requests charged, whole day | **1,980 of a 3,000 cap** |
+| **dollars spent** | **0** |
+| **Stage C latch** | **absent** — `data/state/stage_c_read.json` does not exist |
+| **Stage D latch** | **absent** — `data/state/stage_d_read.json` does not exist |
+| systemd units | **0 loaded, 0 installed** |
+
+### 3. What this pass did not do, in one place
+
+- **It read no in-sample bar and no holdout bar.** The only real bars read were
+  **2026-07-01 to 2026-08-28**, enforced **per bar** by the two-sided boundary
+  check.
+- **It opened no latch, armed nothing and spent nothing.**
+- **It weakened, requalified and reworded no Section 0 branch.**
+  `src/orb/section0.py` is byte-identical to its state before the pass.
+- **It changed no E1 figure.**
+- **It moved the verdict nowhere.** `PENDING_REVISION` before, `PENDING_REVISION`
+  after.
+
+### 4. What still stops the repository
+
+**Not a design question, not an operator item, and not a credential.**
+
+> ## **2026-09-12.**
+
+The registered 14-calendar-day wait between the probe pull and its identical
+re-pull. `orb.repull.require_due` refuses every earlier attempt with exit **78**,
+naming the date, **having sent nothing.**
+
+### 5. Correction to §2 of this amendment, appended in the same session
+
+**The gate table in §2 above states `55 files` and `55 source files`. The
+measured figure is `56` for both**, and the table is left unedited above so the
+correction is visible rather than silent, per Section 14 rule 1.
+
+**Verbatim from `reports/stage_a1amend/gates.log`:**
+
+```
+.venv/bin/ruff format --check src tests
+56 files already formatted
+.venv/bin/ruff check src tests
+All checks passed!
+.venv/bin/mypy
+Success: no issues found in 56 source files
+```
+
+**Where the two extra files came from:** the pass added `src/orb/dispersion.py`
+and `tests/test_dispersion.py` to the 54 that stood at the close of the A.1
+resumption. **54 + 2 = 56**, and the intermediate `55` in §2 was written after
+the first of the two and not updated after the second.
+
+### 6. The request accounting of §2, superseded by the ledger
+
+**The two request figures in §2 above are wrong and are left unedited so the
+correction is visible.** §2 states *"`n = 954` — 848 Alpaca, 6 Massive
+reference, 2 sec.gov"* and *"1,980 of a 3,000 cap"*. **Both were written from a
+running estimate rather than from the ledger, and the ledger is the record.**
+
+**Counted from `data/access/requests.jsonl`, which charges before every send:**
+
+| quantity | figure |
+|---|---:|
+| ledger rows, all vendors, all of 2026-08-29 | **2,005** |
+| carried in from the A.1 resumption | **1,026** |
+| **charged by this pass** | **979** |
+| — Alpaca | **973** |
+| — Massive, reference endpoint | **6** |
+| **Alpaca charged, whole day, against a 3,000 cap** | **1,879** |
+| Massive charged, whole day, against a 600 cap | **102** |
+| sec.gov attempts, **uncharged** — not a registered vendor, so no cap exists and none was charged | **2**, both refused `403` |
+| **requests sent by this pass, total** | **981** |
+
+**The 973 Alpaca requests, by task:**
+
+| task | requests |
+|---|---:|
+| A.0 TASK 3 — feed confirmation, first run (`n = 4` chunks) | **8** |
+| A.0 TASK 3 — feed confirmation, second run (`n = 8` chunks) | **16** |
+| A.1 TASK 4 — ceiling escalation, 6 cells | **391** |
+| A.1 TASK 4 — sustained cell, after a 75 s cooldown | **250** |
+| A.1 TASK 5 — the post-holdout carve-out pull, 200 tickers | **308** |
+| | **973** |
+
+**This is the second correction to this amendment and it is recorded the same
+way as the first.** A figure written from an estimate rather than from the
+instrument is exactly the failure mode standing rule 4 names, arriving inside the
+amendment that was meant to close the pass. **The ledger charges before sending,
+so it is the instrument, and it wins.**
+
+**Dollars spent: 0. Unchanged, and not an estimate — no paid tier was reached,
+no payment method exists in this repository, and no vendor was asked for one.**

@@ -54,6 +54,32 @@ changed the world it described. **Its counterfactual still stands: had bar
 integrity passed in full, the same power inputs fire `DEGRADED`** — exactly what
 Section 0 predicted **in writing, before any measurement existed**.
 
+### Re-fired **`PENDING_REVISION`** again on 2026-08-29, amendment pass
+
+**The verdict did not move, and one input did.** **E2 power is now a number
+rather than `Absent`** — **0.7435** at the registered 1.40 Sharpe assumption on
+`n = 875` holdout sessions, from a dispersion of **2.029585 USD per share**
+measured over `n = 550` priced trades on the **post-holdout half of an amended,
+two-sided carve-out** (Amendment 11). **E1 is unchanged at 0.7435.**
+
+**Why nothing moved.** The pending-integrity clause fires **ahead of** `GO` and
+`DEGRADED`, and both integrity inputs are still recorded absences.
+**And `GO` would have failed anyway**: it needs **both** co-primaries at or above
+**0.80**, and both are **0.7435**.
+
+**Two planning figures were falsified by measurement in this pass**, both
+recorded rather than quietly corrected:
+
+- the **pre-period carve-out** — **`n = 2` credentials, 0 serving** any session
+  before 2016-01-04, so the region **was never reachable** (Amendment 11);
+- the **0.55 trigger-rate assumption** — measured at **0.982143**, `n = 560`
+  selected name-sessions (Amendment 15).
+
+**And a premise of the method was falsified too:** **E2 power equals E1 power**
+to five decimal places, because **E2's permutation clusters on session date**, so
+the session is the independent unit and the per-trade dispersion **cancels**.
+Section 9's rule applies — the computation wins and the disagreement is recorded.
+
 ---
 
 ## What is measured so far
@@ -110,6 +136,47 @@ standing. `n = 1,026` requests charged on 2026-08-29. Dollars spent: 0.**
 | dollars spent | **0** | — |
 | **ceiling measured on a data endpoint** | **none** — every reachable path was an unauthenticated refusal | 0 |
 
+### The amendment pass — 2026-08-29
+
+**Everything above is left standing.** **`n = 979` further requests charged in
+this pass** — 973 Alpaca, 6 Massive — counted from the append-only request
+ledger, which charges before every send. **1,879 Alpaca of a 3,000 daily cap** in
+the day as a whole, plus **2 uncharged `sec.gov` attempts, both refused `403`**.
+**Dollars spent: 0.**
+
+| figure | value | n |
+|---|---|---|
+| **measured trigger rate** | **0.982143** — against an assumption of **0.55** | **560 name-sessions** |
+| trigger rate, long-only | **0.525** | 560 |
+| ambiguous triggers | **0** | 560 |
+| trades per session | **19.64** of a registered 20 | 28 sessions |
+| **E2 dispersion input** | **2.029585 USD/share** | **550 priced trades** |
+| E2 dispersion, bracket relative width | **8.43 × 10⁻⁵** — the unmeasured SEC effective date does not move it | 2 ends |
+| **E2 dispersion under the frozen Section 6 model** | **`Absent`** — 550 of 550 trades refused | 550 |
+| **E2 power at the registered 1.40, holdout** | **0.743533** | **875 sessions** |
+| E2 power at the published 2.81, holdout | **0.999484** | 875 |
+| E2 power at the quartered 0.70, holdout | **0.257809** | 875 |
+| E2 power at 1.40 / 2.81 / 0.70, in-sample | **0.959721 / 1.000000 / 0.458773** | 1,762 |
+| E2 minimum N for 80 percent | **1,006 / 250 / 4,021** | — |
+| **E1 power at the registered 1.40** | **0.7435 — UNCHANGED by this pass** | 875 |
+| **Alpaca ceiling, burst allowance** | **384 requests admitted in 55.96 s**, 385th refused `429` | 391 sent |
+| **Alpaca ceiling, sustained** | **not reached** — 250 of 250 at **199.73/min** over 75.10 s, 0 refusals | 250 |
+| Alpaca operating pace | **98.36/min** at 0.61 s spacing — half the maximum rate **sustained** | — |
+| Alpaca daily cap | **3,000**, a circuit breaker, from **no** measured daily allowance | — |
+| **sealed slice feed** | **`CONFIRMED_CONSOLIDATED`** — every sealed bar count equals the consolidated count, none equals the single-venue count | **7 discriminating chunks of 8** |
+| carve-out sessions read / evaluated | **42 / 28**, 2026-07-01 to 2026-08-28 | **200 tickers, 1,927,156 bars** |
+| carve-out universe | every **26th** of a **5,317**-name active US common-stock listing | 6 reference pages |
+| **net edge per share at the registered 1.40** | **−0.003756** close exit, **−0.033756** stop exit | modeled |
+| net edge per share at the published 2.81 | **+0.031369** close exit, **+0.001369** stop exit | modeled |
+
+**Every E2 figure above carries the Amendment 11 caveat: the dispersion input
+comes from a post-holdout regime, later than the sample it is applied to, and may
+misstate in-sample dispersion in either direction by an amount this repository
+has not measured and does not claim to bound.**
+
+**Every in-sample figure above carries SL-3: all 1,762 in-sample sessions rest on
+a single unverified feed.**
+
 ### Bar integrity — A.1 TASK 3 and TASK 4, **the two that decide this repository**
 
 | figure | value | n |
@@ -157,17 +224,38 @@ sessions, computed from the calendar.
 | **REGISTERED (half)** | **1.40** | **0.7435** | **1,006** |
 | quartered | 0.70 | **0.2578** | 4,021 |
 
-**E2 power: `Absent` in all nine cells** — Section 9 restricts its dispersion
-input to the pre-period carve-out, and no vendor serves one.
+~~**E2 power: `Absent` in all nine cells** — Section 9 restricts its dispersion
+input to the pre-period carve-out, and no vendor serves one.~~
+
+**Superseded 2026-08-29 by Amendments 11 and 15. The sentence above is left
+standing because it was true when written**, and because *"no vendor serves one"*
+is the measurement that forced the carve-out to be amended.
+
+| assumption | annual Sharpe | **E2 power, holdout 875** | **E2 power, in-sample 1,762** | min N for 80% |
+|---|---:|---:|---:|---:|
+| published (undecayed) | 2.81 | **0.999484** | **1.000000** | 250 |
+| **REGISTERED (half)** | **1.40** | **0.743533** | **0.959721** | **1,006** |
+| quartered | 0.70 | **0.257809** | **0.458773** | 4,021 |
+
+**E2 equals E1 to five decimal places, and that is a finding rather than a
+copy.** E2's permutation clusters on session date, so the session is the
+independent unit: a session of `k` trades with mean `μ` and dispersion `σ` has
+session mean `kμ` and session dispersion `σ√k`, so the ratio is `√k·(μ/σ)` and
+**`σ` cancels**. **Section 9's premise that E2's power needs a per-trade
+dispersion input is falsified**, and Section 9's own rule applies.
+
+**Every cell carries the Amendment 11 caveat**: the dispersion input comes from a
+**post-holdout** regime and may misstate in-sample dispersion in either direction
+by an unmeasured, unbounded amount.
 
 ### Software
 
 | figure | value |
 |---|---|
-| tests | **270 passing** |
-| mypy strict | **clean, 46 source files** |
-| mutations applied to real source | **10**, **0 harness failures** |
-| guards | **7 standing + 4 repo-specific**, every one exercised by a mutation or a boundary fixture |
+| tests | **385 passing** |
+| mypy strict | **clean, 56 source files** |
+| mutations applied to real source | **15**, **0 harness failures** |
+| guards | every one exercised by a mutation or a boundary fixture |
 
 ---
 
@@ -188,11 +276,12 @@ authors who sell day-trading education.**
 
 ---
 
-## Open operator items — there are exactly two, and neither blocks the ladder
+## Open operator items — there are exactly three, and none blocks the ladder
 
-**Both earlier items are discharged.** The two vendor credentials exist and both
+**Both original items are discharged.** The two vendor credentials exist and both
 authenticate; the Section 13 operator prior is filled at **0.30, `INDEPENDENT`**
-(Amendment 5), which satisfies **Section 10 clause 2**.
+(Amendment 5), which satisfies **Section 10 clause 2**. **Item 3 was added by the
+amendment pass of 2026-08-29.**
 
 1. **A third feed on a genuinely different upstream.** The two feeds this
    repository holds **share an upstream** — the ratio IQR is **0.46 percentage
@@ -210,7 +299,21 @@ authenticate; the Section 13 operator prior is filled at **0.30, `INDEPENDENT`**
    because that would be a pricing-page figure. **The honest way to get it is one
    month's spend and a second bisection.** **Amendment 8.**
 
-**Neither is required for the ladder to continue. The binding constraint is a
+3. **Retire SL-3, or accept it.** **`REGISTRATION.md` §11.1, Amendment 12.**
+   Cross-vendor agreement covers **459 holdout sessions and 0 in-sample
+   sessions**, so **all 1,762 in-sample sessions rest on a single unverified
+   feed**, and **a PASS computed on the in-sample window is conditional on that
+   one vendor's rendering of it being faithful — a condition this repository
+   holds no measurement supporting.** This is the Concretum exposure, and it is
+   the one that cannot currently be retired for the in-sample window. **Two
+   routes, neither chosen here and neither costed here:**
+   **(a)** a reference credential whose tier reaches **2016-01-04**, which
+   retires SL-3 **on measurement** — this is item 2 widened, since item 2 buys
+   back only the holdout overlap; **(b)** **explicit operator acceptance** that
+   the in-sample window is single-sourced, which retires nothing by measurement
+   and is **a decision, not a finding**. **ADR-028.**
+
+**None is required for the ladder to continue. The binding constraint is a
 calendar: the earliest eligible re-pull is 2026-09-12.**
 
 ---

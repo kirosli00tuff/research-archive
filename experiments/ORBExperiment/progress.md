@@ -2783,7 +2783,7 @@ and evaluated **nothing**, because the registered 14-session ATR filter requires
 **above 0.50 USD**. The fixture was wrong and the filter was right.
 
 **Gates: `make all` green — 385 tests passing (374 before), ruff and
-`mypy --strict` clean over 55 files.** **`n = 313` requests sent in this task
+`mypy --strict` clean over 56 files.** **`n = 313` requests sent in this task
 (6 Massive reference pages, 307 Alpaca), 0 dollars spent.** Alpaca ledger
 **1,879 of 3,000**. Neither latch touched.
 
@@ -2864,6 +2864,146 @@ marked `expect_green=False` and is **caught** by
 `test_a_bar_inside_the_sealed_window_is_refused_rather_than_dropped`. **Nothing
 about the mutation changed; what changed is that the boundary is pinned twice.**
 
-**Gates: `make all` green — 385 tests, ruff and `mypy --strict` clean over 55
+**Gates: `make all` green — 385 tests, ruff and `mypy --strict` clean over 56
 files, 15 mutations, 0 harness failures.** **0 requests sent in this task, 0
 dollars spent.** Neither latch touched.
+
+---
+
+## Entry 27 — STAGE A.2 TASK 7, docs, mutations and close-out
+
+**ETA 75 min · actual 81 min.**
+
+### Two corrections to figures written earlier in this session
+
+**Both are recorded rather than smoothed, and both were caught by the
+instrument.**
+
+1. **`mypy --strict` and `ruff` cover 56 files, not 55.** Entry 25 and Entry 26
+   above say 55. **They are left unedited** — `progress.md` is append-only — and
+   the figure is corrected here. The pass added `src/orb/dispersion.py` **and**
+   `tests/test_dispersion.py` to the 54 that stood at the close of the A.1
+   resumption; **54 + 2 = 56**, and the intermediate 55 was written after the
+   first of the two and not updated after the second. `REGISTRATION.md`
+   Amendment 17 §5 carries the same correction against its own §2.
+2. **This pass charged `n = 979` requests, not the 954 Amendment 17 §2 stated,
+   and the day's Alpaca total is 1,879 of 3,000, not 1,980.** Both §2 figures
+   were written from a **running estimate**, and the **append-only request
+   ledger charges before every send**, so the ledger is the instrument and it
+   wins. Amendment 17 §6 supersedes §2's accounting with the counted figures.
+   **A figure written from an estimate rather than from the instrument is
+   exactly the failure mode standing rule 4 names**, and it arrived inside the
+   amendment meant to close the pass.
+
+**Counted from `data/access/requests.jsonl`:**
+
+| quantity | figure |
+|---|---:|
+| ledger rows, all vendors, 2026-08-29 | **2,005** |
+| carried in from the A.1 resumption | **1,026** |
+| **charged by this pass** | **979** — 973 Alpaca, 6 Massive |
+| — feed confirmation, two runs | **24** |
+| — ceiling escalation, 6 cells | **391** |
+| — sustained cell after a 75 s cooldown | **250** |
+| — the post-holdout carve-out pull, 200 tickers | **308** |
+| Alpaca, whole day, against a 3,000 cap | **1,879** |
+| `sec.gov` attempts, **uncharged** (unregistered vendor, no cap exists) | **2**, both `403` |
+| **dollars spent** | **0** |
+
+### Documentation
+
+- **`DECISIONS.md`** — **ADR-027** (the two-sided carve-out and its recorded
+  directional cost), **ADR-028** (SL-3), **ADR-029** (the structural tape pin),
+  **ADR-030** (the Alpaca ceiling, **superseding one rejected alternative of
+  ADR-026** rather than editing it), **ADR-031** (the two-scalar dispersion
+  writer and the bracketed cost model). **31 ADRs total.**
+- **`REGISTRATION.md`** — **Amendments 11 through 17**, plus **§11.1** appended
+  to Section 11 with nothing above the append line edited. **17 amendments.**
+- **`README.md`** — a new status block beneath the existing one, a new measured
+  table for the pass, the E2 power section rewritten with the superseded
+  `Absent` sentence **left standing and struck through**, and the open operator
+  items taken from two to three.
+- **`report.md`** — a section written for the moment this pass landed.
+- **`docs/HANDOVER.md`** — state table rewritten, the two-sided carve-out and the
+  storing-is-not-reading rule added to the binding rules, the pace table split so
+  `alpaca:bars` and its three unmeasured siblings are visible separately, three
+  previously-asserted figures listed for a fresh reader, and two new ways to go
+  wrong named.
+- **`HYPOTHESES.md`** — SL-3, the re-fired verdict, and the measured trigger rate.
+- **`CLAUDE.md`** — the carve-out section amended with **the original struck
+  through and left visible**, in the same shape as rule 3.
+
+### The mutation harness
+
+**`n = 15` mutations applied to real source, each restored green, bytecode purged
+before every run. 0 harness failures.**
+
+| # | mutation | expected | detected | the test that fired |
+|---:|---|---|---|---|
+| 13 | **move the post-holdout boundary fixture off its edge** | CAUGHT | **yes** | `test_a_bar_inside_the_sealed_window_is_refused_rather_than_dropped` |
+| 14 | **flip the configured tape to the single-venue feed** | CAUGHT | **yes** | `test_the_configured_feed_is_the_consolidated_tape` |
+| 15 | **make the dispersion writer return a trade list** | CAUGHT | **yes** | `test_the_dispersion_writer_returns_two_scalars` |
+
+**Mutation 13 is the interesting one and it is documented in three places** —
+Amendment 17 §1, ADR-031 and here. It **went green** at TASK 1, which was the
+demonstration the task asked for. TASK 5 then added a second, independent fixture
+on the **same instant**, and the harness reported a failure on its next run.
+**The failure was the harness being right.** It is now `expect_green=False` and
+is caught. **Nothing about the mutation changed; the boundary is pinned twice.**
+
+**`expect_green` mutations are now 2** — mutations 1 and 4 — where they were 3.
+
+### Evidence
+
+`reports/stage_a1amend/` — `gates.log`, `mutations.md`, `mutations_run.log`, and
+the five report JSONs of this pass.
+
+### The full ETA table, stated before arming and recorded after
+
+| stage | task | ETA | actual |
+|---|---|---:|---:|
+| A.-1 | 0 — preconditions | 15 | **14** |
+| A.0 | 1 — the two-sided carve-out | 55 | **51** |
+| A.0 | 2 — SL-3, the single-source scope limitation | 35 | **31** |
+| A.0 | 3 — the structural tape pin | 45 | **52** |
+| A.1 | 4 — the Alpaca rate ceiling | 35 | **41** |
+| A.1 | 5 — the E2 dispersion input | 90 | **104** |
+| A.2 | 6 — re-fire Section 0 | 30 | **27** |
+| A.2 | 7 — docs, mutations and close-out | 75 | **81** |
+| | **total** | **380 min (6.33 h)** | **401 min (6.68 h)** |
+
+**The estimate was 5.5 percent low.** The three overruns are all the same shape —
+**a measurement returned something the plan did not anticipate, and understanding
+it cost more than producing it**:
+
+- **TASK 3 (+7):** the feed confirmation returned `NOT_CONFIRMED` on its first
+  run because a chunk serving **0 bars on both feeds** was counted as a match to
+  the single-venue feed.
+- **TASK 4 (+6):** the escalation reached a refusal that turned out to be a
+  **burst allowance rather than a ceiling**, and a second phase had to be
+  designed and run to measure the quantity that was actually missing.
+- **TASK 5 (+14):** the **frozen cost model refused every trade**, and
+  establishing that the refusal was real — two more `sec.gov` `403`s and a search
+  of the stored vendor pages — then finding a way to deliver a number **without
+  weakening the refusal** took the extra time.
+
+**The two underruns, TASK 2 (−4) and TASK 6 (−3), were both tasks where nothing
+had to be measured** — a registration edit and a function call on inputs that
+already existed.
+
+### Where the ladder stops, and why it is the right place
+
+**Seven of seven tasks completed.** **Nothing is armed, nothing is closed, H1 is
+OPEN**, and the verdict is **`PENDING_REVISION`** — the same as before the pass.
+
+**What changed is not the verdict. It is that four things this repository was
+asserting are now things it has measured**, and **one thing it was asserting
+turned out not to be true of its own method**.
+
+**What stops the repository is still not a design question, an operator item or a
+credential. It is 2026-09-12.**
+
+**Gates at close: `make all` green — `ruff` clean over 56 files, `mypy --strict`
+clean over 56 files, **385 tests passing**. **15 mutations, 0 harness failures.**
+**0 dollars spent**, `n = 979` requests charged by this pass. **Both latches
+absent. 0 systemd units loaded.**

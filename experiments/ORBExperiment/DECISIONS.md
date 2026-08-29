@@ -1061,3 +1061,70 @@ request shape achieved **223.16 per minute** today, `n = 25`. **The Alpaca daily
 cap moves 2,000 → 3,000 as a circuit breaker**, not from any measured daily
 allowance, and the operational trigger — this pass's own spend — is recorded
 plainly rather than dressed up.
+
+---
+
+## ADR-031: The carve-out dispersion writer returns two scalars, and a refusing cost model is bracketed rather than weakened
+
+**Date:** 2026-08-29 · **Status:** accepted · A.1 TASK 5, REGISTRATION.md
+Amendment 15
+
+**Context.** Amendment 11 made a region readable that had never been readable
+before, and Section 9 needs a per-trade dispersion figure from it. **Two problems
+arrived together.** First, computing that figure means running the registered
+Section 2 selection, the Section 3 entry, stop and exit and the Section 6 cost
+model over **real bars**, before the Stage C latch, in a repository whose whole
+discipline is that this does not happen. Second, **the frozen Section 6 cost
+model refuses every trade**: A.2 TASK 2 measured the SEC Section 31 rate at
+0.0000206 per dollar and **did not measure its effective date**, so the schedule
+is empty and the model refuses rather than take a fee from the wrong year.
+`sec.gov` returned **403 Request Rate Threshold Exceeded** on two further
+attempts here, `n = 4` across two sessions, and the stored IBKR schedule carries
+the rate with **no effective date anywhere on the page**.
+
+**Decision, part one — the contract.** `orb.dispersion` is a **latched module and
+a sealed writer at once**. It reads priced fields, because an opening-range rule
+is a statement about highs and lows, and it **returns exactly two `float` scalars
+and integer counts**: the standard deviation of net PnL **per share**, and the
+realized trigger rate. **The mean is deliberately absent.** A mean net PnL *is*
+the outcome this repository is blind to; a dispersion is not — so the two-scalar
+contract does not merely limit an interface, it **keeps the outcome sealed even
+inside a region the carve-out permits reading**. Per share rather than per trade
+in dollars, because Section 4 registers a risk fraction and **no equity level**,
+so a dollar figure is defined only up to an arbitrary scale.
+
+**Decision, part two — the bracket.** The registered figure under the frozen
+model is reported as **`Absent`**, `n = 550` trades refused. Beside it, the
+**one** unmeasured component is varied across **both ends of a bracket** with
+everything else held frozen: **zero**, because a fee cannot be negative — a fact
+about arithmetic, not an assumption about the world — and **0.0000206**, the one
+rate measured. **The bracket came out 0.0084 percent wide**, so the unmeasured
+effective date **does not matter for this figure, and that is measured rather
+than hoped.**
+
+**Alternatives rejected.** *Report only `Absent` and leave E2 unpowered*: the
+absence is real and is reported, but a bracket whose two ends agree to one part
+in ten thousand is **evidence**, and withholding it would be as much a choice as
+inventing a number. *Invent or carry an effective date*: the NPLExperiment
+failure, and precisely what `costs_registered.py` was written to refuse. *Drop
+the SEC fee from the model*: that is inventing an effective date with extra
+steps. *Return the trade series and let a caller compute the dispersion*: the
+series is the outcome. *Make the writer a sealed module rather than a latched
+one*: `test_every_latched_module_exists_and_is_named` requires the two sets to be
+**disjoint**, and this module must import `orb.universe` and `orb.signal`, which
+only a latched module may do.
+
+**Consequences.** `dispersion.py` joins `LATCHED_MODULES`, so **no module in
+`src/orb` may import it** and its only entry point is a tool.
+`test_the_dispersion_writer_returns_two_scalars` checks **both** the return
+annotations and the record's field types — exactly two `float` fields, every
+other field an `int`, and no field named `mean`. **Mutation 15** adds a
+trade-list return and is caught by it. The boundary is enforced **per bar**
+through the two-sided `require_pre_period`, and every bar carries
+`Provenance.POST_HOLDOUT`, validated at construction. **That fixture caught
+mutation 13 on its next run** — the post-holdout edge is now pinned twice, and
+mutation 13 is `expect_green=False` as a result. **One test fixture was caught by
+a registered filter rather than by an assertion**: the first draft built sessions
+with a 0.20 USD range and evaluated nothing, because the registered 14-session
+ATR filter requires **above 0.50 USD**. The fixture was wrong and the filter was
+right.
