@@ -17,8 +17,10 @@ from pathlib import Path
 
 PACKAGE = Path(__file__).resolve().parent.parent / "pmexperiment"
 
-# Modules that feed or fire the gate. buckets.py joins this tuple in Task 3.
-GATE_MODULES = ("power.py",)
+# Modules that feed or fire a gate. band.py joined in Stage B: Amendment 3
+# orders the band gate ahead of the power gate, so it is bound by the same
+# outcome-blindness rule even though it reads no venue at all.
+GATE_MODULES = ("power.py", "band.py")
 
 FORBIDDEN_TOKENS = frozenset(
     {
@@ -85,4 +87,19 @@ def test_every_registered_bar_has_an_enforcement_site() -> None:
     for bar in ("EFFECT_BAND_LO", "EFFECT_BAND_HI", "Z_CRITICAL"):
         assert f"registry.{bar}" in source, (
             f"{bar} is registered but nothing enforces it"
+        )
+
+
+def test_the_band_gate_enforces_both_band_edges_and_the_turnover() -> None:
+    """Amendment 4 reports both quantifiers, so both band edges must be read.
+
+    The turnover is on this list because a registered constant no code reads
+    is not a gate. `registry.FX_TURNOVER_REGISTERED` is the default argument
+    of every priced function in band.py, so the registered k = 1 case binds
+    unless a caller names another and the amendment cannot drift from the code.
+    """
+    source = (PACKAGE / "band.py").read_text(encoding="utf-8")
+    for bar in ("EFFECT_BAND_LO", "EFFECT_BAND_HI", "FX_TURNOVER_REGISTERED"):
+        assert f"registry.{bar}" in source, (
+            f"{bar} is registered but the band gate never reads it"
         )

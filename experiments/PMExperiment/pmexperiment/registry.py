@@ -47,3 +47,12 @@ FEE_SIDES: int = 2
 HALF_SPREAD_USD: float = 0.01
 FX_PER_DIRECTION: float = 0.015
 FX_DIRECTIONS: int = 2
+
+# --- Amendment 4 — the FX turnover -------------------------------------------
+# The schedule charges on conversion, not on trades, so the per-contract share
+# is the round-trip rate divided by the number of times one conversion's
+# principal is deployed. Section 2 models a participant who converts, buys one
+# contract, holds it to settlement and converts back: turnover 1. That case
+# binds. A larger turnover is reported beside it and never substituted for it,
+# because it lowers the cost floor in the direction that favours H1.
+FX_TURNOVER_REGISTERED: float = 1.0
