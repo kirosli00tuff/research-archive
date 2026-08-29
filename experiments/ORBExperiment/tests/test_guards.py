@@ -406,6 +406,9 @@ def test_comparator_returns_no_bar_value() -> None:
     allowed_returns = {
         "RevisionFinding",
         "AgreementFinding",
+        # Registered by Amendment 7, A.1 TASK 4. Every field is a ratio or a
+        # count, pinned below by test_comparator_findings_carry_only_counts.
+        "TapeFinding",
         "int",
         "float",
         "bool",
@@ -436,9 +439,9 @@ def test_comparator_returns_no_bar_value() -> None:
 @pytest.mark.guard
 def test_comparator_findings_carry_only_counts() -> None:
     """Every field of every record the comparator returns is an int or a float."""
-    from orb.integrity import AgreementFinding, RevisionFinding
+    from orb.integrity import AgreementFinding, RevisionFinding, TapeFinding
 
-    for cls in (RevisionFinding, AgreementFinding):
+    for cls in (RevisionFinding, AgreementFinding, TapeFinding):
         for field in dataclasses.fields(cls):
             assert field.type in {"int", "float"}, (
                 cls.__name__,

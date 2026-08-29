@@ -151,5 +151,11 @@ def redact_row(value: Any) -> Any:
 
 
 def say(*parts: object) -> None:
-    """Print to the console through the redactor. The only console writer."""
+    """Print to the console through the redactor. The only console writer.
+
+    Flushed on every line: a long-running probe whose progress sits in a pipe
+    buffer is indistinguishable from one that has hung, and this repository
+    would rather be slow than ambiguous about which of the two it is.
+    """
     sys.stdout.write(redact_text(" ".join(str(p) for p in parts)) + "\n")
+    sys.stdout.flush()

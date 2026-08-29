@@ -28,12 +28,17 @@ import hashlib
 import json
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
+from datetime import datetime
 from typing import Final, final
 
-from orb.integrity import AgreementFinding, RevisionFinding
+from orb.config import CONFIG
+from orb.integrity import AgreementFinding, RevisionFinding, TapeFinding
 
 CENT: Final[int] = 100
 """Prices are compared in integer cents. Float equality on money is a bug."""
+
+_VOLUME_KEYS: Final[tuple[str, ...]] = ("v", "volume")
+"""Vendor dialects for the volume field, read only inside this module."""
 
 _OHLC_KEYS: Final[tuple[tuple[str, ...], ...]] = (
     ("o", "open"),
@@ -62,6 +67,51 @@ def _ohlc_cents(bar: Mapping[str, object]) -> tuple[int | None, ...]:
                 break
         out.append(found)
     return tuple(out)
+
+
+def _volume(bar: Mapping[str, object]) -> float | None:
+    """One bar's volume. **Never returned to a caller.**
+
+    Massive serves fractional share volume on some bars, so this is a float
+    rather than an int. It is summed and divided inside this module and leaves
+    it only as a ratio.
+    """
+    for alias in _VOLUME_KEYS:
+        if alias in bar:
+            raw = bar[alias]
+            if isinstance(raw, bool) or not isinstance(raw, int | float):
+                return None
+            return float(raw)
+    return None
+
+
+def _stamp_ms(bar: Mapping[str, object]) -> int | None:
+    """A bar's timestamp in epoch milliseconds. A **readable** field.
+
+    Massive serves epoch milliseconds as an integer; Alpaca serves RFC 3339 in
+    UTC. Both are normalised here so that a window test is a comparison of two
+    integers rather than of two vendor dialects. **Never a naive timestamp** —
+    an Alpaca stamp that carries no zone is refused rather than assumed UTC.
+    """
+    for alias in ("t", "timestamp"):
+        if alias not in bar:
+            continue
+        raw = bar[alias]
+        if isinstance(raw, bool):
+            return None
+        if isinstance(raw, int):
+            return raw
+        if isinstance(raw, str):
+            text = raw.replace("Z", "+00:00")
+            try:
+                moment = datetime.fromisoformat(text)
+            except ValueError:
+                return None
+            if moment.tzinfo is None:
+                return None
+            return int(moment.timestamp() * 1000)
+        return None
+    return None
 
 
 def _timestamps(bars: Sequence[Mapping[str, object]]) -> set[int]:
@@ -114,6 +164,25 @@ def count_bars(payload: bytes) -> int:
                 if isinstance(rows, list):
                     total += len(rows)
     return total
+
+
+def _quantile(sorted_values: Sequence[float], q: float) -> float:
+    """Linear-interpolation quantile over an already-sorted sequence.
+
+    An empty sequence returns 0.0 and **the caller must read the n beside it**:
+    every figure in a :class:`TapeFinding` travels with
+    ``pairs_with_volume_in_both``, so a 0.0 median at n = 0 is legible as an
+    absence rather than as a measurement.
+    """
+    if not sorted_values:
+        return 0.0
+    if len(sorted_values) == 1:
+        return float(sorted_values[0])
+    position = q * (len(sorted_values) - 1)
+    lower = int(position)
+    upper = min(lower + 1, len(sorted_values) - 1)
+    weight = position - lower
+    return float(sorted_values[lower] * (1 - weight) + sorted_values[upper] * weight)
 
 
 @final
@@ -233,6 +302,78 @@ class SealedComparator:
             delisted_names_served=delisted_served,
             delisted_names_with_intraday_history=delisted_with_intraday,
         )
+
+    # --- A.1 TASK 4 — tape identification, Amendment 7 -----------------
+
+    def compare_tapes(
+        self,
+        primary: Mapping[str, Sequence[Mapping[str, object]]],
+        secondary: Mapping[str, Sequence[Mapping[str, object]]],
+        opening_range_windows: Mapping[str, tuple[int, int]],
+    ) -> TapeFinding:
+        """Which tape does each feed carry? Returns ratios and counts only.
+
+        Sums the **first-5-minute volume** of each feed per session-ticker pair
+        and reports the distribution of ``secondary / primary``. A single-venue
+        subset presents a systematically small fraction of a consolidated
+        feed's volume, so the median identifies the tape and the interquartile
+        range says how consistently it does.
+
+        **No volume value leaves this method.** The sums are formed, divided and
+        discarded; what returns is a :class:`TapeFinding` whose every field is a
+        ratio or a count.
+        """
+        keys = sorted(set(primary) | set(secondary))
+        ratios: list[float] = []
+        both = primary_only = secondary_only = neither = 0
+
+        for key in keys:
+            window = opening_range_windows.get(key)
+            if window is None:
+                continue
+            start, end = window
+            a = self._window_volume(primary.get(key, ()), start, end)
+            b = self._window_volume(secondary.get(key, ()), start, end)
+            if a > 0.0 and b > 0.0:
+                both += 1
+                ratios.append(b / a)
+            elif a > 0.0:
+                primary_only += 1
+            elif b > 0.0:
+                secondary_only += 1
+            else:
+                neither += 1
+
+        ratios.sort()
+        below = sum(1 for r in ratios if r < CONFIG.tape_single_venue_share_max)
+        return TapeFinding(
+            median_ratio=_quantile(ratios, 0.50),
+            iqr_low_ratio=_quantile(ratios, 0.25),
+            iqr_high_ratio=_quantile(ratios, 0.75),
+            min_ratio=ratios[0] if ratios else 0.0,
+            max_ratio=ratios[-1] if ratios else 0.0,
+            share_below_single_venue_threshold=(below / len(ratios) if ratios else 0.0),
+            session_ticker_pairs_compared=len(keys),
+            pairs_with_volume_in_both=both,
+            pairs_with_volume_in_primary_only=primary_only,
+            pairs_with_volume_in_secondary_only=secondary_only,
+            pairs_with_volume_in_neither=neither,
+        )
+
+    @staticmethod
+    def _window_volume(
+        bars: Sequence[Mapping[str, object]], start_ms: int, end_ms: int
+    ) -> float:
+        """Total volume inside a half-open window. **Internal only.**"""
+        total = 0.0
+        for bar in bars:
+            stamp = _stamp_ms(bar)
+            if stamp is None or not (start_ms <= stamp < end_ms):
+                continue
+            found = _volume(bar)
+            if found is not None:
+                total += found
+        return total
 
     @staticmethod
     def _stamped(

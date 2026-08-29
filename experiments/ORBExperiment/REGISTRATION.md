@@ -1214,3 +1214,188 @@ sentence is unchanged and remains in force.** What changes is that Stage A now
    `DEFAULT_MIN_SPACING_S = 6.0` stands until A.1 TASK 7 measures the
    authenticated endpoints. **An unmeasured endpoint is not a licence to speed
    up**, and a credential does not make an unmeasured endpoint measured.
+
+---
+
+## Amendment 7 — the tape-identification branch, registered and fired SAME_TAPE
+
+**Date:** 2026-08-29 · **Status:** accepted · amends **Section 0** by adding a
+branch **ahead of** the cross-vendor agreement thresholds, and records the
+A.1 TASK 4 tape measurement
+
+**Exactly what data existed when this amendment was made.** Everything Amendment
+6 listed, plus the A.1 TASK 3 credentialed probes (`n = 11`, both credentials
+authenticating) and the A.1 TASK 4 tape pulls (`n = 60` requests, 20 tickers ×
+5 sessions × 3 feeds, `200` on every one). **Zero trades, zero returns, zero
+PnL.** **No bar value has left the sealed comparator**, and none is recorded
+here: every figure below is a ratio or a count.
+
+**The branch text was written before the numbers were read**, and the three
+verdicts, their thresholds and their consequences were fixed in
+`orb.integrity.TapeVerdict` and pinned by boundary test **before**
+`tools/tape_identify.py` sent its first request. That ordering is what stops the
+band being chosen to contain the answer.
+
+### Why a new branch was needed at all
+
+**Section 0's cross-vendor agreement thresholds assume two feeds that are trying
+to measure the same thing.** `PASS ≥ 0.95`, `PARTIAL ≥ 0.85`, `FAIL` below —
+each is a statement about how often two measurements of *the consolidated tape*
+disagree on a first-5-minute high or low.
+
+**A feed carrying a single-venue subset is not a disagreeing measurement of the
+consolidated tape. It is a correct measurement of a different thing.** IEX ran
+about **2.8 percent** of consolidated volume in the measured window. Scoring an
+IEX-only feed against the 0.95 bar would fire **BLOCKED-4, "the top-20 selection
+is not reproducible across vendors"** — on a fact about **entitlement**, while
+recording it as a fact about **integrity**. Standing rule 7's principle, applied
+one level up: **an entitlement condition must never quietly become an integrity
+condition.**
+
+### The branch, registered
+
+Evaluated **before** the agreement verdict, and it gates whether that verdict may
+fire at all. Fired by `orb.integrity.TapeFinding.verdict`, computed by
+`orb.comparator.SealedComparator.compare_tapes`, pinned by `tests/test_tape.py`
+with **every fixture on the registered boundary and one ULP across it**.
+
+| verdict | trigger | consequence |
+|---|---|---|
+| **`SAME_TAPE`** | median ratio in **`[0.90, 1.10]`**, inclusive both ends | **the registered agreement thresholds apply as written** |
+| **`DIFFERENT_TAPE`** | median ratio **strictly below `0.50`** | **the registered agreement thresholds do not apply and must not fire.** A first-5-minute high-or-low disagreement is a **tape-coverage finding**, not an integrity finding. Routes to an open operator item: a second credential on a comparable tape, or explicit acceptance that the agreement gate is **unmeasured** with the verdict scope narrowed accordingly |
+| **`AMBIGUOUS`** | anything between | **fire nothing.** Record the full distribution and hand the operator the numbers |
+
+**The ratio** is `secondary first-5-minute volume / primary first-5-minute
+volume` per session-ticker pair. A single-venue subset presents a systematically
+small fraction of a consolidated feed's volume, so the **median** identifies the
+tape and the **interquartile range** says how consistently.
+
+### The window, and why it is not the one the ladder registered
+
+**The tape measurement was specified to run inside the pre-period carve-out. It
+could not, and the reason is measured rather than argued.** A.1 TASK 3, 2026-08-29:
+
+- **Massive refuses the carve-out outright** — `403`,
+  `{"status":"NOT_AUTHORIZED",…,"message":"Your plan doesn't include this data
+  timeframe."}`, 189 bytes.
+- **Alpaca serves an empty set for it** — `200`, 52 bytes,
+  `{"bars":null,…}`, **0 bars**.
+
+**`n = 2` credentials, `0` serving a bar inside the carve-out.**
+
+**The substitute is not a relaxation. It is the same argument applied at the
+other end of the registered windows.** The five sessions used —
+**2026-07-01, 07-02, 07-06, 07-07, 07-08** — sit **strictly after
+`holdout_end` = 2026-06-30**, so they lie **outside both the in-sample and the
+holdout samples**. That is the carve-out's own stated rationale, word for word:
+*"the window before it sits outside both the in-sample and the holdout samples,
+and reading it cannot leak a single observation any verdict will be computed
+on."* The window after the holdout has the identical property.
+
+**And it did not need the carve-out at all, which is recorded so that the
+carve-out is not read as having been widened.** The **sealed comparator is
+already the registered exception** to the blindness field lists — *"it reads
+price and volume values from two vendors, emits only aggregate mismatch counts
+and rates, and returns no bar value to any caller"* — and that exception is
+**not window-limited**. `compare_tapes` returns a `TapeFinding` whose every field
+is a ratio or a count, pinned by
+`tests/test_guards.py::test_comparator_findings_carry_only_counts`. **The
+carve-out is untouched by this amendment, its boundary is unmoved, and its
+enforcement site is unchanged.**
+
+### The measurement
+
+**`n = 20` tickers × `5` sessions = `100` session-ticker pairs per comparison,
+`100` with volume in both feeds in all three comparisons, `0` missing on either
+side. `n = 60` requests, `200` on every one, `0` dollars spent.**
+
+| comparison | verdict | median ratio | IQR | min | max | share below 0.20 | n pairs |
+|---|---|---:|---|---:|---:|---:|---:|
+| **Massive vs Alpaca-SIP** | **`SAME_TAPE`** | **1.005197** | [1.003096, 1.007726] | 1.000905 | 1.034148 | **0.0000** | **100** |
+| Massive vs Alpaca-IEX | `DIFFERENT_TAPE` | **0.027856** | [0.021235, 0.037195] | 0.007087 | 0.069102 | **1.0000** | 100 |
+| Alpaca-SIP vs Alpaca-IEX | `DIFFERENT_TAPE` | **0.027761** | [0.021200, 0.037068] | 0.007035 | 0.068904 | **1.0000** | 100 |
+
+**Bar rows served: Massive 61,094; Alpaca-SIP 61,099; Alpaca-IEX 37,234.**
+
+**The verdict on the pair this experiment would use is `SAME_TAPE`. The
+registered agreement thresholds apply as written, and nothing in Section 0 is
+disapplied.**
+
+### The two controls, and why they are in the amendment rather than a footnote
+
+**A discriminator that has only ever been pointed at one pair is an assertion
+about nothing.** Two controls were measured alongside:
+
+1. **Massive vs Alpaca-IEX** — a positive control on a pair that *must* separate.
+   It did: **0.0279**, with **100 of 100 pairs** below the 0.20 single-venue
+   threshold.
+2. **Alpaca-SIP vs Alpaca-IEX** — a **within-vendor** control. Same vendor, same
+   host, same request, **one parameter changed**. It separated at **0.0278**.
+
+**The second is the one that matters.** It removes every explanation for a
+separation that is not the tape: not the vendor, not the host, not the request
+shape, not this repository's window arithmetic. **The discriminator measures the
+tape.**
+
+### Documented against measured, and a rare agreement
+
+| claim | label | figure |
+|---|---|---|
+| Massive aggregates cover all US exchanges plus the FINRA TRFs | **documented**, carried from vendor documentation, **not verified this session** | — |
+| Alpaca `feed=sip` is all US exchanges; `feed=iex` is IEX alone | **documented**, carried, **not verified this session** | — |
+| Massive against Alpaca-SIP | **measured** | **median 1.0052, n = 100** |
+| Alpaca-IEX against either consolidated feed | **measured** | **median ≈ 0.028, n = 100** |
+
+**Documented and measured agree here, and that is recorded as a finding rather
+than assumed as a default.** Under standing rule 4 the measurement wins wherever
+the two disagree; on this vendor pair, on this question, they do not.
+
+### The one disagreement inside the SAME_TAPE verdict, recorded because it is systematic
+
+**Alpaca-SIP reports more first-5-minute volume than Massive in `100` of `100`
+pairs.** The **minimum** ratio is **1.000905** — strictly above 1.0 — and the
+median is **1.005197**. **This is not noise.** Noise straddles 1.0; this does
+not, in a hundred consecutive observations.
+
+**The magnitude is about 0.5 percent and the verdict is unaffected** — 1.0052
+sits far inside the `[0.90, 1.10]` band. **The direction is the finding**, and it
+is left as an open question rather than explained away: a consistent one-sided
+volume difference between two feeds of the same tape is most likely a difference
+in **which prints each vendor includes** — odd lots, TRF prints, or the handling
+of the fractional share volumes Massive serves on some bars. **This repository
+has not measured which, and does not guess.** It is recorded here so that a
+later cross-vendor agreement figure below 1.00 is read against a known
+systematic offset rather than as fresh evidence.
+
+### The common upstream, and what it costs the agreement gate
+
+**The two feeds appear to redistribute a common upstream, and the evidence is
+the tightness rather than the level.** The interquartile range of the
+Massive-against-Alpaca-SIP ratio is **[1.003096, 1.007726] — 0.46 percentage
+points wide, over 100 session-ticker pairs.** Two independently constructed
+consolidations of US equity activity would not agree to within half a percent
+with that consistency; a **shared SIP-derived upstream, redistributed twice,**
+would.
+
+**The consequence is registered now, before the agreement figure exists, and it
+narrows what that figure can establish:**
+
+> **The A.1 TASK 4 cross-vendor agreement measurement on this pair scores a
+> redistribution pipeline, not two independent feeds.** A `PASS` establishes
+> that **two redistributors of one upstream agree**. It does **not** establish
+> that the first-5-minute high and low are vendor-independent, and it is
+> **not** the Concretum test.
+
+**Concretum ran identical opening-range code against four vendors and reported
+final portfolio values from 226,000 to 726,000 USD** — a threefold spread from
+vendor choice alone (carried, C-13). **That spread is a spread across
+upstreams.** Measuring agreement between two redistributors of one upstream
+**cannot detect it**, and this registration says so **before** the number is in
+hand rather than after it comes back high.
+
+**This is recorded as an open operator item**, and it is the honest one: a third
+feed on a **genuinely different upstream** would be needed to run the Concretum
+test as intended. **It does not block the ladder**, because the registered
+agreement gate is a test of *this* pair and is stated as such — but the epistemic
+boundary of Section 11 gains a line, and the vendor selection ADR states it in
+the decision text rather than in a footnote.

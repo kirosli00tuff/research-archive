@@ -149,6 +149,21 @@ class Config:
     delisted_partial_min_count: int
     """20. Below is FAIL and fires BLOCKED."""
 
+    tape_same_min_ratio: float
+    """0.90. Registered by Amendment 7. Median first-5-minute volume ratio at or
+    above this, and at or below ``tape_same_max_ratio``, is SAME_TAPE."""
+
+    tape_same_max_ratio: float
+    """1.10. Upper edge of the SAME_TAPE band."""
+
+    tape_different_max_ratio: float
+    """0.50. A median ratio strictly below this is DIFFERENT_TAPE, and the
+    registered agreement thresholds do not apply and must not fire."""
+
+    tape_single_venue_share_max: float
+    """0.20. A session-ticker pair whose ratio falls below this is counted as a
+    single-venue-shaped observation. The share of such pairs is reported."""
+
     revision_repull_wait_days: int
     """14 calendar days. This is why Stage A cannot finish in one session."""
 
@@ -207,6 +222,10 @@ CONFIG: Final[Config] = Config(
     agreement_partial_min_share=0.85,
     delisted_pass_min_count=100,
     delisted_partial_min_count=20,
+    tape_same_min_ratio=0.90,
+    tape_same_max_ratio=1.10,
+    tape_different_max_ratio=0.50,
+    tape_single_venue_share_max=0.20,
     revision_repull_wait_days=14,
     probe_sessions=60,
     probe_tickers=40,

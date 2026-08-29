@@ -1419,3 +1419,109 @@ measured against a 401** on 2026-08-29 is evidence about the refusal path and
 
 **Gates: 305 tests passing (was 298), 28 guards, `mypy --strict` clean over 50
 files, `ruff` clean.**
+
+---
+
+## Entry 12 — STAGE A.1 TASK 4, tape identification
+
+**ETA 55 min · actual 58 min.** `n = 60` requests, 20 tickers × 5 sessions × 3
+feeds, **`200` on every one**, **0 dollars spent**.
+
+### The verdict
+
+> ## **`SAME_TAPE`** on the pair this experiment would use
+>
+> **Massive against Alpaca-SIP: median first-5-minute volume ratio 1.005197,
+> IQR [1.003096, 1.007726], n = 100 session-ticker pairs, 0 pairs below the 0.20
+> single-venue threshold.** The registered agreement thresholds of Section 0
+> apply **as written**. Nothing is disapplied and nothing is blocked.
+
+| comparison | verdict | median | IQR | min | max | below 0.20 | n |
+|---|---|---:|---|---:|---:|---:|---:|
+| **Massive vs Alpaca-SIP** | **`SAME_TAPE`** | **1.005197** | [1.003096, 1.007726] | 1.000905 | 1.034148 | **0.0000** | **100** |
+| Massive vs Alpaca-IEX | `DIFFERENT_TAPE` | 0.027856 | [0.021235, 0.037195] | 0.007087 | 0.069102 | **1.0000** | 100 |
+| Alpaca-SIP vs Alpaca-IEX | `DIFFERENT_TAPE` | 0.027761 | [0.021200, 0.037068] | 0.007035 | 0.068904 | **1.0000** | 100 |
+
+Bar rows served: **Massive 61,094 · Alpaca-SIP 61,099 · Alpaca-IEX 37,234.**
+
+### The branch was registered before the numbers were read
+
+`orb.integrity.TapeVerdict`, its three thresholds and their consequences were
+written and **pinned by boundary test** — every fixture **on** the registered
+value and **one ULP across it** — **before `tools/tape_identify.py` sent its
+first request.** That ordering is what stops a band being chosen to contain the
+answer it is about to be handed.
+
+**The guard fired on the first run**, exactly as designed:
+`test_comparator_returns_no_bar_value` refused `compare_tapes -> TapeFinding`
+until `TapeFinding` was **added to the allowlist and shown to carry only counts**.
+A widening of the blindness exception is a registered act here, not an import.
+
+### The window is not the registered one, and the reason is measured
+
+The prompt specified the pre-period carve-out. **Neither credential serves it** —
+Massive refuses with `403 NOT_AUTHORIZED`, Alpaca serves `200` with 0 bars.
+**`n = 2` credentials, `0` serving a carve-out bar.**
+
+The five sessions used — **2026-07-01, 07-02, 07-06, 07-07, 07-08** — sit
+**strictly after `holdout_end` = 2026-06-30**, outside both registered windows.
+**That is the carve-out's own rationale applied at the other end**, and it did
+not need the carve-out at all: **the sealed comparator is already the registered
+exception and is not window-limited.** The carve-out boundary is **unmoved**, its
+enforcement site **unchanged**, and this task did not widen it.
+
+### The control that makes this a measurement rather than an assertion
+
+**Alpaca-SIP against Alpaca-IEX: same vendor, same host, same request, one
+parameter changed — and it separates at 0.0278 with 100 of 100 pairs below the
+single-venue threshold.**
+
+That removes every explanation for a separation that is not the tape: not the
+vendor, not the host, not the request shape, **and not this repository's own
+window arithmetic**. A discriminator pointed at only one pair is an assertion
+about nothing; this one was pointed at three.
+
+### Two findings the task was not looking for
+
+**1. A systematic one-sided volume difference inside `SAME_TAPE`.**
+**Alpaca-SIP reports more first-5-minute volume than Massive in 100 of 100
+pairs.** The **minimum** ratio is **1.000905 — strictly above 1.0** — and the
+median is 1.005197. **Noise straddles 1.0. This does not, in a hundred
+consecutive observations.** The magnitude is ~0.5 percent and the verdict is
+unaffected. **The direction is the finding**, and it is left open rather than
+explained away: most likely a difference in which prints each vendor includes —
+odd lots, TRF prints, or the fractional share volumes Massive serves on some
+bars. **This repository has not measured which and does not guess.** Recorded so
+that a later agreement figure below 1.00 is read against a **known systematic
+offset** rather than as fresh evidence.
+
+**2. The two feeds appear to redistribute a common upstream, and the evidence is
+the tightness rather than the level.** The IQR of the Massive-against-Alpaca-SIP
+ratio is **0.46 percentage points wide over 100 pairs**. Two independently
+constructed consolidations would not agree that closely that consistently; **one
+SIP-derived upstream redistributed twice** would.
+
+**What that costs, registered before the agreement figure exists:**
+
+> **The cross-vendor agreement measurement on this pair scores a redistribution
+> pipeline, not two independent feeds.** A `PASS` establishes that **two
+> redistributors of one upstream agree**. It does **not** establish that the
+> first-5-minute high and low are vendor-independent, and **it is not the
+> Concretum test.**
+
+**Concretum's threefold spread — 226,000 to 726,000 USD from four vendors on
+identical code — is a spread across *upstreams*.** Agreement between two
+redistributors of one upstream **cannot detect it.** Saying so **now**, before
+the number is in hand, is the difference between a registered scope limit and an
+excuse. **A third feed on a genuinely different upstream is an open operator
+item**, it does not block the ladder, and the selection ADR states it in the
+decision text rather than in a footnote.
+
+### One tooling fix
+
+`orb.redact.say` now flushes every line. **A long-running probe whose progress
+sits in a pipe buffer is indistinguishable from one that has hung**, and this
+repository would rather be slow than ambiguous about which of the two it is.
+
+**Gates: 322 tests passing (was 305), 28 guards, `mypy --strict` clean over 51
+files, `ruff` clean.**
