@@ -6,6 +6,15 @@ Every figure travels with its n in the same sentence, per standing rule 13.
 
 ---
 
+## Entry 2.1 — addendum, recorded after the push
+
+Task 4 actual, closing the open cell in Entry 2's table: **~6 min against
+the 20-min ETA** (report, ADRs, suite green at 34 tests, commit `98ce2d4`,
+pushed to the private `origin/main` at 07:53:11Z). Appended as a new record,
+not an edit, per the append-only rule.
+
+---
+
 ## Entry 2 — Stage A: access, the permitted subset, and the power gate — 2026-08-29
 
 **Verdict, one sentence: Stage A ends PENDING_ACCESS — the data is
