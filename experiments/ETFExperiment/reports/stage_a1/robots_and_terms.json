@@ -1,0 +1,101 @@
+[
+  {
+    "body_path": "data/access/farside.robots.txt",
+    "byte_count": 33,
+    "content_type": "text/plain",
+    "http_status": 200,
+    "label": "farside",
+    "requested_at": "2026-08-28T08:12:19Z",
+    "source": "flow",
+    "state": "stored",
+    "url": "https://farside.co.uk/robots.txt"
+  },
+  {
+    "body_path": "data/access/sosovalue.robots.txt",
+    "byte_count": 682,
+    "content_type": "text/plain; charset=UTF-8",
+    "http_status": 200,
+    "label": "sosovalue",
+    "requested_at": "2026-08-28T08:12:19Z",
+    "source": "flow",
+    "state": "stored",
+    "url": "https://sosovalue.com/robots.txt"
+  },
+  {
+    "body_path": "data/access/theblock.robots.txt",
+    "byte_count": 668,
+    "content_type": "text/plain; charset=UTF-8",
+    "http_status": 200,
+    "label": "theblock",
+    "requested_at": "2026-08-28T08:12:24Z",
+    "source": "flow",
+    "state": "stored",
+    "url": "https://www.theblock.co/robots.txt"
+  },
+  {
+    "body_path": "data/access/glassnode.robots.txt",
+    "byte_count": 152,
+    "content_type": "text/plain; charset=UTF-8",
+    "http_status": 200,
+    "label": "glassnode",
+    "requested_at": "2026-08-28T08:12:29Z",
+    "source": "flow",
+    "state": "stored",
+    "url": "https://glassnode.com/robots.txt"
+  },
+  {
+    "body_path": "data/access/web.archive.org.robots.txt",
+    "byte_count": 146,
+    "content_type": "text/html",
+    "http_status": 404,
+    "label": "web.archive.org",
+    "requested_at": "2026-08-28T08:12:34Z",
+    "source": "archive",
+    "state": "source_failed",
+    "url": "https://web.archive.org/robots.txt"
+  },
+  {
+    "body_path": "data/access/archive.org.robots.txt",
+    "byte_count": 238,
+    "content_type": "text/plain; charset=utf-8",
+    "http_status": 200,
+    "label": "archive.org",
+    "requested_at": "2026-08-28T08:12:39Z",
+    "source": "archive",
+    "state": "stored",
+    "url": "https://archive.org/robots.txt"
+  },
+  {
+    "body_path": "data/access/api.hyperliquid.xyz.robots.txt",
+    "byte_count": 0,
+    "content_type": "",
+    "http_status": 404,
+    "label": "api.hyperliquid.xyz",
+    "requested_at": "2026-08-28T08:12:44Z",
+    "source": "venue",
+    "state": "source_failed",
+    "url": "https://api.hyperliquid.xyz/robots.txt"
+  },
+  {
+    "body_path": "data/access/api.kraken.com.robots.txt",
+    "byte_count": 38,
+    "content_type": "application/json",
+    "http_status": 404,
+    "label": "api.kraken.com",
+    "requested_at": "2026-08-28T08:12:49Z",
+    "source": "venue",
+    "state": "source_failed",
+    "url": "https://api.kraken.com/robots.txt"
+  },
+  {
+    "body_path": "data/access/farside-terms.robots.txt",
+    "byte_count": 59015,
+    "content_type": "text/html; charset=UTF-8",
+    "http_status": 404,
+    "label": "farside-terms",
+    "requested_at": "2026-08-28T08:12:54Z",
+    "source": "flow",
+    "state": "source_failed",
+    "url": "https://farside.co.uk/terms-of-use/"
+  }
+]

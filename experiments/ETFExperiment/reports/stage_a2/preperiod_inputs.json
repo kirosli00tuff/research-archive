@@ -1,0 +1,15 @@
+{
+  "annualized_funding_pct": 19.504047538019787,
+  "carve_out_boundary": "2025-05-01",
+  "carve_out_boundary_ms": 1746057600000,
+  "daily_funding_sum": 0.0005343574667950626,
+  "daily_sd": 0.027430504889517645,
+  "first_close_ms": 1705017599999,
+  "funding_pages": 23,
+  "last_close_ms": 1746057599999,
+  "mean_hourly_funding_rate": 2.2264894449794276e-05,
+  "measured_at": "2026-08-28T20:24:57Z",
+  "n_funding_hours": 11423,
+  "n_volatility_returns": 475,
+  "window_start": "2024-01-11T00:00:00Z"
+}

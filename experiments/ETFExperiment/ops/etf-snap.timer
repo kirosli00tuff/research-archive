@@ -1,0 +1,12 @@
+[Unit]
+Description=ETFExperiment flow snapshot every 20 minutes
+
+[Timer]
+OnCalendar=*:0/20
+Persistent=true
+AccuracySec=30s
+RandomizedDelaySec=45s
+Unit=etf-snap.service
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,93 @@
+[
+  {
+    "at": "2026-08-28T19:56:25Z",
+    "byte_count": 2,
+    "elapsed_s": 0.29,
+    "first_open_ms": null,
+    "head": "[]",
+    "http_status": 200,
+    "last_close_ms": null,
+    "probe": "candle_1h",
+    "row_count": 0,
+    "state": "stored"
+  },
+  {
+    "at": "2026-08-28T19:56:30Z",
+    "byte_count": 4525,
+    "elapsed_s": 0.174,
+    "first_open_ms": 1747267200000,
+    "head": "[{\"t\":1747267200000,\"T\":1747353599999,\"s\":\"BTC\",\"i\":\"1d\",\"o\":\"103501.0\",\"c\":\"103772.0\",\"h\":\"104196.0\",\"l\":\"101370.0\",\"v\":\"26922.79894\",\"n\":3",
+    "http_status": 200,
+    "last_close_ms": 1749945599999,
+    "probe": "candle_1d",
+    "row_count": 31,
+    "state": "stored"
+  },
+  {
+    "at": "2026-08-28T19:56:35Z",
+    "byte_count": 6495,
+    "elapsed_s": 0.155,
+    "first_time_ms": 1743465600014,
+    "gated_rows": 0,
+    "head": "[{\"coin\":\"BTC\",\"fundingRate\":\"0.0000125\",\"premium\":\"-0.0003942458\",\"time\":1743465600014},{\"coin\":\"BTC\",\"fundingRate\":\"0.0000125\",\"premium\":\"",
+    "http_status": 200,
+    "last_time_ms": 1743721200014,
+    "probe": "funding_pre_period",
+    "readable_rows": 72,
+    "row_count": 72,
+    "state": "stored"
+  },
+  {
+    "at": "2026-08-28T19:56:40Z",
+    "byte_count": 6327,
+    "elapsed_s": 0.17,
+    "first_time_ms": 1747267200021,
+    "gated_rows": 72,
+    "head": "[{\"coin\":\"BTC\",\"fundingRate\":\"0.0000125\",\"premium\":\"0.000087817\",\"time\":1747267200021},{\"coin\":\"BTC\",\"fundingRate\":\"0.0000125\",\"premium\":\"0.",
+    "http_status": 200,
+    "last_time_ms": 1747522800059,
+    "probe": "funding_post_period",
+    "readable_rows": 0,
+    "row_count": 72,
+    "state": "stored"
+  },
+  {
+    "at": "2026-08-28T19:56:45Z",
+    "byte_count": 17495,
+    "elapsed_s": 0.154,
+    "head": "{\"universe\":[{\"szDecimals\":5,\"name\":\"BTC\",\"maxLeverage\":40,\"marginTableId\":56},{\"szDecimals\":4,\"name\":\"ETH\",\"maxLeverage\":25,\"marginTableId\"",
+    "http_status": 200,
+    "probe": "meta",
+    "state": "stored"
+  },
+  {
+    "at": "2026-08-28T19:56:55Z",
+    "byte_count": 281,
+    "content_type": "application/json",
+    "elapsed_s": 0.362,
+    "head": "{\"url\": \"farside.co.uk/bitcoin-etf-flow-all-data/\", \"archived_snapshots\": {\"closest\": {\"status\": \"200\", \"available\": true, \"url\": \"http://web.archive.org/web/20250518185537/https://farside.co.uk/bitco",
+    "http_status": 200,
+    "probe": "wayback_availability",
+    "state": "stored"
+  },
+  {
+    "at": "2026-08-28T19:57:05Z",
+    "byte_count": 16300,
+    "content_type": "application/link-format",
+    "elapsed_s": 0.578,
+    "head": "<https://farside.co.uk/bitcoin-etf-flow-all-data/>; rel=\"original\",\n<https://web.archive.org/web/timemap/link/https://farside.co.uk/bitcoin-etf-flow-all-data/>; rel=\"self\"; type=\"application/link-form",
+    "http_status": 200,
+    "probe": "wayback_timemap",
+    "state": "stored"
+  },
+  {
+    "at": "2026-08-28T19:57:10Z",
+    "byte_count": 62272,
+    "content_type": "application/json",
+    "elapsed_s": 0.276,
+    "head": "{\"error\":[],\"result\":{\"XXBTZUSD\":[[1725667200,\"53948.3\",\"54810.2\",\"53739.0\",\"54146.4\",\"54166.4\",\"1015.36745899\",21584],[1725753600,\"54146.5\",\"55317.6\",\"53636.6\",\"54856.8\",\"54448.7\",\"980.64078512\",1990",
+    "http_status": 200,
+    "probe": "kraken_ohlc",
+    "state": "stored"
+  }
+]
