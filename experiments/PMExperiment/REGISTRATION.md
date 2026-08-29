@@ -399,6 +399,65 @@ register an account — which ADR-002 currently excludes. Any reopening is a
 new numbered gate firing under Section 16; nothing here is a second look,
 because no outcome was ever read.
 
+### 15.2 The fee-versus-edge band, fired 2026-08-29: BAND-OPEN
+
+**Fired on Amendment 2's registered definitions, over arithmetic alone. No
+venue was read — no contract, price, order book or resolution was requested
+from any source — so Sections 4 and 10 stand intact and zero dollars were
+spent. Full table and evidence in `docs/BAND.md`.**
+
+**In one sentence: BAND-OPEN — a surviving region exists that the permitted
+subset admits, at entry prices 91–99c held to resolution, requiring 5.85 points
+of underpricing at the registered FX turnover against a registered band whose
+top is 8.00 points.**
+
+| verdict row | reading |
+|---|---|
+| BAND-EMPTY | **does not fire.** The registered band exceeds the required underpricing at 10 of 10 registered buckets, on both exit routes, at k = 1, at k = 12 and in the k → ∞ limit. |
+| BAND-NARROW | **does not fire.** Its condition requires the surviving region to lie *only* outside the permitted categories or below usable volume. The category clause is contradicted by Krause's permitted-category (economic-indicator) attribution; the volume clause cannot be evaluated, because Section 1's volume floor was never registered (ADR-006, 2026-08-29). |
+| **BAND-OPEN** | **fires.** No registered rule excludes 91–99c prices from the permitted categories or from the 30-day maturity rule, and the one cited magnitude reaching the surviving part of the band is attributed to a permitted category. |
+
+**The surviving region, registered here as the only region the power gate may
+fire over:** entry prices **91–99c**, the favourite half of the registered tail
+cell, **held to resolution**, on either side of the book, requiring an edge
+above **5.85 points** at the binding k = 1 — 5.73 points at 91c rising to 5.97
+at 99c. The 1–10c half is excluded because the documented miscalibration there
+is *over*pricing, whose exploitable expression is already a purchase at 90–99c;
+the eight non-tail deciles are excluded because no effect magnitude is
+registered outside the tail cell; and the exit-before-resolution route is
+excluded because its 0.0015 margin at 95c is thinner than the 0.00195 by which
+Section 2's FX base understates cost at that same price.
+
+**Three qualifications registered with the verdict and not separable from it:**
+
+1. **The surviving region is the top 2.15 points of a 6-point band, and no
+   cited source places a magnitude there at that bucket.** The magnitudes cited
+   at 91–99c are Bürgi's 2.0 and 3.0 points; both fail at k = 1, and the 3.0
+   exactly ties the fee-plus-spread floor of 0.0300 even with FX driven to zero.
+   The only cited magnitude large enough to clear is Krause's 7.7 points, whose
+   exploitable entry price is 88.3c — the 81–90 decile, outside the tail cell
+   the band is registered for.
+2. **The band's top carries no n** (standing rule 13). Bürgi sets the bottom
+   with 313,972 contract prices on 46,282 contracts across 12,403 events;
+   Krause sets the top, and no sample size for it appears anywhere in this
+   document.
+3. **BAND-OPEN is not a finding that an edge exists.** It records that cost
+   alone does not close the question. What it authorizes is the power gate over
+   the named region, and nothing else.
+
+**What Section 2 predicted, now confirmed.** Section 2 registered before any
+measurement that C(0.95) = 0.0785 "sits at the top of the published effect band
+… the central economic fact this repository exists to test." The arithmetic
+confirms it to **0.0015**: the round-trip cost curve meets the band's top
+exactly at a price of $1.00, which cannot be traded. **The registered cost floor
+runs entirely inside the registered effect band at every price** — below its top
+everywhere, above its bottom everywhere.
+
+**The decisive figure, for a reader who reads one number:** fee and half-spread
+alone total **0.0300** on the held route before any FX at all, against a
+registered band bottom of **0.0200**. **No FX treatment, no venue price and no
+exit route reaches the bottom of the band.**
+
 ---
 
 ## 16. Closure conditions

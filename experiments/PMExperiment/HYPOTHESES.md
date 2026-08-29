@@ -106,3 +106,48 @@ an explanation.
 first, the power gate second and only over what the band leaves open. A
 BAND-EMPTY verdict closes the tradeable question **on cost**, and the
 calibration work may continue only as a labelled phenomenon study.
+
+---
+
+## Amended 2026-08-29 — the fee band fired BAND-OPEN; H1 stays open
+
+**H1 remains OPEN.** The first of the two registered gates has now fired.
+**The power gate has still never fired, and no statistic relating a price to an
+outcome exists in this repository.** No venue was read to reach this verdict.
+
+**The band gate, fired 2026-08-29: BAND-OPEN** (REGISTRATION.md Section 15.2,
+evidence in `docs/BAND.md`). The tradeable question is **not** closed on cost.
+Amendment 3's labelled-phenomenon-study route is therefore **not triggered**;
+it applies only on BAND-EMPTY.
+
+**The surviving region, and the only region the power gate may fire over:**
+entry prices **91–99c** held to resolution, requiring an edge above **5.85
+points** at the registered FX turnover k = 1, against a registered band top of
+**8.00 points**.
+
+**The figures that must be carried forward with it, so this is not re-asked
+without them:**
+
+| figure | value |
+|---|---|
+| fee + half-spread alone, held route, before any FX | **0.0300** — already above the registered band bottom of 0.0200, at every price and on every route |
+| required underpricing at 95c, held to resolution, k = 1 | **0.0585** |
+| required underpricing at 95c, round trip, k = 1 | **0.0785** — Section 11's registered C(0.95), meeting the band top only at an untradeable $1.00 |
+| magnitudes actually cited at 91–99c | Bürgi's **0.020** and **0.030** — **both fail**; the 0.030 exactly ties the 0.0300 floor even with FX at zero |
+| the only cited magnitude that clears | Krause's **0.077**, at an exploitable entry price of **0.883** — the 81–90 decile, outside the registered tail cell, **n not recorded anywhere** |
+| surviving share of the band at 95c, held route | the top **2.15** of 6.0 points |
+
+**What this verdict is not.** BAND-OPEN is **not** evidence that a tradeable
+edge exists. It records only that cost alone does not close the question. Every
+magnitude any cited source places *inside* the surviving bucket fails the cost
+floor; the band survives on its registered top, which is set by the one source
+whose n the registration never recorded.
+
+**Registered as not recomputable.** Amendment 2 fixes the band as computed once:
+it is not recomputed after a calibration result is seen, and no bucket may be
+added to it afterwards. A different verdict requires a revised cost component
+entering by numbered amendment with its own evidence — not a re-argument of the
+same figures.
+
+**Next gate:** the power gate, over 91–99c held to resolution and no other
+region. It was not designed in Stage B.
