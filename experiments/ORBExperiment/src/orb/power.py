@@ -170,6 +170,58 @@ def trades_for_e2_power(
 
 @final
 @dataclass(frozen=True, slots=True)
+class JointPower:
+    """Power of the **conjunction**, which is the operative figure for the latch.
+
+    Section 8 asserts the claim only if **both** co-primaries reject, so the
+    quantity a reader needs is the probability that **both** do. **Neither
+    component power is that quantity, and neither may be reported as if it
+    were.**
+    """
+
+    upper_bound: float
+    """``min`` of the component powers. **Always valid, whatever the dependence.**
+
+    P(A and B) <= P(A) and P(A and B) <= P(B), with no assumption at all.
+    """
+
+    frechet_lower_bound: float
+    """``max(0, sum(p) - (k - 1))``. Valid whatever the dependence, and loose."""
+
+    under_nested_rejection: float
+    """The exact figure **when one rejection region contains the other**.
+
+    It equals :attr:`upper_bound`. It is reported separately because the
+    *reason* differs: the bound above needs no assumption, and this needs the
+    nesting to actually hold. Under Amendment 19 it does, and Amendment 21
+    records the argument.
+    """
+
+    binding_component: str
+    """Which component's power the conjunction is pinned to."""
+
+
+def joint_power(e1_power: float, e2_power: float) -> JointPower:
+    """Power of the conjunction from the two component powers.
+
+    **Bounded above by the smaller component power, unconditionally.** No
+    dependence assumption is needed for that, and no dependence assumption can
+    escape it: requiring two things is never easier than requiring one.
+    """
+    for name, value in (("e1_power", e1_power), ("e2_power", e2_power)):
+        if not 0.0 <= value <= 1.0:
+            raise ValueError(f"{name} must be a probability, got {value}")
+    smaller = min(e1_power, e2_power)
+    return JointPower(
+        upper_bound=smaller,
+        frechet_lower_bound=max(0.0, e1_power + e2_power - 1.0),
+        under_nested_rejection=smaller,
+        binding_component="E2" if e2_power <= e1_power else "E1",
+    )
+
+
+@final
+@dataclass(frozen=True, slots=True)
 class PowerRow:
     """One (assumption, horizon) cell of the reported power table."""
 

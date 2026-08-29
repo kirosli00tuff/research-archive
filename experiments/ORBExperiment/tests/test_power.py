@@ -289,3 +289,63 @@ def test_the_minimum_trade_count_round_trips_against_the_power_function() -> Non
     assert isinstance(at_n, float) and isinstance(below, float)
     assert at_n >= 0.80
     assert below < 0.80
+
+
+# --- Amendment 21 — the conjunction's power is the operative figure ---------
+
+
+def test_joint_power_is_bounded_above_by_the_smaller_component() -> None:
+    """Requiring two things is never easier than requiring one.
+
+    The bound needs **no dependence assumption** and **no dependence assumption
+    can escape it**: P(A and B) <= P(A) and P(A and B) <= P(B) always.
+    """
+    from orb.power import joint_power
+
+    result = joint_power(0.832450, 0.043277)
+    assert result.upper_bound == pytest.approx(0.043277)
+    assert result.binding_component == "E2"
+    assert result.upper_bound <= 0.832450
+    assert result.upper_bound <= 0.043277
+
+
+def test_joint_power_names_whichever_component_binds() -> None:
+    from orb.power import joint_power
+
+    assert joint_power(0.20, 0.90).binding_component == "E1"
+    assert joint_power(0.90, 0.20).binding_component == "E2"
+    assert joint_power(0.50, 0.50).binding_component == "E2", "ties go to E2"
+
+
+def test_the_frechet_lower_bound_is_valid_and_loose() -> None:
+    """It can be zero even when both components are strong, and that is correct."""
+    from orb.power import joint_power
+
+    assert joint_power(0.60, 0.30).frechet_lower_bound == pytest.approx(0.0)
+    assert joint_power(0.95, 0.90).frechet_lower_bound == pytest.approx(0.85)
+    for a, b in ((0.832450, 0.043277), (0.99, 0.99), (0.10, 0.10)):
+        result = joint_power(a, b)
+        assert result.frechet_lower_bound <= result.upper_bound
+
+
+def test_a_component_power_outside_the_unit_interval_is_refused() -> None:
+    """A power above 1 is an arithmetic fault, and clamping would hide it."""
+    from orb.power import joint_power
+
+    for bad in (-0.001, 1.001):
+        with pytest.raises(ValueError, match="probability"):
+            joint_power(bad, 0.5)
+        with pytest.raises(ValueError, match="probability"):
+            joint_power(0.5, bad)
+
+
+def test_joint_power_is_never_the_larger_component_however_it_is_called() -> None:
+    """The failure this pins is reporting E1 as if it were the design's power."""
+    from orb.power import joint_power
+
+    for a in (0.0, 0.25, 0.5, 0.832450, 1.0):
+        for b in (0.0, 0.043277, 0.5, 0.9, 1.0):
+            result = joint_power(a, b)
+            assert result.upper_bound == min(a, b)
+            assert result.under_nested_rejection == min(a, b)
+            assert result.upper_bound <= max(a, b)

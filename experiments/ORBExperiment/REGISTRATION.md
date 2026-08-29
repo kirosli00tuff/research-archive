@@ -524,6 +524,36 @@ before Stage C's latch exists.
 pin and by test.** A spent read is a spent read; a successor hypothesis runs on
 fresh data or it does not run.
 
+### 10.1 — clause 1 restated as a joint condition, appended 2026-08-29 under Amendment 21
+
+**This block is an append. Not one character above this line was edited**, and
+clause 1 is left standing exactly as first registered so the correction is
+visible.
+
+**Clause 1 above reads as a per-component condition:** *"Both co-primaries at or
+above 80 percent power at achievable N."* **That is not the quantity the latch
+needs.**
+
+Section 8 asserts the claim only if **both** co-primaries reject. The
+probability that matters is therefore **the probability that both reject**, and
+**that is not implied by either component power.** Two components at 0.80 each
+can be jointly anywhere from **0.60** to **0.80** depending on their dependence,
+and the honest statement of what the design can detect is the joint figure.
+
+> ### **Clause 1, restated: JOINT power — the probability that both co-primaries reject — at or above 80 percent at achievable N, under the assumption Section 0 fired on.**
+
+**Joint power is bounded above by the smaller component power, unconditionally.**
+`P(A and B) <= P(A)` and `P(A and B) <= P(B)`, with no dependence assumption at
+all and none that can escape it: **requiring two things is never easier than
+requiring one.** So **a reader may never take the larger component power, or
+either component power, as the design's power**, and
+`orb.power.joint_power` returns the bound with the binding component named.
+
+**Clauses 2 and 3 are unchanged.** The operator prior slot stays filled at
+**0.30, `INDEPENDENT`** and clause 2 stays **SATISFIED**; clause 3 still requires
+an **explicit operator instruction** and stays **UNSATISFIED**. **The latch
+remains closed.**
+
 ---
 
 ## 11. Epistemic boundary
@@ -3249,3 +3279,151 @@ share **0.384354**, ambiguous rate **0.000000**, shift **0.041531 USD/share**,
 - **It sends no request and spends nothing.** 0 and 0.
 - **It reads no in-sample or holdout bar.** Post-holdout only, enforced per bar.
 - **It opens no latch and arms nothing.**
+
+---
+
+## Amendment 21 — E2 power collapses at the registered assumption, and joint power with it
+
+**Date:** 2026-08-29 · **Status:** accepted · appends **Section 10.1**; records
+the outcome **Amendment 19 §6 pre-registered before the shift was measured**
+
+**What data existed when this amendment was made.** Everything held at
+Amendments 11 through 20, plus those amendments — the corrected `alpha = 0.05`,
+the amended economic E2, the measured dispersion of **2.029585 USD/share** and
+the measured pessimistic shift of **0.041455 USD/share**. **No bar revision
+measurement and no cross-vendor agreement share existed.** **Zero dollars spent,
+zero requests sent. Neither latch exists.**
+
+### 1. The finding, stated first and without softening
+
+> ## **The measured pessimistic shift of 0.041455 USD per share EXCEEDS the implied central mean of 0.040386 at the registered 1.40 Sharpe assumption.**
+>
+> ## **The pessimistic-cost mean is −0.001068 USD per share. It is negative.**
+>
+> **E2's alternative lies inside E2's own null. E2 power falls to 0.043277 on
+> the achievable holdout — below the 0.05 size of the test. Joint power
+> collapses with it, to 0.043277. No session count reaches 80 percent jointly at
+> the registered assumption.**
+
+**Amendment 19 §6 registered this outcome as a possibility before the shift was
+measured**, so it cannot be read as a rationalisation written after the number
+landed.
+
+### 2. The full table
+
+**`alpha = 0.05` one-sided (Amendment 18), dispersion 2.029585 USD/share
+(A.1 TASK 5), shift 0.041455 USD/share (A.1 TASK 3), 19.642857 trades per
+session (measured).**
+
+| assumption | horizon | n | pessimistic mean | **E1 @ 0.05** | **E2 @ 0.05** | **JOINT** | binds | min n E1 | min n E2 | **min n JOINT** |
+|---|---|---:|---:|---:|---:|---:|---|---:|---:|---:|
+| published 2.81 | holdout | 875 | **+0.039606** | 0.999835 | 0.819524 | **0.819524** | E2 | 198 | 827 | **827** |
+| published 2.81 | in-sample | 1,762 | +0.039606 | 1.000000 | 0.976463 | **0.976463** | E2 | 198 | 827 | **827** |
+| **REGISTERED 1.40** | **holdout** | **875** | **−0.001068** | **0.832450** | **0.043277** | **0.043277** | **E2** | **795** | **none** | **none** |
+| **REGISTERED 1.40** | in-sample | 1,762 | −0.001068 | 0.980162 | 0.040686 | **0.040686** | E2 | 795 | none | **none** |
+| quartered 0.70 | holdout | 875 | −0.021261 | 0.366747 | 0.001271 | **0.001271** | E2 | 3,180 | none | **none** |
+| quartered 0.70 | in-sample | 1,762 | −0.021261 | 0.581652 | 0.000163 | **0.000163** | E2 | 3,180 | none | **none** |
+
+**"none" is a recorded absence, not a large number**: the alternative the test is
+powered against lies inside the null, so **no sample size reaches the target**.
+The same rule ADR-026 applies to an unreached rate ceiling.
+
+**Every figure carries the Amendment 11 caveat**: the dispersion input comes from
+a **post-holdout regime** and may misstate in-sample dispersion in either
+direction by an unmeasured, unbounded amount.
+
+### 3. Two questions the verdict must not conflate
+
+**They have different answers and they are recorded separately.**
+
+1. **Does the corrected alpha alone move E1 across its 80 percent bar?**
+   **YES.** E1 at the registered 1.40 on the achievable holdout moves
+   **0.743521 → 0.832450**, and the minimum n falls **1,006 → 795** against 875
+   achievable.
+2. **Does joint power clear 80 percent?**
+   **NO. It is 0.043277**, and **no session count reaches 80 percent at the
+   registered assumption**, because E2's pessimistic-cost mean is negative.
+
+**Correcting the multiplicity error made E1 powered and left the design
+unpowered.** Both are true, and reporting either without the other would
+misdescribe the repository.
+
+### 4. How close it is, recorded because the operator's decision turns on it
+
+**The collapse is by a thin margin, and thinness is not comfort.** A test with
+0.043 power detects nothing whether it misses by a little or a lot. But the
+margin bears on which route is reasonable, so it is measured rather than left
+for the operator to estimate:
+
+| quantity | figure |
+|---|---:|
+| pessimistic-cost mean at 1.40 | **−0.001068 USD/share** |
+| shift as a fraction of the central mean at 1.40 | **1.0265** |
+| **break-even Sharpe** — where the pessimistic-cost mean reaches zero | **1.437035** |
+| the registered 1.40 sits **below** it by | **2.577 percent** |
+| **break-even stop-exit share** at 1.40 | **0.346206** |
+| the measured stop share exceeds it by | **0.035612** |
+
+**Read plainly: the registered effect assumption sits about two and a half
+percent below the Sharpe at which the design's own pessimistic cost band breaks
+even.** Half of the published 2.81 is 1.405; **the break-even is 1.437.** The
+design was registered just on the wrong side of its own cost band, and **nobody
+could have known that before the shift was measured**, because the shift depends
+on a stop-versus-close mix that did not exist as a figure until A.1 TASK 3 of
+this pass.
+
+### 5. What was NOT done
+
+**Registered explicitly, because each was available and each would have been
+wrong:**
+
+- **The cost band was not adjusted.** Section 6's pessimistic figures are
+  0.040 / 0.080 / 0.020 exactly as registered before any data existed.
+- **The effect assumption was not adjusted.** It remains **1.40**, half the
+  published 2.81, for the reasons ADR-005 registered.
+- **The alpha was not adjusted to rescue the figure.** 0.05 is Amendment 18's
+  correction to a **conjunction**, made **before** this table existed and for a
+  reason that has nothing to do with it.
+- **No weaker E2 was substituted.** The null is the one Amendment 19 fixed
+  before the shift was measured.
+- **The ambiguous exclusion was not changed**, and at a measured rate of
+  0.000000, `n = 560`, it was not a candidate for change.
+
+### 6. The three routes, for the operator, none chosen here
+
+**This amendment hands over a decision. It does not make one.**
+
+1. **Accept a narrower verdict scope conditional on central costs alone, with
+   E2 demoted to a named secondary.** E1 is powered at **0.832450** on the
+   achievable holdout at the registered assumption. The verdict would then say
+   what it can support: *the rule cleared its bar under the **central** cost
+   assumptions*, with the pessimistic band reported as a **descriptive**
+   secondary that carries no verdict row. **The cost this buys is exactly the
+   thing Section 1's structural doubt 2 said mattered most**, and the
+   registration would have to say so where the verdict is stated.
+2. **Narrow the registered cost band on measured execution evidence.** The
+   pessimistic entry figure of 0.040 USD per share is **carried and registered,
+   never measured**. Real fill data would let the band be narrowed on evidence.
+   **This repository does not hold that evidence, has no broker credential, and
+   none is planned.** It is a real route and it is not currently open.
+3. **Close H1 as `untestable-at-achievable-power` under its own registered cost
+   assumptions.** This is a **legitimate documented closure** and it is the
+   **fourth closure kind already named in `HYPOTHESES.md`**. It would record
+   that the design, as registered, cannot detect the effect it was built to
+   detect at the sample size it can reach — **which is a finding about the
+   design, not about the world**, and is exactly the kind of negative this
+   repository exists to be able to produce.
+
+**A note the operator is entitled to before choosing.** Route 3 does not depend
+on the bar-integrity measurement due **2026-09-12**, and routes 1 and 2 do not
+either. **This decision is orthogonal to the calendar**, and taking it does not
+require waiting.
+
+### 7. What this amendment does not do
+
+- **It fires no verdict.** Section 0 is fired at TASK 6 of this pass and
+  **PENDING_REVISION is still expected**, because both integrity inputs remain
+  recorded absences.
+- **It closes nothing.** H1 remains **OPEN**.
+- **It opens no latch, arms nothing and authorises no spend.**
+- **It changes no rule of Sections 2, 3, 5 or 6.**
