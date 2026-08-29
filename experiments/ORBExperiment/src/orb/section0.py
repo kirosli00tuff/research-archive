@@ -15,6 +15,7 @@ from dataclasses import dataclass
 from enum import StrEnum, unique
 from typing import final
 
+from orb.absence import Absent, Maybe
 from orb.config import CONFIG
 from orb.integrity import AgreementFinding, IntegrityVerdict, RevisionFinding
 
@@ -24,6 +25,20 @@ class Section0Verdict(StrEnum):
     GO = "GO"
     DEGRADED = "DEGRADED"
     BLOCKED = "BLOCKED"
+
+    PENDING_ACCESS = "PENDING_ACCESS"
+    """Registered by Amendment 1, 2026-08-29, while holding **zero** bar data.
+
+    Fires when an integrity input does not exist because **no vendor is
+    reachable**, which is a different state from an integrity input that was
+    measured and failed. It **arms nothing** and it is **not a verdict on the
+    hypothesis** — it is a verdict on this repository's access.
+
+    Without it the map would have to treat a missing measurement as a failed
+    one, which would close H1 as ``source-integrity-blocked`` on evidence that
+    does not exist. Standing rule 5: absence is a recorded state, never a
+    synthesized value.
+    """
 
 
 @final
@@ -51,10 +66,34 @@ class Section0Result:
 
 def fire_section0(
     power: PowerInputs,
-    revision: RevisionFinding,
-    agreement: AgreementFinding,
+    revision: Maybe[RevisionFinding],
+    agreement: Maybe[AgreementFinding],
 ) -> Section0Result:
-    """Fire the registered outcome map. Pure, total, and order-fixed."""
+    """Fire the registered outcome map. Pure, total, and order-fixed.
+
+    Amendment 1 adds one clause **ahead of every other**: a recorded absence in
+    either integrity input fires ``PENDING_ACCESS``. A measurement that does
+    not exist is never read as a measurement that failed.
+    """
+    # --- Amendment 1 clause, evaluated before every BLOCKED trigger ----
+    if isinstance(revision, Absent) or isinstance(agreement, Absent):
+        missing: list[str] = []
+        if isinstance(revision, Absent):
+            missing.append(f"bar revision ({revision.reason}: {revision.detail})")
+        if isinstance(agreement, Absent):
+            missing.append(
+                f"cross-vendor agreement ({agreement.reason}: {agreement.detail})"
+            )
+        return Section0Result(
+            Section0Verdict.PENDING_ACCESS,
+            "the integrity measurement this map fires on does not exist: "
+            + "; ".join(missing)
+            + ". Nothing is armed. This is a verdict on access, not on H1, and "
+            "it is not a source-integrity closure — no bar has been served to "
+            "fail.",
+            "PENDING-ACCESS Amendment 1",
+        )
+
     revision_verdict = revision.verdict()
     agreement_verdict = agreement.verdict()
 

@@ -655,5 +655,93 @@ silently absorbed.**
 
 ### Amendments
 
-*(Open. No amendment has been made. The first entry appended below this line
-will be Amendment 1.)*
+---
+
+## Amendment 1 — the PENDING_ACCESS state, registered 2026-08-29
+
+**Date:** 2026-08-29 · **Status:** accepted · amends **Section 0**
+
+**Exactly what data existed when this amendment was made: none.** At the moment
+of writing, this repository held **zero bars, zero prices, zero volumes, zero
+sessions and zero census rows**. **No vendor had served a single bar to it.**
+`n = 7` API probes had been sent and **`n = 0`** had returned data. That
+ordering is what makes this amendment un-fittable to a result: there is no
+result.
+
+**What was measured, and it falsified a planning assumption.** A.1 TASK 1
+measured, live, that **0 of 9 vendors serve 1-minute regular-session US equity
+bars to this repository** (`docs/ACCESS.md`). The two vendors that serve
+keylessly — `stooq.com` and `query1.finance.yahoo.com` — **both publish
+`User-agent: * / Disallow: /`**, and standing rule 12 forbids proceeding against
+a stated prohibition. `eodhd.com` disallows `/api/` and `data.nasdaq.com`
+disallows `/api/*.json*`, which are the exact paths a collector needs. **The
+five vendors whose terms permit collection all refused without a credential**,
+refusal payloads recorded verbatim. The operator prompt's assumption that
+**"no key is needed for any Stage A source"** is therefore **falsified by
+measurement**, and is recorded as falsified rather than worked around.
+
+**The gap this opens in Section 0.** As registered, Section 0 fires from a
+revision finding and an agreement finding. Both are now **recorded absences**:
+`Absent(not_yet_measured)`. The map as written has no state for *"the
+measurement does not exist"*, and the nearest states are wrong in opposite
+directions — GO would pretend, and BLOCKED would close H1 as
+`source-integrity-blocked` **on evidence that does not exist**. Standing rule 5
+governs: **absence is a recorded state, never a synthesized value.**
+
+**The amendment.** A fourth Section 0 state, **`PENDING_ACCESS`**, is
+registered, and its clause is evaluated **ahead of every BLOCKED trigger**:
+
+> **PENDING_ACCESS:** either integrity input is `Absent`. **Nothing is armed.**
+> It is **a verdict on this repository's access, not a verdict on H1**, and it
+> is explicitly **not** a `source-integrity-blocked` closure — no bar has been
+> served that could fail.
+
+**It is not a bypass and is pinned as not being one.**
+`tests/test_section0.py::test_pending_access_is_not_reachable_when_both_inputs_are_present`
+walks the present-input space and requires that the clause is **inert** the
+moment both measurements exist. The GO, DEGRADED and BLOCKED clauses are
+**unchanged in text, threshold and precedence**.
+
+**What clears it.** Two free-tier credentials from two different vendors, one
+primary and one secondary. **This is an operator action** — it requires creating
+accounts, which this repository does not do on the operator's behalf. It is
+recorded as an open operator item beside the Section 13 prior slot, and it is
+the only other one.
+
+---
+
+## Amendment 2 — pacing registered provisionally, and labelled unmeasured
+
+**Date:** 2026-08-29 · **Status:** accepted · amends **Section 12**
+
+**Exactly what data existed when this amendment was made:** the A.1 TASK 2
+escalation, `n = 18` requests across 3 endpoint-spacing cells, **all of them
+against unauthenticated paths**, and **zero bars**.
+
+**What was measured.** No endpoint returned HTTP 429. Polygon's
+`/v3/reference/tickers` admitted **8 of 8 requests at a sustained 88.4 per
+minute** with 401 on every one; Alpha Vantage's `TIME_SERIES_INTRADAY` demo
+admitted **5 of 5 at 29.1 per minute** with 200-carrying-a-refusal on every one.
+
+**Why that measurement does not license a pace, and the corollary that says so.**
+solattn ADR-021 established that **a measurement of one endpoint is not evidence
+about another, even on the same host** — 47.5 percent refusals over `n = 1,863`
+attempts on one endpoint while a second on the same host and IP took **0 of
+360** (carried, C-21). **The corollary applies to this repository's own
+measurement**: the only reachable path on every permitted vendor is the
+*unauthenticated refusal* path, and **a ceiling measured on a 401 is not
+evidence about the authenticated data endpoint.** The absence of 429s at 88 per
+minute is evidence that **the refusal path is not metered by the data-tier
+limiter**, and nothing more. Polygon's documented free tier is **5 requests per
+minute** (documented, never measured); the measured 88 per minute on a 401 path
+does **not** contradict it, because they are different endpoints.
+
+**The amendment.** Per-vendor daily caps and per-endpoint spacings are
+registered **provisionally** and **labelled unmeasured**, at deliberately
+conservative values: `DEFAULT_MIN_SPACING_S = 6.0` seconds for any endpoint
+nobody has measured, and daily caps set per vendor in the request ledger. **They
+are re-measured against the authenticated data endpoints, per endpoint, at the
+first task that holds a credential, and moved by a further dated amendment if
+the measurement disagrees.** An unmeasured endpoint keeps its vendor's figure
+rather than a faster default: **an unmeasured endpoint is not a licence to speed
+up.**

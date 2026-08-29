@@ -325,3 +325,53 @@ def test_section0_reads_no_bar_value() -> None:
                 field.name,
                 field.type,
             )
+
+
+# --- Amendment 1, 2026-08-29: the PENDING_ACCESS clause --------------------
+
+
+def test_an_absent_revision_finding_fires_pending_access() -> None:
+    """A measurement that does not exist is never read as one that failed."""
+    from orb.absence import AbsenceReason, Absent
+
+    result = fire_section0(
+        power(),
+        Absent(AbsenceReason.NOT_YET_MEASURED, "no credentialed vendor"),
+        agreement(),
+    )
+    assert result.verdict is Section0Verdict.PENDING_ACCESS
+    assert result.clause == "PENDING-ACCESS Amendment 1"
+    assert "not a source-integrity closure" in result.reason
+
+
+def test_an_absent_agreement_finding_fires_pending_access() -> None:
+    from orb.absence import AbsenceReason, Absent
+
+    result = fire_section0(
+        power(),
+        revision(0.001),
+        Absent(AbsenceReason.NOT_YET_MEASURED, "no secondary vendor"),
+    )
+    assert result.verdict is Section0Verdict.PENDING_ACCESS
+
+
+def test_pending_access_outranks_every_blocked_trigger() -> None:
+    """Absent inputs fire first. A missing bar cannot fail an integrity bar."""
+    from orb.absence import AbsenceReason, Absent
+
+    result = fire_section0(
+        power(e1_pub=0.0),  # would otherwise fire BLOCKED-1
+        Absent(AbsenceReason.NOT_YET_MEASURED, "no credentialed vendor"),
+        Absent(AbsenceReason.NOT_YET_MEASURED, "no credentialed vendor"),
+    )
+    assert result.verdict is Section0Verdict.PENDING_ACCESS
+    assert "bar revision" in result.reason
+    assert "cross-vendor agreement" in result.reason
+
+
+def test_pending_access_is_not_reachable_when_both_inputs_are_present() -> None:
+    """The clause is inert once the measurements exist. It is not a bypass."""
+    for share in (0.0, 0.01, 0.5):
+        for a, d in ((1.0, 500), (0.9, 50), (0.0, 0)):
+            result = fire_section0(power(), revision(share), agreement(a, d))
+            assert result.verdict is not Section0Verdict.PENDING_ACCESS

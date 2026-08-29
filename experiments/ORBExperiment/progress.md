@@ -413,3 +413,112 @@ Eastern to the wrong UTC instant and requires the share to exceed one third,
 clean across 15 source files, 61 tests passed.**
 
 ---
+## Entry 2 — STAGE A.0 complete, and STAGE A.1 TASK 1 and TASK 2
+
+**2026-08-29.**
+
+| task | ETA | actual | verdict |
+|---|---|---|---|
+| A.0 TASK 3 — CLAUDE.md | 12 min | 11 min | done |
+| A.0 TASK 4 — Section 0 and its fire function | 20 min | 23 min | registered, 576-cell lattice green |
+| A.0 TASK 5 — Sections 1–12 | 35 min | 32 min | registered before any vendor data request |
+| A.0 TASK 6 — Section 13, priors | 5 min | 4 min | operator slot **empty** |
+| A.0 TASK 7 — Section 14 and HYPOTHESES.md | 18 min | 19 min | amendment log open, H1 OPEN |
+| A.1 TASK 1 — access verification | 55 min | 58 min | **0 of 9 vendors usable** |
+| A.1 TASK 2 — rate ceilings | 30 min | 21 min | **no ceiling measurable on any data endpoint** |
+
+### The finding that changes this session's shape
+
+**Measured: 0 of 9 vendors serve 1-minute regular-session US equity bars to this
+repository today.** n = 15 hosts fetched for `robots.txt`; n = 7 live API
+probes; **n = 0 returned a bar.**
+
+The nine split on **terms first**, and the split is the finding:
+
+- **`stooq.com` and `query1.finance.yahoo.com` — the only two that serve
+  keylessly — both publish `User-agent: * / Disallow: /`.** Standing rule 12:
+  *do not proceed against a stated prohibition.* Neither is fetched again.
+  `finance.yahoo.com` additionally names **`ClaudeBot`, `anthropic-ai`,
+  `Claude-Web`, `GPTBot`, `CCBot`, `Scrapy`** and 30 others in a group carrying
+  `Disallow: /`.
+- **`eodhd.com` disallows `/api/`**; **`data.nasdaq.com` disallows
+  `/api/*.json*` and `/api/*.csv*`** — the exact paths a collector needs.
+- **The five whose terms permit it all refused without a credential**, n = 7
+  probes: Polygon **401 `"API Key was not provided"`**, Alpaca **401
+  Authorization Required**, Databento **401 `"Not authenticated"`**, Tiingo
+  **403 `"Please supply a token"`**, Alpha Vantage **200 carrying a refusal**.
+
+**This falsifies a planning assumption carried in the operator prompt**, which
+states `.env.example` is empty on purpose because *"no key is needed for any
+Stage A source."* **It is recorded as falsified, not worked around** — the
+NPLExperiment correction, where a planning figure near 9.4 events per month met
+measurement at **0.5, n = 3 over 182 days**, and the hypothesis died on a figure
+rather than on the world.
+
+### Two findings inside the finding
+
+**One: Alpha Vantage refuses with HTTP 200.** The demo key returns `200` with an
+`Information` string and no series; the delisted `LISTING_STATUS` query returns
+a **2-byte body, `{}`**, also at `200`. **This is exactly the health/composition
+merge Guard 4 exists to prevent** — a status-code-only classifier records
+`stored` and then counts a session with zero bars. **It caught this
+repository's own client**: `orb.http.PacedClient` labelled the refusal `stored`.
+**Recorded as ADR-008 rather than smoothed**, with the fix scoped to A.3 TASK 1
+because no Alpha Vantage row is admitted to anything before then.
+
+**Two: `polygon.io` 301-redirects to `massive.com`.** The prompt's "also branded
+Massive" is **measured, not assumed**. And `alpaca.markets/robots.txt` returns
+**200 with 81,041 bytes of HTML** — a styled 404 page. **A 200 is not a
+robots.txt**, and it is recorded as "no robots.txt served", not as "permitted".
+
+### A.1 TASK 2, and what it is not evidence about
+
+n = 18 requests, 3 endpoint-spacing cells, **0 refusals on a limit**. Polygon
+admitted **8 of 8 at 88.4/min** (all 401); Alpha Vantage **5 of 5 at 29.1/min**
+(all 200-carrying-a-refusal). **None of this licenses a pace.** solattn ADR-021's
+corollary applies to this repository's own measurement: **the only reachable
+path on every permitted vendor is the unauthenticated refusal path, and a
+ceiling measured on a 401 is not evidence about the authenticated data
+endpoint.** Polygon documents 5/min; the measured 88/min **does not contradict
+it**, because they are different endpoints. Pacing is therefore registered
+**provisionally and labelled unmeasured** at the conservative 6.0 s default
+(Amendment 2).
+
+### Two amendments, both made while holding zero bars
+
+**Amendment 1** registers a fourth Section 0 state, **`PENDING_ACCESS`**,
+evaluated ahead of every BLOCKED trigger, for the case where an integrity input
+is `Absent` because no vendor is reachable. Without it the map would have to
+read a missing measurement as a failed one and close H1 as
+`source-integrity-blocked` **on evidence that does not exist**. It arms nothing,
+it is a verdict on access rather than on H1, and it is pinned as **not a
+bypass**: a test walks the present-input space and requires the clause to be
+inert the moment both measurements exist. GO, DEGRADED and BLOCKED are unchanged
+in text, threshold and precedence.
+
+**Amendment 2** registers pacing provisionally and labelled unmeasured.
+
+**Both were written while this repository held zero bars, zero prices, zero
+volumes and zero sessions**, which is what makes them un-fittable to a result:
+there is no result.
+
+### What this costs, stated plainly
+
+**A.1 TASK 3 and A.1 TASK 4 are the two tasks this repository turns on, and
+neither can be executed without two credentialed vendors — a primary and a
+secondary.** That is now an **open operator item**, and it is the second of
+exactly two; the first is the Section 13 prior slot.
+
+**Stage A already could not finish today**, because A.1 TASK 3 registers a
+**≥ 14 calendar-day wait** between the probe pull and the re-pull. **That wait
+has not started, and cannot start until a credential exists.** The earliest
+Stage C date moves with the credential date, not with today.
+
+**Everything not dependent on vendor bars is still built and delivered in
+full** — the session calendar, the cost model, the universe, signal and verdict
+machinery built dark against synthetic fixtures, the power gate, the latch
+machinery, the guards and the mutation harness. **Only the two integrity
+measurements wait, and they wait on an operator item rather than on a design
+question.**
+
+---

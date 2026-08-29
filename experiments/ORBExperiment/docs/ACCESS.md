@@ -237,3 +237,63 @@ signal and verdict machinery built dark against synthetic fixtures, the power
 gate, the latch machinery, the guards and the mutation harness. **Only the two
 integrity measurements wait**, and they wait on an operator item rather than on
 a design question.
+
+---
+
+# A.1 TASK 2 — rate ceilings, measured per endpoint
+
+**Run 2026-08-29.** `tools/probe_ceilings.py`, through the same paced,
+ledger-charging client. **n = 18 requests across 3 endpoint-spacing cells.**
+
+| vendor | endpoint | requested spacing | n | achieved rate | status distribution | 429s |
+|---|---|---:|---:|---:|---|---:|
+| Polygon / Massive | `/v3/reference/tickers` | 2.0 s | 5 | **33.2 / min** | `{401: 5}` | **0** |
+| Polygon / Massive | `/v3/reference/tickers` | 0.5 s | 8 | **88.4 / min** | `{401: 8}` | **0** |
+| Alpha Vantage | `TIME_SERIES_INTRADAY` demo | 2.0 s | 5 | **29.1 / min** | `{200: 5}` | **0** |
+
+**No endpoint returned HTTP 429. n = 18, 0 refusals on a limit.**
+
+## What this measurement is not evidence about, stated with its precedent
+
+**It is not evidence about the endpoints this repository will actually collect
+from.** solattn ADR-021 established that **ceilings are per endpoint, never per
+host**: one GeckoTerminal endpoint refused **47.5 percent of n = 1,863
+attempts** while a second, on the same host and the same IP, took **0 of 360**
+(carried, C-21). **The corollary applies here to this repository's own
+measurement.** With no credential, **the only reachable path on every permitted
+vendor is the unauthenticated refusal path**, and a ceiling measured on a 401 is
+**not** a ceiling on the authenticated data endpoint.
+
+**Polygon's documented free tier is 5 requests per minute** — documented, never
+measured. **The measured 88.4 per minute does not contradict it**, and recording
+it as though it did would be exactly the error standing rule 4 warns about, run
+backwards: treating a measurement of the wrong thing as though it beat the
+documentation of the right thing.
+
+## Registered operating pace, provisional and labelled unmeasured
+
+Registered by **Amendment 2**. Half-the-measured-ceiling cannot be computed
+because **no ceiling on a data endpoint has been measured**, so the pace falls
+back to the conservative default rather than to a figure derived from the wrong
+endpoint.
+
+| parameter | value | basis |
+|---|---|---|
+| `DEFAULT_MIN_SPACING_S` | **6.0 s** | conservative default; **unmeasured** |
+| per-vendor daily cap | set in `orb.ledger.RequestLedger`, charged **before** sending | **unmeasured** |
+| unregistered vendor | **refused outright** — no cap, no send | structural |
+
+**Every one of these is re-measured per endpoint at the first task that holds a
+credential, and moved by a dated amendment if the measurement disagrees.**
+
+## The refusal shapes, recorded verbatim
+
+| vendor | limit-refusal shape | measured? |
+|---|---|---|
+| Polygon / Massive | **not observed** — no 429 reached on the reachable path | no |
+| Alpha Vantage | **not observed as a 429.** Its *credential* refusal is served as **HTTP 200** carrying `{"Information": "The **demo** API key is for demo purposes only…"}`, so a limit refusal may well also arrive at 200. **A status-code-only limiter detector is unsafe on this vendor** (ADR-008). | no |
+| Alpaca, Databento, Tiingo | **not observed** — refused at 401/403 before any limiter was reached | no |
+
+**The request ledger charged every one of these probes before it sent them.**
+Total charged this session: **polygon 15, alphavantage 7, alpaca 1, databento 1,
+tiingo 1 — n = 25 requests, 0 dollars.**
