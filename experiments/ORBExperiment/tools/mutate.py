@@ -277,6 +277,22 @@ MUTATIONS: tuple[Mutation, ...] = (
         expect_green=True,
     ),
     Mutation(
+        15,
+        "make the carve-out dispersion writer return a trade list",
+        "the two-scalar contract becomes a hole and a per-trade series — the "
+        "outcome itself — leaves a sealed writer before the Stage C latch",
+        (
+            (
+                "src/orb/dispersion.py",
+                "def measure_carve_out_dispersion(",
+                "def leak_the_trades(values: list[float]) -> list[float]:"
+                "  # MUTATION 15\n"
+                "    return list(values)\n\n\n"
+                "def measure_carve_out_dispersion(",
+            ),
+        ),
+    ),
+    Mutation(
         14,
         "flip the configured tape to the single-venue feed",
         "every bar is real and every one is wrong about the market: a median "

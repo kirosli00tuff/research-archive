@@ -842,3 +842,222 @@ instead by `test_an_unmeasured_endpoint_is_never_paced_faster_than_a_measured_si
 minute measured against a 401 overstated the authenticated ceiling by **17.7×**,
 and an operator pacing from it would have been **refused on 3 of every 8
 requests**.
+
+---
+
+## ADR-027: The pre-period carve-out is amended two-sided, and the direction of the compromise is recorded
+
+**Date:** 2026-08-29 · **Status:** accepted · A.0 TASK 1, REGISTRATION.md
+Amendment 11 · **supersedes ADR-012 in scope, not in method**
+
+**Context.** ADR-012 registered a one-sided carve-out: power inputs may read bars
+stamped **strictly before** 2016-01-04T14:30:00.000Z, enforced at one site with
+the boundary in one place. **Measurement falsified the assumption it rested on.**
+A.1 TASK 5, `n = 16` reach probes per credential: **Alpaca serves from
+2016-01-04** — *exactly* `CONFIG.in_sample_start` — and **Massive from
+2024-08-29**. `n = 2` credentials, **0 serving** any session before the boundary.
+**The carve-out was never reachable**, and E2 power was recorded
+`Absent(not_served)` rather than computed.
+
+**Decision.** The carve-out becomes **two-sided**: strictly before
+`CONFIG.pre_period_end_ms`, **or** at or after `CONFIG.post_holdout_start_ms` =
+**2026-07-01T04:00:00.000Z**, which is 2026-07-01T00:00:00.000 US Eastern (EDT,
+UTC−04:00). **The pre-period half is retained unweakened**, not deleted, even
+though measurement shows it empty. **Both halves are enforced at the same single
+site** — `orb.preperiod` — under the **same names**, which are already pushed and
+are not renamed: `require_pre_period` and `gate_pre_period` delegate to a
+two-sided `require_carve_out`, and `is_pre_period` keeps its exact original
+meaning for the `PRE_PERIOD` provenance check.
+
+**The cost is registered rather than argued away.** The post-holdout region sits
+outside both registered windows, so reading it leaks no observation any verdict
+is computed on — **and it is not equivalent to the original boundary.**
+Dispersion estimated after 2026-06-30 reflects a **later** regime than the sample
+it is applied to; a pre-2016 estimate would have reflected an **earlier** one.
+**Neither is neutral. The compromise now runs forward rather than backward**, and
+the figure **may misstate in-sample dispersion in either direction by an amount
+this repository has not measured and does not claim to bound.** Every E2 figure
+derived from it carries that sentence attached.
+
+**Alternatives rejected.** *Leave the carve-out one-sided and keep E2 `Absent`
+forever*: the only vendor that could serve it would have to reach before
+2016-01-04, no such credential exists, none is planned, and the co-primary would
+be permanently unpowered on an accident of vendor entitlement rather than on the
+world. *Read a slice of the in-sample window instead*: that is reading the
+outcome to plan the test of the outcome, which is the exact thing the carve-out
+exists to prevent. *Invent a dispersion figure or carry one*: it would register a
+number this repository did not measure — the NPLExperiment failure. *Set the
+second boundary at UTC midnight*: UTC midnight on 2026-07-01 is **20:00 Eastern
+on 2026-06-30**, inside the last holdout session date, and would admit that
+session's after-hours bars.
+
+**Consequences.** `CONFIG.post_holdout_start_ms` joins `pre_period_end_ms` under
+**three** structural guards: neither literal is typed outside `config.py`,
+neither is read from config outside `preperiod.py`, and **`preperiod.py` must
+read both**. **Four boundary fixtures sit exactly on the four edges** and all four
+are exercised; the sealed interior is swept separately at the first and last
+session of each registered window. **Mutation 13** moves the post-holdout fixture
+off its edge and the suite goes green, recording a fixture that stopped binding.
+`orb.bars.Provenance` gains `POST_HOLDOUT`, validated at construction — it widens
+nothing, it names a region the amended carve-out already permits. **The
+post-holdout region grows as real time advances and never intersects a registered
+window**, and the sessions used in any computation are recorded in the
+append-only ledger at the time of that computation.
+
+---
+
+## ADR-028: The in-sample window is single-sourced, and that is a registered scope limitation rather than a verdict input
+
+**Date:** 2026-08-29 · **Status:** accepted · A.0 TASK 2, REGISTRATION.md §11.1
+SL-3 and Amendment 12
+
+**Context.** A.1 TASK 5 measured historical reach on both credentials, `n = 16`
+probes each. The reference vendor's tier serves nothing before **2024-08-29**, so
+**cross-vendor agreement covers 459 holdout sessions and 0 in-sample sessions**.
+**All 1,762 in-sample sessions rest on a single unverified feed.** Until this
+ADR, that fact lived only as an input field on a verdict record —
+`cross_vendor_overlap_in_sample_sessions: 0` — and as one clause of a table row.
+
+**Decision.** It is registered as **SL-3**, a numbered scope limitation in
+Section 11, the epistemic boundary, and mirrored in the `HYPOTHESES.md` H1 entry.
+**The consequence for the verdict is stated before any read exists: a PASS
+computed on the in-sample window is conditional on a single vendor's rendering of
+that window being faithful, and this repository holds no measurement supporting
+that condition.** Any in-sample figure is reported with the limitation attached
+**in the same sentence**, on the same terms standing rule 13 attaches an n.
+
+**The exposure has a measured size in the literature and none here.** Concretum
+Research: **226,000 to 726,000 USD** final equity across **four vendors** on
+identical opening-range code, dates, parameters and starting capital (carried,
+C-13). **That is the risk a cross-vendor measurement exists to bound, and it
+cannot currently be bounded for the in-sample window.**
+
+**Alternatives rejected.** *Add a Section 0 branch that fires on it*: a scope
+limitation says what a verdict **means**; it does not change **when** one fires,
+and adding a branch would have made an epistemic fact into an operational one.
+*Weaken or requalify the existing branches*: the registration forbids it and the
+diff shows `src/orb/section0.py` untouched. *Leave it in a verdict input field*:
+a fact that changes what a PASS means belongs in the section about what a verdict
+supports, not in a field a later reader has to notice. *Choose between the two
+retirement routes*: both cost something the assistant cannot spend — money, or
+the operator's acceptance.
+
+**Consequences.** Two routes are recorded without choosing between them and
+without spending: **(a)** a reference credential whose tier reaches **2016-01-04**,
+which retires SL-3 **on measurement**; **(b)** **explicit operator acceptance**
+that the in-sample window is single-sourced, which retires nothing by measurement
+and is **a decision, not a finding**. Both are carried to the open operator items
+of `docs/HANDOVER.md`, which go from two to three. **Neither blocks the ladder
+and neither is a precondition for the 2026-09-12 re-pull.**
+
+---
+
+## ADR-029: The consolidated tape is a guarded config field, and a non-consolidated feed needs a stated reason
+
+**Date:** 2026-08-29 · **Status:** accepted · A.0 TASK 3, REGISTRATION.md
+Amendment 13
+
+**Context.** The feed was a **function default** — `feed: str = "sip"` at
+`src/orb/vendors.py` line 259. **The default was correct**; every call site
+passed or inherited it. The defect was structural: **nothing made a call site say
+which tape it wanted**, so nothing would have noticed one that said the wrong
+thing. A.1 TASK 4 measured what the wrong branch costs: the single-venue feed
+carries a **median 0.027761 of consolidated first-5-minute volume over `n = 100`
+pairs**, IQR [0.021200, 0.037068], **100 percent of pairs below the registered
+0.20 threshold**.
+
+**Decision.** `CONFIG.consolidated_feed = "sip"`, under the existing parse-tree
+config guard. `alpaca_minute_bars` takes `feed` **with no default** and validates
+it against the configured value. **`alpaca_minute_bars_on_feed` is the only
+builder that may request a non-consolidated feed, and it requires a non-empty
+`tape_control_reason`** — an exception with no reason recorded at its call site
+is a default wearing a different name. `VendorRequest` carries the feed, manifests
+record it, and `require_manifest_feed` refuses a manifest that omits it **before
+the first re-pull request is sent**.
+
+**Alternatives rejected.** *Keep the default and add a comment*: a comment does
+not fail a build. *Refuse every non-consolidated request outright*: the Amendment
+7 tape control **must** request the single-venue feed to measure how far it sits
+from the consolidated one, and a rule that forbids the measurement that justifies
+the rule is not a rule. *Guard only `src/orb`*: a default is overridable **at a
+call site**, and the call sites live in `tools/`, so the guard walks both.
+
+**Consequences.** Five parse-tree guards and three runtime tests. **Mutation 14**
+flips the configured value to the single-venue feed and is **caught by
+`test_the_configured_feed_is_the_consolidated_tape`** — a guard, not a number
+that merely moved. **The sealed probe slice's feed is confirmed by measurement
+rather than assumed**: `n = 8` chunks re-requested on **both** feeds, 7
+discriminating, **all 7 sealed bar counts equal to the consolidated count and
+none to the single-venue count**, 480 bar files on disk against 480 in the
+manifest, 737,507 bars. One chunk served **0 bars on both feeds** and is recorded
+as **uninformative and excluded rather than counted** — the first run counted the
+`0 == 0` tie as a match to the single-venue feed and returned `NOT_CONFIRMED`,
+and **the classifier was fixed rather than the verdict**.
+
+---
+
+## ADR-030: The Alpaca ceiling is re-measured, and a burst allowance is not a sustained rate
+
+**Date:** 2026-08-29 · **Status:** accepted · A.1 TASK 4 of the amendment pass,
+REGISTRATION.md Amendment 14 · **supersedes one rejected alternative of ADR-026**
+
+**Context.** ADR-026 recorded Alpaca's ceiling as `None` and **rejected**
+escalating further, on the grounds that *"escalating further would buy a number
+this repository has no use for at the cost of hammering a vendor."* **Two things
+changed.** ADR-023 made **Alpaca the primary bar vendor**, so its ceiling is now
+the one that governs collection rather than a spare vendor's; and an operator
+instruction asked for the measurement. **ADR-026 is not edited. This ADR
+supersedes that single rejected alternative and nothing else in it.**
+
+**The registered protocol could not have reached the ceiling, and the reason is
+structural.** The A.1 TASK 7 cell **requested** 0.2 s spacing — 300 per minute —
+and **achieved 134.05**. A sequential client sends at most `60 / latency` per
+minute whatever spacing it asks for, and the documented figure is **200 per
+minute**, so **a single-threaded escalation cannot attempt the documented limit,
+let alone exceed it.** Escalating spacing further measures latency.
+
+**Decision.** The escalation gains **bounded concurrency cells** — 2, 4 and 8
+workers — after the sequential ones, each stopping at its **first** refusal, with
+the request ledger charged **before every send, under a lock**, so the registered
+daily cap holds across workers exactly as it holds sequentially. **And the result
+is recorded as two different quantities, because it is two different
+quantities:**
+
+- **A measured burst allowance**: `n = 391` sent, **384 admitted**, first `429`
+  at cumulative request **385**, elapsed **55.96 s**,
+  `{"message": "too many requests."}`. **The whole escalation fit inside one
+  rolling minute**, so a token bucket of capacity near 400 refilling at the
+  documented 200 per minute produces exactly this observation — and so does a
+  hard 411-per-minute limiter. **The measurement does not distinguish them.**
+- **A measured sustained lower bound**: after a 75 s cooldown, **250 of 250
+  admitted over 75.10 s** at a scheduled 200 per minute, **0 refusals**,
+  **199.73 per minute**. **The sustained ceiling is at or above that and is not
+  known exactly.**
+
+`MEASURED_CEILING_PER_MINUTE["alpaca:bars"]` therefore **stays `None`**.
+
+**Alternatives rejected.** *Record 411.72 per minute as the ceiling*: it is the
+rate over a window shorter than the limiter's own period, and recording it would
+be **ADR-026's error running in reverse** — turning an unmeasured quantity into a
+large number. The tool's first analysis pass did exactly that, proposing an
+operating pace of **689.37 per minute**, and it was corrected before anything was
+registered. *Write 199.73 into the ceiling dict*: a lower bound is not a ceiling,
+and the test now refuses it explicitly. *Pace from the documented 200*:
+documented, never measured. *Leave the pace at 60 per minute*: the pace is
+derived from the measurement, and the rule is half the maximum rate **actually
+attempted**, which is now 199.73 rather than 134.05.
+
+**Consequences.** `CONSERVATIVE_SPACING_S["alpaca:bars"]` moves to **0.61 s =
+98.36 per minute** — half of 199.73 with the spacing rounded **up** so the pace
+lands below the half figure. **The three unmeasured Alpaca endpoints keep 1.0 s**:
+pacing is per endpoint, never per host (solattn ADR-021), and a measurement on
+one licenses no change to a sibling.
+`test_an_unmeasured_endpoint_is_never_paced_faster_than_a_measured_sibling` was
+**rewritten from a proxy to the rule** — it asserted *every endpoint of a vendor
+shares one spacing*, which held only while no endpoint had been measured on a
+rate. **One further figure was falsified in passing**: the A.1 TASK 7 **134.05
+per minute** was that moment's latency and not a limiter, since the **identical**
+request shape achieved **223.16 per minute** today, `n = 25`. **The Alpaca daily
+cap moves 2,000 → 3,000 as a circuit breaker**, not from any measured daily
+allowance, and the operational trigger — this pass's own spend — is recorded
+plainly rather than dressed up.

@@ -2448,3 +2448,206 @@ dispersion pull and measurement overhead in one day, and still a real brake.
 - **It does not claim Alpaca's sustained ceiling is 199.73, or 411.72, or 200.**
   It records a **measured burst allowance**, a **measured sustained lower
   bound**, and an unreached sustained ceiling.
+
+---
+
+## Amendment 15 — the E2 dispersion input, measured on the post-holdout carve-out; the 55 percent trigger-rate assumption falsified
+
+**Date:** 2026-08-29 · **Status:** accepted · amends **Section 9** (dispersion
+inputs, per-trade power) and records a falsified planning figure
+
+**What data existed when this amendment was made.** Everything held at
+Amendments 11 through 14, plus those amendments. **No bar revision measurement
+and no cross-vendor agreement share existed, and neither is eligible before
+2026-09-12.** **No in-sample or holdout bar had been read; both latches remain
+absent.** **Zero dollars spent.** The measurements below were made **by** this
+amendment, from `n = 1,927,156` bars pulled over `n = 42` post-holdout sessions.
+
+### 1. What was read, and under what permission
+
+**The amended carve-out of Amendment 11, post-holdout half only.** Sessions
+**2026-07-01 to 2026-08-28**, `n = 42`, ending at the **last closed session**
+(ADR-016 forbids the open one). The boundary was **enforced, not asserted**:
+every session and **every individual bar** passed through
+`orb.preperiod.require_pre_period`, the two-sided check, before it was used, and
+every bar carries `Provenance.POST_HOLDOUT`, validated at construction.
+
+**The session list is recorded in the append-only ledger at
+`data/access/carve_out_reads.jsonl`, at the time of the pull and again at the
+time of the computation**, per Amendment 11 clause 4.
+
+**The universe is a price-blind systematic sample**, not the alphabetically-first
+names the probe slice used. The reference vendor's active US common-stock listing
+was walked in full by cursor — **`n = 5,317` names over 6 pages** — and **every
+26th ticker** taken, `n = 200`, spanning **A to WSM**. `bar_count per session` is
+the only served field consulted and it is on the readable field list.
+**`199` of 200 served at least one bar.**
+
+### 2. What the sealed writer returns, and what it deliberately does not
+
+`orb.dispersion` is a **latched module and a sealed writer at once**: it reads
+priced bar fields, because an opening-range rule is a statement about highs and
+lows, and it **returns exactly two scalars** plus integer counts.
+
+**The mean net PnL is not among them, and that is the point.** A mean **is** the
+outcome this repository is blind to; a dispersion is not. **The two-scalar
+contract keeps the outcome sealed even inside a region the carve-out permits
+reading.** Pinned by
+`tests/test_guards.py::test_the_dispersion_writer_returns_two_scalars`, which
+checks both the return annotations and the record's field types — exactly two
+`float` fields, every other field an `int`. **Mutation 15** adds a function
+returning a trade list and is **caught by that guard**.
+
+**Per share rather than per trade in dollars**, because Section 4 registers a
+risk fraction (0.25 percent of equity) and **no equity level**, so a per-trade
+dollar figure is defined only up to an arbitrary scale. Per share is invariant to
+it and is the unit the carried gross edge and the measured round-trip cost are
+already expressed in.
+
+### 3. The frozen Section 6 model refuses, and the registered figure is Absent
+
+**`REGISTERED_COST_MODEL` refused 550 of 550 trades.** This is the A.2 TASK 2
+design working as registered, not a fault: the SEC Section 31 rate was measured
+at **0.0000206 per dollar** and **its effective date was not**, so
+`SEC_FEE_SCHEDULE` is empty and **the model refuses to price a trade rather than
+take a fee from the wrong year**.
+
+**It was attempted again and refused again.** `sec.gov` answered **HTTP 403
+"Request Rate Threshold Exceeded"** on **`n = 2` further attempts** in this pass,
+`n = 4` across two sessions. The stored IBKR schedule states
+`SEC Transaction Fee: USD 0.0000206 * Value of Aggregate Sales` and **carries no
+effective date anywhere on the page**, so it is not recoverable offline either.
+
+> **The registered figure, under the frozen model, is
+> `Absent(sec_section_31_effective_date_not_measured)`, `n = 550` trades
+> refused.**
+
+### 4. The bracket — a measurement, not a substitute
+
+The **one** unmeasured component was varied across **both ends of a bracket**,
+everything else held at the frozen model:
+
+| end | basis | dispersion, USD/share |
+|---|---|---:|
+| SEC rate **0** | a fee cannot be negative — a fact about arithmetic | **2.0294139** |
+| SEC rate **0.0000206** | the one rate this repository has measured | **2.0295850** |
+| | **bracket width** | **0.000171** |
+| | **relative width** | **8.43 × 10⁻⁵** |
+
+**The bracket is 0.0084 percent wide, so the unmeasured effective date does not
+matter for this figure — and that is measured rather than hoped.** Any rate
+between zero and the measured one, at any effective date, moves the dispersion
+by less than one part in ten thousand.
+
+**The registered dispersion input is therefore 2.029585 USD per share, `n = 550`
+priced trades**, taken at the measured-rate end, **with the registered figure
+under the frozen model recorded beside it as `Absent`.**
+
+### 5. The trigger rate — a falsified planning figure, in the NPLExperiment shape
+
+| quantity | figure |
+|---|---:|
+| **measured trigger rate** | **0.982143** |
+| **n** | **560 selected name-sessions** — 28 evaluable sessions × the registered 20 |
+| assumption used until now | **0.55** |
+| **disagreement** | **+0.432** |
+| long-only trigger rate | **0.525**, `n = 560` |
+| ambiguous triggers | **0**, `n = 560` |
+| trades per session | **19.64** of a registered 20 |
+| stop exits / close exits | **210 / 340** |
+
+**The measurement wins and the disagreement is a recorded finding, not a quiet
+correction.** This is the NPLExperiment shape exactly: a planning figure near 9.4
+events per month entered a registration and measurement falsified it at 0.5,
+`n = 3`. Here a planning figure of **0.55** entered a **non-binding** per-trade
+power note and measurement falsified it at **0.982**, `n = 560`.
+
+**What was measured, stated narrowly so it is not over-read.** It is the realized
+share of **registered top-20 selections that produce a registered entry** —
+price breaking the first-5-minute range in either direction between 09:35 and
+the close — on **28 post-holdout sessions**, over a **200-name systematic sample
+of a 5,317-name listing**, in a **post-holdout regime**. **It is not the
+in-sample trigger rate and this amendment does not claim it is.**
+
+**One coincidence is recorded without a claim attached.** The **long-only** rate
+of **0.525** sits close to the 0.55 assumption. That is consistent with the
+assumption having been about one side only, and it is **consistent with chance**;
+nothing in the repository records which was meant, and this amendment does not
+decide it.
+
+### 6. E2 power, computed — and a second premise of Section 9 falsified
+
+**E2 power is now a number rather than `Absent`.** `alpha_adj = 0.02532057`,
+one-sided.
+
+| assumption | Sharpe | horizon | sessions | trades | **E2 power** | min N for 80% |
+|---|---:|---|---:|---:|---:|---:|
+| published | 2.81 | holdout | 875 | 17,188 | **0.999484** | 250 |
+| published | 2.81 | in-sample | 1,762 | 34,611 | **1.000000** | 250 |
+| **REGISTERED** | **1.40** | **holdout** | **875** | **17,188** | **0.743533** | **1,006** |
+| **REGISTERED** | 1.40 | in-sample | 1,762 | 34,611 | **0.959721** | 1,006 |
+| quartered | 0.70 | holdout | 875 | 17,188 | **0.257809** | 4,021 |
+| quartered | 0.70 | in-sample | 1,762 | 34,611 | **0.458773** | 4,021 |
+
+**Every figure in this table carries the Amendment 11 caveat: the dispersion
+input comes from a post-holdout regime and may misstate in-sample dispersion in
+either direction by an amount this repository has not measured and does not claim
+to bound.**
+
+**The second falsification, and it is about the method rather than a number.**
+**E2 power equals E1 power at every assumption and horizon, to five decimal
+places**, differing only by the rounding of an implied trade count to a whole
+number. **Section 9's premise that E2's power needs a per-trade dispersion input
+is wrong, and the computation says so.**
+
+The reason is Section 8's own design. **E2's permutation clusters on session
+date**, so the independent unit is the **session**, not the trade. Under a Sharpe
+assumption `S` the per-session ratio is `S/√252` whatever the per-trade
+dispersion is: if a session holds `k` trades of mean `μ` and dispersion `σ`, the
+session mean is `kμ` and the session dispersion is `σ√k`, so the session ratio is
+`√k·(μ/σ)` and **`σ` cancels**. **Section 9 says the computation wins where it
+disagrees with the document, and this is recorded as the disagreement.**
+
+**E1 is unchanged and is not presented as changed.** It remains **0.7435** at
+the registered assumption on `n = 875` achievable holdout sessions, against a
+minimum **1,006** for 80 percent power. **The coincidence is arithmetic, not a
+copy**, and the table above records both figures side by side so a later reader
+can check that.
+
+### 7. Where the dispersion does bind, and the figure is uncomfortable
+
+The dispersion is not idle. It converts a **dollar net edge** into an
+information ratio, which is the use Section 9 actually describes. Against the
+**carried** gross edge of **0.070 USD per share** (C-6, from the independent
+replication of the **sibling index strategy** — a cross-application, labelled),
+scaled by `S / 2.81`, and the **modeled** round-trip cost per share:
+
+| exit leg | assumption | gross/share | cost/share | **net/share** | implied per-trade IR |
+|---|---|---:|---:|---:|---:|
+| close | 2.81 | 0.070000 | 0.038631 | **+0.031369** | **+0.015456** |
+| close | **1.40** | 0.034875 | 0.038631 | **−0.003756** | **−0.001850** |
+| close | 0.70 | 0.017438 | 0.038631 | **−0.021193** | **−0.010442** |
+| stop | 2.81 | 0.070000 | 0.068631 | **+0.001369** | **+0.000675** |
+| stop | **1.40** | 0.034875 | 0.068631 | **−0.033756** | **−0.016632** |
+| stop | 0.70 | 0.017438 | 0.068631 | **−0.051193** | **−0.025224** |
+
+**At the registered 1.40 assumption the modeled net edge per share is negative on
+both exit legs.** At the published 2.81 it is positive but thin, and on a stop
+exit it is **0.001369 USD per share** — **two percent of the gross edge
+survives**. This is the same shape as C-6 (net PnL crossing zero near 0.022 USD
+per share of entry slippage) and Amendment 3 (cost at **55 percent** of the edge
+on a close exit and **98 percent** on a stop exit), now expressed against a
+**measured** dispersion.
+
+**This is not a verdict and it is not evidence about H1.** It is a statement
+about **what the registered cost model does to a carried edge at a discounted
+effect size**, and it is recorded here so the number exists before any read does.
+
+### 8. What this amendment does not do
+
+- **It opens no latch.** Neither `stage_c_read.json` nor `stage_d_read.json`
+  exists. **No in-sample or holdout bar was read.**
+- **It arms nothing and authorises no spend.** 0 dollars.
+- **It weakens no Section 0 branch.**
+- **It does not change E1.**
+- **It does not claim the post-holdout dispersion is the in-sample dispersion.**

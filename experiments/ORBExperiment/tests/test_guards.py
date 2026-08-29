@@ -23,7 +23,7 @@ FIELD_REGISTRY_MODULE: str = "fields.py"
 """The declaration site of the two field lists. Names only; it reads nothing."""
 
 LATCHED_MODULES: frozenset[str] = frozenset(
-    {"bars.py", "universe.py", "signal.py", "verdict.py"}
+    {"bars.py", "universe.py", "signal.py", "verdict.py", "dispersion.py"}
 )
 """The dark strategy modules. They name priced fields; nothing in Stage A reaches them.
 
@@ -234,10 +234,6 @@ PENDING_ENFORCEMENT: dict[str, str] = {
     # field name -> the task that will read it
     "in_sample_end": "A.2 TASK 1 — session calendar",
     "holdout_start": "A.2 TASK 1 — session calendar",
-    "opening_range_minutes": "A.2 TASK 3 — signal built dark",
-    "risk_fraction_per_trade": "A.2 TASK 3 — sizing built dark",
-    "max_concurrent_positions": "A.2 TASK 3 — sizing built dark",
-    "max_gross_notional_multiple": "A.2 TASK 3 — sizing built dark",
     "commission_per_share_usd": "A.2 TASK 2 — cost model",
     "commission_order_minimum_usd": "A.2 TASK 2 — cost model",
     "finra_taf_per_share_sold_usd": "A.2 TASK 2 — cost model",
@@ -250,7 +246,6 @@ PENDING_ENFORCEMENT: dict[str, str] = {
     "probe_sessions": "A.1 TASK 3 — bar revision rate",
     "probe_tickers": "A.1 TASK 3 — bar revision rate",
     "probe_min_age_days": "A.1 TASK 3 — bar revision rate",
-    "integer_shares_only": "A.2 TASK 3 — sizing built dark",
 }
 """Config fields not yet read outside ``config.py``, each with its task named.
 
@@ -644,6 +639,58 @@ def test_comparator_findings_carry_only_counts() -> None:
                 field.type,
             )
             assert field.name not in PRICED_BAR_FIELDS, (cls.__name__, field.name)
+
+
+@pytest.mark.guard
+def test_the_dispersion_writer_returns_two_scalars() -> None:
+    """The carve-out writer emits two scalars and their counts. Nothing else.
+
+    ``orb.dispersion`` is the one module that runs the registered Section 2
+    selection, the Section 3 entry, stop and exit and the Section 6 cost model
+    over **real bars** before the Stage C latch. The carve-out of Amendment 11
+    permits it to read them; **nothing permits it to hand one back.**
+
+    Two checks, because either alone is a hole. The **return annotations** stop
+    a method handing back a trade, a series or a bar. The **field types** stop
+    the record itself growing a mean, a per-name figure or a ranking: exactly
+    two ``float`` fields are allowed and every other field must be an ``int``
+    count, so that each scalar travels with its n.
+
+    **The mean is deliberately not among them.** A mean net PnL *is* the outcome
+    this repository is blind to; a dispersion is not.
+    """
+    import dataclasses as _dc
+
+    allowed_returns = {"CarveOutDispersion", "int", "float", "bool", "None"}
+    tree = _parse(SRC_ROOT / "dispersion.py")
+    checked = 0
+    offenders: list[str] = []
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.FunctionDef) or node.name.startswith("_"):
+            continue
+        checked += 1
+        rendered = (
+            ast.unparse(node.returns) if node.returns is not None else "<missing>"
+        )
+        if rendered not in allowed_returns:
+            offenders.append(f"{node.name} -> {rendered}")
+    assert checked >= 1, "expected the carve-out writer's entry point"
+    assert not offenders, (
+        "the carve-out dispersion writer may return only two scalars and their "
+        f"counts: {offenders}"
+    )
+
+    from orb.dispersion import CarveOutDispersion
+
+    floats = [f.name for f in _dc.fields(CarveOutDispersion) if f.type == "float"]
+    others = [f for f in _dc.fields(CarveOutDispersion) if f.type != "float"]
+    assert floats == ["net_pnl_per_share_stdev", "trigger_rate"], floats
+    assert all(f.type == "int" for f in others), [(f.name, f.type) for f in others]
+    for field in _dc.fields(CarveOutDispersion):
+        assert field.name not in PRICED_BAR_FIELDS, field.name
+    assert "mean" not in " ".join(f.name for f in _dc.fields(CarveOutDispersion)), (
+        "a mean net PnL is the outcome; the writer emits dispersion, never it"
+    )
 
 
 @pytest.mark.guard
