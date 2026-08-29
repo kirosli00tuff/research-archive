@@ -67,6 +67,42 @@ two-sided carve-out** (Amendment 11). **E1 is unchanged at 0.7435.**
 **And `GO` would have failed anyway**: it needs **both** co-primaries at or above
 **0.80**, and both are **0.7435**.
 
+### Re-fired **`PENDING_REVISION`** a third time on 2026-08-29, inference-repair pass
+
+**The verdict did not move. The inference did.**
+
+**A statistical error was corrected.** Section 8 registers a **conjunction** —
+both co-primaries must pass — and applied a **union** correction to it. Under an
+**intersection-union test** each component may run at the full nominal level
+(**Berger 1982**), so **each co-primary now runs one-sided at `alpha = 0.05`**.
+**E1 at the registered 1.40 Sharpe assumption moves 0.743521 → 0.832450 on the
+achievable holdout, and the minimum n for 80 percent power falls 1,006 → 795
+against 875 achievable.** **No datum changed.**
+
+**E2 was replaced, not repaired.** It was a linear rescale of E1 and constrained
+nothing E1 did not. The amended E2 asks whether mean net PnL per trade **survives
+the pessimistic end of the Section 6 cost band** — a null E1 cannot imply.
+
+> ### **And then it collapsed. The measured pessimistic shift of 0.041455 USD per share exceeds the implied central mean of 0.040386 at the registered assumption, so the pessimistic-cost mean is −0.001068 — negative. E2 power is 0.043277, below the 0.05 size of the test, and JOINT power collapses with it. No session count reaches 80 percent.**
+
+**Correcting the multiplicity error made E1 powered and left the design
+unpowered.** Both are true. **Section 10.1 makes JOINT power the latch
+condition**, bounded above by the smaller component, so neither component power
+may be read as the design's power.
+
+**Three routes are open to the operator and none is chosen here** — a narrower
+verdict scope with E2 demoted to a named secondary, a cost band narrowed on
+execution evidence this repository does not hold, or closure as
+**`untestable-at-achievable-power`**. **None depends on the 2026-09-12
+calendar.**
+
+**And the hypothesis was restated.** At a measured trigger rate of **0.982143**,
+`n = 560`, **the breakout is a direction rule, not a selector** — over roughly
+385 minutes a liquid name almost always trades outside a five-minute range.
+**The registered rule is unchanged; the description of it was wrong.**
+
+---
+
 **Two planning figures were falsified by measurement in this pass**, both
 recorded rather than quietly corrected:
 
@@ -177,6 +213,41 @@ has not measured and does not claim to bound.**
 **Every in-sample figure above carries SL-3: all 1,762 in-sample sessions rest on
 a single unverified feed.**
 
+### The inference-repair pass — 2026-08-29
+
+**Everything above is left standing.** **`n = 0` requests sent and 0 dollars
+spent** — every figure here comes from arithmetic or from bytes already sealed.
+
+| figure | value | n |
+|---|---|---|
+| **alpha per co-primary** | **0.05** — superseded **0.02532057** | — |
+| **E1 power at 1.40, holdout** | **0.832450** — was 0.743521 | 875 |
+| E1 power at 2.81 / 0.70, holdout | **0.999835** / **0.366747** — were 0.999484 / 0.257802 | 875 |
+| E1 power at 1.40 / 2.81 / 0.70, in-sample | **0.980162** / **1.000000** / **0.581652** | 1,762 |
+| **E1 minimum n for 80 percent** | **795** — was **1,006**, against **875 achievable** | — |
+| **measured stop-exit share** | **0.381818** — 210 stop, 340 close | **550** |
+| **measured ambiguous rate** | **0.000000**, rule-of-three upper bound **0.005357** | **560** |
+| **measured pessimistic shift** | **0.041455 USD/share** — bounds 0.030 all-close, 0.060 all-stop | 550 |
+| E2 central mean at 1.40 | **+0.040386 USD/share** | — |
+| **E2 pessimistic-cost mean at 1.40** | **−0.001068 USD/share — NEGATIVE** | — |
+| **E2 power at 1.40, holdout** | **0.043277** — below the 0.05 size of the test | 875 |
+| E2 power at 2.81 / 0.70, holdout | **0.819524** / **0.001271** | 875 |
+| **E2 minimum n for 80 percent at 1.40** | **Absent — unreachable at any n** | — |
+| **JOINT power at 1.40, holdout** | **0.043277**, binding component **E2** | 875 |
+| JOINT power at 2.81, holdout | **0.819524**, binding component E2 | 875 |
+| **JOINT minimum n for 80 percent at 1.40** | **Absent — unreachable at any n** | — |
+| JOINT minimum n for 80 percent at 2.81 | **827** | — |
+| **break-even Sharpe** — where the pessimistic mean reaches zero | **1.437035** | — |
+| the registered 1.40 sits **below** it by | **2.577 percent** | — |
+| break-even stop share at 1.40 | **0.346206** against a measured 0.381818 | — |
+| **measured trigger rate** (A.1 TASK 5) | **0.982143** — the breakout is a **direction rule** | 560 |
+| dollars spent | **0** | — |
+
+**Every E2 and joint figure carries the Amendment 11 caveat**: the dispersion
+input comes from a **post-holdout regime** and may misstate in-sample dispersion
+in either direction by an unmeasured, unbounded amount. **Every in-sample figure
+carries SL-3.**
+
 ### Bar integrity — A.1 TASK 3 and TASK 4, **the two that decide this repository**
 
 | figure | value | n |
@@ -224,6 +295,20 @@ sessions, computed from the calendar.
 | **REGISTERED (half)** | **1.40** | **0.7435** | **1,006** |
 | quartered | 0.70 | **0.2578** | 4,021 |
 
+**Superseded 2026-08-29 by Amendment 18.** The table above is left standing
+because it is the correct arithmetic **at `alpha = 0.02532057`**, and that alpha
+was the wrong one — a union correction on a conjunction. **At the corrected
+`alpha = 0.05`:**
+
+| assumption | annual Sharpe | **E1 power, holdout 875** | **E1 power, in-sample 1,762** | min N for 80% |
+|---|---:|---:|---:|---:|
+| published (undecayed) | 2.81 | **0.999835** | **1.000000** | **198** |
+| **REGISTERED (half)** | **1.40** | **0.832450** | **0.980162** | **795** |
+| quartered | 0.70 | **0.366747** | **0.581652** | **3,180** |
+
+**E1 clears its 80 percent bar at the registered assumption for the first time.
+The design does not.** See the joint power figures above.
+
 ~~**E2 power: `Absent` in all nine cells** — Section 9 restricts its dispersion
 input to the pre-period carve-out, and no vendor serves one.~~
 
@@ -252,9 +337,9 @@ by an unmeasured, unbounded amount.
 
 | figure | value |
 |---|---|
-| tests | **385 passing** |
+| tests | **410 passing** |
 | mypy strict | **clean, 56 source files** |
-| mutations applied to real source | **15**, **0 harness failures** |
+| mutations applied to real source | **16**, **0 harness failures** |
 | guards | every one exercised by a mutation or a boundary fixture |
 
 ---
@@ -276,7 +361,7 @@ authors who sell day-trading education.**
 
 ---
 
-## Open operator items — there are exactly three, and none blocks the ladder
+## Open operator items — there are exactly four, and one is now the binding one
 
 **Both original items are discharged.** The two vendor credentials exist and both
 authenticate; the Section 13 operator prior is filled at **0.30, `INDEPENDENT`**
@@ -313,8 +398,35 @@ amendment pass of 2026-08-29.**
    the in-sample window is single-sourced, which retires nothing by measurement
    and is **a decision, not a finding**. **ADR-028.**
 
-**None is required for the ladder to continue. The binding constraint is a
-calendar: the earliest eligible re-pull is 2026-09-12.**
+4. **Choose a route for the collapsed E2 — and this one is different from the
+   other three, because it does not wait for anything.** **Amendment 21,
+   ADR-034.** The measured pessimistic shift of **0.041455 USD/share** exceeds
+   the implied central mean of **0.040386** at the registered 1.40 assumption,
+   so the pessimistic-cost mean is **−0.001068**, **E2 power is 0.043277** and
+   **joint power collapses with it — no session count reaches 80 percent.**
+   **Three routes, none chosen here:**
+   - **(a) A narrower verdict scope conditional on central costs alone**, with
+     E2 demoted to a **named secondary**. E1 is powered at **0.832450**. The
+     verdict would then say only that the rule cleared its bar under **central**
+     cost assumptions — **and that is precisely the thing Section 1's structural
+     doubt 2 says matters most**, so the registration would have to say so where
+     the verdict is stated.
+   - **(b) Narrow the registered cost band on measured execution evidence.** The
+     pessimistic entry figure of 0.040 USD/share is **carried and registered,
+     never measured.** Real fill data would let the band narrow on evidence.
+     **This repository holds no such evidence, has no broker credential, and none
+     is planned.** A real route, not currently open.
+   - **(c) Close H1 as `untestable-at-achievable-power`** under its own
+     registered cost assumptions — **the fourth closure kind already in the house
+     record**, and a **legitimate documented negative** about the design rather
+     than about the world.
+
+   **None of the three depends on the 2026-09-12 bar-integrity calendar**, so
+   this decision can be taken today.
+
+**Items 1 to 3 are not required for the ladder to continue, and the binding
+constraint there is a calendar: the earliest eligible re-pull is 2026-09-12.
+Item 4 is not on that calendar at all.**
 
 ---
 

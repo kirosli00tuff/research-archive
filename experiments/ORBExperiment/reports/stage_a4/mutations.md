@@ -1,6 +1,6 @@
 # A.4 TASK 2 — the mutation harness
 
-**Run 2026-08-29. n = 15 mutations applied to real source, each restored green afterwards. Bytecode is purged before every run.**
+**Run 2026-08-29. n = 16 mutations applied to real source, each restored green afterwards. Bytecode is purged before every run.**
 
 Two mutations are of a different kind and are marked *GUARD STOPPED BINDING*: the point is to show a guard **failing to catch** something, which is how a boundary fixture placed comfortably inside its boundary goes unnoticed.
 
@@ -21,3 +21,4 @@ Two mutations are of a different kind and are marked *GUARD STOPPED BINDING*: th
 | 13 | move the post-holdout boundary fixture off its registered edge | when this was written the edge had ONE pin and the suite went green — the InsiderExperiment lesson. A.1 TASK 5 added a second, independent fixture at the same instant inside the carve-out writer, and the harness now CATCHES it. The mutation is unchanged; what changed is that the boundary is pinned twice | CAUGHT | yes | `FAILED tests/test_dispersion.py::test_a_bar_inside_the_sealed_window_is_refused_rather_than_dropped` |
 | 14 | flip the configured tape to the single-venue feed | every bar is real and every one is wrong about the market: a median 0.027761 of consolidated first-5-minute volume, invisible downstream | CAUGHT | yes | `FAILED tests/test_guards.py::test_the_configured_feed_is_the_consolidated_tape` |
 | 15 | make the carve-out dispersion writer return a trade list | the two-scalar contract becomes a hole and a per-trade series — the outcome itself — leaves a sealed writer before the Stage C latch | CAUGHT | yes | `FAILED tests/test_guards.py::test_the_dispersion_writer_returns_two_scalars` |
+| 16 | make the execution-mix writer return a trade list | the four-scalar contract of Amendment 20 becomes a hole and a per-trade series leaves a sealed writer before the Stage C latch | CAUGHT | yes | `FAILED tests/test_guards.py::test_the_dispersion_writer_returns_two_scalars` |

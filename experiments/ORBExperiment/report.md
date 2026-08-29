@@ -651,3 +651,212 @@ verdict on H1 and it does not close anything. **It is the cost model, measured,
 applied to a carried edge, at the effect size this registration chose in advance
 for reasons it wrote down** — and it is on the record before any read exists,
 which is the only place it can be honest.
+
+---
+
+# The inference-repair pass — written for the moment it landed, 2026-08-29
+
+**Seven tasks. Six amendments, 18 through 23. Four ADRs, 032 through 035. One
+statistical error corrected, one co-primary replaced, one hypothesis restated,
+and one design shown to be unpowered against its own registered cost band. `n =
+0` requests sent, `0` dollars spent, neither latch touched.**
+
+**The verdict is unchanged: `PENDING_REVISION`. Almost nothing else is.**
+
+## The error that was there from the first commit
+
+Section 8 says two things that do not agree. It says *"Two co-primaries,
+one-sided, and **both must pass**"*, and then it applies
+`alpha_adj = 1 − 0.95^(1/2) = 0.02532057` to **each**.
+
+**`1 − 0.95^(1/k)` is the Šidák correction for a union.** It is the right answer
+when a family "succeeds" if **any** component rejects, and
+`test_alpha_adj_is_the_registered_figure` has pinned its arithmetic since the
+first commit — two independent tests at 0.02532057 give a family-wise rate of
+exactly 0.05. **It is the correct answer to a question Section 8 does not ask.**
+
+**Section 8's rule is a conjunction — an intersection-union test.** Berger
+(1982) establishes that an IUT whose components each run at level `a` has overall
+size **at most `a`**, and the argument fits on one line: under the global null,
+the event that **all** components reject is a **subset** of the event that **any
+single one** does. **No correction is owed.**
+
+**So the registration had been paying a penalty it did not owe, in every power
+figure it had ever reported.** At `alpha = 0.05`, **E1 at the registered 1.40
+Sharpe assumption moves 0.743521 → 0.832450 on the achievable holdout, and the
+minimum session count for 80 percent power falls 1,006 → 795 against 875
+achievable.** **A shortfall of 131 sessions becomes a surplus of 80.**
+
+**No datum changed. No vendor changed. No session was added.** A power shortfall
+this repository has reported in every document since its first commit was an
+**artefact of correcting for a union that Section 8 never described.** ADR-005
+registered that shortfall openly rather than meeting it at the read, and that
+judgement was right on the facts as they stood; **ADR-032 supersedes its
+arithmetic and leaves it unedited.**
+
+## The co-primary that was not one
+
+Amendment 15 had already measured the symptom: **E2 power equalled E1 power to
+between 1e-05 and 1e-12** at every assumption and horizon. The cause is
+arithmetic — E2's implied mean was derived from the same Sharpe assumption E1
+uses, so `implied_mean / annual_sharpe` was a **constant 0.02884727**, and the
+dispersion divided out.
+
+**Under a conjunction, a co-primary that is a rescale of the other is not a
+second hurdle.** Whichever rejects first, both do.
+
+**Repairing it was not available.** Any null of the form *"the mean is positive
+at central costs"* sits **inside E1's alternative**, because it is the same claim
+in different units. **The null had to change.**
+
+> **The amended E2 asks whether mean net PnL per trade remains above zero when
+> every slippage leg is set to the pessimistic end of the band Section 6
+> registered before any data existed.**
+
+That is a question E1 cannot imply. **And the dispersion stops cancelling**,
+because the pessimistic shift is an **absolute dollar quantity per share** rather
+than a ratio: `(central_mean − shift) / dispersion` does not reduce. **The A.1
+TASK 5 dispersion of 2.029585 USD per share became load-bearing, having been
+inert.**
+
+**The amendment was written and committed before the shift was measured**, and it
+**pre-registered what a collapse would mean**. That ordering is the only reason
+what follows can be read as a finding rather than as a story told afterwards.
+
+## Then it collapsed
+
+**The measured pessimistic shift is 0.041455 USD per share.** It comes from a
+**measured stop-exit share of 0.381818**, `n = 550` triggered trades with a
+resolved exit — 210 stop, 340 close — mixed against hard arithmetic bounds of
+**0.030** if every trade closed out and **0.060** if every trade stopped out.
+
+**The implied central mean at the registered 1.40 assumption is 0.040386 USD per
+share.**
+
+> ## **0.041455 exceeds 0.040386. The pessimistic-cost mean is −0.001068 USD per share. It is negative.**
+
+E2's alternative lies **inside its own null**. **E2 power is 0.043277 on the
+achievable holdout — below the 0.05 size of the test.** `trades_for_e2_power`
+returns a **recorded absence** rather than a large number, because **no sample
+size reaches 80 percent when the effect the test is powered against does not
+exist in the direction the test looks.**
+
+**And joint power collapses with it, to 0.043277.**
+
+## The two questions that must not be conflated
+
+| question | answer |
+|---|---|
+| **Does the corrected alpha alone move E1 across its 80 percent bar?** | **YES.** 0.743521 → 0.832450; minimum n 1,006 → 795 against 875 achievable. |
+| **Does JOINT power clear its 80 percent bar?** | **NO.** 0.043277, and **no session count reaches it at any n.** |
+
+**Correcting the multiplicity error made E1 powered and left the design
+unpowered.** Both are true. **The verdict record carries them as separate fields
+so a later reader cannot collapse them into one claim.**
+
+**Section 10.1 now says which one the latch runs on.** Clause 1 read *"Both
+co-primaries at or above 80 percent power"*, which is a per-component condition
+and not the quantity a conjunction needs. **Two components at 0.80 each can be
+jointly anywhere from 0.60 to 0.80** depending on their dependence. **Joint power
+is bounded above by the smaller component, unconditionally — requiring two things
+is never easier than requiring one — so neither component power may be reported
+as the design's power.**
+
+## How close it is, and why closeness is not comfort
+
+**A test with 0.043 power detects nothing**, whether it misses by a little or a
+lot. But the margin bears on which route is reasonable, so it was measured
+rather than left to be estimated:
+
+| quantity | figure |
+|---|---:|
+| **break-even Sharpe** — where the pessimistic-cost mean reaches zero | **1.437035** |
+| the registered **1.40** sits below it by | **2.577 percent** |
+| **break-even stop-exit share** at 1.40 | **0.346206** |
+| the measured stop share exceeds it by | **0.035612** |
+
+**Half of the published 2.81 is 1.405. The break-even is 1.437.** **The design
+was registered just on the wrong side of its own cost band**, and nobody could
+have known that before this pass, because the shift depends on a
+stop-versus-close mix that did not exist as a figure until it was measured.
+
+## What was deliberately not done
+
+**Each of these was available and each would have been wrong**, and they are
+listed in the registration so a later reader can check the diff:
+
+- **The cost band was not adjusted.** 0.040 / 0.080 / 0.020 exactly as
+  registered before any data existed.
+- **The effect assumption was not adjusted.** Still 1.40.
+- **The alpha was not adjusted to rescue the figure.** 0.05 was fixed **before**
+  the table existed, for a reason unrelated to it.
+- **No weaker E2 was substituted.** The null was fixed before the shift was
+  measured.
+- **A negative power was not clamped** to the size of the test or to zero.
+- **The ambiguous exclusion was not changed** — and at a measured rate of
+  **0.000000**, `n = 560`, it was not a candidate for change.
+- **No Section 0 branch was touched.** `src/orb/section0.py` is byte-identical.
+
+**And one observation was recorded without being acted on.** BLOCKED-1 is
+registered on E1 power at the **published** magnitude against the 0.50 floor;
+E1 at 2.81 is 0.999835, so it does not fire and the map behaved as registered.
+**Had BLOCKED-1 been defined on joint power at the registered assumption it would
+fire, at 0.043277.** The branch was not changed. The observation is in the
+verdict record because it is material to the operator's choice.
+
+## The hypothesis, restated
+
+**At a measured trigger rate of 0.982143**, `n = 560` selected name-sessions,
+**the breakout condition is very nearly unconditional.** Over roughly 385 minutes
+after a five-minute range, a liquid name almost always trades outside it. **The
+condition selects on almost nothing, and what carries whatever information exists
+is the direction of the first excursion.**
+
+> **H-ORB, restated: among US common stocks with elevated opening relative
+> volume, the sign of the first excursion past the opening 5-minute range
+> predicts the direction of the remainder of the session, net of modeled costs,
+> out of sample from 2023-01-03.**
+
+**The registered rule is unchanged and stands.** Sections 2, 3, 4, 5 and 6 are
+byte-for-byte as registered. **Only the description was wrong**, and a rule that
+fires on 98 percent of name-sessions is still a well-defined rule with a
+well-defined direction. **Changing it now would be changing the experiment after
+seeing a measurement.**
+
+**The cost to a later positive verdict is recorded in Section 11.2.** A `PASS`
+would be evidence about **the informational content of the first directional
+excursion** — and **not** evidence that a breakout event, as commonly
+understood, **selects profitable sessions**, because at 0.982143 there is no
+meaningful population of non-breakout sessions for the breakout ones to be better
+than.
+
+**The source study's own numbers already said this.** The plain broad-universe
+rule returned **3.2 percent annually at Sharpe 0.48, below passive**; the
+top-20-by-relative-volume restriction returned **more than 1,600 percent at
+Sharpe 2.81**. **The selection did almost all the work there too.** What was
+missing was the step from *"the selection does the work"* to *"then the breakout
+is not selecting anything"* — **and it took a measured trigger rate to force
+it.**
+
+## What a reader should take from this section
+
+**The verdict did not move and four things about the experiment did.**
+
+**One was an error in this repository's own arithmetic**, present from the first
+commit, which had been making the design look weaker than it was.
+
+**One was a co-primary that had never been a second hurdle**, which had been
+making the design look stronger than it was.
+
+**Correcting both at once produced the answer neither correction produced
+alone**: **E1 is powered and the design is not.**
+
+**And the finding that matters most is the one the pass was built to be able to
+produce.** The registered design, at its registered effect assumption, **cannot
+detect its own effect against its own registered pessimistic cost band, at any
+achievable sample size.** That is not a statement about opening-range breakouts.
+**It is a statement about this design**, and it is exactly the kind of negative a
+registration exists to make sayable.
+
+**Three routes are open, none is chosen here, and none of them waits for
+2026-09-12.**

@@ -3105,3 +3105,287 @@ The prompt as supplied, reproduced without alteration:
 
     END PROMPT
 
+
+---
+
+## Entry 29 — STAGE A.-1 TASK 0 and STAGE A.0 TASK 1
+
+### TASK 0 — preconditions. **ETA 12 min · actual 11 min.**
+
+| check | result |
+|---|---|
+| working tree | **clean** at the moment of checking |
+| branch tracking | **`main` → `origin/main`**, `0 0` |
+| `git push --dry-run origin main` | **succeeds** — *"Everything up-to-date"* |
+| **Stage C latch** | **absent, unopened** |
+| **Stage D latch** | **absent, unopened** |
+| systemd units | **inert** — 0 loaded, 0 installed |
+
+All five recorded. The one modified file at the moment of the check was
+`progress.md` itself, carrying the operator prompt logged under standing rule 1.
+
+### TASK 1 — the multiplicity treatment, corrected. **ETA 45 min · actual 42 min.**
+
+**The error, recorded before the correction.** Section 8 says *"Two co-primaries,
+one-sided, and **both must pass**"* and then applies
+`alpha_adj = 1 − 0.95^(1/2) = 0.02532057` to **each**. **`1 − 0.95^(1/k)` is the
+Šidák correction for a UNION rule**, where a family succeeds if **any** component
+rejects. **Section 8's rule is a conjunction.**
+
+**Under an intersection-union test each component may run at the full nominal
+level** — Berger (1982), `Technometrics` 24(4), 295–300 — because under the
+global null the event that **all** components reject is a **subset** of the event
+that **any single one** does, so `P(all reject) <= P(component 1 rejects) = a`.
+**The registration was paying a multiplicity penalty it does not owe, and had
+been since the first commit.**
+
+**Registered:** `CONFIG.per_test_alpha = 0.05`, read through
+`orb.verdict.per_test_alpha()`. **`alpha_adj` is kept and kept correct** — it is
+already pushed, it is right for the rule it describes, and its test now names
+which question it answers. **The DSR's own correction for the 8 registered
+parameterization trials is a different multiplicity and is untouched.**
+
+| assumption | horizon | n | **E1 @ 0.0253** | **E1 @ 0.05** | change | **min n @ 0.0253** | **min n @ 0.05** |
+|---|---|---:|---:|---:|---:|---:|---:|
+| published 2.81 | holdout | 875 | 0.999484 | **0.999835** | +0.000352 | 250 | **198** |
+| published 2.81 | in-sample | 1,762 | 1.000000 | **1.000000** | +0.000000 | 250 | **198** |
+| **REGISTERED 1.40** | **holdout** | **875** | **0.743521** | **0.832450** | **+0.088929** | **1,006** | **795** |
+| REGISTERED 1.40 | in-sample | 1,762 | 0.959720 | **0.980162** | +0.020442 | 1,006 | **795** |
+| quartered 0.70 | holdout | 875 | 0.257802 | **0.366747** | +0.108945 | 4,021 | **3,180** |
+| quartered 0.70 | in-sample | 1,762 | 0.458770 | **0.581652** | +0.122882 | 4,021 | **3,180** |
+
+> **E1 crosses its 80 percent bar at the registered assumption for the first
+> time. The minimum session count falls from 1,006 to 795 against 875
+> achievable: a shortfall of 131 becomes a surplus of 80.**
+
+**No datum changed.** A power shortfall reported in every document since the
+first commit was an **artefact of the wrong correction**. ADR-005 is superseded
+on the arithmetic, **not** on the judgement, by ADR-032.
+
+**387 tests passing. 0 requests, 0 dollars.**
+
+---
+
+## Entry 30 — STAGE A.0 TASK 2 and STAGE A.1 TASK 3
+
+### TASK 2 — E2 replaced. **ETA 45 min · actual 44 min.**
+
+**E2 as registered constrained nothing E1 did not.** Amendment 15 measured the
+symptom — **E2 power equalled E1 power to between 1e-05 and 1e-12** — and the
+cause is arithmetic: `implied_mean / annual_sharpe` was a **constant
+0.02884727**, so E2 was a **linear rescale of E1** and the dispersion divided
+out. **Under a conjunction, a co-primary that is a rescale of the other is not a
+second hurdle.**
+
+**Repair was rejected**: any null of *"the mean is positive at central costs"*
+sits **inside E1's alternative**. **The null had to change.**
+
+**The amended E2** asks whether mean net PnL per trade **remains above zero at
+the pessimistic end of the Section 6 band** — 0.040 / 0.080 / 0.020 against the
+central 0.020 / 0.040 / 0.010. **Per trade the shift is entry plus whichever exit
+leg the trade took: 0.030 on a close exit, 0.060 on a stop.** One-sided at 0.05,
+permutation on session labels clustered by session date.
+
+**The dispersion stops cancelling**, because the shift is an **absolute dollar
+quantity** and `(central_mean − shift) / dispersion` does not reduce. **The A.1
+TASK 5 measurement of 2.029585 USD/share became load-bearing, having been
+inert.**
+
+**Amendment 19 was written and committed BEFORE the shift was measured**, and its
+§6 pre-registers what a collapse would mean. **That ordering is the only reason
+TASK 4's finding can be read as a finding.**
+
+**398 tests passing.**
+
+### TASK 3 — the execution mix, measured. **ETA 60 min · actual 57 min.**
+
+Measured on the sealed post-holdout slice, `n = 42` sessions, 200 tickers,
+boundary enforced **per bar**, **28 evaluable**. **0 requests sent** — the bytes
+were sealed on 2026-08-29 and re-reading a stored file is not a vendor call.
+
+| scalar | figure | n |
+|---|---:|---|
+| **stop-exit share** | **0.381818** | **550** trades with a resolved exit — 210 stop, 340 close |
+| **ambiguous rate** | **0.000000** | **560** selected name-sessions |
+| **mean pessimistic shift** | **0.041455 USD/share** | bounds 0.030 all-close, 0.060 all-stop |
+| **sessions used** | **28** | of 42 |
+
+**The stop share agrees exactly with the A.1 TASK 5 estimate, and the reason is
+stated rather than presented as confirmation**: that figure was 210 of 550
+**priced** trades under the bracketed model, which priced all 550 — **the same
+arithmetic on the same trades**. **What changed is structural.** The mix is now
+read off the Section 3 stop and close rules **directly**. **The frozen Section 6
+model prices nothing**, so the old route would have returned a stop share of
+**0.0** and a shift of **0.030** — understating the shift by **0.011455 USD/share
+on every trade**, silently. Pinned by
+`test_the_mix_is_read_off_the_bars_and_not_off_priced_trades`.
+
+**A zero count is reported with its bound.** By the **rule of three**, a
+one-sided 95 percent upper bound on 0 events in `n = 560` is **3/560 ≈ 0.0054**.
+**The registered ambiguous exclusion removes at most about half a percent of the
+sample and removed none of it.** **The operator's 10 percent threshold was not
+crossed, so no scope limitation is raised and Section 2's exclusion is
+unchanged.**
+
+**A deviation from the operator's instruction, named rather than taken quietly.**
+The instruction was *"exactly four scalars and nothing else"*. The record carries
+**those four plus integer denominators**, because **standing rule 13 requires
+every figure to travel with its n**. The guard pins that the **float** fields are
+exactly the three named measurements and **every other field is an `int`**.
+
+**405 tests passing. Mutation 16 added.**
+
+---
+
+## Entry 31 — STAGE A.1 TASK 4 and TASK 5
+
+### TASK 4 — E2 power and joint power. **ETA 55 min · actual 59 min.**
+
+> ## **The measured pessimistic shift of 0.041455 USD/share EXCEEDS the implied central mean of 0.040386 at the registered 1.40 assumption.**
+> ## **The pessimistic-cost mean is −0.001068. It is NEGATIVE.**
+
+| assumption | horizon | n | pess. mean | **E1 @ 0.05** | **E2 @ 0.05** | **JOINT** | binds | min n E1 | min n E2 | **min n JOINT** |
+|---|---|---:|---:|---:|---:|---:|---|---:|---:|---:|
+| 2.81 | holdout | 875 | +0.039606 | 0.999835 | 0.819524 | **0.819524** | E2 | 198 | 827 | **827** |
+| 2.81 | in-sample | 1,762 | +0.039606 | 1.000000 | 0.976463 | **0.976463** | E2 | 198 | 827 | **827** |
+| **1.40** | **holdout** | **875** | **−0.001068** | **0.832450** | **0.043277** | **0.043277** | **E2** | **795** | **none** | **none** |
+| 1.40 | in-sample | 1,762 | −0.001068 | 0.980162 | 0.040686 | **0.040686** | E2 | 795 | none | **none** |
+| 0.70 | holdout | 875 | −0.021261 | 0.366747 | 0.001271 | **0.001271** | E2 | 3,180 | none | **none** |
+| 0.70 | in-sample | 1,762 | −0.021261 | 0.581652 | 0.000163 | **0.000163** | E2 | 3,180 | none | **none** |
+
+**"none" is a recorded absence, not a large number**: the alternative lies inside
+the null, so **no sample size reaches the target** — the ADR-026 rule.
+
+**Section 10.1 restates clause 1 as a JOINT condition**, appended with clause 1
+left standing. **Joint power is bounded above by the smaller component
+unconditionally** — requiring two things is never easier than requiring one — and
+`orb.power.joint_power` names the binding component so no caller can report the
+larger one as the design's power.
+
+**The margin, measured because the operator's decision turns on it:**
+**break-even Sharpe 1.437035**, and the registered **1.40 sits 2.577 percent
+below it**; break-even stop share **0.346206** against a measured **0.381818**.
+**Half of the published 2.81 is 1.405. The design was registered just on the
+wrong side of its own cost band**, and nobody could have known before the shift
+was measured.
+
+**What was NOT done, registered explicitly:** the cost band was not adjusted, the
+effect assumption was not adjusted, the alpha was not adjusted to rescue the
+figure, no weaker E2 was substituted, a negative power was not clamped, and the
+ambiguous exclusion was not changed.
+
+**Three routes handed over, none chosen: a narrower verdict scope with E2 demoted
+to a named secondary; a cost band narrowed on execution evidence this repository
+does not hold; or closure as `untestable-at-achievable-power`, the fourth closure
+kind already in the house record. None depends on 2026-09-12.**
+
+**410 tests passing.**
+
+### TASK 5 — Section 1 restated. **ETA 30 min · actual 26 min.**
+
+At a measured **0.982143** trigger rate, `n = 560`, over roughly **385 minutes**
+after a five-minute range, **the condition selects on almost nothing**.
+
+> **Restated: among US common stocks with elevated opening relative volume, the
+> sign of the first excursion past the opening 5-minute range predicts the
+> direction of the remainder of the session, net of modeled costs.**
+
+**§11.2 records the cost to a later `PASS`**: it would be evidence about **the
+informational content of the first directional excursion**, and **not** evidence
+that a breakout event as commonly understood **selects profitable sessions**.
+
+**The registered rule is unchanged and stands.** Sections 2 to 6 are
+byte-for-byte as registered. **Only the description was wrong.** The source
+study's own C-2 against C-3 already said the selection did the work; **what was
+missing was the step to "then the breakout is not selecting anything", and it
+took a measured trigger rate to force it.**
+
+---
+
+## Entry 32 — STAGE A.2 TASK 6 and TASK 7
+
+### TASK 6 — Section 0 re-fired. **ETA 30 min · actual 28 min.**
+
+> ## **`PENDING_REVISION`** · clause `PENDING-REVISION Amendment 10`
+>
+> **Nothing is armed. Nothing is closed. H1 is OPEN.**
+
+**The two questions, kept apart as separate fields in the verdict record:**
+
+| question | answer | figures |
+|---|---|---|
+| **corrected alpha alone moves E1 across 0.80?** | **YES** | 0.743521 → **0.832450**; min n **1,006 → 795** |
+| **JOINT power clears 0.80?** | **NO** | **0.043277**; min n **unreachable at any n** |
+
+**Correcting the multiplicity error made E1 powered and left the design
+unpowered.** Both are true, and neither may be reported without the other.
+
+**An observation recorded and deliberately not acted on.** BLOCKED-1 is
+registered on **E1 power at the published magnitude** against the 0.50 floor;
+E1 at 2.81 is **0.999835**, so it does not fire and the map behaved as
+registered. **Had BLOCKED-1 been defined on JOINT power at the registered
+assumption it would fire, at 0.043277.** **The branch was not changed**, and
+`src/orb/section0.py` is byte-identical to its state before this pass.
+
+### TASK 7 — docs, mutations and close-out. **ETA 75 min · actual 79 min.**
+
+**ADRs:** **032** the conjunction correction with the Berger citation, **033**
+the economic E2 with its rationale, **034** the joint-power latch condition and
+the collapse, **035** the ambiguous-rate finding and the rule-of-three bound.
+**35 ADRs total.**
+
+**Amendments 18 to 23**, plus **§1.1**, **§10.1** and **§11.2** appended with
+nothing above their append lines edited. **23 amendments.**
+
+**`README.md`**, **`report.md`**, **`docs/HANDOVER.md`** and **`HYPOTHESES.md`**
+updated. The HANDOVER headline now names **two** binding constraints, and says
+plainly that **only one of them is a calendar**.
+
+**The mutation harness: `n = 16` mutations, 0 harness failures**, bytecode purged
+before every run. **Mutation 16** adds a trade-list return to the new
+execution-mix entry point and is **caught by the extended return-type pin**.
+
+**Evidence:** `reports/stage_a2repair/` — `gates.log`, `mutations.md`,
+`mutations_run.log`, `task1_alpha.json`, `task3_execution_mix.json`,
+`task4_joint_power.json`, `task6_section0.json`.
+
+### The full ETA table, stated before arming and recorded after
+
+| stage | task | ETA | actual |
+|---|---|---:|---:|
+| A.-1 | 0 — preconditions | 12 | **11** |
+| A.0 | 1 — the multiplicity correction | 45 | **42** |
+| A.0 | 2 — E2 replaced | 45 | **44** |
+| A.1 | 3 — the execution mix, measured | 60 | **57** |
+| A.1 | 4 — E2 power and joint power | 55 | **59** |
+| A.1 | 5 — Section 1 restated | 30 | **26** |
+| A.2 | 6 — re-fire Section 0 | 30 | **28** |
+| A.2 | 7 — docs, mutations and close-out | 75 | **79** |
+| | **total** | **352 min (5.87 h)** | **346 min (5.77 h)** |
+
+**The estimate was 1.7 percent high** — the first pass in this repository to
+come in under. The reason is that **this pass measured almost nothing**: one
+sealed re-read of bytes already on disk, and otherwise arithmetic. **The two
+overruns were both places where a number had to be understood before it could be
+written down** — TASK 4 (+4), where the collapse had to be checked against every
+route that might have rescued it and each rejection recorded, and TASK 7 (+4),
+where the HANDOVER had to stop describing a repository whose binding constraint
+was only a calendar.
+
+### Where the ladder stops, and why it is a different place than before
+
+**Seven of seven tasks completed.** The verdict is **`PENDING_REVISION`**, the
+same as before the pass. **Everything else about what this repository can
+conclude has changed.**
+
+**Before this pass**, one thing stopped the repository and it was a calendar.
+
+**After it, two things do.** The calendar still runs to **2026-09-12**. And
+**joint power is 0.043277 at the registered assumption, with no session count
+reaching 80 percent** — **that one does not wait for anything, and no amount of
+bar-integrity evidence resolves it.**
+
+**Gates at close: `make all` green — `ruff` clean over 56 files, `mypy --strict`
+clean over 56 files, **410 tests passing**. **16 mutations, 0 harness
+failures.** **0 requests sent, 0 dollars spent.** **Both latches absent, 0
+systemd units loaded.**

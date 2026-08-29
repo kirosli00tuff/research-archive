@@ -1128,3 +1128,199 @@ a registered filter rather than by an assertion**: the first draft built session
 with a 0.20 USD range and evaluated nothing, because the registered 14-session
 ATR filter requires **above 0.50 USD**. The fixture was wrong and the filter was
 right.
+
+---
+
+## ADR-032: Section 8 is a conjunction, so each co-primary runs at the full nominal level
+
+**Date:** 2026-08-29 · **Status:** accepted · A.0 TASK 1 of the inference-repair
+pass, REGISTRATION.md Amendment 18 · **supersedes ADR-005 on the arithmetic, not
+on the judgement**
+
+**Context.** Section 8 registers *"Two co-primaries, one-sided, and **both must
+pass**"*, and then applies `alpha_adj = 1 − 0.95^(1/2) = 0.02532057` to **each**.
+Those two sentences do not agree. `1 − 0.95^(1/k)` is the **Šidák** correction for
+a family-wise error rate under a **union** rule, where the family succeeds if
+**any** component rejects. **Section 8's rule is a conjunction.**
+
+**Decision.** **Each co-primary runs one-sided at `alpha = 0.05`.** Section 8's
+rule is an **intersection-union test**, and **Berger (1982)** — *Multiparameter
+hypothesis testing and acceptance sampling*, `Technometrics` **24(4), 295–300** —
+establishes that an IUT whose components each run at level `a` has **overall size
+at most `a`**, with no correction owed. The argument is one line and is written
+into the registration rather than cited: under the global null, the event that
+**all** components reject is a **subset** of the event that **any single one**
+does, so `P(all reject) <= P(component 1 rejects) = a`.
+
+Registered as `CONFIG.per_test_alpha = 0.05`, read through
+`orb.verdict.per_test_alpha()`.
+
+**Alternatives rejected.** *Keep 0.02532057 as a conservative choice*: it is not
+a choice, it is a correction for a different rule, and a registration that pays
+an unowed penalty is misdescribing its own severity — a later reader would take
+0.7435 as what the design can detect when the design could detect 0.8325.
+*Remove `alpha_adj`*: it is already pushed, it is **correct for the rule it
+describes**, and deleting it would remove the evidence that the error was an
+error rather than a preference — its test now names which question it answers.
+*Also loosen the deflated-Sharpe deflation*: **rejected outright.** The DSR's
+correction is for the **8 registered parameterization trials**, four range
+lengths crossed with two entry rules. **That is a different multiplicity** — the
+number of ways the rule could have been *specified* — and it is untouched.
+*Treat the correction as licence to move a threshold*: no bar, gate or
+assumption moved.
+
+**Consequences.** **E1 at the registered 1.40 Sharpe assumption on the achievable
+holdout moves 0.743521 → 0.832450, and the minimum n for 80 percent power falls
+1,006 → 795 against 875 achievable — a shortfall of 131 becomes a surplus of
+80.** **No datum changed**; a power shortfall reported in every document since
+the first commit was an artefact of the wrong correction. **ADR-005 registered
+that shortfall openly rather than meeting it at the read, and that judgement was
+right on the facts as they stood** — this ADR supersedes its arithmetic and
+leaves ADR-005 unedited, per the rule that a reversal is a new ADR. **E1 is one
+of two co-primaries under a conjunction, so 0.832450 is not the design's power**;
+ADR-034 and Section 10.1 make joint power the operative figure.
+
+---
+
+## ADR-033: E2 is replaced with a pessimistic-cost economic null, because the old one could not fail on cost
+
+**Date:** 2026-08-29 · **Status:** accepted · A.0 TASK 2 of the inference-repair
+pass, REGISTRATION.md Amendment 19
+
+**Context.** Amendment 15 measured that **E2 power equalled E1 power to between
+1e-05 and 1e-12** at every assumption and horizon. The cause is arithmetic:
+E2's implied per-trade mean was derived from the same Sharpe assumption E1 uses,
+so `implied_mean / annual_sharpe` was a **constant 0.02884727** and E2's effect
+size was a **linear rescale of E1's**. **Under a conjunction, a co-primary that
+is a rescale of the other is not a second hurdle** — whichever rejects first,
+both do.
+
+**Decision.** **E2 tests whether mean net PnL per trade remains above zero when
+every slippage leg is set to the pessimistic end of the band Section 6 registered
+before any data existed** — 0.040 entry, 0.080 stop exit, 0.020 close exit,
+against the central 0.020, 0.040, 0.010. **Null: the pessimistic-cost mean is at
+or below zero.** One-sided at 0.05, permutation on session labels clustered by
+session date, the same clustering as E1.
+
+**Alternatives rejected.** *Repair E2's parameterization*: any null of the form
+*"the mean is positive at central costs"* sits **inside E1's alternative**,
+because it is the same claim in different units. **The null has to change, not
+its parameterization.** *Drop E2 and run a single co-primary*: that would remove
+the only place cost can independently fail the design, which is the failure mode
+Section 1's structural doubt 2 names as the most likely one. *Use the optimistic
+end as a second null*: it tests nothing the central case does not.
+
+**Consequences.** **The per-trade dispersion stops cancelling.** The pessimistic
+shift is an **absolute dollar quantity per share**, so E2's effect size is
+`(central_mean − shift) / dispersion` and a constant subtraction does not divide
+out. **The A.1 TASK 5 dispersion measurement of 2.029585 USD per share becomes
+load-bearing, having been inert under the old E2.** The shift itself depends on
+the realized **stop-versus-close mix**, which was an assumption until ADR-035
+measured it. **The amendment was written and committed before the shift was
+measured**, and it pre-registers what a collapse would mean — so the collapse
+ADR-034 records cannot read as a rationalisation. **The rationale, in the
+registration's own words: the dominant failure mode across this program is cost
+absorbing a real directional edge, the independent replication found a 0.070
+USD/share gross edge dying at 0.022 USD/share of entry slippage (carried, C-6),
+and an inference design that cannot fail on cost is not testing the thing most
+likely to be true.**
+
+---
+
+## ADR-034: The latch condition is joint power, and it collapsed
+
+**Date:** 2026-08-29 · **Status:** accepted · A.1 TASK 4 of the inference-repair
+pass, REGISTRATION.md Section 10.1 and Amendment 21
+
+**Context.** Section 10 clause 1 read *"Both co-primaries at or above 80 percent
+power at achievable N"* — a **per-component** condition. Section 8 asserts the
+claim only if **both** reject, so the quantity the latch needs is **the
+probability that both reject**, and that is **not implied by either component
+power**: two components at 0.80 each can be jointly anywhere from **0.60** to
+**0.80** depending on their dependence.
+
+**Decision, part one.** **Clause 1 is restated as a JOINT condition** in Section
+10.1, appended with clause 1 left standing. **Joint power is bounded above by the
+smaller component power, unconditionally** — `P(A and B) <= P(A)` and
+`P(A and B) <= P(B)`, needing no dependence assumption and admitting no escape
+from one. `orb.power.joint_power` returns the bound, the Fréchet lower bound and
+the **binding component by name**, so no caller can report the larger component
+as the design's power.
+
+**Decision, part two — the finding, recorded rather than routed around.** **The
+measured pessimistic shift of 0.041455 USD per share exceeds the implied central
+mean of 0.040386 at the registered 1.40 Sharpe assumption.** The
+**pessimistic-cost mean is −0.001068 USD per share — negative**. E2's alternative
+lies **inside its own null**, **E2 power is 0.043277 on the achievable holdout —
+below the 0.05 size of the test — and joint power collapses to 0.043277 with no
+session count reaching 80 percent at any sample size.**
+
+**Alternatives rejected, each because it would have rescued a figure rather than
+reported one.** *Adjust the cost band*: Section 6's pessimistic figures were
+registered before any data existed and using them is the point. *Adjust the
+effect assumption*: 1.40 is half the published 2.81 for the decay reasons ADR-005
+registered, and moving it to clear a bar would be choosing the answer.
+*Adjust the alpha*: 0.05 was fixed by ADR-032 **before this table existed**, for
+a reason unrelated to it. *Substitute a weaker E2*: the null was fixed by ADR-033
+before the shift was measured. *Clamp a negative power to the size of the test*:
+`e2_power_pessimistic` returns the figure below `alpha` because that is the true
+answer, and clamping would hide exactly what the amendment exists to surface.
+
+**Consequences.** **Two questions now have different answers and the verdict
+record keeps them in separate fields**: the corrected alpha **does** move E1
+across its 80 percent bar (0.743521 → 0.832450, min n 1,006 → 795), and **joint
+power does not** (0.043277, min n unreachable). **Correcting the multiplicity
+error made E1 powered and left the design unpowered.** The margin is measured
+because the operator's decision turns on it: **the break-even Sharpe is 1.437035
+and the registered 1.40 sits 2.577 percent below it**; the break-even stop share
+is **0.346206** against a measured **0.381818**. **Three routes are handed to the
+operator and none is chosen here** — a narrower verdict scope with E2 demoted to
+a named secondary, a cost band narrowed on execution evidence this repository
+does not hold, or closure as **`untestable-at-achievable-power`**, the fourth
+closure kind already in the house record. **None of the three depends on the
+2026-09-12 bar-integrity calendar.**
+
+---
+
+## ADR-035: The ambiguous rate is measured at zero, and a zero is reported with its bound
+
+**Date:** 2026-08-29 · **Status:** accepted · A.1 TASK 3 of the inference-repair
+pass, REGISTRATION.md Amendment 20
+
+**Context.** Section 2 **excludes** name-sessions where both the opening-range
+high and low are crossed inside the same one-minute bar, because the minute
+cannot say which came first and this repository refuses to guess. **The size of
+that exclusion had never been measured.** At a trigger rate of 0.982143 it could
+have been material, and an exclusion that removes a large share of the sample is
+a scope limitation whether or not anyone notices.
+
+**Decision.** Measure it inside the sealed writer alongside the stop-versus-close
+mix, on the same post-holdout carve-out, and **report a zero count with its
+uncertainty rather than as a certainty**. **Measured: 0.000000, `n = 560`
+selected name-sessions, 0 events.** By the **rule of three**, a one-sided 95
+percent upper bound on a rate observed zero times in 560 is **3/560 ≈ 0.0054**.
+**The registered exclusion removes at most about half a percent of the sample on
+this slice, and removed none of it.** The operator's 10 percent threshold was not
+crossed, **so no scope limitation is raised and the exclusion rule is
+unchanged.**
+
+**Alternatives rejected.** *Report 0.000000 without a bound*: a zero count at
+`n = 560` is not evidence that the rate is zero, and reporting it bare would
+invite exactly that reading. *Widen the ambiguity definition to produce a
+non-zero rate*: that would change a registered rule to make a measurement more
+interesting. *Read the exit mix off priced trades, as A.1 TASK 5 did*:
+**rejected, and this is the substantive part.** The frozen Section 6 model prices
+**nothing** — its SEC Section 31 effective date is unmeasured — so that route
+would have returned a stop share of **0.0** and a pessimistic shift of **0.030**,
+**understating the shift by 0.011455 USD per share on every trade, silently**.
+The mix is read off the Section 3 stop and close rules directly, and
+`test_the_mix_is_read_off_the_bars_and_not_off_priced_trades` pins it.
+
+**Consequences.** The measured **stop-exit share of 0.381818, `n = 550`**, gives
+the **pessimistic shift of 0.041455 USD per share** that ADR-034's collapse turns
+on, between hard arithmetic bounds of **0.030** all-close and **0.060** all-stop.
+The writer's contract grows a second record, `CarveOutExecutionMix`, carrying
+**three `float` measurements and integer denominators** — the four the operator
+named plus the n's standing rule 13 requires, **a deviation named in Amendment 20
+rather than taken quietly**. **Mutation 16** adds a trade-list return to the new
+entry point and is caught by the extended pin.
