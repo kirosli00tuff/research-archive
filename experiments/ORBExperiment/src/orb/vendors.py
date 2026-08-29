@@ -63,17 +63,71 @@ MEASURED_CEILING_PER_MINUTE: Final[dict[str, float | None]] = {
     "alpaca:account": None,
     "alpaca:assets": None,
 }
-"""Measured ceilings per endpoint, A.1 TASK 7, 2026-08-29. `n = 53` requests.
+"""Measured **sustained** per-minute ceilings per endpoint, A.1 TASK 7 and the
+amendment pass of 2026-08-29.
 
-`None` means **the ceiling was not reached**, which is a different statement from
-*"there is no ceiling"* and is recorded as its own value rather than as a large
-number. Massive's figure is a **measured 429 boundary**: `HTTP 429`,
+`None` means **the sustained ceiling was not reached**, which is a different
+statement from *"there is no ceiling"* and is recorded as its own value rather
+than as a large number. Massive's figure is a **measured 429 boundary**:
+`HTTP 429`,
 `{"status":"ERROR",…,"error":"You've exceeded the maximum requests per minute…"}`,
 first refusal at request **6** in both `n = 8` cells.
+
+**`alpaca:bars` stays `None` after the amendment pass, and the reason is
+precise.** A refusal boundary *was* reached — see
+:data:`MEASURED_BURST_REFUSAL` — but it is a **burst allowance**, not a
+sustained rate. Sending at the documented 200 per minute for **75.10 s**, which
+is longer than one rolling minute, drew **0 refusals over `n = 250`**. So the
+sustained ceiling is **at or above 199.73 per minute and is not known exactly**,
+and `None` is the honest entry. See
+:data:`MEASURED_SUSTAINED_ADMITTED_PER_MINUTE` for the lower bound.
 
 Per endpoint, never per host (solattn ADR-021) — and the two Massive endpoints
 were measured **separately** and agreed, which is evidence rather than an
 assumption that they share a limiter.
+"""
+
+MEASURED_BURST_REFUSAL: Final[dict[str, tuple[int, float] | None]] = {
+    "massive:reference": (5, 15.76),
+    "massive:aggs": (5, 16.74),
+    "massive:grouped": None,
+    "alpaca:bars": (384, 55.96),
+    "alpaca:multibars": None,
+    "alpaca:account": None,
+    "alpaca:assets": None,
+}
+"""**(requests admitted before the first refusal, window in seconds).**
+
+The measured **burst allowance**. `alpaca:bars` admitted **384 requests in
+55.96 s** and refused the **385th** with `HTTP 429`,
+`{"message": "too many requests."}`, under an escalation that ran 1 worker at
+0.2 s, 0.05 s and 0 s spacing and then 2, 4 and 8 workers, `n = 391` sent.
+
+**The whole escalation fit inside one rolling minute**, which is exactly why
+this is recorded as a burst allowance and not as a ceiling: **a token bucket of
+capacity near 400 refilling at the documented 200 per minute would produce this
+observation**, and so would a hard 411-per-minute limiter. The measurement does
+not distinguish them, and does not pretend to.
+"""
+
+MEASURED_SUSTAINED_ADMITTED_PER_MINUTE: Final[dict[str, float | None]] = {
+    "massive:reference": None,
+    "massive:aggs": None,
+    "massive:grouped": None,
+    "alpaca:bars": 199.73,
+    "alpaca:multibars": None,
+    "alpaca:account": None,
+    "alpaca:assets": None,
+}
+"""The highest rate **sustained for longer than one rolling minute with zero
+refusals**. **A lower bound, never a ceiling.**
+
+`alpaca:bars`: **250 of 250 admitted over 75.10 s at a scheduled 200 per
+minute**, `n = 250`, `0` refusals, after a 75 s cooldown. That is a lower bound
+on the sustained ceiling and is **not** a statement that the ceiling is 199.73.
+It also **falsifies nothing about the documented 200 per minute** — it confirms
+the documented figure is achievable as a rate, which the previous 134.05 per
+minute could not, because a single-threaded client is latency-bound below it.
 """
 
 CONSERVATIVE_SPACING_S: Final[dict[str, float]] = {
@@ -81,11 +135,15 @@ CONSERVATIVE_SPACING_S: Final[dict[str, float]] = {
     "massive:aggs": 24.0,
     "massive:reference": 24.0,
     "massive:grouped": 24.0,
-    # The ceiling was not reached. Half of the **highest admitted rate observed**
-    # (134.05 per minute) is 67 per minute; 1.0 s is 60 per minute, below it and
-    # far below the documented 200. **Half of an observed admitted rate is not
-    # half of a measured ceiling**, and PACE_BASIS says so per endpoint.
-    "alpaca:bars": 1.0,
+    # The SUSTAINED ceiling was still not reached. Half of the **maximum rate
+    # actually attempted and sustained** (199.73 per minute over 75.10 s, 0
+    # refusals) is 99.86 per minute; 0.61 s is 98.36 per minute, below it.
+    # **Half of a sustained lower bound is not half of a measured ceiling**, and
+    # PACE_BASIS says so. The measured 384-request burst allowance is a looser
+    # constraint than this and does not bind.
+    "alpaca:bars": 0.61,
+    # **Unmeasured endpoints keep the old figure.** Pacing is per endpoint,
+    # never per host: a measurement on `alpaca:bars` licenses no change here.
     "alpaca:multibars": 1.0,
     "alpaca:account": 1.0,
     "alpaca:assets": 1.0,
@@ -101,7 +159,11 @@ PACE_BASIS: Final[dict[str, str]] = {
     "massive:aggs": "measured: half of a measured 5.0/min 429 boundary",
     "massive:reference": "measured: half of a measured 5.0/min 429 boundary",
     "massive:grouped": "unmeasured endpoint; carries its vendor's measured figure",
-    "alpaca:bars": "unmeasured ceiling; half of a 134.05/min observed admitted rate",
+    "alpaca:bars": (
+        "measured burst allowance 384 requests in 55.96 s; sustained ceiling "
+        "NOT reached at 199.73/min over 75.10 s, n = 250, 0 refusals. Pace is "
+        "half the maximum rate actually SUSTAINED, spacing rounded up."
+    ),
     "alpaca:multibars": "unmeasured endpoint; carries its vendor's figure",
     "alpaca:account": "unmeasured endpoint; carries its vendor's figure",
     "alpaca:assets": "unmeasured endpoint; carries its vendor's figure",
@@ -112,19 +174,24 @@ licence to speed up."""
 
 PROVISIONAL_DAILY_CAPS: Final[dict[str, int]] = {
     MASSIVE: 600,
-    ALPACA: 2000,
+    ALPACA: 3000,
 }
-"""Per-vendor daily caps, charged **before** sending, registered at A.1 TASK 7.
+"""Per-vendor daily caps, charged **before** sending. Registered at A.1 TASK 7;
+**Alpaca's moved from 2,000 to 3,000 by Amendment 14**, 2026-08-29.
 
 **Neither is a throughput target; both are circuit breakers against a runaway
 loop.** Massive's measured 5 per minute makes 600 about two hours of continuous
 full-rate use, which is more than any registered task needs and still a real
-brake. Alpaca's 2,000 covers the registered 40-ticker probe slice, its identical
-re-pull, and headroom, at an observed 134 per minute.
+brake. Alpaca's 3,000 is about **30 minutes** of continuous use at the registered
+98.36 per minute — still a brake, and enough for the 480-file probe slice, its
+identical 480-file re-pull, a dispersion pull and measurement overhead **in the
+same day**, which 2,000 was not.
 
-**No daily allowance was measured on either vendor**, and neither cap is derived
-from one. Deriving a cap from an unmeasured daily allowance is exactly the
-pricing-page reasoning standing rule 4 forbids.
+**No daily allowance has been measured on either vendor**, and neither cap is
+derived from one. The amendment-pass ceiling measurement is evidence about
+**rate**, not about a daily total, and it is not used as if it were. Deriving a
+cap from an unmeasured daily allowance is exactly the pricing-page reasoning
+standing rule 4 forbids.
 """
 
 

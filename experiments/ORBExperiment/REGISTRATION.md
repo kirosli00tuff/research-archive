@@ -2291,3 +2291,160 @@ chance to.
 - **It changes no measured figure.** The tape verdict, the reach figures, the
   delisted count, E1 and the Section 0 verdict are all unchanged.
 - **It weakens no Section 0 branch.**
+
+---
+
+## Amendment 14 — the Alpaca rate ceiling, measured as a burst allowance; the sustained ceiling still unreached
+
+**Date:** 2026-08-29 · **Status:** accepted · amends **Amendment 9** (rate
+ceilings) and **Section 12** (spend and pacing)
+
+**What data existed when this amendment was made.** Everything held at
+Amendments 11, 12 and 13, plus those amendments. **No bar revision measurement
+and no cross-vendor agreement share existed.** **Zero dollars spent.** The
+measurements recorded below were made **by** this amendment, `n = 641` requests
+against a then-registered Alpaca daily cap of 2,000.
+
+### 1. Why this was re-run
+
+**Alpaca is the primary bar vendor (ADR-023), so its ceiling is the one that
+governs collection.** Amendment 9 recorded **Massive at 5.00 per minute** —
+first refusal at request 6 of 8 on both endpoints, `n = 16` — and **Alpaca's as
+not reached**: 25 of 25 admitted at **134.05 per minute**, `n = 25`. ADR-026
+recorded that as `None` rather than as a large number.
+
+**An unreached ceiling is an unmeasured figure, not headroom.**
+
+### 2. Why the registered protocol could not have reached it, diagnosed before the run
+
+The A.1 TASK 7 cell **requested** 0.2 s spacing — 300 per minute — and
+**achieved 134.05**. The gap is **per-request latency**: a sequential client
+sends at most `60 / latency` per minute whatever spacing it asks for. Alpaca's
+documented figure is **200 per minute** (carried, never measured), so **a
+single-threaded escalation is structurally incapable of attempting the
+documented limit, let alone exceeding it.** Escalating spacing further measures
+latency, not a limiter.
+
+**The protocol is therefore extended, by this amendment rather than silently.**
+It gains **bounded concurrency cells** — 2, then 4, then 8 workers — after the
+sequential cells. Every cell **stops at its first refusal**. The charge to the
+registered request ledger happens **before every send, under a lock**, so the
+daily cap holds across workers exactly as it holds sequentially. **The recorded
+terms permit it**: `docs/ACCESS.md` records no prohibition on either Alpaca host
+and the access verdict is `REQUIRES_CREDENTIAL`, not `REFUSED_BY_TERMS`.
+
+### 3. What was measured — phase 1, the escalation
+
+| cell | workers | spacing | sent | admitted | attempted rate | refusal |
+|---|---:|---:|---:|---:|---:|---|
+| A.1 TASK 7 shape | 1 | 0.2 s | 25 | 25 | **223.16/min** | none |
+| sequential | 1 | 0.05 s | 40 | 40 | **223.55/min** | none |
+| sequential | 1 | 0 s | 60 | 60 | **227.00/min** | none |
+| concurrent | 2 | 0 s | 80 | 80 | **450.70/min** | none |
+| concurrent | 4 | 0 s | 120 | 120 | **764.28/min** | none |
+| concurrent | 8 | 0 s | 66 | 59 | **1,542.31/min** | **`429` at request 60 of the cell** |
+
+**Cumulative: `n = 391` sent, 384 admitted, 7 × `429`, elapsed 55.96 s.** The
+first refusal was at **cumulative request 385**.
+
+**The refusal payload, verbatim and redacted:**
+
+```
+{"message": "too many requests."}
+```
+
+**Incidentally, the sequential cells falsify one thing.** The A.1 TASK 7 figure
+of **134.05 per minute** was not a limiter and was not even a stable latency
+figure — the identical request shape achieved **223.16 per minute** today,
+`n = 25`. **A single observed admitted rate is a measurement of that moment's
+latency, not of the endpoint.**
+
+### 4. Why that is a **burst allowance** and not a ceiling
+
+**The whole escalation fit inside one rolling minute** — 55.96 s. So the
+observation is: *384 requests were admitted within one minute and the 385th was
+refused.*
+
+**A token bucket of capacity near 400 refilling at the documented 200 per minute
+produces exactly that observation.** So does a hard 411-per-minute limiter. **The
+measurement does not distinguish them**, and recording **411.72 per minute** as
+*the ceiling* would be the ADR-026 error running in reverse — turning an
+unmeasured quantity into a large number.
+
+### 5. What was measured — phase 2, the sustained rate
+
+**The missing quantity was measured rather than assumed.** After a **75 s
+cooldown**, long enough for a per-minute bucket to refill, requests were sent on
+a **schedule** at the documented **200 per minute** with 2 workers, for longer
+than one rolling minute.
+
+| quantity | figure |
+|---|---:|
+| requests sent | **250** |
+| admitted | **250** |
+| refusals | **0** |
+| elapsed | **75.10 s** — longer than one rolling minute |
+| sustained admitted rate | **199.73 per minute** |
+
+**The sustained ceiling is therefore at or above 199.73 per minute and is not
+known exactly.** That is a **lower bound, never a ceiling**, and
+`MEASURED_CEILING_PER_MINUTE["alpaca:bars"]` **stays `None`**, pinned by
+`tests/test_vendors.py::test_an_unreached_ceiling_is_none_and_not_a_large_number`,
+which now also refuses to let a lower bound be written into the ceiling dict.
+
+**This confirms the documented 200 per minute is achievable as a rate**, which
+the previous 134.05 could not, because a single-threaded client is latency-bound
+below it. It **falsifies nothing** about the documented figure.
+
+### 6. What is registered
+
+| field | before | after |
+|---|---|---|
+| `MEASURED_CEILING_PER_MINUTE["alpaca:bars"]` | `None` — not reached | **`None`** — the **sustained** ceiling still not reached |
+| `MEASURED_BURST_REFUSAL["alpaca:bars"]` | — | **`(384, 55.96)`** — admitted before the first refusal, and the window |
+| `MEASURED_SUSTAINED_ADMITTED_PER_MINUTE["alpaca:bars"]` | — | **`199.73`** — a **lower bound** |
+| `CONSERVATIVE_SPACING_S["alpaca:bars"]` | 1.0 s = 60/min | **0.61 s = 98.36/min** |
+| `CONSERVATIVE_SPACING_S["alpaca:multibars" / ":account" / ":assets"]` | 1.0 s | **1.0 s, unchanged** |
+| `PROVISIONAL_DAILY_CAPS["alpaca"]` | 2,000 | **3,000** |
+
+**The operating pace is half the maximum rate actually sustained**, `199.73 / 2 =
+99.86` per minute, with the spacing **rounded up** to 0.61 s so the pace lands
+**below** the half figure at 98.36 per minute rather than above it. **The
+measured 384-request burst allowance is a looser constraint and does not bind.**
+
+**The three unmeasured Alpaca endpoints keep 1.0 s.** Pacing is per endpoint,
+never per host — solattn ADR-021 — and a measurement on `alpaca:bars` licenses
+no change to a sibling. `test_an_unmeasured_endpoint_is_never_paced_faster_than_
+a_measured_sibling` was **rewritten from a proxy to the rule**: it asserted *every
+endpoint of a vendor shares one spacing*, which held only while no endpoint had
+been measured on a rate, and it now asserts directly that an unmeasured endpoint
+is paced at least as slowly as the slowest measured sibling.
+
+### 7. The daily cap, and the honest reason it moved
+
+**Alpaca's cap moves from 2,000 to 3,000. It remains a circuit breaker against a
+runaway loop and is still not derived from any measured daily allowance, because
+none has been measured on either vendor.** The ceiling measurement above is
+evidence about **rate**, not about a daily total, and it is not used as if it
+were.
+
+**The operational trigger is recorded rather than dressed up.** This pass itself
+spent **1,571** Alpaca requests by the end of the ceiling measurement — 906
+carried in from A.1, 16 on the feed confirmation, 391 on the escalation, 250 on
+the sustained cell — and the registered E2 dispersion pull still had to run the
+same day. **2,000 did not cover a measurement day plus a collection day, and the
+cap was moved because of that, not because a measurement licensed it.**
+
+**3,000 is about 30 minutes of continuous use at the registered 98.36 per
+minute** — enough for the 480-file probe slice, its identical 480-file re-pull, a
+dispersion pull and measurement overhead in one day, and still a real brake.
+
+### 8. What this amendment does not do
+
+- **It opens no latch and authorises no spend.** `n = 641` requests, **0
+  dollars**.
+- **It changes no integrity figure, no reach figure, no power figure and no
+  Section 0 branch.**
+- **It does not claim Alpaca's sustained ceiling is 199.73, or 411.72, or 200.**
+  It records a **measured burst allowance**, a **measured sustained lower
+  bound**, and an unreached sustained ceiling.

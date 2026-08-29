@@ -2536,3 +2536,110 @@ a vendor that regenerates history nightly has not yet had a chance to.
 tests passing (364 before), `n = 14` mutations, 0 harness failures.** **16
 requests sent, 0 dollars spent.** Alpaca ledger: **930 of a 2,000 daily cap**.
 Neither latch touched.
+
+---
+
+## Entry 24 — STAGE A.1 TASK 4, the Alpaca rate ceiling
+
+**ETA 35 min · actual 41 min.** The overrun is the second phase, which was not in
+the plan when the ETA was given and which the first phase's result made
+necessary.
+
+### Why the registered protocol could not have reached it — diagnosed before the run
+
+The A.1 TASK 7 cell **requested** 0.2 s spacing (300/min) and **achieved
+134.05/min**. The gap is **per-request latency**: a sequential client sends at
+most `60 / latency` per minute whatever spacing it asks for. Alpaca's documented
+figure is **200/min**, so **a single-threaded escalation is structurally
+incapable of attempting the documented limit**, let alone exceeding it.
+Escalating spacing further measures latency, not a limiter.
+
+**The protocol was extended by amendment rather than silently**: bounded
+concurrency cells at 2, 4 and 8 workers after the sequential ones, each stopping
+at its first refusal, with the ledger charged **before every send, under a
+lock**, so the daily cap holds across workers exactly as it holds sequentially.
+
+### Phase 1 — the escalation, `n = 391` requests
+
+| cell | workers | spacing | sent | admitted | attempted | refusal |
+|---|---:|---:|---:|---:|---:|---|
+| A.1 TASK 7 shape | 1 | 0.2 s | 25 | 25 | 223.16/min | none |
+| sequential | 1 | 0.05 s | 40 | 40 | 223.55/min | none |
+| sequential | 1 | 0 s | 60 | 60 | 227.00/min | none |
+| concurrent | 2 | 0 s | 80 | 80 | 450.70/min | none |
+| concurrent | 4 | 0 s | 120 | 120 | 764.28/min | none |
+| concurrent | 8 | 0 s | 66 | 59 | 1,542.31/min | **`429` at request 60 of the cell** |
+
+**Cumulative: 384 admitted, 7 × `429`, first refusal at cumulative request 385,
+elapsed 55.96 s.** Refusal payload verbatim and redacted:
+`{"message": "too many requests."}`
+
+**One figure was falsified in passing.** The A.1 TASK 7 **134.05/min** was not a
+limiter and not even a stable latency figure: the **identical** request shape
+achieved **223.16/min** today, `n = 25`. **A single observed admitted rate
+measures that moment's latency, not the endpoint.**
+
+### Why phase 1 is a burst allowance and not a ceiling
+
+**The whole escalation fit inside one rolling minute — 55.96 s.** So what was
+observed is *384 admitted within one minute, the 385th refused*. **A token bucket
+of capacity near 400 refilling at the documented 200/min produces exactly that.**
+So does a hard 411/min limiter. **The measurement does not distinguish them.**
+
+Recording **411.72/min** as *the ceiling* — which the tool's first analysis pass
+did, along with an operating pace of **689.37/min** — would have been **ADR-026's
+error running in reverse**: turning an unmeasured quantity into a large number.
+The analysis was corrected before anything was registered.
+
+### Phase 2 — the sustained rate, `n = 250` requests
+
+After a **75 s cooldown** so a per-minute bucket refilled, requests were sent on
+a **schedule** at the documented 200/min with 2 workers, for **longer than one
+rolling minute**.
+
+| quantity | figure |
+|---|---:|
+| sent | **250** |
+| admitted | **250** |
+| refusals | **0** |
+| elapsed | **75.10 s** |
+| sustained admitted rate | **199.73/min** |
+
+**The sustained ceiling is at or above 199.73/min and is not known exactly.** A
+**lower bound, never a ceiling.** `MEASURED_CEILING_PER_MINUTE["alpaca:bars"]`
+**stays `None`**, and the test now also refuses to let a lower bound be written
+into the ceiling dict.
+
+### What is registered
+
+| field | before | after |
+|---|---|---|
+| measured ceiling, `alpaca:bars` | `None` | **`None`** — the **sustained** ceiling still unreached |
+| measured burst refusal | — | **`(384, 55.96)`** |
+| measured sustained lower bound | — | **`199.73/min`** |
+| operating spacing, `alpaca:bars` | 1.0 s = 60/min | **0.61 s = 98.36/min** |
+| operating spacing, the other three Alpaca endpoints | 1.0 s | **1.0 s, unchanged** |
+| Alpaca daily cap | 2,000 | **3,000** |
+
+**The pace is half the maximum rate actually sustained** (199.73 / 2 = 99.86),
+with spacing **rounded up** to 0.61 s so it lands **below** the half figure.
+**The three unmeasured Alpaca endpoints keep 1.0 s** — pacing is per endpoint,
+never per host.
+
+`test_an_unmeasured_endpoint_is_never_paced_faster_than_a_measured_sibling` was
+**rewritten from a proxy to the rule**. It asserted *every endpoint of a vendor
+shares one spacing*, which held only while no endpoint had been measured on a
+rate; it now asserts directly that an unmeasured endpoint is paced at least as
+slowly as the slowest measured sibling.
+
+**The cap moved for a reason recorded rather than dressed up.** This pass spent
+**1,571** Alpaca requests by the end of the ceiling measurement, and the E2
+dispersion pull still had to run the same day. **2,000 did not cover a
+measurement day plus a collection day.** The measurement is evidence about
+**rate**, not about a daily total, and it is not used as if it were: no daily
+allowance has been measured on either vendor, and the cap remains a circuit
+breaker.
+
+**Gates: `make all` green — 374 tests passing (373 before), ruff and
+`mypy --strict` clean over 54 files.** **`n = 641` requests sent, 0 dollars
+spent.** Neither latch touched.

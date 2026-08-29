@@ -56,6 +56,16 @@ def test_every_paced_endpoint_has_a_recorded_basis() -> None:
     assert sorted(CONSERVATIVE_SPACING_S) == sorted(MEASURED_CEILING_PER_MINUTE)
     assert all(basis.strip() for basis in PACE_BASIS.values())
 
+    from orb.vendors import (
+        MEASURED_BURST_REFUSAL,
+        MEASURED_SUSTAINED_ADMITTED_PER_MINUTE,
+    )
+
+    assert sorted(CONSERVATIVE_SPACING_S) == sorted(MEASURED_BURST_REFUSAL)
+    assert sorted(CONSERVATIVE_SPACING_S) == sorted(
+        MEASURED_SUSTAINED_ADMITTED_PER_MINUTE
+    )
+
 
 def test_the_operating_pace_is_at_most_half_the_measured_ceiling() -> None:
     """Half the measured ceiling, per endpoint. Never faster."""
@@ -74,22 +84,98 @@ def test_the_operating_pace_is_at_most_half_the_measured_ceiling() -> None:
 
 def test_an_unreached_ceiling_is_none_and_not_a_large_number() -> None:
     """*The ceiling was not reached* is a different statement from *there is
-    no ceiling*, and it is recorded as its own value."""
+    no ceiling*, and it is recorded as its own value.
+
+    **Amendment 14 sharpened what this protects.** A refusal boundary on
+    ``alpaca:bars`` *was* reached — 384 admitted in 55.96 s, the 385th refused
+    `429` — but the whole escalation fit inside one rolling minute, so it is a
+    **burst allowance**. Sending at the documented 200 per minute for 75.10 s,
+    longer than one rolling minute, drew **0 refusals over n = 250**. The
+    sustained ceiling is therefore **at or above 199.73 and not known exactly**,
+    and the ceiling entry stays ``None``.
+
+    **A lower bound must never be written into the ceiling dict.** That is the
+    exact shape of the error ADR-026 was written against, running the other way.
+    """
+    from orb.vendors import (
+        MEASURED_BURST_REFUSAL,
+        MEASURED_SUSTAINED_ADMITTED_PER_MINUTE,
+    )
+
     assert MEASURED_CEILING_PER_MINUTE["alpaca:bars"] is None
-    assert "unmeasured ceiling" in PACE_BASIS["alpaca:bars"]
+    assert "NOT reached" in PACE_BASIS["alpaca:bars"]
+
+    burst = MEASURED_BURST_REFUSAL["alpaca:bars"]
+    assert burst == (384, 55.96)
+    floor = MEASURED_SUSTAINED_ADMITTED_PER_MINUTE["alpaca:bars"]
+    assert floor == 199.73
+
+    for endpoint, bound in MEASURED_SUSTAINED_ADMITTED_PER_MINUTE.items():
+        if bound is None:
+            continue
+        assert MEASURED_CEILING_PER_MINUTE[endpoint] != bound, (
+            f"{endpoint}: a sustained lower bound has been written into the "
+            "ceiling dict, which is exactly the ADR-026 error in reverse"
+        )
+
+
+def test_the_operating_pace_is_at_most_half_a_sustained_lower_bound() -> None:
+    """Where no ceiling was reached, the pace comes from what was **attempted**.
+
+    ADR-026's rule, applied to a rate rather than to a refusal: an unreached
+    ceiling licenses no assumption, so the pace is set from the **maximum rate
+    actually sustained** — 199.73 per minute over 75.10 s with 0 refusals — and
+    halved. Never from the documented figure, and never from a guess.
+    """
+    from orb.vendors import MEASURED_SUSTAINED_ADMITTED_PER_MINUTE
+
+    too_fast: list[str] = []
+    for endpoint, bound in MEASURED_SUSTAINED_ADMITTED_PER_MINUTE.items():
+        if bound is None:
+            continue
+        operating = 60.0 / CONSERVATIVE_SPACING_S[endpoint]
+        if operating > bound / 2.0 + 1e-9:
+            too_fast.append(f"{endpoint}: {operating:.3f}/min against {bound}/min")
+    assert not too_fast, f"paced faster than what was sustained: {too_fast}"
 
 
 def test_an_unmeasured_endpoint_is_never_paced_faster_than_a_measured_sibling() -> None:
     """An unmeasured endpoint keeps its vendor's figure rather than a faster
-    default: an unmeasured endpoint is not a licence to speed up."""
-    massive = {
-        k: v for k, v in CONSERVATIVE_SPACING_S.items() if k.startswith("massive:")
-    }
-    assert min(massive.values()) == max(massive.values()), massive
-    alpaca = {
-        k: v for k, v in CONSERVATIVE_SPACING_S.items() if k.startswith("alpaca:")
-    }
-    assert min(alpaca.values()) == max(alpaca.values()), alpaca
+    default: an unmeasured endpoint is not a licence to speed up.
+
+    **Amendment 14 replaced a proxy with the rule.** The proxy was *every
+    endpoint of a vendor shares one spacing*, which held only while **no**
+    endpoint of either vendor had been measured on a rate. `alpaca:bars` now has
+    a sustained lower bound and its three siblings do not, so the rule is stated
+    directly: an endpoint with no rate measurement is paced **at least as slowly
+    as the slowest measured endpoint of the same vendor**.
+    """
+    from orb.vendors import MEASURED_SUSTAINED_ADMITTED_PER_MINUTE
+
+    def measured(endpoint: str) -> bool:
+        return (
+            MEASURED_CEILING_PER_MINUTE[endpoint] is not None
+            or MEASURED_SUSTAINED_ADMITTED_PER_MINUTE[endpoint] is not None
+        )
+
+    offenders: list[str] = []
+    for prefix in ("massive:", "alpaca:"):
+        family = [k for k in CONSERVATIVE_SPACING_S if k.startswith(prefix)]
+        measured_spacings = [CONSERVATIVE_SPACING_S[k] for k in family if measured(k)]
+        if not measured_spacings:
+            spacings = [CONSERVATIVE_SPACING_S[k] for k in family]
+            assert min(spacings) == max(spacings), (prefix, spacings)
+            continue
+        slowest_measured = max(measured_spacings)
+        for endpoint in family:
+            if measured(endpoint):
+                continue
+            if CONSERVATIVE_SPACING_S[endpoint] < slowest_measured - 1e-9:
+                offenders.append(
+                    f"{endpoint} at {CONSERVATIVE_SPACING_S[endpoint]} s is faster "
+                    f"than the slowest measured sibling at {slowest_measured} s"
+                )
+    assert not offenders, f"an unmeasured endpoint was sped up: {offenders}"
 
 
 def test_the_massive_pace_also_respects_the_documented_limit() -> None:
@@ -108,6 +194,12 @@ def test_the_alpaca_pace_clears_the_documented_limit_too() -> None:
 def test_every_registered_vendor_has_a_daily_cap() -> None:
     """An unregistered vendor has no cap and is refused outright."""
     assert set(PROVISIONAL_DAILY_CAPS) == {MASSIVE, ALPACA}
+    assert PROVISIONAL_DAILY_CAPS[ALPACA] == 3000, (
+        "Amendment 14 moved Alpaca's circuit breaker from 2,000 to 3,000; it is "
+        "about 30 minutes of continuous use at the registered pace and is still "
+        "not derived from any measured daily allowance, because none exists"
+    )
+    assert PROVISIONAL_DAILY_CAPS[MASSIVE] == 600
     assert all(cap > 0 for cap in PROVISIONAL_DAILY_CAPS.values())
 
 
