@@ -1,0 +1,27 @@
+alpha_adj = 0.02532057 (one-sided, per co-primary)
+
+assumption              horizon                                  n       t  E1 power  min N 80%    E2 power
+-----------------------------------------------------------------------------------------------------------
+published (undecayed)   registered holdout, to 2026-06-30      875  5.2361    0.9995        250      Absent
+published (undecayed)   projected to 2026-12-31               1003  5.6060    0.9999        250      Absent
+published (undecayed)   projected to 2027-06-30               1126  5.9398    1.0000        250      Absent
+REGISTERED (half)       registered holdout, to 2026-06-30      875  2.6087    0.7435       1006      Absent
+REGISTERED (half)       projected to 2026-12-31               1003  2.7930    0.7991       1006      Absent
+REGISTERED (half)       projected to 2027-06-30               1126  2.9594    0.8425       1006      Absent
+quartered               registered holdout, to 2026-06-30      875  1.3044    0.2578       4021      Absent
+quartered               projected to 2026-12-31               1003  1.3965    0.2884       4021      Absent
+quartered               projected to 2027-06-30               1126  1.4797    0.3175       4021      Absent
+
+--- Section 9 arithmetic, reproduced against the prompt's figures ---
+  sessions to clear t=2.0 at 1.40        computed    515   DISAGREES (prompt says 514)
+  sessions to clear t=3.0 at 1.40        computed   1158   DISAGREES (prompt says 1157)
+  t at the computed holdout n            computed 2.6087   prompt says 2.62 at n=880
+
+--- Per-trade information ratio, non-binding, at 20 names/session ---
+  trigger rate 1.000 ->  17500 trades -> IR 0.0227
+  trigger rate 0.750 ->  13125 trades -> IR 0.0262
+  trigger rate 0.535 ->   9362 trades -> IR 0.0310  <- matches the prompt's 0.031
+  trigger rate 0.500 ->   8750 trades -> IR 0.0321
+  trigger rate 0.250 ->   4375 trades -> IR 0.0454
+
+wrote /home/kiros-li/Documents/GitHub/ORBExperiment/reports/stage_a2/power.json

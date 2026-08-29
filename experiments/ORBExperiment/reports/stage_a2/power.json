@@ -1,0 +1,101 @@
+{
+  "alpha_adj": 0.025320565519103666,
+  "e2_absence_reason": "Section 9 restricts the E2 dispersion input to the pre-period carve-out, and A.1 TASK 1 measured 0 of 9 vendors serving a bar to this repository",
+  "rows": [
+    {
+      "annual_sharpe": 2.81,
+      "assumption": "published (undecayed)",
+      "e1_min_n_for_80": 250,
+      "e1_power": 0.9994839324795277,
+      "e2_power": "Absent",
+      "horizon": "registered holdout, to 2026-06-30",
+      "sessions": 875,
+      "t": 5.236125847312007
+    },
+    {
+      "annual_sharpe": 2.81,
+      "assumption": "published (undecayed)",
+      "e1_min_n_for_80": 250,
+      "e1_power": 0.9998696616509801,
+      "e2_power": "Absent",
+      "horizon": "projected to 2026-12-31",
+      "sessions": 1003,
+      "t": 5.606044180097616
+    },
+    {
+      "annual_sharpe": 2.81,
+      "assumption": "published (undecayed)",
+      "e1_min_n_for_80": 250,
+      "e1_power": 0.9999663080000971,
+      "e2_power": "Absent",
+      "horizon": "projected to 2027-06-30",
+      "sessions": 1126,
+      "t": 5.939846812732644
+    },
+    {
+      "annual_sharpe": 1.4,
+      "assumption": "REGISTERED (half)",
+      "e1_min_n_for_80": 1006,
+      "e1_power": 0.7435206445941073,
+      "e2_power": "Absent",
+      "horizon": "registered holdout, to 2026-06-30",
+      "sessions": 875,
+      "t": 2.6087459737497545
+    },
+    {
+      "annual_sharpe": 1.4,
+      "assumption": "REGISTERED (half)",
+      "e1_min_n_for_80": 1006,
+      "e1_power": 0.799135859539906,
+      "e2_power": "Absent",
+      "horizon": "projected to 2026-12-31",
+      "sessions": 1003,
+      "t": 2.793046922468563
+    },
+    {
+      "annual_sharpe": 1.4,
+      "assumption": "REGISTERED (half)",
+      "e1_min_n_for_80": 1006,
+      "e1_power": 0.8425144846005717,
+      "e2_power": "Absent",
+      "horizon": "projected to 2027-06-30",
+      "sessions": 1126,
+      "t": 2.9593542839237372
+    },
+    {
+      "annual_sharpe": 0.7,
+      "assumption": "quartered",
+      "e1_min_n_for_80": 4021,
+      "e1_power": 0.25780240153992307,
+      "e2_power": "Absent",
+      "horizon": "registered holdout, to 2026-06-30",
+      "sessions": 875,
+      "t": 1.3043729868748772
+    },
+    {
+      "annual_sharpe": 0.7,
+      "assumption": "quartered",
+      "e1_min_n_for_80": 4021,
+      "e1_power": 0.2884273592744718,
+      "e2_power": "Absent",
+      "horizon": "projected to 2026-12-31",
+      "sessions": 1003,
+      "t": 1.3965234612342814
+    },
+    {
+      "annual_sharpe": 0.7,
+      "assumption": "quartered",
+      "e1_min_n_for_80": 4021,
+      "e1_power": 0.31745365165420725,
+      "e2_power": "Absent",
+      "horizon": "projected to 2027-06-30",
+      "sessions": 1126,
+      "t": 1.4796771419618686
+    }
+  ],
+  "session_counts": {
+    "projected to 2026-12-31": 1003,
+    "projected to 2027-06-30": 1126,
+    "registered holdout, to 2026-06-30": 875
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "clause": "PENDING-ACCESS Amendment 1",
+  "counterfactual_if_integrity_passed_in_full": {
+    "clause": "DEGRADED residual",
+    "verdict": "DEGRADED"
+  },
+  "fired_at": "2026-08-29T02:43:20+00:00",
+  "inputs": {
+    "agreement_finding": "Absent(not_yet_measured): A.1 TASK 1 measured 0 of 9 vendors serving a bar to this repository",
+    "alpha_adj": 0.025320565519103666,
+    "bar_revision_finding": "Absent(not_yet_measured): A.1 TASK 1 measured 0 of 9 vendors serving a bar to this repository",
+    "e1_min_n_for_80_at_registered": 1006,
+    "e1_power_at_published_2_81": 0.9994839324795277,
+    "e1_power_at_registered_1_40": 0.7435206445941073,
+    "e2_power": "Absent(not_yet_measured)",
+    "sessions_achievable": 875
+  },
+  "kind": "section0_verdict",
+  "reason": "the integrity measurement this map fires on does not exist: bar revision (not_yet_measured: A.1 TASK 1 measured 0 of 9 vendors serving a bar to this repository); cross-vendor agreement (not_yet_measured: A.1 TASK 1 measured 0 of 9 vendors serving a bar to this repository). Nothing is armed. This is a verdict on access, not on H1, and it is not a source-integrity closure \u2014 no bar has been served to fail.",
+  "verdict": "PENDING_ACCESS"
+}
