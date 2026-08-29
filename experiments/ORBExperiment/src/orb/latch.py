@@ -70,6 +70,24 @@ class LatchRecord:
         )
 
 
+REGISTERED_PRIOR_LABELS: frozenset[str] = frozenset({"independent", "adopted"})
+"""The two labels Section 13 registers. The label is part of the datum."""
+
+
+def normalise_prior_label(label: str) -> str:
+    """Fold case and surrounding space. **Nothing else is normalised.**
+
+    Section 13 registers the labels in lower case; the operator recorded
+    ``INDEPENDENT`` in capitals on 2026-08-29 (Amendment 5). A latch that
+    refused a correct answer over letter case would fail exactly once, at the
+    most expensive moment in this repository, and the refusal would look
+    identical to the refusal that exists to stop an unlabelled slot. Case is
+    folded here, deliberately and visibly; an unregistered label is still
+    refused, and refused loudly.
+    """
+    return label.strip().lower()
+
+
 def module_hashes(source_root: Path) -> dict[str, str]:
     """SHA-256 of every module in the package, at the moment of the read."""
     return {
@@ -100,7 +118,8 @@ def write_latch(
         raise OperatorGateError(
             f"{stage.value}: refusing without an explicit operator instruction."
         )
-    if operator_prior_label not in {"independent", "adopted"}:
+    normalised = normalise_prior_label(operator_prior_label)
+    if normalised not in REGISTERED_PRIOR_LABELS:
         raise OperatorGateError(
             f"{stage.value}: the operator prior slot is empty or unlabelled "
             f"(got {operator_prior_label!r}). Section 13 reserves it for the "
@@ -124,7 +143,7 @@ def write_latch(
         stage=stage,
         written_at=datetime.now(tz=UTC).isoformat(timespec="seconds"),
         module_hashes=module_hashes(source_root),
-        operator_prior_label=operator_prior_label,
+        operator_prior_label=normalised,
     )
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text(record.as_json(), encoding="utf-8")

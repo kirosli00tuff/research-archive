@@ -1160,3 +1160,84 @@ secret's length, so it registers for all three today.
 (was 23), `mypy --strict` clean over 49 files (was 46), `ruff` clean.**
 
 **ETA 40 min · actual 38 min.**
+
+---
+
+## Entry 9 — STAGE A.0 TASK 1, Section 13 and the operator prior
+
+**ETA 25 min · actual 24 min.**
+
+### The datum
+
+| field | value |
+|---|---|
+| **operator prior** | **0.30** |
+| **label** | **INDEPENDENT** |
+| **recorded** | **2026-08-29** |
+| **assistant prior** | **0.15**, recorded **2026-08-28** |
+| **disagreement** | **factor of 2.0** |
+| **blindness** | **`independent_but_not_blind`** |
+| **calibration eligibility** | **ELIGIBLE** |
+| **ambiguity in the stated reason** | **unresolved on purpose** |
+
+### The conditional the prompt set, checked and answered
+
+The prompt said: *"If an earlier amendment recorded an adopted prior of 0.15 in
+Section 13… state in the new amendment that the adopted figure is void and
+replaced."*
+
+**Checked. The condition is false.** Amendments 1 through 4 do not touch Section
+13, and Section 13 as written on 2026-08-28 carries three `<EMPTY>` slots and the
+instruction *"Do not fill this slot"* addressed to the assistant. `HYPOTHESES.md`
+carried the same. **There is nothing to void.** The slot moved from empty to
+filled in one step, and **no calibration exclusion on adopted-prior grounds ever
+existed here**, so the prompt's *"any earlier exclusion… is void"* clause is
+**vacuous in this repository** — it names a state this repository never entered.
+
+**It is recorded as checked-and-false rather than passed over**, because a later
+reader finding the conditional and no answer cannot tell whether it was
+evaluated or skipped.
+
+### How Section 13 was written to without editing it
+
+**Not one character above the new block was changed.** The `<EMPTY>` placeholders
+and the *"Do not fill this slot"* line are left exactly as written, so a later
+reader sees the slot in the state it was reserved in. **Section 13.1 is an
+append**, dated, and it names Amendment 5 as the authority. The line *"Do not
+fill this slot"* is addressed to **the assistant** and remains in force for the
+assistant; the slot below it was filled by the **operator**.
+
+### The one code change, and why it was necessary rather than tidy
+
+`orb.latch.write_latch` accepted the labels `independent` and `adopted` in
+**lower case only**. The operator recorded **`INDEPENDENT`**, in capitals.
+
+**A latch that refused a correct answer over letter case would fail exactly
+once, at the most expensive moment in this repository, and its refusal would be
+indistinguishable from the refusal that exists to stop an unlabelled slot.**
+`normalise_prior_label` now folds case and surrounding whitespace, **and nothing
+else** — `INDEPENDENT-ISH`, `assumed`, `""` and `"   "` are all still refused,
+pinned by test. The stored label normalises to the registered lower-case form,
+so the latch record is unambiguous.
+
+### What did not change, confirmed rather than assumed
+
+**No power figure, no co-primary, no structural gate, no threshold and no
+Section 0 input changed.** A prior is **not an input to Section 0**: that map
+reads a count-derived power, a measured share, a measured count and an
+operational verdict, and a prior is none of the four. `fire_section0` has no
+prior parameter and cannot acquire one without a signature change, which did not
+happen. The `PENDING_ACCESS` verdict of Amendment 4 stands unaltered.
+
+### Section 10, the latch, after this task
+
+| clause | state |
+|---|---|
+| 1 — both co-primaries at ≥ 0.80 power at achievable N | **UNSATISFIED** — E1 **0.7435** at the registered 1.40 on n = 875; E2 **`Absent(not_yet_measured)`** |
+| 2 — operator prior slot filled and labelled | **SATISFIED** — 0.30, `INDEPENDENT`, 2026-08-29 |
+| 3 — explicit operator instruction | **UNSATISFIED** — the governing prompt instructs the opposite |
+
+**Two of three remain unsatisfied. Stage C does not open.**
+
+**Gates: 298 tests passing (was 295), 28 guards, `mypy --strict` clean over 49
+files, `ruff` clean.**

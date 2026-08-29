@@ -605,6 +605,78 @@ never. If the operator's number happens to equal 0.15, it is still recorded as
 
 **Do not fill this slot.**
 
+### 13.1 — the operator prior, appended 2026-08-29 under Amendment 5
+
+**This block is an append. Not one character above this line was edited**, and
+the `<EMPTY>` placeholders above are left exactly as written so that a later
+reader can see the slot in the state it was reserved in. The datum below is
+registered by **Amendment 5**, and the amendment carries the full reasoning.
+
+**"Do not fill this slot" above is addressed to the assistant and remains in
+force for the assistant.** The slot below was filled by the **operator**.
+
+```
+operator_prior              = 0.30
+operator_prior_label        = INDEPENDENT
+operator_prior_recorded     = 2026-08-29
+assistant_prior             = 0.15
+assistant_prior_recorded    = 2026-08-28
+blindness                   = independent_but_not_blind
+prior_disagreement_ratio    = 2.0
+calibration_eligible        = true
+ambiguity_in_stated_reason  = unresolved_on_purpose
+```
+
+| field | value |
+|---|---|
+| **operator prior** | **0.30** |
+| **label** | **INDEPENDENT** |
+| **date recorded** | **2026-08-29** |
+| **assistant prior** | **0.15**, recorded **2026-08-28** |
+| **blindness** | **independent but not blind** |
+| **disagreement** | the two priors differ by a **factor of 2.0** |
+| **calibration eligibility** | **H1 is eligible for operator calibration scoring** |
+
+**Blindness, stated as a field rather than as prose.** The label is
+`INDEPENDENT`, not `adopted`: the operator formed 0.30 rather than taking the
+assistant's number. But **the assistant prior of 0.15 was recorded first, on
+2026-08-28, and was visible to the operator before the operator formed this
+number.** So the datum is **independent but not blind**, and **a later reader
+must not score 0.30 as an unanchored estimate.** The distinction matters to the
+calibration ledger: an independent-but-anchored prior is a weaker observation of
+the operator's belief than a blind one, and the ledger records which it has.
+
+**The operator's stated reason, recorded in the operator's terms and not
+paraphrased into something tidier:** prior house experiments have carried
+pessimistic evaluations, and the operator's own research and knowledge of
+intraday opening-range behaviour supports a figure above the assistant's 0.15.
+
+**A recorded ambiguity in that reason, flagged at the time of writing and left
+unresolved on purpose.** The stated reason admits two readings that push in
+**opposite directions**:
+
+1. **Harsh house gates argue for a lower prior.** If this house's evaluations
+   are pessimistic because its *gates* are severe — a deflated Sharpe at 1.00, a
+   per-trade t of 2.50, two co-primaries at `alpha_adj = 0.02532`, a
+   concentration gate and a persistence gate — then the probability of H1
+   **clearing those gates** is lower, not higher, than a typical prior on the
+   underlying effect being real.
+2. **Systematic under-forecasting of survival argues for a higher one.** If the
+   house has repeatedly forecast death and observed survival, the correction is
+   upward and 0.30 is that correction.
+
+**The operator did not narrow between the two readings, and this registration
+does not narrow on the operator's behalf.** Both are recorded. **The resolution
+of H1 scores the number either way** — the prior is 0.30 against the registered
+outcome, whichever reading generated it.
+
+**Section 10 clause 2 — the latch precondition — now reads SATISFIED.** The slot
+is filled and labelled `INDEPENDENT`, which is one of the two labels
+`orb.latch.write_latch` accepts at runtime. **Clause 1 (both co-primaries at or
+above 80 percent power) and clause 3 (explicit operator instruction) are
+unchanged and both remain UNSATISFIED**, so the latch is still closed and this
+entry does not open it.
+
 ---
 
 ## 14. The amendment log
@@ -929,3 +1001,131 @@ power at the registered assumption would require **extending the holdout end
 date**, which is **pinned in Section 7** and would need its own dated amendment.
 **This registration does not extend it**, and records here that the temptation to
 do so must be met while holding no result — which is now.
+
+---
+
+## Amendment 5 — the operator prior, filled at 0.30 and labelled INDEPENDENT
+
+**Date:** 2026-08-29 · **Status:** accepted · amends **Section 13**, and records
+**Section 10** clause 2 as satisfied
+
+**Exactly what data existed when this amendment was made.** The session calendar
+(2,637 sessions, 21 half sessions), the A.1 access findings (n = 15 robots
+fetches, n = 25 API probes, **0 of 9 vendors serving a bar**), the live fee
+verification, the computed power table, and the `PENDING_ACCESS` verdict of
+Amendment 4. **Zero bars, zero prices, zero volumes, zero trades, zero returns
+and zero PnL of any kind.** Three vendor credentials were present in a
+git-ignored `.env` and **not one credentialed request had been sent** — the
+credentialed probes of A.1 TASK 3 come after this amendment, not before it.
+**The prior was therefore recorded while holding no result to fit it to**, which
+is the only circumstance in which a prior is worth recording at all.
+
+### The datum
+
+| field | value |
+|---|---|
+| **operator prior** | **0.30** on a real capturable edge surviving the registered cost model out of sample |
+| **label** | **INDEPENDENT** |
+| **recorded** | **2026-08-29** |
+| **assistant prior** | **0.15**, recorded **2026-08-28** |
+| **disagreement** | **factor of 2.0** |
+| **blindness** | **independent but not blind** |
+| **calibration eligibility** | **eligible** |
+
+### The conditional this amendment was told to check, and its answer
+
+The prompt instructed: *"If an earlier amendment recorded an adopted prior of
+0.15 in Section 13, do not edit that line. Supersede it with a new sequential
+amendment, leave the original visible, and state in the new amendment that the
+adopted figure is void and replaced."*
+
+**The condition was checked and is false.** No earlier amendment recorded an
+adopted prior. **Amendments 1 through 4 do not touch Section 13 at all**, and
+Section 13 as written on 2026-08-28 carries `operator_prior = <EMPTY>`,
+`operator_prior_label = <EMPTY>`, `operator_prior_recorded = <EMPTY>` together
+with the instruction **"Do not fill this slot"** addressed to the assistant.
+`HYPOTHESES.md` carried the same: *"Operator prior: EMPTY — reserved."*
+
+**There is therefore nothing to void.** This is recorded as a **checked and
+false** condition rather than passed over in silence, because a later reader
+finding the prompt's conditional and no answer to it cannot tell whether it was
+evaluated or skipped. **Nothing in this repository is void, nothing is replaced,
+and the slot moved from empty to filled in one step.**
+
+**One consequence follows and is recorded with it.** Since no adopted prior ever
+existed here, **no calibration exclusion was ever recorded on adopted-prior
+grounds**, and so none is voided by this amendment either. The prompt's clause
+*"any earlier exclusion recorded on adopted-prior grounds is void"* is **vacuous
+in this repository** — it names a state this repository never entered. **H1 is
+eligible for operator calibration scoring**, and it is eligible because the slot
+was filled independently, not because an exclusion was lifted.
+
+### Blindness — why the label is INDEPENDENT and why that is not the whole story
+
+**`INDEPENDENT` is the correct label.** The operator did not adopt 0.15; the
+operator formed 0.30. Section 13 registered the test before the answer existed:
+a number is `independent` *"only if it was reached without reading the line
+above, and `adopted` otherwise"* — and Section 13's own framing of `adopted`
+is **taking the assistant's number**, which did not happen.
+
+**And the label is not the whole story, so the whole story is a field.** The
+assistant prior of **0.15 was recorded first, on 2026-08-28, and was visible to
+the operator before the operator formed 0.30.** The datum is therefore
+**`independent_but_not_blind`**, recorded as its own field so that it survives
+skimming. **A later reader must not score 0.30 as an unanchored estimate.**
+
+**Why this is registered rather than smoothed.** The NPDExperiment **Amendment
+0** lesson is that *an adopted prior corrupts the calibration ledger* — it makes
+the ledger measure the assistant twice and the operator never. The failure mode
+this amendment guards against is the **weaker sibling** of that one: a prior
+that is genuinely the operator's, but formed in sight of the assistant's, scored
+later as though it had been formed in a vacuum. **Recording the anchor is what
+keeps the ledger honest about how strong an observation it holds.**
+
+### The operator's stated reason, and the ambiguity inside it
+
+**Recorded in the operator's terms:** prior house experiments have carried
+pessimistic evaluations, and the operator's own research and knowledge of
+intraday opening-range behaviour supports a figure above the assistant's 0.15.
+
+**The ambiguity, flagged now and left unresolved on purpose.** That reason
+admits two readings that push in **opposite directions**, and the difference is
+not cosmetic:
+
+| reading | what "pessimistic evaluations" means | direction on H1 |
+|---|---|---|
+| **A — harsh gates** | the house's *gates* are severe: deflated Sharpe ≥ 1.00, per-trade t ≥ 2.50, two co-primaries at `alpha_adj = 0.02532`, a 50-percent concentration gate and a 3-of-4 persistence gate | **lower** prior on H1 *clearing those gates*, because the bar is the thing that is harsh |
+| **B — under-forecast survival** | the house has repeatedly forecast death and observed survival | **higher** prior, and 0.30 is that correction |
+
+**The operator did not narrow between them, and this registration does not
+narrow on the operator's behalf.** Doing so would be the assistant writing the
+operator's reasoning into the calibration ledger, which is the same error as
+adopting the operator's number, run backwards.
+
+**It is left unresolved on purpose and the resolution of H1 scores the number
+either way.** The prior stands at 0.30 against the registered outcome, whichever
+reading generated it. **If H1 later resolves, the ambiguity is a note on the
+interpretation of one datum, not a reason to rescore it.**
+
+### What this changes, and what it does not
+
+**Section 10, clause 2 — the operator prior slot filled and labelled — now reads
+SATISFIED.** `INDEPENDENT` normalises to one of the two labels
+`orb.latch.write_latch` accepts at runtime, and the runtime refusal for an empty
+or unlabelled slot no longer fires on this clause.
+
+**The latch remains closed.** Clause 1 requires **both co-primaries at or above
+80 percent power at achievable N** — E1 is **0.7435** at the registered
+assumption on n = 875 holdout sessions and **E2 is `Absent(not_yet_measured)`**,
+so clause 1 is **UNSATISFIED**. Clause 3 requires an **explicit operator
+instruction** to open the sealed in-sample read, and **none exists** — the
+prompt this amendment was written under instructs the opposite, that nothing is
+armed. **Two of the three clauses remain unsatisfied and Stage C does not open.**
+
+**Nothing else moved.** **No power figure, no co-primary, no structural gate, no
+threshold and no Section 0 input changed as a result of this amendment.** A
+prior is not an input to Section 0 — Section 0 reads a count-derived power, a
+measured share, a measured count and an operational verdict, and **a prior is
+none of those four.** The `PENDING_ACCESS` verdict of Amendment 4 stands
+unaltered by this entry, and is re-fired on measured inputs at A.1 TASK 10 for
+reasons that have nothing to do with this amendment.

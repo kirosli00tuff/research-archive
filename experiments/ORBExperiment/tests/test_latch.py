@@ -8,6 +8,7 @@ from pathlib import Path
 import pytest
 
 from orb.latch import (
+    REGISTERED_PRIOR_LABELS,
     LatchAlreadySpentError,
     LatchPrerequisiteError,
     OperatorGateError,
@@ -110,3 +111,52 @@ def test_the_two_stages_have_separate_latches(tmp_path: Path) -> None:
     assert is_spent(tmp_path, Stage.C)
     assert not is_spent(tmp_path, Stage.D)
     assert latch_path(tmp_path, Stage.C) != latch_path(tmp_path, Stage.D)
+
+
+def test_the_operator_label_is_accepted_as_the_operator_wrote_it(
+    tmp_path: Path,
+) -> None:
+    """Amendment 5 recorded the label as ``INDEPENDENT``, in capitals.
+
+    A latch that refused a correct answer over letter case would fail exactly
+    once, at the most expensive moment, and would look identical to the refusal
+    that exists to stop an unlabelled slot.
+    """
+    # Arrange
+    state, source = tmp_path / "state", tmp_path / "src"
+    source.mkdir()
+    (source / "m.py").write_text("x = 1\n", encoding="utf-8")
+    # Act
+    record = write_latch(
+        state,
+        source,
+        Stage.C,
+        operator_prior_label="  INDEPENDENT  ",
+        operator_instruction=True,
+    )
+    # Assert — stored in the registered lower-case form.
+    assert record.operator_prior_label == "independent"
+
+
+def test_an_unregistered_label_is_still_refused_after_case_folding(
+    tmp_path: Path,
+) -> None:
+    """Case folding is the only normalisation. A wrong label still refuses."""
+    # Arrange
+    state, source = tmp_path / "state", tmp_path / "src"
+    source.mkdir()
+    (source / "m.py").write_text("x = 1\n", encoding="utf-8")
+    # Act / Assert
+    for label in ("INDEPENDENT-ISH", "assumed", "", "   "):
+        with pytest.raises(OperatorGateError, match="empty or unlabelled"):
+            write_latch(
+                state,
+                source,
+                Stage.C,
+                operator_prior_label=label,
+                operator_instruction=True,
+            )
+
+
+def test_the_registered_label_set_is_exactly_the_two_section_13_labels() -> None:
+    assert sorted(REGISTERED_PRIOR_LABELS) == ["adopted", "independent"]

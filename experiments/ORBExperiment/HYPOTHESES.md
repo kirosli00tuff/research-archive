@@ -15,6 +15,10 @@ sealed reads established.
 **Status at 2026-08-29: H1 OPEN, registered, Stage A in progress. Ten
 candidates closed before opening at registration. H2 and H3 PARKED.**
 
+**Updated 2026-08-29, A.1 resumption:** the **operator prior slot is filled** at
+**0.30, INDEPENDENT** (Amendment 5), which satisfies **Section 10 clause 2**. Two
+of the latch's three clauses remain unsatisfied and **Stage C does not open.**
+
 ---
 
 ## The closure kinds
@@ -58,7 +62,9 @@ documented answer rather than a failure of process.
 | **The registered shortfall** | The holdout holds ~880 sessions and yields **t = 2.62** at the registered assumption, **below the 3.0 Harvey, Liu and Zhu argue a new claim should clear** (carried, C-10). Registered openly as ADR-005 rather than discovered at the read; the holdout gate is set at a per-trade **t of 2.50** with E1's deflation carrying the multiple-testing correction. |
 | **What decides this repository** | **Not the return. Bar integrity.** A.1 TASK 3 measures the bar revision rate; A.1 TASK 4 measures cross-vendor first-5-minute agreement and delisted-name coverage. Either can fire **BLOCKED** at perfect power. |
 | **Assistant prior** | **0.15**, recorded 2026-08-28, before any measurement. |
-| **Operator prior** | **EMPTY — reserved. The empty slot blocks the Stage C latch structurally.** The assistant never fills it (NPDExperiment Amendment 0: an adopted prior corrupts the calibration ledger). |
+| **Operator prior** | **0.30**, label **INDEPENDENT**, recorded **2026-08-29** by the operator (Amendment 5). **Blindness: `independent_but_not_blind`** — the operator formed 0.30 rather than adopting the assistant's number, but the assistant's **0.15** was recorded first, on 2026-08-28, and was visible to the operator before this number was formed. **A later reader must not score 0.30 as an unanchored estimate.** **Disagreement: a factor of 2.0**, recorded as a field so both priors are scored against the same outcome. **Operator's stated reason, in the operator's terms:** prior house experiments have carried pessimistic evaluations, and the operator's own research and knowledge of intraday opening-range behaviour supports a figure above 0.15. **Recorded ambiguity, unresolved on purpose:** harsh house gates argue for a *lower* prior on H1 clearing them, while systematic house under-forecasting of survival argues for a *higher* one; the operator did not narrow between them and this register does not narrow on the operator's behalf. **The resolution of H1 scores the number either way.** |
+| **Calibration eligibility** | **ELIGIBLE.** H1 is eligible for operator calibration scoring. **No exclusion on adopted-prior grounds ever existed here** — the condition was checked at Amendment 5 and is false, so none is voided. |
+| **Stage C latch, Section 10** | Clause 2 (**operator prior slot filled and labelled**) now reads **SATISFIED**. Clause 1 (**both co-primaries ≥ 0.80 power**) is **UNSATISFIED** — E1 **0.7435** at the registered assumption on n = 875, E2 **`Absent`**. Clause 3 (**explicit operator instruction**) is **UNSATISFIED**. **The latch remains closed.** |
 | **Working** | `REGISTRATION.md`, `progress.md`, `report.md`, `DECISIONS.md`. |
 
 ---
