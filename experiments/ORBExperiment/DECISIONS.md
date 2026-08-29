@@ -501,3 +501,344 @@ repairing, and the repair is lossy when two writers interleave inside one line.
 exit **78** because Section 0 fired `PENDING_ACCESS`. **A collector that runs and
 stores nothing looks identical in a log to one that ran and found nothing**, so
 refusing loudly is the only honest inert state.
+
+---
+
+## ADR-019: Secret redaction sits at the recording boundary, not the call site
+
+**Date:** 2026-08-29 · **Status:** accepted · A.-1 TASK 0, Guard 8
+
+**Context.** Three vendor credentials now exist. Three individually harmless
+facts compose into a leak: **a credentialed endpoint can return the key inside
+its own error body**; **`docs/ACCESS.md` records refusal payloads verbatim**,
+which is the whole point of the file; and **`orb.seal.SealedWriter` stores raw
+vendor bytes without parsing them**, which is what makes it a sealed writer. Put
+together, a key reaches a committed artifact **without any module ever printing
+one on purpose.**
+
+**Decision.** Redact where a string becomes a **record**, not where a request is
+built. Three boundaries, each pinned by parse tree in
+`test_every_recording_boundary_routes_through_the_redactor`:
+`AppendOnlyLedger.append` → `redact_row`, `SealedWriter.store` → `redact_data`,
+`Response.__post_init__` → `redact_text` and `redact_data`. **A `Response` is
+redacted on birth**, so one built by any caller in any tool is already safe to
+record. Recordable about a credential: **name, presence, character length**. Not
+recordable: value, prefix, suffix, **and any hash** — a hash of a 32-character
+key is a **confirmation oracle for a guess**.
+
+**Alternatives rejected.** *Redact at each call site*: a call site can be
+forgotten and there is no bound on how many exist; a recording boundary is three
+places. *Never record refusal payloads*: the payloads are the evidence — A.1
+TASK 5's reach boundary and A.1 TASK 7's ceiling are both **verbatim refusal
+strings**, and a repository that cannot quote them cannot show its work. *Hash
+the credential to prove absence*: that is the confirmation oracle above.
+
+**Consequences.** **Redaction is deterministic** — the same secret always becomes
+the same placeholder — because A.1 TASK 3 measures the bar revision rate by
+comparing **stored bytes** across two pulls 14 days apart, and **a varying
+redactor would make every pull differ from every other pull and register a
+fabricated 100 percent revision rate**: a BLOCKED at `> 0.020` manufactured by
+the guard meant to protect the measurement. Pinned both ways. A secret shorter
+than **8 characters is refused, not redacted**, with the fixture **on** the
+boundary. `Response.byte_count` counts what the vendor served and
+`stored_byte_count` what would be stored, so **a vendor echoing a key back is
+visible without anyone reading the body** — recorded as an indicator and
+**labelled an indicator rather than a proof**.
+
+---
+
+## ADR-020: The operator prior is labelled INDEPENDENT and, separately, not blind
+
+**Date:** 2026-08-29 · **Status:** accepted · A.0 TASK 1, REGISTRATION.md
+Amendment 5
+
+**Context.** Section 13 reserved the operator prior slot and registered the test
+for its label **before** any number existed: `independent` *"only if it was
+reached without reading the line above"*, `adopted` otherwise. The operator
+recorded **0.30** on 2026-08-29, against the assistant's **0.15** of 2026-08-28 —
+a **factor-of-2.0** disagreement.
+
+**Decision.** Label it **`INDEPENDENT`**, because the operator formed 0.30 rather
+than taking 0.15. **And record a second, separate field:
+`blindness = independent_but_not_blind`**, because the assistant's number was
+recorded first and was **visible** to the operator before this one was formed.
+**A later reader must not score 0.30 as an unanchored estimate.**
+
+**Alternatives rejected.** *Label it `adopted`*: false — the operator did not
+take the assistant's number, and mislabelling it would corrupt the ledger in the
+opposite direction. *Label it `INDEPENDENT` and say nothing else*: technically
+correct and quietly misleading, because the calibration ledger would score an
+anchored prior as a blind one. *Have the assistant resolve the ambiguity in the
+operator's stated reason*: that is the assistant writing the operator's reasoning
+into the ledger — **the adopted-prior error run backwards**.
+
+**Consequences.** The operator's stated reason — *prior house experiments have
+carried pessimistic evaluations* — **admits two readings that push in opposite
+directions**, and both are recorded, unresolved: **harsh house gates** argue for
+a *lower* prior on H1 clearing them; **systematic under-forecasting of survival**
+argues for a *higher* one. **The operator did not narrow between them and this
+repository does not narrow on the operator's behalf. H1 resolves and scores 0.30
+either way.** Section 10 clause 2 now reads **satisfied**; clauses 1 and 3 do
+not, and the Stage C latch stays closed. `orb.latch.normalise_prior_label` folds
+case and surrounding space **and nothing else**, because a latch refusing a
+correct answer over letter case would fail exactly once, at the most expensive
+moment, and its refusal would be **indistinguishable from the refusal that exists
+to stop an unlabelled slot**.
+
+---
+
+## ADR-021: Tape identification is a branch ahead of the agreement thresholds, not a reinterpretation of them
+
+**Date:** 2026-08-29 · **Status:** accepted · A.1 TASK 4, REGISTRATION.md
+Amendment 7
+
+**Context.** Section 0's cross-vendor agreement clause — `PASS ≥ 0.95`,
+`PARTIAL ≥ 0.85`, `FAIL` below, firing **BLOCKED-4** — assumes two feeds trying
+to measure **the same thing**. Alpaca serves both a consolidated feed and an
+IEX-only feed from the same endpoint, one parameter apart. **IEX ran about 2.8
+percent of consolidated volume in the measured window.** Scoring an IEX-only feed
+against the 0.95 bar would fire BLOCKED on **entitlement** while recording it as
+**integrity**.
+
+**Decision.** A branch evaluated **before** the agreement verdict, gating whether
+it may fire at all. **`SAME_TAPE`** at a median first-5-minute volume ratio in
+`[0.90, 1.10]` — thresholds apply as written. **`DIFFERENT_TAPE`** below `0.50` —
+**thresholds do not apply and must not fire**; a high-or-low disagreement is a
+**tape-coverage finding**, and it routes to an operator item. **`AMBIGUOUS`**
+between — **fire nothing**, record the distribution, hand over the numbers.
+
+**Alternatives rejected.** *Read the vendors' documentation and trust it*: that is
+a documented figure standing in for a measured one, which standing rule 4
+forbids by name — and the whole reason this branch exists is that a tape claim is
+cheap to publish. *Widen the agreement thresholds to absorb a single-venue feed*:
+that makes the gate unable to detect the failure it exists for. *Compare bar
+counts instead of volume*: IEX serves a bar for most minutes; **it is the volume
+inside the bar that is 2.8 percent**, so bar counts would have missed it.
+
+**Consequences.** **Measured `SAME_TAPE` on Massive against Alpaca-SIP: median
+1.005197, IQR [1.003096, 1.007726], n = 100 session-ticker pairs, 0 below the
+0.20 single-venue threshold.** Two controls were run because **a discriminator
+pointed at one pair is an assertion about nothing**: Massive vs Alpaca-IEX
+separated at **0.027856**, and the within-vendor control Alpaca-SIP vs Alpaca-IEX
+separated at **0.027761** — same vendor, same host, same request, one parameter
+changed, which removes every explanation for a separation that is not the tape,
+**including this repository's own window arithmetic**. The measurement window is
+**not** the registered pre-period carve-out, because **neither credential serves
+it** (Massive `403`, Alpaca `200` with 0 bars); the five sessions used sit
+**strictly after `holdout_end`**, outside both registered windows. **The carve-out
+boundary is unmoved and was not widened** — the sealed comparator is already the
+registered exception and is not window-limited.
+
+---
+
+## ADR-022: The two feeds share an upstream, and the agreement gate is scoped accordingly
+
+**Date:** 2026-08-29 · **Status:** accepted · A.1 TASK 4, REGISTRATION.md
+Amendments 7 and 8
+
+**Context.** The agreement gate exists because of Concretum: **identical
+opening-range code, four vendors, identical dates, parameters and starting
+capital, final portfolio values from 226,000 to 726,000 USD** — a threefold
+spread from vendor choice alone (**carried**, C-13). **That spread is a spread
+across upstreams.**
+
+**Decision.** Record, **before the agreement figure exists**, that this pair does
+not run that test. The evidence is the **tightness, not the level**: the IQR of
+the Massive-against-Alpaca-SIP first-5-minute volume ratio is **[1.003096,
+1.007726] — 0.46 percentage points wide over n = 100 pairs**. Two independently
+constructed consolidations would not agree that closely that consistently; **one
+SIP-derived upstream redistributed twice** would. So: **a `PASS` establishes that
+two redistributors of one upstream agree. It does not establish that the
+first-5-minute high and low are vendor-independent.**
+
+**Alternatives rejected.** *Report the agreement figure without the caveat*: it
+would read as the Concretum test and it is not. *Drop the gate as uninformative*:
+it still detects a redistribution-pipeline fault, which is a real hazard.
+*Acquire a third feed now*: that is an operator action and a possible spend, and
+**this repository spends nothing without an explicit instruction**.
+
+**Consequences.** Two scope limits compose and both are registered before the
+number exists. **From Amendment 8:** the two feeds overlap only from
+**2024-08-29**, giving **459 of 875 holdout sessions and 0 of 1,762 in-sample
+sessions**. **From this ADR:** within that overlap the pair scores a
+redistribution pipeline. **Together: the gate as it can actually be run
+establishes that two redistributors of one upstream agree, on 459 of 2,637
+registered sessions.** A third feed on a genuinely different upstream is an
+**open operator item**; it does not block the ladder, and Section 11's epistemic
+boundary gains a line.
+
+---
+
+## ADR-023: Alpaca is the primary bar vendor and Massive is the reference vendor
+
+**Date:** 2026-08-29 · **Status:** accepted · A.1 TASK 8 · **supersedes the
+provisional recommendation in `docs/ACCESS.md`**, which is left visible
+
+**Context.** `docs/ACCESS.md` recommended **Massive as primary** on **documented**
+grounds: the only probed vendor publishing a delisted-ticker reference endpoint
+*and* minute aggregates on one host. **Standing rule 4 says the measurement
+wins**, and the measurements are now in. The choice is made on the **two
+integrity questions and not on price** — both tiers cost zero.
+
+**The measurements the decision rests on.**
+
+| question | Alpaca | Massive |
+|---|---|---|
+| **serves delisted names with intraday history** | **`PASS` — 203 names measured, n = 229 in-window names checked, share 0.8865** | only inside a 24-month window; **1,171 of 4,731 in-window delisted names, 24.8 percent, is the entire pool it could ever answer for**; 16 of 18 in-window sampled served |
+| **retroactively rewrites already-served bars** | **`Absent(not_yet_measured)`** — TASK 9 arms it; the answer needs a ≥ 14-day wait | **`Absent(not_yet_measured)`** |
+| measured historical reach | **2016-01-04**, n = 16 probes — **1,762/1,762 in-sample, 875/875 holdout** | **2024-08-29**, n = 16 probes — **0/1,762 in-sample, 459/875 holdout** |
+| enumerates delisted names **with a delisting date** | **no** — `/v2/assets?status=inactive` serves 19,189 US equity rows and **carries no delisting date at all** | **yes** — 6,421 rows, 4,731 in-window |
+| measured rate ceiling | **not reached**; 25/25 admitted at 134.05/min | **5.00/min**, first refusal at request 6 of 8 on **both** endpoints |
+| tape | **`SAME_TAPE`** with Massive, median **1.005197**, n = 100 | same measurement, same n |
+
+**Decision.** **Alpaca is the primary bar vendor. Massive is the reference
+vendor.** Neither can do the other's job on the tiers this repository holds, and
+the division is a **measured fact rather than a preference**: Massive is the only
+vendor that can **enumerate** delisted names with dates, and it can serve the
+bars for barely a quarter of them; Alpaca serves the bars across the full
+registered window and cannot enumerate delistings at all.
+
+**Alternatives rejected.** *Keep Massive as primary per `docs/ACCESS.md`*: it
+serves **0 of 1,762 in-sample sessions**. *Keep Massive as primary and shrink the
+registered windows to fit its reach*: **that is the work-around the ladder
+forbids** — the windows are pinned in Section 7 and do not move to accommodate a
+tier. *Drop Massive entirely*: it is the **only** source of delisting dates, and
+without it the universe is survivor-only by construction — the exact failure
+BLOCKED-3 exists to prevent. *Buy the Massive Starter tier*: **spend requires an
+explicit operator instruction and its own ADR**, and it would buy only the
+agreement gate's scope back, not primary collection.
+
+**Consequences, stated in the decision text rather than a footnote.**
+
+1. **The pair carries the same tape and shares an upstream** (ADR-021, ADR-022),
+   so the cross-vendor agreement measurement **scores a redistribution pipeline
+   rather than two independent feeds**, and **it is not the Concretum test**.
+2. **The pair overlaps only from 2024-08-29** (Amendment 8), so the agreement
+   gate covers **459 of 875 holdout sessions and none of the in-sample window**.
+3. **Alpaca covers the in-sample window with zero margin** — its earliest served
+   session is **2016-01-04**, the exact first session of the registered window.
+   **One trimmed month of vendor history and the coverage is gone.** This is not
+   a comfortable pass and the ADR refuses to record it as one.
+4. **The second integrity question is unanswered and this decision does not
+   pretend otherwise.** Whether either vendor **retroactively rewrites**
+   already-served bars is `Absent(not_yet_measured)`. **A.1 TASK 9 arms the
+   clock; the answer arrives no earlier than 14 calendar days later**, and until
+   it does **nothing is armed**.
+5. **Alpaca refuses at HTTP 200.** It served `200` on **all 260** delisted checks,
+   including every name it served nothing for, and `200` with `bars: null` for
+   out-of-reach sessions. **On the primary vendor, health cannot be read from the
+   status line** — `served` is **status code and bar count**, never either alone.
+   This is the third vendor-specific instance of ADR-008 and it is now the
+   primary's defining operational hazard.
+
+---
+
+## ADR-024: A vendor filter parameter that is silently ignored is a measurement hazard, not an inconvenience
+
+**Date:** 2026-08-29 · **Status:** accepted · A.1 TASK 6
+
+**Context.** The delisted enumeration asked Massive for
+`delisted_utc.gte=2016-01-04` and `delisted_utc.lte=2026-06-30`. **The filters
+were not honoured.** The response carried **1,690 rows outside the window** —
+names delisted from 2004 through 2015, and names delisted after 2026-06-30 —
+out of **6,421** returned. A caller trusting the filter would have recorded
+**6,421 as the in-window count: a 36 percent overstatement**, with no error, no
+warning and no status code to notice.
+
+**Decision.** **Apply every window filter client-side**, from fields this
+repository holds — here `delisted_utc`, a readable field present on every row.
+A vendor filter is a **request for a convenience, never a guarantee about the
+response**.
+
+**Alternatives rejected.** *Trust the filter and record 6,421*: the overstatement
+is invisible in the response. *Trust it and spot-check*: a spot check that passes
+proves nothing about the rows it did not sample. *Report both figures without
+choosing*: the registered threshold needs one number, and the correct one is the
+one this repository computed.
+
+**Consequences.** **It invalidated the first sample rather than merely annoying
+it.** The 120-name draw came from the whole list, so **31 of 120 sat outside the
+registered window and outside Alpaca's measured reach** — those names miss on
+**reach**, not on **coverage**. In-window: **81 of 89 served, 0.910**.
+Out-of-window: **0 of 31, 0.000**. **The 0 of 31 is the confirmation** — coverage
+failures scatter, and these align exactly with the reach boundary measured
+independently at TASK 5. The sample was re-drawn in-window and **enlarged to
+n = 229** rather than scaled up, because **the registered threshold is a count
+and a rate multiplied by 4,731 is a synthesized value** that standing rule 5
+forbids.
+
+---
+
+## ADR-025: A response body is recorded verbatim only when it is a refusal
+
+**Date:** 2026-08-29 · **Status:** accepted · A.1 TASK 3, recorded as a deviation
+at `progress.md` Entry 11
+
+**Context.** The first credentialed probe round recorded `body_redacted` for
+**every** response and printed it to the console. For three probes those
+fragments contained **OHLCV values**. Under the blindness field lists,
+`open`, `high`, `low`, `close` and `volume` are **never readable outside a sealed
+writer**, and a report file is not a sealed writer. **Guard 5 cannot catch this
+class**: it walks parse trees for **field names in source**, and a value that
+only ever appears inside a runtime string is invisible to it.
+
+**Decision.** An asymmetric recording policy, in code rather than in care, at
+`tools/_a1r.py::record_body`: **a refusal is recorded verbatim; a served payload
+is not recorded at all.** The asymmetry runs on **status code**, which is itself
+a readable field. A served payload records **byte count, SHA-256 and bar count**
+instead — all three readable — and the bar count is computed by
+`orb.comparator.count_bars` **inside the sealed comparator**, so exactly one
+module in this repository turns vendor bytes into anything at all.
+
+**Alternatives rejected.** *Truncate the fragment shorter*: a shorter fragment
+still carries bars. *Filter priced keys out of the recorded body*: that requires
+naming priced fields outside a sealed module, which Guard 5 correctly forbids.
+*Record nothing at all*: `docs/ACCESS.md` exists to carry refusal payloads
+verbatim, and **A.1 TASK 5's reach boundary and A.1 TASK 7's ceiling are both
+verbatim refusal strings** — deleting them would delete the evidence.
+
+**Consequences.** The sessions touched before the fix were **2015-06-01**, inside
+the pre-period carve-out and **served nothing by either vendor**, and
+**2026-07-15**, **after `holdout_end` = 2026-06-30** and therefore outside both
+registered windows. **No bar from either registered window was read or
+recorded**, and the reports were rewritten under the new policy **before the
+commit**, so **no bar value is committed**. `count_bars` returns `0` for a
+refusal, an unparseable body **and** a served empty set, and **the caller
+separates those three by status code, never by the count** — standing rule 7,
+enforced by the shape of the function rather than by its documentation.
+
+---
+
+## ADR-026: An unreached ceiling is recorded as absent, never as a large number
+
+**Date:** 2026-08-29 · **Status:** accepted · A.1 TASK 7, REGISTRATION.md
+Amendment 9
+
+**Context.** A.1 TASK 7 measured Massive's ceiling at **5.00 requests per
+minute** — first refusal at request **6 of 8** on both endpoints, `n = 16` — and
+ran Alpaca to **25 of 25 admitted at 134.05 per minute with zero refusals**.
+Alpaca's limiter was **never reached**.
+
+**Decision.** `MEASURED_CEILING_PER_MINUTE["alpaca:bars"]` is **`None`**.
+*"The ceiling was not reached"* is a **different claim** from *"there is no
+ceiling"* and from *"the ceiling is 134"*, and it is recorded as its own value.
+The operating pace for such an endpoint comes from **half the highest observed
+admitted rate**, and `orb.vendors.PACE_BASIS` states, per endpoint, whether the
+figure rests on a **measured ceiling** or an **observed admitted rate**.
+
+**Alternatives rejected.** *Record 134 as the ceiling*: it is a rate that was
+admitted, not a rate that was refused, and recording it as a ceiling would make
+an unmeasured figure look measured. *Escalate until Alpaca refuses*: the
+measurement's purpose is a safe operating pace, and 60 per minute is already far
+more than any registered task needs — **escalating further would buy a number
+this repository has no use for at the cost of hammering a vendor**. *Use the
+documented 200*: documented, never measured.
+
+**Consequences.** `test_the_operating_pace_is_at_most_half_the_measured_ceiling`
+walks every endpoint **with** a measured ceiling and fails if one is paced above
+half of it; endpoints with `None` are skipped by construction and are covered
+instead by `test_an_unmeasured_endpoint_is_never_paced_faster_than_a_measured_sibling`.
+**Amendment 2's prediction held and is recorded as having held**: the 88.4 per
+minute measured against a 401 overstated the authenticated ceiling by **17.7×**,
+and an operator pacing from it would have been **refused on 3 of every 8
+requests**.

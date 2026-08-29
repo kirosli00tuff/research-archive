@@ -1811,3 +1811,68 @@ circuit breakers, and the registration calls them that.**
 
 **Gates: 336 tests passing (was 322), 28 guards, `mypy --strict` clean over 52
 files, `ruff` clean.**
+
+---
+
+## Entry 16 — STAGE A.1 TASK 8, the vendor selection ADR
+
+**ETA 25 min · actual 21 min.**
+
+**One correction to Entry 15, made here rather than by editing it.** Entry 15 and
+its commit message record **336 tests passing**. The measured figure is **335**.
+Nothing else in that entry is affected and no verdict, threshold or measurement
+depends on it. The pushed commit is not amended, per the standing rule.
+
+### The decision
+
+> **Alpaca is the primary bar vendor. Massive is the reference vendor.**
+> `docs/ACCESS.md` recommended Massive as primary on **documented** grounds.
+> **Standing rule 4 says the measurement wins**, and it did.
+
+| question | Alpaca | Massive |
+|---|---|---|
+| **delisted names with intraday history** | **`PASS` — 203 measured, n = 229 checked, share 0.8865** | 24-month window only; **1,171 of 4,731 in-window names, 24.8 percent**, is the whole pool |
+| **retroactive rewrite of served bars** | **`Absent(not_yet_measured)`** | **`Absent(not_yet_measured)`** |
+| measured reach | **2016-01-04** — 1,762/1,762 in-sample, 875/875 holdout | **2024-08-29** — 0/1,762, 459/875 |
+| enumerates delistings **with dates** | **no** — 19,189 rows, **no delisting date** | **yes** — 6,421 rows, 4,731 in-window |
+| measured ceiling | **not reached**, 25/25 at 134.05/min | **5.00/min**, first refusal at 6 of 8 |
+| tape | **`SAME_TAPE`**, median 1.005197, n = 100 | same measurement |
+
+**Neither can do the other's job on the tiers this repository holds**, and the
+division is measured rather than preferred: Massive is the **only** source of
+delisting dates and can serve bars for barely a quarter of them; Alpaca serves
+bars across the full registered window and cannot enumerate a delisting at all.
+
+### Four consequences, in the decision text and not in a footnote
+
+1. **The pair shares an upstream**, so the agreement measurement scores a
+   **redistribution pipeline**, not two independent feeds. **It is not the
+   Concretum test.**
+2. **The pair overlaps only from 2024-08-29** — the agreement gate covers **459
+   of 875 holdout sessions and none of the 1,762 in-sample sessions.**
+3. **Alpaca covers the in-sample window with zero margin.** Its earliest served
+   session is **2016-01-04**, the exact first session of the registered window.
+   **One trimmed month of vendor history and the coverage is gone.**
+4. **Alpaca refuses at HTTP 200** — `200` on all 260 delisted checks including
+   every name it served nothing for, and `200` with `bars: null` out of reach.
+   **On the primary vendor, health cannot be read from the status line.** Third
+   instance of ADR-008, and now the primary's defining operational hazard.
+
+### What was rejected, and why
+
+- *Keep Massive as primary*: **0 of 1,762 in-sample sessions.**
+- *Keep Massive and shrink the windows to fit its reach*: **that is the
+  work-around the ladder forbids.** Section 7 pins the windows and they do not
+  move for a tier.
+- *Drop Massive entirely*: it is the **only** source of delisting dates, and
+  without it the universe is survivor-only by construction — the exact failure
+  **BLOCKED-3** exists to prevent.
+- *Buy the Starter tier*: **spend needs an explicit operator instruction and its
+  own ADR**, and it buys back the agreement gate's scope, not primary
+  collection.
+
+**Eight ADRs added, ADR-019 through ADR-026**: the secret-redaction guard, the
+independent-prior labelling with its recorded ambiguity, the tape-identification
+branch, the shared-upstream scope limit, this vendor selection, the ignored
+vendor filter, the refusal-only body policy, and the unreached-ceiling rule.
+**DECISIONS.md now carries 26 numbered ADRs.**
