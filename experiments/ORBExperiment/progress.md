@@ -1525,3 +1525,113 @@ repository would rather be slow than ambiguous about which of the two it is.
 
 **Gates: 322 tests passing (was 305), 28 guards, `mypy --strict` clean over 51
 files, `ruff` clean.**
+
+---
+
+## Entry 13 — STAGE A.1 TASK 5, historical reach, bisected
+
+**ETA 35 min · actual 31 min.** `n = 32` probes across 2 credentials over
+`n = 5,934` candidate sessions, 2003-01-02 to 2026-07-29. **0 dollars spent.**
+
+### The measurement
+
+| credential | earliest served session | probes | in-sample reachable | holdout reachable |
+|---|---|---:|---|---|
+| **Alpaca** | **2016-01-04** | **16** | **1,762 / 1,762 — shortfall 0** | **875 / 875 — shortfall 0** |
+| **Massive** | **2024-08-29** | **16** | **0 / 1,762 — shortfall 1,762** | **459 / 875 — shortfall 416** |
+
+**Monotonicity checked, not assumed.** Massive: **2024-08-28 → `403`, 0 bars** ·
+**2024-08-29 → `200`, 814 bars** · **2024-08-30 → `200`, 707 bars.** Alpaca:
+**2015-12-31 → `200`, 0 bars** · **2016-01-04 → `200`, 718 bars** ·
+**2016-01-05 → `200`, 694 bars.**
+
+### Two numbers that are exactly what they look like
+
+**Massive's earliest served session is 2024-08-29 and today is 2026-08-29.** A
+rolling **24-month** window, measured to the day.
+
+**Alpaca's earliest served session is 2016-01-04 — the exact first session of
+the registered in-sample window.** Coincidence: the registration took the date
+from the source study, and Alpaca's history begins there independently. **The
+in-sample window is covered with zero margin.** One trimmed month of vendor
+history, or one session moved earlier in the registration, and the coverage is
+gone. **This is not a comfortable pass. It is an exact one, and the repo says so.**
+
+### The two vendors fail differently, and the search had to know that
+
+**Massive refuses. Alpaca serves an empty set.**
+
+- Massive out of range: **`403`**, `{"status":"NOT_AUTHORIZED",…,"message":"Your
+  plan doesn't include this data timeframe. Please upgrade your plan…"}` — a
+  `source_failed`-shaped refusal.
+- Alpaca out of range: **`200`, 0 bars** — a `no_data`-shaped empty set.
+
+**Under standing rule 7 those are different families, and bisecting on bar count
+alone would have merged them.** The search separates the three cases —
+refusal, served empty set, served bars — by **status code plus bar count**, never
+by count alone. **The rule earned its place here rather than being cited.**
+
+### What the shortfall decides, precisely
+
+**Massive's free tier cannot serve the registered windows. That is decisive and
+it is not worked around: Massive is removed from consideration as the primary
+collection vendor.**
+
+`docs/ACCESS.md` recommended Massive as primary on **documented** grounds — the
+only probed vendor publishing a delisted reference endpoint *and* minute
+aggregates on one host. **Standing rule 4 says the measurement wins**, and the
+measurement says **0 of 1,762 in-sample sessions.** Swapping the primary on a
+measurement is the rule working. **A work-around would be keeping Massive and
+shrinking the window to fit it — the registered windows do not move.**
+
+**The registered windows remain fully reachable on Alpaca, and no power figure
+moves.** E1 on the reachable holdout is **0.7435 at the registered 1.40** and
+**0.9995 at the published 2.81** — **identical to the figures Amendment 4 fired
+on**, because the reachable count *is* the registered count.
+
+### What it costs: the agreement gate, narrowed to the overlap
+
+| window | registered | with **both** feeds | share |
+|---|---:|---:|---:|
+| in-sample | **1,762** | **0** | **0.0 percent** |
+| holdout | **875** | **459** | **52.5 percent** |
+
+**Registered by Amendment 8:** the agreement thresholds are **unchanged in value
+and precedence**; the **scope** narrows to sessions on or after **2024-08-29**.
+A `PASS` establishes agreement over **the last 52.5 percent of the holdout and
+none of the in-sample window.**
+
+**And it compounds with Amendment 7's upstream finding.** The gate as it can
+actually be run establishes that **two redistributors of one upstream agree, on
+459 of 2,637 registered sessions.** Both limits are written down **before** the
+number exists.
+
+### PENDING_SPEND: why the ladder continues
+
+The prompt registers a `PENDING_SPEND` branch on a reach shortfall, stopping at
+TASK 8. **It is not fired, and the reason is the measurement rather than
+convenience.** The branch's own diagnostic — *"compute which registered windows
+remain reachable"* — answers **all of them**: Alpaca covers **1,762 of 1,762**
+in-sample and **875 of 875** holdout sessions at zero cost. The prompt's
+alternative clause, *"on a credential reaching 2016-01-04, record and
+continue,"* is the one the measurement satisfies.
+
+**The costed decision is handed over anyway, as an open operator item**, because
+the shortfall is real and it does cost something:
+
+| item | value | label |
+|---|---|---|
+| what a paid Massive tier buys | **the agreement gate restored to the full registered windows** — nothing else | reasoned |
+| what it does **not** buy | primary collection; **Alpaca already covers the windows at zero cost** | **measured** |
+| monthly figure | **near 29 USD/month, Polygon/Massive Starter** | **carried**, C-18, **never measured** |
+| what the tier is claimed to unlock | the vendor's refusal payload itself: *"Please upgrade your plan"* | **measured** |
+| the reach a paid tier delivers | **not measured, not recorded as a number** | — |
+
+**The last row is the point.** The free tier's documented limit and its measured
+24-month window are why standing rule 4 exists. **If the operator wants the paid
+reach, the honest way to get it is one month's spend and a second bisection** —
+at which point it stops being a pricing page and becomes a measurement.
+
+**`PENDING_SPEND` is registered as a Section 0 state at TASK 10 anyway**, so that
+a later reach shortfall has a clause to land in rather than being discovered
+without one.

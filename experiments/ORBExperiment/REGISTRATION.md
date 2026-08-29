@@ -1399,3 +1399,152 @@ test as intended. **It does not block the ladder**, because the registered
 agreement gate is a test of *this* pair and is stated as such — but the epistemic
 boundary of Section 11 gains a line, and the vendor selection ADR states it in
 the decision text rather than in a footnote.
+
+---
+
+## Amendment 8 — measured historical reach, and the agreement gate narrowed to the overlap
+
+**Date:** 2026-08-29 · **Status:** accepted · amends **Section 0**'s cross-vendor
+agreement clause by narrowing the window it can be measured over, and records
+the A.1 TASK 5 reach bisection
+
+**Exactly what data existed when this amendment was made.** Everything Amendment
+7 listed, plus the A.1 TASK 5 bisection: **`n = 32` probes across 2 credentials
+over `n = 5,934` candidate sessions spanning 2003-01-02 to 2026-07-29**. **Zero
+trades, zero returns, zero PnL**, and **no bar value recorded anywhere** — the
+bisection reads a **status code** and a **bar count**, both on the readable field
+list, and the count is computed inside the sealed comparator.
+
+### The measurement
+
+**Reach was bisected, not read from a pricing page.** Standing rule 4 forbids
+recording a documented tier limit as though it were measured, and this is the
+task where that rule has teeth: **both figures below contradict what a planning
+assumption would have produced.**
+
+| credential | earliest served session | probes | in-sample reachable | holdout reachable |
+|---|---|---:|---|---|
+| **Alpaca** | **2016-01-04** | **16** | **1,762 of 1,762 — shortfall 0** | **875 of 875 — shortfall 0** |
+| **Massive** | **2024-08-29** | **16** | **0 of 1,762 — shortfall 1,762** | **459 of 875 — shortfall 416** |
+
+**Monotonicity was checked rather than assumed.** After each boundary was found,
+the sessions immediately before and after it were probed directly:
+
+- Massive: **2024-08-28 → `403`, 0 bars** · **2024-08-29 → `200`, 814 bars** ·
+  **2024-08-30 → `200`, 707 bars.**
+- Alpaca: **2015-12-31 → `200`, 0 bars** · **2016-01-04 → `200`, 718 bars** ·
+  **2016-01-05 → `200`, 694 bars.**
+
+**The boundary refusal payload, verbatim and redacted** (Massive, 189 bytes):
+
+> `{"status":"NOT_AUTHORIZED","request_id":"…","message":"Your plan doesn't
+> include this data timeframe. Please upgrade your plan at
+> https://polygon.io/pricing"}`
+
+**Alpaca's boundary is not a refusal at all**, and that difference is a finding
+in its own right: **`200` with `0` bars** on 2015-12-31 and every session before
+it. Under standing rule 7 those are different families — Massive states a
+`source_failed`-shaped refusal, Alpaca serves a `no_data`-shaped empty set — and
+**bisecting on bar count alone would have merged them.** The search separates the
+three cases by **status code plus bar count**, never by count alone.
+
+### Two figures that are exactly what they are, recorded without smoothing
+
+**Massive's earliest served session is 2024-08-29 and today is 2026-08-29 — a
+rolling window of exactly 24 months.** The free tier is a moving two-year
+window, measured to the day.
+
+**Alpaca's earliest served session is 2016-01-04, which is the exact first
+session of the registered in-sample window.** The registration chose that date
+from the source study; Alpaca's history begins independently at the same point.
+**The coincidence is recorded as a coincidence, and it is a fragile one:** the
+in-sample window is covered with **zero margin**. A vendor trimming one month of
+history, or a registration moving its start one session earlier, breaks the
+coverage immediately. **This is not a comfortable pass. It is an exact one.**
+
+### What the shortfall is decisive about, stated precisely
+
+**Massive's free tier cannot serve the registered windows. That is decisive, it
+is not worked around, and it removes Massive from consideration as the primary
+collection vendor.** `docs/ACCESS.md` recommended Massive as primary on
+**documented** grounds — the only probed vendor publishing a delisted-ticker
+reference endpoint *and* minute aggregates on one host. **Standing rule 4 says
+the measurement wins**, and the measurement says the tier serves **none of the
+1,762 in-sample sessions.**
+
+**Swapping the primary on a measurement is the rule working, not a work-around**,
+and the amendment states the difference because the distinction matters: a
+work-around would be keeping Massive as primary and shrinking the window to fit
+it. **The registered windows do not move.**
+
+**The registered windows remain fully reachable, on Alpaca.** E1 power on the
+reachable holdout is **0.7435 at the registered 1.40** and **0.9995 at the
+published 2.81** — **identical to the figures Amendment 4 fired on**, because
+the reachable count *is* the registered count. **No power figure moves.**
+
+### What the shortfall does cost — the agreement gate, narrowed
+
+**The cross-vendor agreement measurement needs two feeds over the same sessions,
+and the two feeds overlap only from 2024-08-29.**
+
+| window | sessions registered | sessions with **both** feeds | share |
+|---|---:|---:|---:|
+| in-sample, 2016-01-04 to 2022-12-30 | **1,762** | **0** | **0.0 percent** |
+| holdout, 2023-01-03 to 2026-06-30 | **875** | **459** | **52.5 percent** |
+
+**The amendment.** The Section 0 cross-vendor agreement clause — `PASS ≥ 0.95`,
+`PARTIAL ≥ 0.85`, `FAIL` below, firing **BLOCKED-4** — is **unchanged in
+threshold and in precedence**, and is narrowed in **scope**:
+
+> **The registered cross-vendor first-5-minute agreement share is measurable
+> only over sessions on or after 2024-08-29 — `n = 459` holdout sessions and
+> `n = 0` in-sample sessions.** A `PASS` establishes agreement over **the last
+> 52.5 percent of the holdout and none of the in-sample window**. It is
+> **not** evidence about vendor agreement in 2016 through 2024, and no
+> downstream figure may treat it as such.
+
+**Why the narrowing is registered rather than absorbed.** The agreement gate
+exists because of the Concretum finding — **identical opening-range code, four
+vendors, final portfolio values from 226,000 to 726,000 USD** (carried, C-13).
+That spread is a claim about **the whole sample**, and a gate measured on the
+recent half of the holdout is a **weaker instrument than the one registered**.
+**Recording that it is weaker is the difference between a scope limit and a
+silent substitution.**
+
+**And it compounds with Amendment 7.** The pair already scores **a
+redistribution pipeline rather than two independent feeds**. So the agreement
+gate, as it can actually be run, establishes that **two redistributors of one
+upstream agree, on 459 of 2,637 registered sessions**. Both limits are stated
+here, together, before the number exists.
+
+### The costed decision, handed to the operator
+
+**No spend is authorised by this amendment and none is recommended by it. Zero
+dollars have been spent and Section 12 is unchanged.**
+
+| item | value | label |
+|---|---|---|
+| what a paid Massive tier would buy | **restoration of the cross-vendor agreement gate to the full registered windows** — nothing else | reasoned from the measurement |
+| what it would **not** buy | primary collection. **Alpaca already covers the registered windows in full at zero cost** | **measured** |
+| monthly figure | **near 29 USD per month, Polygon/Massive Starter** | **carried**, C-18, vendor pricing page, **never measured by this repository** |
+| what the tier is claimed to unlock | the vendor's own refusal payload states an upgrade unlocks the timeframe: *"Your plan doesn't include this data timeframe. Please upgrade your plan."* | **measured** — this is the refusal, verbatim |
+| the reach a paid tier actually delivers | **not measured, and not recorded here as a number** | — |
+
+**The last row is the point.** A paid tier's reach is exactly the kind of figure
+this repository refuses to carry from a pricing page — that is standing rule 4,
+and the free tier's measured 24-month window is a live demonstration that a
+bisection is worth running. **If the operator wants that number, the honest way
+to get it is to buy one month and bisect again**, at which point it becomes a
+measurement. **This repository will not record an unmeasured reach as a figure,
+and it will not spend to find out without an explicit operator instruction and
+its own ADR.**
+
+### What did not change
+
+**No power figure, no co-primary, no threshold and no registered window moved.**
+The in-sample window opens 2016-01-04 and the holdout opens 2023-01-03, exactly
+as Section 7 pins them. E1 power is **0.7435 at 1.40** and **0.9995 at 2.81** on
+`n = 875` reachable holdout sessions — the same figures Amendment 4 fired on.
+**Section 0's clauses are unchanged in text, threshold and precedence; only the
+scope over which one of its inputs can be measured is narrowed, and the
+narrowing is written down.**
