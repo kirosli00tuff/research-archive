@@ -160,3 +160,412 @@ vendors with identical dates, parameters and starting capital producing final
 portfolio values from **226,000 to 726,000 USD**, a threefold spread from
 vendor choice alone (**carried**, Section 14) — is the reason bar integrity is
 a first-class verdict here rather than a footnote.
+
+---
+
+## 1. The hypothesis
+
+**H-ORB.** Among US common stocks with **elevated opening relative volume**, a
+**breakout of the first 5-minute regular-session range** predicts continuation
+to the session close, **net of modeled commissions, fees, borrow and
+slippage**, out of sample from **2023-01-03**.
+
+This is a **joint claim about the selection and about the breakout**, and it can
+fail on either half while the other half is real. The three structural doubts
+below are **part of the hypothesis rather than caveats attached to it**.
+
+**Structural doubt 1 — publication.** The signal was published openly in 2024
+(SSRN 4729284, Swiss Finance Institute 24-98) and has been popularized
+commercially since. McLean and Pontiff (*Journal of Finance* 71, pages 5–32)
+measured published predictor returns falling **26 percent out of sample and 58
+percent after publication across 97 predictors from 80 studies** (**carried**).
+A published intraday rule on the most-watched names of the session is a rule
+many desks can act on. The hypothesis is therefore not "does the published
+relationship exist" but **"does enough of it survive publication and decay to
+clear a realistic cost model."**
+
+**Structural doubt 2 — cost.** The independent replication of the sibling index
+strategy measured a **gross edge of 0.070 USD per share** and found **net PnL
+crossing zero at roughly 0.022 USD per share of entry slippage, against a QQQ
+spread near 0.010 USD** (**carried**, Section 14). **The entire gross edge of
+the index version measured smaller than a realistic slippage assumption.** This
+registration's central entry-slippage assumption is 0.020 USD per share, which
+sits **just under** that measured break-even. **The cost band is not a
+robustness check in this design. It is the experiment's second axis, and
+Section 6 says so.**
+
+**Structural doubt 3 — regime.** In the same replication, **76 percent of the
+filtered strategy's PnL came from 2022 alone**, and the filter **lost money in
+2017, 2020 and early 2023** (**carried**). A 2026 arXiv falsification study on
+MNQ micro futures found ORB long, short and pullback variants **all failing
+after 2-point friction**, best long variant at **t = 1.50**, with 2022
+negative, 2023 near zero and 2024 strongly positive — **the same one-good-year
+signature** (**carried**). Section 8 therefore registers a **concentration
+gate** as a first-class pass-fail condition rather than as a diagnostic.
+
+**The source result this repository tests is a single, unreplicated, in-sample
+result produced by authors who sell day-trading education.** That sentence is
+registered here because it is a fact about the evidence, and because a reader of
+a later positive verdict needs to meet it before the verdict rather than after.
+
+---
+
+## 2. Universe and event rule
+
+**Instruments.** US **common stocks**. **No ETFs** — the index-ETF variant is
+excluded by ADR-013 on the replication figures that forced it.
+
+**Evaluation instant.** **09:35:00 America/New_York**, each regular session.
+That is 13:35 UTC under daylight time and 14:35 UTC under standard time; the
+anchor is resolved through `orb.sessionclock`, never through a fixed offset.
+
+**Opening relative volume.** First-5-minute share volume divided by the
+**trailing 14-session median** first-5-minute share volume for that name.
+
+**Selection.** Rank descending on opening relative volume; **take the top 20**.
+Ties are broken by ticker symbol ascending, so the selection is deterministic
+and reproducible without reference to any price.
+
+**Filters, all evaluated on the session in question or its trailing window:**
+
+| filter | threshold |
+|---|---|
+| session open | **above 5.00 USD** |
+| 14-session average volume | **above 1,000,000 shares** |
+| 14-session ATR | **above 0.50 USD** |
+
+**Short-side exclusion.** A name with **no locate**, or a **borrow rate above
+25 percent annualized**, is excluded on the short side and **counted**. Where a
+borrow rate is not served, the name is excluded on the short side and counted —
+**never assumed cheap**.
+
+**Delisted tickers are included for every historical session in which they
+traded.** A survivor-only universe inflates every downstream figure and is
+unrecoverable after the fact. This is why delisted coverage is a **BLOCKED
+trigger** in Section 0 and not a diagnostic.
+
+**Sessions are never filtered on any return quantity.**
+
+**Half sessions are excluded and counted.** The count is a reported figure with
+its n.
+
+---
+
+## 3. The signal, the entry and the exit
+
+**This is the section the repository turns on.**
+
+**Opening range.** The high and the low of **09:30:00.000 to 09:34:59.999
+Eastern**, inclusive of both endpoints of that half-open five minutes.
+
+**Entry.** The **first trade through the range high goes long**; the **first
+trade through the range low goes short**. Modeled as a **marketable limit at
+the range boundary plus 0.05 percent of price** (5 basis points), in the
+direction of the break.
+
+- **One entry per name per session.**
+- **No re-entry after a stop.**
+- **If both sides trigger inside the same bar, the session is recorded
+  `ambiguous` and excluded**, and **the ambiguous rate is a measured figure**
+  reported with its n. It is not assumed to be small.
+
+**Stop.** The **opposite extreme of the opening range**, held as a resting stop.
+
+**Exit.** The **session close**, modeled in the window **15:55:00 to 15:59:00
+Eastern**, with **no profit target**. On a half session the window shifts by
+three hours; half sessions are excluded from the sample regardless and the
+shift exists so that the excluded rows are still well-formed.
+
+**Two registered departures from the source study, each with an ADR.**
+
+1. **The entry rule is a true breakout, not the source study's immediate
+   first-candle directional entry** (ADR-002). The source study's rule enters at
+   09:35 on the first candle's direction and **does not require a later break of
+   the range**, so it is **early-momentum with an opening-range stop rather than
+   a breakout**. Registering the paper's rule under the paper's name would carry
+   the paper's label onto a different claim. Section 11 states what this costs
+   in evidential scope.
+2. **The 10R profit target is removed** (ADR-003). It fills on **2 to 3 percent
+   of trades** (**carried**) and is a **mined parameter**: a target that binds
+   on one trade in forty is fitted to the tail of the sample it was chosen on.
+
+---
+
+## 4. Sizing
+
+- **Equal risk, 0.25 percent of equity per trade**, where risk is the
+  **entry-to-stop distance**.
+- **Integer share counts only.** IBKR refuses fractional-sized orders through
+  the API with **error 10243**, measured by HFExperiment
+  (`reports/stage_a1b/a1b_report.md` line 52, **carried**). This is registered
+  **as a design constraint** rather than discovered at execution (ADR-010).
+- **Maximum 20 concurrent positions.**
+- **Gross notional capped at 1.0x equity. No leverage.**
+- **No compounding. Constant equity base.**
+
+Each of the last three is named as a **Stage-scope simplification**: they make
+the daily net return series a clean sum over a fixed base, which is what the E1
+statistic is defined on. None is a claim about how capital would be deployed.
+
+---
+
+## 5. Outcome definition
+
+**Net PnL per trade** equals the **signed price difference from the modeled
+entry fill to the modeled exit fill**, times **shares**, minus **commissions**,
+minus **regulatory fees**, minus **borrow accrued on short positions**, with
+**slippage applied at the registered per-leg figures of Section 6**.
+
+**Sign convention, stated explicitly.** For a **long**, net PnL is
+`(exit_fill − entry_fill) × shares − costs`. For a **short**, net PnL is
+`(entry_fill − exit_fill) × shares − costs`. **A positive number is a gain in
+both directions.** Costs are always subtracted and are always positive.
+
+**The portfolio daily net return** is the **sum of that session's trade net PnL
+over the constant equity base**. Sessions with no triggered trade contribute a
+return of exactly zero and **are retained in the series**, because dropping them
+would silently condition the series on the trigger rate.
+
+---
+
+## 6. Costs and the modeled fill
+
+**Implemented exactly as stated here, then frozen and hashed at A.2 TASK 2.**
+Every figure below is **carried** and **must be re-verified live before the
+model freezes**, under standing rule 4 and the MLCryptoEngine ADR-055 pattern.
+
+| component | registered figure | status |
+|---|---|---|
+| commission | **0.0035 USD per share**, **0.35 USD order minimum** | carried, IBKR Canada tiered |
+| FINRA TAF | **0.000166 USD per share sold** | carried |
+| SEC fee | **the rate in force on the session date**, recorded per date | carried, **never a single constant** |
+| FX conversion | **~0.2 bp above interbank, 2.00 USD per order minimum** | carried, IBKR |
+
+**Slippage, registered as three-point bands. The central figure is the
+registered case; the optimistic end is reported as an upper bound of optimism
+and never as the central case.**
+
+| leg | optimistic | **central** | pessimistic |
+|---|---|---|---|
+| entry | 0.010 | **0.020** | 0.040 |
+| stop exit | 0.020 | **0.040** | 0.080 |
+| close exit | 0.005 | **0.010** | 0.020 |
+
+All in USD per share. **The stop band is widest because a stop is marketable
+and gap-prone**; a stop is not a limit and does not get the limit's price.
+
+**Borrow** accrues **daily at the measured rate where served**. Where a rate is
+**not served, the name is excluded on the short side and counted** — **never
+assumed cheap**.
+
+**Why this band is the whole experiment.** The independent replication measured
+the sibling index strategy's **net PnL crossing zero at roughly 0.022 USD per
+share of entry slippage** (**carried**, Section 14). **The registered central
+entry assumption of 0.020 USD per share sits 0.002 USD below that measured
+break-even.** A design whose central cost assumption sits two-tenths of a cent
+inside its own break-even is not a design with a robustness question attached;
+**the cost band is a second axis of the verdict and is reported as one.**
+
+---
+
+## 7. Horizons and windows
+
+| window | dates | sessions, approximate |
+|---|---|---|
+| **pre-period carve-out** | strictly before **2016-01-04T14:30:00.000Z** | power inputs only |
+| **in-sample** | **2016-01-04** to **2022-12-30** | ~1,760 |
+| **holdout** | **2023-01-03** to **2026-06-30** | ~880 |
+
+**The holdout window is pinned.** Both endpoints are fixed here, before any
+session census exists, so that neither can be moved by what the census turns out
+to hold.
+
+**Session-close exit only. No overnight horizon is verdict-bearing.**
+
+---
+
+## 8. Inference
+
+**Two co-primaries, one-sided, and both must pass.**
+
+`alpha_adj = 1 − 0.95^(1/2) = 0.02532057...`, applied to **each**.
+
+### E1 — risk-adjusted
+
+**Deflated Sharpe ratio** of the **daily net portfolio return series** over the
+holdout, computed by the **Bailey and López de Prado** method (SSRN 2460551,
+**carried**), with:
+
+- **trial count registered at 8**, being **four opening-range lengths (5, 15, 30
+  and 60 minutes) crossed with two entry rules (immediate-direction and
+  true-breakout)**;
+- **skewness and kurtosis taken from the realized series**, not assumed.
+
+**Bar: deflated Sharpe at or above 1.00.**
+
+### E2 — economic
+
+**Mean net PnL per trade**, one-sided **lower bound above zero at alpha_adj**,
+by **permutation on session labels with trades clustered by session date**, so
+that **a single strong session cannot masquerade as many independent
+observations**.
+
+### The two structural gates, registered as pass-fail and not as tests
+
+Applied alongside the co-primaries. **Neither carries alpha; both must pass.**
+
+1. **Concentration gate.** **No single holdout calendar year contributes more
+   than 50 percent of holdout net PnL.** This exists because **76 percent of the
+   replication's filtered profit came from 2022 alone** (**carried**). ADR-006.
+2. **Persistence gate.** **Holdout net PnL is positive in at least 3 of the 4
+   holdout calendar years** (2023, 2024, 2025, and 2026 through 06-30).
+
+### Named secondaries — descriptive, never verdict-bearing
+
+The 15, 30 and 60-minute range lengths; the immediate-direction entry; the
+long-only and short-only legs separately; the top-10 and top-40 selection
+widths; performance conditioned on the **VIX close against its trailing
+252-session median**; the **ambiguous-trigger subset**; and the **gap-size
+decile profile**. **None of these moves a verdict row**, and the registered
+trial count of 8 already prices the range-length and entry-rule crossings into
+E1's deflation.
+
+---
+
+## 9. Power method and the registered effect assumption
+
+### The registered assumption
+
+**Annualized net Sharpe 1.40 — half the published 2.81.** The rationale is
+registered with it and **is not discretionary**:
+
+1. McLean and Pontiff measured a **58 percent post-publication decay across 97
+   predictors** (**carried**);
+2. the source result is **unreplicated** and **commercially motivated**;
+3. the **one independent replication of the sibling index strategy found the
+   edge inside the spread** (**carried**).
+
+### The arithmetic, to be reproduced in code at A.2 TASK 4 and not taken from this document
+
+| quantity | value |
+|---|---|
+| daily Sharpe | `1.40 / sqrt(252)` = **0.0882** |
+| t over n sessions | `0.0882 × sqrt(n)` |
+| sessions to clear t = 2.0 | **514**, roughly **2.04 years** |
+| sessions to clear t = 3.0 | **1,157**, roughly **4.59 years** |
+| in-sample sessions | ~**1,760** — powered for t = 3.0 |
+| holdout sessions | ~**880** → **t = 2.62** |
+
+**A.2 TASK 4 recomputes every one of these in code, and where the computation
+disagrees with the figures in this table, the computation wins and the
+disagreement is recorded as an amendment.**
+
+### The shortfall, registered openly rather than discovered at the read
+
+**The holdout yields t = 2.62 at the registered assumption, which is below the
+3.0 that Harvey, Liu and Zhu argue a new claim should clear** (**carried**).
+This is registered now, as **ADR-005**, rather than met at the read.
+
+**The holdout gate is therefore set at a per-trade t of 2.50**, with the
+**deflated-Sharpe bar of E1 carrying the multiple-testing correction**. And the
+registration states in plain words: **the holdout alone cannot clear a
+factor-zoo hurdle at the discounted effect size.** A holdout pass is evidence
+that the rule cleared its registered bars on this sample under this cost model
+from this vendor. It is not evidence that the effect would clear a t of 3.0.
+
+### The honest range, reported beside — the NPLExperiment H3 pattern
+
+Powers are computed and reported at **all three** assumptions:
+
+| assumption | annualized Sharpe | status |
+|---|---|---|
+| undecayed / published | **2.81** | the source study's own figure |
+| **registered** | **1.40** | half, per the decay evidence |
+| quartered | **0.70** | the pessimistic end |
+
+**Minimum-N statements for each co-primary at each of the three assumptions**
+are computed and recorded.
+
+### Per-trade power, computed and reported as non-binding
+
+At 20 names per session and **a trigger rate that is a measurement target and
+never an assumption**, the holdout carries thousands of trades, and clearing
+t = 3.0 needs a per-trade information ratio near **0.031**. **The portfolio-day
+series is the binding constraint and this registration says so**: the trades
+inside a session are not independent, they share the session's market factor,
+and E2's permutation clusters on session date precisely because of that.
+
+### Dispersion inputs
+
+**Dispersion inputs to the E2 power computation come from the pre-period
+carve-out only, strictly before 2016-01-04T14:30:00.000Z.** Enforced by
+`orb.preperiod.require_pre_period` and `orb.preperiod.gate_pre_period`.
+
+---
+
+## 10. The Stage C latch
+
+**Stage C opens the sealed in-sample read exactly once.** It requires **all** of:
+
+1. **Both co-primaries at or above 80 percent power at achievable N**, under
+   **the assumption Section 0 fired on**;
+2. **the operator prior slot of Section 13 filled and labelled `independent` or
+   `adopted`** — the assistant never fills it, and **the empty slot blocks the
+   latch structurally**;
+3. **explicit operator instruction.**
+
+The read happens **behind a latch written first, recording module hashes**.
+**Stage D opens the holdout exactly once, behind its own latch**, and cannot run
+before Stage C's latch exists.
+
+**A second read of either window voids the hypothesis.**
+
+**Every value inside a read is quarantined from any successor code path by AST
+pin and by test.** A spent read is a spent read; a successor hypothesis runs on
+fresh data or it does not run.
+
+---
+
+## 11. Epistemic boundary
+
+A positive verdict supports **exactly one** claim: **that the registered rule
+would have cleared its registered bars on this sample, under this cost model,
+from this vendor.**
+
+- **It is never a forward return prediction.**
+- **It is never evidence about any range length or entry rule other than the
+  registered one.** The 15, 30 and 60-minute lengths and the immediate-direction
+  entry are named secondaries and are already priced into E1's trial count of 8.
+- **It is never evidence that the source study's reported figures are correct**,
+  **because the entry rule registered here differs from theirs by design**
+  (ADR-002). A pass here does not replicate SSRN 4729284, and a failure here does
+  not refute it.
+- **It is never evidence about index ETFs.** That variant is excluded by ADR-013.
+- **Under a DEGRADED Section 0, a later FAIL establishes that the effect is not
+  present at its published magnitude, and cannot distinguish a decayed effect
+  from no effect at all.**
+
+---
+
+## 12. Spend and pacing
+
+**Zero dollars in Stage A. Free and trial tiers only.**
+
+- A **request ledger with a per-vendor daily cap** set from the **A.1 TASK 2
+  measurement**, recorded by amendment if it moves. The cap **charges before
+  sending** (`orb.ledger.RequestLedger.charge`), so an exhausted budget refuses
+  rather than overspends. **An unregistered vendor has no cap and is refused
+  outright** — an unmeasured endpoint is not a licence to send.
+- **Pacing respects the recorded terms of service**, and is **measured per
+  endpoint, never per host** (solattn ADR-021: one endpoint refused **47.5
+  percent of n = 1,863 attempts** while a second endpoint on the same host and
+  the same IP took **0 of 360**).
+- **Terms of service bind.** `robots.txt` and the published terms are recorded
+  verbatim for every vendor **before the first repeated fetch**. If automated
+  collection is disallowed, it is recorded loudly and the access verdict is
+  routed accordingly. **This repository does not proceed against a stated
+  prohibition.**
+- **Any paid tier requires an explicit operator instruction and its own ADR.**
+  The expected monthly figures are named here as **carried, not measured**:
+  **Polygon Starter near 29 USD per month**; **Databento consumption-based near
+  125 USD per month for a medium universe.**
