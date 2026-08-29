@@ -366,7 +366,38 @@ the stored responses are the record.
 
 ## 15. Results
 
-*Written only after the gate fires. Empty until then.*
+*Written only after a gate fires.*
+
+### 15.1 The access gate, fired 2026-08-29: PENDING_ACCESS
+
+Fired on the five registered conditions of Section 0.5, measured in Task 1
+and recorded with evidence in `docs/ACCESS.md`:
+
+| condition | reading |
+|---|---|
+| 1 — enumerable without credential | PASS (HTTP 200 keyless, 127.6 ms) |
+| 2 — outcome exposed on settled record | PASS (`result` present; 2 of 5 permitted records inspected; no statistic computed) |
+| 3 — ≥ 1,000 settled markets enumerable | NOT MEASURED, fails closed (counting requires systematic pagination the recorded terms do not sanction) |
+| 4 — price history to 30 days before close | NOT DEMONSTRATED, fails closed (0 daily candles on the one ≥ 30-day-old market tested; recent-market candles work) |
+| 5 — terms permit keyless automated reading | FAIL, fails closed (recorded terms prohibit systematic retrieval and AI-mediated use without written authorization; the API Developer Agreement is unreadable by automated means) |
+
+**Consequence, exactly as registered in Section 0.3: Section 0 reports on
+access, not on the hypothesis. The power gate never fired. No price bucket
+was built, no dispersion was computed, no outcome was joined to any price,
+and no statistic relating a price to an outcome exists in this repository.**
+
+A depth finding travels with the verdict, measured before the gate closed
+the stage: the keyless settled listing reaches back only to between
+2024-01-01 and 2024-05-31 (bracketed by single-page probes, n = 6 probes),
+so the 2021→Apr 2025 span the published benchmark analyzed is not
+reproducible keylessly even before the terms are considered.
+
+**What would reopen access:** written authorization from Kalshi for
+systematic retrieval and AI-mediated analysis, or a Kalshi-sanctioned bulk
+research channel not requiring an account, or an operator decision to
+register an account — which ADR-002 currently excludes. Any reopening is a
+new numbered gate firing under Section 16; nothing here is a second look,
+because no outcome was ever read.
 
 ---
 

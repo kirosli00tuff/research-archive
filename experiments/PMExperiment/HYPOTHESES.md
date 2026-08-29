@@ -11,14 +11,21 @@ nobody could find the answer has cost this house real time before.
 This file contains **no analysis**. It records what the registration and the
 sealed reads established.
 
-**Status at 2026-08-29: H1 OPEN, not yet registered. Scaffold only. No request
-has been sent and no data exists.**
+**Status at 2026-08-29, Stage A: H1 OPEN, registered, PENDING_ACCESS.**
+Section 0 was committed before the first request; the access gate then failed
+closed on the recorded terms and on keyless history depth. No calibration
+statistic exists.
 
 ---
 
 ## H1 — calibration net of Canadian retail cost
 
-**Status: OPEN, unregistered.**
+**Status: OPEN. Registered 2026-08-29; the access gate fired PENDING_ACCESS
+the same day** (REGISTRATION.md Section 15.1, docs/ACCESS.md). The power gate
+never fired, so no figure exists for or against H1. What would reopen access
+is recorded in Section 15.1: written authorization for systematic retrieval
+and AI-mediated analysis, a sanctioned keyless bulk channel, or an operator
+reversal of ADR-002.
 
 Prediction-market prices are mis-calibrated by enough to survive the costs a
 Canadian retail participant actually pays.

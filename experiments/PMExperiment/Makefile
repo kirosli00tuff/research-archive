@@ -17,8 +17,11 @@ typecheck: ## Mypy --strict over pmexperiment/ and tests/
 test: ## Run the pytest suite (includes the honesty and registration tests)
 	uv run pytest
 
-verify: ## Measured access verification; writes docs/ACCESS.md
-	uv run python -m pmexperiment.cli verify
+verify: ## Report the recorded access state (Stage A fired PENDING_ACCESS)
+	@echo "Stage A access gate fired PENDING_ACCESS on 2026-08-29."
+	@echo "Recorded terms do not sanction keyless systematic retrieval;"
+	@echo "re-probing is an operator decision. See docs/ACCESS.md and"
+	@echo "DECISIONS.md ADR-006/ADR-007 before sending any request."
 
 clean: ## Remove caches
 	rm -rf .mypy_cache .ruff_cache .pytest_cache

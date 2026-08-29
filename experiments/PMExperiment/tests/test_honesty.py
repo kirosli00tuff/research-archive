@@ -86,10 +86,20 @@ def test_env_example_declares_no_credential() -> None:
     assert "=" not in env, "Stage A needs no credential; .env.example stays empty"
 
 
-def test_hypotheses_register_exists_with_h1_open() -> None:
+def test_hypotheses_register_carries_h1_state() -> None:
     h = _read("HYPOTHESES.md")
-    assert "H1 OPEN, not yet registered" in h
+    assert "H1 OPEN, registered, PENDING_ACCESS" in h
     assert "Closed before opening" in h
+
+
+def test_access_verdict_is_recorded_with_its_evidence() -> None:
+    """Stage A ended at the access gate; the record must say so plainly."""
+    access = _read("docs/ACCESS.md")
+    assert "PENDING_ACCESS" in access
+    assert "fails closed" in access
+    reg = _read("REGISTRATION.md")
+    assert "The power gate never fired" in reg
+    assert "no statistic relating a price to an outcome exists" in reg.lower()
 
 
 def test_registration_carries_the_house_section_set() -> None:

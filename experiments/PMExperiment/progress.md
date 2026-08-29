@@ -6,6 +6,58 @@ Every figure travels with its n in the same sentence, per standing rule 13.
 
 ---
 
+## Entry 2 — Stage A: access, the permitted subset, and the power gate — 2026-08-29
+
+**Verdict, one sentence: Stage A ends PENDING_ACCESS — the data is
+technically open without an account but the recorded terms do not sanction
+keyless systematic retrieval or AI-mediated analysis, the governing API
+Developer Agreement is unreadable by automated means, and the keyless
+settled history reaches only to spring 2024 — so the power gate never fired
+and the calibration question stays open, unmeasured.**
+
+### ETA against actual, per task (standing rule 2)
+
+| task | ETA, with its basis | actual |
+|---|---|---|
+| 0 — register Section 0 | 30 min, from NPD B.2 (55 stated, 41 actual) and the scaffold session as comparable document-heavy work | **14 min** (07:23:51Z → 07:37:33Z) |
+| 1 — measure access | probe batch ~2 min from first-request latency (127.6 ms); report phase 25 min from Task 0's measured 14 min | probe + terms retrieval **~11 min** (terms hunting dominated: bot challenges, an archive fetch, one 2-min headless timeout); report phase **~9 min** |
+| 2 — register the filter | never armed | — the access gate closed the stage first, as registered |
+| 3 — fire the power gate | never armed | — same |
+| 4 — report and push | 20 min, from Task 0's document half | recorded at push in this entry's commit |
+
+### The access table (full figures and dates in docs/ACCESS.md)
+
+| quantity | reading, 2026-08-29 |
+|---|---|
+| keyless reachability | HTTP 200, 99.9–213.8 ms, n = 11 API requests |
+| outcome exposure | `result` beside final prices on settled records, 2 of 5 permitted records inspected |
+| settled-history depth | earliest retrievable close between 2024-01-01 and 2024-05-31, n = 6 bracketing probes; the published 2021→2025 span is not keylessly reproducible |
+| candlesticks | work on a fresh traded market (1 candle); 0 daily candles on the one ≥ 30-day-old market tested — ambiguous, counted ambiguous |
+| rate limit | documented claim 200 reads/s (Basic); measurement withheld under standing rule 12, ADR-007 |
+| terms | Data Terms of Use prohibit systematic retrieval and AI-mediated use without written authorization; Developer Agreement HTTP 429 bot-challenged to every automated read; robots.txt: API host 404, Website 429 |
+
+### Subset counts and the price-bucket distribution
+
+None exist. The permitted-subset filter was never registered and no bucket
+was ever built, because the access gate fired first — reported as absent,
+not as zero (standing rule 5). Tasks 2 and 3 are the registered casualties
+of the PENDING_ACCESS row, not omissions.
+
+### What held
+
+Section 0 (outcome map, effect band 0.02–0.08 cited to source, cost model
+with C(0.95) = 0.0785, outcome blindness) was committed at 07:37:33Z, before
+the first request at ~07:44Z. The probe budget was 13 requests, single-shot,
+spaced, no retries, no pagination. Guards were verified by mutation, and the
+first mutation run caught a real weakness — the bar-enforcement check
+accepted a docstring mention; it now requires the `registry.` reference
+(test_guards.py records this in its docstring).
+
+**On Stage B:** stated if and only if the gate cleared. It did not clear; no
+Stage B is stated. Reopening conditions: REGISTRATION.md Section 15.1.
+
+---
+
 ## Entry 0 — Stage A operator prompt, logged verbatim before any other work
 
 **Logged 2026-08-29T07:23:51Z, per standing rule 1. Work follows in later

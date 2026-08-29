@@ -14,11 +14,18 @@ on purpose.
 
 ---
 
-## Status: nothing registered, nothing measured
+## Status: Section 0 registered; Stage A fired PENDING_ACCESS — 2026-08-29
 
-Scaffold only. `REGISTRATION.md` Section 0 must be committed before the first
-request goes out. No statistic relating a price to an outcome may be computed
-before the power gate fires.
+Registration preceded every request: Section 0 was committed before the first
+probe. The access gate then failed closed. The recorded Kalshi terms do not
+sanction keyless systematic retrieval or AI-mediated analysis of Kalshi Data
+without written authorization, the API Developer Agreement is unreadable by
+automated means (HTTP 429 bot challenge), and the keyless settled listing
+reaches back only to spring 2024 — n = 13 probe requests total, figures and
+dates in `docs/ACCESS.md`. **The power gate never fired. No statistic
+relating a price to an outcome exists.** The calibration question stays open,
+unmeasured, with the reopening conditions recorded in `REGISTRATION.md`
+Section 15.1.
 
 ---
 

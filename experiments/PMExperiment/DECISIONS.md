@@ -79,3 +79,56 @@ registration is renumbered to the house shape with sections 5 through 16
 stubbed, `progress.md` becomes a session log with Entry 0 reserved, and
 CLAUDE.md carries sixteen numbered standing rules that later entries cite by
 number. Four tests pin the shape so it cannot drift back.
+
+---
+
+## ADR-006. Stage A fires PENDING_ACCESS on the recorded terms, and the filter is never registered
+
+**Status:** accepted, 2026-08-29.
+
+The access gate (REGISTRATION.md Section 0.5) failed closed on three of five
+conditions. The decisive one is condition 5: the Kalshi Data Terms of Use,
+recorded before any repeated fetch, prohibit systematic retrieval into
+datasets and expressly prohibit use of Kalshi Data in connection with AI
+tools to generate output, absent prior written authorization; the API
+Developer Agreement that would govern programmatic access returned an HTTP
+429 bot challenge to every automated read attempted, and a source that
+cannot be read is reported unavailable, never assumed permissive (standing
+rule 5). The published benchmark study reached this data by registering an
+account — the path ADR-002 excludes.
+
+Technical reachability was fine — keyless HTTP 200 at ~100–214 ms across 11
+single-shot requests — and the settled record exposes `result` beside final
+prices. Access failed on permission and depth, not on plumbing: the keyless
+settled listing reaches back only to between 2024-01-01 and 2024-05-31
+(n = 6 bracketing probes), missing roughly the first three years of the
+published benchmark's span.
+
+**Consequence:** Section 0 reports on access, exactly as registered. Tasks 2
+and 3 never ran: the Canadian-permitted filter was **not registered** and no
+price bucket, dispersion, or power verdict exists. The registered sampling
+machinery (seed 20260829, Wilson bound, buckets) stays registered and
+unarmed. H1 remains OPEN at PENDING_ACCESS. Reopening paths are recorded in
+REGISTRATION.md Section 15.1 and require either written authorization, a
+sanctioned keyless bulk channel, or an operator reversal of ADR-002 by
+numbered amendment.
+
+---
+
+## ADR-007. The rate-limit burst measurement is withheld: rule 12 outranks rule 4 here
+
+**Status:** accepted, 2026-08-29.
+
+Standing rule 4 says measured beats documented, and the stage prompt asked
+for "the rate limits as measured." A rate limit is measured by driving
+request pace until the venue pushes back — deliberately imposed load. With
+the governing Developer Agreement unreadable and the readable terms
+prohibiting bulk automated access, imposing probe load for measurement's own
+sake is exactly what standing rule 12 (terms bind) exists to stop.
+
+**Consequence:** the access table records the documented claim — Basic tier
+200 reads/s, read from docs.kalshi.com on 2026-08-29 — labelled a claim, not
+a measurement, with this ADR as the named deviation. The whole probe budget
+was 13 requests, single-shot, spaced, no retries, no pagination beyond one
+page. If access ever reopens under written authorization, the rate limit is
+measured then, inside whatever pace that authorization names.
