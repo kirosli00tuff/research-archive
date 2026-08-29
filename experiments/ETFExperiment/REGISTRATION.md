@@ -1092,3 +1092,70 @@ there is nothing for a prior to be scored against. The assistant's recorded
 **0.10** stands where it is and **was not copied into the slot** at any point.
 The calibration ledger records this repository as closed without a scored
 prediction, which is the honest entry.
+
+### Amendment 6 — 2026-08-28 — Amendment 5 §5 mislabelled the reopen path it protected; `etf-snap` is disarmed and the repository stops
+
+**What data existed when this amendment was made.** Everything in Amendments
+1 through 5, unchanged. **No outcome value has been read, and none ever will
+be under this registration.** This amendment corrects a claim in Amendment 5
+and closes the collection state it created. It moves no bar and reopens nothing.
+
+#### 1. The claim that was wrong
+
+**Amendment 5 §5 states that disarming `etf-snap` "permanently forecloses
+reopen path (b)". That is false, and it is corrected here rather than edited
+above, in the Amendment 1 to Amendment 2 shape.**
+
+Reopen path (b) is *an archive or mirror with at least 60 percent pre-anchor
+capture density **over the test window***, and the test window is the 333
+printed out-of-sample days beginning 2025-05-01. **That window is closed.**
+Forward capture starting 2026-08-28 cannot change the archive density of a
+period that has already elapsed, and path (b) turns on the existence of a
+third-party archive, which nothing this repository does can affect.
+
+**Forward capture serves reopen path (c), not (b).** The error was a
+mislabelling, and it flattered the decision it was defending: path (b) would
+have been foreclosed permanently and irreversibly, which is a strong reason to
+keep a collector running, while path (c) is a weak and bounded one.
+
+#### 2. What `etf-snap` actually bought, stated at its true value
+
+| | |
+|---|---|
+| path (a), per-row publication timestamps | **Does not need `etf-snap`.** It makes the full 333-day series admissible in one pass. |
+| path (b), a third-party archive at 60 percent density | **Unaffected by `etf-snap`.** Nothing this repository collects changes another archive's history. |
+| path (c), a deadline at or beyond 2027-10-31 | **The only path served, and only in its weak form.** |
+
+Forward-only accrual at the measured **20.8 admissible days per month** reaches
+roughly **291** by 2027-10-31, plus the **11** already admissible, for about
+**302**. That clears the governing 300 by two days and clears E1's 237
+comfortably. **It clears nothing at the registered 0.09 assumption**, where E1
+needs **845** and E2 needs **above 1,200**. So fourteen months of collection
+purchases the option to open a new registration answering only the
+published-magnitude question, on the assumption the pre-existing evidence
+already contradicts. **That does not justify a live process attached to a closed
+hypothesis.**
+
+#### 3. The one measurement forgone, recorded as forgone rather than merely unmeasured
+
+**The forward revision-integrity leg will never complete.** It needed 15 US
+trading days from arming, earliest completion **2026-09-22**, roughly sixteen
+trading days from this amendment. It is not a fact about H1. It is a fact about
+the flow source: whether it revises prior rows, at what rate, and whether
+revisions flip the signal sign or cross the registered threshold. That is the
+**MLCryptoEngine H11 question**, and H11 died on exactly this class of source
+behaviour.
+
+**It is dropped by decision, not by oversight.** Its retro corroboration stands
+at **0 revised, 0 sign flips, 0 threshold crosses on n = 11**, below the
+registered minimum of 30 and carrying no verdict. Any future flow hypothesis in
+this house **must measure it from scratch** and may not cite the n = 11 figure
+as evidence of anything.
+
+#### 4. Collection, final
+
+- **`etf-snap` is disarmed.** `etf-daily` was disarmed at Amendment 5.
+- **The repository holds no armed collector and no running process.** It matches
+  the NPDExperiment, HFExperiment and InsiderExperiment closure shape.
+- The **220 charged requests** stand as the total lifetime network cost. Zero
+  dollars, no capital, no credential, at any point.

@@ -568,3 +568,52 @@ is nothing to score, and the assistant's 0.10 was never copied into it. The
 archive-density finding (0.0330 measured, 0.3363 unbounded ceiling, 0.316
 mementos per calendar day) outlives this hypothesis and constrains any future
 as-printed retrospective design in this house.
+
+## ADR-020: `etf-snap` is disarmed; ADR-019's collection consequence rested on a mislabelled reopen path
+
+**Date:** 2026-08-28 · **Status:** accepted · **Supersedes:** the collection-state consequence of ADR-019, which otherwise stands
+
+**Context.** ADR-019 disarmed `etf-daily` and kept `etf-snap` running, decoupled
+from any registered hypothesis, on the reasoning recorded at Amendment 5 §5:
+that forward capture is the only route to as-printed flow data and that
+disarming it would permanently foreclose **reopen path (b)**.
+
+**The reasoning was wrong on the path, and the error ran in the favourable
+direction.** Path (b) is a third-party archive at 60 percent pre-anchor density
+**over the test window**, a window that closed with the 333 printed
+out-of-sample days from 2025-05-01. Forward capture cannot alter the archive
+density of an elapsed period, and path (b) turns on someone else's archive
+existing. Forward capture serves **path (c)**. Naming (b) made the consequence
+of disarming look permanent and irreversible when it is neither, which is
+precisely the kind of error that survives in a record because it argues for the
+cautious-looking option.
+
+**Decision.** `etf-snap` is disarmed. The repository holds no armed collector.
+Amendment 6 records the correction below Amendment 5 rather than editing it.
+
+**What the corrected reasoning gives.** Path (a) does not need `etf-snap` at
+all. Path (b) is unaffected by it. Path (c) is served only in its weak form:
+forward-only accrual at 20.8 admissible days per month reaches about 302 by
+2027-10-31, clearing the governing 300 by two days and clearing nothing at the
+registered 0.09 assumption, where E1 needs 845 and E2 above 1,200. Fourteen
+months of collection would buy an option on a narrow-scope re-registration
+resting on the assumption the evidence contradicts.
+
+**The cost of the decision, stated so it is legible.** The forward
+revision-integrity leg never completes. Earliest completion was 2026-09-22,
+about sixteen trading days out. It is a fact about the **source**, not about
+H1: whether this flow source revises prior rows, at what rate, and whether
+revisions flip the signal sign or cross the threshold. It is the H11 question,
+and H11 died on this class of source behaviour. **Dropped by decision, not by
+oversight.** Its retro corroboration (0 revised, 0 sign flips, 0 threshold
+crosses, **n = 11**) is below the registered minimum of 30, carries no verdict,
+and **may not be cited by any future hypothesis as evidence of source
+stability**. That measurement must be made from scratch.
+
+**Alternative rejected.** *Running `etf-snap` to 2026-09-22 to finish the
+revision leg, then disarming.* Bounded, dated, and it produces a reusable
+artifact rather than an option, which makes it the stronger of the two live
+options. Declined in favour of a clean halt matching NPDExperiment,
+HFExperiment and InsiderExperiment. A closed repository with a running process
+invites the reading that the experiment is live, and the measurement is
+recoverable by any future hypothesis that actually needs it.

@@ -565,3 +565,40 @@ records this repository as closed without a scored prediction.
 5 x 404, 1 x 401, 1 x 403. Four pre-existing user timers verified untouched
 throughout: npl-watch (60 min), news-collect (22:31 UTC), solattn-daily (00:40
 UTC), npl-daily (01:40 UTC).
+
+## Entry 8 — 2026-08-28 — `etf-snap` disarmed; Entry 7's collection reasoning corrected
+
+**Entry 7 recorded that disarming `etf-snap` "would permanently foreclose reopen
+path (b)". That is wrong and is corrected here rather than edited above.**
+Path (b) is a third-party archive at 60 percent pre-anchor density **over the
+test window**, and that window closed with the 333 printed out-of-sample days
+from 2025-05-01. Forward capture cannot change the archive density of an elapsed
+period. **Forward capture serves path (c).** The mislabelling made disarming look
+permanent and irreversible when it is neither, which argued for keeping a
+collector running on a closed hypothesis.
+
+**Corrected valuation.** Path (a) does not need `etf-snap`. Path (b) is
+unaffected by it. Path (c) is served only weakly: forward-only accrual at 20.8
+admissible days per month reaches about **302** by 2027-10-31, clearing the
+governing 300 by two days and clearing nothing at the registered 0.09
+assumption, where E1 needs **845** and E2 above **1,200**.
+
+**Decision.** `etf-snap` disarmed. **The repository now holds no armed collector
+and no running process**, matching the NPDExperiment, HFExperiment and
+InsiderExperiment closure shape. Recorded in REGISTRATION.md Amendment 6 and
+DECISIONS.md ADR-020, which supersedes ADR-019's collection consequence only;
+the rest of ADR-019 stands.
+
+**What this costs, recorded as forgone rather than unmeasured.** The forward
+revision-integrity leg never completes. Earliest completion was **2026-09-22**,
+about sixteen trading days out. It is a fact about the flow **source**, not
+about H1, and it is the MLCryptoEngine H11 question that killed the last flow
+hypothesis this project ran. Its retro corroboration (**0 revised, 0 sign flips,
+0 threshold crosses, n = 11**) sits below the registered minimum of 30, carries
+no verdict, and **may not be cited by any future hypothesis as evidence of
+source stability.** That measurement must be made from scratch.
+
+**Final state.** Zero armed collectors. Zero dollars, no capital, no credential.
+**220 charged requests** lifetime. Four pre-existing user timers verified
+untouched throughout: npl-watch (60 min), news-collect (Mon–Fri 22:30 UTC),
+solattn-daily (00:40 UTC), npl-daily (01:40 UTC).

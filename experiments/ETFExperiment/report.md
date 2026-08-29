@@ -492,3 +492,33 @@ the density figure by a factor of 3.4.
 **Not written. Never will be under this registration.** Stage B is written once
 and only after the latch, and the latch was never spent. The sealed outcome
 substrate stands untouched at 142 of 333 days covered.
+
+## Postscript — the collector is disarmed, and why the first reason was wrong
+
+The closure above kept `etf-snap` running on the reasoning that disarming it
+would permanently foreclose **reopen path (b)**. **That was a mislabelling.**
+Path (b) is a third-party archive at 60 percent pre-anchor density **over the
+test window**, and that window closed with the 333 printed out-of-sample days
+beginning 2025-05-01. Nothing captured from 2026-08-28 forward alters the
+archive density of an elapsed period, and path (b) turns on someone else's
+archive existing at all.
+
+**Forward capture serves path (c)**, and only weakly. At the measured 20.8
+admissible days per month it reaches roughly **302** by 2027-10-31 — two days
+past the governing 300, and nowhere near the **845** and **1,200+** the
+registered 0.09 assumption requires. Fourteen months of collection would have
+bought an option on a narrow-scope re-registration resting on an assumption the
+evidence contradicts.
+
+**`etf-snap` is disarmed. The repository holds no armed collector.** The cost is
+the forward revision-integrity leg, which never completes: earliest completion
+was 2026-09-22. That was a fact about the **source** rather than the
+hypothesis — whether it revises prior rows, at what rate, and whether revisions
+flip the sign or cross the threshold — and it is the H11 question. It is dropped
+by decision, and its n = 11 retro corroboration may not be cited by anything
+later as evidence of source stability.
+
+The error is worth keeping visible for the same reason the Amendment 1 to
+Amendment 2 correction is: **it ran in the direction that flattered the cautious
+option.** Naming the permanent, irreversible path made keeping a process alive
+look obligatory when the real path was bounded and weak.
