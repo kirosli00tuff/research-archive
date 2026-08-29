@@ -3155,3 +3155,97 @@ test**, and **joint power collapses with it**.
 design.** It is **not** grounds to adjust the cost band, the effect assumption or
 the alpha, and **not** grounds to substitute a weaker E2. It is grounds to hand
 the operator a decision, and TASK 4 of this pass names the routes.
+
+---
+
+## Amendment 20 — the stop-versus-close mix and the ambiguous rate, measured
+
+**Date:** 2026-08-29 · **Status:** accepted · supplies the measured inputs
+**Amendment 19** left open; amends nothing it did not already name
+
+**What data existed when this amendment was made.** Everything held at
+Amendments 11 through 19, plus those amendments — **including Amendment 19,
+which fixed E2's null before these figures existed**, so the null cannot have
+been chosen to suit them. **No bar revision measurement and no cross-vendor
+agreement share existed.** **Zero dollars spent. Zero requests sent** — the bytes
+were sealed on 2026-08-29 and **re-reading a stored file is not a vendor call.**
+**Neither latch exists.**
+
+### 1. What was measured, and where
+
+**The same sealed post-holdout slice A.1 TASK 5 read**: `n = 42` sessions,
+**2026-07-01 to 2026-08-28**, 200 tickers, boundary enforced **per bar** by the
+two-sided check of Amendment 11. **28 sessions were evaluable** after the
+registered 14-session trailing window.
+
+### 2. The four scalars
+
+| # | scalar | figure | n |
+|---:|---|---:|---|
+| 1 | **stop-exit share** | **0.381818** | **550** triggered trades with a resolved exit — **210 stop, 340 close** |
+| 2 | **ambiguous rate** | **0.000000** | **560** selected name-sessions — **0 ambiguous** |
+| 3 | **mean pessimistic-minus-central shift** | **0.041455 USD/share** | derived from scalar 1 |
+| 4 | **sessions used** | **28** | of 42 pulled |
+
+**A recorded deviation from the operator's instruction, named rather than taken
+quietly.** The instruction was *"exactly four scalars and nothing else"*. The
+record carries **those four** plus **integer denominators**, because **standing
+rule 13 requires every figure to travel with its n in the same sentence** and a
+rate without its denominator is not a figure this repository may report. **No
+field is a trade, a return series, a per-name figure or a bar value**, which is
+what the four-scalar contract protects, and
+`tests/test_guards.py::test_the_dispersion_writer_returns_two_scalars` pins that
+the **float** fields are exactly the three named measurements and **every other
+field is an `int` count**.
+
+### 3. The shift, and the bounds it sits between
+
+**0.041455 USD per share**, between a hard **0.030** if every trade exited at the
+close and a hard **0.060** if every trade exited on the stop. Both bounds are
+arithmetic from the Section 6 bands, not estimates.
+
+### 4. Measured against the assumption each replaces
+
+**The stop-exit share: 0.381818, `n = 550`, against a prior estimate of
+0.381818.** **They agree exactly, and the reason is worth stating rather than
+presenting as a confirmation.** The A.1 TASK 5 figure was **210 of 550 priced
+trades** under the bracketed cost model, which happened to price all 550. **It
+was the same arithmetic on the same trades.** What changed is **structural**: the
+mix is now computed **from the Section 3 stop and close rules directly**, not
+from trades a cost model priced. **The frozen Section 6 model prices nothing**,
+so the old route would have returned a stop share of **0.0** and a shift of
+**0.030** — understating the pessimistic shift by **0.011455 USD per share on
+every trade** — and it would have done so silently. Pinned by
+`tests/test_dispersion.py::test_the_mix_is_read_off_the_bars_and_not_off_priced_trades`.
+
+**The ambiguous rate: 0.000000, `n = 560` selected name-sessions, 0 events.**
+
+**A zero count is reported with its uncertainty, not as a certainty.** By the
+**rule of three**, a one-sided 95 percent upper bound on a rate observed zero
+times in `n = 560` is **3/560 ≈ 0.0054, or 0.54 percent**. **The registered
+ambiguous-session exclusion removes at most about half a percent of the sample on
+this slice, and removed none of it.**
+
+> **The 10 percent threshold the operator set was not crossed, so no scope
+> limitation is raised on the ambiguous exclusion, and the exclusion rule is
+> unchanged.**
+
+**Why it is so low, stated so a later reader does not mistake it for a bug.**
+`Trigger.AMBIGUOUS` fires only when the **first** bar to break either side of the
+opening range breaks **both** — a single minute spanning the whole 5-minute range
+and clearing both extremes. On liquid names with a 5-minute range that is rare,
+and the measurement says how rare on this slice. **It is a genuine measurement of
+a registered exclusion, and its value is that the exclusion is now known to be
+cheap rather than assumed to be.**
+
+**Long-only sensitivity, recorded because the locate filter is unmeasured**: stop
+share **0.384354**, ambiguous rate **0.000000**, shift **0.041531 USD/share**,
+`n = 294` triggered trades.
+
+### 5. What this amendment does not do
+
+- **It changes no rule.** Section 2's ambiguous exclusion stands exactly as
+  registered.
+- **It sends no request and spends nothing.** 0 and 0.
+- **It reads no in-sample or holdout bar.** Post-holdout only, enforced per bar.
+- **It opens no latch and arms nothing.**

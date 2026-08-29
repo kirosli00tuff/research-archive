@@ -10,6 +10,7 @@ from __future__ import annotations
 import ast
 import dataclasses
 from pathlib import Path
+from typing import Any
 
 import pytest
 
@@ -643,7 +644,7 @@ def test_comparator_findings_carry_only_counts() -> None:
 
 @pytest.mark.guard
 def test_the_dispersion_writer_returns_two_scalars() -> None:
-    """The carve-out writer emits two scalars and their counts. Nothing else.
+    """The carve-out writer emits named scalars and their counts. Nothing else.
 
     ``orb.dispersion`` is the one module that runs the registered Section 2
     selection, the Section 3 entry, stop and exit and the Section 6 cost model
@@ -652,16 +653,26 @@ def test_the_dispersion_writer_returns_two_scalars() -> None:
 
     Two checks, because either alone is a hole. The **return annotations** stop
     a method handing back a trade, a series or a bar. The **field types** stop
-    the record itself growing a mean, a per-name figure or a ranking: exactly
-    two ``float`` fields are allowed and every other field must be an ``int``
-    count, so that each scalar travels with its n.
+    the records themselves growing a mean, a per-name figure or a ranking.
 
-    **The mean is deliberately not among them.** A mean net PnL *is* the outcome
-    this repository is blind to; a dispersion is not.
+    **Extended by Amendment 20** for the second public entry point. Each record
+    declares the ``float`` measurements it is allowed to carry, exactly and in
+    order, and **every other field must be an ``int`` count** so each figure
+    travels with its n. **No record may carry a field named ``mean``** — a mean
+    net PnL *is* the outcome this repository is blind to.
     """
     import dataclasses as _dc
 
-    allowed_returns = {"CarveOutDispersion", "int", "float", "bool", "None"}
+    from orb.dispersion import CarveOutDispersion, CarveOutExecutionMix
+
+    allowed_returns = {
+        "CarveOutDispersion",
+        "CarveOutExecutionMix",
+        "int",
+        "float",
+        "bool",
+        "None",
+    }
     tree = _parse(SRC_ROOT / "dispersion.py")
     checked = 0
     offenders: list[str] = []
@@ -674,23 +685,46 @@ def test_the_dispersion_writer_returns_two_scalars() -> None:
         )
         if rendered not in allowed_returns:
             offenders.append(f"{node.name} -> {rendered}")
-    assert checked >= 1, "expected the carve-out writer's entry point"
+    assert checked >= 2, f"expected both carve-out entry points, saw {checked}"
     assert not offenders, (
-        "the carve-out dispersion writer may return only two scalars and their "
-        f"counts: {offenders}"
+        "the carve-out writer may return only its registered scalar records: "
+        f"{offenders}"
     )
 
-    from orb.dispersion import CarveOutDispersion
+    expected_floats: list[tuple[Any, list[str]]] = [
+        (CarveOutDispersion, ["net_pnl_per_share_stdev", "trigger_rate"]),
+        (
+            CarveOutExecutionMix,
+            [
+                "stop_exit_share",
+                "ambiguous_rate",
+                "mean_pessimistic_shift_usd_per_share",
+            ],
+        ),
+    ]
+    for record, names in expected_floats:
+        floats = [f.name for f in _dc.fields(record) if f.type == "float"]
+        others = [f for f in _dc.fields(record) if f.type != "float"]
+        assert floats == names, (record.__name__, floats)
+        assert all(f.type == "int" for f in others), (
+            record.__name__,
+            [(f.name, f.type) for f in others],
+        )
+        for field in _dc.fields(record):
+            assert field.name not in PRICED_BAR_FIELDS, (record.__name__, field.name)
+        assert "mean_net" not in " ".join(f.name for f in _dc.fields(record)), (
+            f"{record.__name__}: a mean net PnL is the outcome; these records "
+            "emit dispersion, rates and counts, never it"
+        )
 
-    floats = [f.name for f in _dc.fields(CarveOutDispersion) if f.type == "float"]
-    others = [f for f in _dc.fields(CarveOutDispersion) if f.type != "float"]
-    assert floats == ["net_pnl_per_share_stdev", "trigger_rate"], floats
-    assert all(f.type == "int" for f in others), [(f.name, f.type) for f in others]
-    for field in _dc.fields(CarveOutDispersion):
-        assert field.name not in PRICED_BAR_FIELDS, field.name
-    assert "mean" not in " ".join(f.name for f in _dc.fields(CarveOutDispersion)), (
-        "a mean net PnL is the outcome; the writer emits dispersion, never it"
-    )
+    # The four Amendment 20 named, present under the names it named them.
+    mix_fields = {f.name for f in _dc.fields(CarveOutExecutionMix)}
+    assert {
+        "stop_exit_share",
+        "ambiguous_rate",
+        "mean_pessimistic_shift_usd_per_share",
+        "sessions_used",
+    } <= mix_fields
 
 
 @pytest.mark.guard

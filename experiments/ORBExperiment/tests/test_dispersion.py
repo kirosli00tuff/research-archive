@@ -23,8 +23,10 @@ from orb.costs import CostModel, SecFeeSchedule
 from orb.costs_registered import REGISTERED_COST_MODEL
 from orb.dispersion import (
     CarveOutDispersion,
+    CarveOutExecutionMix,
     DispersionInputError,
     measure_carve_out_dispersion,
+    measure_carve_out_execution_mix,
 )
 from orb.preperiod import PrePeriodViolationError
 
@@ -294,3 +296,146 @@ def test_the_long_only_restriction_is_the_callers_to_state() -> None:
     # These fixtures break upward, so the two agree — which is the point: the
     # flag changes what is *eligible*, never what a long trade is worth.
     assert both.name_sessions_triggered == long_only.name_sessions_triggered
+
+
+# --------------------------------------------------------------------------
+# Amendment 20 — the execution mix, measured rather than assumed
+# --------------------------------------------------------------------------
+
+
+def _mix(
+    payloads_by_ticker: dict[str, list[bytes]],
+    model: CostModel = ZERO_SEC_MODEL,
+    *,
+    allow_short: bool = True,
+) -> CarveOutExecutionMix:
+    return measure_carve_out_execution_mix(
+        sorted(payloads_by_ticker),
+        lambda t: payloads_by_ticker[t],
+        SLICE,
+        model,
+        allow_short=allow_short,
+    )
+
+
+def test_the_mix_carries_exactly_the_four_named_scalars_and_its_counts() -> None:
+    import dataclasses
+
+    result = _mix({"AAA": _ticker_payloads({20, 25})})
+    floats = [f.name for f in dataclasses.fields(result) if f.type == "float"]
+    assert floats == [
+        "stop_exit_share",
+        "ambiguous_rate",
+        "mean_pessimistic_shift_usd_per_share",
+    ]
+    assert isinstance(result.sessions_used, int)
+    assert all(
+        isinstance(getattr(result, f.name), int)
+        for f in dataclasses.fields(result)
+        if f.type == "int"
+    )
+
+
+def test_an_all_close_exit_mix_gives_the_close_exit_shift() -> None:
+    """Two breakouts held to the close. Hand-computed: 0.030 USD/share."""
+    result = _mix({"AAA": _ticker_payloads({20, 25}, close_at=61.0)})
+    assert result.name_sessions_triggered == 2
+    assert result.stop_exits == 0
+    assert result.close_exits == 2
+    assert result.stop_exit_share == 0.0
+    assert result.mean_pessimistic_shift_usd_per_share == pytest.approx(
+        0.030, abs=1e-12
+    )
+
+
+def test_an_all_stop_exit_mix_gives_the_stop_exit_shift() -> None:
+    """Two breakouts that reverse through the stop. Hand-computed: 0.060."""
+    result = _mix({"AAA": _ticker_payloads({20, 25}, close_at=59.0)})
+    assert result.name_sessions_triggered == 2
+    assert result.stop_exits == 2
+    assert result.close_exits == 0
+    assert result.stop_exit_share == 1.0
+    assert result.mean_pessimistic_shift_usd_per_share == pytest.approx(
+        0.060, abs=1e-12
+    )
+
+
+def test_a_half_and_half_mix_interpolates_the_shift() -> None:
+    result = _mix(
+        {
+            "AAA": _ticker_payloads({20, 25}, close_at=61.0),
+            "BBB": _ticker_payloads({20, 25}, close_at=59.0),
+        }
+    )
+    assert result.stop_exits == 2
+    assert result.close_exits == 2
+    assert result.stop_exit_share == pytest.approx(0.5, abs=1e-12)
+    assert result.mean_pessimistic_shift_usd_per_share == pytest.approx(
+        0.045, abs=1e-12
+    )
+
+
+def test_the_mix_is_read_off_the_bars_and_not_off_priced_trades() -> None:
+    """The frozen model prices nothing, and the mix must survive that.
+
+    The frozen Section 6 model returns `Absent` for every trade, its SEC
+    Section 31 effective date being unmeasured. **Reading the exit mix off
+    priced trades would have made it silently zero**, and a zero stop share
+    understates the pessimistic shift by 0.030 USD per share on every trade.
+    """
+    payloads = {
+        "AAA": _ticker_payloads({20, 25}, close_at=61.0),
+        "BBB": _ticker_payloads({20, 25}, close_at=59.0),
+    }
+    frozen = _mix(payloads, REGISTERED_COST_MODEL)
+    bracketed = _mix(payloads, ZERO_SEC_MODEL)
+
+    assert frozen.stop_exit_share == bracketed.stop_exit_share
+    assert frozen.mean_pessimistic_shift_usd_per_share == pytest.approx(
+        bracketed.mean_pessimistic_shift_usd_per_share, abs=1e-12
+    )
+    assert frozen.stop_exits == 2 and frozen.close_exits == 2
+
+    # And the dispersion writer, on the same inputs, prices nothing at all.
+    assert _run(payloads, REGISTERED_COST_MODEL).trades_priced == 0
+
+
+def test_an_untriggered_slice_reports_a_zero_share_beside_a_zero_denominator() -> None:
+    """0.0 at n = 0 is an absence, and the caller reads the n beside it."""
+    result = _mix({"AAA": _ticker_payloads(set())})
+    assert result.name_sessions_evaluated > 0
+    assert result.name_sessions_triggered == 0
+    assert result.trades_with_a_resolved_exit == 0
+    assert result.stop_exit_share == 0.0
+    assert result.mean_pessimistic_shift_usd_per_share == 0.0
+
+
+def test_the_ambiguous_rate_counts_a_bar_that_crosses_both_extremes() -> None:
+    """Section 2 excludes these, and the excluded share is a measured figure."""
+    rows: list[dict[str, object]] = []
+    for index, session in enumerate(SLICE):
+        if index in {20, 25}:
+            open_ms, range_end_ms = session.opening_range_utc()
+            exit_start, exit_end = session.close_exit_utc()
+            high, low = 60.0 + HALF_RANGE, 60.0 - HALF_RANGE
+            rows.extend(
+                _bar(open_ms + i * 60_000, 60.0, high, low, 60.0, 2_000_000)
+                for i in range(5)
+            )
+            # One bar clearing the high AND the low: the minute cannot say
+            # which came first, so the session is ambiguous and excluded.
+            rows.append(
+                _bar(range_end_ms, 60.0, high + 1.00, low - 1.00, 60.0, 2_000_000)
+            )
+            rows.extend(
+                _bar(stamp, 60.0, high - 0.01, low + 0.01, 60.0, 2_000_000)
+                for stamp in (exit_start, exit_end - 60_000)
+            )
+        else:
+            rows.extend(_flat_session(session, 60.0, 1_500_000))
+    result = _mix({"AAA": [_payload(rows)]})
+    evaluable = len(SLICE) - CONFIG.relvol_lookback_sessions
+    assert result.name_sessions_evaluated == evaluable
+    assert result.name_sessions_ambiguous == 2
+    assert result.name_sessions_triggered == 0, "an ambiguous session never trades"
+    assert result.ambiguous_rate == pytest.approx(2 / evaluable)

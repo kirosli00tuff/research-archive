@@ -44,7 +44,7 @@ from __future__ import annotations
 
 import json
 import math
-from collections.abc import Callable, Sequence
+from collections.abc import Callable, Iterator, Mapping, Sequence
 from dataclasses import dataclass
 from datetime import datetime
 from itertools import pairwise
@@ -100,6 +100,39 @@ class CarveOutDispersion:
     trades_below_one_share: int
     stop_exits: int
     close_exits: int
+    bars_read: int
+    tickers_with_bars: int
+
+
+@final
+@dataclass(frozen=True, slots=True)
+class CarveOutExecutionMix:
+    """**Four scalars and their denominators. Nothing else leaves this module.**
+
+    Registered by **Amendment 20**. The four the operator named are
+    ``stop_exit_share``, ``ambiguous_rate``,
+    ``mean_pessimistic_shift_usd_per_share`` and ``sessions_used`` — three
+    ``float`` measurements and one ``int`` count.
+
+    **The remaining fields are integer denominators and standing rule 13
+    requires them.** A rate without its n is not a figure this repository is
+    allowed to report, and the deviation is named in Amendment 20 rather than
+    taken quietly. **No field is a trade, a series, a per-name figure or a bar
+    value**, which is what the four-scalar contract is actually protecting.
+    """
+
+    stop_exit_share: float
+    ambiguous_rate: float
+    mean_pessimistic_shift_usd_per_share: float
+
+    sessions_used: int
+    name_sessions_evaluated: int
+    name_sessions_ambiguous: int
+    name_sessions_triggered: int
+    trades_with_a_resolved_exit: int
+    stop_exits: int
+    close_exits: int
+    trades_with_an_unresolved_exit: int
     bars_read: int
     tickers_with_bars: int
 
@@ -264,25 +297,8 @@ def _atr_14_c(history: Sequence[_NameSession]) -> float:
     return sum(ranges) / len(ranges) if ranges else 0.0
 
 
-def measure_carve_out_dispersion(
-    tickers: Sequence[str],
-    load_payloads: Callable[[str], Sequence[bytes]],
-    sessions: Sequence[Session],
-    cost_model: CostModel,
-    *,
-    allow_short: bool,
-    equity_usd: float,
-    band: Band = Band.CENTRAL,
-) -> CarveOutDispersion:
-    """Run the registered rule over the carve-out. **Returns two scalars.**
-
-    ``load_payloads`` is called once per ticker so that only one name's bars are
-    held at a time; the whole slice is never resident.
-
-    ``allow_short`` stands in for the Section 2 locate and borrow filter, which
-    **this repository has not measured**. The caller states it and the caller
-    records it; this module does not guess.
-    """
+def _require_registered_inputs(sessions: Sequence[Session]) -> None:
+    """Refuse inputs the registered rule cannot be run over. **Shared.**"""
     expected_range_ms = CONFIG.opening_range_minutes * 60_000
     for session in sessions:
         start_ms, end_ms = session.opening_range_utc()
@@ -294,38 +310,48 @@ def measure_carve_out_dispersion(
                 "registration disagree, and this writer refuses to average over "
                 "the disagreement."
             )
-
     if len(sessions) <= CONFIG.relvol_lookback_sessions:
         raise DispersionInputError(
             f"need more than {CONFIG.relvol_lookback_sessions} sessions for the "
             f"trailing relative-volume window, got {len(sessions)}"
         )
 
+
+def _scan_all(
+    tickers: Sequence[str],
+    load_payloads: Callable[[str], Sequence[bytes]],
+    sessions: Sequence[Session],
+) -> tuple[dict[str, list[_NameSession]], int]:
+    """Scan every ticker, one at a time. **Shared. Returns nothing public.**
+
+    ``load_payloads`` is called once per ticker so only one name's bars are
+    resident; the whole slice never is.
+    """
     by_ticker: dict[str, list[_NameSession]] = {}
     bars_read = 0
     for ticker in tickers:
-        bars = _bars_from_payloads(
-            load_payloads(ticker), f"carve-out dispersion, {ticker}"
-        )
+        bars = _bars_from_payloads(load_payloads(ticker), f"carve-out read, {ticker}")
         if not bars:
             continue
         bars_read += len(bars)
         rows = _scan_ticker(ticker, bars, sessions)
         if rows:
             by_ticker[ticker] = rows
+    return by_ticker, bars_read
 
+
+def _selections(
+    by_ticker: Mapping[str, list[_NameSession]],
+    sessions: Sequence[Session],
+    *,
+    allow_short: bool,
+) -> Iterator[tuple[Session, str, _NameSession, Candidate]]:
+    """The registered Section 2 selection, session by session. **Shared.**
+
+    Yields one tuple per **selected** name-session. Everything it yields is
+    private to this module; nothing here reaches a caller.
+    """
     first_evaluable = CONFIG.relvol_lookback_sessions
-    per_share: list[float] = []
-    sessions_evaluated = 0
-    name_sessions = 0
-    triggered = 0
-    ambiguous = 0
-    priced = 0
-    refused = 0
-    below_one_share = 0
-    stop_exits = 0
-    close_exits = 0
-
     for index in range(first_evaluable, len(sessions)):
         session = sessions[index]
         candidates: dict[str, Candidate] = {}
@@ -360,75 +386,107 @@ def measure_carve_out_dispersion(
 
         if not candidates:
             continue
-        sessions_evaluated += 1
-        # Section 4: at most ``max_concurrent_positions`` are open at once,
-        # and the registered selection is evaluated at a single instant, so
-        # the cap and the selection width bind together. Read, not assumed
-        # equal: if a later amendment moves either, this line moves with it.
+        # Section 4: at most ``max_concurrent_positions`` are open at once, and
+        # the registered selection is evaluated at a single instant, so the cap
+        # and the selection width bind together. Read, not assumed equal.
         for ticker in select(candidates)[: CONFIG.max_concurrent_positions]:
-            row = rows_today[ticker]
-            name_sessions += 1
-            if row.trigger is Trigger.AMBIGUOUS:
-                ambiguous += 1
-                continue
-            if row.trigger is Trigger.NONE:
-                continue
-            if row.side is Side.SHORT and not candidates[ticker].shortable():
-                continue
-            triggered += 1
-            if row.entry_c is None or row.stop_c is None or row.exit_c is None:
-                continue
-            assert row.side is not None and row.exit_leg is not None
+            yield session, ticker, rows_today[ticker], candidates[ticker]
 
-            risk_per_share = abs(row.entry_c - row.stop_c) / CENT
-            if risk_per_share <= 0:
-                below_one_share += 1
-                continue
-            sized = CONFIG.risk_fraction_per_trade * equity_usd / risk_per_share
-            # HFExperiment C-17: IBKR refuses fractional API orders, error
-            # 10243. The floor is a registered constraint, not a rounding
-            # convenience, so the config field is read rather than assumed.
-            if not CONFIG.integer_shares_only:
-                raise DispersionInputError(
-                    "integer_shares_only is False; this writer implements only "
-                    "the registered integer-share sizing and refuses to invent "
-                    "a fractional one."
-                )
-            shares = int(sized)
-            entry_fill = row.entry_c / CENT
-            cap_shares = int(
-                CONFIG.max_gross_notional_multiple * equity_usd / entry_fill
-            )
-            shares = min(shares, cap_shares)
-            if shares < 1:
-                below_one_share += 1
-                continue
 
-            net = cost_model.net_pnl(
-                shares,
-                entry_fill,
-                row.exit_c / CENT,
-                row.exit_leg,
-                row.side,
-                session.day,
-                band,
+def measure_carve_out_dispersion(
+    tickers: Sequence[str],
+    load_payloads: Callable[[str], Sequence[bytes]],
+    sessions: Sequence[Session],
+    cost_model: CostModel,
+    *,
+    allow_short: bool,
+    equity_usd: float,
+    band: Band = Band.CENTRAL,
+) -> CarveOutDispersion:
+    """Run the registered rule over the carve-out. **Returns two scalars.**
+
+    ``allow_short`` stands in for the Section 2 locate and borrow filter, which
+    **this repository has not measured**. The caller states it and the caller
+    records it; this module does not guess.
+    """
+    _require_registered_inputs(sessions)
+    by_ticker, bars_read = _scan_all(tickers, load_payloads, sessions)
+
+    per_share: list[float] = []
+    seen_sessions: set[int] = set()
+    name_sessions = 0
+    triggered = 0
+    ambiguous = 0
+    priced = 0
+    refused = 0
+    below_one_share = 0
+    stop_exits = 0
+    close_exits = 0
+
+    for session, _ticker, row, candidate in _selections(
+        by_ticker, sessions, allow_short=allow_short
+    ):
+        seen_sessions.add(row.session_index)
+        name_sessions += 1
+        if row.trigger is Trigger.AMBIGUOUS:
+            ambiguous += 1
+            continue
+        if row.trigger is Trigger.NONE:
+            continue
+        if row.side is Side.SHORT and not candidate.shortable():
+            continue
+        triggered += 1
+        if row.entry_c is None or row.stop_c is None or row.exit_c is None:
+            continue
+        assert row.side is not None and row.exit_leg is not None
+
+        risk_per_share = abs(row.entry_c - row.stop_c) / CENT
+        if risk_per_share <= 0:
+            below_one_share += 1
+            continue
+        sized = CONFIG.risk_fraction_per_trade * equity_usd / risk_per_share
+        # HFExperiment C-17: IBKR refuses fractional API orders, error 10243.
+        # The floor is a registered constraint, not a rounding convenience, so
+        # the config field is read rather than assumed.
+        if not CONFIG.integer_shares_only:
+            raise DispersionInputError(
+                "integer_shares_only is False; this writer implements only the "
+                "registered integer-share sizing and refuses to invent a "
+                "fractional one."
             )
-            if not isinstance(net, float):
-                refused += 1
-                continue
-            priced += 1
-            per_share.append(net / shares)
-            if row.exit_leg is Leg.STOP_EXIT:
-                stop_exits += 1
-            else:
-                close_exits += 1
+        shares = int(sized)
+        entry_fill = row.entry_c / CENT
+        cap_shares = int(CONFIG.max_gross_notional_multiple * equity_usd / entry_fill)
+        shares = min(shares, cap_shares)
+        if shares < 1:
+            below_one_share += 1
+            continue
+
+        net = cost_model.net_pnl(
+            shares,
+            entry_fill,
+            row.exit_c / CENT,
+            row.exit_leg,
+            row.side,
+            session.day,
+            band,
+        )
+        if not isinstance(net, float):
+            refused += 1
+            continue
+        priced += 1
+        per_share.append(net / shares)
+        if row.exit_leg is Leg.STOP_EXIT:
+            stop_exits += 1
+        else:
+            close_exits += 1
 
     stdev = _sample_stdev(per_share)
     rate = triggered / name_sessions if name_sessions else 0.0
     return CarveOutDispersion(
         net_pnl_per_share_stdev=stdev,
         trigger_rate=rate,
-        sessions_evaluated=sessions_evaluated,
+        sessions_evaluated=len(seen_sessions),
         name_sessions_evaluated=name_sessions,
         name_sessions_triggered=triggered,
         name_sessions_ambiguous=ambiguous,
@@ -437,6 +495,88 @@ def measure_carve_out_dispersion(
         trades_below_one_share=below_one_share,
         stop_exits=stop_exits,
         close_exits=close_exits,
+        bars_read=bars_read,
+        tickers_with_bars=len(by_ticker),
+    )
+
+
+def measure_carve_out_execution_mix(
+    tickers: Sequence[str],
+    load_payloads: Callable[[str], Sequence[bytes]],
+    sessions: Sequence[Session],
+    cost_model: CostModel,
+    *,
+    allow_short: bool,
+    band_from: Band = Band.CENTRAL,
+    band_to: Band = Band.PESSIMISTIC,
+) -> CarveOutExecutionMix:
+    """The stop-versus-close mix and the ambiguous rate. **Four scalars.**
+
+    **Amendment 19 needs both, and both were assumptions until this ran.** The
+    pessimistic-minus-central shift is charged on the entry leg and on
+    **whichever exit leg the trade actually took**, so it cannot be computed
+    without the realized mix.
+
+    **The exit mix is determined by the bars, not by the cost model.** It is
+    counted here from the Section 3 stop and close rules directly, so a cost
+    model that **refuses to price a trade** — as the frozen Section 6 model does
+    for every session, its SEC effective date being unmeasured — **still yields
+    a mix.** Reading the mix off priced trades instead would have made it
+    silently zero.
+    """
+    _require_registered_inputs(sessions)
+    by_ticker, bars_read = _scan_all(tickers, load_payloads, sessions)
+
+    seen_sessions: set[int] = set()
+    name_sessions = 0
+    ambiguous = 0
+    triggered = 0
+    stop_exits = 0
+    close_exits = 0
+    unresolved = 0
+
+    for _session, _ticker, row, candidate in _selections(
+        by_ticker, sessions, allow_short=allow_short
+    ):
+        seen_sessions.add(row.session_index)
+        name_sessions += 1
+        if row.trigger is Trigger.AMBIGUOUS:
+            ambiguous += 1
+            continue
+        if row.trigger is Trigger.NONE:
+            continue
+        if row.side is Side.SHORT and not candidate.shortable():
+            continue
+        triggered += 1
+        if row.exit_leg is Leg.STOP_EXIT:
+            stop_exits += 1
+        elif row.exit_leg is Leg.CLOSE_EXIT:
+            close_exits += 1
+        else:
+            unresolved += 1
+
+    exits = stop_exits + close_exits
+    stop_share = stop_exits / exits if exits else 0.0
+    ambiguous_rate = ambiguous / name_sessions if name_sessions else 0.0
+    shift = (
+        cost_model.mean_slippage_shift_per_share(
+            stop_share, band_from=band_from, band_to=band_to
+        )
+        if exits
+        else 0.0
+    )
+    return CarveOutExecutionMix(
+        stop_exit_share=stop_share,
+        ambiguous_rate=ambiguous_rate,
+        mean_pessimistic_shift_usd_per_share=shift,
+        sessions_used=len(seen_sessions),
+        name_sessions_evaluated=name_sessions,
+        name_sessions_ambiguous=ambiguous,
+        name_sessions_triggered=triggered,
+        trades_with_a_resolved_exit=exits,
+        stop_exits=stop_exits,
+        close_exits=close_exits,
+        trades_with_an_unresolved_exit=unresolved,
         bars_read=bars_read,
         tickers_with_bars=len(by_ticker),
     )

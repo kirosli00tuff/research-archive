@@ -315,6 +315,22 @@ MUTATIONS: tuple[Mutation, ...] = (
             ),
         ),
     ),
+    Mutation(
+        16,
+        "make the execution-mix writer return a trade list",
+        "the four-scalar contract of Amendment 20 becomes a hole and a "
+        "per-trade series leaves a sealed writer before the Stage C latch",
+        (
+            (
+                "src/orb/dispersion.py",
+                "def measure_carve_out_execution_mix(",
+                "def leak_the_exit_legs(values: list[float]) -> list[float]:"
+                "  # MUTATION 16\n"
+                "    return list(values)\n\n\n"
+                "def measure_carve_out_execution_mix(",
+            ),
+        ),
+    ),
 )
 
 

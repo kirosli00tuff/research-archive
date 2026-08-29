@@ -1,0 +1,43 @@
+{
+  "ambiguous_exclusion_is_material": false,
+  "ambiguous_exclusion_note": "Section 2 excludes ambiguous sessions and this pass does NOT change that rule. The share is reported with its n so the operator can see how much of the sample the registered exclusion removes.",
+  "ambiguous_rate": 0.0,
+  "bars_read": 1927156,
+  "carve_out_boundary_ms": 1782878400000,
+  "carve_out_half": "post_holdout",
+  "close_exits": 340,
+  "first_session": "2026-07-01",
+  "kind": "carve_out_execution_mix",
+  "last_closed_session": "2026-08-28",
+  "long_only_sensitivity": {
+    "ambiguous_rate": 0.0,
+    "close_exits": 181,
+    "mean_pessimistic_shift_usd_per_share": 0.04153061224489796,
+    "name_sessions_triggered": 294,
+    "stop_exit_share": 0.3843537414965986,
+    "stop_exits": 113
+  },
+  "material_exclusion_threshold": 0.1,
+  "mean_pessimistic_shift_usd_per_share": 0.04145454545454545,
+  "measured_at": "2026-08-29",
+  "name_sessions_ambiguous": 0,
+  "name_sessions_evaluated": 560,
+  "name_sessions_triggered": 550,
+  "requests_sent": 0,
+  "requests_sent_note": "the bytes were sealed on 2026-08-29; re-reading a stored file is not a vendor call",
+  "sessions_pulled": 42,
+  "sessions_used": 28,
+  "shift_at_the_prior_estimate": 0.04145454,
+  "shift_bounds_usd_per_share": {
+    "all_close_exits": 0.03,
+    "all_stop_exits": 0.06
+  },
+  "stop_exit_share": 0.38181818181818183,
+  "stop_exits": 210,
+  "stop_share_disagreement": 1.81818181843596e-07,
+  "stop_share_prior_estimate": 0.381818,
+  "tickers_with_bars": 199,
+  "trades_with_a_resolved_exit": 550,
+  "trades_with_an_unresolved_exit": 0,
+  "trigger_rate_assumption_falsified_at_a1_task5": 0.55
+}
