@@ -2651,3 +2651,118 @@ effect size**, and it is recorded here so the number exists before any read does
 - **It weakens no Section 0 branch.**
 - **It does not change E1.**
 - **It does not claim the post-holdout dispersion is the in-sample dispersion.**
+
+---
+
+## Amendment 16 — Section 0 re-fired PENDING_REVISION with E2 power as a number
+
+**Date:** 2026-08-29 · **Status:** accepted · records a firing of **Section 0**;
+**amends no branch**
+
+**What data existed when this amendment was made.** Everything held at
+Amendments 11 through 15, plus those amendments — **including, for the first
+time, a computed E2 power.** **The bar revision rate and the cross-vendor
+agreement share still do not exist**, and neither is eligible before
+**2026-09-12**. **Zero dollars spent.** **Neither latch exists.**
+
+### The verdict
+
+> ## **`PENDING_REVISION`** · clause `PENDING-REVISION Amendment 10`
+>
+> **Access passes and the integrity measurement still does not exist.** Nothing
+> is armed. Nothing is closed. **H1 remains OPEN.**
+
+**`tools/refire_section0_amend.py` is a new tool for a new firing.**
+`tools/fire_section0.py` and `tools/refire_section0.py` are **left untouched** as
+the artefacts of the `PENDING_ACCESS` and first `PENDING_REVISION` firings. All
+three records sit in the same append-only ledger at
+`data/state/section0.jsonl`. **The tool refuses to record `GO` or `DEGRADED` and
+exits 78 if the map ever hands it one.**
+
+### Every input, with its n
+
+| input | figure | n |
+|---|---|---|
+| `alpha_adj`, one-sided per co-primary | **0.02532057** | — |
+| **E1 power at the registered 1.40** | **0.7435206446** | **875 sessions** |
+| E1 power at the published 2.81 | 0.9994839325 | 875 |
+| E1 minimum N for 80 percent at 1.40 | **1,006** | — |
+| **E1 changed by this pass** | **NO** | — |
+| **E2 power at the registered 1.40, holdout** | **0.7435328658** | **875 sessions** |
+| E2 power at the published 2.81, holdout | 0.9994840718 | 875 |
+| E2 power at the quartered 0.70, holdout | 0.2578085287 | 875 |
+| E2 power at the registered 1.40, in-sample | 0.9597210717 | 1,762 |
+| E2 power at the published 2.81, in-sample | 0.9999999782 | 1,762 |
+| E2 power at the quartered 0.70, in-sample | 0.4587731669 | 1,762 |
+| **E2 dispersion input** | **2.029585 USD/share** | **550 priced trades** |
+| E2 dispersion bracket, relative width | **8.43 × 10⁻⁵** | 2 ends |
+| **E2 dispersion under the frozen model** | **`Absent`** — 550 of 550 refused | 550 |
+| **measured trigger rate** | **0.982143** | **560 name-sessions** |
+| trigger-rate assumption falsified | **0.55** | — |
+| carve-out sessions read / evaluated | **42 / 28** | 200 tickers |
+| collection access | **`SERVING_FULL_REACH`** | — |
+| primary vendor, earliest served session | **Alpaca, 2016-01-04** | 16 probes |
+| in-sample sessions reachable | **1,762 of 1,762** | 16 |
+| holdout sessions reachable | **875 of 875** | 16 |
+| reference vendor, earliest served session | **Massive, 2024-08-29** | 16 probes |
+| cross-vendor overlap | **459 holdout, 0 in-sample** | — |
+| tape verdict | **`SAME_TAPE`**, median 1.005197 | **100 pairs** |
+| **sealed slice feed** | **`CONFIRMED_CONSOLIDATED`**, `sip` | **7 discriminating chunks** |
+| Alpaca ceiling state | **`MEASURED_SUSTAINED_AT_OR_ABOVE`** | — |
+| Alpaca burst allowance | **384 requests in 55.96 s** | 391 sent |
+| Alpaca sustained lower bound | **199.73/min**, 0 refusals | 250 |
+| Alpaca operating pace | **98.36/min** at 0.61 s | — |
+| delisted names with intraday history | **203** — **`PASS`** | **229 checked** |
+| **bar revision rate** | **`Absent(not_yet_measured)`** — eligible **2026-09-12** | 0 |
+| **cross-vendor agreement share** | **`Absent(not_yet_measured)`** | 0 |
+| dollars spent | **0** | — |
+
+**Every E2 figure above carries the Amendment 11 caveat in the record itself**:
+the dispersion input comes from a **post-holdout regime**, later than the sample
+it is applied to, and **may misstate in-sample dispersion in either direction by
+an amount this repository has not measured and does not claim to bound.**
+
+**Every in-sample figure above carries SL-3** (§11.1, Amendment 12): all 1,762
+in-sample sessions rest on a **single unverified feed**.
+
+### Why the verdict did not move, stated in the branch's own terms
+
+**E2 becoming a number changed no branch.** Section 0 evaluates the BLOCKED
+triggers, then `PENDING_SPEND`, then the pending-integrity clause, then `GO`,
+then `DEGRADED` as the residual. **The pending-integrity clause fires ahead of
+`GO` and `DEGRADED` and it fired**, because both integrity inputs are recorded
+absences.
+
+**And it would not have fired `GO` even if they existed.** `GO` requires **both**
+co-primaries at or above **0.80** power at the registered assumption. **E1 is
+0.7435 and E2 is 0.7435.** The counterfactual Amendment 4 recorded in writing —
+*had bar integrity passed in full, the same power inputs fire `DEGRADED`* —
+**still stands, and it now stands on two computed powers rather than on one
+computed power and one absence.**
+
+### Storing bars is not reading them
+
+**Registered here in the verdict record so it cannot be mistaken later.**
+
+The A.1 TASK 9 probe slice spans **2026-05-05 to 2026-07-30** and therefore
+**overlaps the holdout from 2026-05-05 to 2026-06-30**. Those bytes were stored
+by a **sealed writer that parses nothing** and were **never handed to the
+universe, signal, verdict or dispersion modules**. **That is collection, not a
+spent read.**
+
+- **The A.1 TASK 5 dispersion computation read only sessions from 2026-07-01**,
+  enforced per bar by the two-sided boundary check, and its pull requested a
+  window opening **exactly at** `CONFIG.post_holdout_start_ms`.
+- **The Stage D latch continues to govern the holdout in full.** It has not been
+  written. `data/state/` contains no `stage_d_read.json` and no
+  `stage_c_read.json`.
+- **A second read of either window voids the hypothesis**, and the latch refuses
+  it.
+
+### What this amendment does not do
+
+- **It fires no `GO` and no `DEGRADED`**, and the tool refuses to record either.
+- **It arms nothing.** `systemctl --user list-units 'orb*'` lists **0 units**.
+- **It closes nothing.** H1 remains **OPEN**, and `PENDING_REVISION` is
+  explicitly **not** the `source-integrity-blocked` closure kind.
+- **It opens no latch and authorises no spend.**

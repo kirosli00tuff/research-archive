@@ -5,14 +5,22 @@ be **caught**, and the source is **restored green**. **Bytecode is purged before
 every run**: a harness that can report on absent source is worse than no
 harness, because it reports success from a stale `.pyc`.
 
-Three mutations are of a different kind and are marked `expect_green`: they
+Two mutations are of a different kind and are marked `expect_green`: they
 demonstrate a guard **failing to bind** rather than firing. Mutation 4 moves a
 boundary fixture off the registered boundary *and* moves the threshold with it,
 and the suite goes green — which is the InsiderExperiment lesson made visible.
-**Mutation 13 does the same to the post-holdout edge registered by Amendment
-11**, so the second half of the two-sided carve-out is held to the same standard
-as the first. Mutation 1 deletes the blindness pin and shows a priced-bar read
-becoming reachable with the suite still green.
+Mutation 1 deletes the blindness pin and shows a priced-bar read becoming
+reachable with the suite still green.
+
+**Mutation 13 was a third, and is no longer.** It was written at A.0 TASK 1
+against the post-holdout edge of Amendment 11, and it **went green** — the edge
+had exactly one pin, in `tests/test_preperiod.py`, and disabling it left nothing
+behind. A.1 TASK 5 then added `orb.dispersion`, whose own boundary fixture sits
+on the **same instant** and is not among the tests mutation 13 disables. **The
+harness reported a failure on the next run, and the failure was the harness
+being right**: the mutation's premise had stopped being true. It is now marked
+`expect_green=False` and it is **caught**. Nothing about the mutation changed;
+what changed is that the boundary is pinned twice.
 """
 
 from __future__ import annotations
@@ -247,8 +255,11 @@ MUTATIONS: tuple[Mutation, ...] = (
     Mutation(
         13,
         "move the post-holdout boundary fixture off its registered edge",
-        "the second half of the two-sided carve-out stops being pinned and the "
-        "sealed window can creep backwards into the holdout",
+        "when this was written the edge had ONE pin and the suite went green — "
+        "the InsiderExperiment lesson. A.1 TASK 5 added a second, independent "
+        "fixture at the same instant inside the carve-out writer, and the "
+        "harness now CATCHES it. The mutation is unchanged; what changed is "
+        "that the boundary is pinned twice",
         (
             (
                 "tests/test_preperiod.py",
@@ -274,7 +285,19 @@ MUTATIONS: tuple[Mutation, ...] = (
                 "- 86_400_000  # MUTATION 13",
             ),
         ),
-        expect_green=True,
+    ),
+    Mutation(
+        14,
+        "flip the configured tape to the single-venue feed",
+        "every bar is real and every one is wrong about the market: a median "
+        "0.027761 of consolidated first-5-minute volume, invisible downstream",
+        (
+            (
+                "src/orb/config.py",
+                '    consolidated_feed="sip",',
+                '    consolidated_feed="iex",  # MUTATION 14',
+            ),
+        ),
     ),
     Mutation(
         15,
@@ -289,19 +312,6 @@ MUTATIONS: tuple[Mutation, ...] = (
                 "  # MUTATION 15\n"
                 "    return list(values)\n\n\n"
                 "def measure_carve_out_dispersion(",
-            ),
-        ),
-    ),
-    Mutation(
-        14,
-        "flip the configured tape to the single-venue feed",
-        "every bar is real and every one is wrong about the market: a median "
-        "0.027761 of consolidated first-5-minute volume, invisible downstream",
-        (
-            (
-                "src/orb/config.py",
-                '    consolidated_feed="sip",',
-                '    consolidated_feed="iex",  # MUTATION 14',
             ),
         ),
     ),
@@ -394,7 +404,7 @@ def main() -> int:
         "# A.4 TASK 2 — the mutation harness\n\n"
         f"**Run 2026-08-29. n = {len(MUTATIONS)} mutations applied to real source, "
         "each restored green afterwards. Bytecode is purged before every run.**\n\n"
-        "Three mutations are of a different kind and are marked *GUARD STOPPED "
+        "Two mutations are of a different kind and are marked *GUARD STOPPED "
         "BINDING*: the point is to show a guard **failing to catch** something, "
         "which is how a boundary fixture placed comfortably inside its boundary "
         "goes unnoticed.\n\n"

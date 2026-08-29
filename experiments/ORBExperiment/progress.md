@@ -2786,3 +2786,84 @@ and evaluated **nothing**, because the registered 14-session ATR filter requires
 `mypy --strict` clean over 55 files.** **`n = 313` requests sent in this task
 (6 Massive reference pages, 307 Alpaca), 0 dollars spent.** Alpaca ledger
 **1,879 of 3,000**. Neither latch touched.
+
+---
+
+## Entry 26 — STAGE A.2 TASK 6, Section 0 re-fired
+
+**ETA 30 min · actual 27 min.**
+
+> ## **`PENDING_REVISION`** · clause `PENDING-REVISION Amendment 10`
+>
+> **Nothing is armed. Nothing is closed. H1 is OPEN.**
+
+`tools/refire_section0_amend.py` is a **new tool for a new firing**;
+`fire_section0.py` and `refire_section0.py` are left untouched as the artefacts
+of the two earlier ones, and all three records sit in the same append-only ledger
+at `data/state/section0.jsonl`. The tool **refuses to record `GO` or `DEGRADED`
+and exits 78** if the map ever hands it one.
+
+### The inputs that changed, and the one that did not
+
+| input | before this pass | after |
+|---|---|---|
+| **E2 power at the registered 1.40, holdout 875** | **`Absent(not_served)`** | **0.7435328658** |
+| E2 power at the published 2.81, holdout 875 | `Absent` | **0.9994840718** |
+| E2 power at the quartered 0.70, holdout 875 | `Absent` | **0.2578085287** |
+| E2 power at 1.40 / 2.81 / 0.70, in-sample 1,762 | `Absent` | **0.9597 / 1.0000 / 0.4588** |
+| **E1 power at the registered 1.40** | **0.7435206446** | **0.7435206446 — UNCHANGED** |
+| E1 minimum N for 80 percent | 1,006 | **1,006 — unchanged** |
+| measured trigger rate | assumption 0.55 | **0.982143, n = 560** |
+| sealed slice feed | recorded `sip` | **`CONFIRMED_CONSOLIDATED`, 7 discriminating chunks** |
+| Alpaca ceiling | not reached | **burst 384 in 55.96 s; sustained ≥ 199.73/min** |
+| bar revision rate | `Absent` | **`Absent` — eligible 2026-09-12** |
+| cross-vendor agreement share | `Absent` | **`Absent`** |
+
+**E1 is not presented as changed anywhere**, and the verdict record carries
+`e1_unchanged_by_this_pass: true` as a field so a later reader does not have to
+take the prose's word for it.
+
+### Why the verdict did not move, in the branch's own terms
+
+**E2 becoming a number changed no branch.** The pending-integrity clause fires
+**ahead of** `GO` and `DEGRADED`, and it fired, because both integrity inputs are
+recorded absences.
+
+**And `GO` would not have fired even if they existed.** `GO` needs **both**
+co-primaries at or above **0.80** at the registered assumption; **E1 is 0.7435
+and E2 is 0.7435.** Amendment 4's written counterfactual — *had bar integrity
+passed in full, the same power inputs fire `DEGRADED`* — **still stands, and now
+stands on two computed powers rather than on one power and one absence.**
+
+### Storing bars is not reading them — recorded in the verdict itself
+
+The probe slice spans **2026-05-05 to 2026-07-30** and therefore **overlaps the
+holdout from 2026-05-05 to 2026-06-30**. Those bytes were stored by a **sealed
+writer that parses nothing** and were **never handed to the universe, signal,
+verdict or dispersion modules**. **That is collection, not a spent read.** The
+dispersion computation read **only sessions from 2026-07-01**, enforced per bar,
+and its pull opened its request window **exactly at** the boundary instant.
+**The Stage D latch continues to govern the holdout in full and has not been
+written**; `data/state/` holds neither latch file.
+
+### The mutation harness, and a mutation that stopped being what it was
+
+**`n = 15` mutations, 0 harness failures**, bytecode purged before every run.
+
+**Mutation 13 changed category, and the harness is what noticed.** It was written
+at A.0 TASK 1 against the post-holdout edge and **went green** — the edge had
+exactly one pin, in `tests/test_preperiod.py`, and disabling it left nothing
+behind. That was the demonstration the task asked for and it is recorded in Entry
+21 and Amendment 11 §6.
+
+**A.1 TASK 5 then added `orb.dispersion`, whose own boundary fixture sits on the
+same instant** and is not among the tests mutation 13 disables. The next harness
+run reported **`**HARNESS FAILURE**` on mutation 13**, and **the failure was the
+harness being right**: the mutation's premise had stopped being true. It is now
+marked `expect_green=False` and is **caught** by
+`test_a_bar_inside_the_sealed_window_is_refused_rather_than_dropped`. **Nothing
+about the mutation changed; what changed is that the boundary is pinned twice.**
+
+**Gates: `make all` green — 385 tests, ruff and `mypy --strict` clean over 55
+files, 15 mutations, 0 harness failures.** **0 requests sent in this task, 0
+dollars spent.** Neither latch touched.
