@@ -1548,3 +1548,117 @@ as Section 7 pins them. E1 power is **0.7435 at 1.40** and **0.9995 at 2.81** on
 **Section 0's clauses are unchanged in text, threshold and precedence; only the
 scope over which one of its inputs can be measured is narrowed, and the
 narrowing is written down.**
+
+---
+
+## Amendment 9 — rate ceilings measured on the authenticated endpoints
+
+**Date:** 2026-08-29 · **Status:** accepted · **supersedes Amendment 2's
+provisional pacing**, which registered figures explicitly labelled *unmeasured*
+and stated they would be re-measured at the first task holding a credential.
+**This is that task.** Amendment 2 is left visible and unedited.
+
+**Exactly what data existed when this amendment was made.** Everything Amendment
+8 listed, plus the A.1 TASK 6 delisted measurement and the A.1 TASK 7
+escalation: **`n = 53` requests across 4 endpoint-spacing cells, all against
+authenticated paths.** **Zero trades, zero returns, zero PnL.**
+
+### What Amendment 2 said would happen, and did
+
+Amendment 2 registered `DEFAULT_MIN_SPACING_S = 6.0` and stated that the
+88.4-per-minute figure measured against a 401 was **evidence about the refusal
+path and nothing else**. That prediction is now testable, and it held: **the
+authenticated path refuses at 5 per minute, not 88.** The unauthenticated
+measurement over-stated the authenticated ceiling by a factor of **17.7**, and
+**an operator who had paced from it would have been refused on 3 of every 8
+requests.**
+
+### The measurement
+
+| vendor | endpoint | spacing | n | achieved | admitted | status distribution | first refusal |
+|---|---|---:|---:|---:|---:|---|---:|
+| Massive | `/v3/reference/tickers` | 2.0 s | 8 | 30.45/min | **5** | `{200: 5, 429: 3}` | **request 6** |
+| Massive | `/v2/aggs/…/1/minute/…` | 2.0 s | 8 | 28.67/min | **5** | `{200: 5, 429: 3}` | **request 6** |
+| Massive | `/v2/aggs/…/1/minute/…` | 0.5 s | 12 | 90.08/min | **0** | `{429: 12}` | request 1 |
+| Alpaca | `/v2/stocks/AAPL/bars` | 0.2 s | 25 | 134.05/min | **25** | `{200: 25}` | **none** |
+
+**The Massive refusal, verbatim and redacted** (`HTTP 429`):
+
+> `{"status":"ERROR","request_id":"…","error":"You've exceeded the maximum
+> requests per minute, please wait or upgrade your subscription to continue.
+> https://massive.com/pricing"}`
+
+**This is the first HTTP 429 this repository has ever measured.** A.1 TASK 2
+recorded *"no endpoint returned HTTP 429, n = 18, 0 refusals on a limit"* and
+was explicit that this was a fact about the refusal path. **The limiter exists,
+it is on the authenticated path, and it is now measured.**
+
+### The three readings, stated separately because they are different claims
+
+**1. Massive's measured ceiling is 5 requests per minute, on both endpoints.**
+First refusal at request **6 of 8** in both `n = 8` cells. **The two endpoints
+were measured separately and agreed.** Under solattn ADR-021 a ceiling is a
+property of an endpoint, so agreement between two endpoints is **evidence that
+they share a limiter**, not an assumption that they do — and it is recorded as
+evidence, on `n = 2` endpoints.
+
+**2. Documented and measured agree, and that is recorded as a finding.**
+Massive's documented free-tier limit is **5 per minute** and the measured
+boundary is **5 per minute**. Standing rule 4 says the measurement wins wherever
+the two disagree; here they do not. **The rule still earned its keep**, because
+the 88.4-per-minute figure from the unauthenticated path would have been read as
+a measurement beating that documentation, and Amendment 2 refused to read it
+that way. **The refusal was correct.**
+
+**3. Alpaca's ceiling was not reached and is not recorded as a number.**
+**25 of 25 admitted at 134.05 per minute, `0` refusals.** The honest statement is
+**"the ceiling is at or above 134 per minute and is not known exactly"**, and
+`MEASURED_CEILING_PER_MINUTE["alpaca:bars"]` is **`None`** rather than a large
+number. *"The ceiling was not reached"* is a different claim from *"there is no
+ceiling"*, and conflating them is how an unmeasured figure enters a registration.
+
+### The registered operating pace
+
+**Half the measured ceiling, per endpoint, reduced further where recorded terms
+ask for it.**
+
+| endpoint | operating spacing | per minute | basis |
+|---|---:|---:|---|
+| `massive:aggs` | **24.0 s** | **2.50** | **measured** — half of a measured 5.0/min 429 boundary |
+| `massive:reference` | **24.0 s** | **2.50** | **measured** — half of a measured 5.0/min 429 boundary |
+| `massive:grouped` | 24.0 s | 2.50 | **unmeasured endpoint**; carries its vendor's measured figure |
+| `alpaca:bars` | **1.0 s** | **60.0** | **unmeasured ceiling**; half of a **134.05/min observed admitted rate** is 67/min, and 60 sits below it |
+| `alpaca:multibars`, `alpaca:account`, `alpaca:assets` | 1.0 s | 60.0 | **unmeasured endpoints**; carry their vendor's figure |
+
+**Half of an observed admitted rate is not half of a measured ceiling**, and
+`orb.vendors.PACE_BASIS` says which each endpoint rests on, per endpoint, in the
+source. Pinned by
+`tests/test_vendors.py::test_the_operating_pace_is_at_most_half_the_measured_ceiling`,
+which walks every endpoint with a measured ceiling and fails if any is paced
+above half of it, and by
+`test_an_unmeasured_endpoint_is_never_paced_faster_than_a_measured_sibling`.
+
+### The per-vendor daily caps, and what they are not
+
+| vendor | cap | reasoning |
+|---|---:|---|
+| Massive | **600** | at a measured 5/min, about two hours of continuous full-rate use |
+| Alpaca | **2,000** | covers the 40-ticker probe slice, its identical re-pull, and headroom |
+
+**The cap charges before the request is sent** — `orb.ledger.RequestLedger.charge`
+— so an exhausted budget **refuses rather than overspends**, and an unregistered
+vendor has no cap and is **refused outright**.
+
+**Neither cap is a throughput target and neither is derived from a daily
+allowance, because no daily allowance was measured on either vendor.** Deriving
+a cap from an unmeasured daily allowance would be exactly the pricing-page
+reasoning standing rule 4 forbids. **They are circuit breakers against a runaway
+loop, and the amendment says so rather than dressing them up as limits.**
+
+### What did not change
+
+**Zero dollars spent.** Section 12's *"Zero dollars in Stage A. Free and trial
+tiers only"* is unchanged. **No power figure, no threshold, no window and no
+Section 0 clause moved.** Amendment 2's text stands unedited above; only the
+figures it registered **as provisional and unmeasured, and explicitly promised
+to re-measure**, are superseded.

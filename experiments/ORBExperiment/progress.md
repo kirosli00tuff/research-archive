@@ -1734,3 +1734,80 @@ refuses at 200, health cannot be read from the status line.**
 
 **Gates: 322 tests passing, 28 guards, `mypy --strict` clean over 51 files,
 `ruff` clean.**
+
+---
+
+## Entry 15 — STAGE A.1 TASK 7, rate ceilings on the authenticated endpoints
+
+**ETA 35 min · actual 22 min.** `n = 53` requests, 4 endpoint-spacing cells,
+**every one against a path that now serves**. **0 dollars spent.**
+
+### The measurement
+
+| vendor | endpoint | spacing | n | achieved | admitted | codes | first refusal |
+|---|---|---:|---:|---:|---:|---|---:|
+| Massive | `/v3/reference/tickers` | 2.0 s | 8 | 30.45/min | **5** | `{200: 5, 429: 3}` | **request 6** |
+| Massive | `/v2/aggs/…/1/minute/…` | 2.0 s | 8 | 28.67/min | **5** | `{200: 5, 429: 3}` | **request 6** |
+| Massive | `/v2/aggs/…/1/minute/…` | 0.5 s | 12 | 90.08/min | **0** | `{429: 12}` | request 1 |
+| Alpaca | `/v2/stocks/AAPL/bars` | 0.2 s | 25 | 134.05/min | **25** | `{200: 25}` | **none** |
+
+**The first HTTP 429 this repository has ever measured**, verbatim:
+
+> `{"status":"ERROR","request_id":"…","error":"You've exceeded the maximum
+> requests per minute, please wait or upgrade your subscription to continue.
+> https://massive.com/pricing"}`
+
+### Amendment 2 made a prediction. It held.
+
+Amendment 2 registered that the **88.4 per minute measured against a 401** was
+*"evidence that the refusal path is not metered by the data-tier limiter, and
+nothing more."* **The authenticated path refuses at 5 per minute.** The
+unauthenticated figure overstated the authenticated ceiling by **17.7×**, and an
+operator pacing from it would have been **refused on 3 of every 8 requests.**
+
+**That is solattn ADR-021 confirmed on this repository's own measurement**, in
+the direction that costs something rather than the direction that flatters.
+
+### Three readings, three different claims
+
+1. **Massive's ceiling is 5 per minute, on both endpoints, first refusal at
+   request 6 of 8 in both cells.** The two endpoints were measured
+   **separately** and agreed — so shared-limiter is **evidence on n = 2
+   endpoints**, not an assumption.
+2. **Documented and measured agree at 5 per minute.** Standing rule 4 says the
+   measurement wins where they disagree; here they do not. **The rule still
+   earned its keep**, because the 88.4 figure would otherwise have read as a
+   measurement beating the documentation, and Amendment 2 refused to read it
+   that way. **The refusal was correct.**
+3. **Alpaca's ceiling was not reached.** 25 of 25 admitted, 0 refusals. Recorded
+   as **`None`**, not as a large number: *"the ceiling was not reached"* is a
+   different claim from *"there is no ceiling"*, and conflating the two is how
+   an unmeasured figure enters a registration.
+
+### The registered pace, and the pin that holds it
+
+| endpoint | spacing | per minute | basis |
+|---|---:|---:|---|
+| `massive:aggs`, `massive:reference` | **24.0 s** | **2.50** | **measured** — half of a measured 5.0/min boundary |
+| `massive:grouped` | 24.0 s | 2.50 | unmeasured endpoint, carries its vendor's figure |
+| `alpaca:*` | **1.0 s** | **60.0** | **unmeasured ceiling** — half of a 134.05/min *observed admitted rate* is 67/min |
+
+**Half of an observed admitted rate is not half of a measured ceiling**, and
+`orb.vendors.PACE_BASIS` records which each endpoint rests on, in the source,
+per endpoint. `test_the_operating_pace_is_at_most_half_the_measured_ceiling`
+walks every endpoint with a measured ceiling and fails if one is paced above
+half of it.
+
+### The caps, wired to charge before sending
+
+**Massive 600, Alpaca 2,000**, charged by `orb.ledger.RequestLedger.charge`
+**before** the request is sent, so an exhausted budget **refuses rather than
+overspends**; an unregistered vendor has no cap and is **refused outright**.
+
+**Neither is a throughput target, and neither is derived from a daily
+allowance — because no daily allowance was measured on either vendor.** Deriving
+one would be the pricing-page reasoning standing rule 4 forbids. **They are
+circuit breakers, and the registration calls them that.**
+
+**Gates: 336 tests passing (was 322), 28 guards, `mypy --strict` clean over 52
+files, `ruff` clean.**

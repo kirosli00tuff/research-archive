@@ -43,35 +43,86 @@ ALPACA_TRADING_HOST: Final[str] = "https://api.alpaca.markets"
 ALPACA_PAPER_HOST: Final[str] = "https://paper-api.alpaca.markets"
 
 MASSIVE_DOCUMENTED_PER_MINUTE: Final[int] = 5
-"""Documented free-tier limit. **Carried, never measured** (standing rule 4)."""
+"""Documented free-tier limit. **Carried** (standing rule 4) — and, unusually,
+**confirmed by measurement** at A.1 TASK 7: first refusal at request 6 of 8 on
+both endpoints, `n = 16`."""
 
 ALPACA_DOCUMENTED_PER_MINUTE: Final[int] = 200
-"""Documented free-tier limit. **Carried, never measured** (standing rule 4)."""
+"""Documented free-tier limit. **Carried, never measured** — A.1 TASK 7 admitted
+25 of 25 at 134.05 per minute and **never reached a refusal**, so the ceiling is
+known to be **at or above 134** and is not known exactly."""
+
+MEASURED_CEILING_PER_MINUTE: Final[dict[str, float | None]] = {
+    "massive:reference": 5.0,
+    "massive:aggs": 5.0,
+    "massive:grouped": 5.0,
+    "alpaca:bars": None,
+    "alpaca:multibars": None,
+    "alpaca:account": None,
+    "alpaca:assets": None,
+}
+"""Measured ceilings per endpoint, A.1 TASK 7, 2026-08-29. `n = 53` requests.
+
+`None` means **the ceiling was not reached**, which is a different statement from
+*"there is no ceiling"* and is recorded as its own value rather than as a large
+number. Massive's figure is a **measured 429 boundary**: `HTTP 429`,
+`{"status":"ERROR",…,"error":"You've exceeded the maximum requests per minute…"}`,
+first refusal at request **6** in both `n = 8` cells.
+
+Per endpoint, never per host (solattn ADR-021) — and the two Massive endpoints
+were measured **separately** and agreed, which is evidence rather than an
+assumption that they share a limiter.
+"""
 
 CONSERVATIVE_SPACING_S: Final[dict[str, float]] = {
-    # 13.0 s is 4.6 per minute, deliberately **below** the documented 5, because
-    # nothing has measured the authenticated path yet and an unmeasured
-    # endpoint is not a licence to speed up.
-    "massive:aggs": 13.0,
-    "massive:reference": 13.0,
-    "massive:grouped": 13.0,
-    # Alpaca documents 200 per minute; 1.0 s is 60 per minute, well under it.
+    # Half the measured 5.0 per minute is 2.5 per minute, which is 24.0 s.
+    "massive:aggs": 24.0,
+    "massive:reference": 24.0,
+    "massive:grouped": 24.0,
+    # The ceiling was not reached. Half of the **highest admitted rate observed**
+    # (134.05 per minute) is 67 per minute; 1.0 s is 60 per minute, below it and
+    # far below the documented 200. **Half of an observed admitted rate is not
+    # half of a measured ceiling**, and PACE_BASIS says so per endpoint.
     "alpaca:bars": 1.0,
     "alpaca:multibars": 1.0,
     "alpaca:account": 1.0,
     "alpaca:assets": 1.0,
 }
-"""Provisional per-endpoint spacings. **Unmeasured**, re-measured at A.1 TASK 7."""
+"""The registered operating pace: **half the measured ceiling**, per endpoint.
+
+Reduced further where recorded terms ask for it. No endpoint here is paced
+faster than its measurement licenses, and an endpoint whose ceiling was never
+reached is paced from an **observed admitted rate**, labelled as such.
+"""
+
+PACE_BASIS: Final[dict[str, str]] = {
+    "massive:aggs": "measured: half of a measured 5.0/min 429 boundary",
+    "massive:reference": "measured: half of a measured 5.0/min 429 boundary",
+    "massive:grouped": "unmeasured endpoint; carries its vendor's measured figure",
+    "alpaca:bars": "unmeasured ceiling; half of a 134.05/min observed admitted rate",
+    "alpaca:multibars": "unmeasured endpoint; carries its vendor's figure",
+    "alpaca:account": "unmeasured endpoint; carries its vendor's figure",
+    "alpaca:assets": "unmeasured endpoint; carries its vendor's figure",
+}
+"""What each operating pace rests on. **An unmeasured endpoint keeps its
+vendor's figure rather than a faster default** — an unmeasured endpoint is not a
+licence to speed up."""
 
 PROVISIONAL_DAILY_CAPS: Final[dict[str, int]] = {
-    MASSIVE: 900,
-    ALPACA: 900,
+    MASSIVE: 600,
+    ALPACA: 2000,
 }
-"""Provisional per-vendor daily caps, charged **before** sending.
+"""Per-vendor daily caps, charged **before** sending, registered at A.1 TASK 7.
 
-Neither is measured. Both sit far below any documented daily allowance and far
-above what this ladder needs, so the cap is a **circuit breaker against a
-runaway loop**, not a throughput target. Re-registered at A.1 TASK 7.
+**Neither is a throughput target; both are circuit breakers against a runaway
+loop.** Massive's measured 5 per minute makes 600 about two hours of continuous
+full-rate use, which is more than any registered task needs and still a real
+brake. Alpaca's 2,000 covers the registered 40-ticker probe slice, its identical
+re-pull, and headroom, at an observed 134 per minute.
+
+**No daily allowance was measured on either vendor**, and neither cap is derived
+from one. Deriving a cap from an unmeasured daily allowance is exactly the
+pricing-page reasoning standing rule 4 forbids.
 """
 
 

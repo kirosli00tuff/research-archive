@@ -1,0 +1,97 @@
+[
+  {
+    "achieved_rate_per_min": 30.45,
+    "admitted": 5,
+    "documented_label": "carried, vendor documentation, never measured",
+    "documented_per_minute": 5,
+    "elapsed_s": 15.76,
+    "first_refusal_at_request": 6,
+    "n": 8,
+    "pace_key": "massive:reference",
+    "refusal_payloads_verbatim_redacted": [
+      "{\"status\":\"ERROR\",\"request_id\":\"039c50d0529556415c8b4bda9b9d8670\",\"error\":\"You've exceeded the maximum requests per minute, please wait or upgrade your subscription to continue. https://massive.com/pricing\"}",
+      "{\"status\":\"ERROR\",\"request_id\":\"32ada7808ce9a5c634fec5dd1dd6547e\",\"error\":\"You've exceeded the maximum requests per minute, please wait or upgrade your subscription to continue. https://massive.com/pricing\"}",
+      "{\"status\":\"ERROR\",\"request_id\":\"5ea69ca5ddceff2c776ae8fc36e5fd27\",\"error\":\"You've exceeded the maximum requests per minute, please wait or upgrade your subscription to continue. https://massive.com/pricing\"}"
+    ],
+    "refused_429": 3,
+    "requested_spacing_s": 2.0,
+    "status_distribution": {
+      "200": 5,
+      "429": 3
+    },
+    "sustained_admitted_rate_per_min": 19.03,
+    "vendor": "massive"
+  },
+  {
+    "achieved_rate_per_min": 28.67,
+    "admitted": 5,
+    "documented_label": "carried, vendor documentation, never measured",
+    "documented_per_minute": 5,
+    "elapsed_s": 16.74,
+    "first_refusal_at_request": 6,
+    "n": 8,
+    "pace_key": "massive:aggs",
+    "refusal_payloads_verbatim_redacted": [
+      "{\"status\":\"ERROR\",\"request_id\":\"6997cd1809aec72aac967ccae3a2c8eb\",\"error\":\"You've exceeded the maximum requests per minute, please wait or upgrade your subscription to continue. https://massive.com/pricing\"}",
+      "{\"status\":\"ERROR\",\"request_id\":\"a6087e3c354a68b182fbcc2e1668c300\",\"error\":\"You've exceeded the maximum requests per minute, please wait or upgrade your subscription to continue. https://massive.com/pricing\"}",
+      "{\"status\":\"ERROR\",\"request_id\":\"c64ed874114b60a88cde19a8b943e21e\",\"error\":\"You've exceeded the maximum requests per minute, please wait or upgrade your subscription to continue. https://massive.com/pricing\"}"
+    ],
+    "refused_429": 3,
+    "requested_spacing_s": 2.0,
+    "status_distribution": {
+      "200": 5,
+      "429": 3
+    },
+    "sustained_admitted_rate_per_min": 17.92,
+    "vendor": "massive"
+  },
+  {
+    "achieved_rate_per_min": 90.08,
+    "admitted": 0,
+    "documented_label": "carried, vendor documentation, never measured",
+    "documented_per_minute": 5,
+    "elapsed_s": 7.99,
+    "first_refusal_at_request": 1,
+    "n": 12,
+    "pace_key": "massive:aggs",
+    "refusal_payloads_verbatim_redacted": [
+      "{\"status\":\"ERROR\",\"request_id\":\"4cc64522e9728111f02bd2650446dc52\",\"error\":\"You've exceeded the maximum requests per minute, please wait or upgrade your subscription to continue. https://massive.com/pricing\"}",
+      "{\"status\":\"ERROR\",\"request_id\":\"6b3c1ef81d2620d6bc53d6e7e8dbc415\",\"error\":\"You've exceeded the maximum requests per minute, please wait or upgrade your subscription to continue. https://massive.com/pricing\"}",
+      "{\"status\":\"ERROR\",\"request_id\":\"80da9cb8bac4ce9e7441d317e4bae4f2\",\"error\":\"You've exceeded the maximum requests per minute, please wait or upgrade your subscription to continue. https://massive.com/pricing\"}",
+      "{\"status\":\"ERROR\",\"request_id\":\"99920abc78cd0299be4b2beb9dbe4b9d\",\"error\":\"You've exceeded the maximum requests per minute, please wait or upgrade your subscription to continue. https://massive.com/pricing\"}",
+      "{\"status\":\"ERROR\",\"request_id\":\"a0150dfae2ed6795b990e6e491e1f70d\",\"error\":\"You've exceeded the maximum requests per minute, please wait or upgrade your subscription to continue. https://massive.com/pricing\"}",
+      "{\"status\":\"ERROR\",\"request_id\":\"b4cf05324744d61715174a2c1377c2e9\",\"error\":\"You've exceeded the maximum requests per minute, please wait or upgrade your subscription to continue. https://massive.com/pricing\"}",
+      "{\"status\":\"ERROR\",\"request_id\":\"bba1187fc917753d73551392d00c6dcd\",\"error\":\"You've exceeded the maximum requests per minute, please wait or upgrade your subscription to continue. https://massive.com/pricing\"}",
+      "{\"status\":\"ERROR\",\"request_id\":\"bbce9fcceef57e995b734d751328c74b\",\"error\":\"You've exceeded the maximum requests per minute, please wait or upgrade your subscription to continue. https://massive.com/pricing\"}",
+      "{\"status\":\"ERROR\",\"request_id\":\"cc22b38b63c469f2765991e276cf6a89\",\"error\":\"You've exceeded the maximum requests per minute, please wait or upgrade your subscription to continue. https://massive.com/pricing\"}",
+      "{\"status\":\"ERROR\",\"request_id\":\"cc43ff41e56fae718af66cf2e9eb75f1\",\"error\":\"You've exceeded the maximum requests per minute, please wait or upgrade your subscription to continue. https://massive.com/pricing\"}",
+      "{\"status\":\"ERROR\",\"request_id\":\"e69eb5290e38b2e4087bedecd205e7e9\",\"error\":\"You've exceeded the maximum requests per minute, please wait or upgrade your subscription to continue. https://massive.com/pricing\"}",
+      "{\"status\":\"ERROR\",\"request_id\":\"f07715629a5d5e273346c138d5891f28\",\"error\":\"You've exceeded the maximum requests per minute, please wait or upgrade your subscription to continue. https://massive.com/pricing\"}"
+    ],
+    "refused_429": 12,
+    "requested_spacing_s": 0.5,
+    "status_distribution": {
+      "429": 12
+    },
+    "sustained_admitted_rate_per_min": 0.0,
+    "vendor": "massive"
+  },
+  {
+    "achieved_rate_per_min": 134.05,
+    "admitted": 25,
+    "documented_label": "carried, vendor documentation, never measured",
+    "documented_per_minute": 200,
+    "elapsed_s": 11.19,
+    "first_refusal_at_request": null,
+    "n": 25,
+    "pace_key": "alpaca:bars",
+    "refusal_payloads_verbatim_redacted": [],
+    "refused_429": 0,
+    "requested_spacing_s": 0.2,
+    "status_distribution": {
+      "200": 25
+    },
+    "sustained_admitted_rate_per_min": 134.05,
+    "vendor": "alpaca"
+  }
+]
