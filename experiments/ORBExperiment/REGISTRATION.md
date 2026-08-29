@@ -3572,3 +3572,89 @@ epistemic boundary is stated.
 - **It changes no figure.** E1, E2, joint power and every measured input are
   exactly as Amendment 21 recorded them.
 - **It opens no latch, arms nothing, sends nothing and spends nothing.**
+
+---
+
+## Amendment 23 — Section 0 re-fired PENDING_REVISION on the corrected inference
+
+**Date:** 2026-08-29 · **Status:** accepted · records a firing of **Section 0**;
+**amends no branch**
+
+**What data existed when this amendment was made.** Everything held at
+Amendments 11 through 22, plus those amendments. **The bar revision rate and the
+cross-vendor agreement share still do not exist**, and neither is eligible before
+**2026-09-12**. **Zero dollars spent, zero requests sent. Neither latch exists.**
+
+### The verdict
+
+> ## **`PENDING_REVISION`** · clause `PENDING-REVISION Amendment 10`
+>
+> **Access passes and the integrity measurement still does not exist.** Nothing
+> is armed. Nothing is closed. **H1 remains OPEN.**
+
+`tools/refire_section0_repair.py` is the **fourth** firing tool; the three
+earlier ones are left untouched, and all four records sit in the same
+append-only ledger.
+
+### The two questions, kept apart because they have different answers
+
+| question | answer | figures |
+|---|---|---|
+| **Does the corrected alpha alone move E1 across its 80 percent bar?** | **YES** | **0.743521 → 0.832450** at the registered 1.40 on `n = 875`; minimum n **1,006 → 795** |
+| **Does JOINT power clear its 80 percent bar?** | **NO** | **0.043277**; minimum n **unreachable at any sample size** |
+
+**Correcting the multiplicity error made E1 powered and left the design
+unpowered. Both are true, and the verdict record carries both as separate
+fields** so a later reader cannot collapse them.
+
+### Every input, with its n
+
+| input | figure | n |
+|---|---|---|
+| alpha per co-primary | **0.05** (superseded 0.02532057) | — |
+| **E1 power at the registered 1.40** | **0.832450** | 875 |
+| E1 power at the published 2.81 | 0.999835 | 875 |
+| E1 minimum n for 80 percent | **795** | — |
+| **E2 power at the registered 1.40** | **0.043277** | 875 |
+| E2 power at the published 2.81 | 0.819524 | 875 |
+| E2 minimum n for 80 percent at 1.40 | **Absent — unreachable** | — |
+| **E2 pessimistic-cost mean at 1.40** | **−0.001068 USD/share** | — |
+| E2 central mean at 1.40 | +0.040386 USD/share | — |
+| **measured pessimistic shift** | **0.041455 USD/share** | 550 exits |
+| **measured stop-exit share** | **0.381818** | **550** |
+| **measured ambiguous rate** | **0.000000**, rule-of-three upper bound **0.005357** | **560** |
+| E2 dispersion input | 2.029585 USD/share | 550 |
+| **JOINT power at the registered 1.40** | **0.043277**, binding component **E2** | 875 |
+| JOINT power at the published 2.81 | 0.819524, binding component E2 | 875 |
+| delisted names with intraday history | **203** — `PASS` | 229 |
+| **bar revision rate** | **`Absent(not_yet_measured)`** — eligible **2026-09-12** | 0 |
+| **cross-vendor agreement share** | **`Absent(not_yet_measured)`** | 0 |
+| dollars spent | **0** | — |
+
+**Every E2 and joint figure carries the Amendment 11 caveat**; **every in-sample
+figure carries SL-3**; **every statement about what a PASS would mean carries
+§11.2** (Amendment 22).
+
+### An observation recorded for the operator and deliberately not acted on
+
+**BLOCKED-1 is registered on E1 power at the *published* magnitude against the
+0.50 floor.** E1 at 2.81 is **0.999835**, so **it does not fire**, and the map
+behaved exactly as registered.
+
+**Had BLOCKED-1 been defined on JOINT power at the registered assumption, it
+would fire — that figure is 0.043277, an order of magnitude below the floor.**
+
+**This pass does not change the branch.** It is recorded here because it is
+material to the routes Amendment 21 hands the operator, and because a reader
+comparing a 0.043277 joint power against a 0.50 BLOCKED floor is entitled to
+know the branch was evaluated on the input it was registered with rather than on
+the one that would have fired.
+
+### What this amendment does not do
+
+- **It fires no `GO` and no `DEGRADED`**, and the tool exits 78 if the map ever
+  hands it one.
+- **It arms nothing, opens no latch and authorises no spend.**
+- **It closes nothing.** H1 remains **OPEN**.
+- **It changes no Section 0 branch.** `src/orb/section0.py` is byte-identical to
+  its state before this pass.
