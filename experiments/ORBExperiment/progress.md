@@ -2369,3 +2369,71 @@ keep going green.
 **Gates: `ruff` clean over 54 files, `mypy --strict` clean over 54 files, 364
 tests passing (356 before), `n = 13` mutations, 0 harness failures.** **0 dollars
 spent. 0 requests sent.** Neither latch touched.
+
+---
+
+## Entry 22 — STAGE A.0 TASK 2, the in-sample single-source scope limitation
+
+**ETA 35 min · actual 31 min.**
+
+**Nothing was measured in this task. Nothing was sent. The figure it registers
+was already measured on 2026-08-29 and was already true — it was simply not
+registered anywhere a verdict reader would meet it.** It lived as an input field
+on a verdict record, `cross_vendor_overlap_in_sample_sessions: 0` in
+`reports/stage_a1r/task10_section0.json`, and as one clause of a table row in
+`HYPOTHESES.md`.
+
+### What was registered, as `REGISTRATION.md` §11.1, SL-3
+
+**Cross-vendor agreement covers 459 holdout sessions and 0 in-sample sessions**,
+because the reference vendor's tier serves nothing before **2024-08-29**. **All
+1,762 in-sample sessions rest on a single unverified feed.** The registered
+first-5-minute high-or-low agreement gate, **when it fires, speaks only to the
+overlap region and carries no information about the in-sample window.**
+
+| quantity | figure |
+|---|---:|
+| in-sample sessions registered | **1,762** |
+| in-sample sessions with cross-vendor overlap | **0** |
+| holdout sessions registered | **875** |
+| holdout sessions with cross-vendor overlap | **459** |
+| reference vendor earliest served session | **2024-08-29** |
+| reach probes behind those figures | **`n = 16` per credential** |
+
+**The exposure it names, in the literature's numbers rather than this
+repository's:** Concretum Research, **226,000 to 726,000 USD** final equity from
+**four vendors** on identical opening-range code, dates, parameters and starting
+capital (carried, C-13). **That is the risk a cross-vendor measurement exists to
+bound, and it cannot currently be bounded for the in-sample window.**
+
+**The consequence, written before any read exists:** **a PASS computed on the
+in-sample window is conditional on a single vendor's rendering of that window
+being faithful, and this repository holds no measurement supporting that
+condition.** Any in-sample figure is reported with the limitation attached **in
+the same sentence**, on the same terms standing rule 13 attaches an n.
+
+### Where it went, and where it deliberately did not
+
+- **`REGISTRATION.md` §11.1** — appended at the end of Section 11, **not one
+  character above the append line edited**, in the same shape as §13.1 under
+  Amendment 5. It names SL-1 (ADR-022, shared upstream) and SL-2 (Amendment 8,
+  overlap window) so the list is complete, **without editing or renumbering
+  either**.
+- **`REGISTRATION.md` Amendment 12** — the dated, reasoned record, stating what
+  data existed when it was written.
+- **`HYPOTHESES.md` H1** — one new row, mirroring SL-3. **The existing scope-
+  limits row is untouched.**
+- **`docs/HANDOVER.md`** — open operator items go from two to three; route (a) is
+  named as **item 2 widened**, because item 2 buys back the holdout overlap and
+  route (a) is the version of that purchase which also reaches 2016-01-04.
+- **`src/orb/section0.py` — NOT touched.** No branch was weakened, requalified or
+  reworded. **A scope limitation says what a verdict means; it does not change
+  when one fires.** The registration says so in both places, so a later reader
+  can check the claim against the diff.
+
+**Two routes recorded, neither chosen, neither costed, no spend authorised:** a
+reference credential whose tier reaches **2016-01-04**, or **explicit operator
+acceptance** that the in-sample window is single-sourced.
+
+**Gates: `make all` green — ruff and `mypy --strict` clean over 54 files, 364
+tests passing.** **0 dollars spent. 0 requests sent.** Neither latch touched.

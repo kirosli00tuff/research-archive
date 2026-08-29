@@ -545,6 +545,88 @@ from this vendor.**
   present at its published magnitude, and cannot distinguish a decayed effect
   from no effect at all.**
 
+### 11.1 — registered scope limitations, appended 2026-08-29 under Amendment 12
+
+**This block is an append. Not one character above this line was edited**, and
+the bullets above stand exactly as first registered. **Nothing here is a new
+verdict branch.** The Section 0 branches are untouched, unweakened, unrequalified
+and unreworded by this subsection. A scope limitation says what a verdict *means*
+once it fires; it does not change *when* one fires.
+
+**Numbering.** Two scope limitations were already registered elsewhere and are
+named here so the list is complete rather than renumbered. **Nothing about them
+is edited by naming them.**
+
+- **SL-1 — the two feeds share an upstream.** ADR-022. The Massive-against-
+  Alpaca-SIP first-5-minute volume ratio has an **IQR 0.46 percentage points
+  wide over `n = 100` pairs**, which two independent consolidations would not
+  produce. A cross-vendor `PASS` therefore establishes that **two redistributors
+  of one upstream agree**, and it is **not the Concretum test**.
+- **SL-2 — the two feeds overlap only from 2024-08-29.** Amendment 8. The
+  agreement gate is narrowed to the overlap.
+
+**SL-3 is registered here, in full, for the first time.**
+
+#### SL-3 — the in-sample window rests on a single unverified feed
+
+**The measurement.** A.1 TASK 5, 2026-08-29, `n = 16` reach probes per
+credential:
+
+| quantity | figure |
+|---|---:|
+| in-sample sessions, registered | **1,762** |
+| in-sample sessions with **cross-vendor overlap** | **0** |
+| holdout sessions, registered | **875** |
+| holdout sessions with **cross-vendor overlap** | **459** |
+| reference vendor's earliest served session | **2024-08-29** |
+| primary vendor's earliest served session | **2016-01-04** |
+
+**Stated plainly.** Cross-vendor agreement covers **459 holdout sessions and 0
+in-sample sessions**, because the reference vendor's tier serves nothing before
+**2024-08-29**. **All 1,762 in-sample sessions rest on a single unverified
+feed.** The registered first-5-minute high-or-low agreement gate, **when it
+fires, speaks only to the overlap region and carries no information whatsoever
+about the in-sample window.**
+
+**The exposure this names.** Concretum Research ran identical opening-range code
+against **four vendors** with identical dates, parameters and starting capital
+and reported final portfolio values from **226,000 to 726,000 USD** — a
+threefold spread from vendor choice alone (**carried, C-13**). That spread is
+the specific risk a cross-vendor agreement measurement exists to bound, and
+**this repository cannot currently retire it for the in-sample window.**
+
+**The consequence for the verdict, stated before any read exists.** **A PASS
+computed on the in-sample window is conditional on a single vendor's rendering
+of that window being faithful, and this repository holds no measurement
+supporting that condition.** The conditional is not a caveat added afterwards;
+it is part of what the PASS would mean. **Any in-sample figure this repository
+reports is reported with this limitation attached in the same sentence**, on the
+same terms as standing rule 13 attaches an n.
+
+**What it is not.** It is **not** a claim that the primary vendor's in-sample
+bars are wrong — no measurement says that, and none has been made. It is a
+claim about **what is not known**, and standing rule 5 governs: absence is a
+recorded state, never a synthesized value. It is also **not** a Section 0
+branch, does not fire, and cannot fire.
+
+**The two routes that would retire it, recorded without choosing between them
+and without spending:**
+
+1. **A reference credential whose tier reaches 2016-01-04.** This would make
+   the agreement measurement runnable over the in-sample window and would
+   retire SL-3 on measurement. **It costs money**, it requires an explicit
+   operator instruction and its own ADR under Section 12, and **the reach a
+   paid tier actually delivers is deliberately not recorded here as a number**
+   — the honest way to get it is a month's spend and a second bisection.
+2. **Explicit operator acceptance that the in-sample window is single-sourced.**
+   This retires nothing by measurement; it records that the operator has read
+   SL-3 and accepts the conditional. **It is a decision, not a finding**, and it
+   would be recorded as such with its date.
+
+**Neither route is chosen here, neither is recommended here, and no spend is
+authorised by this subsection.** Both are carried to the open operator items of
+`docs/HANDOVER.md`.
+
 ---
 
 ## 12. Spend and pacing
@@ -2004,3 +2086,65 @@ failures**, bytecode purged before every run.
 - **It does not claim the post-holdout region is a good substitute for the
   pre-period one.** It claims only that it is **outside both registered
   windows**, which is the property that makes it readable at all.
+
+---
+
+## Amendment 12 — the in-sample single-source scope limitation, registered as SL-3
+
+**Date:** 2026-08-29 · **Status:** accepted · appends **Section 11.1**; **amends
+no Section 0 branch**
+
+**What data existed when this amendment was made.** Everything held at
+Amendment 11, plus Amendment 11 itself. Specifically: measured reach on both
+credentials at `n = 16` probes each — **Alpaca from 2016-01-04, Massive from
+2024-08-29**; a computed cross-vendor overlap of **459 holdout sessions and 0
+in-sample sessions**; a tape verdict of `SAME_TAPE` at median **1.005197**,
+`n = 100` pairs. **No bar revision measurement and no cross-vendor agreement
+share existed.** **No in-sample bar had been read, and no Stage C latch existed.**
+**Zero dollars spent.**
+
+### Why this is an amendment and not a note
+
+**It is the most consequential unrecorded fact in the repository**, and until now
+it lived only as an input field on a verdict record — `cross_vendor_overlap_in_
+sample_sessions: 0` in `reports/stage_a1r/task10_section0.json` — and as one
+clause of a table row in `HYPOTHESES.md`. **A fact that changes what a PASS means
+belongs in the registration, in the section about what a verdict supports**, not
+in a field a later reader has to notice.
+
+Amendment 8 registered the *narrowing of the agreement gate* to the overlap.
+**This amendment registers the other half of the same measurement: what the
+narrowing leaves uncovered**, and what a verdict computed on the uncovered part
+would and would not mean.
+
+### What it registers
+
+**Section 11.1, SL-3**, in full. In one sentence: **cross-vendor agreement
+covers 459 holdout sessions and 0 in-sample sessions, all 1,762 in-sample
+sessions rest on a single unverified feed, and a PASS computed on the in-sample
+window is conditional on that one vendor's rendering of it being faithful — a
+condition this repository holds no measurement supporting.**
+
+**The exposure has a measured size in the literature and not here.** Concretum
+Research: **226,000 to 726,000 USD** final equity from four vendors on identical
+opening-range code, dates, parameters and starting capital (carried, C-13).
+
+**Two routes would retire it** — a reference credential whose tier reaches
+2016-01-04, or explicit operator acceptance that the in-sample window is
+single-sourced. **Neither is chosen here. No spend is authorised.** Both are
+recorded in `docs/HANDOVER.md` as open operator items.
+
+### What it does not do, stated so a later reader can check
+
+- **It does not weaken, requalify or reword any Section 0 branch.** `GO`,
+  `DEGRADED`, `BLOCKED`, `PENDING_ACCESS`, `PENDING_SPEND` and
+  `PENDING_REVISION` are exactly as registered by Sections 0, Amendment 1 and
+  Amendment 10. `src/orb/section0.py` is unchanged by this amendment.
+- **It adds no verdict state and fires nothing.** A scope limitation says what a
+  verdict *means*; it does not change *when* one fires.
+- **It changes no figure.** E1 remains **0.7435** at the registered assumption
+  on `n = 875`.
+- **It does not assert the primary vendor's in-sample bars are wrong.** No
+  measurement says that, and none has been made. It records what is **not
+  known**.
+- **It authorises no spend and opens no latch.**

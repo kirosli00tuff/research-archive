@@ -109,7 +109,7 @@ closed. H1 is OPEN.**
 derived from a daily allowance, **because none was measured on either vendor**.
 They are circuit breakers, not throughput targets.
 
-## Open operator items — two, and neither blocks the ladder
+## Open operator items — three, and none blocks the ladder
 
 **Both earlier items are discharged.** The credentials exist and authenticate;
 the Section 13 prior is filled at **0.30, `INDEPENDENT`**, satisfying **Section
@@ -130,6 +130,33 @@ closed**.
    paid tier actually delivers is deliberately not recorded as a number**; the
    honest way to get it is one month's spend and a second bisection.
    **Amendment 8.**
+
+3. **Retire SL-3, or accept it.** **Registered 2026-08-29, `REGISTRATION.md`
+   §11.1 under Amendment 12.** **Cross-vendor agreement covers 459 holdout
+   sessions and 0 in-sample sessions**, so **all 1,762 in-sample sessions rest
+   on a single unverified feed**, and **a PASS computed on the in-sample window
+   is conditional on that one vendor's rendering of it being faithful — a
+   condition this repository holds no measurement supporting.** This is the
+   Concretum exposure — **226,000 to 726,000 USD across four vendors on
+   identical code** — and it is the one this repository cannot currently retire
+   for the in-sample window. **Two routes, neither chosen here, neither costed
+   here:**
+   - **(a) a reference credential whose tier reaches 2016-01-04**, which retires
+     SL-3 **on measurement**. It costs money, needs an explicit operator
+     instruction and its own ADR, and the reach a paid tier actually delivers is
+     **deliberately not recorded as a number** — the honest way to get it is a
+     month's spend and a second bisection. Note this is **item 2 widened**: item
+     2 buys back the *holdout* overlap, and route (a) is the version of that
+     purchase that also reaches the in-sample window, which only a tier serving
+     2016-01-04 can do.
+   - **(b) explicit operator acceptance that the in-sample window is
+     single-sourced**, which retires **nothing by measurement**. It records that
+     the operator has read SL-3 and accepts the conditional. **A decision, not a
+     finding**, and it would be recorded with its date.
+
+   **Neither route blocks the ladder, and neither is a precondition for the
+   2026-09-12 re-pull.** SL-3 changes what a verdict *means*, never when one
+   fires.
 
 ## What a fresh session must read before touching anything
 
