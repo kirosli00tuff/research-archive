@@ -1983,3 +1983,104 @@ having sent nothing.** Verified.
 
 **Gates: 344 tests passing (was 335), 28 guards, `mypy --strict` clean over 54
 files, `ruff` clean.**
+
+---
+
+## Entry 18 — STAGE A.1 TASK 10, Section 0 re-fired
+
+**ETA 25 min · actual 29 min.**
+
+### The verdict
+
+> ## **PENDING_REVISION** · clause `PENDING-REVISION Amendment 10`
+>
+> *Access passes and the integrity measurement still does not exist. **Nothing
+> is armed.** The registered 14-calendar-day wait between the probe pull and its
+> identical re-pull has not elapsed, and **that wait is the measurement**. This
+> is a **parked outcome, not a failure**, and it is **not** a source-integrity
+> closure.*
+
+### Every input, with its n
+
+| input | value |
+|---|---|
+| `alpha_adj` | **0.02532057**, one-sided, per co-primary |
+| sessions achievable, holdout | **875** |
+| **E1 power at the registered 1.40** | **0.7435** |
+| **E1 power at the published 2.81** | **0.9995** |
+| E1 minimum N for 80 percent at 1.40 | **1,006** — shortfall **131** |
+| **E2 power** | **`Absent(not_served)`** — `n = 2` credentials, **0** serving the carve-out |
+| **collection access** | **`SERVING_FULL_REACH`** |
+| primary vendor | **Alpaca**, earliest served **2016-01-04**, `n = 16` probes |
+| in-sample / holdout reachable | **1,762 of 1,762** / **875 of 875** |
+| reference vendor | **Massive**, earliest served **2024-08-29**, `n = 16` probes |
+| cross-vendor overlap | from **2024-08-29** — **459 of 875** holdout, **0 of 1,762** in-sample |
+| **tape** | **`SAME_TAPE`**, median **1.005197**, `n = 100` |
+| **delisted enumerated in window** | **4,731** of 6,421 |
+| **delisted with intraday history** | **203**, `n = 229` — **`PASS`** |
+| **bar revision** | **`Absent(not_yet_measured)`** — eligible **2026-09-12** |
+| **cross-vendor agreement share** | **`Absent(not_yet_measured)`** |
+| probe slice | **2,400 pairs**, 480 files, **737,507 bars** |
+| **earliest eligible re-pull** | **2026-09-12** |
+
+### Two states registered, one fired
+
+**`PENDING_SPEND`** — a vendor serves and its measured reach does **not** cover
+the registered windows. **It did not fire**, because Alpaca reaches 1,762/1,762
+and 875/875. **It is registered anyway, so a later reach shortfall has a clause
+to land in rather than being discovered without one.**
+
+**`PENDING_REVISION`** — access passes, the clock has not run. **Fired.**
+Separate from `PENDING_ACCESS` because the two have **completely different next
+actions: one needs a credential, the other needs a calendar.** Collapsing them
+would make the map say *"we cannot reach a vendor"* on a day this repository
+holds **737,507 sealed bars from one.**
+
+### The ordering refinement, and why it was needed rather than tidy
+
+**Amendment 1 put its clause ahead of every BLOCKED trigger — and it was written
+while no vendor served any bar at all**, so no BLOCKED input could be measured
+and **the ordering was untestable in practice.** That changed today: **delisted
+coverage is measured at 203 names while bar revision cannot be measured until
+2026-09-12.**
+
+**The refinement applies Amendment 1's own principle consistently.** Its
+objection was to closing H1 *"on evidence that does not exist"* — **and that
+objection does not apply to evidence that does.** So: when no vendor serves,
+Amendment 1's clause is **unchanged**; when a vendor serves, a BLOCKED trigger
+whose input is **measured** fires ahead of the pending states and one whose input
+is **absent** is skipped.
+
+**One structural consequence, and it is the kind that bites silently.** The
+delisted count and the agreement share travel in **one** `AgreementFinding`
+record but are **measured at different times**. Without a separate route into the
+map, **an absent agreement share would hide a measured delisted count — and a
+measured zero could not fire BLOCKED-3**, the clause that exists to stop a
+survivor-only universe. `fire_section0` gains a keyword-only
+`delisted_with_intraday`. **Pinned on the boundary: 20 fires `PENDING_REVISION`,
+19 fires BLOCKED-5.**
+
+### What moved, and what pointedly did not
+
+| input | Amendment 4 | now |
+|---|---|---|
+| vendors serving a 1-minute RTH bar | **0 of 9** | **2 of 2 credentialed** |
+| delisted names with intraday history | `Absent` | **203, n = 229 — `PASS`** |
+| tape | not a registered question | **`SAME_TAPE`**, n = 100 |
+| measured reach | `Absent` | **2016-01-04 / 2024-08-29**, n = 16 each |
+| measured rate ceiling | unmeasured, against a 401 | **5.00/min**; Alpaca **not reached** |
+| bar revision | `Absent` | **`Absent`** — the clock exists and runs to **2026-09-12** |
+| cross-vendor agreement share | `Absent` | **`Absent`** |
+
+**Not one power figure changed.** E1 **0.7435** and **0.9995** on `n = 875`,
+**identical to Amendment 4**, because the reachable session count **is** the
+registered session count.
+
+**`GO` and `DEGRADED` were unreachable and the code says so rather than the
+prose.** `test_neither_go_nor_degraded_is_reachable_while_an_input_is_absent`
+walks every access state crossed with every absent-input combination.
+`tools/refire_section0.py` **refuses and exits 78** if the map ever hands it one,
+so a future run cannot record a verdict this repository does not hold.
+
+**Gates: 356 tests passing (was 344), 28 guards, `mypy --strict` clean over 54
+files, `ruff` clean.**

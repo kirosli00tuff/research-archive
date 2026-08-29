@@ -133,3 +133,31 @@ class VendorAccess:
 
     def is_usable(self) -> bool:
         return self.verdict is AccessVerdict.PERMITTED
+
+
+@unique
+class CollectionAccess(StrEnum):
+    """Whether a credentialed vendor serves the registered windows.
+
+    Registered by **Amendment 10**. This is the **operational verdict** Section 0
+    was always permitted to read — *"every input is a count-derived power, a
+    measured share, a measured count, or an operational verdict"* — and it is
+    what separates three states that would otherwise look identical from inside
+    the map: **no bar exists to measure**, **bars exist but not across the
+    registered windows**, and **bars exist and the clock has not run yet**.
+    """
+
+    NO_VENDOR_SERVES = "NO_VENDOR_SERVES"
+    """No credentialed vendor serves a bar. The 2026-08-29 state: `n = 9`
+    vendors, `0` usable. Fires `PENDING_ACCESS` when an integrity input is
+    absent."""
+
+    SERVING_REACH_SHORT = "SERVING_REACH_SHORT"
+    """A vendor serves, and its **measured** reach does not cover the registered
+    windows. Fires `PENDING_SPEND`: the question is a costed operator decision,
+    not a design question."""
+
+    SERVING_FULL_REACH = "SERVING_FULL_REACH"
+    """A vendor serves and its measured reach covers the registered windows.
+    Measured 2026-08-29: **Alpaca, earliest served session 2016-01-04,
+    1,762/1,762 in-sample and 875/875 holdout, n = 16 probes.**"""
