@@ -745,3 +745,110 @@ first task that holds a credential, and moved by a further dated amendment if
 the measurement disagrees.** An unmeasured endpoint keeps its vendor's figure
 rather than a faster default: **an unmeasured endpoint is not a licence to speed
 up.**
+
+---
+
+## Amendment 3 — the cost model, re-verified live; one carried figure stale and three components missing
+
+**Date:** 2026-08-29 · **Status:** accepted · amends **Section 6**
+
+**Exactly what data existed when this amendment was made:** the session
+calendar of A.2 TASK 1, the A.1 access findings, and the live fee pages fetched
+below. **Zero bars, zero prices, zero volumes, zero trades and zero returns.**
+No PnL figure of any kind existed, so nothing here can have been chosen for the
+effect it would have on one.
+
+**This amendment is written before A.2 TASK 4**, as Section 6 and standing rule
+4 require: a deviation is written as an amendment, **never silently absorbed**.
+
+### What was re-verified, and where
+
+Terms first, per standing rule 12. `www.interactivebrokers.com/robots.txt`
+(**200**, 265 B) disallows only `/smf/`, `/fluxbb/`, `/search/`, `/referral/`
+and one insights path — **the pricing page is permitted**.
+`www.finra.org/robots.txt` (**200**, 9,068 B) carries **no bare `Disallow: /`**.
+**`www.sec.gov/robots.txt` returned HTTP 403 "Request Rate Threshold
+Exceeded"** — an anti-bot rate limit, not a robots file — on **both** attempts,
+20 s apart. **That is recorded as a state, not read as permission and not read
+as prohibition.**
+
+Source: `https://www.interactivebrokers.com/en/pricing/commissions-stocks.php`,
+**HTTP 200, 584,282 bytes, retrieved 2026-08-29**, stored at
+`data/access/fees/ibkr_stocks.html`.
+
+### Measured against carried, in the same sentence, with its date
+
+| component | carried (C-14/C-15) | **measured 2026-08-29** | verdict |
+|---|---:|---:|---|
+| IBKR Pro Tiered, ≤ 300,000 shares/month | 0.0035 USD/share | **0.0035 USD/share** | **agrees** |
+| IBKR minimum per order | 0.35 USD | **0.35 USD** | **agrees** |
+| FINRA Trading Activity Fee, per share sold | 0.000166 USD | **0.000195 USD** | **CARRIED FIGURE IS STALE — 14.9 percent low** |
+| SEC transaction fee | "the rate in force on the session date" | **0.0000206 × value of aggregate sales** | measured; **effective date NOT measured** |
+| IBKR maximum per order | **not modeled** | **1 percent of trade value** | **NOT PREVIOUSLY MODELED** |
+| FINRA Consolidated Audit Trail | **not modeled** | **0.000003 USD × quantity** | **NOT PREVIOUSLY MODELED** |
+| NSCC / DTC clearing pass-through | **not modeled** | **0.00020 USD per share** | **NOT PREVIOUSLY MODELED** |
+
+Verbatim, as served: *"SEC Transaction Fee: USD 0.0000206 * Value of Aggregate
+Sales. FINRA Trading Activity Fee: USD 0.000195 * Quantity Sold. FINRA
+Consolidated Audit Trail Fees: USD 0.000003 * Quantity"* and *"NSCC, DTC Fees:
+USD 0.00020 per share"*, alongside *"Minimum per order (shares) USD 0.35"* and
+*"Maximum per order 1% of Trade Value"*.
+
+### The amendment, in four parts
+
+1. **The FINRA TAF rate moves from 0.000166 to 0.000195 USD per share sold.**
+   The carried figure is stale. **This is the ADR-055 pattern firing exactly as
+   designed** — a fee schedule is a dated measurement, and re-verification is
+   the reason it was re-verified.
+2. **Three previously unmodeled components are added**: the **1 percent
+   maximum per order**, the **FINRA CAT fee at 0.000003 per share on every
+   leg**, and the **NSCC/DTC clearing pass-through at 0.00020 per share on
+   every leg**. All three make the model **more expensive**, never less.
+3. **The 1 percent cap can bind below the 0.35 minimum**, and the minimum does
+   not survive it. Pinned: 10 shares at 1.00 USD is a 10.00 USD trade whose 1
+   percent cap is **0.10**, below the 0.35 floor, and the cap wins.
+4. **The SEC fee schedule is registered EMPTY.** One rate was measured; **its
+   effective date was not**, and `sec.gov` refused twice. Placing the measured
+   2026 rate in the schedule would silently apply it to a 2016 session.
+   `SecFeeSchedule.rate_on` therefore returns `Absent` for **every session in
+   the registered window**, and the whole round-trip cost refuses rather than
+   under-charging. **The model will not price a trade it cannot price
+   honestly.** Pinned by
+   `test_the_registered_model_refuses_every_session_in_the_window`.
+
+### What this costs the hypothesis, stated now
+
+Per round trip per share, at the registered central band, the newly-measured
+components add **0.000606 USD** (clearing 0.00040 + CAT 0.000006 + the TAF
+correction 0.000029 + rounding), before the SEC fee. Against the replication's
+measured **gross edge of 0.070 USD per share** (carried, C-6) that is small.
+**It is not small against the margin.** A full round trip at the central band on
+a 50 USD name costs roughly:
+
+| component | USD per share |
+|---|---:|
+| commission, both legs | 0.00700 |
+| slippage, entry + close exit | **0.03000** |
+| SEC fee on the sale | ~0.00103 |
+| clearing, both legs | 0.00040 |
+| FINRA TAF | 0.000195 |
+| FINRA CAT, both legs | 0.000006 |
+| **total, close exit** | **≈ 0.03863** |
+| **total, stop exit** | **≈ 0.06863** |
+
+Against a gross edge of **0.070 USD per share**, a close exit consumes **55
+percent** of it and **a stop exit consumes 98 percent**. **Slippage is 78
+percent of the close-exit total.** This is Section 6's claim — that the cost
+band is the experiment's second axis and not a robustness check — restated in
+measured numbers rather than asserted, and it **strengthens the registered
+expectation of DEGRADED** recorded in Section 0 before any of this was measured.
+
+### The freeze
+
+The model is frozen at `orb.costs_registered.REGISTERED_COST_MODEL`, hashed
+**`3789221b9dd3fea5a9680547dfdf8ec7b1febaf246042fe1fa70e27ca610fba3`**, and the
+hash is recorded in the append-only ledger at `data/state/cost_model.jsonl` with
+a latch at `data/state/cost_model_latch.json`. **A test recomputes the hash from
+the model and fails if the two diverge.** Cost parameters cannot change from
+here without a further dated amendment naming what data existed when it was
+made.
