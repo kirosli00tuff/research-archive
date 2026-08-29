@@ -240,3 +240,117 @@ venue.
 
 **Next:** compute the fee band. It reads published effect magnitudes and the fee
 schedule only, so it needs no venue access and spends nothing.
+
+---
+
+## Entry 4 — Stage B operator prompt, logged verbatim before any other work
+
+**Logged 2026-08-29T19:08Z, per standing rule 1. Work follows in later entries;
+nothing below this line in this entry is work.**
+
+> BEGIN PROMPT - PMEXPERIMENT STAGE B: THE FEE-VERSUS-EDGE BAND
+>
+> Read CLAUDE.md, REGISTRATION.md in full including Amendments 1 to 3,
+> HYPOTHESES.md, DECISIONS.md, progress.md and report.md first. Per standing
+> rule 1, log this prompt verbatim to progress.md before any other work. Per
+> standing rule 2, state an ETA before arming each task and record actual
+> against it.
+>
+> This stage reads no venue. No contract, no price, no order book, no
+> resolution, from Polymarket, Kalshi or anywhere else. It computes arithmetic
+> over inputs already registered. Sending a request would violate Section 4 and
+> Section 10.
+>
+> Task 1: reconstruct the registered inputs from the registration, not from this
+> prompt.
+>
+> Quote verbatim from REGISTRATION.md: the effect band from Section 3 with its
+> citation, the cost model from Section 2 including the fee, the FX schedule and
+> the spread assumption, and the three verdict definitions from Amendment 2. If
+> any input this stage needs is absent or ambiguous, stop and report that rather
+> than supplying it.
+>
+> Task 2: verify the effect band's units before computing anything with it. This
+> is the stage's main intellectual risk.
+>
+> The registered band is expressed as a magnitude. Establish from the cited
+> source whether it is percentage points of probability mispricing or percent
+> realized return, because they are not interchangeable and the fee is
+> denominated in the first. A 60 percent realized loss on a five cent contract
+> is three cents of mispricing, not sixty. Getting this backwards inflates or
+> destroys the band by an order of magnitude.
+>
+> Report which unit the source uses, how you established it, and the conversion
+> if one is needed. If the source is ambiguous on the point, say so and carry
+> both readings through Task 3 as separate columns rather than choosing.
+>
+> Task 3: resolve the FX treatment honestly, and register the choice.
+>
+> The schedule charges 1.5 percent under $10,000 CAD. Whether that is a
+> per-contract cost or an amortized funding cost changes the answer materially:
+> 1.5 percent on a 90 cent contract is 1.35 cents against an edge measured in
+> single cents, but a single conversion spread across many contracts is close to
+> negligible per contract.
+>
+> Decide which model applies, state the reasoning, and register it as an
+> amendment before using it. Report the band under both treatments so the choice
+> is visible rather than buried. Name the direction each treatment biases the
+> verdict.
+>
+> Task 4: compute the band across price buckets.
+>
+> For each price bucket across the full range, compute the minimum underpricing
+> required to break even, net of fee, spread and FX, for both exit routes: held
+> to resolution at one fee, and exited before resolution at two. Compare each
+> against the registered effect band.
+>
+> Report it as a table with the required underpricing beside the registered
+> effect magnitude at that bucket, so a reader can see where they cross. State
+> the crossing points explicitly rather than leaving them to be inferred from the
+> table.
+>
+> Then apply the Canadian filter as a second pass: which surviving buckets, if
+> any, fall inside the permitted categories of economic indicators, financial
+> markets and climate at a 30-day minimum maturity. Report the two passes
+> separately.
+>
+> Task 5: fire the verdict, and stop.
+>
+> State BAND-EMPTY, BAND-NARROW or BAND-OPEN in one sentence at the top of the
+> entry, against the definitions quoted in Task 1 and without adjusting them.
+>
+> If BAND-EMPTY, the tradeable question closes on cost. Record it in
+> HYPOTHESES.md with the figures that closed it, and state that the calibration
+> work may continue only as a labelled phenomenon study.
+>
+> If BAND-NARROW or BAND-OPEN, name the surviving region precisely and record
+> that the power gate fires next over that region and no other. Do not design the
+> power gate here.
+>
+> Do not propose a different fee assumption, a different effect band, or a
+> different venue to rescue an empty band. If the arithmetic closes it, that is
+> the finding.
+>
+> Task 6: report. Append the entry with the unit determination, the FX treatment
+> and its amendment, the band table, both passes and the verdict. Append ADRs for
+> the unit finding and the FX treatment. Extend the honesty tests to pin the
+> verdict and its figures. Update report.md with a section written for the moment
+> it landed. Run make lint, make typecheck, make test. Commit at each task
+> boundary and push.
+>
+> END PROMPT
+
+**ETAs stated before arming, per standing rule 2**, each derived from measured
+work in Entry 2 and Entry 2.1 rather than guessed: Task 0 **4 min** (Entry 2's
+Task 0 registered Section 0 in a measured 14 min; this is roughly a fifth of
+that document volume), Task 1 **7 min** (Entry 2 Task 1's report phase measured
+9 min, less its probe half), Task 2 **10 min**, Task 3 **10 min**, Task 4
+**18 min** (Entry 2.1 measured 6 min for report + ADRs + a 34-test suite + push;
+this adds a module and its tests), Task 5 **6 min**, Task 6 **20 min** (Entry
+2.1's Task 4 measured 6 min for the same shape, plus mutation verification of
+the new guards). **Total 75 min.** Actuals land in Entry 5.
+
+**One deviation visible at logging time:** the six binding documents named in
+the prompt were read, read-only, before this entry was written, exactly as
+Entry 0 recorded for Stage A. No other work has been done and no request has
+been sent to any endpoint.
