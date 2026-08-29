@@ -1876,3 +1876,110 @@ independent-prior labelling with its recorded ambiguity, the tape-identification
 branch, the shared-upstream scope limit, this vendor selection, the ignored
 vendor filter, the refusal-only body policy, and the unreached-ceiling rule.
 **DECISIONS.md now carries 26 numbered ADRs.**
+
+---
+
+## Entry 17 — STAGE A.1 TASK 9, the probe pull and the revision clock
+
+**ETA 45 min · actual 52 min.**
+
+### > **EARLIEST ELIGIBLE RE-PULL: 2026-09-12.** This clock is the long pole.
+
+**Nothing in this repository can produce a bar-integrity verdict before that
+date**, and no amount of further work today moves it. `orb.repull.require_due`
+refuses every earlier attempt, loudly, naming the date.
+
+### The three preconditions, measured before anything was pulled
+
+| precondition | state |
+|---|---|
+| TASK 5 reach covers the registered windows | **YES** — Alpaca **1,762/1,762** in-sample, **875/875** holdout |
+| TASK 6 delisted verdict `PASS` or `PARTIAL` | **`PASS`** — 203 names, n = 229 |
+| TASK 4 tape verdict not blocking | **`SAME_TAPE`**, median 1.005197, n = 100 |
+
+### The slice
+
+| | |
+|---|---|
+| primary vendor | **Alpaca**, `feed=sip` (ADR-023) |
+| sessions | **60**, **2026-05-05 to 2026-07-30** |
+| tickers | **40** — `A, AA, AADX, AAL, AAME, AAMI, AAOI, AAON, AAP, AAPL, AARD, AAT, AAUC, AB, ABAT, ABBV, ABCB, ABCL, ABEO, ABG, ABLV, ABM, ABNB, ABOS, ABR, ABSI, ABT, ABTC, ABTS, ABUS, ABVC, ABX, ACA, ACAA, ACAD, ACB, ACCL, ACCO, ACCS, ACDC` |
+| session-ticker pairs | **2,400** |
+| sealed files | **480** · **`200` on every one** · 477 distinct SHA-256 |
+| bars stored | **737,507** |
+| chunks needing more than one page | **0** |
+| requests charged today, all vendors | **1,026** — Alpaca 906 of a 2,000 cap, Massive 96 of 600 |
+
+### Selection reads no price, and the screen is a readable field
+
+The 40 are the **alphabetically-first active US common stocks** from the
+reference vendor that **serve at least one bar** on a fixed reference session.
+**`bar_count per session` is on the readable field list**, so a bar-count screen
+is **price-blind by construction** — no volume, no price, no derived quantity
+enters the choice.
+
+**A deviation from the config docstring, recorded rather than glossed.**
+`CONFIG.probe_tickers` documents *"40 alphabetically-first symbols meeting the
+sealed liquidity screen."* **No sealed liquidity screen exists**, and building
+one would mean reading volume outside a sealed writer **for a selection
+purpose** — a new blindness exception, granted to make a convenience work. **The
+bar-count screen is the price-blind substitute** and it is named here so the gap
+between the docstring and the implementation is visible rather than discovered.
+
+**44 candidates examined, 40 admitted.** The first attempt examined 32 and
+admitted 13, and **refused rather than proceeding with a smaller probe** — the
+`type=CS` filter had been applied *after* the `limit` instead of inside the
+request, so the pool was a third of the size asked for. **A short slice is a
+recorded absence, never a quietly smaller probe**, and the tool exited 78.
+
+### The request shape, and the failure mode it was chosen to avoid
+
+**Not one request per session-ticker pair.** That is 2,400 requests, which
+exceeds the registered Alpaca daily cap and takes 40 minutes.
+
+**Not one request per ticker across all 60 sessions either**, and this is the
+part that matters: that needs **token pagination**, and **a page token is
+derived from the last bar returned**. If a single bar is added or removed
+between the two pulls, **every page boundary after it moves**, and the re-pull
+differs from the original **for a reason that is not a revision**. That would
+inflate the measured revision rate by an amount nobody could bound.
+
+**So: 12 chunks of 5 consecutive sessions per ticker, boundaries fixed by
+session date.** **0 of 480 chunks needed a second page**, so no token was
+followed at all — the instability was designed out rather than tolerated.
+
+**The registered granularity survives.** At re-pull time the **bar-level**
+comparison re-keys to `(ticker, session)` from the readable timestamp, so
+`session_ticker_pairs_compared` is the registered **2,400** rather than an
+artefact of chunking. The **byte-level** comparison keys on the stored file and
+is the secondary diagnostic.
+
+### The holdout overlap, stated plainly
+
+**39 of the 60 sessions lie inside the registered holdout window** (2026-05-05
+to 2026-06-30); **21 lie after it.** That overlap is **registered, not new**: A.1
+TASK 3 has specified *"60 consecutive regular sessions ending at least 30
+calendar days before today"* since the original registration, and on any date in
+2026 that slice reaches into the holdout.
+
+**It does not spend the Stage D read.** The pull is **sealed**: raw bytes stored,
+hashed and recorded, **nothing parsed outside the readable field list**, and the
+only module that will read a price from these files is the **sealed comparator**,
+which is the registered exception and returns **counts only**. The Stage D latch
+governs **reading the holdout for a verdict**, and no verdict input has been
+computed from a single one of these 737,507 bars.
+
+### What is armed, and what is not
+
+**Armed:** `tools/repull_probe.py`, which reads the manifest, **refuses until
+2026-09-12**, and on that date re-sends the identical request set and hands both
+pulls to the sealed comparator. Run today it prints the refusal and **exits 78,
+having sent nothing.** Verified.
+
+**Not armed:** the production collector and the systemd timers.
+`systemctl --user list-timers` shows **0 `orb-` units**, and
+`systemctl --user is-enabled orb-daily.timer orb-actions.timer` returns
+**`not-found`** for both. **They stay inert until the revision verdict exists.**
+
+**Gates: 344 tests passing (was 335), 28 guards, `mypy --strict` clean over 54
+files, `ruff` clean.**

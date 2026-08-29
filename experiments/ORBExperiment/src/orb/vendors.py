@@ -171,6 +171,28 @@ def massive_reference(store: CredentialStore, *, limit: int = 1) -> VendorReques
     )
 
 
+def massive_active_common(
+    store: CredentialStore, *, limit: int = 1000, cursor_url: str | None = None
+) -> VendorRequest:
+    """Active US common stock, ordered by ticker. **Reads no price.**
+
+    ``type=CS`` is applied **in the request** rather than after it: a bare
+    ``limit`` returns every security type and filtering afterwards leaves a pool
+    smaller than the one asked for, which is how the first probe-pull attempt
+    came back with 32 candidates instead of 100.
+    """
+    url = cursor_url or (
+        f"{MASSIVE_HOST}/v3/reference/tickers?market=stocks&active=true"
+        f"&type=CS&limit={limit}&sort=ticker&order=asc"
+    )
+    return VendorRequest(
+        vendor=MASSIVE,
+        pace_key="massive:reference",
+        url=url,
+        headers=massive_headers(store),
+    )
+
+
 def massive_delisted(
     store: CredentialStore,
     *,
