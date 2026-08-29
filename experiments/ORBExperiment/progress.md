@@ -1298,3 +1298,124 @@ values never.
 
 **Gates: 298 tests passing, 28 guards, `mypy --strict` clean over 49 files,
 `ruff` clean.**
+
+---
+
+## Entry 11 — STAGE A.1 TASK 3, credentialed access verification
+
+**ETA 30 min · actual 34 min.** `n = 11` credentialed probes, 2 vendors,
+**0 dollars spent**, every one charged to the request ledger before it was sent.
+
+### The verdict, per credential
+
+| credential | authenticates | evidence |
+|---|---|---|
+| **`ORB_MASSIVE_API_KEY`** | **YES** | `200` on `/v3/reference/tickers?limit=1`, 481 B, **1 reference row**; `200` on `/v2/aggs/ticker/AAPL/range/1/minute/2026-07-15/2026-07-15`, 87,730 B, **861 bars** |
+| **`ORB_ALPACA_API_KEY` + `ORB_ALPACA_SECRET_KEY`** | **YES** on the market-data host and the **paper** trading host; **NO** on the **live** trading host | `200` on `/v2/stocks/AAPL/bars` on **both** `feed=sip` and `feed=iex`, **11 bars each**; `200` on `paper-api/v2/account`, 960 B; `200` on `paper-api/v2/assets?status=inactive`, 8,112,164 B, **19,189 rows**; **`401`** on `api.alpaca.markets/v2/account` and `/v2/assets` |
+
+**Both credentials authenticate. TASK 4 is not blocked on a broken credential,
+and the ladder proceeds.**
+
+### The three refusals, recorded verbatim and redacted
+
+| probe | status | bytes | payload |
+|---|---:|---:|---|
+| `massive_aggs_carveout` (2015-06-01) | **403** | 189 | `{"status":"NOT_AUTHORIZED","request_id":"e2170bc8…","message":"Your plan doesn't include this data timeframe. Please upgrade your plan at https://polygon.io/pricing"}` |
+| `alpaca_account_live` | **401** | 55 | `{"code":40110000,"message":"request is not authorized"}` |
+| `alpaca_assets_inactive` (live host) | **401** | 55 | `{"code":40110000,"message":"request is not authorized"}` |
+
+**Not one of the three is a broken credential, and separating them from one took
+a second probe round rather than an inference.**
+
+- **Massive's 403 is an *entitlement* refusal, not an *authentication* refusal.**
+  A 403 on a 2015 aggregate is equally consistent with *"this tier serves no
+  aggregates"* and *"this tier serves aggregates but not that far back"*, and the
+  two have completely different consequences. **A recent aggregate separated
+  them: `200`, 861 bars.** The tier serves minute aggregates; it refuses the
+  timeframe. That is a **TASK 5 reach question**, and it is now a live one.
+- **Alpaca's 401 on the live host is a key-family fact, not a fault.** The paper
+  host answered `200` on the identical credential. **These are paper-account
+  keys**, which is the correct shape for a market-data-only use and grants no
+  trading capability of any kind. **This repository has no live trading
+  credential and wants none.**
+
+### Two findings the probes produced that nobody went looking for
+
+**1. The ADR-008 hazard, now measured on a second vendor.** Alpaca answered the
+2015 carve-out request with **`200`, 52 bytes,
+`{"bars":null,"next_page_token":null,"symbol":"AAPL"}` — a served refusal-shaped
+empty set at a success status.** `orb.http.PacedClient` classified it
+**`HealthState.STORED`**, because its rule is *"any 200 with a non-empty body"*.
+**That classification is wrong**, and it is the identical gap ADR-008 recorded
+against Alpha Vantage's `demo` key on 2026-08-29 — **measured now on a second
+vendor, which turns a vendor quirk into a class of hazard.** Under standing rule
+7 a `no_data` and a `stored` are different families, and here the classifier
+merged them. **The per-vendor refusal detector ADR-008 scoped to A.3 TASK 1 is
+now required by two vendors rather than one.** No Alpaca or Alpha Vantage
+response is admitted to any census before that fix exists.
+
+**2. Neither credential serves the pre-period carve-out.** Massive **refuses**
+it (403, timeframe not included) and Alpaca **serves an empty set** for it
+(200, `bars: null`, 0 bars). The carve-out is `< 2016-01-04T14:30:00.000Z`, and
+**`n = 2` credentials, `0` serving a bar inside it.**
+
+**The consequence is registered rather than absorbed.** Section 9 restricts the
+**E2 economic-power dispersion input to the carve-out only**. **`E2 power stays
+`Absent(not_served)`** — and its reason changes from *"no vendor is reachable"*
+to *"two vendors are reachable and neither serves the carve-out"*, which is a
+**stronger** absence, not a weaker one. It also removes the window the A.1
+TASK 4 tape identification was told to use, and TASK 4 records what it did
+instead and why.
+
+### A recorded deviation — the first probe round recorded served bodies
+
+**What happened.** The first two probe rounds recorded `body_redacted` for
+**every** response, including successful ones, and printed the fragment to the
+session console. For `massive_aggs_recent`, `alpaca_bars_recent_sip` and
+`alpaca_bars_recent_iex` those fragments contained **OHLCV values**. Under the
+blindness field lists, `open`, `high`, `low`, `close` and `volume` are **never
+readable outside a sealed writer**, and a report file is not a sealed writer.
+
+**What it did and did not touch, checked rather than assumed.** The sessions
+involved were **2015-06-01** — inside the pre-period carve-out, and **no data
+was served for it by either vendor** — and **2026-07-15**, which is **after
+`holdout_end` = 2026-06-30** and therefore **outside both the in-sample and the
+holdout windows**. **No bar from either registered window was read or recorded**,
+and no observation any verdict will be computed on was touched.
+
+**What was done about it.** The reports were rewritten under a new policy
+**before this commit**, so **no bar value is committed**. The policy is now code
+rather than care, in `tools/_a1r.py::record_body`:
+
+> **A refusal is recorded verbatim. A served payload is not recorded at all.**
+> `docs/ACCESS.md` exists to carry refusal payloads verbatim and a refusal
+> carries no bar; a served payload carries bars. The asymmetry runs on **status
+> code**, which is itself a readable field.
+
+What a served payload records instead: **byte count, SHA-256 and bar count** —
+all three on the readable field list. `orb.comparator.count_bars` computes the
+bar count **inside the sealed comparator**, so exactly one module in this
+repository turns vendor bytes into anything at all. It returns `0` for a
+refusal, an unparseable body **and** a served empty set, and **the caller
+separates those three by status code, never by the count** — standing rule 7,
+enforced by the shape of the function rather than by its documentation.
+
+**It is recorded rather than smoothed, because the ordering is the point.** The
+guard that catches this class — Guard 5, which walks parse trees — cannot see a
+value that never appears as a field name in source. **A recording policy is what
+covers that gap, and it did not exist until this task needed it.**
+
+### The pace, and what it deliberately did not do
+
+`massive:aggs` and `massive:reference` were sent at **13.0 s spacing = 4.6 per
+minute**, deliberately **below** Massive's documented free-tier 5 per minute.
+`alpaca:*` at **1.0 s = 60 per minute**, far below Alpaca's documented 200.
+
+**Both figures are documented, never measured, and neither was raised.**
+Amendment 2's corollary bites in the other direction now: the **88.4 per minute
+measured against a 401** on 2026-08-29 is evidence about the refusal path and
+**licenses nothing on the authenticated path**, which is a different endpoint.
+**A.1 TASK 7 measures the authenticated endpoints; until then nothing speeds up.**
+
+**Gates: 305 tests passing (was 298), 28 guards, `mypy --strict` clean over 50
+files, `ruff` clean.**

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 
-from orb.comparator import SealedComparator
+from orb.comparator import SealedComparator, count_bars
 from orb.integrity import IntegrityVerdict
 
 
@@ -186,3 +186,52 @@ def test_the_comparator_returns_no_bar_value_at_runtime() -> None:
     # 10.50 is the fixture's opening-range high. It must appear nowhere.
     assert 10.50 not in values
     assert 1050 not in values
+
+
+# --- count_bars — the readable bar count, computed inside the seal ---------
+
+
+def test_count_bars_counts_a_massive_results_array() -> None:
+    # Arrange
+    payload = b'{"ticker":"AAPL","resultsCount":3,"results":[{},{},{}],"status":"OK"}'
+    # Act / Assert
+    assert count_bars(payload) == 3
+
+
+def test_count_bars_counts_an_alpaca_bars_array() -> None:
+    payload = b'{"bars":[{},{}],"symbol":"AAPL","next_page_token":null}'
+    assert count_bars(payload) == 2
+
+
+def test_count_bars_counts_an_alpaca_multi_symbol_map() -> None:
+    payload = b'{"bars":{"AAPL":[{},{}],"MSFT":[{}]},"next_page_token":null}'
+    assert count_bars(payload) == 3
+
+
+def test_count_bars_counts_a_bare_array_body() -> None:
+    """Alpaca's asset list is a bare JSON array with no envelope."""
+    assert count_bars(b"[{},{},{},{}]") == 4
+
+
+def test_a_served_empty_set_counts_zero() -> None:
+    assert count_bars(b'{"bars":null,"next_page_token":null,"symbol":"AAPL"}') == 0
+
+
+def test_a_refusal_body_counts_zero_and_is_not_a_data_condition() -> None:
+    """Standing rule 7. The caller separates these three by **status code**.
+
+    A refusal, an unparseable body and a served empty set all count zero here,
+    and that is deliberate: this function counts bars and makes no claim about
+    why there are none. An error never quietly becomes a data condition.
+    """
+    assert count_bars(b'{"status":"NOT_AUTHORIZED","message":"upgrade"}') == 0
+    assert count_bars(b"<html>401</html>") == 0
+    assert count_bars(b"") == 0
+    assert count_bars(b"\xff\xfe not utf-8") == 0
+
+
+def test_count_bars_returns_an_int_and_never_a_bar() -> None:
+    payload = b'{"results":[{"o":1.0,"h":2.0,"l":0.5,"c":1.5,"v":100,"t":1}]}'
+    counted = count_bars(payload)
+    assert isinstance(counted, int)
+    assert counted == 1

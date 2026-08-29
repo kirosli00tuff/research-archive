@@ -15,6 +15,7 @@ from __future__ import annotations
 import time
 import urllib.error
 import urllib.request
+from collections.abc import Mapping
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from typing import Final, final
@@ -107,13 +108,29 @@ class PacedClient:
         if gap > 0:
             time.sleep(gap)
 
-    def get(self, url: str, *, vendor: str, pace_key: str) -> Response:
-        """Charge, pace, send. The charge happens first, and can refuse."""
+    def get(
+        self,
+        url: str,
+        *,
+        vendor: str,
+        pace_key: str,
+        headers: Mapping[str, str] | None = None,
+    ) -> Response:
+        """Charge, pace, send. The charge happens first, and can refuse.
+
+        ``headers`` carries credentials for vendors that authenticate by header
+        rather than by query string. **Headers are never recorded**: they are
+        handed to ``urllib`` and dropped. They do not reach the :class:`Response`,
+        the ledger, the sealed writer or the console, so the only credential
+        path into a record is a vendor echoing one back — which Guard 8 catches
+        at the recording boundary.
+        """
         day = datetime.now(tz=UTC).strftime("%Y-%m-%d")
         self._ledger.charge(vendor, day, pace_key)
         self._wait(pace_key)
 
-        request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+        sent_headers = {"User-Agent": USER_AGENT, **dict(headers or {})}
+        request = urllib.request.Request(url, headers=sent_headers)
         sent_at = datetime.now(tz=UTC).isoformat(timespec="milliseconds")
         started = time.monotonic()
         try:

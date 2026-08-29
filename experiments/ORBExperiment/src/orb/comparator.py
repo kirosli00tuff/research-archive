@@ -25,6 +25,7 @@ The two measurements this module exists for:
 from __future__ import annotations
 
 import hashlib
+import json
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from typing import Final, final
@@ -74,6 +75,45 @@ def _timestamps(bars: Sequence[Mapping[str, object]]) -> set[int]:
                     stamps.add(raw)
                 break
     return stamps
+
+
+BAR_ARRAY_KEYS: Final[tuple[str, ...]] = ("results", "bars")
+"""The envelope keys the two credentialed vendors carry their bar arrays under.
+
+Neither is a priced field — Massive wraps its aggregates in ``results`` and
+Alpaca wraps its bars in ``bars`` — but the parse still lives inside the sealed
+comparator, so that **one module** turns vendor bytes into anything at all.
+"""
+
+
+def count_bars(payload: bytes) -> int:
+    """How many bars a served payload carries. **A count, and only a count.**
+
+    ``bar_count per session`` sits on the readable field list, so this is a
+    readable quantity. It is computed here rather than in a caller because a
+    caller that parses a vendor payload once will parse it again for something
+    else. Returns 0 for a refusal, an unparseable body, or a served empty set —
+    and the **caller distinguishes those three by status code**, never by this
+    number. Standing rule 7: an error never quietly becomes a data condition.
+    """
+    try:
+        parsed = json.loads(payload)
+    except (json.JSONDecodeError, UnicodeDecodeError):
+        return 0
+    if isinstance(parsed, list):
+        return len(parsed)
+    if not isinstance(parsed, dict):
+        return 0
+    total = 0
+    for key in BAR_ARRAY_KEYS:
+        found = parsed.get(key)
+        if isinstance(found, list):
+            total += len(found)
+        elif isinstance(found, dict):
+            for rows in found.values():
+                if isinstance(rows, list):
+                    total += len(rows)
+    return total
 
 
 @final
