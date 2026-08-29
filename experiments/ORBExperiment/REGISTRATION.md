@@ -1129,3 +1129,88 @@ measured share, a measured count and an operational verdict, and **a prior is
 none of those four.** The `PENDING_ACCESS` verdict of Amendment 4 stands
 unaltered by this entry, and is re-fired on measured inputs at A.1 TASK 10 for
 reasons that have nothing to do with this amendment.
+
+---
+
+## Amendment 6 — the falsified secrets rule, and Section 12 under a credential
+
+**Date:** 2026-08-29 · **Status:** accepted · amends **Section 12**, and records
+the falsification of `CLAUDE.md` non-negotiable rule 3
+
+**Exactly what data existed when this amendment was made.** Everything Amendment
+5 listed, plus **three vendor credentials present in a git-ignored `.env`** —
+`ORB_MASSIVE_API_KEY` at 32 characters, `ORB_ALPACA_API_KEY` at 26,
+`ORB_ALPACA_SECRET_KEY` at 44, `n = 3` present and `0` missing — and **Guard 8**,
+committed and passing. **Still zero bars, zero prices, zero volumes, zero
+trades, zero returns and zero PnL.** **No credentialed request had been sent when
+this amendment was written**; the A.1 TASK 3 probes come after it. The amendment
+therefore records a **rule correction**, not a data finding.
+
+### The falsified rule, quoted before it is corrected
+
+`CLAUDE.md` non-negotiable rule 3, as written on 2026-08-28:
+
+> **Secrets never enter the repo — and none are needed.** `.env.example` is
+> empty on purpose. No API key exists anywhere in this project.
+
+**The first half stands. The second half is false, and measurement is what
+falsified it.**
+
+`docs/ACCESS.md`, A.1 TASK 1, 2026-08-29, `n = 15` `robots.txt` fetches and
+`n = 25` live API probes: **0 of 9 vendors serve a 1-minute regular-session US
+equity bar to this repository without a credential.** Two vendors serve
+keylessly and **both publish `User-agent: * / Disallow: /`**; two more disallow
+the exact API path a collector needs; **the five whose terms permit collection
+all refused without a key**, refusal payloads recorded verbatim.
+
+**This is the NPLExperiment shape and it is named as such.** A planning number
+near **9.4 events per month** entered a registration as though it were an input
+and measurement falsified it at **0.5, `n = 3` over 182 days** (carried, C-20),
+killing H3 on a figure rather than on the world. The failure was not the wrong
+number; it was **a planning number wearing a measurement's clothes.**
+*"No key is needed for any Stage A source"* was exactly that, and it is
+corrected the same way: **named, dated, and amended rather than quietly worked
+around.**
+
+### The corrected rule, in force
+
+- **Credentials are required.** Established by measurement;
+  `docs/ACCESS.md` → *"PERMITTED and usable today: 0 of 9."*
+- **Keys live in `.env`, git-ignored**, confirmed by `git check-ignore` before
+  any credentialed request is sent.
+- **`.env.example` carries names only and never values.**
+- **Guard 8 enforces redaction at the recording boundary** — sealed writer,
+  append-only ledger, HTTP response — and redaction is **deterministic**, so the
+  byte-level revision comparison of A.1 TASK 3 survives it.
+- **Recordable about a credential:** variable name, presence, character length.
+  **Not recordable:** the value, any prefix, any suffix, **and any hash** — a
+  hash of a 32-character key is a confirmation oracle for a guess.
+- **The first half of the original rule stands unchanged and unweakened: no key
+  is ever committed.**
+
+### Section 12, amended
+
+Section 12 opens *"Zero dollars in Stage A. Free and trial tiers only."* **That
+sentence is unchanged and remains in force.** What changes is that Stage A now
+**holds credentials**, and the section did not contemplate that state.
+
+| clause | before | after this amendment |
+|---|---|---|
+| **spend in Stage A** | zero dollars | **zero dollars — unchanged** |
+| **tiers** | free and trial only | **free and trial only — unchanged**, now exercised with a credential rather than anonymously |
+| **credentials held** | none contemplated | **three, on free or trial tiers**, in a git-ignored `.env`; presence and character length recordable, values never |
+| **paid tier** | requires explicit operator instruction | **requires explicit operator instruction and its own ADR — unchanged and restated** |
+| **request ledger** | per-vendor daily cap, charges before sending | **unchanged**, and the caps are **re-measured against the authenticated endpoints at A.1 TASK 7**, since Amendment 2 registered them provisionally against a 401 |
+| **pacing** | per endpoint, never per host | **unchanged** — and the Amendment 2 corollary now bites in the other direction: **the authenticated data endpoint is a different endpoint from the 401 path**, so the 88.4/min measured on the refusal path licenses nothing |
+
+**Two things this amendment deliberately does not do.**
+
+1. **It does not authorise any spend.** Holding a free-tier credential is not a
+   step toward a paid one. **Any paid tier requires an explicit operator
+   instruction and its own ADR**, and the carried figures stay labelled carried:
+   **Polygon/Massive Starter near 29 USD per month, Databento near 125 USD per
+   month for a medium universe** (carried, C-18), **neither measured.**
+2. **It does not raise a single pace or cap.** Amendment 2's registered
+   `DEFAULT_MIN_SPACING_S = 6.0` stands until A.1 TASK 7 measures the
+   authenticated endpoints. **An unmeasured endpoint is not a licence to speed
+   up**, and a credential does not make an unmeasured endpoint measured.

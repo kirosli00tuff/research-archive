@@ -128,13 +128,48 @@ read it from config.
    **0.5, n = 3 over 182 days**, killing H3 on a figure rather than on the
    world. Every such figure here is named as an A.1 or A.2 **measurement
    target**, never as an input.
-3. **Secrets never enter the repo — and none are needed.** `.env.example` is
-   empty on purpose. No API key exists anywhere in this project.
+3. **Secrets never enter the repo — and credentials are required.**
+   **AMENDED 2026-08-29.** The original rule read, and is preserved here
+   unedited so the correction is auditable:
+
+   > ~~**Secrets never enter the repo — and none are needed.** `.env.example` is
+   > empty on purpose. No API key exists anywhere in this project.~~
+
+   **The second half was falsified by measurement**, not by preference.
+   `docs/ACCESS.md`, A.1 TASK 1, 2026-08-29: **`n = 9` vendors, `0` usable
+   without a credential.** The two that serve keylessly both publish
+   `User-agent: * / Disallow: /`; two more disallow the exact API path a
+   collector needs; **the five whose terms permit collection all refused
+   without a key**, refusal payloads recorded verbatim. This is the
+   NPLExperiment shape — a planning number entering a rule and measurement
+   falsifying it — and it is amended rather than contradicted silently.
+
+   **The amended rule, in force:**
+   - **Credentials are required.** Measurement established this; the line is
+     `docs/ACCESS.md` → *"PERMITTED and usable today: 0 of 9."*
+   - **Keys live in `.env`, which is git-ignored** and confirmed so by
+     `git check-ignore` before any credentialed request is sent.
+   - **`.env.example` carries names only and never values.**
+   - **Guard 8 enforces redaction at the recording boundary** — the sealed
+     writer, the append-only ledger and the HTTP response object — because a
+     credentialed endpoint can return the key inside its own error body and
+     `docs/ACCESS.md` records refusal payloads verbatim. Redaction is
+     **deterministic**, so the byte-level revision comparison survives it.
+   - **What may be recorded about a credential:** its variable name, whether it
+     is present, and its character length. **What may not:** the value, any
+     prefix, any suffix, and **any hash** — a hash of a 32-character key is a
+     confirmation oracle for a guess.
+   - **No key is ever committed**, and the first half of the original rule —
+     *secrets never enter the repo* — **stands unchanged and unweakened.**
 4. **The operator prior slot (REGISTRATION.md Section 13) is filled only by the
    operator.** The assistant prior recorded beside it is not the operator's
    number. **The empty slot blocks the Stage C latch structurally.** The
    NPDExperiment Amendment 0 lesson: an adopted prior corrupts the calibration
    ledger.
+   **State as of 2026-08-29: the slot is FILLED**, by the operator, at **0.30,
+   label `INDEPENDENT`** (Amendment 5). The rule above is unchanged and still
+   binds — the assistant never fills it. **Section 10 clause 2 now reads
+   satisfied; clauses 1 and 3 do not, and the latch stays closed.**
 5. **Stage C opens the sealed in-sample read exactly once**, behind a latch
    written first, recording module hashes. **Stage D opens the holdout exactly
    once**, behind its own latch. **A second read of either window voids the

@@ -1241,3 +1241,60 @@ happen. The `PENDING_ACCESS` verdict of Amendment 4 stands unaltered.
 
 **Gates: 298 tests passing (was 295), 28 guards, `mypy --strict` clean over 49
 files, `ruff` clean.**
+
+---
+
+## Entry 10 — STAGE A.0 TASK 2, the falsified secrets rule
+
+**ETA 20 min · actual 17 min.**
+
+### What was falsified, and by what
+
+`CLAUDE.md` non-negotiable rule 3 said **"none are needed"** and **"no API key
+exists anywhere in this project"**. `docs/ACCESS.md`, A.1 TASK 1, 2026-08-29:
+**`n = 9` vendors, `0` usable without a credential**, over `n = 15` `robots.txt`
+fetches and `n = 25` live API probes.
+
+**The first half of the rule — *secrets never enter the repo* — stands unchanged
+and unweakened. The second half is false.**
+
+### Why it is amended rather than quietly rewritten
+
+**The NPLExperiment shape, named in the amendment.** A planning figure near
+**9.4 events per month** entered a registration as though it were an input, and
+measurement falsified it at **0.5, `n = 3` over 182 days** (carried, C-20). The
+failure was not the wrong number. It was **a planning number wearing a
+measurement's clothes.** *"No key is needed for any Stage A source"* was exactly
+that, so it is corrected the same way: **the original is quoted verbatim and
+struck through, in place, above the correction**, so the diff between what was
+assumed and what was measured is readable without a git log.
+
+### `.env.example`
+
+**Was 0 bytes. Now 887 bytes, three names, three empty values, no value of any
+kind**, and a header stating why the file changed and where the measurement
+that changed it lives.
+
+### Section 12
+
+**"Zero dollars in Stage A. Free and trial tiers only." is unchanged and in
+force.** What Section 12 did not contemplate is a Stage A that **holds
+credentials**, and Amendment 6 records that state: three credentials, free or
+trial tiers, `.env` git-ignored, presence and character length recordable and
+values never.
+
+**Two things Amendment 6 refuses to do, stated as refusals:**
+
+1. **It authorises no spend.** Holding a free-tier credential is not a step
+   toward a paid one. **Polygon/Massive Starter near 29 USD per month** and
+   **Databento near 125 USD per month** stay **carried, never measured**, and a
+   paid tier still needs an explicit operator instruction and its own ADR.
+2. **It raises no pace and no cap.** Amendment 2's `DEFAULT_MIN_SPACING_S = 6.0`
+   stands until A.1 TASK 7 measures the **authenticated** endpoints. **A
+   credential does not make an unmeasured endpoint measured** — and Amendment
+   2's corollary now bites in the other direction: **the authenticated data
+   endpoint is a different endpoint from the 401 path**, so the 88.4 per minute
+   measured on the refusal path licenses nothing.
+
+**Gates: 298 tests passing, 28 guards, `mypy --strict` clean over 49 files,
+`ruff` clean.**
