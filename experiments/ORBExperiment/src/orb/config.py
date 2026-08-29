@@ -122,6 +122,26 @@ class Config:
     n_co_primaries: int
     """2. alpha_adj = 1 - 0.95 ** (1 / n_co_primaries)."""
 
+    per_test_alpha: float
+    """**0.05**, one-sided, applied to **each** co-primary. Registered by
+    **Amendment 18**, correcting a statistical error rather than loosening a
+    standard.
+
+    Section 8's rule is a **conjunction**: both co-primaries must pass. That is
+    an **intersection-union test**, and Berger (1982) establishes that each
+    component of an IUT may run at the **full nominal level** while the overall
+    size stays at that level, because under the global null the probability
+    that **all** components reject is bounded by the probability that **any one**
+    does. `alpha_adj` = 1 - 0.95^(1/2) = 0.02532057 corrects a **union** rule,
+    where success is claimed if any component rejects. **The registration was
+    paying a multiplicity penalty it does not owe.**
+
+    ``alpha_adj`` is **not removed**: it is already pushed, it is the superseded
+    figure, and every table reports the new value beside it so the change is
+    legible. The deflated Sharpe's correction for the **8 registered
+    parameterization trials** is a **different multiplicity** and is
+    **unaffected**."""
+
     trial_count: int
     """8. Four range lengths crossed with two entry rules, for the DSR."""
 
@@ -233,6 +253,7 @@ CONFIG: Final[Config] = Config(
     stop_slippage_usd=(0.020, 0.040, 0.080),
     close_slippage_usd=(0.005, 0.010, 0.020),
     n_co_primaries=2,
+    per_test_alpha=0.05,
     trial_count=8,
     deflated_sharpe_bar=1.00,
     holdout_per_trade_t_gate=2.50,

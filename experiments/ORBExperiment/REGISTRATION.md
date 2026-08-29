@@ -2905,3 +2905,123 @@ so it is the instrument, and it wins.**
 
 **Dollars spent: 0. Unchanged, and not an estimate — no paid tier was reached,
 no payment method exists in this repository, and no vendor was asked for one.**
+
+---
+
+## Amendment 18 — the multiplicity treatment was wrong; each co-primary runs at 0.05
+
+**Date:** 2026-08-29 · **Status:** accepted · amends **Section 8** (inference)
+and **Section 9** (the power arithmetic that consumed the old level)
+
+**What data existed when this amendment was made.** Everything held at
+Amendments 11 through 17, plus those amendments. **No bar revision measurement
+and no cross-vendor agreement share existed**, and neither is eligible before
+**2026-09-12**. **No in-sample or holdout bar had been read; both latches remain
+absent.** **Zero dollars spent.** **This amendment required no measurement at
+all** — it is a correction to arithmetic that was wrong from the first commit.
+
+### 1. The error, stated before the correction
+
+**Section 8 registers a conjunction and applies a union correction to it.**
+
+Section 8 says, in its own words: *"Two co-primaries, one-sided, and **both must
+pass**"*, and then: *"`alpha_adj = 1 − 0.95^(1/2) = 0.02532057...`, applied to
+**each**."*
+
+**`1 − 0.95^(1/k)` is the Šidák correction for a family-wise error rate under a
+union rule**, where the family "succeeds" if **any** component rejects. It is
+exactly right for that rule: two independent tests each at 0.02532057 give a
+family-wise Type I rate of exactly 0.05, and
+`tests/test_verdict.py::test_alpha_adj_is_the_registered_figure` has pinned that
+arithmetic since the first commit. **It is the correct answer to a question
+Section 8 does not ask.**
+
+**Section 8's rule is an intersection-union test.** The claim is asserted only if
+**every** component rejects. **Berger (1982)** — *Multiparameter hypothesis
+testing and acceptance sampling*, `Technometrics` **24(4), 295–300** —
+establishes that an IUT whose components each run at level `a` has **overall size
+at most `a`**, with **no correction owed**. The reason is elementary and worth
+writing out rather than citing: under the global null, the event that **all**
+components reject is a **subset** of the event that **any single one** does, so
+
+    P(reject H0 overall) = P(all components reject) <= P(component 1 rejects) = a.
+
+**The registration therefore pays a multiplicity penalty it does not owe**, and
+it has paid it in every power figure this repository has ever reported.
+
+### 2. The correction
+
+**Each co-primary runs one-sided at `alpha = 0.05`.**
+
+Registered as `CONFIG.per_test_alpha = 0.05` and read through
+`orb.verdict.per_test_alpha()`.
+
+**`alpha_adj` is not removed and not made wrong.** It is already pushed, it is
+the superseded figure, and **every amended table below reports the new level
+beside it** so the change is legible rather than silent. Its test stands, with
+its docstring now naming which question it answers.
+
+### 3. What this is, and what it is not
+
+- **It is a correction of a statistical error.** The procedure's *actual size*
+  was never 0.05 per the conjunction; it was smaller, in a direction nobody
+  chose and nobody recorded choosing.
+- **It is not a loosening of a standard.** **The conjunction itself supplies the
+  conservatism.** Requiring **two** tests to clear 0.05 is strictly harder than
+  requiring **one** to clear 0.05, and that — not an inflated per-test hurdle —
+  is where this design's severity lives.
+- **It does not touch the deflated Sharpe's own correction.** E1's DSR continues
+  to deflate for the **8 registered parameterization trials** — four opening-range
+  lengths crossed with two entry rules — plus skewness and kurtosis from the
+  realized series. **That is a different multiplicity**: the number of ways the
+  rule could have been *specified*, not the number of co-primaries it must clear.
+  **Amendment 18 leaves it exactly as registered.**
+- **It changes no bar, no threshold and no gate.** The deflated-Sharpe bar stays
+  at **1.00**, the per-trade t gate at **2.50**, the concentration gate at **0.50**
+  and the persistence gate at **3 of 4**.
+
+### 4. E1 power recomputed, each figure beside its predecessor
+
+**One-sided, from `orb.power.power_one_sided`, on session counts from
+`orb.calendar`.**
+
+| assumption | Sharpe | horizon | n | **E1 @ 0.02532057** | **E1 @ 0.05** | change | **min n for 80% @ 0.0253** | **min n for 80% @ 0.05** |
+|---|---:|---|---:|---:|---:|---:|---:|---:|
+| published | 2.81 | holdout | 875 | 0.999484 | **0.999835** | +0.000352 | 250 | **198** |
+| published | 2.81 | in-sample | 1,762 | 1.000000 | **1.000000** | +0.000000 | 250 | **198** |
+| **REGISTERED** | **1.40** | **holdout** | **875** | **0.743521** | **0.832450** | **+0.088929** | **1,006** | **795** |
+| **REGISTERED** | 1.40 | in-sample | 1,762 | 0.959720 | **0.980162** | +0.020442 | 1,006 | **795** |
+| quartered | 0.70 | holdout | 875 | 0.257802 | **0.366747** | +0.108945 | 4,021 | **3,180** |
+| quartered | 0.70 | in-sample | 1,762 | 0.458770 | **0.581652** | +0.122882 | 4,021 | **3,180** |
+
+### 5. The finding that follows, stated on its own because it is consequential
+
+> ## **At the registered 1.40 Sharpe assumption, E1 crosses its 80 percent bar on the achievable holdout for the first time: 0.743521 → 0.832450.**
+>
+> **The minimum session count for 80 percent power falls from 1,006 to 795,
+> against 875 achievable holdout sessions — a shortfall of 131 sessions becomes
+> a surplus of 80.**
+
+**This was a registration error and not a fact about the world.** No datum
+changed. No vendor changed. No session was added. **A power shortfall this
+repository has reported in every document since its first commit was an artefact
+of correcting for a union that Section 8 never described.**
+
+**ADR-005 registered that shortfall openly rather than meeting it at the read,
+and that decision was right on the facts as they stood.** It is superseded on
+the arithmetic, not on the judgement, and **ADR-032 records the supersession**
+rather than editing ADR-005.
+
+**What it does not do:** it does not make the design powered. **E1 is one of two
+co-primaries under a conjunction**, and the operative figure is **joint power**,
+which Amendment 20 computes. **A reader must not take 0.832450 as the design's
+power.**
+
+### 6. What this amendment does not do
+
+- **It opens no latch, arms nothing and authorises no spend.** 0 requests, 0
+  dollars.
+- **It reads no bar.** The recomputation consumes session counts and registered
+  assumptions only.
+- **It weakens no Section 0 branch and moves no threshold.**
+- **It does not touch the DSR trial count of 8.**

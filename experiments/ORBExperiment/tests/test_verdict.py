@@ -33,9 +33,69 @@ from orb.verdict import (
 
 
 def test_alpha_adj_is_the_registered_figure() -> None:
-    """1 - 0.95 ** (1/2) = 0.02532057..., applied to each co-primary."""
+    """1 - 0.95 ** (1/2) = 0.02532057..., the **superseded** per-co-primary level.
+
+    Kept because it is already pushed and because every amended table reports
+    the new level beside it. The arithmetic below is still exactly right **for a
+    union rule**, which is what makes the error legible: it is the correct
+    answer to a question Section 8 does not ask.
+    """
     assert alpha_adj(2) == pytest.approx(0.02532057, abs=1e-8)
     assert 1 - (1 - alpha_adj(2)) ** 2 == pytest.approx(0.05, abs=1e-12)
+
+
+def test_the_per_co_primary_level_is_the_full_nominal_level() -> None:
+    """Amendment 18. Section 8's rule is a conjunction, so no correction is owed.
+
+    Berger (1982), `Technometrics` 24(4), 295-300: an intersection-union test
+    whose components each run at level `a` has overall size **at most** `a`,
+    because under the global null the event that **all** components reject is
+    contained in the event that **any one** does.
+    """
+    from orb.config import CONFIG
+    from orb.verdict import per_test_alpha
+
+    assert per_test_alpha() == 0.05
+    assert per_test_alpha() == CONFIG.per_test_alpha
+    assert per_test_alpha() > alpha_adj(2), (
+        "the corrected level must be LARGER than the union correction it "
+        "replaces; a smaller one would mean the error ran the other way"
+    )
+
+
+def test_the_union_correction_is_the_one_that_would_be_owed_on_a_union_rule() -> None:
+    """The error is legible only if both arithmetics are pinned side by side.
+
+    **Union rule** — success if *any* component rejects: the family-wise error
+    rate at two components each run at 0.02532057 is exactly 0.05, which is what
+    ``alpha_adj`` delivers and why it looked right.
+
+    **Conjunction** — success only if *both* reject: the size is bounded by the
+    level of a single component, so running each at 0.05 keeps the overall size
+    at 0.05. Running each at 0.02532057 instead makes the procedure **stricter
+    than 0.05 by an amount nobody chose**, and the amount is measured here.
+    """
+    import math
+    from statistics import NormalDist
+
+    from orb.power import power_one_sided
+    from orb.verdict import per_test_alpha
+
+    union_fwer = 1 - (1 - alpha_adj(2)) ** 2
+    assert union_fwer == pytest.approx(0.05, abs=1e-12)
+
+    # The unpaid cost, in the only currency that matters here: power.
+    at_union = power_one_sided(1.40, 875, alpha_adj(2))
+    at_conjunction = power_one_sided(1.40, 875, per_test_alpha())
+    assert at_union == pytest.approx(0.743521, abs=1e-6)
+    assert at_conjunction == pytest.approx(0.832450, abs=1e-6)
+    assert at_conjunction > at_union
+
+    # And the direction is forced by the z quantile, not by these two figures.
+    assert NormalDist().inv_cdf(1 - per_test_alpha()) < NormalDist().inv_cdf(
+        1 - alpha_adj(2)
+    )
+    assert math.isclose(NormalDist().inv_cdf(0.95), 1.6448536269514722, rel_tol=1e-12)
 
 
 def test_the_registered_daily_sharpe_reproduces() -> None:

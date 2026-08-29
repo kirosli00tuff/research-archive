@@ -3007,3 +3007,101 @@ credential. It is 2026-09-12.**
 clean over 56 files, **385 tests passing**. **15 mutations, 0 harness failures.**
 **0 dollars spent**, `n = 979` requests charged by this pass. **Both latches
 absent. 0 systemd units loaded.**
+
+---
+
+## Entry 28 — the inference-repair operator prompt, logged verbatim before any other work
+
+**Recorded 2026-08-29T19:16:04Z.** Standing rule 1. At the moment this entry was written the
+tree was clean, `main` tracked `origin/main` at **0 ahead, 0 behind**, and the
+last commit on the remote was `c4ccb4e` — *"docs: A.2 TASK 7 — close-out, 5 ADRs,
+15 mutations, 0 harness failures"*.
+
+**Nothing was written, measured, requested or amended before this line.**
+
+The prompt as supplied, reproduced without alteration:
+
+    BEGIN PROMPT
+
+    ORBExperiment, Stage A.2 inference repair. Effort: high. Run autonomously. Commit at every task boundary and push to origin/main immediately after every commit. Never force-push, never amend or rewrite a pushed commit. Append-only rules govern every registration edit: supersede, never overwrite, leave the original visible.
+
+    Read first, for state and not for text: REGISTRATION.md Sections 1, 3, 5, 6, 8, 9, 10 and 14, reports/stage_a1amend/task5c_dispersion_e2.json and task6b_section0.json, Amendment 15, DECISIONS.md, and docs/HANDOVER.md.
+
+    Standing rules remain in force. This pass measures the ambiguous-trigger rate and recomputes power. It reads no outcome value outside the amended carve-out, arms nothing, spends nothing, and does not touch the Stage C or Stage D latches.
+
+    Context established by measurement and not to be re-derived: dispersion 2.029585 USD per share on the post-holdout carve-out. Trigger rate 0.982 against a registered assumption of 0.55. E2 power equalled E1 power to between 1e-05 and 1e-12 at every assumption because implied_mean divided by annual_sharpe is a constant 0.02884727, making E2 a linear rescale of E1. Amendment 15 recorded this as a falsified premise of Section 9.
+
+    STAGE A.-1 : TASK 0. Preconditions.
+
+    Confirm the tree is clean, main tracks origin/main, push dry-run succeeds, both latches remain unopened, and the systemd units remain inert. Record all five. Halt and report on any failure.
+
+    STAGE A.0 : TASK 1. Correct the multiplicity treatment.
+
+    Record the error before correcting it. Section 8 requires both co-primaries to pass and then applies alpha_adj equal to one minus 0.95 to the one-half power, which is 0.0253 per test. That correction addresses a union rule, where success is claimed if any component rejects. Section 8's rule is a conjunction. Under an intersection-union test each component may run at the full nominal level and the overall size remains at that level, per Berger 1982, because under the global null the probability that all components reject is bounded by the probability that any single one does. The registration therefore pays a multiplicity penalty it does not owe.
+
+    Amend Section 8. Each co-primary runs one-sided at alpha equal to 0.05. Record in the amendment that this is a correction of a statistical error and not a loosening of a standard, that the conjunction itself supplies the conservatism, and that the deflated Sharpe continues to carry the separate correction for the 8 registered parameterization trials, which is a different multiplicity and is unaffected.
+
+    Recompute and record E1 power at alpha 0.05, one-sided, at all three assumptions of 1.40, 2.81 and 0.70, on both 875 holdout sessions and 1,762 in-sample sessions, with the minimum sessions clearing 80 percent for each. Report each figure beside its 0.0253 predecessor in the same row so the change is legible.
+
+    Commit. Push.
+
+    STAGE A.0 : TASK 2. Replace E2 with a genuinely independent economic null.
+
+    E2 as written tests a rescale of E1's assumption and constrains nothing E1 does not already constrain. Replace it rather than repair it.
+
+    The amended E2 tests whether mean net PnL per trade remains above zero when every slippage leg is set to the pessimistic end of the band already registered in Section 6, being 0.040 on entry, 0.080 on a stop exit and 0.020 on a close exit, against the central 0.020, 0.040 and 0.010. The null is that the pessimistic-cost mean is at or below zero. One-sided, alpha 0.05, permutation on session labels with trades clustered by session date, the same clustering as E1.
+
+    This null is not derivable from E1. E1 asks whether an edge exists at central cost assumptions. E2 asks whether it survives the pessimistic end of a band this repository registered before any data existed. The per-trade dispersion no longer cancels, because the pessimistic shift is an absolute dollar quantity that must be compared against dispersion rather than a ratio that divides out. Record that the A.1 TASK 5 dispersion measurement becomes load-bearing under this amendment, having been inert under the old one.
+
+    Record the rationale in the amendment, in plain words. The dominant failure mode across this program is cost absorbing a real directional edge, and the one independent replication of the sibling index strategy found gross edge of 0.070 USD per share dying at 0.022 USD per share of entry slippage. An inference design that cannot fail on cost is not testing the thing most likely to be true.
+
+    Commit. Push.
+
+    STAGE A.1 : TASK 3. Measure the stop-hit mix and the ambiguous rate on the amended carve-out.
+
+    Both figures are currently assumptions and both are needed to compute the pessimistic shift. Run inside the sealed writer on post-holdout sessions strictly after 2026-06-30 under the amended two-sided carve-out.
+
+    The writer emits exactly four scalars and nothing else: the share of triggered trades exiting on the stop rather than at the close, the ambiguous rate being the share of name-sessions where both the range high and the range low are crossed inside the same one-minute bar, the resulting mean pessimistic-minus-central shift in USD per share, and the session count used. It returns no trade, no return series, no per-name figure and no bar value to any caller. Extend the existing return-type pin and add a mutation making it return a trade list, which must fail.
+
+    The ambiguous rate matters beyond the cost arithmetic. Section 2 excludes ambiguous sessions, and at a trigger rate of 0.982 the excluded share may be material rather than negligible. Report it with its n. If the excluded share exceeds 10 percent, record that the registered exclusion removes a non-trivial part of the sample and flag it as a candidate scope limitation for operator decision. Do not change the exclusion rule.
+
+    Record every measured figure against the assumption it replaces, in the same sentence with its n, in the falsified-planning-figure shape. Commit. Push.
+
+    STAGE A.1 : TASK 4. Compute E2 power and the joint power under conjunction.
+
+    Using the measured shift from TASK 3 and the measured dispersion of 2.029585, compute the pessimistic-cost mean implied by each of the three Sharpe assumptions and report E2 power at alpha 0.05 one-sided for each, on 875 and on 1,762 sessions, with minimum sessions clearing 80 percent.
+
+    Then compute joint power, being the probability both components reject, and report it as the operative figure for the Section 10 latch. State explicitly that joint power under a conjunction is bounded above by the smaller component power, so the latch condition is joint power and not either component alone. Amend Section 10 to say so if it currently reads as a per-component condition.
+
+    Report honestly whatever lands, including the case this pass exists to surface. If the measured shift exceeds the implied mean at the registered 1.40 assumption, the pessimistic-cost mean is negative, E2 power collapses toward zero, and joint power collapses with it. Record that outcome plainly as a measured property of the registered design rather than routing around it. Do not adjust the cost band, the effect assumption or the alpha to rescue the figure. Do not substitute a weaker E2. Present the operator with the numbers and the three routes: accept a narrower verdict scope conditional on central costs alone with E2 demoted to a named secondary, narrow the registered cost band on measured execution evidence which this repository does not yet hold, or close H1 as untestable-at-achievable-power under its own registered cost assumptions, which is a legitimate documented closure in the house record and the fourth closure kind already named in HYPOTHESES.md.
+
+    Commit. Push.
+
+    STAGE A.1 : TASK 5. Restate Section 1 to match the measured trigger rate.
+
+    At 0.982 the breakout condition is very nearly unconditional. Over roughly 385 remaining minutes price almost always trades outside a five-minute range, so the rule selects on almost nothing and the directional sign carries whatever information exists.
+
+    Amend Section 1 to state the claim in those terms: the hypothesis tests whether the sign of the first excursion past the opening five-minute range predicts the direction of the remainder of the session among names with elevated opening relative volume, net of modeled costs. Record that the earlier phrasing implied a selective breakout event and that measurement falsified the implication at n equal to the TASK 3 session count.
+
+    Add the consequence to Section 11. A positive result would be evidence about the informational content of the first directional excursion, and not evidence that a breakout event as commonly understood selects profitable sessions, because at the measured rate almost every name-session produces one. Leave the registered rule itself unchanged. The rule is what was registered and it stands.
+
+    Commit. Push.
+
+    STAGE A.2 : TASK 6. Re-fire Section 0.
+
+    Fire with the corrected alpha, the amended E2, the measured shift, the measured ambiguous rate and the joint power figure. The bar revision and cross-vendor agreement measurements remain absent and remain ineligible until 2026-09-12, so the expected landing is PENDING_REVISION again. Do not fire GO or DEGRADED.
+
+    Record whether the corrected alpha alone moves E1 across its 80 percent bar, and record separately whether joint power does. These are different questions and the verdict must not conflate them.
+
+    STAGE A.2 : TASK 7. Docs and close-out.
+
+    Add ADRs for the conjunction correction with the Berger citation, the economic E2 with its rationale, the Section 1 restatement, and the ambiguous-rate finding. Update the README what-is-measured-so-far table. Add a report.md section for this pass. Update docs/HANDOVER.md with the new state, the joint power figure, any new operator decision surfaced by TASK 4, and the unchanged 2026-09-12 re-pull date.
+
+    Re-run make lint, typecheck, test and the full mutation harness including the new return-type mutation. Evidence in reports/stage_a2repair.
+
+    progress.md entries per task with ETA against actual. Final commit. Push.
+
+    Print an end-state summary: the Section 0 verdict, E1 power at 0.05 against its 0.0253 predecessor at all three assumptions on both horizons, the measured stop-hit share, the measured ambiguous rate, the measured pessimistic shift, E2 power, joint power, the minimum sessions clearing 80 percent jointly, and every open operator item.
+
+    END PROMPT
+

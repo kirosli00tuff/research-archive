@@ -35,9 +35,42 @@ _NORMAL: Final[NormalDist] = NormalDist()
 
 
 def alpha_adj(n_co_primaries: int = CONFIG.n_co_primaries) -> float:
-    """``1 - 0.95 ** (1 / k)``. At k = 2 this is 0.02532057..."""
+    """``1 - 0.95 ** (1 / k)``. At k = 2 this is 0.02532057...
+
+    **SUPERSEDED by Amendment 18 as the per-co-primary level.** It is kept, and
+    kept correct, because it is already pushed and because every amended table
+    reports the new level **beside** it so the change is legible. **It is the
+    right correction for a union rule and the wrong one for Section 8's
+    conjunction.** Use :func:`per_test_alpha` for the co-primaries.
+    """
     adjusted: float = 1.0 - 0.95 ** (1.0 / n_co_primaries)
     return adjusted
+
+
+def per_test_alpha() -> float:
+    """The registered per-co-primary level, one-sided. **0.05.**
+
+    **Amendment 18.** Section 8 requires **both** co-primaries to pass, which is
+    an **intersection-union test**. Berger (1982) — *Multiparameter hypothesis
+    testing and acceptance sampling*, `Technometrics` 24(4), 295-300 — shows that
+    an IUT whose components each run at level ``a`` has overall size **at most**
+    ``a``: under the global null the event that **all** components reject is
+    contained in the event that **any one** does, so no multiplicity correction
+    is owed.
+
+    **This is a correction, not a loosening.** The conjunction itself supplies
+    the conservatism: requiring two independent-ish tests to clear 0.05 is
+    stricter than requiring one to clear 0.05, and the size of the combined
+    procedure is what a reader is entitled to know. **Applying a union
+    correction to an intersection rule made the registered design harder than it
+    claimed to be, in a direction nobody had chosen.**
+
+    **The deflated Sharpe keeps its own, separate correction** for the **8
+    registered parameterization trials** (four range lengths crossed with two
+    entry rules). That is a **different multiplicity** — the number of ways the
+    rule could have been specified — and Amendment 18 does not touch it.
+    """
+    return CONFIG.per_test_alpha
 
 
 # --- Sharpe and its deflation ---------------------------------------------
