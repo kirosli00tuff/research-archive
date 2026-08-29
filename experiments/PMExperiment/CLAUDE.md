@@ -1,7 +1,7 @@
 # CLAUDE.md — operating rules for PMExperiment
 
-Read `README.md`, `REGISTRATION.md`, `DECISIONS.md` and `progress.md` before
-doing anything in this repository.
+Read `README.md`, `REGISTRATION.md`, `HYPOTHESES.md`, `DECISIONS.md`,
+`progress.md` and `report.md` before doing anything in this repository.
 
 ## What this project is
 
@@ -14,31 +14,39 @@ settlement history are public and are read without an account.
 
 **A documented negative is a valid and expected outcome. So is BLOCKED.**
 
-## Standing rules
+## Standing rules, in force for every task
 
-1. **Every prompt states a measured ETA per task**, derived from probes or from
-   comparable measured work, before the work starts.
-2. **Pre-register before results.** Section 0 is committed before the first
-   request. Registered values change only by a numbered amendment in Section 17
-   carrying its own evidence. Nothing edits in place.
-3. **No first moment before the gate.** No statistic relating a price to an
-   outcome is computed until the power gate has fired. The gate reads counts
-   and dispersion only.
-4. **Measured behaviour beats documentation.** Probe and measure. Record the
-   figure and its date. A documented rate limit is a claim, not a measurement.
-5. **Refusals fail closed.** A source that cannot be read is reported as
-   unavailable, never as empty. Absent data is not measured absence.
-6. **Report on access rather than pretending to report on the hypothesis.** If
-   the data cannot be reached, Section 0 says so and the stage ends there, as a
-   valid outcome.
-7. **Union time intervals before summing.** Never trust append order across
-   processes.
-8. **A gate that has never failed is not a gate.** Every guard carries a test
-   that fails when the guard is removed.
+1. **Log the operator prompt verbatim to `progress.md` before any other work.**
+   Entry 0 exists before the first request.
+2. **State an ETA before arming each task. Record actual against it** in the
+   entry that reports the task.
+3. **Commit at every task boundary. Push to `origin/main`** after each stage.
+4. **Measured beats documented.** Verify every external figure live. A
+   documented rate limit is a claim, not a measurement.
+5. **Absence is a recorded state, never a synthesized value.** A source that
+   cannot be read is reported unavailable, never as empty.
+6. **Ledgers are append-only and fsynced.** A truncated line is reported, not
+   repaired.
+7. **Operational health and sample composition never merge.** Coverage and
+   filtering are separate reported quantities.
+8. **No first moment before the gate.** No statistic relating a price to an
+   outcome is computed until the power gate has fired. The gate reads bucket
+   counts and dispersion only.
 9. **Do not tune a filter to increase a sample.** Register it, then report what
-   it yields.
-10. **Ambiguity is a first-class category.** A contract that cannot be
-    unambiguously classified is counted as ambiguous and attributed to nothing.
+   it yields. The sample it costs is a first-class output.
+10. **Union time intervals before summing.** Never trust append order across
+    processes.
+11. **Spend nothing** without an explicit operator instruction. Stage A is
+    zero-cost by design; every source is a keyless public endpoint.
+12. **Terms of service bind.** Record `robots.txt` and the published terms
+    before any repeated fetch, and report what they permit.
+13. **Every figure travels with its n in the same sentence.**
+14. **A gate that has never failed is not a gate.** Every guard carries a test
+    that fails when the guard is removed, verified by mutation.
+15. **Ambiguity is a first-class category.** A contract that cannot be
+    unambiguously classified is counted ambiguous and attributed to nothing.
+16. **Report on access rather than pretending to report on the hypothesis.** If
+    the data cannot be reached, Section 0 says so and the stage ends there.
 
 ## The precedent this repository is built on
 
@@ -52,13 +60,13 @@ InsiderExperiment registered its power gate in Section 0 explicitly because of
 that, and fired **BLOCKED at 49.35 bp before spending**.
 
 **Follow Insider.** Compute the minimum detectable effect from dispersion and
-sample size alone, commit the gate before the measurement it judges, and treat
-BLOCKED as cheap and legitimate.
+bucket counts alone, commit the gate before the measurement it judges, and
+treat BLOCKED as cheap and legitimate.
 
 ## Development
 
 - Python with `uv`, `ruff`, `mypy --strict`, `pytest`, `pre-commit`.
-- `make lint`, `make typecheck`, `make test` must be green before any push.
+- `make lint`, `make typecheck`, `make test` green before any push.
 - No credential-shaped string in any tracked file or anywhere in git history.
 - `.env` and `*.session` stay gitignored and untracked.
 

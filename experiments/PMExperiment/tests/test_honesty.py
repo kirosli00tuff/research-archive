@@ -81,3 +81,29 @@ def test_registration_is_not_yet_registered() -> None:
 def test_env_example_declares_no_credential() -> None:
     env = _read(".env.example")
     assert "=" not in env, "Stage A needs no credential; .env.example stays empty"
+
+
+def test_hypotheses_register_exists_with_h1_open() -> None:
+    h = _read("HYPOTHESES.md")
+    assert "H1 OPEN, not yet registered" in h
+    assert "Closed before opening" in h
+
+
+def test_registration_carries_the_house_section_set() -> None:
+    """Sections 0 through 17, with 17 reserved for amendments."""
+    reg = (ROOT / "REGISTRATION.md").read_text(encoding="utf-8")
+    for n in range(18):
+        assert f"## {n}. " in reg, f"REGISTRATION.md is missing section {n}"
+    assert "## 17. Amendments" in reg
+
+
+def test_progress_reserves_entry_zero_for_the_operator_prompt() -> None:
+    p = _read("progress.md")
+    assert "Entry 0 is reserved" in p
+    assert "logged verbatim before any other work" in p
+
+
+def test_report_claims_nothing_yet() -> None:
+    r = _read("report.md")
+    assert "No stage has run" in r
+    assert "Nothing is claimed here" in r

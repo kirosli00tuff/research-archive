@@ -1,4 +1,4 @@
-# Binding registration — PMExperiment
+# REGISTRATION.md — the pre-registration
 
 **NOT YET REGISTERED. This file is a scaffold.**
 
@@ -12,7 +12,7 @@ assumption is labelled as one, with its direction of bias named.
 
 ---
 
-## Section 0. The gates
+## 0. The gates
 
 *To be written in Stage A Task 0, before any request.*
 
@@ -57,7 +57,7 @@ it is a result rather than a failure.
 
 ---
 
-## Section 1. Universe and the permitted subset
+## 1. Universe and the permitted subset
 
 *To be registered before any outcome is read.*
 
@@ -74,7 +74,7 @@ sample.** The sample it costs is a first-class output.
 
 ---
 
-## Section 2. The cost model
+## 2. The cost model
 
 *To be registered in full before anything is measured.*
 
@@ -84,7 +84,7 @@ an assumption** with its direction of bias named.
 
 ---
 
-## Section 3. The effect band under test
+## 3. The effect band under test
 
 *To be registered.* The published favourite-longshot magnitudes this design is
 powered against, cited to source, so the minimum detectable effect is judged
@@ -92,7 +92,7 @@ against a number fixed in advance.
 
 ---
 
-## Section 4. What is never computed before the gate
+## 4. What is never computed before the gate
 
 No calibration curve. No realized return by price bucket. No contract-level
 outcome join. No statistic of any kind relating a price to a resolution.
@@ -101,7 +101,95 @@ The gate reads bucket counts and dispersion. Nothing else.
 
 ---
 
-## Section 17. Amendments
+## 5. Retrieval method and its measured properties
+
+*To be registered.* How resolved contracts are enumerated, at what measured
+rate, and how deep the public history reaches. Measured, never assumed.
+
+---
+
+## 6. Ambiguity and classification
+
+*To be registered.* The rule that assigns a contract to a category, and the
+handling of any contract it cannot assign. Ambiguous is a first-class counted
+class, attributed to nothing.
+
+---
+
+## 7. Coverage
+
+*To be registered.* Enumeration coverage and resolution coverage are separate
+reported quantities, each with its direction of bias named.
+
+---
+
+## 8. Inference
+
+*To be registered after the gate fires.* The estimator, the interval
+construction, the clustering unit, and the trial grid with its multiplicity
+correction. Nothing here is computed before Section 0's gate.
+
+---
+
+## 9. Power method and the registered effect assumption
+
+*To be registered in Task 0, before any request.* The minimum detectable effect
+is built from a dispersion and a bucket count and from nothing else. The effect
+band it is judged against is fixed here, cited to source, before it is measured
+against.
+
+---
+
+## 10. Outcome blindness
+
+*To be registered.* What may be read before the gate, and what may not. No
+calibration curve, no realized return by price bucket, no contract-level
+outcome join.
+
+---
+
+## 11. Costs
+
+*To be registered.* Reproduced here from Section 2 in the form the inference
+consumes, so a cost cannot be chosen after a result is seen.
+
+---
+
+## 12. Reserved
+
+*Unfilled.*
+
+---
+
+## 13. The operator prior
+
+*To be filled by the operator before the gate fires, and recorded with the date
+it was given.* Registered so the verdict reads against a stated expectation
+rather than a remembered one.
+
+---
+
+## 14. Reproducibility
+
+*To be registered.* What must be regenerable from immutable stored data, and
+what state a rerun is permitted to depend on.
+
+---
+
+## 15. Results
+
+*Written only after the gate fires. Empty until then.*
+
+---
+
+## 16. Closure conditions
+
+*To be registered.* What closes H1, what leaves it unresolved, and what would
+reopen it. Written before the read, never after.
+
+---
+
+## 17. Amendments
 
 Amendments append here, numbered, each carrying its own evidence and the date
 it was made. Nothing above this line is edited after Section 0 is committed.

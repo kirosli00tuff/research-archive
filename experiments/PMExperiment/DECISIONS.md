@@ -58,3 +58,24 @@ separately.
 **Consequence:** if the unrestricted universe clears and the permitted subset
 is BLOCKED, the registered reading is "the mispricing may be real and not
 reachable from Canada." That is reported as a result.
+
+---
+
+## ADR-005. The document set follows ORBExperiment, the current house shape
+
+**Status:** accepted, 2026-08-29.
+
+The scaffold was first written with five markdown files, `## Section N`
+registration headers, and a progress log in stage-entry form. That diverged
+from ORBExperiment, which opened the same day and is the current shape:
+seven binding documents, `## N.` registration headers numbered 0 through 17
+with 17 reserved for amendments, a `HYPOTHESES.md` register, a `report.md`
+written per stage and never revised, and a `progress.md` session log whose
+Entry 0 is the operator prompt logged verbatim before any other work.
+
+**Consequence:** the divergence is corrected before any measurement, so no
+record is rewritten later. `HYPOTHESES.md` and `report.md` are added, the
+registration is renumbered to the house shape with sections 5 through 16
+stubbed, `progress.md` becomes a session log with Entry 0 reserved, and
+CLAUDE.md carries sixteen numbered standing rules that later entries cite by
+number. Four tests pin the shape so it cannot drift back.
