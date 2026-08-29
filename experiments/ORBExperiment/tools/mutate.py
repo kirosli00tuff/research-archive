@@ -5,12 +5,14 @@ be **caught**, and the source is **restored green**. **Bytecode is purged before
 every run**: a harness that can report on absent source is worse than no
 harness, because it reports success from a stale `.pyc`.
 
-Two mutations are of a different kind and are marked `expect_green`: they
+Three mutations are of a different kind and are marked `expect_green`: they
 demonstrate a guard **failing to bind** rather than firing. Mutation 4 moves a
 boundary fixture off the registered boundary *and* moves the threshold with it,
 and the suite goes green — which is the InsiderExperiment lesson made visible.
-Mutation 1 deletes the blindness pin and shows a priced-bar read becoming
-reachable with the suite still green.
+**Mutation 13 does the same to the post-holdout edge registered by Amendment
+11**, so the second half of the two-sided carve-out is held to the same standard
+as the first. Mutation 1 deletes the blindness pin and shows a priced-bar read
+becoming reachable with the suite still green.
 """
 
 from __future__ import annotations
@@ -111,6 +113,12 @@ MUTATIONS: tuple[Mutation, ...] = (
                 "def _disabled_gate_after() -> None:  # MUTATION 4",
             ),
             (
+                "tests/test_preperiod.py",
+                "def test_the_sealed_window_between_the_two_edges_is_refused_throughout"
+                "() -> None:",
+                "def _disabled_sealed_window_sweep() -> None:  # MUTATION 4",
+            ),
+            (
                 "tests/test_dark.py",
                 "def test_a_pre_period_bar_must_actually_be_pre_period() -> None:",
                 "def _disabled_bar_provenance_boundary() -> None:  # MUTATION 4",
@@ -149,7 +157,7 @@ MUTATIONS: tuple[Mutation, ...] = (
         (
             (
                 "src/orb/preperiod.py",
-                "    if not is_pre_period(timestamp_ms):",
+                "    if not is_carve_out(timestamp_ms):",
                 "    if False:  # MUTATION 6",
             ),
         ),
@@ -236,6 +244,38 @@ MUTATIONS: tuple[Mutation, ...] = (
                 '        """SAME_TAPE inside [0.90, 1.10]; DIFFERENT_TAPE below 0.50; else AMBIGUOUS."""\n        return TapeVerdict.SAME_TAPE  # MUTATION 12\n        if (',
             ),
         ),
+    ),
+    Mutation(
+        13,
+        "move the post-holdout boundary fixture off its registered edge",
+        "the second half of the two-sided carve-out stops being pinned and the "
+        "sealed window can creep backwards into the holdout",
+        (
+            (
+                "tests/test_preperiod.py",
+                "LAST_MS_OF_HOLDOUT = POST_MS - 1",
+                "LAST_MS_OF_HOLDOUT = POST_MS - 172_800_000  # MUTATION 13",
+            ),
+            (
+                "tests/test_preperiod.py",
+                "def test_the_post_holdout_boundary_is_eastern_midnight_not_utc_"
+                "midnight() -> None:",
+                "def _disabled_eastern_midnight() -> None:  # MUTATION 13",
+            ),
+            (
+                "tests/test_preperiod.py",
+                "def test_the_sealed_window_between_the_two_edges_is_refused_"
+                "throughout() -> None:",
+                "def _disabled_sealed_window_sweep_13() -> None:  # MUTATION 13",
+            ),
+            (
+                "src/orb/preperiod.py",
+                "    return timestamp_ms >= CONFIG.post_holdout_start_ms",
+                "    return timestamp_ms >= CONFIG.post_holdout_start_ms "
+                "- 86_400_000  # MUTATION 13",
+            ),
+        ),
+        expect_green=True,
     ),
 )
 
@@ -324,7 +364,7 @@ def main() -> int:
         "# A.4 TASK 2 — the mutation harness\n\n"
         f"**Run 2026-08-29. n = {len(MUTATIONS)} mutations applied to real source, "
         "each restored green afterwards. Bytecode is purged before every run.**\n\n"
-        "Two mutations are of a different kind and are marked *GUARD STOPPED "
+        "Three mutations are of a different kind and are marked *GUARD STOPPED "
         "BINDING*: the point is to show a guard **failing to catch** something, "
         "which is how a boundary fixture placed comfortably inside its boundary "
         "goes unnoticed.\n\n"

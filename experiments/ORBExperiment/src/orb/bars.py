@@ -7,15 +7,25 @@ every value that enters it carries a :class:`Provenance` saying where it came
 from. `orb.signal` and `orb.universe` refuse a bar whose provenance is a live
 vendor read until the Stage C latch exists.
 
-The three provenances, and why the split is the whole safety property:
+The four provenances, and why the split is the whole safety property:
 
 - ``SYNTHETIC_FIXTURE`` — constructed in a test with a known answer. Always
   readable; it is not data about the world.
 - ``PRE_PERIOD`` — a real bar stamped **strictly before**
   2016-01-04T14:30:00.000Z. Readable under the registered carve-out, and gated
   by `orb.preperiod` so the boundary is enforced rather than asserted.
+- ``POST_HOLDOUT`` — a real bar stamped **at or after** 2026-07-01T04:00:00.000Z
+  (2026-07-01T00:00:00.000 US Eastern, EDT, UTC-04:00). Readable under the
+  **second half** of the carve-out, registered by **Amendment 11** after
+  measurement established that no credential serves the first half. Gated by
+  `orb.preperiod` on the same terms.
 - ``SEALED_VENDOR`` — a real bar inside the registered windows. **Refused
   everywhere until the Stage C latch is written.**
+
+**Adding ``POST_HOLDOUT`` does not widen what may be read; it names a region the
+amended carve-out already permits.** The provenance exists so that a bar's
+readability is a **field on the bar**, checked at construction, rather than a
+property a caller remembers to assert.
 """
 
 from __future__ import annotations
@@ -24,13 +34,14 @@ from dataclasses import dataclass
 from enum import StrEnum, unique
 from typing import final
 
-from orb.preperiod import is_pre_period
+from orb.preperiod import is_post_holdout, is_pre_period
 
 
 @unique
 class Provenance(StrEnum):
     SYNTHETIC_FIXTURE = "synthetic_fixture"
     PRE_PERIOD = "pre_period"
+    POST_HOLDOUT = "post_holdout"
     SEALED_VENDOR = "sealed_vendor"
 
 
@@ -66,6 +77,13 @@ class Bar:
             raise ValueError(
                 f"bar stamped {self.timestamp_ms} claims PRE_PERIOD provenance but "
                 "sits at or after the carve-out boundary"
+            )
+        if self.provenance is Provenance.POST_HOLDOUT and not is_post_holdout(
+            self.timestamp_ms
+        ):
+            raise ValueError(
+                f"bar stamped {self.timestamp_ms} claims POST_HOLDOUT provenance "
+                "but sits before the post-holdout carve-out boundary"
             )
 
 

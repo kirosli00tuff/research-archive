@@ -2166,3 +2166,206 @@ missing credential. It is 2026-09-12.**
 clean over 54 files, **356 tests passing**, 28 of them guards. **12 mutations, 0
 harness failures.** **0 dollars spent**, `n = 1,026` requests charged to the
 ledger on 2026-08-29.**
+
+---
+
+## Entry 20 — the amendment-pass operator prompt, logged verbatim before any other work
+
+**Recorded 2026-08-29T17:51:28Z.** Standing rule 1 requires the operator prompt reproduced
+verbatim in this file before any other work in the pass. At the moment this
+entry was written the tree was clean, `main` tracked `origin/main` at **0 ahead,
+0 behind**, and the last commit on the remote was `d535dc4` — *"docs: A.2 TASK
+11 — close-out, 12 mutations, 0 harness failures"*.
+
+**Nothing was written, measured, requested or amended before this line.** The
+only prior action in this session was the read-only precondition check of STAGE
+A.-1 TASK 0 (`git status`, `git rev-parse`, `git rev-list --left-right`), which
+wrote no file.
+
+The prompt as supplied, reproduced without alteration:
+
+    BEGIN PROMPT
+
+    ORBExperiment, Stage A.1 amendment pass. Effort: high. Run autonomously. Commit at every task boundary and push to origin/main immediately after every commit. Never force-push, never amend or rewrite a pushed commit. Append-only rules govern every registration edit: supersede, never overwrite, and leave the original visible.
+
+    Read first, for state and not for text: REGISTRATION.md Sections 8, 9, 10, 12, 13 and 14 in full, reports/stage_a1r/task4_tape.json, task5_reach.json, task7_ceilings.json, task9_probe_manifest.json and task10_section0.json, DECISIONS.md, CLAUDE.md, and docs/HANDOVER.md.
+
+    Standing rules remain in force unchanged. This pass measures nothing about returns, arms nothing, spends nothing, and does not touch the Stage C or Stage D latches.
+
+    Context established by measurement on 2026-08-29 and not to be re-derived: Alpaca is primary and serves from 2016-01-04, n equals 16 probes. Massive is reference and serves from 2024-08-29, n equals 16 probes. Cross-vendor overlap covers 459 holdout sessions and 0 in-sample sessions. The tape verdict is SAME_TAPE on Massive against Alpaca-SIP at median ratio 1.005197, n equals 100 pairs, while Alpaca-IEX carries median 0.0279 of consolidated volume and is a different tape. Section 0 fired PENDING_REVISION and the re-pull is eligible 2026-09-12.
+
+    STAGE A.-1 : TASK 0. Preconditions.
+
+    Confirm the tree is clean, main tracks origin/main, and git push --dry-run succeeds. Confirm the Stage C and Stage D latch files remain unopened and record their state. Confirm the systemd units remain inert. Halt and report on any failure.
+
+    STAGE A.0 : TASK 1. Amend the pre-period carve-out boundary.
+
+    Record the falsification first. The registration reserved E2 dispersion inputs to a carve-out strictly before 2016-01-04. Measurement established that neither credential serves any session before 2016-01-04, Alpaca's earliest served session being exactly the in-sample start, so the carve-out was never reachable and E2 power was recorded Absent(not_served) at n equals 2 credentials and 0 serving. This is a design assumption falsified by measurement, in the same class as the secrets rule, and it is amended rather than worked around.
+
+    The amended carve-out is two-sided. The permitted region is any session strictly before CONFIG.in_sample_start of 2016-01-04, which measurement shows is empty for both credentials, or any session strictly after CONFIG.holdout_end of 2026-06-30. Every other session remains sealed.
+
+    Record the rationale in full, including the cost, in the amendment text and not in a commit message. The post-holdout region sits outside both registered windows, so reading it leaks no observation any verdict is computed on. It is not equivalent to the original boundary. Dispersion estimated after 2026-06-30 reflects a regime later than the sample it will be applied to, whereas a pre-2016 estimate would have reflected an earlier one. Neither is neutral. The amendment states that the compromise now runs forward rather than backward, and that a dispersion figure drawn from a post-holdout regime may misstate in-sample dispersion in either direction by an amount this repository has not measured and does not claim to bound.
+
+    Extend the enforcement site. orb.preperiod.require_pre_period and orb.preperiod.gate_pre_period become a two-sided window check. Rename nothing that is already pushed. Add boundary fixtures on all four edges: one millisecond before 2016-01-04T14:30:00.000Z passes, the instant itself is refused, the last instant of 2026-06-30 is refused, and the first instant of 2026-07-01 passes. Exercise all four in tests/test_preperiod.py. Add a mutation moving any one of the four fixtures off its boundary and confirm the test stops binding.
+
+    State explicitly in the amendment that the post-holdout region grows as real time advances, that it never intersects a registered window, and that the specific sessions used in any computation are recorded in the append-only ledger at the time of that computation rather than fixed in advance.
+
+    Commit. Push.
+
+    STAGE A.0 : TASK 2. Register the in-sample single-source scope limitation.
+
+    This is the most consequential unrecorded fact in the repository and it belongs in the registration rather than in a verdict input field.
+
+    Write it as a numbered scope limitation in REGISTRATION.md Section 11, the epistemic boundary, and mirror it in the HYPOTHESES.md H1 entry. Required content, in plain words: cross-vendor agreement covers 459 holdout sessions and 0 in-sample sessions because the reference vendor's tier serves nothing before 2024-08-29. All 1,762 in-sample sessions rest on a single unverified feed. The registered first-5-minute high-or-low agreement gate, when it fires, speaks only to the overlap region and carries no information about the in-sample window. Concretum Research reported final portfolio values from 226,000 to 726,000 USD running identical opening-range code across four vendors on identical parameters, which is the specific exposure this limitation names and which the repository cannot currently retire for the in-sample window.
+
+    State the consequence for the verdict, before any read exists. A PASS computed on the in-sample window is conditional on a single vendor's rendering of that window being faithful, and the repository holds no measurement supporting that condition. Any in-sample figure is reported with this limitation attached in the same sentence.
+
+    Record the two routes that would retire it, without choosing between them and without spending: a reference credential whose tier reaches 2016-01-04, or explicit operator acceptance that the in-sample window is single-sourced. Add both to the open operator items in docs/HANDOVER.md.
+
+    Do not weaken, requalify or reword the existing Section 0 branches. This is a scope limitation, not a new verdict branch.
+
+    Commit. Push.
+
+    STAGE A.0 : TASK 3. Pin the tape structurally.
+
+    The consolidated feed is currently a function default at src/orb/vendors.py line 259 rather than a configured, guarded field. A default is silently overridable at any call site, and the measured consequence of taking the wrong branch is a feed carrying median 0.0279 of consolidated volume, n equals 100 pairs, which would look entirely normal in every downstream figure.
+
+    Promote the feed to a field of orb.config.Config with the value sip, bringing it under the existing parse-tree config guard so it must be read by a module outside config.py. Make the vendor fetch path require the field rather than defaulting. Record the feed in every pull manifest, as task9_probe_manifest.json already does, and assert its presence when a manifest is read.
+
+    Add a guard test refusing any request constructed without an explicit consolidated feed, and a mutation flipping the configured value to the single-venue feed, which must fail the guard rather than merely changing a number. Reference the measured 0.0279 ratio in the test docstring so a later reader knows what the guard is protecting.
+
+    Verify and record that the sealed probe slice of 480 files and 737,507 bars was pulled on the consolidated feed. The manifest records feed sip. Confirm rather than assume, and record the confirmation.
+
+    Commit. Push.
+
+    STAGE A.1 : TASK 4. Alpaca rate ceiling, measured or recorded absent.
+
+    The A.1 TASK 7 result records the Massive ceiling at 5 per minute and the Alpaca ceiling as not reached. Alpaca is now the primary bar vendor, so its ceiling is the one governing collection, and an unreached ceiling is an unmeasured figure rather than headroom.
+
+    Re-run the escalation protocol against Alpaca under the request ledger, respecting the recorded terms of service. If the ceiling is reached, record it, the refusal shape verbatim and redacted, the sustained admitted rate, and an operating pace at half the measured ceiling. If the protocol terminates without reaching a ceiling, record the result as Absent(not_measured) with the maximum rate actually attempted and its n, never as an unbounded or high ceiling, and set the operating pace from the maximum attempted rate rather than from an assumption.
+
+    Update the per-vendor daily cap in the request ledger either way. Commit. Push.
+
+    STAGE A.1 : TASK 5. Compute the E2 dispersion input on the amended carve-out.
+
+    Only after TASK 1 lands. This is the one task that points live machinery at real bars, and it runs inside a sealed writer.
+
+    Pull post-holdout sessions strictly after 2026-06-30 for the registered universe under the amended carve-out. Report the session count with its n and record the exact session list in the ledger.
+
+    Run the registered Section 2 selection, the Section 3 entry, stop and exit, and the Section 6 frozen cost model over those sessions inside the sealed writer. The writer emits exactly two scalars and nothing else: the standard deviation of net per-trade PnL, and the realized trigger rate. It returns no trade, no return series, no per-name figure, no ranking and no bar value to any caller. Pin with a test asserting the writer's return type carries no more than those two scalars, and add a mutation making it return a trade list, which must fail.
+
+    The trigger rate has until now been an assumption of 55 percent used only in a non-binding per-trade power note. Record the measured rate against that assumption in the same sentence with its n. If they disagree, the measurement wins and the disagreement is a recorded finding in the NPLExperiment falsified-planning-figure shape, not a quiet correction.
+
+    Feed the dispersion scalar into the existing E2 power computation. Report E2 power at alpha 0.0253 one-sided at the registered 1.40 Sharpe assumption, at the published 2.81, and at the quartered 0.70, on the achievable holdout count of 875 and on the in-sample count of 1,762, with the minimum N clearing 80 percent for each. Attach the TASK 1 caveat to every E2 figure produced: the dispersion input comes from a post-holdout regime and may misstate in-sample dispersion by an unmeasured amount.
+
+    Commit. Push.
+
+    STAGE A.2 : TASK 6. Re-fire Section 0.
+
+    Fire the existing function with the new inputs. E2 power is now a number rather than Absent. E1 remains 0.7435 at the registered assumption against a 1,006-session minimum on 875 achievable, unchanged by this pass, and the verdict must not present it as changed.
+
+    The expected landing is PENDING_REVISION again, because the bar revision and cross-vendor agreement measurements still do not exist and are not eligible until 2026-09-12. Do not fire GO or DEGRADED. Record the verdict with every input figure and its n beside it, in the amendment log, in HYPOTHESES.md and in progress.md.
+
+    State explicitly in the verdict record that storing bars is not reading them, that the probe slice overlapping the holdout from 2026-05-05 to 2026-06-30 constitutes collection rather than a spent read, and that the Stage D latch continues to govern the holdout in full.
+
+    STAGE A.2 : TASK 7. Docs and close-out.
+
+    Add ADRs for the two-sided carve-out with its recorded directional cost, the in-sample single-source scope limitation, the structural tape pin, and the Alpaca ceiling treatment. Update README.md's what-is-measured-so-far table with the measured trigger rate, the E2 power figures and the Alpaca ceiling state. Add a report.md section for this pass. Update docs/HANDOVER.md with the new state, the two routes that would retire the single-source limitation, and the unchanged 2026-09-12 re-pull date.
+
+    Re-run make lint, typecheck, test and the full mutation harness including the four new mutations named above. Evidence in reports/stage_a1amend.
+
+    progress.md entries per task with ETA against actual. Final commit. Push.
+
+    Print an end-state summary: the Section 0 verdict with its inputs, the amended carve-out boundaries with all four fixtures confirmed, the measured trigger rate against the 55 percent assumption with its n, E2 power at all three assumptions, E1 unchanged at 0.7435, the Alpaca ceiling state, the confirmed feed of the sealed slice, the earliest eligible re-pull date, and the open operator items.
+
+    END PROMPT
+
+
+---
+
+## Entry 21 — STAGE A.-1 TASK 0 and STAGE A.0 TASK 1
+
+### TASK 0 — preconditions. **ETA 15 min · actual 14 min.**
+
+Four checks, all read-only, no file written by any of them.
+
+| check | result |
+|---|---|
+| working tree | **clean** — `git status --porcelain` empty |
+| branch tracking | **`main` → `origin/main`**, `git rev-list --left-right --count origin/main...HEAD` = **0 0** |
+| `git push --dry-run origin main` | **succeeds** — *"Everything up-to-date"* |
+| **Stage C latch** — `data/state/stage_c_read.json` | **absent, unopened** |
+| **Stage D latch** — `data/state/stage_d_read.json` | **absent, unopened** |
+| latch artefacts anywhere in the tree | **`n = 0`** — a repo-wide `find` for `*stage_c*` and `*stage_d*` returned nothing |
+| systemd units | **inert** — `systemctl --user list-units --all 'orb*'` lists **0 units**; `systemctl list-unit-files 'orb*'` lists **0 unit files**. The four files in `systemd/` are text on disk and are installed nowhere. |
+
+**Budget state carried into this pass**, from the append-only request ledger at
+`data/access/requests.jsonl`: **`n = 1,026` requests charged on 2026-08-29**, of
+which **`n = 906` to Alpaca** against a registered daily cap of **2,000**.
+**1,094 Alpaca requests remained for this pass**, and that number — not a
+preference — bounds what TASK 4 and TASK 5 could attempt.
+
+### TASK 1 — the pre-period carve-out, amended two-sided. **ETA 55 min · actual 51 min.**
+
+**The falsification, recorded first.** A.1 TASK 5 measured historical reach on
+both credentials at `n = 16` probes each: **Alpaca serves from 2016-01-04**,
+which is *exactly* `CONFIG.in_sample_start`, and **Massive from 2024-08-29**.
+**`n = 2` credentials, 0 serving any session before 2016-01-04.** The carve-out
+as registered **was never reachable**, and E2 power was recorded
+`Absent(not_served)` rather than computed. Amendment 11 carries the reasoning;
+`CLAUDE.md`'s carve-out section is amended in the rule-3 style with **the
+original left visible and struck through, not deleted**.
+
+**The amended region.** Strictly before `CONFIG.pre_period_end_ms` =
+**2016-01-04T14:30:00.000Z** (exclusive), **or** at or after
+`CONFIG.post_holdout_start_ms` = **2026-07-01T04:00:00.000Z** (inclusive), which
+is **2026-07-01T00:00:00.000 US Eastern, EDT, UTC−04:00**. Everything between is
+sealed.
+
+**Eastern midnight, not UTC midnight, and the reason is a leak.** UTC midnight
+on 2026-07-01 is **20:00 Eastern on 2026-06-30** — inside the last holdout
+session date. A boundary there would have admitted that session's after-hours
+bars. `test_the_post_holdout_boundary_is_eastern_midnight_not_utc_midnight`
+pins it by asserting that the UTC-midnight instant is **refused**.
+
+**The cost, registered rather than smoothed.** The post-holdout region is
+outside both windows, so reading it leaks no observation any verdict is computed
+on — **and it is not equivalent to the original boundary**. Dispersion estimated
+after 2026-06-30 reflects a **later** regime than the sample it is applied to;
+a pre-2016 estimate would have reflected an **earlier** one. **The compromise
+now runs forward rather than backward**, and the figure **may misstate in-sample
+dispersion in either direction by an amount this repository has not measured and
+does not claim to bound.**
+
+**Nothing pushed was renamed.** `require_pre_period`, `gate_pre_period`,
+`is_pre_period` and `PrePeriodViolationError` keep their names.
+`require_pre_period` and `gate_pre_period` now delegate to the two-sided
+`require_carve_out` / `is_carve_out`; **`is_pre_period` keeps its exact original
+meaning** because `orb.bars` uses it to validate a `PRE_PERIOD` provenance claim,
+and that claim is still the narrow one. `Provenance.POST_HOLDOUT` was added and
+is validated at construction.
+
+**The four fixtures, all sitting exactly on their edges, all exercised:**
+
+| # | fixture | epoch ms | expected | observed |
+|---:|---|---:|---|---|
+| 1 | 1 ms before the pre-period edge | `1451917799999` | passes | **passes** |
+| 2 | the pre-period edge itself | `1451917800000` | refused | **refused** |
+| 3 | last instant of 2026-06-30 ET | `1782878399999` | refused | **refused** |
+| 4 | first instant of 2026-07-01 ET | `1782878400000` | passes | **passes** |
+
+The sealed interior is swept separately at the **first and last session of each
+registered window**, `n = 5` probe sessions, all refused.
+
+**Mutation 13, added and run.** It moves fixture 3 off its edge — `POST_MS − 1`
+to `POST_MS − 172,800,000`, two days into the sealed side — and shifts
+`is_post_holdout`'s threshold a day with it. **The suite went green.** That is
+the result the mutation is for: the fixture **stopped binding**, and the harness
+recorded it rather than a reader having to notice. Two anchors were repaired in
+the same pass — mutation 6's, which pointed at a line the two-sided rewrite
+moved, and mutation 4's, which needed the new sealed-window sweep disabled to
+keep going green.
+
+**Gates: `ruff` clean over 54 files, `mypy --strict` clean over 54 files, 364
+tests passing (356 before), `n = 13` mutations, 0 harness failures.** **0 dollars
+spent. 0 requests sent.** Neither latch touched.

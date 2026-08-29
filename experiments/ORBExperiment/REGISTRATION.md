@@ -1826,3 +1826,181 @@ it one, so a future run cannot record a verdict this repository does not hold.
 the `source-integrity-blocked` closure kind: that requires a vendor whose bars
 were *measured* and found unstable, and **the measurement that could do that is
 fourteen days away.**
+
+---
+
+## Amendment 11 — the pre-period carve-out, falsified by measurement and amended two-sided
+
+**Date:** 2026-08-29 · **Status:** accepted · amends **Section 9, dispersion
+inputs**, and the carve-out stated in `CLAUDE.md`
+
+**What data existed when this amendment was made.** Everything measured on
+2026-08-29 and recorded in Amendments 6 through 10: two credentials
+authenticating, `n = 2`; measured historical reach on both, `n = 16` probes each
+— **Alpaca serves from 2016-01-04, Massive from 2024-08-29**; a tape verdict of
+`SAME_TAPE` at median ratio **1.005197**, `n = 100` pairs; delisted coverage
+`PASS` at **203** names, `n = 229`; a sealed probe slice of **480 files** and
+**737,507 bars**; and a Section 0 verdict of `PENDING_REVISION`. **No bar
+revision measurement and no cross-vendor agreement share existed, and neither is
+eligible before 2026-09-12.** **Zero dollars had been spent.** This amendment
+was written while holding all of that and **no** dispersion figure of any kind.
+
+### 1. The falsification, recorded before the remedy
+
+**The registration reserved the E2 dispersion input to a carve-out strictly
+before 2016-01-04.** Section 9 states it, `CLAUDE.md` states it, and
+`orb.preperiod` enforced it at one site with the boundary in one place
+(ADR-012).
+
+**Measurement falsified the assumption the reservation rested on.** A.1 TASK 5,
+2026-08-29, bisected historical reach on both credentials at `n = 16` probes
+each:
+
+| credential | earliest served session | sessions served before 2016-01-04 |
+|---|---|---:|
+| **Alpaca** | **2016-01-04** — *exactly* `CONFIG.in_sample_start` | **0** |
+| **Massive** | **2024-08-29** | **0** |
+| | | **`n = 2` credentials, 0 serving** |
+
+**The carve-out was never reachable.** E2 power was therefore recorded
+`Absent(not_served)` at Amendment 10 rather than computed, and it entered the
+Section 0 firing as an absence.
+
+**This is the NPLExperiment shape and the `CLAUDE.md` rule 3 shape together**: a
+planning assumption entered a registration, and measurement falsified it. It is
+**amended rather than worked around**, and the original text is left standing
+everywhere it appears so the correction is auditable.
+
+### 2. The amended carve-out, stated exactly
+
+**The permitted region is two-sided.** A bar is readable through the carve-out
+when **either** holds:
+
+1. its session is **strictly before** `CONFIG.in_sample_start` = **2016-01-04** —
+   enforced at the instant `CONFIG.pre_period_end_ms` =
+   **2016-01-04T14:30:00.000Z**, **exclusive**, which is 09:30:00 US Eastern
+   (EST, UTC−05:00) on that session. **Measurement shows this region is empty
+   for both credentials**; it is retained unweakened, not deleted.
+2. its session is **strictly after** `CONFIG.holdout_end` = **2026-06-30** —
+   enforced at the instant `CONFIG.post_holdout_start_ms` =
+   **2026-07-01T04:00:00.000Z**, **inclusive**, which is 00:00:00.000 US Eastern
+   (EDT, UTC−04:00) on 2026-07-01.
+
+**Every other session remains sealed**, including the whole of the in-sample
+window 2016-01-04 to 2022-12-30 and the whole of the holdout 2023-01-03 to
+2026-06-30.
+
+**Why the second boundary is Eastern midnight and not UTC midnight.** UTC
+midnight on 2026-07-01 is **20:00 Eastern on 2026-06-30**, which is inside the
+last holdout session date; a carve-out beginning there would admit that
+session's after-hours bars. Eastern midnight seals the whole of 2026-06-30.
+Standing rule 14 binds here: the registered windows are stated in session dates,
+and a session date is an Eastern date.
+
+### 3. The cost, stated in full, and not in a commit message
+
+**The post-holdout region sits outside both registered windows, so reading it
+leaks no observation any verdict is computed on.** That is the whole of what it
+has in common with the original boundary.
+
+**It is not equivalent to the original boundary, and this registration does not
+claim it is.** A dispersion figure estimated **after** 2026-06-30 reflects a
+regime **later** than the sample it will be applied to. A pre-2016 estimate
+would have reflected an **earlier** one. **Neither is neutral. The compromise
+now runs forward rather than backward.**
+
+**A dispersion figure drawn from a post-holdout regime may misstate in-sample
+dispersion in either direction by an amount this repository has not measured and
+does not claim to bound.** It is not asserted to be conservative, it is not
+asserted to be small, and no bound on it is registered here — because none was
+measured. **Every E2 figure produced from a post-holdout dispersion input
+carries this caveat attached in the same sentence.**
+
+**What this does to E2's meaning.** E2's power computation asks how large a
+sample is needed for a mean net per-trade PnL to clear zero at `alpha_adj`
+against a given per-trade dispersion. A dispersion input that is too small
+overstates power; one that is too large understates it. **The direction of the
+error is unknown here**, so the resulting power figure is a **point estimate
+with an unquantified regime bias**, and it is registered as such rather than as
+a measurement of the in-sample window's dispersion.
+
+### 4. The region moves, and what is recorded instead
+
+**The post-holdout region grows as real time advances.** It is defined by a
+fixed lower edge and an open upper end, so it is larger tomorrow than today.
+
+**It never intersects a registered window.** `CONFIG.holdout_end` is
+**2026-06-30** and is pinned; the lower edge sits after it; nothing the passage
+of time does can move the region backwards across it.
+
+**The specific sessions used in any computation are recorded in the append-only
+ledger at the time of that computation, and are not fixed in advance here.** A
+registration that named a session list today would be naming sessions that did
+not exist when the design was registered, which is a different and worse thing
+than recording what was actually read when it was read.
+
+### 5. The enforcement site, extended rather than replaced
+
+**`orb.preperiod.require_pre_period` and `orb.preperiod.gate_pre_period` are now
+two-sided window checks.** **Nothing already pushed is renamed**, per Section 14
+rule 1:
+
+- `require_pre_period` and `gate_pre_period` keep their names and now admit both
+  halves. `require_carve_out` and `is_carve_out` are added as the names that say
+  what the check now does; `require_pre_period` delegates to `require_carve_out`.
+- `is_pre_period` keeps its **exact original meaning** — strictly before the
+  2016 boundary — because `orb.bars` uses it to validate a bar claiming
+  `PRE_PERIOD` provenance, and that claim is still the narrow one.
+- `PrePeriodViolationError` keeps its name.
+- `orb.bars.Provenance` gains **`POST_HOLDOUT`**, validated at construction
+  against `is_post_holdout`. It **widens nothing**: it names a region the
+  amended carve-out already permits, so that readability is a field on the bar
+  rather than something a caller remembers to assert.
+
+**Both boundaries are held to the same two structural guards**, in
+`tests/test_guards.py`:
+
+- `test_no_module_outside_config_hardcodes_the_pre_period_boundary` — **neither**
+  literal is re-typed outside `config.py`;
+- `test_only_preperiod_reads_the_boundary_from_config` — **neither** is read
+  from config outside `preperiod.py`;
+- and a new third, `test_both_carve_out_edges_are_actually_read_by_preperiod`,
+  which fails if an edge stops being read by the one enforcement site. A second
+  boundary with weaker enforcement than the first would be the whole hole.
+
+### 6. The four boundary fixtures, all sitting exactly on their edges
+
+`tests/test_preperiod.py`, per the InsiderExperiment lesson that a fixture
+comfortably inside its boundary lets a moved threshold pass unnoticed:
+
+| # | fixture | instant | expected | test |
+|---:|---|---|---|---|
+| 1 | one millisecond **before** the pre-period edge | `1451917799999` = 2016-01-04T14:29:59.999Z | **passes** | `test_one_millisecond_before_the_boundary_passes` |
+| 2 | the pre-period edge **itself** | `1451917800000` = 2016-01-04T14:30:00.000Z | **refused** | `test_the_boundary_instant_itself_is_refused` |
+| 3 | the **last instant of 2026-06-30** | `1782878399999` = 2026-07-01T03:59:59.999Z = 2026-06-30T23:59:59.999 ET | **refused** | `test_the_last_instant_of_the_holdout_is_refused` |
+| 4 | the **first instant of 2026-07-01** | `1782878400000` = 2026-07-01T04:00:00.000Z = 2026-07-01T00:00:00.000 ET | **passes** | `test_the_first_instant_after_the_holdout_passes` |
+
+**All four are exercised, `n = 4` edges, and the sealed interior is swept
+separately** at the first and last session of each registered window by
+`test_the_sealed_window_between_the_two_edges_is_refused_throughout`.
+
+**Mutation 13 was added and run.** It moves fixture 3 off its edge — from
+`POST_MS − 1` to `POST_MS − 172,800,000`, two days inside the sealed side — and
+moves `is_post_holdout`'s threshold a day with it. **The suite goes green**,
+which is the point: the fixture stops binding, and the harness records that it
+stopped rather than the reader having to notice. `n = 13` mutations, **0 harness
+failures**, bytecode purged before every run.
+
+### 7. What this amendment does not do
+
+- **It does not open the Stage C or Stage D latch, and does not touch either.**
+  Both latch files remain absent; `data/state/` holds no `stage_c_read.json` and
+  no `stage_d_read.json`.
+- **It authorises no spend.** Zero dollars.
+- **It does not weaken, requalify or reword any Section 0 branch.**
+- **It does not change E1.** E1 remains **0.7435** at the registered 1.40 Sharpe
+  assumption on `n = 875` achievable holdout sessions, against a minimum
+  **1,006** for 80 percent power.
+- **It does not claim the post-holdout region is a good substitute for the
+  pre-period one.** It claims only that it is **outside both registered
+  windows**, which is the property that makes it readable at all.

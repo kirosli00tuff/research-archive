@@ -25,6 +25,17 @@ class Config:
     pre_period_end_ms: int
     """2016-01-04T14:30:00.000Z, exclusive. The pre-period carve-out boundary."""
 
+    post_holdout_start_ms: int
+    """2026-07-01T04:00:00.000Z — 2026-07-01T00:00:00.000 US Eastern (EDT,
+    UTC-04:00), **inclusive**. The lower edge of the post-holdout half of the
+    two-sided carve-out, registered by **Amendment 11**.
+
+    It sits at Eastern midnight rather than UTC midnight on purpose: UTC
+    midnight on 2026-07-01 is 20:00 Eastern on **2026-06-30**, which is inside
+    the last holdout session date, and a carve-out that begins there would
+    admit that session's after-hours bars. Eastern midnight seals the whole of
+    2026-06-30 and admits nothing before 2026-07-01."""
+
     in_sample_start: str
     """2016-01-04. First session of the in-sample window."""
 
@@ -183,6 +194,7 @@ class Config:
 
 CONFIG: Final[Config] = Config(
     pre_period_end_ms=1_451_917_800_000,
+    post_holdout_start_ms=1_782_878_400_000,
     in_sample_start="2016-01-04",
     in_sample_end="2022-12-30",
     holdout_start="2023-01-03",

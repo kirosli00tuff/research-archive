@@ -1,8 +1,8 @@
 # A.4 TASK 2 — the mutation harness
 
-**Run 2026-08-29. n = 12 mutations applied to real source, each restored green afterwards. Bytecode is purged before every run.**
+**Run 2026-08-29. n = 13 mutations applied to real source, each restored green afterwards. Bytecode is purged before every run.**
 
-Two mutations are of a different kind and are marked *GUARD STOPPED BINDING*: the point is to show a guard **failing to catch** something, which is how a boundary fixture placed comfortably inside its boundary goes unnoticed.
+Three mutations are of a different kind and are marked *GUARD STOPPED BINDING*: the point is to show a guard **failing to catch** something, which is how a boundary fixture placed comfortably inside its boundary goes unnoticed.
 
 | # | mutation | what it would have cost | expected | detected | suite |
 |---|---|---|---|---|---|
@@ -18,3 +18,4 @@ Two mutations are of a different kind and are marked *GUARD STOPPED BINDING*: th
 | 10 | allow a second read of a spent window | the hypothesis is voided and nothing says so | CAUGHT | yes | `FAILED tests/test_latch.py::test_a_second_read_of_the_same_window_is_refused` |
 | 11 | remove the secret redactor | a credential value reaches a sealed file, a ledger row and the console | CAUGHT | yes | `FAILED tests/test_guards.py::test_no_credential_value_reaches_a_recorded_string` |
 | 12 | force the tape verdict to SAME_TAPE | a single-venue feed is scored against the registered agreement bars and BLOCKED-4 fires on entitlement while recording it as integrity | CAUGHT | yes | `FAILED tests/test_tape.py::test_one_ulp_below_the_lower_same_tape_bar_is_ambiguous` |
+| 13 | move the post-holdout boundary fixture off its registered edge | the second half of the two-sided carve-out stops being pinned and the sealed window can creep backwards into the holdout | GUARD STOPPED BINDING | yes | `` |

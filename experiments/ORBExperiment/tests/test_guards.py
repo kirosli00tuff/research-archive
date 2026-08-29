@@ -315,31 +315,64 @@ def test_pending_enforcement_entries_name_a_task() -> None:
 # --------------------------------------------------------------------------
 
 
+CARVE_OUT_BOUNDARY_FIELDS: tuple[str, ...] = (
+    "pre_period_end_ms",
+    "post_holdout_start_ms",
+)
+"""Both edges of the two-sided carve-out, registered by **Amendment 11**.
+
+The second edge is guarded on exactly the same two terms as the first: the
+literal is typed in ``config.py`` and nowhere else, and it is read from config
+by ``preperiod.py`` and nowhere else. A second boundary with weaker enforcement
+than the first would be the whole hole.
+"""
+
+
 @pytest.mark.guard
 def test_no_module_outside_config_hardcodes_the_pre_period_boundary() -> None:
-    """The carve-out boundary is read from config, never re-typed."""
-    literal = CONFIG.pre_period_end_ms
+    """Neither carve-out boundary is re-typed outside config.py."""
+    literals = {getattr(CONFIG, name): name for name in CARVE_OUT_BOUNDARY_FIELDS}
     offenders: list[str] = []
     for path in _module_paths():
         if path.name == "config.py":
             continue
         for node in ast.walk(_parse(path)):
-            if isinstance(node, ast.Constant) and node.value == literal:
-                offenders.append(f"{path.name}:{node.lineno}")
+            if isinstance(node, ast.Constant) and node.value in literals:
+                offenders.append(
+                    f"{path.name}:{node.lineno} hardcodes {literals[node.value]}"
+                )
     assert not offenders, (
-        f"pre-period boundary literal {literal} hardcoded outside config.py: "
-        f"{offenders}"
+        f"a carve-out boundary literal is hardcoded outside config.py: {offenders}"
     )
 
 
 @pytest.mark.guard
 def test_only_preperiod_reads_the_boundary_from_config() -> None:
-    """One enforcement site, so there is one place to audit."""
-    readers = _config_field_reads().get("pre_period_end_ms", [])
-    modules = {r.split(":")[0] for r in readers}
-    assert modules <= {"preperiod.py"}, (
-        f"pre_period_end_ms must be read only by preperiod.py, found: {modules}"
-    )
+    """One enforcement site per edge, so there is one place to audit."""
+    reads = _config_field_reads()
+    for name in CARVE_OUT_BOUNDARY_FIELDS:
+        modules = {r.split(":")[0] for r in reads.get(name, [])}
+        assert modules <= {"preperiod.py"}, (
+            f"{name} must be read only by preperiod.py, found: {modules}"
+        )
+
+
+@pytest.mark.guard
+def test_both_carve_out_edges_are_actually_read_by_preperiod() -> None:
+    """A registered edge nobody reads is an unenforced boundary.
+
+    The stale-entry guard on ``PENDING_ENFORCEMENT`` catches a field nobody
+    reads at all. This catches the narrower failure: an edge read by *some*
+    module while ``preperiod.py`` — the one enforcement site — has quietly
+    stopped reading it.
+    """
+    reads = _config_field_reads()
+    for name in CARVE_OUT_BOUNDARY_FIELDS:
+        modules = {r.split(":")[0] for r in reads.get(name, [])}
+        assert modules == {"preperiod.py"}, (
+            f"{name} is not read by preperiod.py; the boundary is unenforced. "
+            f"Readers found: {modules or 'none'}"
+        )
 
 
 # --------------------------------------------------------------------------

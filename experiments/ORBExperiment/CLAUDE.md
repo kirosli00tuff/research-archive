@@ -99,22 +99,66 @@ pointed at real bars before the Stage C latch**. Pinned by test.
 
 ## The pre-period carve-out
 
-**Power inputs may read US equity bars stamped strictly before
-2016-01-04T14:30:00.000Z. Every other bar read is sealed.** The rationale:
-2016-01-04 is the first session of the registered in-sample window, so the
-window before it sits **outside both the in-sample and the holdout samples**,
-and reading it cannot leak a single observation any verdict will be computed
-on. The E2 economic-power computation needs a per-trade dispersion figure to
-size a net edge against a modeled cost; taking that from the test window would
-be **reading the outcome to plan the test of the outcome**, and inventing it
-would register a number this repository did not measure. **The enforcement site
-is `orb.preperiod.require_pre_period` and `orb.preperiod.gate_pre_period`, the
-boundary is `CONFIG.pre_period_end_ms` (2016-01-04T14:30:00.000Z, exclusive),
-and the pin is exercised by `tests/test_preperiod.py` with fixtures sitting
-exactly on the boundary — one millisecond before it passes, the instant itself
-is refused.** Two structural guards hold it there: no module outside
-`config.py` may hardcode the literal, and no module outside `preperiod.py` may
-read it from config.
+**AMENDED 2026-08-29 — the carve-out is two-sided.** The original is preserved
+here unedited so the correction is auditable, exactly as rule 3 above is:
+
+> ~~**Power inputs may read US equity bars stamped strictly before
+> 2016-01-04T14:30:00.000Z. Every other bar read is sealed.**~~ The rationale:
+> 2016-01-04 is the first session of the registered in-sample window, so the
+> window before it sits **outside both the in-sample and the holdout samples**,
+> and reading it cannot leak a single observation any verdict will be computed
+> on. The E2 economic-power computation needs a per-trade dispersion figure to
+> size a net edge against a modeled cost; taking that from the test window would
+> be **reading the outcome to plan the test of the outcome**, and inventing it
+> would register a number this repository did not measure. ~~**The enforcement
+> site is `orb.preperiod.require_pre_period` and
+> `orb.preperiod.gate_pre_period`, the boundary is `CONFIG.pre_period_end_ms`
+> (2016-01-04T14:30:00.000Z, exclusive), and the pin is exercised by
+> `tests/test_preperiod.py` with fixtures sitting exactly on the boundary — one
+> millisecond before it passes, the instant itself is refused.**~~ Two
+> structural guards hold it there: no module outside `config.py` may hardcode
+> the literal, and no module outside `preperiod.py` may read it from config.
+
+**What falsified the first sentence.** A.1 TASK 5, 2026-08-29: **neither
+credential serves any session before 2016-01-04**. Alpaca's earliest served
+session is **2016-01-04**, which is exactly the in-sample start, and Massive's
+is **2024-08-29**; `n = 2` credentials, **0 serving**. The carve-out **was never
+reachable**, and E2 power was recorded `Absent(not_served)` rather than
+computed. Amendment 11 carries the full reasoning.
+
+**The amended rule, in force.** **Power inputs may read US equity bars stamped
+strictly before 2016-01-04T14:30:00.000Z, or at or after 2026-07-01T04:00:00.000Z
+— 2026-07-01T00:00:00.000 US Eastern, EDT, UTC−04:00, the first instant after
+`CONFIG.holdout_end`. Every other bar read is sealed.**
+
+- **The rationale for the second half is the same and no stronger:** the region
+  sits outside both registered windows, so reading it leaks no observation any
+  verdict is computed on.
+- **It is not equivalent to the first half, and the difference is registered
+  rather than smoothed.** A dispersion figure estimated after 2026-06-30
+  reflects a regime **later** than the sample it is applied to, where a pre-2016
+  estimate would have reflected an **earlier** one. **Neither is neutral; the
+  compromise now runs forward rather than backward**, and the figure **may
+  misstate in-sample dispersion in either direction by an amount this repository
+  has not measured and does not claim to bound.** Every E2 figure produced from
+  it carries that caveat **in the same sentence**.
+- **The post-holdout region grows as real time advances and never intersects a
+  registered window.** The sessions actually used are recorded in the
+  append-only ledger **at the time of the computation**, never fixed in advance.
+- **The enforcement site is unchanged in name and two-sided in behaviour:**
+  `orb.preperiod.require_pre_period` and `orb.preperiod.gate_pre_period`, now
+  delegating to `require_carve_out` / `is_carve_out`. `is_pre_period` keeps its
+  original narrow meaning. The boundaries are `CONFIG.pre_period_end_ms`
+  (exclusive) and `CONFIG.post_holdout_start_ms` (inclusive).
+- **The pin sits exactly on all four edges** in `tests/test_preperiod.py`: one
+  millisecond before 2016-01-04T14:30:00.000Z **passes**, the instant itself is
+  **refused**, the last instant of 2026-06-30 is **refused**, and the first
+  instant of 2026-07-01 **passes**. **Mutation 13** moves fixture 3 off its edge
+  and the suite goes green, which is how the harness records a fixture that
+  stopped binding.
+- **Three structural guards hold both edges:** no module outside `config.py` may
+  hardcode either literal, no module outside `preperiod.py` may read either from
+  config, and `preperiod.py` **must** read both.
 
 ## Non-negotiable rules
 
