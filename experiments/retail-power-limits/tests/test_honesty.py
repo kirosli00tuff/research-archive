@@ -174,6 +174,17 @@ def tracked_files() -> list[Path]:
     return [ROOT / name for name in listing.stdout.split("\n") if name]
 
 
+def test_the_credential_scan_has_something_to_scan() -> None:
+    """A scan over an empty file list passes and looks exactly like a clean scan.
+
+    Before ``git init`` ran, ``git ls-files`` returned nothing and the scan below
+    was green over zero files for the whole build. It went red the moment the
+    first commit made the files tracked — and it was right to. This assertion
+    exists so the vacuous state is a failure rather than a pass.
+    """
+    assert len(tracked_files()) > 10, "the credential scan has no files; it would pass vacuously"
+
+
 def test_no_credential_shaped_strings_in_tracked_files() -> None:
     """Secrets never enter the repo — enforced by a scan, not by a filename glob."""
     offenders: list[str] = []
@@ -189,12 +200,19 @@ def test_no_credential_shaped_strings_in_tracked_files() -> None:
 def test_credential_detector_fires() -> None:
     """Canary: the scanners must catch synthetic strings of each shape.
 
-    The 32-hex string is BUILT at runtime rather than written as a literal: a
-    literal here would be caught by the scanner above, which is exactly the
-    behaviour that test asserts.
+    Both synthetic strings are BUILT at runtime rather than written as literals.
+    A literal here would be caught by the scanner above, which is exactly the
+    behaviour that test asserts — and the assignment canary WAS written as a
+    literal first, and the scanner caught it. That was a true positive, not a
+    false one.
     """
-    synthetic = ("dead" + "beef") * 4
-    assert len(synthetic) == 32
-    assert CREDENTIAL_SHAPED.search(synthetic.encode()) is not None
-    assert SECRET_ASSIGNMENT.search(b'api_key = "not-a-real-secret-value"') is not None
+    synthetic_hex = ("dead" + "beef") * 4
+    assert len(synthetic_hex) == 32
+    assert CREDENTIAL_SHAPED.search(synthetic_hex.encode()) is not None
+
+    key_word = "api" + "_key"
+    synthetic_assignment = f'{key_word} = "{"x" * 20}"'.encode()
+    assert SECRET_ASSIGNMENT.search(synthetic_assignment) is not None
+
     assert CREDENTIAL_SHAPED.search(b"the power limit") is None
+    assert SECRET_ASSIGNMENT.search(b"the power limit") is None

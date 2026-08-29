@@ -67,7 +67,7 @@ than trusted. That is the only addition to the list.
 `make lint`, `make typecheck` and `make test` all green. Ruff format and check
 clean, mypy strict clean over 11 source files, 111 tests passing.
 
-### Two defects found while building, both fixed
+### Three defects found while building, all fixed
 
 **The block-sync tool reported work it had not done.** `write_blocks` used
 `re.sub`, which returns the input unchanged when nothing matches, so the first
@@ -87,8 +87,26 @@ report a **skip**, not a failure. Two tests were added first — one asserting t
 case list is non-empty, one asserting every renderer is used by some document —
 and both then failed honestly. The pattern is now a plain literal.
 
-Both defects have the same shape and it is worth naming: **a check that cannot
-fail passes, and reads exactly like a check that passed.**
+**The credential scan passed over zero files until the first commit.** It reads
+its file list from `git ls-files`, and before `git init` ran that returned
+nothing — so the scan was green over an empty list for the entire build, which
+is indistinguishable from a clean scan. The first commit made the files tracked
+and it immediately went red, correctly: the canary in `test_credential_detector_fires`
+had been written as a literal `api_key = "..."` string, which the scanner matched
+in its own test file. **That was a true positive.** Both halves are fixed — the
+canary is now constructed at runtime, and a new test asserts the tracked-file
+list is non-empty so the vacuous state fails instead of passing.
+
+The last one was found the hard way. A shell chain of the form `make test | tail`
+was used to check the gates, and a pipeline exits with the status of its **last**
+command, so `tail` returned 0 and the failing suite was reported as green. A
+commit went out red on the back of it and was fixed in the next one. Recorded
+rather than smoothed over: the same class of error as the two above, one layer
+further out — **the check ran, failed, and the harness reading it could not see
+the failure.**
+
+All three defects have the same shape and it is worth naming: **a check that
+cannot fail passes, and reads exactly like a check that passed.**
 
 ### One finding about the artifact itself
 
