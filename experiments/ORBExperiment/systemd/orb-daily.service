@@ -1,0 +1,12 @@
+[Unit]
+Description=ORBExperiment daily bar collector (prior session, sealed at the pass)
+Documentation=file:///home/kiros-li/Documents/GitHub/ORBExperiment/REGISTRATION.md
+After=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/kiros-li/Documents/GitHub/ORBExperiment
+ExecStart=/home/kiros-li/Documents/GitHub/ORBExperiment/.venv/bin/python -m orb.cli daily
+Environment=PYTHONPATH=/home/kiros-li/Documents/GitHub/ORBExperiment/src
+MemoryMax=2G
+Nice=10

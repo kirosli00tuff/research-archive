@@ -713,3 +713,103 @@ written.
 **`make all` green: 224 tests, mypy strict clean over 38 files.**
 
 ---
+## Entry 5 — STAGE A.2 TASK 4 and TASK 5, and STAGE A.3
+
+**2026-08-29.**
+
+| task | ETA | actual | verdict |
+|---|---|---|---|
+| A.2 TASK 4 — power gate | 30 min | 27 min | **DEGRADED expectation confirmed by computation** |
+| A.2 TASK 5 — fire Section 0 | 12 min | 14 min | **PENDING_ACCESS** |
+| A.3 TASK 1 — production collector | 30 min | 24 min | built, **inert** |
+| A.3 TASK 2 — actions watcher | 18 min | 13 min | built, **inert** |
+| A.3 TASK 3 — systemd | 22 min | 17 min | units written, **no timer enabled** |
+| A.3 TASK 4 — latch machinery | 25 min | 26 min | built and pinned |
+
+### The power gate
+
+**The registered expectation was recorded before the evidence, and the evidence
+matched it.** Section 0 stated in writing, before any measurement existed, that
+the arithmetic pointed to DEGRADED. The computation — on a session count derived
+from a NYSE rule set, not from the prompt — confirms it by the exact mechanism
+the DEGRADED clause names:
+
+| assumption | annual Sharpe | **E1 power at n = 875** | against the floors |
+|---|---:|---:|---|
+| published (undecayed) | 2.81 | **0.9995** | above the 0.80 GO floor |
+| **REGISTERED (half)** | **1.40** | **0.7435** | **below the 0.80 GO floor** |
+| quartered | 0.70 | **0.2578** | below the 0.50 BLOCKED floor |
+
+**Minimum N at the registered assumption is 1,006 against 875 achieved — a
+shortfall of 131 sessions.** And a knife-edge recorded precisely: extending the
+holdout to **2026-12-31** gives **1,003 sessions and power 0.7991**, short of
+0.80 by **0.0009** and short of the required count by **three trading days**.
+2027-06-30 gives 1,126 and **0.8425**, which clears. **That is recorded now,
+while this repository holds no result that would make the extension tempting.**
+
+**Two disagreements with the prompt, the computation winning as Section 9
+requires.** Minimum N to clear t = 2.0 is **515, not 514** — at n = 514 the
+statistic is **1.9994**. To clear t = 3.0 it is **1,158, not 1,157** — at 1,157
+it is **2.9998**. The prompt states floors; a minimum-N ceilings. One session
+each, in the conservative direction, and **no verdict row moves**.
+
+**And one figure in the prompt turns out to contain an assumption.** The stated
+per-trade information ratio "near 0.031" for t = 3.0 corresponds to **9,362
+trades**, i.e. a **53.5 percent trigger rate** at 20 names over 875 sessions —
+and the prompt itself says the trigger rate is *"to be measured rather than
+assumed."* At a 100 percent trigger rate the figure is **0.0227**. Reported with
+the assumption made explicit.
+
+**E2 power is `Absent` in all nine cells.** Section 9 restricts its dispersion
+input to the pre-period carve-out; no vendor serves one. The absence refuses
+coercion, so it cannot be summed into a power figure by accident.
+
+### Section 0, fired
+
+> **PENDING_ACCESS** · `PENDING-ACCESS Amendment 1`
+
+**Nothing is armed. Nothing is closed. H1 remains OPEN.** It is explicitly not
+the `source-integrity-blocked` closure kind — that requires a vendor whose bars
+were **measured** and found unstable, and **no bar has been served to fail**.
+
+**The counterfactual is computed and recorded: had bar integrity passed in full,
+the same power inputs fire `DEGRADED`.** Recorded in Amendment 4, in
+HYPOTHESES.md, and in the append-only ledger, with every input beside it.
+
+### Stage A.3 — built, and deliberately inert
+
+A.3 is registered as armed *only on GO or DEGRADED*, and `PENDING_ACCESS` is
+neither. Everything is written, tested and committed; **no timer is enabled.**
+
+**The CLI entry points refuse loudly and exit 78**, rather than running and
+storing nothing — because *a collector that runs and stores nothing looks
+identical in a log to one that ran and found nothing*, which is the
+health/composition merge standing rule 7 forbids. Pinned by test.
+
+**Unit-name collision verified against the live system, not assumed.**
+`systemctl --user` shows `npl-daily`, `npl-watch`, `etf-snap`, `etf-daily`,
+`solattn-daily`, `news-collect` in use as the prompt said, **and three the prompt
+did not name — `hfexperiment-bars`, `solattn-collect`, `solattn-watch`.**
+`orb-daily` and `orb-actions` are free. A guard pins the non-collision, the
+22:15/22:45 UTC schedule, `Persistent=true` and `MemoryMax=2G`.
+
+**The classifier now reads the body, not only the status code** (ADR-008),
+because A.1 TASK 1 measured a vendor **refusing at HTTP 200**. A 429 or a 5xx
+writes a loud error marker and is **never** read as no-data; an `Information`
+string at 200 is `source_failed`, and an empty `{}` at 200 is `no_data`.
+
+**The open session is never sealed** (the solattn ADR-019 shape): sealing a
+session on or after today raises. A changed bar on a **closed** session appends a
+revision row carrying **both hashes and both pull timestamps**, which turns the
+MLCryptoEngine H11 hazard from a discovery into a measurement.
+
+**The latch refuses every registered way.** A second read of a window raises with
+*"a second read of this window voids the hypothesis"*; Stage D refuses before
+Stage C's latch exists; an **empty or unlabelled operator prior slot blocks it
+structurally**; and a **failed attempt leaves no file**, so a refusal never
+consumes the one read the window has. The quarantine guard walks every module
+for a string naming a spent-read artifact, with `latch.py` the only exemption.
+
+**`make all` green: 270 tests, mypy strict clean over 46 files.**
+
+---

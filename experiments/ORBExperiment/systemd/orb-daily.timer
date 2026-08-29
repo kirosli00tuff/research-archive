@@ -1,0 +1,10 @@
+[Unit]
+Description=ORBExperiment daily bar collector at 22:15 UTC
+
+[Timer]
+OnCalendar=*-*-* 22:15:00 UTC
+Persistent=true
+AccuracySec=1min
+
+[Install]
+WantedBy=timers.target

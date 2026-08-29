@@ -538,3 +538,109 @@ def test_latched_modules_refuse_sealed_vendor_provenance_at_runtime() -> None:
     with pytest.raises(ProvenanceViolationError, match="built dark"):
         require_readable((sealed,), "probe", latched=False)
     require_readable((sealed,), "probe", latched=True)
+
+
+# --------------------------------------------------------------------------
+# The quarantine — a spent read reaches no successor code path
+# --------------------------------------------------------------------------
+
+QUARANTINE_EXEMPT: frozenset[str] = frozenset({"latch.py"})
+"""Only the latch module itself may name a read artifact path."""
+
+
+@pytest.mark.guard
+def test_no_module_reads_a_spent_read_artifact() -> None:
+    """A successor runs on fresh data or it does not run.
+
+    Walks every module for a string constant naming a Stage C or Stage D read
+    artifact. `latch.py` builds those paths and is exempt; anything else naming
+    one is a successor code path reaching into a spent read.
+    """
+    needles = ("stage_c_read", "stage_d_read", "reports/stage_c", "reports/stage_d")
+    offenders: list[str] = []
+    for path in _module_paths():
+        if path.name in QUARANTINE_EXEMPT:
+            continue
+        for node in ast.walk(_parse(path)):
+            if isinstance(node, ast.Constant) and isinstance(node.value, str):
+                for needle in needles:
+                    if needle in node.value:
+                        offenders.append(f"{path.name}:{node.lineno} names {needle!r}")
+    assert not offenders, f"a module reaches into a spent read artifact: {offenders}"
+
+
+@pytest.mark.guard
+def test_the_latch_module_is_the_only_writer_of_a_read_latch() -> None:
+    """One place writes the latch, so there is one place to audit."""
+    offenders: list[str] = []
+    for path in _module_paths():
+        if path.name in QUARANTINE_EXEMPT:
+            continue
+        for node in ast.walk(_parse(path)):
+            if isinstance(node, ast.Call):
+                func = node.func
+                name = (
+                    func.attr
+                    if isinstance(func, ast.Attribute)
+                    else (func.id if isinstance(func, ast.Name) else "")
+                )
+                if name in {"write_latch"}:
+                    offenders.append(f"{path.name}:{node.lineno}")
+    assert not offenders, f"write_latch called outside latch.py: {offenders}"
+
+
+@pytest.mark.guard
+def test_the_cli_entry_points_are_inert_and_exit_non_zero() -> None:
+    """A collector that runs and stores nothing must not look like one that
+    ran and found nothing. Section 0 fired PENDING_ACCESS; both passes refuse."""
+    from orb.cli import ARM_MESSAGE, main
+
+    assert "NOT ARMED" in ARM_MESSAGE
+    assert "PENDING_ACCESS" in ARM_MESSAGE
+    assert main(["daily"]) == 78
+    assert main(["actions"]) == 78
+    assert main([]) == 2
+    assert main(["nonsense"]) == 2
+
+
+@pytest.mark.guard
+def test_the_systemd_units_do_not_collide_with_the_house_units() -> None:
+    """npl-daily, npl-watch, etf-snap, etf-daily, solattn-daily and news-collect
+    are in use and must be left untouched."""
+    in_use = {
+        "npl-daily",
+        "npl-watch",
+        "etf-snap",
+        "etf-daily",
+        "solattn-daily",
+        "solattn-watch",
+        "solattn-collect",
+        "news-collect",
+        "hfexperiment-bars",
+    }
+    unit_dir = REPO_ROOT / "systemd"
+    ours = {p.stem for p in unit_dir.glob("*")}
+    assert ours == {"orb-daily", "orb-actions"}, ours
+    assert not (ours & in_use), ours & in_use
+
+
+@pytest.mark.guard
+def test_the_units_carry_the_registered_schedule_and_limits() -> None:
+    unit_dir = REPO_ROOT / "systemd"
+    daily = (unit_dir / "orb-daily.timer").read_text()
+    actions = (unit_dir / "orb-actions.timer").read_text()
+    assert "22:15:00 UTC" in daily
+    assert "22:45:00 UTC" in actions
+    for timer in (daily, actions):
+        assert "Persistent=true" in timer
+    for service in ("orb-daily.service", "orb-actions.service"):
+        assert "MemoryMax=2G" in (unit_dir / service).read_text()
+
+
+@pytest.mark.guard
+def test_the_manual_run_guard_has_a_named_override() -> None:
+    """The ADR-018 shape: refusing is cheaper than repairing interleaved rows."""
+    from orb.manualrun import OVERRIDE_ENV, UNITS
+
+    assert OVERRIDE_ENV == "ORB_ALLOW_MANUAL_RUN"
+    assert set(UNITS) == {"orb-daily.service", "orb-actions.service"}
