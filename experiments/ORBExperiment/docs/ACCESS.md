@@ -297,3 +297,281 @@ credential, and moved by a dated amendment if the measurement disagrees.**
 **The request ledger charged every one of these probes before it sent them.**
 Total charged this session: **polygon 15, alphavantage 7, alpaca 1, databento 1,
 tiingo 1 — n = 25 requests, 0 dollars.**
+
+---
+---
+
+# The credentialed section — A.1 resumption, run 2026-08-29
+
+**Everything above this line is left intact and unedited.** It records what was
+true on 2026-08-29 **before any credential existed**: `n = 9` vendors, `0`
+usable, and the recommendation of Massive as primary on **documented** grounds.
+**Two of those conclusions have since been falsified by measurement**, and the
+falsifications are recorded below rather than by rewriting the section that got
+them wrong.
+
+**Every figure below is measured live unless labelled `carried`. `n = 1,026`
+requests were charged to the ledger on 2026-08-29 across all vendors. Zero
+dollars spent.**
+
+---
+
+## The headline finding
+
+> **Two credentials authenticate and both serve one-minute bars. `n = 2`
+> credentials, `2` authenticating, `0` refused.**
+>
+> **The primary reaches every registered session: Alpaca's earliest served
+> session is 2016-01-04 — 1,762 of 1,762 in-sample and 875 of 875 holdout, over
+> `n = 16` bisection probes.**
+>
+> **The reference vendor does not: Massive's earliest served session is
+> 2024-08-29, a rolling 24-month window measured to the day. 0 of 1,762
+> in-sample sessions.**
+
+---
+
+## A.1 TASK 3 — credentialed access verification
+
+**`n = 11` probes, 2 vendors, `0` dollars.**
+
+| credential | authenticates | evidence |
+|---|---|---|
+| **`ORB_MASSIVE_API_KEY`** | **YES** | `200` on `/v3/reference/tickers?limit=1`, 481 B, 1 row; `200` on a recent minute aggregate, 87,730 B, **861 bars** |
+| **`ORB_ALPACA_API_KEY` + `ORB_ALPACA_SECRET_KEY`** | **YES** on market data and the **paper** trading host; **NO** on the **live** trading host | `200` on `/v2/stocks/AAPL/bars` for `feed=sip` **and** `feed=iex`; `200` on `paper-api/v2/account` (960 B) and `paper-api/v2/assets?status=inactive` (8,112,164 B, **19,189 rows**); **`401`** on `api.alpaca.markets` |
+
+### The three refusals, verbatim and redacted
+
+| probe | status | bytes | payload |
+|---|---:|---:|---|
+| Massive aggregate, 2015-06-01 | **403** | 189 | `{"status":"NOT_AUTHORIZED","request_id":"…","message":"Your plan doesn't include this data timeframe. Please upgrade your plan at https://polygon.io/pricing"}` |
+| Alpaca `/v2/account`, live host | **401** | 55 | `{"code":40110000,"message":"request is not authorized"}` |
+| Alpaca `/v2/assets`, live host | **401** | 55 | `{"code":40110000,"message":"request is not authorized"}` |
+
+**None of the three is a broken credential, and separating them took a second
+probe round rather than an inference.** Massive's `403` is an **entitlement**
+refusal — a recent aggregate returned `200` with **861 bars**. Alpaca's `401` is
+a **key-family** fact: these are **paper-account keys**, correct for a
+market-data-only use, and **this repository holds no live trading credential and
+wants none.**
+
+### Neither credential serves the pre-period carve-out
+
+**`n = 2` credentials, `0` serving a bar strictly before 2016-01-04T14:30:00Z.**
+Massive **refuses** it (`403`); Alpaca serves **`200` with 0 bars**.
+
+**Consequence: `E2` power stays `Absent`**, and its reason **strengthens** from
+*"no vendor is reachable"* to *"two vendors are reachable and neither serves the
+carve-out"*. Section 9 restricts the E2 dispersion input to the carve-out.
+
+---
+
+## A.1 TASK 4 — tape identification, measured
+
+**`n = 60` requests, 20 tickers × 5 sessions × 3 feeds, `200` on every one.
+`n = 100` session-ticker pairs per comparison, `100` with volume in both feeds,
+`0` missing on either side.**
+
+**Sessions used: 2026-07-01, 07-02, 07-06, 07-07, 07-08** — strictly after
+`holdout_end` = 2026-06-30, therefore **outside both registered windows**. The
+registered pre-period carve-out could not be used because **neither credential
+serves it**.
+
+| comparison | verdict | median | IQR | min | max | below 0.20 | n |
+|---|---|---:|---|---:|---:|---:|---:|
+| **Massive vs Alpaca-SIP** | **`SAME_TAPE`** | **1.005197** | [1.003096, 1.007726] | 1.000905 | 1.034148 | **0.0000** | **100** |
+| Massive vs Alpaca-IEX | `DIFFERENT_TAPE` | 0.027856 | [0.021235, 0.037195] | 0.007087 | 0.069102 | **1.0000** | 100 |
+| Alpaca-SIP vs Alpaca-IEX | `DIFFERENT_TAPE` | 0.027761 | [0.021200, 0.037068] | 0.007035 | 0.068904 | **1.0000** | 100 |
+
+Bar rows served: **Massive 61,094 · Alpaca-SIP 61,099 · Alpaca-IEX 37,234.**
+
+### Documented against measured
+
+| claim | label |
+|---|---|
+| Massive aggregates cover all US exchanges plus the FINRA TRFs | **documented**, carried, **not verified this session** |
+| Alpaca `feed=sip` is all US exchanges; `feed=iex` is IEX alone | **documented**, carried, **not verified this session** |
+| Massive against Alpaca-SIP: **median 1.0052, n = 100** | **measured** |
+| Alpaca-IEX against either consolidated feed: **median ≈ 0.028, n = 100** | **measured** |
+
+**Documented and measured agree here, and that is recorded as a finding rather
+than assumed as a default.**
+
+### Two findings inside the verdict
+
+**Alpaca-SIP reports more first-5-minute volume than Massive in 100 of 100
+pairs.** Minimum ratio **1.000905**, strictly above 1.0. **Noise straddles 1.0;
+this does not, in a hundred consecutive observations.** ~0.5 percent, verdict
+unaffected, **cause not measured and not guessed.**
+
+**The two feeds appear to redistribute a common upstream**, and the evidence is
+the **tightness**: an IQR **0.46 percentage points wide over 100 pairs**. **A
+cross-vendor agreement `PASS` on this pair therefore establishes that two
+redistributors of one upstream agree — it is not the Concretum test.**
+
+---
+
+## A.1 TASK 5 — historical reach, bisected
+
+**`n = 32` probes over `n = 5,934` candidate sessions, 2003-01-02 to 2026-07-29.
+Reach was bisected, never read from a pricing page.**
+
+| credential | earliest served session | probes | in-sample reachable | holdout reachable |
+|---|---|---:|---|---|
+| **Alpaca** | **2016-01-04** | **16** | **1,762 / 1,762 — shortfall 0** | **875 / 875 — shortfall 0** |
+| **Massive** | **2024-08-29** | **16** | **0 / 1,762 — shortfall 1,762** | **459 / 875 — shortfall 416** |
+
+**Monotonicity checked, not assumed.** Massive **2024-08-28 → `403`, 0 bars** ·
+**2024-08-29 → `200`, 814** · **2024-08-30 → `200`, 707**. Alpaca
+**2015-12-31 → `200`, 0 bars** · **2016-01-04 → `200`, 718** ·
+**2016-01-05 → `200`, 694**.
+
+**The two vendors fail differently and the search had to know it.** Massive
+returns a `source_failed`-shaped `403`; Alpaca returns a `no_data`-shaped `200`
+with 0 bars. **Bisecting on bar count alone would have merged them** — standing
+rule 7. The search separates the three cases by **status code plus bar count**.
+
+**E1 power on the reachable holdout**, computed by the existing power module:
+
+| credential | E1 at 1.40 | E1 at 2.81 | reachable holdout n |
+|---|---:|---:|---:|
+| Alpaca | **0.7435** | **0.9995** | **875** |
+| Massive | 0.4741 | 0.9670 | 459 |
+
+**Alpaca's figures are identical to the registered ones**, because the reachable
+count *is* the registered count.
+
+### The cross-vendor overlap
+
+| window | registered | with **both** feeds | share |
+|---|---:|---:|---:|
+| in-sample | **1,762** | **0** | **0.0 percent** |
+| holdout | **875** | **459** | **52.5 percent** |
+
+---
+
+## A.1 TASK 6 — delisted-name coverage, measured
+
+**Enumerated: `n = 6,421` delisted US common stocks from Massive's reference
+endpoint; `n = 4,731` with a delisting date inside 2016-01-04 to 2026-06-30.**
+
+| year | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 | 2026¹ |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| delisted names | 230 | 354 | 345 | 365 | 339 | 474 | 519 | **704** | 569 | 523 | 309 |
+
+¹ through 2026-06-30.
+
+> ### **Verdict: `PASS` — 203 delisted names with intraday history, `n = 229` in-window names checked on Alpaca, share 0.8865.**
+> The registered bar is **100 or more**. **203 is a count of names this
+> repository requested bars for and received them — not a rate scaled up.**
+
+| Alpaca sample | n | served | share |
+|---|---:|---:|---:|
+| inside the registered window | **229** | **203** | **0.8865** |
+| outside it, all pre-2016 | **31** | **0** | **0.0000** |
+
+**The 0 of 31 is the confirmation**: coverage failures scatter; these align
+exactly with the reach boundary measured independently at TASK 5.
+
+**Massive inside its own reach: 18 of 20 sampled served, 16 of 18 in-window.**
+Every in-window name it can answer for was delisted after 2024-08-29 —
+**1,171 of 4,731, 24.8 percent, is the entire pool it could ever cover.**
+
+### The vendor filter that was silently ignored
+
+**Massive's `delisted_utc.gte` and `delisted_utc.lte` were not honoured.** The
+response carried **1,690 rows outside the requested window**. **A caller
+trusting the filter would have recorded 6,421 as the in-window count — a 36
+percent overstatement, with no error and no status code to notice.** Window
+filters are now applied **client-side**. ADR-024.
+
+### The division of labour, measured
+
+| capability | Massive | Alpaca |
+|---|---|---|
+| enumerate delisted names **with a delisting date** | **yes** — 6,421 rows | **no** — 19,189 inactive rows, **no delisting date** |
+| serve **intraday bars** for a delisted name | 24-month window only | **yes across the registered window** |
+
+**Massive is the reference vendor. Alpaca is the bar vendor. Neither can do the
+other's job on the tiers this repository holds.**
+
+---
+
+## A.1 TASK 7 — rate ceilings, measured on the authenticated endpoints
+
+**`n = 53` requests, 4 endpoint-spacing cells, every one against a path that
+serves.** **This supersedes the A.1 TASK 2 ceilings above, which were measured
+against a 401 and carry no information about the served path.**
+
+| vendor | endpoint | spacing | n | achieved | admitted | codes | first refusal |
+|---|---|---:|---:|---:|---:|---|---:|
+| Massive | `/v3/reference/tickers` | 2.0 s | 8 | 30.45/min | **5** | `{200: 5, 429: 3}` | **request 6** |
+| Massive | `/v2/aggs/…/1/minute/…` | 2.0 s | 8 | 28.67/min | **5** | `{200: 5, 429: 3}` | **request 6** |
+| Massive | `/v2/aggs/…/1/minute/…` | 0.5 s | 12 | 90.08/min | **0** | `{429: 12}` | request 1 |
+| Alpaca | `/v2/stocks/AAPL/bars` | 0.2 s | 25 | 134.05/min | **25** | `{200: 25}` | **none** |
+
+**The first HTTP 429 this repository has ever measured**, verbatim and redacted:
+
+> `{"status":"ERROR","request_id":"…","error":"You've exceeded the maximum
+> requests per minute, please wait or upgrade your subscription to continue.
+> https://massive.com/pricing"}`
+
+**Amendment 2 predicted this and it held.** The **88.4 per minute** measured
+against a 401 on 2026-08-29 overstated the authenticated ceiling by **17.7×**;
+an operator pacing from it would have been **refused on 3 of every 8 requests.**
+
+**Documented and measured agree at 5 per minute on Massive.** **Alpaca's ceiling
+was not reached** and is recorded as **`None`**, not as a large number.
+
+### The registered operating pace, and its per-endpoint basis
+
+| endpoint | spacing | per minute | basis |
+|---|---:|---:|---|
+| `massive:aggs`, `massive:reference` | **24.0 s** | **2.50** | **measured** — half of a measured 5.0/min boundary |
+| `massive:grouped` | 24.0 s | 2.50 | unmeasured endpoint; carries its vendor's figure |
+| `alpaca:*` | **1.0 s** | **60.0** | **unmeasured ceiling**; half of a 134.05/min *observed admitted rate* is 67/min |
+
+**Per-vendor daily caps, charged before sending: Massive 600, Alpaca 2,000.**
+**Neither is derived from a daily allowance, because none was measured on either
+vendor.** They are circuit breakers against a runaway loop.
+
+---
+
+## The two questions that decide vendor selection — one answered, one armed
+
+| vendor | serves 1-min RTH bars | history reach (bisected) | serves delisted | corp-actions endpoint | **retroactive rewrite** | tape |
+|---|---|---|---|---|---|---|
+| **Alpaca** (primary) | **yes**, SIP and IEX | **2016-01-04**, n = 16 | **yes — 203 names, n = 229** | not required (Massive supplies) | **`Absent(not_yet_measured)`** — eligible **2026-09-12** | **`SAME_TAPE`** |
+| **Massive** (reference) | **yes**, 24-month window | **2024-08-29**, n = 16 | reference rows: **6,421**; bars: 24-month window only | **yes**, `/v3/reference/tickers` | **`Absent(not_yet_measured)`** | **`SAME_TAPE`** |
+
+**The second question is the one this repository turns on, and it is armed
+rather than answered.** A.1 TASK 9 sealed **480 files, 737,507 bars, 2,400
+session-ticker pairs** on 2026-08-29. **The identical re-pull is eligible on
+2026-09-12** and `tools/repull_probe.py` **refuses, loudly, until then.**
+
+---
+
+## Access verdicts, credentialed
+
+| vendor | verdict | reason |
+|---|---|---|
+| **Alpaca** | **`PERMITTED` and usable — PRIMARY** | authenticates; reaches **2016-01-04**; **203 delisted names with intraday history, n = 229**; ceiling not reached at 134.05/min |
+| **Massive** | **`PERMITTED` and usable — REFERENCE ONLY** | authenticates; **reaches only 2024-08-29**, 0 of 1,762 in-sample sessions; **the only source of delisting dates**; ceiling **5.00/min** |
+| Databento, Tiingo, Alpha Vantage | `REQUIRES_CREDENTIAL` | unchanged; no credential held |
+| EODHD, Nasdaq Data Link, Stooq, yfinance | **`REFUSED_BY_TERMS`** | unchanged |
+
+**PERMITTED and usable today: 2 of 9 — one primary, one reference.**
+
+---
+
+## What was falsified in the section above this line
+
+| claim, made 2026-08-29 before any credential | status |
+|---|---|
+| *"PERMITTED and usable today: 0 of 9"* | **superseded** — 2 of 9, on credentials that did not exist when it was written |
+| *"Recommended: Polygon/Massive as primary… the only probed vendor that publishes a documented delisted-ticker reference endpoint and minute aggregates on one host"* | **falsified as a primary recommendation.** The reasoning was **documented**; the measurement says Massive serves **0 of 1,762 in-sample sessions**. It remains correct that Massive is the only source of delisting dates, which is why it is the **reference** vendor. **ADR-023.** |
+| *"If the two share an upstream the agreement measurement is labelled as measuring a redistribution pipeline"* | **the condition was met and the label is applied.** IQR **0.46 percentage points over n = 100**. **ADR-022.** |
+
+**Both falsifications are recorded rather than smoothed, and the section that
+made them is left standing.** That is the point of the ordering: a reader can
+see what was believed on documented grounds and what measurement did to it.

@@ -207,6 +207,36 @@ MUTATIONS: tuple[Mutation, ...] = (
             ),
         ),
     ),
+    Mutation(
+        11,
+        "remove the secret redactor",
+        "a credential value reaches a sealed file, a ledger row and the console",
+        (
+            (
+                "src/orb/redact.py",
+                '        """Redact a string bound for a log, a report, a message or the console."""\n        out = value',
+                '        """Redact a string bound for a log, a report, a message or the console."""\n        return value  # MUTATION 11\n        out = value',
+            ),
+            (
+                "src/orb/redact.py",
+                '        """Redact raw bytes bound for a sealed file. Deterministic."""\n        out = value',
+                '        """Redact raw bytes bound for a sealed file. Deterministic."""\n        return value  # MUTATION 11\n        out = value',
+            ),
+        ),
+    ),
+    Mutation(
+        12,
+        "force the tape verdict to SAME_TAPE",
+        "a single-venue feed is scored against the registered agreement bars and "
+        "BLOCKED-4 fires on entitlement while recording it as integrity",
+        (
+            (
+                "src/orb/integrity.py",
+                '        """SAME_TAPE inside [0.90, 1.10]; DIFFERENT_TAPE below 0.50; else AMBIGUOUS."""\n        if (',
+                '        """SAME_TAPE inside [0.90, 1.10]; DIFFERENT_TAPE below 0.50; else AMBIGUOUS."""\n        return TapeVerdict.SAME_TAPE  # MUTATION 12\n        if (',
+            ),
+        ),
+    ),
 )
 
 

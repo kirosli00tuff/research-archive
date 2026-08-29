@@ -245,3 +245,173 @@ unspent.*
 *Reserved. **This section is written once, and only after the Stage D latch
 exists.** It is empty because the latch does not exist and the window is
 unspent.*
+
+---
+
+# The A.1 resumption — written for the moment it landed, 2026-08-29
+
+**Two credentials arrived and the access verdict changed. Nothing else did.**
+
+Section 0 had fired `PENDING_ACCESS` earlier the same day on **0 of 9 vendors
+serving a bar**. Twelve tasks later it re-fired **`PENDING_REVISION`**, and the
+distance between those two verdicts is the whole content of this section.
+
+## What was believed on documented grounds, and what measurement did to it
+
+**Three claims went in. Two came out falsified, and the third came out narrower
+than it went in.**
+
+**`docs/ACCESS.md` recommended Massive as the primary vendor** — *"the only
+probed vendor that publishes a documented delisted-ticker reference endpoint and
+minute aggregates on one host."* Every word of that reasoning is **documented**,
+and it was the best available reasoning at the time. **The bisection measured
+Massive's earliest served session at 2024-08-29: 0 of 1,762 in-sample sessions.**
+The recommendation is not adjusted; it is **superseded by ADR-023**, and the
+section that made it is left standing so a reader can see the shape of the
+error — **a vendor chosen on what it publishes rather than on what it serves.**
+
+**`CLAUDE.md` rule 3 said no API key exists anywhere in this project and none is
+needed.** The first half still holds and is unweakened. The second half was
+**falsified by measurement** and is amended in place with the original quoted and
+struck through, so the gap between assumption and measurement is readable without
+a git log.
+
+**Amendment 2 said the 88.4 requests per minute measured against a 401 was
+evidence about the refusal path and nothing more.** That was a prediction, and
+this resumption tested it: **the authenticated path refuses at 5 per minute.**
+The unauthenticated figure overstated the real ceiling by **17.7×**. An operator
+pacing from it would have been **refused on 3 of every 8 requests**. The
+prediction held in the direction that costs something rather than the direction
+that flatters.
+
+## What the measurements say
+
+**Access, `n = 11` probes.** Both credentials authenticate. Massive's `403` on a
+2015 request is an **entitlement** refusal, not an authentication failure —
+separating those took a second probe round rather than an inference, and a recent
+aggregate returned **861 bars**. Alpaca's `401` on the live trading host is a
+**key-family** fact: these are **paper-account keys**, which is the correct shape
+for a market-data-only use.
+
+**Tape, `n = 100` session-ticker pairs.** Massive against Alpaca-SIP is
+**`SAME_TAPE`** at a median first-5-minute volume ratio of **1.005197**. The
+registered agreement thresholds apply as written.
+
+**The controls are why that number is evidence rather than an assertion.**
+Massive against Alpaca-IEX separated at **0.027856**; Alpaca-SIP against
+Alpaca-IEX — **same vendor, same host, same request, one parameter changed** —
+separated at **0.027761**. That second control removes every explanation for a
+separation that is not the tape, **including this repository's own window
+arithmetic**.
+
+**Reach, `n = 32` probes over `n = 5,934` candidate sessions.** Alpaca's earliest
+served session is **2016-01-04** and Massive's is **2024-08-29**. Both boundaries
+were confirmed by probing the sessions either side.
+
+**Delisted coverage, `n = 229` in-window names checked.** **203 served intraday
+bars** for a session before the delisting — **`PASS`** against a registered bar of
+100. **4,731** delisted names carry a delisting date inside the registered
+window.
+
+**Rate ceilings, `n = 53` requests.** Massive refuses at **5 per minute**, first
+refusal at request **6 of 8** on **both** endpoints measured separately. Alpaca's
+ceiling was **not reached**: 25 of 25 admitted at 134.05 per minute.
+
+## Three numbers that are exactly what they look like
+
+**Massive's earliest served session is 2024-08-29 and today is 2026-08-29.** A
+rolling twenty-four-month window, measured to the day.
+
+**Alpaca's earliest served session is 2016-01-04 — the exact first session of the
+registered in-sample window.** The registration took that date from the source
+study; Alpaca's history begins there independently. **The in-sample window is
+therefore covered with zero margin.** One trimmed month of vendor history, or one
+session moved earlier in the registration, and the coverage is gone. **This is
+not a comfortable pass. It is an exact one, and calling it comfortable would be
+the first step toward being surprised by it.**
+
+**Alpaca-SIP reports more first-5-minute volume than Massive in 100 of 100
+pairs**, with a **minimum ratio of 1.000905 — strictly above 1.0**. Noise
+straddles 1.0. This does not, in a hundred consecutive observations. The
+magnitude is about half a percent and the verdict is unaffected; **the direction
+is the finding**, and it is left open rather than explained away.
+
+## The thing that will not be hurried
+
+**The two feeds share an upstream.** The evidence is not the level of agreement
+but its **tightness**: an interquartile range **0.46 percentage points wide over
+100 pairs**. Two independently constructed consolidations of US equity activity
+do not agree that closely that consistently; **one SIP-derived upstream,
+redistributed twice, does.**
+
+**So the cross-vendor agreement gate — the one registered because of Concretum —
+cannot run the Concretum test on this pair.** Concretum's **226,000 to 726,000
+USD** spread came from **four vendors**, and it is a spread **across upstreams**.
+Measuring agreement between two redistributors of one upstream cannot detect it.
+
+**That is registered before the agreement figure exists**, which is the only time
+such a statement is worth anything. Written afterwards it is an excuse; written
+now it is a scope limit. And it **compounds** with the reach finding: the two
+feeds overlap only from **2024-08-29**, so the gate covers **459 of 875 holdout
+sessions and none of the 1,762 in-sample sessions**. **Together, the gate as it
+can actually be run establishes that two redistributors of one upstream agree, on
+459 of 2,637 registered sessions.**
+
+## Where it stopped, and why that is the right place
+
+**The probe slice is sealed: 480 files, 737,507 bars, 2,400 session-ticker
+pairs, `HTTP 200` on every one.** The identical re-pull is eligible on
+**2026-09-12** and `tools/repull_probe.py` refuses, loudly, until then — exit
+**78**, naming the date, having sent nothing.
+
+**The wait is the measurement.** A re-pull sent early does not produce a *weaker*
+revision figure; it produces a **wrong** one, biased toward zero — **and zero is
+the shape of a `PASS`**. MLCryptoEngine H11 died on a **measured 75-day
+publication lag** in a source that regenerated whole files and revised past rows,
+and **that lag was discovered rather than registered.** Here the clock was
+started deliberately, its earliest eligible date was written down before any
+re-pull was possible, and the refusal before that date is enforced in code.
+
+**`PENDING_REVISION` is a parked outcome, not a failure.** It is a separate state
+from `PENDING_ACCESS` for one reason: **the two have completely different next
+actions. One needs a credential. The other needs a calendar.** Collapsing them
+would have made the map report *"we cannot reach a vendor"* on a day this
+repository holds 737,507 sealed bars from one.
+
+**Nothing is armed.** `systemctl --user list-timers` shows **0 `orb-` units**.
+The collector and the watcher stay inert until a revision verdict exists.
+
+## One deviation, recorded rather than smoothed
+
+**The first credentialed probe round recorded served response bodies as well as
+refusals, and three of those fragments contained OHLCV values.** Under the
+blindness field lists, a report file is not a sealed writer.
+
+**Guard 5 cannot catch this class**, and that is the part worth keeping: it walks
+parse trees for **field names in source**, and a value that only ever exists
+inside a runtime string is invisible to it. **A structural guard has a shape, and
+this leak was outside it.**
+
+The sessions touched were **2015-06-01**, which served nothing on either vendor,
+and **2026-07-15**, which is **after `holdout_end` = 2026-06-30** and therefore
+outside both registered windows. **No bar from either registered window was read
+or recorded.** The reports were rewritten before the commit, and the policy is now
+**code rather than care**: a refusal is recorded verbatim, a served payload is not
+recorded at all, and the asymmetry runs on **status code**, which is itself a
+readable field.
+
+## What a reader should take from this section
+
+**Access was the cheap problem and it is solved.** Two credentials, one primary
+that reaches every registered session, delisted coverage passing on a measured
+count of 203 names, and a tape verdict that lets the registered thresholds fire.
+
+**Integrity is the expensive problem and it is fourteen days away.** Everything
+this repository turns on — whether the primary vendor rewrites bars it has
+already served — is sealed, armed, and waiting on a calendar.
+
+**And the honest reading of the two scope limits registered today is that the
+agreement half of the integrity gate came out weaker than it was designed to
+be**: narrower in window, and pointed at a redistribution pipeline rather than at
+two independent feeds. **The revision half is intact, and it is the half that
+killed H11 elsewhere in this house.**
