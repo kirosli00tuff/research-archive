@@ -569,3 +569,91 @@ from this vendor.**
   The expected monthly figures are named here as **carried, not measured**:
   **Polygon Starter near 29 USD per month**; **Databento consumption-based near
   125 USD per month for a medium universe.**
+
+---
+
+## 13. Priors
+
+**Assistant prior, recorded 2026-08-28 in chat, before any measurement:**
+
+> **0.15** on a real capturable edge surviving the registered cost model out of
+> sample.
+
+**Nothing in the repositories read at TASK 0, and nothing on the web, has moved
+it.** It is recorded here with its date so that a later verdict can be scored
+against a number that existed before the evidence did.
+
+**Operator prior slot: EMPTY. Reserved. To be filled only by the operator.**
+
+```
+operator_prior          = <EMPTY>
+operator_prior_label    = <EMPTY: "independent" | "adopted">
+operator_prior_recorded = <EMPTY: date>
+```
+
+**The empty slot blocks the Stage C latch structurally** (Section 10, clause 2).
+This is not a formality and it is not a reminder. It is a gate.
+
+**Why the assistant must not fill it, stated with the precedent.** The
+NPDExperiment **Amendment 0** lesson: **an adopted prior corrupts the
+calibration ledger.** A prior the operator adopted from the assistant is not an
+independent observation of the operator's belief; recording it as one makes the
+ledger's calibration statistics measure the assistant twice and the operator
+never. If the operator's number happens to equal 0.15, it is still recorded as
+**`independent`** only if it was reached without reading the line above, and as
+**`adopted`** otherwise. **The label is part of the datum.**
+
+**Do not fill this slot.**
+
+---
+
+## 14. The amendment log
+
+**Rules, in force from this line.**
+
+1. **Append-only.** An amendment is added at the bottom. **Nothing above an
+   amendment line is ever edited**, including to fix an error — an error is
+   corrected by a new amendment that names it.
+2. **Dated.**
+3. **Reasoned.**
+4. **Stating exactly what data existed when the amendment was made.** An
+   amendment written while holding a measurement is a different object from one
+   written before it, and the log records which.
+
+**Figures carried into this registration, sources named, none measured by this
+repository.** Every one is labelled **carried** where it is used.
+
+| # | figure | source |
+|---|---|---|
+| C-1 | QQQ/TQQQ 5-min ORB, 10R target, 4x cap, 0.0005 USD/share commission, **explicitly zero slippage**; QQQ **1,484 percent** against **169 percent** buy-and-hold, annualized alpha near **33 percent**, Jan 2016 – Feb 2023 | Zarattini and Aziz, SSRN 4416622 |
+| C-2 | >7,000 US stocks, 2016–2023, delisted included; plain broad-universe 5-min ORB **3.2 percent annually at 6.6 percent vol, Sharpe 0.48**, below passive | Zarattini, Barbon and Aziz, SSRN 4729284, SFI 24-98 |
+| C-3 | Top-20 by opening relative volume: **>1,600 percent net, Sharpe 2.81, annualized alpha 36 percent**, against **198 percent** for the S&P 500 over the same window; 15-minute variant **272 percent at Sharpe 1.43** | SSRN 4729284 |
+| C-4 | Filters: open above 5 USD, 14-day average volume above 1,000,000 shares, 14-day ATR above 0.50 USD | SSRN 4729284 |
+| C-5 | Independent replication: **1,775 trades against the paper's 1,795**, gross Sharpe **1.06** | giovannibrusco/zarattini-2023-orb-qqq |
+| C-6 | **Gross edge 0.070 USD per share; net PnL crosses zero at ~0.022 USD per share of entry slippage, against a QQQ spread near 0.010 USD** | same |
+| C-7 | 09:25 NQ futures agreement filter: per-trade edge **0.125 USD/share at t 2.05**; strategy Sharpe **0.77** against buy-and-hold **0.72**, **overlapping bootstrap intervals 0.05–1.41 against −0.03–1.47** | same |
+| C-8 | **76 percent of filtered PnL from 2022 alone**; the filter **lost money in 2017, 2020 and early 2023** | same |
+| C-9 | MNQ micro futures falsification: ORB long, short and pullback **all fail after 2-point friction**, best long **t 1.50**; 2022 negative, 2023 near zero, 2024 strongly positive | 2026 arXiv falsification study |
+| C-10 | A new claim should clear **t near 3.0** rather than 2.0 | Harvey, Liu and Zhu |
+| C-11 | Deflated Sharpe: deflate for trial count plus skewness and kurtosis | Bailey and López de Prado, SSRN 2460551 |
+| C-12 | Published predictor returns fall **26 percent out of sample and 58 percent after publication**, **97 predictors, 80 studies** | McLean and Pontiff, *JF* 71, 5–32 |
+| C-13 | **Threefold spread in final equity — 226,000 to 726,000 USD — from four vendors on identical opening-range code, dates, parameters and starting capital** | Concretum Research |
+| C-14 | IBKR Canada tiered US stock commission **0.0035 USD/share, 0.35 USD order minimum**, plus pass-through exchange, SEC and FINRA fees | IBKR |
+| C-15 | FINRA trading activity fee near **0.000166 USD per share sold** | FINRA |
+| C-16 | IBKR FX conversion near **0.2 bp above interbank, 2.00 USD per order minimum** | IBKR |
+| C-17 | **IBKR refuses fractional-sized orders through the API, error 10243** | HFExperiment `reports/stage_a1b/a1b_report.md` line 52 |
+| C-18 | Polygon Starter near **29 USD per month**; Databento consumption-based near **125 USD per month** for a medium universe | vendor pricing pages |
+| C-19 | MLCryptoEngine H11: **measured 75-day publication lag** in a free flow source with whole-file regeneration revising past rows; lag **discovered rather than registered** | MLCryptoEngine `HYPOTHESES.md` H11 |
+| C-20 | NPLExperiment: a planning figure near **9.4 events per month** falsified at **0.5, n = 3 over 182 days** | NPLExperiment `progress.md` |
+| C-21 | solattn ADR-021: **47.5 percent refusals over n = 1,863 attempts** on one endpoint while a second endpoint on the same host and IP took **0 of 360** | solattn `DECISIONS.md` ADR-021 |
+
+**C-14, C-15, C-16 and C-17 are broker figures and are re-verified live at A.2
+TASK 2 before the cost model freezes**, under standing rule 4 and the ADR-055
+pattern. **Measured is recorded against carried, in the same sentence, with its
+date. Any deviation is written as an amendment before A.2 TASK 4, never
+silently absorbed.**
+
+### Amendments
+
+*(Open. No amendment has been made. The first entry appended below this line
+will be Amendment 1.)*
