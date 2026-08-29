@@ -189,3 +189,119 @@ unaltered and its test still passes. A tradeable finding is a finding; execution
 is a separate decision with its own record. If the band closes the tradeable
 question, the calibration work may continue only as a labelled phenomenon study
 and may not be converted into a strategy.
+
+---
+
+## Note on numbering, recorded 2026-08-29, not repaired
+
+This file carries **two ADR-006 entries and two ADR-007 entries**: the pair
+dated 2026-08-29 (PENDING_ACCESS; the withheld rate-limit measurement) and the
+pair dated 2026-08-30 (Polymarket; the fee band ordering). The collision is
+recorded here rather than fixed, because the file is append-only and renumbering
+a committed ADR would silently break the references already pointing at it —
+`Makefile:24` and `docs/ACCESS.md:76` both cite "ADR-006/ADR-007" meaning the
+2026-08-29 pair. **Cite an ambiguous number with its date.** Numbering continues
+at ADR-009.
+
+---
+
+## ADR-009. The effect band is in probability points, and every published magnitude is exploitable only at a high entry price
+
+**Status:** accepted, 2026-08-29.
+
+Section 3 registers the band as "0.02 to 0.08 absolute probability points". That
+wording was not taken on trust, because the cited sources lead with **returns**,
+and the two units differ by the factor 1/p — an order of magnitude at the tails.
+A 60 % loss on a 5c contract is 3 cents of mispricing, not 60.
+
+**How it was established.** Each recorded magnitude was reconstructed both ways
+and checked against the numbers the registration itself prints. The identity is
+`return = gap ÷ price`.
+
+| recorded figure | as a probability gap | as a return | which reproduces the record |
+|---|---|---|---|
+| Bürgi's 5c contract winning 3 % | 0.03 − 0.05 = **−0.02**, the recorded "2-point gap" | −0.02 / 0.05 = **−40.0 %**, the recorded "−40 %" | both, consistently |
+| Bürgi's 95c contract winning 98 % | 0.98 − 0.95 = **+0.03**, the recorded "3-point gap" | 0.03 / 0.95 = **+3.16 %**, the recorded "+3.1 %" | both, consistently |
+| Krause's −0.077 at longshots settling 4.0 % | implies a mean bucket price of 0.040 + 0.077 = **0.117**, coherent for a "below 30c" bucket | implies a mean price of 0.040 / 0.923 = **0.043**, and would make Krause's the *smallest* figure cited | only the probability reading |
+
+The Krause row is decisive on its own: under the return reading, the figure
+Section 3 calls "the largest single-category published figure" would be the
+smallest of the three. **The band is in probability points. It is not
+ambiguous, and no conversion is needed** — the fee is denominated identically,
+$0.02 against a $1.00 payout being 0.02 of probability.
+
+**One recorded magnitude that is not usable as an effect size.** Bürgi's
+"buyers of contracts under 10c lose over 60 % of their money **after fees**" is
+a return, and it is post-fee. Converted, it is 0.030 at 5c and 0.057 at 9.5c —
+inside the band — but it already contains the venue's own fee, so using it
+against a cost model would charge the fee twice. Section 3 set neither band edge
+from it, and this records why.
+
+**The consequential half of the finding: direction.** At longshot prices the
+documented miscalibration is *over*pricing, so a buyer of a longshot holds a
+negative edge, while break-even requires *under*pricing. On a binary venue the
+exploitable expression is the complement. Restated in the underpriced direction,
+every registered magnitude sits at a **high** entry price:
+
+| source figure | exploitable side | entry price | underpricing |
+|---|---|---|---|
+| Bürgi, 5c winning 3 % | NO | **0.95** | 0.02 |
+| Bürgi, 95c winning 98 % | YES | **0.95** | 0.03 |
+| Krause, sub-30c settling 4.0 % | NO | **0.883** | 0.077 |
+
+**Consequence.** The registered FX is proportional to entry price, so every
+exploitable expression of the band is charged FX at 88–95c rather than at
+5–12c. The unit determination and the FX treatment are therefore coupled, and
+that coupling is what makes ADR-010's turnover question material rather than
+academic. Two further facts travel with the band wherever it is used, and
+neither is repaired here:
+
+- **A scope mismatch.** The band is registered "in the tail cell (snapshot
+  prices 1–10c and 91–99c)". Krause's exploitable complement at 88.3c lands in
+  the 81–90 decile, outside that cell. The band is **not narrowed** on this
+  ground — narrowing a registered band after seeing the arithmetic is precisely
+  what Section 3 forbids — but the mismatch is stated wherever the band's top
+  carries a conclusion.
+- **An n that does not exist** (standing rule 13). Bürgi carries n = 313,972
+  contract prices on 46,282 contracts across 12,403 events, and sets the band's
+  bottom. **Krause's n is nowhere in the registration**, and Krause sets the
+  band's top. The companion CPI study finding *no* classic bias carries n = 95
+  contracts over 12 months. The band's bottom travels with a large n; its top
+  travels with none.
+
+---
+
+## ADR-010. FX turnover: k = 1 binds, and it does not decide the verdict
+
+**Status:** accepted, 2026-08-29. Registered as REGISTRATION.md Amendment 4
+before the band gate fired.
+
+Section 2 fixes the FX rate and its base but leaves implicit whether the charge
+recurs per contract or is paid once per funding and shared across everything
+that funding buys. Both readings are one formula with a turnover k —
+`FX(p) = 0.03 · p / k` — and Section 2's single-contract participant is exactly
+k = 1.
+
+**Decision: k = 1 binds; k > 1 is reported beside it, never substituted.**
+Section 2 forbids revising a cost component in the direction that helps H1, and
+k > 1 lowers the floor in exactly that direction. Binding k = 1 also means a
+surviving band cannot be manufactured by a generous assumption: k = 1
+overstates FX for a repeat participant and biases toward BAND-EMPTY.
+
+**Consequence.** `pmexperiment/band.py` takes turnover as a parameter defaulting
+to `registry.FX_TURNOVER_REGISTERED = 1.0`, so the registered case binds unless a
+caller names another and no registered constant goes unread. `docs/BAND.md`
+reports k = 1, k = 12 and the k → ∞ limit side by side. A later stage that wants
+k > 1 to bind needs its own numbered amendment carrying a **measured** turnover,
+not an assumed one.
+
+**What the decision did not cost.** The band's top clears the requirement at all
+ten registered buckets on both exit routes under every k, and the band's bottom
+clears at none of them under any k, so the verdict is invariant to the choice.
+An assumption that is registered, argued, and then shown not to carry the result
+is in the best position an assumption can hold.
+
+**Recorded rather than tidied:** `registry.FX_TURNOVER_REGISTERED` was committed
+in `9b4bd4f`, one commit *before* the Amendment 4 text it cites landed in
+`4d75f66`. Both sit inside the same task and no verdict fired between them, but
+the lag is real and is written down rather than rebased away.
