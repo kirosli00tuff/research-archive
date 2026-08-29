@@ -321,3 +321,95 @@ until STAGE A.1 TASK 1 recorded terms and `robots.txt` first, as standing rule
 12 requires.
 
 ---
+## Entry 1 — STAGE A.-1 TASK 0 and TASK 1, and STAGE A.0 TASK 2
+
+**2026-08-29.** ETA stated before arming, actual recorded after, per standing
+rule 2.
+
+| task | ETA | actual | verdict |
+|---|---|---|---|
+| A.-1 TASK 0 — preconditions and duplication screen | 8 min | 9 min | PASS, CLEAR |
+| A.-1 TASK 1 — prompt log | 4 min | 5 min | done |
+| A.0 TASK 2 — scaffold and the seven guards | 45 min | 41 min | `make all` green |
+
+**TASK 0, preconditions.** Working tree `/home/kiros-li/Documents/GitHub/ORBExperiment`
+confirmed; `main` tracks `origin/main`; `git push --dry-run` returned
+`Everything up-to-date`. Toolchain: `uv 0.12.0`, host `python3 3.14.4`, venv
+pinned to `3.13.14` by `make install` against the `requires-python = ">=3.13"`
+floor. `.gitignore` verified as already covering `.env`, `data/`, `.venv/`,
+`__pycache__/`, `*.pyc`, `.mypy_cache/`, `.pytest_cache/`, `.ruff_cache/` and
+`*.egg-info/` — nothing added.
+
+**TASK 0, duplication screen. Verdict CLEAR**, recorded in full at
+`docs/DUPLICATION.md`. 11 repositories screened, 8 patterns, **14,002 raw hits,
+0 substantive**. The five design-bearing patterns — `opening range`,
+`opening candle`, `relative volume`, `intraday breakout`, `stocks in play` —
+returned **zero hits in every repository, n = 11**. The 14,002 are: `9:30` as a
+substring of package-index upload timestamps and stored vendor clocks, `09:30`
+as a US session boundary in AiTrader's news horizon and NPLExperiment's funding
+session tags, `ORB` as a Solana launchpad token symbol in 33 `solattn` manifest
+rows, and one `"09:30"` market-hours string in an HFExperiment broker-calendar
+fixture. Each class is cleared with its reason in DUPLICATION.md. The prompt's
+expected CLEAR is **verified, with one refinement**: two repositories do reach
+US equities — HFExperiment reaches an equity *broker* and is the source of the
+integer-share constraint carried here, and AiTrader carries a session boundary
+for a *news* horizon — and neither reads intraday price structure.
+
+**TASK 0, prior art.** All eight files read for pattern, not text:
+ETFExperiment `CLAUDE.md` (operating-manual shape, blindness field lists,
+carve-out paragraph, Section 0 fire function), `REGISTRATION.md` (Section 0
+shape including its registered residual band and fixed precedence order),
+`DECISIONS.md` ADR-001 (provisional-parameter-with-one-permitted-amendment);
+NPLExperiment `REGISTRATION.md`, `HYPOTHESES.md` (register style, latch,
+quarantine, closure), `progress.md` (a falsified planning figure recorded
+rather than corrected), `docs/STAGES.md` (ladder table with entry gate, exit
+gate and capital columns); MLCryptoEngine `HYPOTHESES.md` H11 (the measured
+75-day lag and whole-file regeneration that killed it) and `DECISIONS.md`
+ADR-055 (fee re-verification: a carried figure is a dated measurement);
+solattn `DECISIONS.md` ADR-019 (seal the closed day, never the open one; a
+missing attestation is an error, never a pass) and ADR-021 (**ceilings are per
+endpoint, never per host** — 47.5 percent refusals on one endpoint at n = 1,863
+attempts while a second endpoint on the same host and IP took 0 of 360);
+InsiderExperiment `progress.md` (power-gate closure shape, boundary-fixture
+mutation lesson).
+
+**TASK 2, scaffold.** `uv` project, package `orb`, `src` layout, Python 3.13
+floor. ruff, mypy strict, pytest, pre-commit. Makefile with `install`, `lint`,
+`fmt`, `typecheck`, `test`, `all`, `guards`, `mutations`. `.env.example` left
+empty on purpose — **no Stage A source needs a key**. All seven guards ported
+by shape, not text:
+
+| guard | site | pinned by |
+|---|---|---|
+| 1 — recorded absence | `orb.absence.Absent` | refuses `float`, `int`, `index`, `+` both ways, `-`, `*`, `/`, ordering, `bool`, indexing, iteration, `len` |
+| 2 — parse-tree config enforcement | `tests/test_guards.py` | every `Config` field read outside `config.py` or on `PENDING_ENFORCEMENT` with its task named; stale entries also fail |
+| 3 — append-only fsynced ledger | `orb.ledger` | `O_APPEND` + `fsync`; a truncated line returns `TruncatedLedgerLine`, the file is left damaged |
+| 4 — the seven call states | `orb.callstate` | two disjoint enums, no supertype; `combined_total()` raises |
+| 5 — priced-bar blindness | `tests/test_guards.py::test_no_module_reads_a_priced_bar_field_anywhere` | AST walk over attribute, subscript and `.get`/`.pop`/`.setdefault` forms |
+| 6 — pre-period date pin | `orb.preperiod` | boundary `2016-01-04T14:30:00.000Z` exclusive; fixtures sit **on** it |
+| 7 — session clock | `orb.sessionclock` | refuses naive datetimes and fixed-offset "Eastern"; AST guard forbids `timezone(...)` and `America/New_York` outside `sessionclock.py` |
+
+**The blindness guard caught a real read on its first run against real source,
+and that is recorded rather than smoothed.** `orb/ledger.py:102` used
+`self.path.open("r", ...)` — `Path.open`, an attribute named `open`, which is a
+bar field in every vendor dialect. **The source was changed, not the guard.**
+`iter_rows` now reads via `read_text` and splits with `keepends=True`, which
+preserves the no-terminating-newline truncation detection exactly. The one
+receiver allowlisted anywhere is `os`, for `os.close(fd)`, named explicitly in
+`SAFE_ATTRIBUTE_RECEIVERS` with its reason; a bar is never bound to the name
+`os`. **A guard that has never been shown to catch anything is an assertion
+about nothing**, and this one caught something on day one.
+
+**Boundary verified, not assumed.** `CONFIG.pre_period_end_ms = 1451917800000`
+resolves to `2016-01-04T14:30:00+00:00`, and `test_preperiod.py` proves
+independently that 14:30Z **is** 09:30 Eastern on that date because 2016-01-04
+falls in standard time. The DST cost is measured rather than asserted:
+`test_a_fixed_offset_would_mis_slice_a_third_of_the_sample` counts the calendar
+days of 2016-01-04 to 2026-06-30 on which a fixed −05:00 offset resolves 09:30
+Eastern to the wrong UTC instant and requires the share to exceed one third,
+**n = 3,831 days**.
+
+**`make all` green on the scaffold: ruff format and check clean, mypy strict
+clean across 15 source files, 61 tests passed.**
+
+---

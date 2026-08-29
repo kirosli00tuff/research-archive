@@ -1,0 +1,19 @@
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.6.9
+    hooks:
+      - id: ruff-format
+      - id: ruff
+        args: [--fix]
+  - repo: local
+    hooks:
+      - id: mypy
+        name: mypy strict
+        entry: .venv/bin/mypy
+        language: system
+        pass_filenames: false
+      - id: guards
+        name: structural guards
+        entry: .venv/bin/pytest tests/test_guards.py -q
+        language: system
+        pass_filenames: false
