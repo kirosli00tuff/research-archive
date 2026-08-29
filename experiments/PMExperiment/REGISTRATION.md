@@ -538,3 +538,75 @@ presented as, or converted into, a strategy.
 measurement on a Canadian-tradeable venue.** Written authorization is what their
 terms name. Sending that request is recorded here as an open action with no
 assumed outcome.
+
+---
+
+### Amendment 4 — the FX treatment: turnover 1 binds, amortization is reported beside it
+
+**Made 2026-08-29, before the band gate fired and while no statistic relating a
+price to an outcome exists.** Registered before it is used, as Stage B Task 3
+requires.
+
+**The question.** Section 2 registers "1.5 % of committed principal per
+direction … Applied to the entry price of the side purchased." That fixes the
+rate and the base. It leaves implicit whether the charge recurs per contract or
+is paid once per funding and shared across everything that funding buys. The
+two readings differ by an order of magnitude at the favourite tail: 3 % of a
+95c contract is 2.85 cents against an edge measured in single cents, while one
+conversion spread across a year of positions is a fraction of a cent.
+
+**Both readings are the same formula.** The schedule charges on currency
+conversion, not on trades. If one conversion's principal is deployed into
+contracts k times before it is converted back, the per-contract share is
+
+    FX(p) = 0.03 · p / k
+
+Section 2's registered participant — "converting to USD, holding one side of
+one contract to settlement, and converting back" — is exactly k = 1. The
+amortized reading is k > 1. Nothing new is introduced here; a parameter Section
+2 fixed implicitly is given a name so the choice can be seen.
+
+**Registered: k = 1 binds. k > 1 is reported beside it and never substituted
+for it.** Three reasons, in order of force:
+
+1. **Section 2 forbids the substitution.** "No component of this table may be
+   revised after a result is seen; a better cost estimate enters only as a
+   numbered amendment with its evidence." Moving the binding model to k > 1
+   lowers the cost floor in the direction that helps H1. That is the revision
+   the registration exists to prevent, and this amendment does not make it.
+2. **The direction of bias runs the safe way.** k = 1 **overstates** FX for a
+   participant who trades repeatedly on one funding, biasing toward
+   BAND-EMPTY — against H1. k → ∞ **understates** it for a single-shot
+   participant, biasing toward BAND-OPEN — toward H1. Binding the reading that
+   biases against H1 means a surviving band cannot be an artifact of a generous
+   assumption.
+3. **It does not decide the verdict.** Computed both ways in Task 4, the band's
+   top clears the required underpricing at all ten registered buckets on both
+   exit routes at k = 1, at k = 12 and in the k → ∞ limit; the band's bottom
+   clears at none of them under any k. The choice is therefore visible and
+   non-load-bearing, which is the best position a contested assumption can hold.
+
+**The reported alternatives, and why those values.** k = 12 is the most
+favourable plausible amortization for the permitted subset, because the
+registered 30-day minimum maturity caps a held-to-resolution strategy at roughly
+twelve deployments per funding year, and idle time between positions lowers it.
+k → ∞ sets FX to exactly zero — a bound no amortization can beat — so a result
+that survives it survives every FX argument that could be made.
+
+**An input this stage needed and did not find, recorded rather than supplied.**
+The Stage B prompt describes the schedule as charging "1.5 percent under $10,000
+CAD". **No tier threshold is registered anywhere in this document**: Section 2
+registers a flat 1.5 % per direction with no size break, and no position size is
+registered either. The threshold is therefore not used. It would change nothing
+at the registered unit of one contract, but it is recorded as absent rather than
+adopted from a prompt, per standing rule 5.
+
+**Two registered simplifications, named with their direction and not revised.**
+Section 2 applies FX to the entry price of the side purchased, which (a)
+excludes the fee and half-spread from the conversion base, understating cost by
+0.03 × 0.05 = **0.0015** on the round-trip route, and (b) values the exit
+conversion at the entry price rather than at the $1.00 a winning contract
+returns, understating by a further 0.015 × 0.03 = **0.00045** on a 95c contract
+that wins 98 % of the time. Both lean **toward** H1. Their sum, **0.00195**, is
+recorded here so Task 4 can report where a survival margin is thinner than the
+slack in its own inputs.
