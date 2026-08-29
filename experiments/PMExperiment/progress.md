@@ -196,3 +196,47 @@ rewording a document to satisfy it.
 **Next:** Stage A Task 0 logs the operator prompt as Entry 0, then writes and
 commits Section 0 — the outcome map, the permitted-subset filter, the cost model
 and the effect band — before any request goes out.
+
+---
+
+## Entry 3 — amendments 1 to 3: venue, fee band, scope — 2026-08-30
+
+**ETA:** none stated; document work, no measurement armed. **Actual:** one
+session, zero requests sent, zero dollars.
+
+**No statistic relating a price to an outcome exists.** Section 15 remains
+empty. These amendments were written before any measurement, which is the only
+time they can honestly be written.
+
+**Amendment 1.** The measurement venue moves to Polymarket, whose public read
+endpoints need no key, authentication or wallet, with settlement on Polygon.
+Kalshi's PENDING_ACCESS verdict of 2026-08-29 stands and is not re-litigated.
+Transfer between venues is registered **UNTESTED**, on three grounds recorded in
+the register, including this program's own MLCryptoEngine H2 at **AUC 0.501**.
+The category mismatch is registered before measurement: Polymarket's documented
+mispricing concentrates in politics and sports, which the Canadian-permitted
+subset excludes.
+
+**Amendment 2.** A fee-versus-edge band fires **before** the power gate. The
+Canadian fee is flat at $0.02 per contract per side against a $1.00 payout, so
+break-even requires the true probability to exceed the market price by **2.0
+percentage points** held to resolution or **4.0** round trip, before spread and
+FX. Three verdicts registered: BAND-EMPTY closes the tradeable question on cost,
+BAND-NARROW records a split finding, BAND-OPEN passes a named region to the
+power gate. Computed once, never recomputed after a result is seen.
+
+**Amendment 3.** The terminal question now admits whether a tradeable edge
+exists. **The repository still never trades**: no stage places an order, holds a
+position, connects to a broker, or stores a trading credential, and the
+`CLAUDE.md` scope guard is unaltered.
+
+**Five new honesty tests, verified by mutation** (standing rule 14): weakening
+the transfer guard to "Transfer is probably fine" fails the suite; restoring it
+passes. 39 tests green, lint and typecheck clean.
+
+**Open action, no assumed outcome:** the written-authorization request to Kalshi
+is the only registered path that reopens measurement on a Canadian-tradeable
+venue.
+
+**Next:** compute the fee band. It reads published effect magnitudes and the fee
+schedule only, so it needs no venue access and spends nothing.

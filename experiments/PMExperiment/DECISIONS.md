@@ -132,3 +132,60 @@ a measurement, with this ADR as the named deviation. The whole probe budget
 was 13 requests, single-shot, spaced, no retries, no pagination beyond one
 page. If access ever reopens under written authorization, the rate limit is
 measured then, inside whatever pace that authorization names.
+
+---
+
+## ADR-006. Polymarket measures the phenomenon; transfer to a tradeable venue is a separate, untested hypothesis
+
+**Status:** accepted, 2026-08-30.
+
+Kalshi fired PENDING_ACCESS on terms rather than technology. Polymarket's public
+read endpoints need no key, no authentication and no wallet, and settlement sits
+on Polygon, so its data is public by construction rather than by permission.
+Moving the measurement there satisfies standing rule 12 instead of circumventing
+it.
+
+**Consequence:** the measurement answers whether mispricing exists, not whether
+it is reachable from Canada. Transfer is registered UNTESTED and may not be
+assumed, on three grounds: a documented Kalshi bias reported not to replicate on
+Polymarket, the largest Polymarket study finding no general longshot bias where
+other work finds one on Kalshi, and MLCryptoEngine's H2 measuring cross-venue
+transfer at AUC 0.501. Polymarket's documented mispricing also concentrates in
+politics and sports, the two categories the Canadian-permitted subset excludes.
+
+---
+
+## ADR-007. The fee band fires before the power gate
+
+**Status:** accepted, 2026-08-30.
+
+Eleven MLCryptoEngine hypotheses closed on cost rather than signal, several after
+data had been collected. The Canadian fee is flat at $0.02 per contract per side
+against a $1.00 payout, so break-even requires the true probability to exceed the
+market price by 2.0 points held to resolution, or 4.0 points round trip, before
+spread and FX. Because the fee is flat in cents while the exploitable edge at
+favourites is also small in cents, the requirement bites hardest exactly where
+the documented bias lives.
+
+**Consequence:** the band is computed from published effect magnitudes and the
+fee schedule alone, reads no contract or outcome from any venue, and fires ahead
+of the power gate. BAND-EMPTY closes the tradeable question on arithmetic before
+a single contract is enumerated. The band is registered once and never recomputed
+after a calibration result is seen.
+
+---
+
+## ADR-008. The terminal question admits a trade; the repository does not
+
+**Status:** accepted, 2026-08-30.
+
+The operator's goal has moved from measurement to finding a tradeable strategy,
+and account creation is acceptable to him. Recording that as an amendment rather
+than letting it drift keeps the register honest.
+
+**Consequence:** no stage here places an order, holds a position, connects to a
+broker, or stores a trading credential. The `CLAUDE.md` scope guard stands
+unaltered and its test still passes. A tradeable finding is a finding; execution
+is a separate decision with its own record. If the band closes the tradeable
+question, the calibration work may continue only as a labelled phenomenon study
+and may not be converted into a strategy.

@@ -423,4 +423,118 @@ the gate reads no outcome, so refiring is not a second look.
 Amendments append here, numbered, each carrying its own evidence and the date
 it was made. Nothing above this line is edited after Section 0 is committed.
 
-*(empty)*
+---
+
+### Amendment 1 — the measurement venue moves to Polymarket; Kalshi stays PENDING_ACCESS
+
+**Made 2026-08-30, before any statistic relating a price to an outcome exists.**
+
+**What changed.** Section 1's source moves from Kalshi to Polymarket for the
+measurement universe. Kalshi's PENDING_ACCESS verdict of 2026-08-29 stands
+unaltered and is not re-litigated: its Data Terms of Use prohibit systematic
+retrieval and AI-mediated use without written authorization, and keyless settled
+history reached only spring 2024.
+
+**Why Polymarket is a different case, not a workaround.** Polymarket's public
+read endpoints require no API key, no authentication and no wallet, and
+settlement sits on Polygon, so the data is public by construction rather than by
+permission. This is the opposite of Kalshi's position, where the data was
+technically reachable and the terms did not sanction reaching it. Standing rule
+12 is satisfied here rather than circumvented.
+
+**What it costs, registered rather than discovered.** Canadians cannot trade
+Polymarket. The measurement therefore answers *whether mispricing exists*, and
+does not answer *whether it is reachable from Canada*. Those were always two
+questions in this registration and they are now measured on different venues, or
+in Kalshi's case not measured at all.
+
+**Transfer is registered as UNTESTED and may not be assumed.** A calibration
+result on Polymarket is not evidence about Kalshi. The evidence for treating
+these as distinct: a documented Kalshi bias has been reported not to replicate on
+Polymarket, the largest Polymarket study reports no general longshot bias while
+other work finds one on Kalshi, and this program's own MLCryptoEngine H2 measured
+cross-venue transfer at AUC 0.501. Any later claim about a Canadian-tradeable
+edge requires its own measurement on the venue where it would be traded.
+
+**Category mismatch, registered now.** Polymarket's documented mispricing
+concentrates in politics and sports. Those are exactly the categories excluded
+from the Canadian-permitted subset, which allows economic indicators, financial
+markets and climate at a 30-day minimum maturity. So a real Polymarket effect may
+sit entirely outside the contract set a Canadian could trade. This is stated
+before measurement so it cannot later be offered as an explanation.
+
+---
+
+### Amendment 2 — the fee-versus-edge band fires before any measurement
+
+**Made 2026-08-30.** A new gate, ordered ahead of the power gate, because it is
+free and may be decisive on its own.
+
+**Why it comes first.** Eleven MLCryptoEngine hypotheses closed on cost rather
+than on signal, several after data had been collected. If the fee structure
+leaves no price region where a documented effect could survive, the trading
+question closes on arithmetic before a single contract is enumerated.
+
+**The registered arithmetic.** The Canadian venue charges a flat **$0.02 per
+contract per side**. A contract pays $1.00 on correct resolution and $0.00
+otherwise, so the fee does not scale with price. Break-even therefore requires
+the true probability to exceed the market price by:
+
+| exit route | fee borne | required underpricing |
+|---|---|---|
+| held to resolution | one side, $0.02 | **≥ 2.0 percentage points** |
+| exited before resolution | both sides, $0.04 | **≥ 4.0 percentage points** |
+
+before spread and before the FX schedule of Section 2. Because the fee is flat
+in cents while the exploitable edge at favourites is also small in cents, the
+requirement is hardest exactly where favourite-longshot bias is documented to
+live.
+
+**What this gate computes.** Across price buckets, the minimum underpricing
+required to break even net of fee, spread and FX, against the effect band
+registered in Section 3. It reads published effect magnitudes and the fee
+schedule. **It reads no contract, no price and no outcome from any venue**, so
+it violates neither Section 4 nor Section 10.
+
+**Registered verdicts.**
+
+| verdict | condition | consequence |
+|---|---|---|
+| BAND-EMPTY | no price bucket where the registered effect band exceeds the required underpricing | the tradeable question is **closed on cost**. The phenomenon study may still proceed under Amendment 3, labelled as such. |
+| BAND-NARROW | a surviving region exists only at price buckets outside the Canadian-permitted categories or below usable volume | recorded as a **split finding**: an effect may be real, priced, and unreachable. |
+| BAND-OPEN | a surviving region exists inside the permitted subset | the power gate proceeds against that region, and only that region. |
+
+The band is computed once and registered. It is **not** recomputed after seeing
+a calibration result, and no bucket may be added to it afterwards.
+
+---
+
+### Amendment 3 — the terminal question admits a trading decision; the repository still never trades
+
+**Made 2026-08-30.** A deliberate scope change, recorded rather than allowed to
+drift.
+
+**What changed.** The registration previously admitted only a measurement
+question. It now admits a terminal question of whether a tradeable edge exists
+that survives Canadian retail cost. The operator has stated that account
+creation is acceptable.
+
+**What did not change, and is not negotiable.** No stage in this repository
+places an order, holds a position, connects to a broker, or stores a trading
+credential. The scope guard in `CLAUDE.md` stands. A tradeable finding here is a
+finding, and any execution is a separate decision taken outside this repository
+with its own record.
+
+**Ordering, registered.** The fee band of Amendment 2 fires first. The power gate
+fires second, and only over a region the band left open. No calibration statistic
+is computed before both have fired.
+
+**The phenomenon study is separable.** If the band closes the tradeable question,
+the Polymarket calibration measurement may still proceed as a documented
+phenomenon study. It must then be labelled as one throughout, and may not be
+presented as, or converted into, a strategy.
+
+**The Kalshi authorization request is registered as the only path that reopens
+measurement on a Canadian-tradeable venue.** Written authorization is what their
+terms name. Sending that request is recorded here as an open action with no
+assumed outcome.

@@ -120,3 +120,40 @@ def test_report_claims_nothing_yet() -> None:
     r = _read("report.md")
     assert "No stage has run" in r
     assert "Nothing is claimed here" in r
+
+
+def test_transfer_is_registered_untested_and_may_not_be_assumed() -> None:
+    """Amendment 1's central guard: Polymarket is not evidence about Kalshi."""
+    reg = _read("REGISTRATION.md")
+    hyp = _read("HYPOTHESES.md")
+    assert "Transfer is registered as UNTESTED and may not be assumed" in reg
+    assert "AUC 0.501" in reg and "AUC 0.501" in hyp
+    assert "UNTESTED. May not be assumed at any point." in hyp
+
+
+def test_fee_band_arithmetic_and_verdicts_are_registered() -> None:
+    reg = _read("REGISTRATION.md")
+    assert "$0.02 per contract per side" in reg
+    assert "2.0 percentage points" in reg
+    assert "4.0 percentage points" in reg
+    for verdict in ("BAND-EMPTY", "BAND-NARROW", "BAND-OPEN"):
+        assert verdict in reg
+
+
+def test_gate_order_is_registered_band_before_power() -> None:
+    reg = _read("REGISTRATION.md")
+    assert "The fee band of Amendment 2 fires first" in reg
+    assert "no bucket may be added to it afterwards" in reg
+
+
+def test_scope_change_did_not_relax_the_no_execution_rule() -> None:
+    """Amendment 3 admits a trading question. It must not admit a trade."""
+    reg = _read("REGISTRATION.md")
+    assert "No stage in this repository places an order" in reg
+    assert "The scope guard in `CLAUDE.md` stands" in reg
+
+
+def test_category_mismatch_is_registered_before_measurement() -> None:
+    reg = _read("REGISTRATION.md")
+    assert "concentrates in politics and sports" in reg
+    assert "cannot later be offered as an explanation" in reg

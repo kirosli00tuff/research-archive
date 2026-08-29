@@ -74,3 +74,35 @@ A hypothesis enters this file when it is registered, not when it is imagined.
 An entry closes with the figure that closed it and its n. A closed entry is
 never silently reopened: reopening requires meeting the condition written in
 its own row, and that condition is written before the entry closes.
+
+---
+
+## Amended 2026-08-30 — the venue split, and what H1 now means
+
+H1 is now measured on **Polymarket**, whose public read endpoints need no key,
+no authentication and no wallet, with settlement on Polygon. Kalshi remains
+**PENDING_ACCESS** on its Data Terms of Use; that verdict stands and is not
+re-litigated.
+
+**H1 as now registered:** does mispricing exist, on the venue where the data is
+public by construction, at a magnitude that would survive Canadian retail cost.
+
+**H1t — transfer — is a separate hypothesis and is UNTESTED.**
+
+| | |
+|---|---|
+| statement | a calibration result measured on Polymarket holds on a Canadian-tradeable venue |
+| status | **UNTESTED. May not be assumed at any point.** |
+| why it is separate | a documented Kalshi bias has been reported not to replicate on Polymarket; the largest Polymarket study reports no general longshot bias while other work finds one on Kalshi; and this program's own MLCryptoEngine H2 measured cross-venue transfer at **AUC 0.501** |
+| what would close it | measurement on the venue where the trade would be placed, which currently requires written Kalshi authorization |
+
+**Registered before measurement:** Polymarket's documented mispricing
+concentrates in politics and sports, which are the categories **excluded** from
+the Canadian-permitted subset. A real effect there may sit entirely outside the
+contracts a Canadian could trade. Recorded now so it cannot later be offered as
+an explanation.
+
+**Gate order, registered:** the fee-versus-edge band of Amendment 2 fires
+first, the power gate second and only over what the band leaves open. A
+BAND-EMPTY verdict closes the tradeable question **on cost**, and the
+calibration work may continue only as a labelled phenomenon study.
