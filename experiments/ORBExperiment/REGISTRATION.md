@@ -852,3 +852,80 @@ a latch at `data/state/cost_model_latch.json`. **A test recomputes the hash from
 the model and fails if the two diverge.** Cost parameters cannot change from
 here without a further dated amendment naming what data existed when it was
 made.
+
+---
+
+## Amendment 4 — the Section 0 verdict, fired 2026-08-29
+
+**Date:** 2026-08-29 · **Status:** accepted · records the **Section 0** firing of A.2 TASK 5
+
+**Exactly what data existed when this amendment was made:** the session calendar
+(2,637 sessions, 21 half sessions), the live access findings (n = 15 robots
+fetches, n = 25 API probes), the live fee verification, and the computed power
+table. **Zero bars, zero prices, zero volumes, zero trades, zero returns, and
+zero PnL of any kind.**
+
+### The verdict
+
+> ## **PENDING_ACCESS** · clause `PENDING-ACCESS Amendment 1`
+>
+> *The integrity measurement this map fires on does not exist: bar revision
+> (`not_yet_measured`) and cross-vendor agreement (`not_yet_measured`), both
+> because A.1 TASK 1 measured **0 of 9 vendors serving a bar to this
+> repository**. **Nothing is armed.** This is a verdict on access, not on H1,
+> and it is **not** a source-integrity closure — no bar has been served to
+> fail.*
+
+### Every input, with its n
+
+| input | value |
+|---|---|
+| `alpha_adj` | **0.02532057**, one-sided, per co-primary |
+| sessions achievable (holdout) | **875**, computed from `orb.calendar` |
+| **E1 power at the registered 1.40** | **0.7435** — below the 0.80 GO floor |
+| **E1 power at the published 2.81** | **0.9995** — above the 0.80 GO floor |
+| E1 minimum N for 80% at 1.40 | **1,006** — a shortfall of **131 sessions** |
+| E1 power at the quartered 0.70 | **0.2578** — below the 0.50 BLOCKED floor |
+| E2 power | **`Absent(not_yet_measured)`** — Section 9 restricts its dispersion input to the pre-period carve-out |
+| bar revision rate (A.1 TASK 3) | **`Absent(not_yet_measured)`** — no credentialed vendor |
+| cross-vendor agreement (A.1 TASK 4) | **`Absent(not_yet_measured)`** — no credentialed vendor |
+| delisted names served | **`Absent(not_yet_measured)`** — no credentialed vendor |
+
+### The counterfactual, computed and recorded
+
+**Had bar integrity passed in full, the same power inputs would have fired
+`DEGRADED`, clause `DEGRADED residual`.**
+
+This matters, and it is why it is recorded here rather than left implicit.
+**Section 0 registered, before any measurement existed, that "the Section 9
+arithmetic and the decay evidence point to DEGRADED."** The power computation —
+run on a session count derived from a NYSE rule set rather than from the prompt —
+**confirms that prediction exactly**, and by the precise mechanism the DEGRADED
+clause names: **E1 reaches 80 percent power at the published magnitude (0.9995)
+and does not reach it at the registered assumption (0.7435).**
+
+**The prediction was recorded before the evidence, and the evidence matched it.**
+That is the only circumstance in which a DEGRADED reads as a documented answer
+rather than a disappointment, and Section 0 said so in advance.
+
+### What this changes, and what it does not
+
+**It arms nothing.** Stage A.3 is registered as armed *"only on GO or
+DEGRADED"*, and `PENDING_ACCESS` is neither. The A.3 machinery is **built and
+left inert**: the collector, the corporate-actions watcher, the systemd units
+and the latch machinery are written, tested and committed, and **no timer is
+enabled**. Arming requires two things together — a vendor credential, and a
+Section 0 re-firing at DEGRADED or better on real integrity measurements.
+
+**It closes nothing.** H1 remains **OPEN**. `PENDING_ACCESS` is explicitly not
+the `source-integrity-blocked` closure kind registered in `HYPOTHESES.md`: that
+closure requires a vendor whose bars were *measured* and found unstable, and no
+bar has been served.
+
+**It costs power that is already spent.** The holdout window closed on
+2026-06-30 and today is 2026-08-29, so **the 875 sessions are historical and no
+further accrual is possible inside the registered window.** Reaching 80 percent
+power at the registered assumption would require **extending the holdout end
+date**, which is **pinned in Section 7** and would need its own dated amendment.
+**This registration does not extend it**, and records here that the temptation to
+do so must be met while holding no result — which is now.
