@@ -336,3 +336,71 @@ def test_the_frozen_hash_matches_the_registered_model() -> None:
         pytest.skip("cost model not yet frozen in this tree")
     recorded = json.loads(latch.read_text())["sha256"]
     assert canonical_for_test() == recorded
+
+
+# --- Amendment 19 — the pessimistic shift, E2's new null -------------------
+
+
+def test_the_pessimistic_shift_is_hand_computed_per_leg() -> None:
+    """Central to pessimistic costs 0.030/share on a close exit, 0.060 on a stop.
+
+    Hand-computed from the registered bands of Section 6. Entry moves 0.020 to
+    0.040, which is +0.020 on **both** legs. The exit moves 0.010 to 0.020 on a
+    close, which is +0.010, and 0.040 to 0.080 on a stop, which is +0.040.
+    """
+    from orb.costs_registered import REGISTERED_COST_MODEL
+
+    close = REGISTERED_COST_MODEL.slippage_shift_per_share(
+        Leg.CLOSE_EXIT, band_from=Band.CENTRAL, band_to=Band.PESSIMISTIC
+    )
+    stop = REGISTERED_COST_MODEL.slippage_shift_per_share(
+        Leg.STOP_EXIT, band_from=Band.CENTRAL, band_to=Band.PESSIMISTIC
+    )
+    assert close == pytest.approx(0.030, abs=1e-12)
+    assert stop == pytest.approx(0.060, abs=1e-12)
+    assert stop == 2 * close, "the stop band is widest by design; so is its shift"
+
+
+def test_the_shift_refuses_the_entry_leg_as_an_exit() -> None:
+    from orb.costs_registered import REGISTERED_COST_MODEL
+
+    with pytest.raises(ValueError, match="exit_leg"):
+        REGISTERED_COST_MODEL.slippage_shift_per_share(
+            Leg.ENTRY, band_from=Band.CENTRAL, band_to=Band.PESSIMISTIC
+        )
+
+
+def test_the_mean_shift_interpolates_on_the_measured_stop_share() -> None:
+    """The mix is a measurement, and the shift is linear in it."""
+    from orb.costs_registered import REGISTERED_COST_MODEL
+
+    def shift(share: float) -> float:
+        return REGISTERED_COST_MODEL.mean_slippage_shift_per_share(
+            share, band_from=Band.CENTRAL, band_to=Band.PESSIMISTIC
+        )
+
+    assert shift(0.0) == pytest.approx(0.030, abs=1e-12)
+    assert shift(1.0) == pytest.approx(0.060, abs=1e-12)
+    assert shift(0.5) == pytest.approx(0.045, abs=1e-12)
+
+
+def test_a_stop_share_outside_the_unit_interval_is_refused_not_clamped() -> None:
+    """A share above 1 is an arithmetic fault upstream, and clamping hides it."""
+    from orb.costs_registered import REGISTERED_COST_MODEL
+
+    for bad in (-0.001, 1.001):
+        with pytest.raises(ValueError, match=r"\[0, 1\]"):
+            REGISTERED_COST_MODEL.mean_slippage_shift_per_share(
+                bad, band_from=Band.CENTRAL, band_to=Band.PESSIMISTIC
+            )
+
+
+def test_the_shift_is_zero_when_the_band_does_not_move() -> None:
+    from orb.costs_registered import REGISTERED_COST_MODEL
+
+    assert (
+        REGISTERED_COST_MODEL.mean_slippage_shift_per_share(
+            0.4, band_from=Band.CENTRAL, band_to=Band.CENTRAL
+        )
+        == 0.0
+    )

@@ -140,6 +140,55 @@ class CostModel:
         }[leg]
         return table[[Band.OPTIMISTIC, Band.CENTRAL, Band.PESSIMISTIC].index(band)]
 
+    def slippage_shift_per_share(
+        self, exit_leg: Leg, *, band_from: Band, band_to: Band
+    ) -> float:
+        """The per-share cost of moving both legs from one band to another.
+
+        **Registered by Amendment 19**, which made the pessimistic end of the
+        Section 6 band the null of E2. The shift is an **absolute dollar
+        quantity per share**, charged on the **entry** leg and on **whichever
+        exit leg the trade actually took** — so it depends on the realized
+        stop-versus-close mix, which is a **measurement** (A.1 TASK 3 of the
+        inference-repair pass) and not an assumption.
+
+        At the registered bands, moving central to pessimistic costs
+        **0.030 USD/share on a close exit** and **0.060 on a stop exit**:
+        entry 0.020 to 0.040 is +0.020 on both, and the exit is 0.010 to 0.020
+        on a close and 0.040 to 0.080 on a stop.
+        """
+        if exit_leg is Leg.ENTRY:
+            raise ValueError("exit_leg must be a stop exit or a close exit")
+        entry = self.slippage_per_share(Leg.ENTRY, band_to) - self.slippage_per_share(
+            Leg.ENTRY, band_from
+        )
+        exit_ = self.slippage_per_share(exit_leg, band_to) - self.slippage_per_share(
+            exit_leg, band_from
+        )
+        return entry + exit_
+
+    def mean_slippage_shift_per_share(
+        self, stop_exit_share: float, *, band_from: Band, band_to: Band
+    ) -> float:
+        """The shift averaged over a **measured** stop-versus-close exit mix.
+
+        ``stop_exit_share`` is the share of triggered trades that exited on the
+        stop. It is a measured figure and this method refuses a value outside
+        ``[0, 1]`` rather than clamping one: a share above 1 is an arithmetic
+        fault upstream, and clamping it would hide the fault inside a cost.
+        """
+        if not 0.0 <= stop_exit_share <= 1.0:
+            raise ValueError(
+                f"stop_exit_share must lie in [0, 1], got {stop_exit_share}"
+            )
+        stop = self.slippage_shift_per_share(
+            Leg.STOP_EXIT, band_from=band_from, band_to=band_to
+        )
+        close = self.slippage_shift_per_share(
+            Leg.CLOSE_EXIT, band_from=band_from, band_to=band_to
+        )
+        return stop_exit_share * stop + (1.0 - stop_exit_share) * close
+
     # --- The whole round trip -----------------------------------------
 
     def round_trip_cost(

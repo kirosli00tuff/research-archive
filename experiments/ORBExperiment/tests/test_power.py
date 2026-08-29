@@ -202,3 +202,90 @@ def test_the_information_ratio_needs_no_dispersion_input() -> None:
 def test_a_non_positive_trade_count_is_refused() -> None:
     with pytest.raises(ValueError, match="trade count must be positive"):
         information_ratio_for_t(0, 3.0)
+
+
+# --- Amendment 19 — the amended E2, whose null is a pessimistic-cost mean ---
+
+SHIFT_AT_HALF_STOPS = 0.045
+"""0.030 on a close exit and 0.060 on a stop, mixed 50/50. Hand-computed."""
+
+
+def test_the_pessimistic_mean_subtracts_an_absolute_dollar_amount() -> None:
+    """It is a shift, not a rescale, and that is the whole point of Amendment 19.
+
+    Under the **old** E2 the implied mean was a fixed multiple of the Sharpe
+    assumption, so the dispersion divided out and E2's power equalled E1's. A
+    shift in **USD per share** does not divide out, so the measured dispersion
+    becomes load-bearing.
+    """
+    from orb.power import e2_pessimistic_mean
+
+    assert e2_pessimistic_mean(0.08, 0.045) == pytest.approx(0.035, abs=1e-12)
+    assert e2_pessimistic_mean(0.02, 0.045) == pytest.approx(-0.025, abs=1e-12)
+
+
+def test_a_negative_pessimistic_mean_gives_power_below_the_size_of_the_test() -> None:
+    """Not an error, not clamped. **The finding is the number.**
+
+    A one-sided test of *"mean <= 0"* cannot reject in favour of a true mean that
+    is itself negative more often than by chance, and less often than ``alpha``.
+    Clamping to ``alpha`` or to zero would hide exactly what the amendment is
+    for.
+    """
+    from orb.power import e2_power_pessimistic
+
+    power = e2_power_pessimistic(2.0, 0.02, SHIFT_AT_HALF_STOPS, 10_000, 0.05)
+    assert isinstance(power, float)
+    assert 0.0 < power < 0.05
+
+
+def test_a_positive_pessimistic_mean_gives_power_above_the_size() -> None:
+    from orb.power import e2_power_pessimistic
+
+    power = e2_power_pessimistic(2.0, 0.10, SHIFT_AT_HALF_STOPS, 10_000, 0.05)
+    assert isinstance(power, float)
+    assert power > 0.05
+
+
+def test_e2_power_is_monotone_in_the_shift() -> None:
+    """A larger pessimistic shift can only reduce power. Never the reverse."""
+    from orb.power import e2_power_pessimistic
+
+    powers = [
+        e2_power_pessimistic(2.0, 0.10, shift, 10_000, 0.05)
+        for shift in (0.0, 0.030, 0.045, 0.060)
+    ]
+    assert all(isinstance(p, float) for p in powers)
+    assert powers == sorted(powers, reverse=True)
+
+
+def test_no_trade_count_clears_the_target_when_the_mean_is_not_positive() -> None:
+    """A recorded absence, never a very large number. The ADR-026 rule."""
+    from orb.absence import Absent
+    from orb.power import trades_for_e2_power
+
+    absent = trades_for_e2_power(2.0, -0.001, 0.05, 0.80)
+    assert isinstance(absent, Absent)
+    assert "at or below zero" in absent.detail
+
+    at_zero = trades_for_e2_power(2.0, 0.0, 0.05, 0.80)
+    assert isinstance(at_zero, Absent), "zero is inside the null, not outside it"
+
+    reachable = trades_for_e2_power(2.0, 0.04, 0.05, 0.80)
+    assert isinstance(reachable, int) and reachable > 0
+
+
+def test_the_minimum_trade_count_round_trips_against_the_power_function() -> None:
+    """The n it returns actually clears the target, and one fewer does not."""
+    from orb.power import e2_power_pessimistic, trades_for_e2_power
+
+    dispersion, central, shift = 2.0, 0.10, SHIFT_AT_HALF_STOPS
+    pessimistic = central - shift
+    needed = trades_for_e2_power(dispersion, pessimistic, 0.05, 0.80)
+    assert isinstance(needed, int)
+
+    at_n = e2_power_pessimistic(dispersion, central, shift, needed, 0.05)
+    below = e2_power_pessimistic(dispersion, central, shift, needed - 1, 0.05)
+    assert isinstance(at_n, float) and isinstance(below, float)
+    assert at_n >= 0.80
+    assert below < 0.80

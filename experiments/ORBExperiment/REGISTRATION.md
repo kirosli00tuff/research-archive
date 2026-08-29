@@ -3025,3 +3025,133 @@ power.**
   assumptions only.
 - **It weakens no Section 0 branch and moves no threshold.**
 - **It does not touch the DSR trial count of 8.**
+
+---
+
+## Amendment 19 — E2 replaced with a genuinely independent economic null
+
+**Date:** 2026-08-29 · **Status:** accepted · amends **Section 8** (the E2
+co-primary) and **Section 9** (what the dispersion input is for)
+
+**What data existed when this amendment was made.** Everything held at
+Amendments 11 through 18, plus those amendments — including the measured
+dispersion of **2.029585 USD per share, `n = 550` priced trades**, and E1's
+recomputed power at the corrected `alpha = 0.05`. **The stop-versus-close exit
+mix and the ambiguous rate were still assumptions when this amendment was
+written**; they are measured at TASK 3 immediately after it, and **this amendment
+deliberately fixes the null before the figures that will be fed into it exist.**
+**No bar revision measurement and no cross-vendor agreement share existed.**
+**Zero dollars spent. Neither latch exists.**
+
+### 1. What was wrong with E2, and why it is replaced rather than repaired
+
+**E2 as registered constrained nothing E1 did not already constrain.**
+
+Amendment 15 measured the symptom: E2's power came out **equal to E1's to
+between 1e-05 and 1e-12** at every assumption and horizon. The cause is
+arithmetic. E2's implied per-trade mean was derived from the same Sharpe
+assumption E1 uses, so `implied_mean / annual_sharpe` was a **constant
+0.02884727**, and E2's effect size was a **linear rescale of E1's**. The
+dispersion divided out.
+
+**A co-primary that is a rescale of the other co-primary is not a second
+hurdle.** Under a conjunction it changes nothing: whichever rejects first, both
+do. **Amendment 15 recorded the equality as a falsified premise of Section 9;
+this amendment fixes the design that produced it.**
+
+**Repairing it was rejected.** Any repair that keeps a null of *"the mean is
+positive at central costs"* keeps E2 inside E1's alternative, because that is the
+same claim measured in different units. **The null has to change, not its
+parameterization.**
+
+### 2. The amended E2, stated exactly
+
+> **E2 tests whether mean net PnL per trade remains above zero when every
+> slippage leg is set to the pessimistic end of the band registered in Section 6.**
+>
+> **Null:** the pessimistic-cost mean net PnL per trade is **at or below zero**.
+> **One-sided, `alpha = 0.05`** (Amendment 18), **by permutation on session
+> labels with trades clustered by session date** — the same clustering as E1, so
+> a single strong session cannot masquerade as many independent observations.
+
+**The bands are the ones registered before any data existed**, unchanged by this
+amendment:
+
+| leg | central | **pessimistic** | shift |
+|---|---:|---:|---:|
+| entry | 0.020 | **0.040** | **+0.020** |
+| stop exit | 0.040 | **0.080** | **+0.040** |
+| close exit | 0.010 | **0.020** | **+0.010** |
+
+**Per trade the shift is `entry + whichever exit leg the trade took`:**
+**0.030 USD per share on a close exit, 0.060 on a stop exit.** The mean shift
+therefore depends on the **realized stop-versus-close mix**, which is a
+**measurement** and not an assumption — TASK 3 makes it.
+
+Implemented as `orb.costs.CostModel.slippage_shift_per_share` and
+`mean_slippage_shift_per_share`, and consumed by
+`orb.power.e2_power_pessimistic` and `orb.power.trades_for_e2_power`.
+
+### 3. Why this null is not derivable from E1
+
+**E1 asks whether an edge exists at central cost assumptions. E2 asks whether it
+survives the pessimistic end of a band this repository registered before any data
+existed.** Those are different questions with different answers, and the second
+can fail while the first passes — which is exactly what a second co-primary is
+for.
+
+**The per-trade dispersion no longer cancels.** The pessimistic shift is an
+**absolute dollar quantity per share**, so E2's effect size is
+`(central_mean − shift) / dispersion`, not `central_mean / dispersion`. A
+constant subtraction does not divide out. **The measured dispersion of 2.029585
+USD per share therefore becomes load-bearing under this amendment, having been
+inert under the old one** — the A.1 TASK 5 measurement now does work no other
+figure can do.
+
+### 4. The rationale, in plain words
+
+**The dominant failure mode across this program is cost absorbing a real
+directional edge**, and it is the one this registration has said so from Section
+1's structural doubt 2 onward.
+
+**The one independent replication of the sibling index strategy measured a gross
+edge of 0.070 USD per share and found net PnL crossing zero at roughly 0.022 USD
+per share of entry slippage** (**carried**, C-6). **The entire gross edge of the
+index version was smaller than a realistic slippage assumption.** Amendment 3
+measured the same shape here: the modeled round trip is **55 percent** of that
+edge on a close exit and **98 percent** on a stop exit.
+
+**An inference design that cannot fail on cost is not testing the thing most
+likely to be true.** The old E2 could not fail on cost, because cost entered both
+co-primaries identically and cancelled out of the comparison. **The amended E2
+can, and that is the entire justification for changing it.**
+
+### 5. What this amendment does not do
+
+- **It does not touch the cost band.** The optimistic, central and pessimistic
+  figures are exactly as registered in Section 6, and this amendment **uses** the
+  pessimistic end rather than moving it.
+- **It does not touch E1**, its deflated-Sharpe bar of 1.00, or its trial count
+  of 8.
+- **It does not touch the two structural gates**, the concentration gate at 0.50
+  or the persistence gate at 3 of 4.
+- **It does not change the clustering.** Permutation on session labels, clustered
+  by session date, for both co-primaries.
+- **It fixes no figure in advance.** The shift, and therefore E2's power, is
+  determined by a **measurement that had not been made when this was written.**
+- **It opens no latch, arms nothing and authorises no spend.**
+
+### 6. Registered in advance: what a collapse would mean
+
+**This amendment is written before the shift is measured, so the following is a
+pre-registration and not a rationalisation.**
+
+If the measured mean shift **exceeds** the implied central mean at the registered
+1.40 Sharpe assumption, then the **pessimistic-cost mean is negative**, E2's
+alternative lies **inside** its null, **E2 power collapses below the size of the
+test**, and **joint power collapses with it**.
+
+**That outcome is to be recorded plainly as a measured property of the registered
+design.** It is **not** grounds to adjust the cost band, the effect assumption or
+the alpha, and **not** grounds to substitute a weaker E2. It is grounds to hand
+the operator a decision, and TASK 4 of this pass names the routes.

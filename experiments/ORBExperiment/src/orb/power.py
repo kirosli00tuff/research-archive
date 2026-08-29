@@ -98,6 +98,76 @@ def e2_power(
     return _NORMAL.cdf(effect - z(1.0 - alpha))
 
 
+def e2_pessimistic_mean(central_mean: float, pessimistic_shift: float) -> float:
+    """The mean net PnL per share once both slippage legs move to the band's end.
+
+    **Amendment 19.** E2's null is that this quantity is at or below zero. The
+    shift is an **absolute dollar amount per share**, so it does **not** divide
+    out of the ratio the power computation forms — which is the whole reason the
+    A.1 TASK 5 dispersion measurement becomes load-bearing under the amended E2
+    and was inert under the old one.
+    """
+    return central_mean - pessimistic_shift
+
+
+def e2_power_pessimistic(
+    per_trade_dispersion: Maybe[float],
+    central_mean_per_share: Maybe[float],
+    pessimistic_shift_per_share: float,
+    trades: int,
+    alpha: float,
+) -> Maybe[float]:
+    """Power of the amended E2, one-sided at ``alpha``.
+
+    **A negative pessimistic-cost mean is not an error and is not clamped.** It
+    returns a power **below the size of the test**, which is the correct answer:
+    a one-sided test cannot reject a null of *"mean <= 0"* in favour of a true
+    mean that is itself negative, and the probability of doing so by chance
+    falls below ``alpha``. **Clamping it to ``alpha`` or to zero would hide the
+    finding this amendment exists to surface.**
+    """
+    if isinstance(per_trade_dispersion, Absent):
+        return per_trade_dispersion
+    if isinstance(central_mean_per_share, Absent):
+        return central_mean_per_share
+    if per_trade_dispersion <= 0:
+        raise ValueError("dispersion must be positive")
+    pessimistic = e2_pessimistic_mean(
+        central_mean_per_share, pessimistic_shift_per_share
+    )
+    effect = pessimistic / per_trade_dispersion * math.sqrt(trades)
+    return _NORMAL.cdf(effect - z(1.0 - alpha))
+
+
+def trades_for_e2_power(
+    per_trade_dispersion: float,
+    pessimistic_mean_per_share: float,
+    alpha: float,
+    target_power: float,
+) -> Maybe[int]:
+    """Minimum trade count clearing ``target_power`` under the amended E2.
+
+    Returns a **recorded absence** when the pessimistic-cost mean is at or below
+    zero, because **no sample size reaches the target**: the effect the test is
+    powered against does not exist in the direction the test looks. **That is a
+    property of the registered design at the registered assumption, and it is
+    reported as an absence rather than as a very large number** — the same rule
+    ADR-026 applies to an unreached rate ceiling.
+    """
+    if per_trade_dispersion <= 0:
+        raise ValueError("dispersion must be positive")
+    if pessimistic_mean_per_share <= 0:
+        return Absent(
+            AbsenceReason.NOT_YET_MEASURED,
+            "no trade count reaches the target: the pessimistic-cost mean is "
+            f"{pessimistic_mean_per_share:.9f} USD per share, at or below zero, "
+            "so the one-sided alternative the test is powered against lies "
+            "inside the null",
+        )
+    ratio = pessimistic_mean_per_share / per_trade_dispersion
+    return math.ceil(((z(1.0 - alpha) + z(target_power)) / ratio) ** 2)
+
+
 @final
 @dataclass(frozen=True, slots=True)
 class PowerRow:
