@@ -18,8 +18,9 @@ settlement history are public and are read without an account.
 
 1. **Log the operator prompt verbatim to `progress.md` before any other work.**
    Entry 0 exists before the first request.
-2. **State an ETA before arming each task. Record actual against it** in the
-   entry that reports the task.
+2. **State a measured ETA before arming each task** — derived from a probe or
+   from comparable measured work, never guessed — **and record actual against
+   it** in the entry that reports the task.
 3. **Commit at every task boundary. Push to `origin/main`** after each stage.
 4. **Measured beats documented.** Verify every external figure live. A
    documented rate limit is a claim, not a measurement.

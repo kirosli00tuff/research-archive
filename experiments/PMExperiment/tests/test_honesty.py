@@ -67,15 +67,18 @@ def test_claude_md_forbids_tuning_the_filter() -> None:
     assert "Do not tune a filter to increase a sample" in claude
 
 
-def test_registration_is_not_yet_registered() -> None:
-    """Section 0 must be written before the first request.
+def test_registration_section_zero_is_registered() -> None:
+    """Section 0 was committed in Stage A Task 0, before the first request.
 
-    This test is deliberately inverted: while the scaffold banner is present,
-    no request may be sent. Stage A Task 0 removes the banner in the same
-    commit that registers Section 0, and this test is replaced then.
+    This replaces the inverted scaffold test in the same commit that removed
+    the NOT YET REGISTERED banner, exactly as that test's docstring promised.
     """
     reg = _read("REGISTRATION.md")
-    assert "NOT YET REGISTERED" in reg
+    assert "NOT YET REGISTERED" not in reg
+    assert "Section 0 registered 2026-08-29" in reg
+    assert "0.02 to 0.08" in reg
+    assert "The split verdict is registered in advance as a finding" in reg
+    assert "no cost can be chosen after seeing a result" in reg
 
 
 def test_env_example_declares_no_credential() -> None:
