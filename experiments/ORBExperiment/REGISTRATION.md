@@ -208,6 +208,46 @@ result produced by authors who sell day-trading education.** That sentence is
 registered here because it is a fact about the evidence, and because a reader of
 a later positive verdict needs to meet it before the verdict rather than after.
 
+### 1.1 — the claim restated to match the measured trigger rate, appended 2026-08-29 under Amendment 22
+
+**This block is an append. Not one character above this line was edited**, and
+the original statement of H-ORB is left standing so the correction is visible.
+
+**What was falsified.** The phrase *"a **breakout** of the first 5-minute
+regular-session range"* implies a **selective event** — that a breakout is
+something that happens to some name-sessions and not others, and that selecting
+on it is part of what the rule does. **Measurement falsified that implication.**
+
+**A.1 TASK 5 measured the realized trigger rate at 0.982143**, `n = 560` selected
+name-sessions over `n = 28` evaluable post-holdout sessions. A.1 TASK 3 of the
+inference-repair pass measured the **ambiguous rate at 0.000000** on the same
+`n = 560`, so essentially nothing is excluded on that ground either.
+
+**Why it is nearly unconditional, in mechanical terms.** The opening range is
+the **first five minutes**. The trigger window is everything after it to the
+close — roughly **385 minutes**. Over that span a liquid name almost always
+trades outside a five-minute range in one direction or the other. **The
+condition selects on almost nothing. What carries whatever information exists is
+the direction of the first excursion, not the fact that one occurred.**
+
+> ### **H-ORB, restated.** Among US common stocks with **elevated opening relative volume**, **the sign of the first excursion past the opening 5-minute range predicts the direction of the remainder of the session**, **net of modeled commissions, fees, borrow and slippage**, out of sample from **2023-01-03**.
+
+**The registered rule itself is unchanged.** Section 2's universe and event rule,
+Section 3's entry, stop and exit, Section 4's sizing, Section 5's outcome and
+Section 6's costs are exactly as registered. **The rule is what was registered
+and it stands.** What changes is the **description of what the rule does**, and
+the description was wrong.
+
+**The joint claim survives the restatement, with its halves renamed.** It remains
+a claim about **the selection** and about **the directional signal**. The
+selection — top 20 by opening relative volume — is doing real conditioning work.
+The **breakout half is not a selector**; it is a **direction rule**. The source
+study's own numbers already said so, and this registration did not read them that
+way: the plain broad-universe rule returned **3.2 percent annually at Sharpe
+0.48, below passive**, while the relative-volume restriction returned **more than
+1,600 percent at Sharpe 2.81** (carried, C-2 and C-3). **The selection did almost
+all the work there too.**
+
 ---
 
 ## 2. Universe and event rule
@@ -656,6 +696,25 @@ and without spending:**
 **Neither route is chosen here, neither is recommended here, and no spend is
 authorised by this subsection.** Both are carried to the open operator items of
 `docs/HANDOVER.md`.
+
+### 11.2 — what a positive result would and would not be evidence about, appended 2026-08-29 under Amendment 22
+
+**This block is an append. Not one character above this line was edited.**
+
+**Following Section 1.1**, the epistemic boundary gains one line, and it narrows
+what a positive verdict may be quoted as showing:
+
+- **A positive result would be evidence about the informational content of the
+  first directional excursion** past the opening 5-minute range, among names
+  with elevated opening relative volume, net of the registered cost model.
+- **It would NOT be evidence that a breakout event, as commonly understood,
+  selects profitable sessions.** At the measured trigger rate of **0.982143**,
+  `n = 560` selected name-sessions, **almost every name-session produces one**.
+  There is no meaningful population of non-breakout sessions for the breakout
+  ones to be better than.
+
+**This is a narrowing of what the same result may be claimed to show, and it
+changes no threshold, no gate and no branch.**
 
 ---
 
@@ -3427,3 +3486,89 @@ require waiting.
 - **It closes nothing.** H1 remains **OPEN**.
 - **It opens no latch, arms nothing and authorises no spend.**
 - **It changes no rule of Sections 2, 3, 5 or 6.**
+
+---
+
+## Amendment 22 — Section 1 restated: the breakout is a direction rule, not a selector
+
+**Date:** 2026-08-29 · **Status:** accepted · appends **Section 1.1** and
+**Section 11.2**; **changes no registered rule**
+
+**What data existed when this amendment was made.** Everything held at
+Amendments 11 through 21, plus those amendments — the measured trigger rate of
+**0.982143**, `n = 560` selected name-sessions over `n = 28` evaluable
+post-holdout sessions, and the measured ambiguous rate of **0.000000** on the
+same `n = 560`. **Zero dollars spent, zero requests sent. Neither latch exists.**
+
+### 1. The implication that was falsified
+
+**Section 1 says *"a breakout of the first 5-minute regular-session range"*.**
+The word **breakout** implies a **selective event** — something that happens on
+some name-sessions and not others, whose occurrence is part of what the rule
+conditions on.
+
+**Measurement falsified the implication at `n = 28` sessions and `n = 560`
+selected name-sessions: the trigger rate is 0.982143.** Almost every selected
+name-session produces one. **The condition selects on almost nothing.**
+
+**The mechanics make it unsurprising once stated.** The opening range spans the
+**first five minutes**; the trigger window spans everything after it to the
+close, roughly **385 minutes**. A liquid name almost always trades outside a
+five-minute range in one direction or the other over that span. **What carries
+whatever information exists is the direction of the first excursion, not the
+fact that one occurred.**
+
+### 2. What is amended, and what is emphatically not
+
+**Amended: the description.** Section 1.1 restates H-ORB as a claim about **the
+sign of the first excursion** past the opening 5-minute range. Section 11.2 adds
+the consequence to the epistemic boundary.
+
+**Not amended: the rule.** Section 2's universe and event rule, Section 3's
+entry, stop and exit, Section 4's sizing, Section 5's outcome definition and
+Section 6's cost model are **byte-for-byte as registered**. **The rule is what
+was registered and it stands.** A rule that fires on 98 percent of name-sessions
+is still a well-defined rule with a well-defined direction, and changing it now
+would be changing the experiment after seeing a measurement.
+
+**This distinction is the whole of the amendment**: the registration described
+the rule wrongly, and the description is what is corrected.
+
+### 3. The joint claim survives, with its halves renamed
+
+H-ORB remains **a joint claim about the selection and about the signal**, and it
+can still fail on either half while the other is real. What changed is which
+half does which job:
+
+- **The selection — top 20 by opening relative volume — is doing real
+  conditioning work.**
+- **The breakout half is not a selector. It is a direction rule.**
+
+**The source study's own numbers already said this and this registration did not
+read them that way.** The plain broad-universe 5-minute ORB returned **3.2
+percent annually at Sharpe 0.48, below passive** (carried, C-2), while the
+top-20-by-relative-volume restriction returned **more than 1,600 percent at
+Sharpe 2.81** (carried, C-3). **The selection did almost all the work there
+too**, and `HYPOTHESES.md` has recorded that since the first commit. **What was
+missing was the step from "the selection does the work" to "then the breakout is
+not selecting anything", and it took a measured trigger rate to force it.**
+
+### 4. What it costs a later positive verdict
+
+**A narrowing, recorded before any read exists.** A positive result would be
+evidence about **the informational content of the first directional excursion**.
+It would **not** be evidence that a breakout event, as commonly understood,
+**selects profitable sessions** — because at a rate of 0.982143 there is no
+meaningful population of non-breakout sessions for the breakout ones to be
+better than.
+
+**A reader who arrives at a later `PASS` expecting a statement about breakouts
+would be reading a statement about direction.** Section 11.2 says so where the
+epistemic boundary is stated.
+
+### 5. What this amendment does not do
+
+- **It changes no rule, no threshold, no gate and no Section 0 branch.**
+- **It changes no figure.** E1, E2, joint power and every measured input are
+  exactly as Amendment 21 recorded them.
+- **It opens no latch, arms nothing, sends nothing and spends nothing.**
