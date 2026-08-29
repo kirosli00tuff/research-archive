@@ -1635,3 +1635,102 @@ at which point it stops being a pricing page and becomes a measurement.
 **`PENDING_SPEND` is registered as a Section 0 state at TASK 10 anyway**, so that
 a later reach shortfall has a clause to land in rather than being discovered
 without one.
+
+---
+
+## Entry 14 — STAGE A.1 TASK 6, delisted-name coverage
+
+**ETA 40 min · actual 46 min.** `n = 7` reference pages + `n = 280` intraday
+checks (120 + 140 Alpaca, 20 Massive). **0 dollars spent.**
+
+### The verdict
+
+> ## **`PASS`** — **203 delisted names with intraday history, measured**
+>
+> **`n = 229` in-window names checked on Alpaca, `203` served one-minute bars
+> for a session before the delisting, share 0.8865.** The registered bar is
+> **100 or more for `PASS`**, 20 to 99 for `PARTIAL`, below 20 for `FAIL`
+> firing BLOCKED. **203 clears it by measurement, not by extrapolation.**
+
+### Enumeration
+
+**`n = 6,421` delisted US common stocks** served by Massive's reference
+endpoint; **`n = 4,731` carry a delisting date inside the registered window
+2016-01-04 to 2026-06-30.**
+
+| year | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 | 2026¹ |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| delisted names | 230 | 354 | 345 | 365 | 339 | 474 | 519 | **704** | 569 | 523 | 309 |
+
+¹ through 2026-06-30 only.
+
+### The finding that forced a second pass
+
+**Massive's `delisted_utc.gte` and `delisted_utc.lte` filters were not
+honoured.** The request asked for 2016-01-04 to 2026-06-30 and the response
+carried **1,690 rows outside it** — names delisted from 2004 through 2015, and
+names delisted after 2026-06-30. **A caller trusting the filter would have
+recorded 6,421 as the in-window count: a 36 percent overstatement.**
+
+**This is the ADR-008 family again, one level up.** A vendor parameter that is
+silently ignored is indistinguishable, in the response, from one that matched
+everything. The window is now applied **client-side from `delisted_utc`**, which
+is a readable field this repository holds for every row.
+
+**And it invalidated the first sample rather than merely annoying it.** The first
+120-name draw came from the **whole** list, so **31 of 120 sat outside the
+registered window** — and **outside Alpaca's measured reach**, which starts
+2016-01-04. **Those names miss on *reach*, not on *delisted coverage*.** Counting
+them would have understated coverage:
+
+| Alpaca sample | n | served | share |
+|---|---:|---:|---:|
+| inside the registered window | **89** | **81** | **0.910** |
+| outside it, all pre-2016 | **31** | **0** | **0.000** |
+| first pass, combined | 120 | 81 | 0.675 |
+
+**0 of 31 is the confirmation.** If the misses were a coverage failure they
+would be scattered; they are **perfectly aligned with the reach boundary
+measured independently at TASK 5**.
+
+**So the sample was re-drawn inside the window and enlarged**, by the same blind
+rule — sort by delisting date then ticker, systematic stride, skip names already
+checked. **`n = 140` supplementary names**, combined with the 89 in-window names
+from the first pass: **`n = 229` checked, `203` served.**
+
+**Why enlarged rather than scaled up.** The registered threshold is a **count**,
+and **a rate measured on 20 names and multiplied by 4,731 is a synthesized
+value** — standing rule 5 forbids one. **203 is a count of names this repository
+actually requested bars for and received them.** The population count is higher;
+**this repository records what it measured.**
+
+### Massive, inside its own reach
+
+**18 of 20 sampled names served intraday bars; 16 of 18 for names delisted
+inside the registered window.** Every one of those 18 in-window names was
+delisted **after 2024-08-29**, because that is where Massive's history starts —
+**1,171 of the 4,731 in-window delisted names, 24.8 percent, are the entire pool
+Massive could ever answer for.** One check drew a `403`.
+
+**The two vendors divide the labour, and the division is a measured fact rather
+than a preference:**
+
+| capability | Massive | Alpaca |
+|---|---|---|
+| enumerate delisted names **with a delisting date** | **yes** — `/v3/reference/tickers?active=false&type=CS`, 6,421 rows | **no** — `/v2/assets?status=inactive` serves 19,189 US equity rows and **carries no delisting date** |
+| serve **intraday bars** for a delisted name | only inside a **24-month** window — 1,171 of 4,731 in-window names | **yes across the registered window** — 203 measured |
+
+**Massive is the reference vendor. Alpaca is the bar vendor.** Neither can do
+the other's job on the tiers this repository holds.
+
+### One more instance of the same hazard
+
+**Alpaca returned HTTP `200` on all 260 of its checks** — including every name
+it served nothing for. **There is no non-200 refusal on this vendor's bars
+endpoint at all.** `served` is therefore determined by **status code *and* bar
+count**, never by either alone. That is the third vendor-specific instance of
+ADR-008 recorded in this repository, and the pattern is now: **on a vendor that
+refuses at 200, health cannot be read from the status line.**
+
+**Gates: 322 tests passing, 28 guards, `mypy --strict` clean over 51 files,
+`ruff` clean.**
