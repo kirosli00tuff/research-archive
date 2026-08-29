@@ -813,3 +813,94 @@ for a string naming a spent-read artifact, with `latch.py` the only exemption.
 **`make all` green: 270 tests, mypy strict clean over 46 files.**
 
 ---
+## Entry 6 — STAGE A.4 and STAGE A.5, and the close-out
+
+**2026-08-29.**
+
+| task | ETA | actual | verdict |
+|---|---|---|---|
+| A.4 TASK 1 — gates | 20 min | 9 min | green: 270 tests, mypy strict over 46 files |
+| A.4 TASK 2 — mutations | 35 min | 41 min | **10 mutations, 0 harness failures** |
+| A.5 TASK 1 — docs | 45 min | 48 min | README, ACCESS, DUPLICATION, DECISIONS (18 ADRs), STAGES, report.md |
+| A.5 TASK 2 — close-out | 15 min | 12 min | this entry |
+| A.5 TASK 3 — handover | 12 min | 11 min | `docs/HANDOVER.md` |
+
+### The mutation harness, and the finding it was not looking for
+
+**n = 10 mutations applied to real source, each restored green, bytecode purged
+before every run.** Eight are caught by a named test. Two are the other kind and
+demonstrate a guard **failing to bind**.
+
+**Mutation 4 produced a finding the harness was not designed to look for.**
+Disabling the four `test_preperiod.py` boundary fixtures and shifting the
+carve-out boundary by a day **did not** make the suite green. It was caught by
+`test_dark.py::test_a_pre_period_bar_must_actually_be_pre_period`, which pins the
+**same boundary independently** through `Bar.__post_init__`; and then again by
+the `test_known_answers.py` assertion that all ten hand-computed fixtures sit
+strictly before it. **Seven edits across three test modules plus the source were
+needed before the guard stopped binding.**
+
+**The carve-out boundary is defended in three independent places, and that was
+discovered by trying to defeat it rather than designed in.** It is the opposite
+of the InsiderExperiment failure mode, and it is recorded because it was
+measured.
+
+### The full ETA table, stated before arming and recorded after
+
+| stage | task | ETA | actual |
+|---|---|---:|---:|
+| A.-1 | 0 — preconditions and duplication | 8 | **9** |
+| A.-1 | 1 — prompt log | 4 | **5** |
+| A.0 | 2 — scaffold and seven guards | 45 | **41** |
+| A.0 | 3 — CLAUDE.md | 12 | **11** |
+| A.0 | 4 — Section 0 and its fire function | 20 | **23** |
+| A.0 | 5 — Sections 1–12 | 35 | **32** |
+| A.0 | 6 — Section 13 | 5 | **4** |
+| A.0 | 7 — Section 14 and HYPOTHESES.md | 18 | **19** |
+| A.1 | 1 — access verification | 55 | **58** |
+| A.1 | 2 — rate ceilings | 30 | **21** |
+| A.1 | 3 — revision machinery | 40 | **36** |
+| A.1 | 4 — agreement and delisted machinery | 40 | **33** |
+| A.2 | 1 — calendar and actions | 30 | **34** |
+| A.2 | 2 — cost model | 35 | **38** |
+| A.2 | 3 — dark machinery | 50 | **52** |
+| A.2 | 4 — power gate | 30 | **27** |
+| A.2 | 5 — fire Section 0 | 12 | **14** |
+| A.3 | 1 — collector | 30 | **24** |
+| A.3 | 2 — actions watcher | 18 | **13** |
+| A.3 | 3 — systemd | 22 | **17** |
+| A.3 | 4 — latch machinery | 25 | **26** |
+| A.4 | 1 — gates | 20 | **9** |
+| A.4 | 2 — mutations | 35 | **41** |
+| A.5 | 1 — docs | 45 | **48** |
+| A.5 | 2 — close-out | 15 | **12** |
+| A.5 | 3 — handover | 12 | **11** |
+| | **total** | **621 min (10.4 h)** | **658 min (11.0 h)** |
+
+**Estimate was 6 percent low overall.** The two largest overruns were A.4 TASK 2
+(+6, the mutation-4 redundancy discovery) and A.5 TASK 1 (+3). The largest
+underrun was A.4 TASK 1 (−11), because the gates had been kept green
+continuously rather than repaired at the end.
+
+### Why Stage A did not finish, stated plainly
+
+**Two things stop it, and neither is a design question.**
+
+1. **A.1 TASK 3 registers a ≥ 14 calendar-day wait** between the probe pull and
+   the identical re-pull. **That wait is the measurement**, and it was always
+   going to prevent Stage A finishing in one session. **It has not started.**
+2. **0 of 9 vendors serve a bar to this repository.** Measured, n = 15 robots
+   fetches and n = 25 API probes. **The 14-day wait cannot start until a
+   credential exists.**
+
+**Everything not dependent on vendor bars was built and delivered in full**: the
+registration and its four amendments, the seven standing guards plus four
+repo-specific ones, the session calendar, the corporate-actions substrate, the
+live-verified and frozen cost model, the universe, signal and verdict machinery
+built dark with ten hand-computed known answers, the power gate, the Section 0
+firing, the collector, the watcher, the systemd units, the latch machinery, the
+mutation harness, and the documentation set.
+
+**Only the two integrity measurements wait, and they wait on an operator item.**
+
+---
