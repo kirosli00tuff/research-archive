@@ -21,7 +21,7 @@ never started.
 ## What this is not
 
 The claim above is narrow, and it is easy to inflate into something it does not
-support. Three limits, stated before the evidence rather than after it.
+support. Four limits, stated before the evidence rather than after it.
 
 **This is not evidence that those anomalies are absent, and four cases are four
 cases rather than a survey; the note claims a detectability result about
