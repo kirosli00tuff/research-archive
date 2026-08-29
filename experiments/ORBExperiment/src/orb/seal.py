@@ -18,6 +18,7 @@ from typing import final
 
 from orb.fields import PRICED_BAR_FIELDS, READABLE_FIELDS
 from orb.ledger import AppendOnlyLedger
+from orb.redact import redact_data
 
 
 class SealViolationError(PermissionError):
@@ -65,15 +66,25 @@ class SealedWriter:
         self.root.mkdir(parents=True, exist_ok=True)
 
     def store(self, relative_path: str, payload: bytes) -> SealRecord:
-        """Store ``payload`` verbatim and record its hash. No parse occurs."""
+        """Store ``payload`` redacted and record its hash. No parse occurs.
+
+        Guard 8 sits here rather than at the call site because a credentialed
+        endpoint can return the key **inside its own error body**, and a sealed
+        writer stores what it is handed without looking at it. Redaction is
+        **deterministic** — the same secret always becomes the same placeholder
+        — so the byte-level revision comparison of A.1 TASK 3 is unaffected:
+        two pulls differing only in a redacted key still hash equal, and two
+        pulls differing in a bar still hash unequal.
+        """
         target = self.root / relative_path
         target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_bytes(payload)
+        stored = redact_data(payload)
+        target.write_bytes(stored)
         record = SealRecord(
             path=target,
-            sha256=hashlib.sha256(payload).hexdigest(),
-            byte_count=len(payload),
-            line_count=payload.count(b"\n"),
+            sha256=hashlib.sha256(stored).hexdigest(),
+            byte_count=len(stored),
+            line_count=stored.count(b"\n"),
         )
         self._ledger.append(record.as_row())
         return record

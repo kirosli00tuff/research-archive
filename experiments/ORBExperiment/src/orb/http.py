@@ -21,6 +21,7 @@ from typing import Final, final
 
 from orb.callstate import HealthState
 from orb.ledger import RequestLedger
+from orb.redact import redact_data, redact_text
 
 USER_AGENT: Final[str] = (
     "ORBExperiment/0.1 (measurement-only research; no automated collection "
@@ -39,10 +40,39 @@ class Response:
     url: str
     status_code: int
     byte_count: int
+    """Bytes the vendor served, counted **before** redaction. A measurement."""
     elapsed_s: float
     body: bytes
     health: HealthState
     sent_at: str
+
+    def __post_init__(self) -> None:
+        """Guard 8. A Response is a recorded object, so it is redacted on birth.
+
+        The URL carries the key for a query-parameter vendor and the body
+        carries it for any vendor that echoes the request back inside an error.
+        Redacting **here** rather than at each call site means a Response
+        constructed by any caller, in any tool, is already safe to record.
+        """
+        object.__setattr__(self, "url", redact_text(self.url))
+        object.__setattr__(self, "body", redact_data(self.body))
+
+    @property
+    def stored_byte_count(self) -> int:
+        """Bytes after redaction — what a sealed writer would store."""
+        return len(self.body)
+
+    @property
+    def redaction_changed_the_body(self) -> bool:
+        """A length-based indicator that a credential was echoed back.
+
+        It is an **indicator, not a proof**: the raw body is gone by the time
+        anything can ask, and a placeholder that happened to match its secret's
+        length would not register. None of the three registered placeholders
+        matches its secret's length, so it registers for all three today. It is
+        recorded as a finding shape rather than relied on as a guarantee.
+        """
+        return self.stored_byte_count != self.byte_count
 
     def refusal_fragment(self, limit: int = 400) -> str:
         """The first bytes of a refusal, decoded lossily, for the record."""

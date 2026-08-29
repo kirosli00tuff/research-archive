@@ -21,6 +21,7 @@ from pathlib import Path
 from typing import Any, final
 
 from orb.absence import AbsenceReason, Absent
+from orb.redact import redact_row
 
 
 class LedgerError(Exception):
@@ -72,8 +73,14 @@ class AppendOnlyLedger:
         self.path.parent.mkdir(parents=True, exist_ok=True)
 
     def append(self, row: LedgerRow) -> None:
-        """Append one row durably. The row is stamped if it is not already."""
-        payload: dict[str, Any] = dict(row)
+        """Append one row durably, redacted. The row is stamped if it is not already.
+
+        Guard 8: a ledger row is a **recorded string**, so every credential
+        value in it becomes a placeholder naming its variable before the line
+        is serialised. Redaction is deterministic, so a ledger stays comparable
+        line for line across runs.
+        """
+        payload: dict[str, Any] = dict(redact_row(row))
         payload.setdefault("recorded_at", _utc_now_iso())
         line = json.dumps(payload, sort_keys=True, separators=(",", ":")) + "\n"
         flags = os.O_WRONLY | os.O_APPEND | os.O_CREAT

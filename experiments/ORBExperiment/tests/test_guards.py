@@ -644,3 +644,202 @@ def test_the_manual_run_guard_has_a_named_override() -> None:
 
     assert OVERRIDE_ENV == "ORB_ALLOW_MANUAL_RUN"
     assert set(UNITS) == {"orb-daily.service", "orb-actions.service"}
+
+
+# --------------------------------------------------------------------------
+# Guard 8 — secret redaction at the recording boundary
+# --------------------------------------------------------------------------
+
+RECORDING_BOUNDARIES: dict[tuple[str, str], str] = {
+    ("ledger.py", "append"): "redact_row",
+    ("seal.py", "store"): "redact_data",
+    ("http.py", "__post_init__"): "redact_text",
+}
+"""Every function that turns a string into a record, and the redactor it calls.
+
+Redaction sits **here** rather than at each call site because a credentialed
+endpoint can return the key inside its own error body and a sealed writer stores
+what it is handed without looking at it. A call site can be forgotten; a
+recording boundary is one of three places and each is pinned by parse tree.
+"""
+
+SYNTHETIC_CREDENTIAL: str = "SYNTHETIC-ORB-CREDENTIAL-VALUE-0123456789abcdefXYZ"
+"""A planted secret. It is not, and has never been, a real credential."""
+
+
+@pytest.mark.guard
+def test_no_credential_value_reaches_a_recorded_string(tmp_path: Path) -> None:
+    """Guard 8. A synthetic credential planted in a fake refusal body reaches
+    no sealed file, no ledger line, no response field and no console string.
+
+    The shape is taken from what the vendors actually do: Polygon carries the
+    key in the **query string**, and a credentialed endpoint can echo the key
+    back **inside its own error body**. `docs/ACCESS.md` records refusal
+    payloads verbatim, so both paths end in a recorded artifact.
+    """
+    import io
+    import json
+    from contextlib import redirect_stdout
+
+    from orb.callstate import HealthState
+    from orb.http import Response
+    from orb.ledger import AppendOnlyLedger, RequestLedger
+    from orb.redact import Redactor, install_redactor, placeholder_for, say
+    from orb.seal import SealedWriter
+
+    name = "ORB_SYNTHETIC_KEY"
+    marker = placeholder_for(name)
+    install_redactor(Redactor({name: SYNTHETIC_CREDENTIAL}))
+    try:
+        url = f"https://api.example.invalid/v2/aggs?apiKey={SYNTHETIC_CREDENTIAL}"
+        body = json.dumps(
+            {
+                "status": "ERROR",
+                "error": f"unknown api key {SYNTHETIC_CREDENTIAL} for this tier",
+                "request_id": "0000",
+            }
+        ).encode("utf-8")
+
+        seals = AppendOnlyLedger(tmp_path / "seals.jsonl")
+        writer = SealedWriter(tmp_path / "sealed", seals)
+        record = writer.store("probe.raw", body)
+
+        requests = RequestLedger(tmp_path / "requests.jsonl", {"vendorx": 5})
+        requests.charge("vendorx", "2026-08-30", url)
+
+        response = Response(
+            url=url,
+            status_code=401,
+            byte_count=len(body),
+            elapsed_s=0.1,
+            body=body,
+            health=HealthState.SOURCE_FAILED,
+            sent_at="2026-08-30T00:00:00.000Z",
+        )
+
+        console = io.StringIO()
+        with redirect_stdout(console):
+            say("probing", url, response.refusal_fragment())
+
+        artifacts: dict[str, bytes] = {
+            "sealed file": (tmp_path / "sealed" / "probe.raw").read_bytes(),
+            "seal ledger": (tmp_path / "seals.jsonl").read_bytes(),
+            "request ledger": (tmp_path / "requests.jsonl").read_bytes(),
+            "response.url": response.url.encode("utf-8"),
+            "response.body": response.body,
+            "refusal_fragment": response.refusal_fragment().encode("utf-8"),
+            "repr(response)": repr(response).encode("utf-8"),
+            "console": console.getvalue().encode("utf-8"),
+            "seal record path": str(record.path).encode("utf-8"),
+        }
+
+        needle = SYNTHETIC_CREDENTIAL.encode("utf-8")
+        leaks = [where for where, blob in artifacts.items() if needle in blob]
+        assert not leaks, f"credential value reached a recorded string: {leaks}"
+
+        # The placeholder must be present where the value was, naming its
+        # variable — a silently *dropped* secret would pass the check above
+        # while destroying the evidence the artifact exists to carry.
+        marker_bytes = marker.encode("utf-8")
+        for where in (
+            "sealed file",
+            "request ledger",
+            "response.url",
+            "response.body",
+            "console",
+        ):
+            assert marker_bytes in artifacts[where], (
+                f"{where} lost the secret without recording that it was there"
+            )
+    finally:
+        install_redactor(Redactor({}))
+
+
+@pytest.mark.guard
+def test_the_redaction_guard_actually_binds() -> None:
+    """A guard that cannot fire is decoration. This proves it fires.
+
+    With no redactor installed, the identical planted credential reaches the
+    identical artifacts. The guard above is therefore an assertion about the
+    redactor rather than about an input that never contained a secret.
+    """
+    import json
+
+    from orb.callstate import HealthState
+    from orb.http import Response
+    from orb.redact import Redactor, install_redactor
+
+    install_redactor(Redactor({}))
+    body = json.dumps({"error": f"key {SYNTHETIC_CREDENTIAL} rejected"}).encode("utf-8")
+    response = Response(
+        url=f"https://x.invalid/?apiKey={SYNTHETIC_CREDENTIAL}",
+        status_code=401,
+        byte_count=len(body),
+        elapsed_s=0.0,
+        body=body,
+        health=HealthState.SOURCE_FAILED,
+        sent_at="2026-08-30T00:00:00.000Z",
+    )
+    assert SYNTHETIC_CREDENTIAL in response.url
+    assert SYNTHETIC_CREDENTIAL.encode("utf-8") in response.body
+
+
+@pytest.mark.guard
+def test_every_recording_boundary_routes_through_the_redactor() -> None:
+    """Guard 8, structurally. Each boundary function calls its redactor."""
+    missing: list[str] = []
+    for (module, function), redactor in RECORDING_BOUNDARIES.items():
+        tree = _parse(SRC_ROOT / module)
+        target: ast.FunctionDef | None = None
+        for node in ast.walk(tree):
+            if isinstance(node, ast.FunctionDef) and node.name == function:
+                target = node
+                break
+        if target is None:
+            missing.append(f"{module}:{function} does not exist")
+            continue
+        calls = {
+            n.func.id
+            for n in ast.walk(target)
+            if isinstance(n, ast.Call) and isinstance(n.func, ast.Name)
+        }
+        if redactor not in calls:
+            missing.append(f"{module}:{function} does not call {redactor}")
+    assert not missing, (
+        f"recording boundaries not redacting, n = {len(missing)}: {missing}"
+    )
+
+
+@pytest.mark.guard
+def test_no_module_hardcodes_a_credential_variable_outside_the_registry() -> None:
+    """The three credential names live in one module, as Guard 6 does for the
+    carve-out boundary. A name re-typed elsewhere is a second place to audit."""
+    from orb.credentials import CREDENTIAL_NAMES
+
+    offenders: list[str] = []
+    for path in _module_paths():
+        if path.name == "credentials.py":
+            continue
+        for node in ast.walk(_parse(path)):
+            if (
+                isinstance(node, ast.Constant)
+                and isinstance(node.value, str)
+                and node.value in CREDENTIAL_NAMES
+            ):
+                offenders.append(f"{path.name}:{node.lineno} names {node.value}")
+    assert not offenders, f"credential variable named outside the registry: {offenders}"
+
+
+@pytest.mark.guard
+def test_the_credential_presence_row_carries_no_value_shaped_field() -> None:
+    """Presence, name and character length are recordable. Nothing else is.
+
+    A hash is excluded by name: a hash of a 32-character key is a confirmation
+    oracle for a guess, and that is the half of the rule that is easy to miss.
+    """
+    from orb.credentials import CredentialPresence
+
+    row = CredentialPresence("ORB_X", is_present=True, character_length=32).as_row()
+    assert set(row) == {"kind", "credential", "is_present", "character_length"}
+    forbidden = {"value", "secret", "sha256", "hash", "digest", "prefix", "suffix"}
+    assert not (set(row) & forbidden), row

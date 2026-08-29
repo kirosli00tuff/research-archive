@@ -904,3 +904,259 @@ mutation harness, and the documentation set.
 **Only the two integrity measurements wait, and they wait on an operator item.**
 
 ---
+
+## Entry 7 — the A.1 resumption prompt, logged verbatim before any other work
+
+**Recorded 2026-08-30T00:00Z.** Standing rule 1 requires the operator prompt to
+be reproduced verbatim in this file before any other work. At the moment this
+entry was written, this repository held **the same zero bars it held at Entry
+6**: no price, no volume, no census row, no bar of any kind from any vendor.
+The one thing that changed since Entry 6 is that **`.env` now carries three
+credential values**, git-ignored, presence and character length recorded and
+**nothing else** — no value, no prefix, no suffix, no hash.
+
+**One ordering note, recorded rather than smoothed.** The prompt's own first
+instruction is *"Read first, for state and not for text"*, and standing rule 1
+says the prompt is logged *"before any other work"*. Both are honoured by
+ordering the two against **writes**: `progress.md`, `REGISTRATION.md`,
+`docs/ACCESS.md`, `DECISIONS.md`, `CLAUDE.md` and `HYPOTHESES.md` were read, and
+`git status`, `git check-ignore` and a `.env` key-length scan were run, before
+this entry — and **this entry is the first byte written to the repository in
+this session.** The reads changed nothing and sent nothing.
+
+**This prompt supersedes the Stage A prompt at `docs/STAGE_A_PROMPT.md` for the
+A.1 ladder only.** Where the earlier prompt already wrote to the repository,
+nothing it wrote is edited. It is superseded by dated amendment with the
+original left visible, per the append-only rule.
+
+### The prompt, verbatim
+
+> ORBExperiment, Stage A.1 resumption. Effort: high. Run autonomously. Commit at every task boundary and push to origin/main immediately after every commit. Never force-push, never amend or rewrite a pushed commit.
+>
+> This prompt supersedes any earlier A.1 resumption prompt. Where an earlier version already wrote to the repository, do not edit what it wrote. Supersede it with a new dated amendment and leave the original visible, per the append-only rule.
+>
+> Read first, for state and not for text: progress.md in full, REGISTRATION.md Sections 0, 8, 9, 10, 12, 13 and 14, docs/ACCESS.md in full, docs/HANDOVER.md, DECISIONS.md, and CLAUDE.md. Stage A fired PENDING_ACCESS on 2026-08-29 because no vendor served a bar, n equals 9 vendors and 0 usable. Two credentials now exist. This resumption converts that access state into a measured one, or into a documented refusal.
+>
+> Standing rules from the Stage A prompt remain in force unchanged: recorded absence, append-only fsynced ledgers, the seven call states, outcome blindness with the field lists as registered, the pre-period carve-out at 2016-01-04T14:30:00.000Z exclusive, measured beats documented, every figure travels with its n, terms of service bind, and spend nothing without explicit operator instruction. Two rules are amended below and one guard is added.
+>
+> Credentials now present in .env, git-ignored, values never to be read into any log, report, ledger, commit, error payload or console line: ORB_MASSIVE_API_KEY, ORB_ALPACA_API_KEY, ORB_ALPACA_SECRET_KEY. Massive is the vendor formerly branded Polygon, consistent with the measured 301 redirect recorded in ACCESS.md.
+>
+> STAGE A.-1 : TASK 0. Preconditions and the secret-redaction guard.
+>
+> Confirm the tree is clean, main tracks origin/main, and git push --dry-run succeeds.
+> Confirm .env is ignored by git check-ignore. If it is not, halt immediately and report.
+> Load the three credentials. Verify each is non-empty. Record presence and character length only. Never record a value, a prefix, a suffix, or a hash that would confirm a guess.
+> Add Guard 8, secret redaction, before any credentialed request is sent. Every string bound for a log, a report, a ledger row, an exception message or the console passes through a redactor replacing any loaded credential value with a placeholder naming its variable. ACCESS.md records refusal payloads verbatim, and a credentialed endpoint returns a key inside an error body, so redaction sits at the recording boundary rather than at the call site. Pin with tests/test_guards.py::test_no_credential_value_reaches_a_recorded_string using a synthetic credential planted in a fake response body and asserted absent from every recorded artifact.
+> Commit. Push.
+>
+> STAGE A.0 : TASK 1. Section 13, the operator prior.
+>
+> The operator prior is 0.30, labelled INDEPENDENT, dated 2026-08-29.
+>
+> If an earlier amendment recorded an adopted prior of 0.15 in Section 13, do not edit that line. Supersede it with a new sequential amendment, leave the original visible, and state in the new amendment that the adopted figure is void and replaced.
+>
+> Record in the entry, as structured provenance rather than prose:
+>
+> Operator prior 0.30, label INDEPENDENT, date 2026-08-29.
+> Assistant prior 0.15, date 2026-08-28.
+> Blindness: independent but not blind. The assistant prior was recorded first and was visible to the operator before the operator formed this number. A later reader must not score 0.30 as an unanchored estimate.
+> Operator's stated reason, recorded in the operator's terms: prior house experiments have carried pessimistic evaluations, and the operator's own research and knowledge of intraday opening-range behaviour supports a figure above the assistant's 0.15.
+> Recorded ambiguity in that reason, flagged at the time of writing and left unresolved on purpose: harsh house gates argue for a lower prior on H1 clearing them, while systematic house under-forecasting of survival argues for a higher one. The operator did not narrow between the two readings. The resolution of H1 scores the number either way.
+> Disagreement: the two priors differ by a factor of two. Record as a field, not as prose, so both are scored against the same outcome.
+> Calibration eligibility: H1 is eligible for operator calibration scoring. Any earlier exclusion recorded on adopted-prior grounds is void, and the amendment says so by name.
+>
+> Write to REGISTRATION.md Section 13, to the Section 14 amendment log as the next sequential amendment, and to the HYPOTHESES.md H1 entry. Confirm the Section 10 latch precondition now reads satisfied. Confirm in the commit message that no power figure, no co-primary and no Section 0 input changed as a result. Commit. Push.
+>
+> STAGE A.0 : TASK 2. Amend the falsified secrets rule.
+>
+> CLAUDE.md rule 3 currently states that secrets never enter the repo, that none are needed, that .env.example is empty on purpose, and that no API key exists anywhere in this project. Measurement falsified that on 2026-08-29 against n equals 9 vendors and 0 usable without a credential. Amend rather than contradict silently.
+> The amended rule states: credentials are required, measurement established this and the ACCESS.md line is cross-referenced, keys live in .env which is git-ignored, .env.example carries names only and never values, and Guard 8 enforces redaction at the recording boundary.
+> Populate .env.example with the three names and empty values.
+> Record the falsification in Section 14 as the next sequential amendment, naming what data existed when it was made. Do not edit anything above an amendment line.
+> Amend Section 12 to reflect that Stage A now holds credentials on free or trial tiers, that spend remains zero, and that any paid tier still requires explicit operator instruction and its own ADR.
+> Commit. Push.
+>
+> STAGE A.1 : TASK 3. Credentialed access verification.
+>
+> For each credential send a minimal authenticated probe. Record status code, latency, body size, and redacted body. Establish that the credential authenticates before measuring anything about the data.
+> Massive: a reference endpoint, and a single-ticker 1-minute aggregate request inside the pre-period carve-out window.
+> Alpaca: the bars endpoint for a single ticker inside the carve-out window, plus whatever endpoint exposes entitlement or subscription description.
+> Record per credential: authenticated yes or no, and if no, the exact refusal.
+> On a credential that fails to authenticate, record the refusal, do not retry beyond registered pacing, and route to a PENDING_ACCESS re-fire naming which credential failed. Do not proceed to TASK 4 on a broken credential.
+>
+> STAGE A.1 : TASK 4. Tape identification. Complete this before any agreement measurement.
+>
+> Establish per credential, by measurement rather than documentation, which tape each feed carries. The question is whether the feed reflects consolidated SIP-derived activity or a single-venue subset such as IEX only.
+> Method, through the sealed comparator so no bar value leaves it: for a fixed list of 20 liquid tickers across 5 sessions inside the pre-period carve-out, compare per-session first-5-minute total volume between the two feeds. Report the ratio distribution with its n, the median ratio, the interquartile range, and the share of session-ticker pairs where the ratio falls below 0.20. A single-venue subset presents a systematically small fraction of the other feed's volume.
+> Record what each vendor documents about tape coverage and entitlement, labelled documented, beside the measured ratio, labelled measured. Where they disagree the measurement wins and the disagreement is a recorded finding.
+> Verdict shape. This is a new registered branch, not a reinterpretation of an existing one.
+> SAME_TAPE, median ratio within 0.90 to 1.10. The registered agreement thresholds of 95 percent PASS, 85 to 95 percent PARTIAL, below 85 percent FAIL apply as written.
+> DIFFERENT_TAPE, median ratio below 0.50. The registered agreement thresholds do not apply and must not fire. Write an amendment stating that the feeds measure different tapes, that a first-5-minute high-or-low disagreement between them is a tape-coverage finding rather than an integrity finding, and that cross-vendor agreement as registered is not measurable on this pair. Route to an open operator item: either a second credential on a comparable tape, or explicit acceptance that the agreement gate is unmeasured with the verdict scope narrowed accordingly.
+> AMBIGUOUS, anything between. Record the full distribution, fire nothing, hand the operator the numbers.
+> Either way, record whether the two vendors appear to redistribute a common upstream. If they do, state that the agreement measurement scores a redistribution pipeline rather than two independent feeds, and say so in the selection ADR.
+>
+> STAGE A.1 : TASK 5. Historical reach, bisected per credential.
+>
+> Do not read reach from a pricing page. Bisect it. For each credential, binary-search the earliest session for which a 1-minute aggregate request returns bars rather than a refusal or an empty set, using a single continuously listed liquid ticker. Report the earliest served session with its n of probes and the boundary refusal payload, redacted.
+> Compare measured reach against the registered in-sample window opening 2016-01-04 and the holdout opening 2023-01-03.
+> On a credential reaching 2016-01-04, record and continue.
+> On a shortfall this is decisive and must not be worked around. Record the measured earliest session. Compute and report which registered windows remain reachable, the session count in each, and E1 power at the registered 1.40 Sharpe assumption on the reachable count alone, using the existing power module. Then stop the ladder at TASK 8, fire a Section 0 re-verdict of PENDING_SPEND, and hand the operator a costed decision naming the vendor tier, the carried monthly figure labelled carried, and what the tier is claimed to unlock. Arm nothing. Spend nothing.
+>
+> STAGE A.1 : TASK 6. Delisted-name coverage, measured.
+>
+> Enumerate tickers each credential serves carrying a delisting date inside 2016-01-04 to 2026-06-30. Report the total, the count per year, and for a sample of 20 delisted names whether 1-minute bars are served for sessions before the delisting rather than merely referenced in a listing table. A reference row costs nothing. A served bar is the thing the experiment needs.
+> Registered thresholds apply and fire as registered: at least 100 delisted names with intraday history is PASS, 20 to 100 is PARTIAL, below 20 is FAIL and fires BLOCKED.
+>
+> STAGE A.1 : TASK 7. Rate ceilings, measured with the credential.
+>
+> The uncredentialed ceilings in ACCESS.md were measured against a 401 and carry no information about the served path. Re-measure per endpoint under the request ledger using the existing escalation protocol. Record the refusal shape verbatim and redacted, the sustained admitted rate, and an operating pace at half the measured ceiling, reduced further where recorded terms ask for it. Update the per-vendor daily cap and wire it into the ledger so the cap charges before sending. Record any disagreement with the documented limit as a finding.
+>
+> STAGE A.1 : TASK 8. Vendor selection ADR.
+>
+> Choose primary and secondary on the two integrity questions and not on price: does the tier serve delisted names with intraday history, and does it retroactively rewrite already-served bars, the second of which TASK 9 arms and cannot yet answer.
+> The ADR states the measured tape verdict from TASK 4, the measured reach from TASK 5, the measured delisted coverage from TASK 6, and where the pair shares an upstream or carries different tapes it says so in the decision text rather than in a footnote.
+>
+> STAGE A.1 : TASK 9. The probe pull, sealed, and the revision clock started.
+>
+> Only on a TASK 5 reach covering the registered windows, a TASK 6 verdict of PASS or PARTIAL, and a TASK 4 verdict that is not blocking.
+> Pull the registered probe slice from the primary: 60 consecutive regular sessions ending at least 30 calendar days before today, across the registered 40-ticker list selected by the sealed writer without reference to any price. Record the ticker list, the session list, and a SHA-256 per stored file in the append-only ledger. Parse nothing outside the readable field list.
+> Arm the re-pull unit for the registered wait of at least 14 calendar days. Record the earliest eligible re-pull date explicitly in progress.md and in HANDOVER.md. This clock is the long pole and the repo says so plainly.
+> Do not arm the production collector or the systemd timers in this resumption. They stay inert until the revision verdict exists.
+>
+> STAGE A.1 : TASK 10. Re-fire Section 0.
+>
+> Fire the existing Section 0 function with the newly measured inputs. Record the verdict with every input figure and its n beside it, in the amendment log, in HYPOTHESES.md and in progress.md.
+> Expected branches. PENDING_REVISION where access now passes but the 14-day revision measurement does not yet exist, which is the likely landing state and is a legitimate parked outcome rather than a failure. PENDING_SPEND on a TASK 5 reach shortfall. BLOCKED on a TASK 6 FAIL. PENDING_ACCESS on a TASK 3 credential failure.
+> Do not fire GO or DEGRADED. Neither is reachable before the revision and agreement measurements exist, and firing either would claim a measurement this repository does not hold.
+>
+> STAGE A.2 : TASK 11. Docs and close-out.
+>
+> Update docs/ACCESS.md with a credentialed section carrying every measured figure with its n, keeping the uncredentialed findings intact above it rather than replacing them. Update the README.md what-is-measured-so-far table. Add new ADRs to DECISIONS.md, at minimum the secret-redaction guard, the tape-identification branch, the independent-prior labelling with its recorded ambiguity, and the vendor selection. Add a report.md section for the resumption, written for the moment it landed. Update docs/HANDOVER.md with the new state, the earliest re-pull date, and the open operator items.
+> Re-run make lint, typecheck, test and the mutation harness. Add two mutations: remove the redactor and confirm the credential test fails, and force the tape verdict to SAME_TAPE on a DIFFERENT_TAPE fixture and confirm the branch test fails. Evidence in reports/stage_a1r.
+> progress.md entries per task with ETA against actual. Final commit. Push.
+> Print an end-state summary: the Section 0 verdict with its inputs, per credential authentication status, the measured tape ratio with its n, the measured earliest reachable session per credential, the delisted-name count with intraday history confirmed, the measured rate ceilings, the earliest eligible re-pull date, and the open operator items.
+
+### The ETA table, stated before arming, per standing rule 2
+
+| stage | task | ETA (min) |
+|---|---|---:|
+| A.-1 | 0 — preconditions and Guard 8 secret redaction | 40 |
+| A.0 | 1 — Section 13, the operator prior | 25 |
+| A.0 | 2 — amend the falsified secrets rule | 20 |
+| A.1 | 3 — credentialed access verification | 30 |
+| A.1 | 4 — tape identification | 55 |
+| A.1 | 5 — historical reach, bisected | 35 |
+| A.1 | 6 — delisted-name coverage | 40 |
+| A.1 | 7 — rate ceilings, credentialed | 35 |
+| A.1 | 8 — vendor selection ADR | 25 |
+| A.1 | 9 — the probe pull and the revision clock | 45 |
+| A.1 | 10 — re-fire Section 0 | 25 |
+| A.2 | 11 — docs, mutations and close-out | 60 |
+| | **total** | **435 (7.25 h)** |
+
+**Two branches are registered in this prompt that the repository does not yet
+hold**, and both are named here before either is reachable: a **tape-identification
+verdict** (`SAME_TAPE` / `DIFFERENT_TAPE` / `AMBIGUOUS`) and two further Section 0
+states (`PENDING_REVISION`, `PENDING_SPEND`). Each is registered by its own dated
+amendment before it can fire, and **`GO` and `DEGRADED` are explicitly unreachable
+in this resumption** — the revision measurement needs a 14-day wait that has not
+started.
+
+---
+
+## Entry 8 — STAGE A.-1 TASK 0, preconditions and Guard 8
+
+**ETA 40 min.** Recorded below after the task closed.
+
+### Preconditions, measured
+
+| precondition | result |
+|---|---|
+| working tree clean | **yes**, `git status --porcelain` returned 0 lines |
+| `main` tracks `origin/main` | **yes** |
+| ahead / behind `origin/main` | **0 / 0** |
+| `git push --dry-run` | **succeeds** — `Everything up-to-date` |
+| `.env` ignored by `git check-ignore` | **yes** — `.gitignore:1:.env` |
+| `.env` tracked by git | **no** — `git ls-files --error-unmatch .env` errors |
+
+### The three credentials, presence and length only
+
+**Never a value, never a prefix, never a suffix, never a hash.** A hash of a
+32-character key is a confirmation oracle for a guess, so no hash is recorded
+either — this is stated because it is the non-obvious half of the rule.
+
+| variable | present | character length |
+|---|---|---:|
+| `ORB_MASSIVE_API_KEY` | **yes** | **32** |
+| `ORB_ALPACA_API_KEY` | **yes** | **26** |
+| `ORB_ALPACA_SECRET_KEY` | **yes** | **44** |
+
+**n = 3 credentials loaded, 3 non-empty, 0 empty, 0 missing.**
+
+### Guard 8 — secret redaction, and why it sits where it sits
+
+**The hazard, stated as three facts that are individually harmless.** A
+credentialed endpoint can return the key **inside its own error body**.
+`docs/ACCESS.md` records refusal payloads **verbatim** — that is the whole point
+of the file. `orb.seal.SealedWriter` stores raw vendor bytes **without parsing
+them**, which is what makes it a sealed writer. Put the three together and a key
+reaches a committed artifact **without any module ever printing one on purpose.**
+
+**So redaction is placed at the recording boundary, not the call site.** A call
+site can be forgotten; a recording boundary is three places, and each is pinned
+by parse tree.
+
+| boundary | function | redactor |
+|---|---|---|
+| `orb/ledger.py` | `AppendOnlyLedger.append` | `redact_row` |
+| `orb/seal.py` | `SealedWriter.store` | `redact_data` |
+| `orb/http.py` | `Response.__post_init__` | `redact_text` and `redact_data` |
+
+**A `Response` is redacted on birth**, so a `Response` constructed by any caller
+in any tool is already safe to record — the URL carries the key for a
+query-parameter vendor like Massive, and the body carries it for any vendor that
+echoes the request back inside an error.
+
+### The one thing this had to get right, and why
+
+**Redaction is deterministic.** The same secret always becomes the same
+placeholder. That is not a stylistic choice: **A.1 TASK 3 measures the bar
+revision rate by comparing stored bytes across two pulls 14 calendar days
+apart**, and a redactor that varied its output would make every pull differ from
+every other pull and register a **100 percent revision rate** — a fabricated
+BLOCKED at `> 0.020`. Pinned by
+`test_redaction_is_deterministic_so_byte_comparison_survives_it`: equal payloads
+stay equal, differing payloads stay different.
+
+**A secret shorter than 8 characters is refused, not redacted.** Redacting a
+two-character needle would rewrite every artifact this process writes into
+noise. `MIN_REDACTABLE_LENGTH` is pinned with a fixture **exactly on** the
+boundary — 7 characters raises, 8 redacts — per the InsiderExperiment lesson
+that a fixture comfortably inside its boundary lets a moved threshold pass.
+
+### A finding the guard produced rather than assumed
+
+`Response.byte_count` counts what the **vendor served**, before redaction;
+`Response.stored_byte_count` counts what a sealed writer would **store**. They
+differ exactly when a credential appeared in the body, so
+`redaction_changed_the_body` is a **finding shape**: a vendor echoing a key back
+in an error is visible without anyone reading the body. It is recorded as an
+indicator and **labelled as an indicator rather than a proof** — the raw body is
+gone by the time anything can ask, and a placeholder matching its secret's length
+would not register. None of the three registered placeholders matches its
+secret's length, so it registers for all three today.
+
+### The pins
+
+| test | what it holds |
+|---|---|
+| `test_no_credential_value_reaches_a_recorded_string` | a synthetic credential planted in a fake refusal body reaches **none** of 9 recorded artifacts — and the placeholder **is** present where the value was, so a silently dropped secret fails too |
+| `test_the_redaction_guard_actually_binds` | with no redactor installed the identical planted credential **does** reach the identical artifacts |
+| `test_every_recording_boundary_routes_through_the_redactor` | each of the 3 boundary functions calls its redactor, by parse tree |
+| `test_no_module_hardcodes_a_credential_variable_outside_the_registry` | the three names live in one module, as Guard 6 does for the carve-out boundary |
+| `test_the_credential_presence_row_carries_no_value_shaped_field` | the presence row excludes `value`, `secret`, `sha256`, `hash`, `digest`, `prefix` and `suffix` **by name** |
+
+**Gates after TASK 0: 295 tests passing (was 270, `n = +25`), 28 of them guards
+(was 23), `mypy --strict` clean over 49 files (was 46), `ruff` clean.**
+
+**ETA 40 min · actual 38 min.**
