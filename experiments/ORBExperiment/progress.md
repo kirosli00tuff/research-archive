@@ -522,3 +522,79 @@ measurements wait, and they wait on an operator item rather than on a design
 question.**
 
 ---
+## Entry 3 — STAGE A.1 TASK 3 and TASK 4, machinery built and armed
+
+**2026-08-29.**
+
+| task | ETA | actual | verdict |
+|---|---|---|---|
+| A.1 TASK 3 — bar revision machinery | 40 min | 36 min | **built and armed; measurement blocked on credential** |
+| A.1 TASK 4 — agreement and delisted machinery | 40 min | 33 min | **built and armed; measurement blocked on credential** |
+
+**Neither measurement was taken, and neither figure is invented.** Both findings
+sit as `Absent(not_yet_measured, "no credentialed vendor")` and Section 0 fires
+**PENDING_ACCESS** on them (Amendment 1). **Standing rule 5: absence is a
+recorded state, never a synthesized value.** What was built is the machinery
+that fires the moment two credentials exist, with its behaviour pinned against
+synthetic fixtures whose answers were computed by hand.
+
+**The sealed comparator, `orb.comparator.SealedComparator`.** It reads price and
+volume from two vendors, in integer cents — **float equality on money is a
+bug** — and returns **only** a `RevisionFinding` or an `AgreementFinding`, every
+field of which is an `int` or a `float` count. It is pinned four ways:
+
+- `test_comparator_returns_no_bar_value` walks the parse tree and requires every
+  **public** method's return annotation to be a counts-only record or a scalar;
+- `test_comparator_findings_carry_only_counts` requires every field of both
+  records to be `int` or `float` and to carry no priced-field name;
+- `test_the_comparator_returns_no_bar_value_at_runtime` checks the returned
+  object holds neither `10.50` nor `1050` — the fixture's own opening-range high
+  in dollars and in cents;
+- `test_the_comparator_is_the_only_module_that_reads_a_priced_field` requires
+  that `comparator.py` **does** read priced fields and that `seal.py` does not.
+
+**Known answers, hand-computed and pinned.** One revised bar in five measures
+**exactly 0.20** and fires `FAIL`; an unchanged re-pull measures **0.0** and
+fires `PASS`; a one-cent disagreement **inside** the opening range breaks the
+pair while a disagreement **outside** it does not; a bar stamped **exactly at
+09:35:00.000** is outside the half-open range; and a clean re-pull taken at
+**13 days** reports `wait_satisfied() == False`, so a re-pull taken too early is
+**not evidence of a clean vendor**.
+
+### Guard 5 had a hole, the comparator found it, and the guard was widened
+
+**Recorded rather than smoothed.** `test_the_comparator_is_the_only_module_that_reads_a_priced_field`
+failed on its first run with `assert []` — **the guard could not see the
+comparator reading OHLC at all.** The reason is structural: the comparator reads
+through a **variable alias**,
+
+    for aliases in (("o", "open"), ("h", "high"), ...):
+        for alias in aliases:
+            if alias in bar: found = bar[alias]
+
+and a walk that matches only **constant** subscripts, attributes and `.get`
+calls is blind to it. **A guard with that hole would have passed a module that
+reads every priced field on every bar.**
+
+**The guard was widened, not the test relaxed.** A fourth detection form was
+added — **a bare string constant naming a priced field, anywhere** — because
+naming the field at all is the reachable signal. Two consequences were handled
+rather than worked around:
+
+1. **The declaration site would flag itself.** `PRICED_BAR_FIELDS` was moved out
+   of `seal.py` into a new `orb/fields.py`, **a registry containing names and no
+   logic at all**, and that one module is the guard's single structural
+   exemption. `seal.py` now imports the list and reads **zero** priced fields,
+   which the guard asserts directly.
+2. **A constant subscript is also a string constant**, so findings are
+   deduplicated by `(line, field)` keeping the more specific form. The direct
+   probe still reports exactly three forms; a separate indirect probe —
+   `for k in ('high',): return bar[k]` — reports `string constant`, and both are
+   pinned.
+
+**A guard that has never been shown to catch anything is an assertion about
+nothing.** This one has now caught two real reads in this repository's own
+source: `Path.open` in `ledger.py` at A.0 TASK 2, and its own blindness to
+variable-alias access at A.1 TASK 3.
+
+---

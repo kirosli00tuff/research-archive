@@ -14,10 +14,13 @@ from pathlib import Path
 import pytest
 
 from orb.config import CONFIG, Config
-from orb.seal import PRICED_BAR_FIELDS
+from orb.fields import PRICED_BAR_FIELDS
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 SRC_ROOT = REPO_ROOT / "src" / "orb"
+
+FIELD_REGISTRY_MODULE: str = "fields.py"
+"""The declaration site of the two field lists. Names only; it reads nothing."""
 
 SEALED_MODULES: frozenset[str] = frozenset({"seal.py", "comparator.py"})
 """The only modules permitted to touch a priced bar field.
@@ -61,11 +64,34 @@ class BarFieldRead:
         return f"{self.module}:{self.lineno} reads {self.field!r} via {self.form}"
 
 
+FORM_SPECIFICITY: dict[str, int] = {
+    "attribute": 3,
+    "subscript": 2,
+    ".get()": 2,
+    "string constant": 1,
+}
+"""A constant subscript is also a string constant. Keep the specific form."""
+
+
 def _bar_field_reads(path: Path) -> list[BarFieldRead]:
-    """Every read of a priced bar field in ``path``, by parse tree."""
+    """Every read of a priced bar field in ``path``, by parse tree.
+
+    Four forms are caught. The fourth — a bare string constant naming a priced
+    field — closes the hole the comparator found in this guard on the day the
+    comparator was written: ``for k in ("o", "open"): bar[k]`` reads a priced
+    field through a **variable**, which no constant-subscript walk can see.
+    Naming the field at all is the reachable signal, so the guard flags the name
+    wherever it is spelled.
+    """
     tree = _parse(path)
-    found: list[BarFieldRead] = []
+    found: dict[tuple[int, str], BarFieldRead] = {}
     module = path.name
+
+    def record(lineno: int, field: str, form: str) -> None:
+        key = (lineno, field)
+        existing = found.get(key)
+        if existing is None or FORM_SPECIFICITY[form] > FORM_SPECIFICITY[existing.form]:
+            found[key] = BarFieldRead(module, lineno, field, form)
 
     for node in ast.walk(tree):
         # bar.close / row.volume
@@ -76,17 +102,17 @@ def _bar_field_reads(path: Path) -> list[BarFieldRead]:
                 and receiver.id in SAFE_ATTRIBUTE_RECEIVERS
             ):
                 continue
-            found.append(BarFieldRead(module, node.lineno, node.attr, "attribute"))
+            record(node.lineno, node.attr, "attribute")
 
         # bar["close"] / row['o']
         elif isinstance(node, ast.Subscript):
-            key = node.slice
+            key_node = node.slice
             if (
-                isinstance(key, ast.Constant)
-                and isinstance(key.value, str)
-                and key.value in PRICED_BAR_FIELDS
+                isinstance(key_node, ast.Constant)
+                and isinstance(key_node.value, str)
+                and key_node.value in PRICED_BAR_FIELDS
             ):
-                found.append(BarFieldRead(module, node.lineno, key.value, "subscript"))
+                record(node.lineno, key_node.value, "subscript")
 
         # bar.get("close") / row.get('v', 0)
         elif isinstance(node, ast.Call):
@@ -102,13 +128,17 @@ def _bar_field_reads(path: Path) -> list[BarFieldRead]:
                     and isinstance(first.value, str)
                     and first.value in PRICED_BAR_FIELDS
                 ):
-                    found.append(
-                        BarFieldRead(
-                            module, node.lineno, first.value, f".{func.attr}()"
-                        )
-                    )
+                    record(first.lineno, first.value, f".{func.attr}()")
 
-    return found
+        # A bare string constant naming a priced field, anywhere.
+        elif (
+            isinstance(node, ast.Constant)
+            and isinstance(node.value, str)
+            and node.value in PRICED_BAR_FIELDS
+        ):
+            record(node.lineno, node.value, "string constant")
+
+    return sorted(found.values(), key=lambda r: (r.lineno, r.field))
 
 
 @pytest.mark.guard
@@ -121,7 +151,7 @@ def test_no_module_reads_a_priced_bar_field_anywhere() -> None:
     """
     violations: list[BarFieldRead] = []
     for path in _module_paths():
-        if path.name in SEALED_MODULES:
+        if path.name in SEALED_MODULES or path.name == FIELD_REGISTRY_MODULE:
             continue
         violations.extend(_bar_field_reads(path))
 
@@ -147,6 +177,7 @@ def test_the_blindness_guard_actually_binds() -> None:
         "    c = bar.get('vwap')\n"
         "    return a, b, c\n"
     )
+    indirect = "def sneak(bar):\n    for k in ('high',):\n        return bar[k]\n"
     tmp = SRC_ROOT.parent / "_guard_probe.py"
     tmp.write_text(source, encoding="utf-8")
     try:
@@ -159,11 +190,21 @@ def test_the_blindness_guard_actually_binds() -> None:
     forms = sorted(f.form for f in found)
     assert forms == [".get()", "attribute", "subscript"], forms
 
+    # The indirect form: a variable subscript that a constant walk cannot see.
+    tmp2 = SRC_ROOT.parent / "_guard_probe_indirect.py"
+    tmp2.write_text(indirect, encoding="utf-8")
+    try:
+        indirect_found = _bar_field_reads(tmp2)
+    finally:
+        tmp2.unlink()
+    assert [f.field for f in indirect_found] == ["high"], indirect_found
+    assert [f.form for f in indirect_found] == ["string constant"], indirect_found
+
 
 @pytest.mark.guard
 def test_readable_and_forbidden_field_lists_do_not_overlap() -> None:
     """The two blindness lists are disjoint. A field is readable or it is not."""
-    from orb.seal import READABLE_FIELDS
+    from orb.fields import READABLE_FIELDS
 
     overlap = READABLE_FIELDS & PRICED_BAR_FIELDS
     assert not overlap, f"a field cannot be both readable and sealed: {overlap}"
@@ -341,4 +382,84 @@ def test_exactly_one_module_names_the_eastern_zone() -> None:
                 offenders.append(f"{path.name}:{node.lineno}")
     assert not offenders, (
         f"America/New_York is constructed outside sessionclock.py: {offenders}"
+    )
+
+
+# --------------------------------------------------------------------------
+# The sealed comparator — the single exception, and its limit
+# --------------------------------------------------------------------------
+
+
+@pytest.mark.guard
+def test_comparator_returns_no_bar_value() -> None:
+    """The sealed comparator emits aggregate counts and rates. Nothing else.
+
+    Walks the parse tree of ``comparator.py`` and requires that **every public
+    method's return annotation** is a counts-only findings record or a scalar.
+    A method returning a bar, a price, or a container of either would fail
+    here, and that is the whole content of the exception granted to this module.
+    """
+    allowed_returns = {
+        "RevisionFinding",
+        "AgreementFinding",
+        "int",
+        "float",
+        "bool",
+        "None",
+    }
+    tree = _parse(SRC_ROOT / "comparator.py")
+    checked = 0
+    offenders: list[str] = []
+
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.FunctionDef):
+            continue
+        if node.name.startswith("_"):
+            continue  # private; unreachable from outside the module
+        checked += 1
+        returns = node.returns
+        rendered = ast.unparse(returns) if returns is not None else "<missing>"
+        if rendered not in allowed_returns:
+            offenders.append(f"{node.name} -> {rendered}")
+
+    assert checked >= 2, f"expected the two comparator entry points, saw {checked}"
+    assert not offenders, (
+        "the sealed comparator may return only counts-only findings records: "
+        f"{offenders}"
+    )
+
+
+@pytest.mark.guard
+def test_comparator_findings_carry_only_counts() -> None:
+    """Every field of every record the comparator returns is an int or a float."""
+    from orb.integrity import AgreementFinding, RevisionFinding
+
+    for cls in (RevisionFinding, AgreementFinding):
+        for field in dataclasses.fields(cls):
+            assert field.type in {"int", "float"}, (
+                cls.__name__,
+                field.name,
+                field.type,
+            )
+            assert field.name not in PRICED_BAR_FIELDS, (cls.__name__, field.name)
+
+
+@pytest.mark.guard
+def test_only_the_registered_modules_are_sealed() -> None:
+    """The blindness exception is granted to exactly two modules, both present."""
+    present = {p.name for p in _module_paths()}
+    assert present >= SEALED_MODULES, SEALED_MODULES - present
+    assert {"seal.py", "comparator.py"} == SEALED_MODULES
+
+
+@pytest.mark.guard
+def test_the_comparator_is_the_only_module_that_reads_a_priced_field() -> None:
+    """seal.py names the fields; comparator.py is the only one that reads them."""
+    reads = {
+        p.name: _bar_field_reads(p) for p in _module_paths() if p.name in SEALED_MODULES
+    }
+    assert reads["comparator.py"], "the comparator must actually read priced fields"
+    assert not reads["seal.py"], (
+        "seal.py stores bytes and parses nothing; it must read no priced field: "
+        f"{reads['seal.py']}"
     )

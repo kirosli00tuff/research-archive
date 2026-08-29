@@ -14,71 +14,23 @@ from __future__ import annotations
 import hashlib
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Final, final
+from typing import final
 
+from orb.fields import PRICED_BAR_FIELDS, READABLE_FIELDS
 from orb.ledger import AppendOnlyLedger
-
-PRICED_BAR_FIELDS: Final[frozenset[str]] = frozenset(
-    {
-        "open",
-        "high",
-        "low",
-        "close",
-        "volume",
-        "vwap",
-        "trade_count",
-        "tradecount",
-        "trades",
-        "bid",
-        "ask",
-        "o",
-        "h",
-        "l",
-        "c",
-        "v",
-        "vw",
-        "n",
-        "bp",
-        "ap",
-        "bidprice",
-        "askprice",
-        "bid_price",
-        "ask_price",
-        "adjclose",
-        "adj_close",
-        "openinterest",
-    }
-)
-"""Every spelling of a priced bar field, in every vendor dialect probed.
-
-Guard 5 refuses a read of any of these outside a sealed writer. The list is
-deliberately wider than any single vendor's schema: a field this repository
-never sees costs nothing to forbid, and a field it forbids too late costs the
-whole experiment.
-"""
-
-READABLE_FIELDS: Final[frozenset[str]] = frozenset(
-    {
-        "ticker",
-        "symbol",
-        "exchange",
-        "primary_exchange",
-        "listing_date",
-        "delisting_date",
-        "delisted_utc",
-        "timestamp",
-        "t",
-        "session_date",
-        "bar_count",
-        "status_code",
-        "status",
-    }
-)
-"""The readable field list of the blindness section, stated exactly."""
 
 
 class SealViolationError(PermissionError):
     """Raised when a caller asks a sealed writer for a bar value."""
+
+
+__all__ = [
+    "PRICED_BAR_FIELDS",
+    "READABLE_FIELDS",
+    "SealRecord",
+    "SealViolationError",
+    "SealedWriter",
+]
 
 
 @final
