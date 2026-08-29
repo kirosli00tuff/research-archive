@@ -10,12 +10,12 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
-from orb.costs_registered import (  # noqa: E402
+from orb.costs_registered import (
     MEASURED_AGAINST_CARRIED,
     MEASURED_ON,
     REGISTERED_COST_MODEL,
 )
-from orb.ledger import AppendOnlyLedger  # noqa: E402
+from orb.ledger import AppendOnlyLedger
 
 ROOT = Path(__file__).resolve().parent.parent
 

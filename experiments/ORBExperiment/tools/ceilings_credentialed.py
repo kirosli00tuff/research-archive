@@ -27,17 +27,19 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from _a1r import DATA, send, wire, write_report  # noqa: E402
-from orb.http import PacedClient  # noqa: E402
-from orb.ledger import RequestLedger  # noqa: E402
-from orb.redact import say  # noqa: E402
-from orb.vendors import (  # noqa: E402
+from _a1r import DATA, send, wire, write_report
+
+from orb.http import PacedClient
+from orb.ledger import RequestLedger
+from orb.redact import say
+from orb.vendors import (
     ALPACA,
     ALPACA_DOCUMENTED_PER_MINUTE,
     MASSIVE,
     MASSIVE_DOCUMENTED_PER_MINUTE,
     PROVISIONAL_DAILY_CAPS,
     alpaca_minute_bars,
+    consolidated_feed,
     massive_minute_bars,
     massive_reference,
 )
@@ -80,7 +82,7 @@ def main() -> int:
             ALPACA,
             "alpaca:bars",
             lambda: alpaca_minute_bars(
-                store, "AAPL", PROBE_START_ISO, PROBE_END_ISO, feed="sip"
+                store, "AAPL", PROBE_START_ISO, PROBE_END_ISO, feed=consolidated_feed()
             ),
             0.2,
             25,

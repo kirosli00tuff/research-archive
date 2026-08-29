@@ -9,10 +9,10 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
-from orb.absence import Absent  # noqa: E402
-from orb.calendar import sessions  # noqa: E402
-from orb.config import CONFIG  # noqa: E402
-from orb.power import (  # noqa: E402
+from orb.absence import Absent
+from orb.calendar import sessions
+from orb.config import CONFIG
+from orb.power import (
     PowerRow,
     e2_power,
     information_ratio_for_t,
@@ -22,7 +22,7 @@ from orb.power import (  # noqa: E402
     sessions_for_t,
     t_statistic,
 )
-from orb.verdict import alpha_adj  # noqa: E402
+from orb.verdict import alpha_adj
 
 ROOT = Path(__file__).resolve().parent.parent
 HOLDOUT_START = date(2023, 1, 3)
@@ -68,7 +68,9 @@ def main() -> int:
             )
 
     print(f"alpha_adj = {alpha:.8f} (one-sided, per co-primary)\n")
-    print(f"{'assumption':<24}{'horizon':<36}{'n':>6}{'t':>8}{'E1 power':>10}{'min N 80%':>11}{'E2 power':>12}")
+    print(
+        f"{'assumption':<24}{'horizon':<36}{'n':>6}{'t':>8}{'E1 power':>10}{'min N 80%':>11}{'E2 power':>12}"
+    )
     print("-" * 107)
     for r in rows:
         e2 = "Absent" if isinstance(r.e2_power, Absent) else f"{r.e2_power:.4f}"
@@ -87,7 +89,9 @@ def main() -> int:
         print(f"  {label:<38} computed {computed:>6}   {flag}")
 
     n_hold = counts["registered holdout, to 2026-06-30"]
-    print(f"  {'t at the computed holdout n':<38} computed {t_statistic(1.40, n_hold):>6.4f}   prompt says 2.62 at n=880")
+    print(
+        f"  {'t at the computed holdout n':<38} computed {t_statistic(1.40, n_hold):>6.4f}   prompt says 2.62 at n=880"
+    )
 
     print("\n--- Per-trade information ratio, non-binding, at 20 names/session ---")
     for rate in (1.00, 0.75, 0.535, 0.50, 0.25):

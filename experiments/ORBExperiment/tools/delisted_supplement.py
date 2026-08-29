@@ -28,13 +28,14 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from _a1r import REPORTS, send, wire, write_report  # noqa: E402
-from orb.calendar import sessions  # noqa: E402
-from orb.comparator import count_bars  # noqa: E402
-from orb.config import CONFIG  # noqa: E402
-from orb.integrity import IntegrityVerdict  # noqa: E402
-from orb.redact import say  # noqa: E402
-from orb.vendors import alpaca_minute_bars  # noqa: E402
+from _a1r import REPORTS, send, wire, write_report
+
+from orb.calendar import sessions
+from orb.comparator import count_bars
+from orb.config import CONFIG
+from orb.integrity import IntegrityVerdict
+from orb.redact import say
+from orb.vendors import alpaca_minute_bars, consolidated_feed
 
 SUPPLEMENT = 140
 SESSIONS_BEFORE_DELISTING = 5
@@ -45,7 +46,9 @@ def in_window(iso: str) -> bool:
 
 
 def session_before(day: date, back: int) -> date | None:
-    window = [s.day for s in sessions(day - timedelta(days=45), day - timedelta(days=1))]
+    window = [
+        s.day for s in sessions(day - timedelta(days=45), day - timedelta(days=1))
+    ]
     return window[-back] if len(window) >= back else None
 
 
@@ -82,7 +85,7 @@ def main() -> int:
                 entry["ticker"],
                 f"{iso}T00:00:00Z",
                 f"{iso}T23:59:59Z",
-                feed="sip",
+                feed=consolidated_feed(),
             ),
         )
         record = seal.store(f"task6b_alpaca_{entry['ticker']}_{iso}.raw", response.body)

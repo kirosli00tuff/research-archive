@@ -14,9 +14,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
-from orb.http import PacedClient  # noqa: E402
-from orb.ledger import AppendOnlyLedger, RequestLedger  # noqa: E402
-from orb.seal import SealedWriter  # noqa: E402
+from orb.http import PacedClient
+from orb.ledger import AppendOnlyLedger, RequestLedger
+from orb.seal import SealedWriter
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data" / "access"
@@ -38,7 +38,10 @@ PROBES: dict[str, list[tuple[str, str]]] = {
         ),
     ],
     "databento": [
-        ("databento:timeseries", "https://hist.databento.com/v0/metadata.list_datasets"),
+        (
+            "databento:timeseries",
+            "https://hist.databento.com/v0/metadata.list_datasets",
+        ),
     ],
     "tiingo": [
         ("tiingo:iex", "https://api.tiingo.com/iex/AAPL/prices?resampleFreq=1min"),
@@ -55,7 +58,7 @@ PROBES: dict[str, list[tuple[str, str]]] = {
     ],
 }
 
-DAILY_CAPS: dict[str, int] = {v: 40 for v in PROBES}
+DAILY_CAPS: dict[str, int] = dict.fromkeys(PROBES, 40)
 SPACING: dict[str, float] = {}
 
 
@@ -68,9 +71,7 @@ def main() -> int:
     for vendor, probes in PROBES.items():
         for pace_key, url in probes:
             response = client.get(url, vendor=vendor, pace_key=pace_key)
-            record = seal.store(
-                f"{pace_key.replace(':', '_')}.raw", response.body
-            )
+            record = seal.store(f"{pace_key.replace(':', '_')}.raw", response.body)
             finding = {
                 "vendor": vendor,
                 "pace_key": pace_key,

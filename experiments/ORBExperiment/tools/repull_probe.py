@@ -26,13 +26,14 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from _a1r import DATA, REPORTS, send, wire, write_report  # noqa: E402
-from orb.comparator import SealedComparator, count_bars  # noqa: E402
-from orb.ledger import AppendOnlyLedger  # noqa: E402
-from orb.redact import say  # noqa: E402
-from orb.repull import RepullNotDueError, earliest_eligible, require_due  # noqa: E402
-from orb.seal import SealedWriter  # noqa: E402
-from orb.vendors import alpaca_minute_bars  # noqa: E402
+from _a1r import DATA, REPORTS, send, wire, write_report
+
+from orb.comparator import SealedComparator, count_bars
+from orb.ledger import AppendOnlyLedger
+from orb.redact import say
+from orb.repull import RepullNotDueError, earliest_eligible, require_due
+from orb.seal import SealedWriter
+from orb.vendors import alpaca_minute_bars, require_manifest_feed
 
 MANIFEST = REPORTS / "task9_probe_manifest.json"
 FIRST_ROOT = DATA / "sealed_credentialed"
@@ -77,6 +78,8 @@ def bars_by_session(payload: bytes, ticker: str) -> dict[str, list[dict[str, obj
 
 def main() -> int:
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
+    pulled_feed = require_manifest_feed(manifest, f"re-pull of {MANIFEST.name}")
+    say(f"manifest feed confirmed: {pulled_feed!r} (the registered consolidated tape)")
     pulled_on = date.fromisoformat(manifest["pulled_at"])
     today = date.today()
     try:
@@ -113,7 +116,7 @@ def main() -> int:
                 ticker,
                 str(entry["start_iso"]),
                 str(entry["end_iso"]),
-                feed="sip",
+                feed=pulled_feed,
                 limit=10000,
             ),
         )
@@ -121,7 +124,9 @@ def main() -> int:
         second_bytes[name] = response.body
         for key, rows in bars_by_session(response.body, ticker).items():
             second_bars.setdefault(key, []).extend(rows)
-        say(f"  re-pulled {name}: http={response.status_code} bars={count_bars(response.body)}")
+        say(
+            f"  re-pulled {name}: http={response.status_code} bars={count_bars(response.body)}"
+        )
 
     finding = SealedComparator().compare_pulls(
         first_bytes,

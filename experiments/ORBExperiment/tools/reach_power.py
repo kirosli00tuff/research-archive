@@ -15,11 +15,12 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from _a1r import REPORTS, write_report  # noqa: E402
-from orb.calendar import sessions  # noqa: E402
-from orb.config import CONFIG  # noqa: E402
-from orb.power import power_one_sided, sessions_for_power, t_statistic  # noqa: E402
-from orb.redact import say  # noqa: E402
+from _a1r import REPORTS, write_report
+
+from orb.calendar import sessions
+from orb.config import CONFIG
+from orb.power import power_one_sided, sessions_for_power, t_statistic
+from orb.redact import say
 
 ALPHA_ADJ = 1.0 - 0.95 ** (1.0 / CONFIG.n_co_primaries)
 

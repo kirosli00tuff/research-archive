@@ -19,7 +19,6 @@ from __future__ import annotations
 
 import shutil
 import subprocess
-import sys
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -65,7 +64,7 @@ MUTATIONS: tuple[Mutation, ...] = (
         (
             (
                 "src/orb/absence.py",
-                "    def __float__(self) -> Never:\n        self._refuse(\"float()\")",
+                '    def __float__(self) -> Never:\n        self._refuse("float()")',
                 "    def __float__(self) -> float:  # MUTATION 2\n        return 0.0",
             ),
         ),
@@ -277,6 +276,19 @@ MUTATIONS: tuple[Mutation, ...] = (
         ),
         expect_green=True,
     ),
+    Mutation(
+        14,
+        "flip the configured tape to the single-venue feed",
+        "every bar is real and every one is wrong about the market: a median "
+        "0.027761 of consolidated first-5-minute volume, invisible downstream",
+        (
+            (
+                "src/orb/config.py",
+                '    consolidated_feed="sip",',
+                '    consolidated_feed="iex",  # MUTATION 14',
+            ),
+        ),
+    ),
 )
 
 
@@ -290,7 +302,7 @@ def purge_bytecode() -> None:
 
 def run_suite() -> tuple[bool, str]:
     purge_bytecode()
-    result = subprocess.run(  # noqa: S603
+    result = subprocess.run(
         [str(PY), "-m", "pytest", "-q", "-x", "--no-header", "-p", "no:cacheprovider"],
         cwd=ROOT,
         capture_output=True,
@@ -349,8 +361,10 @@ def main() -> int:
 
         restored_green, _ = run_suite()
         if not restored_green:
-            print(f"      !! source did not restore green after mutation "
-                  f"{mutation.number}")
+            print(
+                f"      !! source did not restore green after mutation "
+                f"{mutation.number}"
+            )
             failures += 1
 
         lines.append(

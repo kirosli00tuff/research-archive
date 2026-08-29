@@ -18,15 +18,16 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from _a1r import REPORTS, write_report  # noqa: E402
-from orb.absence import AbsenceReason, Absent  # noqa: E402
-from orb.access import CollectionAccess  # noqa: E402
-from orb.config import CONFIG  # noqa: E402
-from orb.ledger import AppendOnlyLedger  # noqa: E402
-from orb.power import power_one_sided, sessions_for_power  # noqa: E402
-from orb.redact import say  # noqa: E402
-from orb.section0 import PowerInputs, Section0Verdict, fire_section0  # noqa: E402
-from orb.verdict import alpha_adj  # noqa: E402
+from _a1r import REPORTS, write_report
+
+from orb.absence import AbsenceReason, Absent
+from orb.access import CollectionAccess
+from orb.config import CONFIG
+from orb.ledger import AppendOnlyLedger
+from orb.power import power_one_sided, sessions_for_power
+from orb.redact import say
+from orb.section0 import PowerInputs, Section0Verdict, fire_section0
+from orb.verdict import alpha_adj
 
 ROOT = Path(__file__).resolve().parent.parent
 HOLDOUT_N = 875
@@ -92,9 +93,7 @@ def main() -> int:
         return 78
 
     pair = next(
-        c
-        for c in tape["comparisons"]
-        if c["comparison"] == "massive_vs_alpaca_sip"
+        c for c in tape["comparisons"] if c["comparison"] == "massive_vs_alpaca_sip"
     )
     record = {
         "kind": "section0_verdict",
@@ -141,9 +140,7 @@ def main() -> int:
             "tape_verdict": pair["verdict"],
             "tape_median_ratio": pair["median_ratio"],
             "tape_pairs_n": pair["pairs_with_volume_in_both"],
-            "delisted_names_enumerated_in_window": delisted[
-                "enumerated_inside_window"
-            ],
+            "delisted_names_enumerated_in_window": delisted["enumerated_inside_window"],
             "delisted_names_with_intraday_history": delisted[
                 "delisted_names_with_intraday_history"
             ],

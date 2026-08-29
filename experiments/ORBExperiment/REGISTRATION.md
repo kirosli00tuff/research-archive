@@ -2148,3 +2148,146 @@ recorded in `docs/HANDOVER.md` as open operator items.
   measurement says that, and none has been made. It records what is **not
   known**.
 - **It authorises no spend and opens no latch.**
+
+---
+
+## Amendment 13 — the consolidated tape promoted from a function default to a guarded config field
+
+**Date:** 2026-08-29 · **Status:** accepted · amends **Section 12 pacing and
+collection**, and the request-construction path registered by **Amendment 7**
+
+**What data existed when this amendment was made.** Everything held at
+Amendments 11 and 12, plus those amendments. Specifically: the A.1 TASK 4 tape
+measurement at `n = 100` session-ticker pairs; the sealed probe slice of **480
+files, 737,507 bars**; and, produced **by** this amendment and recorded below, a
+**live feed confirmation of the sealed slice at `n = 8` sampled chunks, 16
+requests**. **No bar revision measurement and no cross-vendor agreement share
+existed.** **Zero dollars spent.**
+
+### 1. What was wrong, structurally rather than in a number
+
+**The consolidated feed was a function default** — `feed: str = "sip"` on
+`orb.vendors.alpaca_minute_bars`, at `src/orb/vendors.py` line 259. **The
+default was correct.** Every call site in the repository passed or inherited
+`sip`, and the sealed slice was pulled on it.
+
+**A default is silently overridable at any call site, and nothing anywhere would
+have said so.** That is the defect: not a wrong value, but a **value nobody had
+to state**.
+
+**The measured cost of the wrong branch.** A.1 TASK 4, `n = 100` session-ticker
+pairs: the single-venue Alpaca-IEX feed carries a **median 0.027761 of
+consolidated first-5-minute volume**, IQR **[0.021200, 0.037068]**, with
+**100 percent of pairs below the registered 0.20 single-venue threshold** —
+`DIFFERENT_TAPE` against both Massive and Alpaca-SIP.
+
+**Why that is worse than an error.** Every bar the single-venue feed serves is a
+**real** bar: a real high, a real low, a real volume, a real timestamp. A
+collection run on it would produce a narrower opening range, a trigger at a
+different minute or none at all, and a different top-20 relative-volume
+selection — **and would report no error anywhere**. It would look entirely
+normal in every downstream figure. **This is the Concretum failure mode (C-13)
+arriving through a keyword argument instead of through a vendor contract.**
+
+### 2. What is registered
+
+- **`CONFIG.consolidated_feed = "sip"`**, a field of `orb.config.Config`, under
+  the existing parse-tree config guard, so it must be read by a module outside
+  `config.py` or sit on `PENDING_ENFORCEMENT` with its task named. It is read by
+  `orb.vendors`.
+- **`orb.vendors.alpaca_minute_bars` takes `feed` as a keyword-only parameter
+  with no default**, and checks it against `CONFIG.consolidated_feed`. A
+  non-consolidated feed raises `TapeFeedError`, whose message carries the
+  measured 0.027761 and its `n`.
+- **`orb.vendors.alpaca_minute_bars_on_feed` is the only builder that may
+  request a non-consolidated feed**, and it **requires a non-empty
+  `tape_control_reason`**. It exists for the one registered use: the Amendment 7
+  tape control, which must request the single-venue feed to measure how far it
+  sits from the consolidated one. **An exception with no reason recorded at its
+  call site is a default wearing a different name.**
+- **`VendorRequest` carries `feed`**, and `as_row()` records it, so a manifest
+  cannot omit what a request was built on.
+- **`orb.vendors.require_manifest_feed` refuses a manifest that records no feed,
+  records a non-string, or records a non-consolidated one.** It is called by
+  `tools/repull_probe.py` **before the first re-pull request is sent**. The
+  reason is specific: **a re-pull sent on a different feed than the original
+  measures a tape difference and records it as a revision rate**, which is the
+  one number this repository exists to measure.
+- **Every call site in `src/orb` and `tools/` names its feed**, and names it as
+  `consolidated_feed()` or `MEASURED_SINGLE_VENUE_FEED` rather than as a typed
+  string.
+
+### 3. The guards, and the mutation that must fail one
+
+Five structural guards in `tests/test_guards.py`, all parse-tree:
+
+| guard | what it refuses |
+|---|---|
+| `test_the_configured_feed_is_the_consolidated_tape` | the configured value being anything but the consolidated tape; its docstring carries the measured 0.027761 and its `n = 100` |
+| `test_no_bar_request_builder_defaults_its_feed` | any builder giving `feed` a default |
+| `test_every_bar_request_call_site_names_its_feed` | any request constructed without an explicit `feed=`, across **`src/orb` and `tools/`** — the call sites are where a default is overridable, so a guard walking only `src/orb` would guard the wrong half |
+| `test_only_config_names_the_consolidated_feed_literal` | the literal typed anywhere outside `config.py` |
+| `test_a_manifest_without_a_recorded_feed_is_refused` | a manifest read without its feed |
+
+Plus `test_the_sealed_probe_manifest_records_the_consolidated_feed`, which holds
+**the actual sealed manifest** to the rule rather than assuming it meets it, and
+three runtime tests in `tests/test_vendors.py`.
+
+**Mutation 14** flips `CONFIG.consolidated_feed` from `sip` to `iex`. **It is
+caught by `test_the_configured_feed_is_the_consolidated_tape`** — a guard, not a
+figure that merely moved. `n = 14` mutations, **0 harness failures**.
+
+### 4. The sealed slice's feed, confirmed by measurement rather than assumed
+
+**The manifest records `"feed": "sip"`, and on its own that is an assertion about
+a code path, not a measurement of what the vendor served.** So it was confirmed.
+
+**The method, and why it is price-blind.** `bar_count per session` sits on the
+readable field list. Each sampled chunk's **exact** window was re-requested on
+**both** feeds and each served bar count compared against the **sealed file's
+own recounted bar count**. No price was read.
+
+| quantity | figure |
+|---|---:|
+| chunks sampled | **8** |
+| requests sent | **16** |
+| chunks that **discriminate** between the feeds | **7** |
+| discriminating chunks whose sealed count **equals the consolidated count** | **7 of 7** |
+| discriminating chunks whose sealed count equals the single-venue count | **0 of 7** |
+| median single-venue **bar count** as a share of consolidated | **0.5245** |
+| sealed bar files found on disk | **480**, against **480** in the manifest |
+| bars recorded in the manifest | **737,507** |
+| **verdict** | **`CONFIRMED_CONSOLIDATED`** |
+
+**One sampled chunk was uninformative and is excluded rather than counted.**
+`AADX` served **0 bars on both feeds** — a name that did not trade in that
+window. A 0-against-0 comparison identifies no tape. **The first run of the
+confirmation tool sampled four chunks, hit this case, and returned
+`NOT_CONFIRMED`** because a 0 == 0 tie was being read as a match to the
+single-venue feed. **The classifier was fixed and the verdict was not**: standing
+rule 5 (absence is a recorded state, never a synthesized value) and standing rule
+7 (an operational condition never quietly becomes a data condition). The sample
+was then widened to 8 so the uninformative chunk cost no evidence.
+
+**A note on two different ratios, so they are not confused.** The **0.027761**
+of A.1 TASK 4 is a ratio of **first-5-minute volume**. The **0.5245** here is a
+ratio of **bar count over a five-session window**. They measure different things
+and both say *different tape*: the single-venue feed prints a bar in about half
+the minutes and carries under three percent of the shares. **Neither figure may
+be substituted for the other.**
+
+**This confirmation is not the re-pull and starts no revision clock.** It wrote
+to a separate file namespace, the sealed slice was not written to, and
+`tools/repull_probe.py` still refuses every attempt before **2026-09-12**. The
+same-day bar counts matching **exactly** (1,913 against 1,913, 3,453 against
+3,453, and so on) is **not** a revision measurement — it is a same-day
+re-request, and a vendor that regenerates history nightly has not yet had a
+chance to.
+
+### 5. What this amendment does not do
+
+- **It opens no latch, arms nothing and authorises no spend.** 16 requests, 0
+  dollars, against a registered Alpaca daily cap of 2,000 with **930 charged**.
+- **It changes no measured figure.** The tape verdict, the reach figures, the
+  delisted count, E1 and the Section 0 verdict are all unchanged.
+- **It weakens no Section 0 branch.**

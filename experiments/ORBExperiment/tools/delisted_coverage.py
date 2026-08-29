@@ -36,14 +36,16 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from _a1r import send, wire, write_report  # noqa: E402
-from orb.calendar import sessions  # noqa: E402
-from orb.comparator import count_bars  # noqa: E402
-from orb.config import CONFIG  # noqa: E402
-from orb.integrity import IntegrityVerdict  # noqa: E402
-from orb.redact import say  # noqa: E402
-from orb.vendors import (  # noqa: E402
+from _a1r import send, wire, write_report
+
+from orb.calendar import sessions
+from orb.comparator import count_bars
+from orb.config import CONFIG
+from orb.integrity import IntegrityVerdict
+from orb.redact import say
+from orb.vendors import (
     alpaca_minute_bars,
+    consolidated_feed,
     massive_delisted,
     massive_minute_bars,
 )
@@ -65,7 +67,9 @@ MAX_ENUMERATION_PAGES = 40
 
 def session_before(day: date, back: int) -> date | None:
     """The n-th registered regular session strictly before ``day``."""
-    window = [s.day for s in sessions(day - timedelta(days=45), day - timedelta(days=1))]
+    window = [
+        s.day for s in sessions(day - timedelta(days=45), day - timedelta(days=1))
+    ]
     if len(window) < back:
         return None
     return window[-back]
@@ -148,7 +152,11 @@ def main() -> int:
             request = massive_minute_bars(store, ticker, iso, iso)
         else:
             request = alpaca_minute_bars(
-                store, ticker, f"{iso}T00:00:00Z", f"{iso}T23:59:59Z", feed="sip"
+                store,
+                ticker,
+                f"{iso}T00:00:00Z",
+                f"{iso}T23:59:59Z",
+                feed=consolidated_feed(),
             )
         response = send(client, request)
         record = seal.store(f"task6_{vendor}_{ticker}_{iso}.raw", response.body)

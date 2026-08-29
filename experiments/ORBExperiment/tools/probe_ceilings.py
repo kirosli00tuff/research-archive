@@ -22,8 +22,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
-from orb.http import PacedClient  # noqa: E402
-from orb.ledger import RequestLedger  # noqa: E402
+from orb.http import PacedClient
+from orb.ledger import RequestLedger
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data" / "access"
@@ -31,11 +31,27 @@ DATA = ROOT / "data" / "access"
 # (vendor, pace_key, url, spacing_s, n) — a short escalation, deliberately
 # modest: the goal is the refusal shape, not a denial-of-service census.
 ESCALATION: list[tuple[str, str, str, float, int]] = [
-    ("polygon", "polygon:aggs", "https://api.polygon.io/v3/reference/tickers?limit=1", 2.0, 5),
-    ("polygon", "polygon:aggs", "https://api.polygon.io/v3/reference/tickers?limit=1", 0.5, 8),
-    ("alphavantage", "alphavantage:intraday",
-     "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=1min&apikey=demo",
-     2.0, 5),
+    (
+        "polygon",
+        "polygon:aggs",
+        "https://api.polygon.io/v3/reference/tickers?limit=1",
+        2.0,
+        5,
+    ),
+    (
+        "polygon",
+        "polygon:aggs",
+        "https://api.polygon.io/v3/reference/tickers?limit=1",
+        0.5,
+        8,
+    ),
+    (
+        "alphavantage",
+        "alphavantage:intraday",
+        "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=1min&apikey=demo",
+        2.0,
+        5,
+    ),
 ]
 
 CAPS: dict[str, int] = {"polygon": 60, "alphavantage": 40}

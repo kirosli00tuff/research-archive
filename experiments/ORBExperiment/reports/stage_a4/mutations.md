@@ -1,6 +1,6 @@
 # A.4 TASK 2 — the mutation harness
 
-**Run 2026-08-29. n = 13 mutations applied to real source, each restored green afterwards. Bytecode is purged before every run.**
+**Run 2026-08-29. n = 14 mutations applied to real source, each restored green afterwards. Bytecode is purged before every run.**
 
 Three mutations are of a different kind and are marked *GUARD STOPPED BINDING*: the point is to show a guard **failing to catch** something, which is how a boundary fixture placed comfortably inside its boundary goes unnoticed.
 
@@ -19,3 +19,4 @@ Three mutations are of a different kind and are marked *GUARD STOPPED BINDING*: 
 | 11 | remove the secret redactor | a credential value reaches a sealed file, a ledger row and the console | CAUGHT | yes | `FAILED tests/test_guards.py::test_no_credential_value_reaches_a_recorded_string` |
 | 12 | force the tape verdict to SAME_TAPE | a single-venue feed is scored against the registered agreement bars and BLOCKED-4 fires on entitlement while recording it as integrity | CAUGHT | yes | `FAILED tests/test_tape.py::test_one_ulp_below_the_lower_same_tape_bar_is_ambiguous` |
 | 13 | move the post-holdout boundary fixture off its registered edge | the second half of the two-sided carve-out stops being pinned and the sealed window can creep backwards into the holdout | GUARD STOPPED BINDING | yes | `` |
+| 14 | flip the configured tape to the single-venue feed | every bar is real and every one is wrong about the market: a median 0.027761 of consolidated first-5-minute volume, invisible downstream | CAUGHT | yes | `FAILED tests/test_guards.py::test_the_configured_feed_is_the_consolidated_tape` |

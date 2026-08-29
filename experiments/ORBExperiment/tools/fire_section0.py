@@ -9,12 +9,12 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
-from orb.absence import Absent, AbsenceReason  # noqa: E402
-from orb.config import CONFIG  # noqa: E402
-from orb.ledger import AppendOnlyLedger  # noqa: E402
-from orb.power import power_one_sided, sessions_for_power  # noqa: E402
-from orb.section0 import PowerInputs, fire_section0  # noqa: E402
-from orb.verdict import alpha_adj  # noqa: E402
+from orb.absence import AbsenceReason, Absent
+from orb.config import CONFIG
+from orb.ledger import AppendOnlyLedger
+from orb.power import power_one_sided, sessions_for_power
+from orb.section0 import PowerInputs, fire_section0
+from orb.verdict import alpha_adj
 
 ROOT = Path(__file__).resolve().parent.parent
 HOLDOUT_N = 875  # computed by orb.calendar at A.2 TASK 1, not taken from the prompt

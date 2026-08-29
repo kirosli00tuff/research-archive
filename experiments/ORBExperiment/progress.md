@@ -2437,3 +2437,102 @@ acceptance** that the in-sample window is single-sourced.
 
 **Gates: `make all` green — ruff and `mypy --strict` clean over 54 files, 364
 tests passing.** **0 dollars spent. 0 requests sent.** Neither latch touched.
+
+---
+
+## Entry 23 — STAGE A.0 TASK 3, the tape pinned structurally
+
+**ETA 45 min · actual 52 min.** The overrun is one item and it is recorded below:
+the feed confirmation returned **`NOT_CONFIRMED` on its first run**, and the
+sample that produced it had to be understood before it could be widened.
+
+### What was wrong, and it was not a value
+
+**The consolidated feed was a function default** — `feed: str = "sip"` at
+`src/orb/vendors.py` line 259. **The default was correct.** Every call site
+passed or inherited `sip`. The defect was that **nothing made a call site say
+which tape it wanted**, so nothing would have noticed one that said the wrong
+thing.
+
+**The measured cost of the wrong branch**: the single-venue feed carries a
+**median 0.027761 of consolidated first-5-minute volume, `n = 100` pairs**, IQR
+[0.021200, 0.037068], **100 percent of pairs below the registered 0.20
+threshold**. Every bar it serves is a *real* bar. A run on it would give a
+narrower opening range, a different trigger minute, a different top-20 ranking,
+**and no error anywhere**.
+
+### What now holds it
+
+`CONFIG.consolidated_feed = "sip"`, under the parse-tree config guard.
+`alpaca_minute_bars` takes `feed` **with no default** and validates it.
+`alpaca_minute_bars_on_feed` is the **only** non-consolidated path and **demands
+a stated reason**. `VendorRequest` carries the feed, `as_row()` records it,
+manifests record it per entry and at the top level, and
+`require_manifest_feed` refuses a manifest that omits it — called by
+`repull_probe.py` **before the first re-pull request is sent**, because a re-pull
+on a different feed measures a **tape difference and records it as a revision
+rate**.
+
+**Five parse-tree guards, three runtime tests.** The call-site guard walks
+**`src/orb` and `tools/`**: a default is overridable *at a call site*, so a guard
+walking only `src/orb` would guard the wrong half.
+
+**Mutation 14** flips the configured value to the single-venue feed and is
+**caught by `test_the_configured_feed_is_the_consolidated_tape`** — a guard, not
+a number that moved. `n = 14` mutations, **0 harness failures**.
+
+### The confirmation — and the run that failed first
+
+**The manifest records `"feed": "sip"`. That is an assertion about a code path,
+written by the tool that chose the feed. It is not a measurement of what the
+vendor served.** So it was measured, price-blind, on `bar_count per session`,
+which is on the readable field list: each sampled chunk's exact window
+re-requested on **both** feeds, each count compared against the sealed file's own
+recounted count.
+
+**First run, `n = 4` chunks, 8 requests: `NOT_CONFIRMED`.** Three chunks
+discriminated perfectly. The fourth, **`AADX`, served 0 bars on both feeds** — a
+name that did not trade in that window — and the tool counted the `0 == 0` tie as
+a **match to the single-venue feed**, which failed the verdict.
+
+**That is standing rule 7 arriving in a classifier**: an operational condition
+(*no trades*) had quietly become a data condition (*this is the single-venue
+tape*). **The classifier was fixed and the verdict was not.** A chunk now
+identifies a tape only when the two feeds actually differ on it; an
+uninformative chunk is recorded, named, and **excluded rather than counted either
+way**. The sample was widened from 4 to 8 so the uninformative chunk cost no
+evidence.
+
+**Second run, `n = 8` chunks, 16 requests:**
+
+| quantity | figure |
+|---|---:|
+| chunks sampled | **8** |
+| chunks that discriminate between the feeds | **7** |
+| discriminating chunks whose sealed count **equals the consolidated count** | **7 of 7** |
+| discriminating chunks whose sealed count equals the single-venue count | **0 of 7** |
+| median single-venue **bar count** share of consolidated | **0.5245** |
+| uninformative and excluded | **1** — `AADX`, 0 bars on both feeds |
+| sealed bar files on disk | **480**, against **480** in the manifest |
+| bars in the manifest | **737,507** |
+| **verdict** | **`CONFIRMED_CONSOLIDATED`** |
+
+**The 481st `task9_*` file on disk is `task9_reference_pool.raw`**, the
+price-blind reference pool the ticker screen was drawn from. **480 bar files, one
+pool file.** Checked rather than assumed.
+
+**Two ratios that must not be confused.** The **0.027761** is a ratio of
+**first-5-minute volume**. The **0.5245** is a ratio of **bar count over a
+five-session window**. Both say *different tape*; the single-venue feed prints a
+bar in about half the minutes and carries under three percent of the shares.
+
+**This confirmation is not the re-pull and starts no revision clock.** It wrote
+to a separate namespace, the sealed slice was not written to, and the identical
+re-pull remains due **2026-09-12**. The same-day counts matching **exactly**
+(1,913 against 1,913; 3,453 against 3,453) is **not** a revision measurement —
+a vendor that regenerates history nightly has not yet had a chance to.
+
+**Gates: `make all` green — ruff and `mypy --strict` clean over 54 files, 373
+tests passing (364 before), `n = 14` mutations, 0 harness failures.** **16
+requests sent, 0 dollars spent.** Alpaca ledger: **930 of a 2,000 daily cap**.
+Neither latch touched.

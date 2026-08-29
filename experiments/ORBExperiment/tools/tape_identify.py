@@ -45,18 +45,41 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from _a1r import send, wire, write_report  # noqa: E402
-from orb.calendar import sessions  # noqa: E402
-from orb.comparator import SealedComparator, count_bars  # noqa: E402
-from orb.config import CONFIG  # noqa: E402
-from orb.redact import say  # noqa: E402
-from orb.vendors import alpaca_minute_bars, massive_minute_bars  # noqa: E402
+from _a1r import send, wire, write_report
+
+from orb.calendar import sessions
+from orb.comparator import SealedComparator, count_bars
+from orb.config import CONFIG
+from orb.redact import say
+from orb.vendors import (
+    MEASURED_SINGLE_VENUE_FEED,
+    alpaca_minute_bars,
+    alpaca_minute_bars_on_feed,
+    consolidated_feed,
+    massive_minute_bars,
+)
 
 TICKERS: tuple[str, ...] = (
-    "AAPL", "MSFT", "NVDA", "AMZN", "GOOGL",
-    "META", "TSLA", "JPM", "V", "UNH",
-    "XOM", "JNJ", "WMT", "PG", "MA",
-    "HD", "CVX", "ABBV", "KO", "PEP",
+    "AAPL",
+    "MSFT",
+    "NVDA",
+    "AMZN",
+    "GOOGL",
+    "META",
+    "TSLA",
+    "JPM",
+    "V",
+    "UNH",
+    "XOM",
+    "JNJ",
+    "WMT",
+    "PG",
+    "MA",
+    "HD",
+    "CVX",
+    "ABBV",
+    "KO",
+    "PEP",
 )
 """Twenty mega-cap US common stocks. **Documented liquidity, never measured.**
 
@@ -146,20 +169,31 @@ def main() -> int:
             f"alpaca sip {ticker}",
             "alpaca_sip",
             ticker,
-            alpaca_minute_bars(store, ticker, start_iso, end_iso, feed="sip"),
+            alpaca_minute_bars(
+                store, ticker, start_iso, end_iso, feed=consolidated_feed()
+            ),
         )
     for ticker in TICKERS:
         pull(
             f"alpaca iex {ticker}",
             "alpaca_iex",
             ticker,
-            alpaca_minute_bars(store, ticker, start_iso, end_iso, feed="iex"),
+            alpaca_minute_bars_on_feed(
+                store,
+                ticker,
+                start_iso,
+                end_iso,
+                feed=MEASURED_SINGLE_VENUE_FEED,
+                tape_control_reason=(
+                    "Amendment 7 tape control: the single-venue feed is "
+                    "requested on purpose, to measure how far it sits from "
+                    "the consolidated tape. This is the one registered use."
+                ),
+            ),
         )
 
     windows: dict[str, tuple[int, int]] = {}
-    keyed: dict[str, dict[str, list[dict[str, object]]]] = {
-        name: {} for name in feeds
-    }
+    keyed: dict[str, dict[str, list[dict[str, object]]]] = {name: {} for name in feeds}
     for session in picked:
         window = session.opening_range_utc()  # type: ignore[attr-defined]
         for ticker in TICKERS:

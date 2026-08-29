@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import pytest
 
+from orb.config import CONFIG
 from orb.credentials import (
     ALPACA_API_KEY,
     ALPACA_SECRET_KEY,
@@ -120,7 +121,11 @@ def test_no_builder_places_a_credential_in_a_url(store: CredentialStore) -> None
         massive_delisted(store, delisted_after="2016-01-04"),
         massive_minute_bars(store, "AAPL", "2026-07-01", "2026-07-02"),
         alpaca_minute_bars(
-            store, "AAPL", "2026-07-01T00:00:00Z", "2026-07-02T00:00:00Z"
+            store,
+            "AAPL",
+            "2026-07-01T00:00:00Z",
+            "2026-07-02T00:00:00Z",
+            feed=CONFIG.consolidated_feed,
         ),
     ]
     for request in requests:
@@ -131,8 +136,20 @@ def test_the_recordable_row_excludes_headers_by_construction(
     store: CredentialStore,
 ) -> None:
     row = massive_reference(store).as_row()
-    assert set(row) == {"vendor", "pace_key", "url"}
+    assert set(row) == {"vendor", "pace_key", "url", "feed"}
     assert "headers" not in row
+    assert row["feed"] is None, "a reference endpoint has no feed concept"
+
+    bars = alpaca_minute_bars(
+        store,
+        "AAPL",
+        "2026-07-01T00:00:00Z",
+        "2026-07-02T00:00:00Z",
+        feed=CONFIG.consolidated_feed,
+    )
+    assert bars.as_row()["feed"] == CONFIG.consolidated_feed, (
+        "the feed travels on the request so a manifest cannot omit it"
+    )
 
 
 def test_massive_authenticates_by_bearer_header(store: CredentialStore) -> None:
@@ -154,7 +171,11 @@ def test_a_missing_credential_refuses_rather_than_sending_unauthenticated() -> N
         massive_reference(empty)
     with pytest.raises(CredentialMissingError):
         alpaca_minute_bars(
-            empty, "AAPL", "2026-07-01T00:00:00Z", "2026-07-02T00:00:00Z"
+            empty,
+            "AAPL",
+            "2026-07-01T00:00:00Z",
+            "2026-07-02T00:00:00Z",
+            feed=CONFIG.consolidated_feed,
         )
 
 
@@ -164,3 +185,70 @@ def test_the_delisted_builder_pages_by_cursor_without_rebuilding_the_query(
     """A cursor URL is followed verbatim; a rebuilt query would lose the cursor."""
     cursor = "https://api.polygon.io/v3/reference/tickers?cursor=ABC"
     assert massive_delisted(store, cursor_url=cursor).url == cursor
+
+
+# --- Amendment 13 — the tape is required at the call site -------------------
+
+
+def test_a_bar_request_on_the_single_venue_feed_is_refused(
+    store: CredentialStore,
+) -> None:
+    """The single-venue feed carries a **median 0.027761** of the consolidated tape.
+
+    A.1 TASK 4, `n = 100` session-ticker pairs, IQR [0.021200, 0.037068], with
+    **every pair below the registered 0.20 single-venue threshold**. The bars it
+    serves are real bars — a real high, a real low, a real volume — so a request
+    that took this branch would produce a narrower opening range, a different
+    trigger minute, a different relative-volume ranking, and **no error
+    anywhere**. That invisibility is what this refusal is for.
+    """
+    from orb.vendors import MEASURED_SINGLE_VENUE_FEED, TapeFeedError
+
+    with pytest.raises(TapeFeedError, match=r"0\.027761"):
+        alpaca_minute_bars(
+            store,
+            "AAPL",
+            "2026-07-01T00:00:00Z",
+            "2026-07-02T00:00:00Z",
+            feed=MEASURED_SINGLE_VENUE_FEED,
+        )
+
+
+def test_a_bar_request_with_no_feed_at_all_is_refused(store: CredentialStore) -> None:
+    """``feed`` carries no default, so omitting it is a TypeError, not a guess."""
+    with pytest.raises(TypeError):
+        alpaca_minute_bars(  # type: ignore[call-arg]
+            store, "AAPL", "2026-07-01T00:00:00Z", "2026-07-02T00:00:00Z"
+        )
+
+
+def test_the_tape_control_builder_demands_a_stated_reason(
+    store: CredentialStore,
+) -> None:
+    """A registered exception with no reason at its call site is a default renamed."""
+    from orb.vendors import (
+        MEASURED_SINGLE_VENUE_FEED,
+        TapeFeedError,
+        alpaca_minute_bars_on_feed,
+    )
+
+    with pytest.raises(TapeFeedError, match="stated tape_control_reason"):
+        alpaca_minute_bars_on_feed(
+            store,
+            "AAPL",
+            "2026-07-01T00:00:00Z",
+            "2026-07-02T00:00:00Z",
+            feed=MEASURED_SINGLE_VENUE_FEED,
+            tape_control_reason="   ",
+        )
+
+    allowed = alpaca_minute_bars_on_feed(
+        store,
+        "AAPL",
+        "2026-07-01T00:00:00Z",
+        "2026-07-02T00:00:00Z",
+        feed=MEASURED_SINGLE_VENUE_FEED,
+        tape_control_reason="Amendment 7 tape control, measured against the tape",
+    )
+    assert f"feed={MEASURED_SINGLE_VENUE_FEED}" in allowed.url
+    assert allowed.feed == MEASURED_SINGLE_VENUE_FEED

@@ -38,12 +38,17 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from _a1r import send, wire, write_report  # noqa: E402
-from orb.calendar import sessions  # noqa: E402
-from orb.comparator import count_bars  # noqa: E402
-from orb.config import CONFIG  # noqa: E402
-from orb.redact import say  # noqa: E402
-from orb.vendors import alpaca_minute_bars, massive_minute_bars  # noqa: E402
+from _a1r import send, wire, write_report
+
+from orb.calendar import sessions
+from orb.comparator import count_bars
+from orb.config import CONFIG
+from orb.redact import say
+from orb.vendors import (
+    alpaca_minute_bars,
+    consolidated_feed,
+    massive_minute_bars,
+)
 
 TICKER = "AAPL"
 """One continuously listed liquid name. Listed 1980, never delisted, never
@@ -94,7 +99,11 @@ def main() -> int:
             request = massive_minute_bars(store, TICKER, iso, iso)
         else:
             request = alpaca_minute_bars(
-                store, TICKER, f"{iso}T00:00:00Z", f"{iso}T23:59:59Z", feed="sip"
+                store,
+                TICKER,
+                f"{iso}T00:00:00Z",
+                f"{iso}T23:59:59Z",
+                feed=consolidated_feed(),
             )
         response = send(client, request)
         record = seal.store(f"task5_{vendor}_{iso}.raw", response.body)
@@ -117,7 +126,9 @@ def main() -> int:
                 ),
             }
         )
-        say(f"  {vendor:8s} {iso} http={response.status_code} bars={counted} served={ok}")
+        say(
+            f"  {vendor:8s} {iso} http={response.status_code} bars={counted} served={ok}"
+        )
         return ok
 
     findings: dict[str, object] = {
@@ -146,14 +157,20 @@ def main() -> int:
         verification: list[dict[str, object]] = []
         if index > 0:
             verification.append(
-                {"session": days[index - 1].isoformat(), "served": probe(vendor, days[index - 1])}
+                {
+                    "session": days[index - 1].isoformat(),
+                    "served": probe(vendor, days[index - 1]),
+                }
             )
         verification.append(
             {"session": earliest.isoformat(), "served": probe(vendor, earliest)}
         )
         if index + 1 < len(days):
             verification.append(
-                {"session": days[index + 1].isoformat(), "served": probe(vendor, days[index + 1])}
+                {
+                    "session": days[index + 1].isoformat(),
+                    "served": probe(vendor, days[index + 1]),
+                }
             )
         findings["vendors"][vendor] = {  # type: ignore[index]
             "earliest_served_session": earliest.isoformat(),

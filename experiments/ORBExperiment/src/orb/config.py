@@ -48,6 +48,21 @@ class Config:
     holdout_end: str
     """2026-06-30. Last session of the holdout. Pinned."""
 
+    # --- The tape, Amendment 7 and Amendment 13 -----------------------
+    consolidated_feed: str
+    """``"sip"``. **The consolidated tape, and the only feed a registered bar
+    request may be built on.**
+
+    Registered as a config field by **Amendment 13** after A.1 TASK 4 measured
+    what the alternative costs: the single-venue Alpaca-IEX feed carries a
+    **median 0.027761 of consolidated first-5-minute volume over `n = 100`
+    session-ticker pairs**, with **100 percent of pairs below the registered
+    0.20 single-venue threshold**. A feed carrying under three percent of the
+    tape produces bars that look **entirely normal** in every downstream figure
+    — a real high, a real low, a real volume — and every one of them is wrong
+    about the market. It was previously a **function default** at
+    `orb.vendors.alpaca_minute_bars`, silently overridable at any call site."""
+
     # --- Universe and event rule, Section 2 ---------------------------
     opening_range_minutes: int
     """5. The registered range length. 15/30/60 are named secondaries."""
@@ -199,6 +214,7 @@ CONFIG: Final[Config] = Config(
     in_sample_end="2022-12-30",
     holdout_start="2023-01-03",
     holdout_end="2026-06-30",
+    consolidated_feed="sip",
     opening_range_minutes=5,
     selection_width=20,
     relvol_lookback_sessions=14,

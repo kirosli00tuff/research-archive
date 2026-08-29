@@ -42,12 +42,17 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from _a1r import send, wire, write_report  # noqa: E402
-from orb.calendar import sessions  # noqa: E402
-from orb.comparator import count_bars  # noqa: E402
-from orb.config import CONFIG  # noqa: E402
-from orb.redact import say  # noqa: E402
-from orb.vendors import alpaca_minute_bars, massive_active_common  # noqa: E402
+from _a1r import send, wire, write_report
+
+from orb.calendar import sessions
+from orb.comparator import count_bars
+from orb.config import CONFIG
+from orb.redact import say
+from orb.vendors import (
+    alpaca_minute_bars,
+    consolidated_feed,
+    massive_active_common,
+)
 
 CHUNK_SESSIONS = 5
 CANDIDATE_POOL = 1000
@@ -103,7 +108,7 @@ def main() -> int:
                 ticker,
                 f"{reference_session}T00:00:00Z",
                 f"{reference_session}T23:59:59Z",
-                feed="sip",
+                feed=consolidated_feed(),
                 limit=10000,
             ),
         )
@@ -146,18 +151,16 @@ def main() -> int:
             token: str | None = None
             page = 0
             while page < MAX_PAGES_PER_CHUNK:
-                response = send(
-                    client,
-                    alpaca_minute_bars(
-                        store,
-                        ticker,
-                        start_iso,
-                        end_iso,
-                        feed="sip",
-                        limit=10000,
-                        page_token=token,
-                    ),
+                request = alpaca_minute_bars(
+                    store,
+                    ticker,
+                    start_iso,
+                    end_iso,
+                    feed=consolidated_feed(),
+                    limit=10000,
+                    page_token=token,
                 )
+                response = send(client, request)
                 name = f"task9_{ticker}_chunk{index:02d}_page{page:02d}.raw"
                 record = seal.store(name, response.body)
                 counted = count_bars(response.body)
@@ -171,6 +174,7 @@ def main() -> int:
                 manifest.append(
                     {
                         "ticker": ticker,
+                        "feed": request.feed,
                         "chunk_index": index,
                         "page": page,
                         "sessions": [d.isoformat() for d in chunk],
@@ -195,7 +199,7 @@ def main() -> int:
     findings = {
         "pulled_at": today.isoformat(),
         "primary_vendor": "alpaca",
-        "feed": "sip",
+        "feed": consolidated_feed(),
         "sessions": [d.isoformat() for d in slice_days],
         "session_count": len(slice_days),
         "tickers": chosen,

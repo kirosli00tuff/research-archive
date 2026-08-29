@@ -24,9 +24,11 @@ else, so it licenses no increase here.
 
 from __future__ import annotations
 
+from collections.abc import Mapping
 from dataclasses import dataclass
 from typing import Final, final
 
+from orb.config import CONFIG
 from orb.credentials import (
     ALPACA_API_KEY,
     ALPACA_SECRET_KEY,
@@ -126,8 +128,81 @@ pricing-page reasoning standing rule 4 forbids.
 """
 
 
+MEASURED_SINGLE_VENUE_FEED: Final[str] = "iex"
+"""The Alpaca single-venue feed, measured at A.1 TASK 4 as a different tape.
+
+**Median 0.027761 of consolidated first-5-minute volume, `n = 100`
+session-ticker pairs**, IQR [0.021200, 0.037068], **share below the registered
+0.20 single-venue threshold: 1.0**. `DIFFERENT_TAPE` against both Massive and
+Alpaca-SIP. It is named here so that the one legitimate use of it — the tape
+control of `tools/tape_identify.py` — has a name to ask for, rather than a
+string a call site can type by accident.
+"""
+
+
 class VendorCredentialError(RuntimeError):
     """Raised when a vendor is asked for a request it holds no credential for."""
+
+
+class TapeFeedError(RuntimeError):
+    """Raised when a registered bar request is built on a non-consolidated feed.
+
+    **The measured consequence of taking the wrong branch**: a feed carrying a
+    **median 0.027761** of consolidated first-5-minute volume over `n = 100`
+    pairs. Every bar it serves has a real high, a real low and a real volume,
+    and every one of them is wrong about the market — so the error is
+    **invisible** in every downstream figure. This is why the feed is a
+    configured, guarded field rather than a function default.
+    """
+
+
+def consolidated_feed() -> str:
+    """The registered consolidated tape. Read from config, never re-typed."""
+    return CONFIG.consolidated_feed
+
+
+def require_consolidated_feed(feed: str, context: str) -> str:
+    """Refuse a registered bar request built on anything but the consolidated tape."""
+    if feed != CONFIG.consolidated_feed:
+        raise TapeFeedError(
+            f"{context}: refusing a bar request on feed {feed!r}. The registered "
+            f"feed is {CONFIG.consolidated_feed!r}, the consolidated tape. A.1 "
+            f"TASK 4 measured {MEASURED_SINGLE_VENUE_FEED!r} at a median "
+            "0.027761 of consolidated first-5-minute volume over n = 100 "
+            "session-ticker pairs — a different tape, which would look entirely "
+            "normal in every downstream figure. A non-consolidated feed is "
+            "reachable only through alpaca_minute_bars_on_feed, which requires "
+            "a stated reason."
+        )
+    return feed
+
+
+MANIFEST_FEED_KEY: Final[str] = "feed"
+"""The key every pull manifest records its feed under."""
+
+
+def require_manifest_feed(manifest: Mapping[str, object], context: str) -> str:
+    """Refuse a manifest that does not record the feed it was pulled on.
+
+    A manifest is the instruction set for an identical re-pull. **A re-pull sent
+    on a different feed than the original measures a tape difference and records
+    it as a revision rate**, which is the one number this repository exists to
+    measure. An absent feed key is a recorded refusal, never an assumed ``sip``.
+    """
+    recorded = manifest.get(MANIFEST_FEED_KEY)
+    if recorded is None:
+        raise TapeFeedError(
+            f"{context}: the manifest records no {MANIFEST_FEED_KEY!r}. A "
+            "re-pull on an unrecorded feed measures a tape difference and "
+            "records it as a revision rate. Absence is a recorded state, never "
+            "an assumed consolidated feed."
+        )
+    if not isinstance(recorded, str):
+        raise TapeFeedError(
+            f"{context}: the manifest records {MANIFEST_FEED_KEY!r} as "
+            f"{type(recorded).__name__}, not a string."
+        )
+    return require_consolidated_feed(recorded, context)
 
 
 @final
@@ -139,10 +214,18 @@ class VendorRequest:
     pace_key: str
     url: str
     headers: dict[str, str]
+    feed: str | None = None
+    """The tape this request was built on, or ``None`` where the endpoint has no
+    feed concept. **Carried on the request so a manifest cannot omit it.**"""
 
     def as_row(self) -> dict[str, object]:
         """A recordable row. **Headers are excluded by construction.**"""
-        return {"vendor": self.vendor, "pace_key": self.pace_key, "url": self.url}
+        return {
+            "vendor": self.vendor,
+            "pace_key": self.pace_key,
+            "url": self.url,
+            MANIFEST_FEED_KEY: self.feed,
+        }
 
 
 def massive_headers(store: CredentialStore) -> dict[str, str]:
@@ -256,11 +339,65 @@ def alpaca_minute_bars(
     start_iso: str,
     end_iso: str,
     *,
-    feed: str = "sip",
+    feed: str,
     limit: int = 10000,
     page_token: str | None = None,
 ) -> VendorRequest:
-    """One-minute bars for one ticker between two UTC instants."""
+    """One-minute bars for one ticker between two UTC instants.
+
+    **``feed`` carries no default, by Amendment 13.** It was ``"sip"`` by
+    default, and a default is silently overridable at any call site. The
+    measured cost of taking the wrong branch is a feed carrying a **median
+    0.027761 of consolidated first-5-minute volume over `n = 100` pairs** —
+    bars that look entirely normal and are wrong about the market. The feed is
+    now required at the call site **and** checked against
+    ``CONFIG.consolidated_feed`` here.
+    """
+    require_consolidated_feed(feed, f"alpaca_minute_bars({ticker})")
+    return _alpaca_bars_url(store, ticker, start_iso, end_iso, feed, limit, page_token)
+
+
+def alpaca_minute_bars_on_feed(
+    store: CredentialStore,
+    ticker: str,
+    start_iso: str,
+    end_iso: str,
+    *,
+    feed: str,
+    tape_control_reason: str,
+    limit: int = 10000,
+    page_token: str | None = None,
+) -> VendorRequest:
+    """The **only** builder that may request a non-consolidated feed.
+
+    It exists for one registered purpose: the **tape control** of A.1 TASK 4,
+    which must request the single-venue feed in order to measure how far it
+    sits from the consolidated one. Amendment 7 registered that branch; this
+    builder is where it is allowed to happen, and it **demands a stated
+    reason** so a later reader meets the justification at the call site rather
+    than having to reconstruct it.
+    """
+    if not tape_control_reason.strip():
+        raise TapeFeedError(
+            f"alpaca_minute_bars_on_feed({ticker}, feed={feed!r}): refusing "
+            "without a stated tape_control_reason. A request off the "
+            "consolidated tape is a registered exception, and an exception "
+            "with no reason recorded at its call site is a default wearing a "
+            "different name."
+        )
+    return _alpaca_bars_url(store, ticker, start_iso, end_iso, feed, limit, page_token)
+
+
+def _alpaca_bars_url(
+    store: CredentialStore,
+    ticker: str,
+    start_iso: str,
+    end_iso: str,
+    feed: str,
+    limit: int,
+    page_token: str | None,
+) -> VendorRequest:
+    """URL construction only. **It decides nothing about which feed is right.**"""
     parts = [
         "timeframe=1Min",
         f"start={start_iso}",
@@ -276,6 +413,7 @@ def alpaca_minute_bars(
         pace_key="alpaca:bars",
         url=f"{ALPACA_DATA_HOST}/v2/stocks/{ticker}/bars?" + "&".join(parts),
         headers=alpaca_headers(store),
+        feed=feed,
     )
 
 

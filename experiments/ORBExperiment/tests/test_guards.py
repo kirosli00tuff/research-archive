@@ -376,6 +376,168 @@ def test_both_carve_out_edges_are_actually_read_by_preperiod() -> None:
 
 
 # --------------------------------------------------------------------------
+# Amendment 13 — the tape is a configured, guarded field, not a default
+# --------------------------------------------------------------------------
+
+TOOLS_ROOT = REPO_ROOT / "tools"
+"""Call sites live here. A default is overridable **at a call site**, so a guard
+that walks only ``src/orb`` would be guarding the wrong half of the risk."""
+
+BAR_REQUEST_BUILDERS: frozenset[str] = frozenset(
+    {"alpaca_minute_bars", "alpaca_minute_bars_on_feed"}
+)
+"""Every builder that turns a feed choice into a URL."""
+
+
+def _call_sites() -> list[Path]:
+    return sorted(SRC_ROOT.rglob("*.py")) + sorted(TOOLS_ROOT.rglob("*.py"))
+
+
+@pytest.mark.guard
+def test_the_configured_feed_is_the_consolidated_tape() -> None:
+    """The registered feed is ``sip``, and this is what the value protects.
+
+    A.1 TASK 4 measured the alternative. The single-venue Alpaca-IEX feed
+    carries a **median 0.027761 of consolidated first-5-minute volume over
+    `n = 100` session-ticker pairs**, IQR [0.021200, 0.037068], with **100
+    percent of pairs below the registered 0.20 single-venue threshold** —
+    `DIFFERENT_TAPE` against both Massive and Alpaca-SIP.
+
+    **That is the whole reason this assertion exists.** A feed carrying under
+    three percent of the tape still serves a real high, a real low and a real
+    volume for every bar, so the wrong branch **looks entirely normal in every
+    downstream figure**: the opening range is narrower, the trigger fires at a
+    different minute or not at all, the relative-volume ranking selects
+    different names, and nothing anywhere reports an error. The measured
+    0.027761 is the size of the lie.
+    """
+    from orb.vendors import MEASURED_SINGLE_VENUE_FEED, consolidated_feed
+
+    assert CONFIG.consolidated_feed == "sip", (
+        "the registered feed is the consolidated tape; A.1 TASK 4 measured the "
+        f"single-venue alternative at a median 0.027761 of it over n = 100 pairs, "
+        f"and this config now says {CONFIG.consolidated_feed!r}"
+    )
+    assert consolidated_feed() == CONFIG.consolidated_feed
+    assert CONFIG.consolidated_feed != MEASURED_SINGLE_VENUE_FEED
+
+
+@pytest.mark.guard
+def test_no_bar_request_builder_defaults_its_feed() -> None:
+    """A default is silently overridable at any call site. There is none.
+
+    ``orb.vendors.alpaca_minute_bars`` carried ``feed: str = "sip"`` until
+    Amendment 13. The default was correct and the risk was structural: nothing
+    made a call site say which tape it wanted, so nothing would have noticed a
+    call site that said the wrong one.
+    """
+    tree = _parse(SRC_ROOT / "vendors.py")
+    offenders: list[str] = []
+    checked = 0
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.FunctionDef):
+            continue
+        args = node.args
+        for index, arg in enumerate(args.kwonlyargs):
+            if arg.arg != "feed":
+                continue
+            checked += 1
+            default = args.kw_defaults[index]
+            if default is not None:
+                offenders.append(
+                    f"{node.name}:{node.lineno} defaults feed to {ast.unparse(default)}"
+                )
+    assert checked >= 2, f"expected both bar builders to take a feed, saw {checked}"
+    assert not offenders, (
+        "a bar request builder defaults its feed; the tape must be named at "
+        f"every call site: {offenders}"
+    )
+
+
+@pytest.mark.guard
+def test_every_bar_request_call_site_names_its_feed() -> None:
+    """No request is constructed without an explicit feed. Anywhere."""
+    offenders: list[str] = []
+    checked = 0
+    for path in _call_sites():
+        for node in ast.walk(_parse(path)):
+            if not isinstance(node, ast.Call):
+                continue
+            func = node.func
+            name = (
+                func.id
+                if isinstance(func, ast.Name)
+                else (func.attr if isinstance(func, ast.Attribute) else "")
+            )
+            if name not in BAR_REQUEST_BUILDERS:
+                continue
+            checked += 1
+            if not any(kw.arg == "feed" for kw in node.keywords):
+                offenders.append(f"{path.name}:{node.lineno} calls {name} with no feed")
+    assert checked >= 5, f"expected the known bar call sites, saw {checked}"
+    assert not offenders, (
+        f"a bar request is constructed without an explicit feed: {offenders}"
+    )
+
+
+@pytest.mark.guard
+def test_only_config_names_the_consolidated_feed_literal() -> None:
+    """The feed value is read from config, never re-typed at a call site.
+
+    The same rule the carve-out boundaries live under: a literal typed twice is
+    a literal that can disagree with itself.
+    """
+    literal = CONFIG.consolidated_feed
+    offenders: list[str] = []
+    for path in _call_sites():
+        if path.name == "config.py":
+            continue
+        for node in ast.walk(_parse(path)):
+            if (
+                isinstance(node, ast.Constant)
+                and isinstance(node.value, str)
+                and node.value == literal
+            ):
+                offenders.append(f"{path.name}:{node.lineno}")
+    assert not offenders, (
+        f"the consolidated feed literal {literal!r} is typed outside config.py: "
+        f"{offenders}"
+    )
+
+
+@pytest.mark.guard
+def test_a_manifest_without_a_recorded_feed_is_refused() -> None:
+    """A re-pull on an unrecorded feed measures a tape difference as a revision."""
+    from orb.vendors import TapeFeedError, require_manifest_feed
+
+    assert require_manifest_feed({"feed": CONFIG.consolidated_feed}, "ctx") == (
+        CONFIG.consolidated_feed
+    )
+    with pytest.raises(TapeFeedError, match="records no"):
+        require_manifest_feed({"pulled_at": "2026-08-29"}, "ctx")
+    with pytest.raises(TapeFeedError):
+        require_manifest_feed({"feed": "iex"}, "ctx")
+    with pytest.raises(TapeFeedError, match="not a string"):
+        require_manifest_feed({"feed": 1}, "ctx")
+
+
+@pytest.mark.guard
+def test_the_sealed_probe_manifest_records_the_consolidated_feed() -> None:
+    """The sealed slice's own manifest is held to the rule, not assumed to meet it."""
+    import json
+
+    manifest_path = REPO_ROOT / "reports" / "stage_a1r" / "task9_probe_manifest.json"
+    if not manifest_path.exists():  # pragma: no cover - present in this repo
+        pytest.skip("the probe manifest has not been written")
+    from orb.vendors import require_manifest_feed
+
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    assert require_manifest_feed(manifest, "task9") == CONFIG.consolidated_feed
+    assert manifest["files_stored"] == 480
+    assert manifest["bars_stored"] == 737_507
+
+
+# --------------------------------------------------------------------------
 # Guard 7 — no fixed-offset Eastern anywhere
 # --------------------------------------------------------------------------
 

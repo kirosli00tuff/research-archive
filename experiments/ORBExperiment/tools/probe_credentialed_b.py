@@ -19,14 +19,18 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from _a1r import probe_row, send, wire, write_report  # noqa: E402
-from orb.redact import say  # noqa: E402
-from orb.vendors import (  # noqa: E402
+from _a1r import probe_row, send, wire, write_report
+
+from orb.redact import say
+from orb.vendors import (
     ALPACA,
     ALPACA_PAPER_HOST,
+    MEASURED_SINGLE_VENUE_FEED,
     VendorRequest,
     alpaca_headers,
     alpaca_minute_bars,
+    alpaca_minute_bars_on_feed,
+    consolidated_feed,
     massive_minute_bars,
 )
 
@@ -46,13 +50,27 @@ def main() -> int:
         (
             "alpaca_bars_recent_sip",
             alpaca_minute_bars(
-                store, "AAPL", RECENT_START_ISO, RECENT_END_ISO, feed="sip"
+                store,
+                "AAPL",
+                RECENT_START_ISO,
+                RECENT_END_ISO,
+                feed=consolidated_feed(),
             ),
         ),
         (
             "alpaca_bars_recent_iex",
-            alpaca_minute_bars(
-                store, "AAPL", RECENT_START_ISO, RECENT_END_ISO, feed="iex"
+            alpaca_minute_bars_on_feed(
+                store,
+                "AAPL",
+                RECENT_START_ISO,
+                RECENT_END_ISO,
+                feed=MEASURED_SINGLE_VENUE_FEED,
+                tape_control_reason=(
+                    "A.1 TASK 2 tape control: the single-venue feed is "
+                    "requested on purpose, beside the consolidated one, so "
+                    "that the two can be compared. Amendment 7 registered "
+                    "the branch."
+                ),
             ),
         ),
         (
