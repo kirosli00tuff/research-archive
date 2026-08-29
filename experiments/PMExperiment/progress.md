@@ -521,3 +521,19 @@ between them, but the lag is recorded rather than rebased away.
 It was not designed here. It still needs a venue whose terms permit the read —
 Kalshi remains PENDING_ACCESS and the written-authorization request remains an
 open action with no assumed outcome.
+
+---
+
+## Entry 5.1 — addendum, recorded after the push
+
+Task 6 actual, closing the open cell in Entry 5's table: **4.6 min against the
+20-min ETA** (report, Entry 5, nine honesty tests, five mutation runs, suite
+green at 63 tests, commit `ebdc116`, pushed to the private `origin/main` at
+19:28:45Z). Appended as a new record, not an edit, per the append-only rule.
+
+**Stage B total: 22.9 min against a 75-min stated ETA** (19:05:53Z →
+19:28:45Z), overrun by a factor of 3.3 in the safe direction. The cause named
+in Entry 5 holds across every task, so the next stage should estimate
+document-and-arithmetic work from **Stage B's** measured rate rather than
+Stage A's: no task here exceeded its ETA, and the largest single block — the
+band arithmetic with its tests and guards — took 8.3 min.
