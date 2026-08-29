@@ -598,3 +598,118 @@ source: `Path.open` in `ledger.py` at A.0 TASK 2, and its own blindness to
 variable-alias access at A.1 TASK 3.
 
 ---
+## Entry 4 — STAGE A.2 TASK 1, TASK 2 and TASK 3
+
+**2026-08-29.**
+
+| task | ETA | actual | verdict |
+|---|---|---|---|
+| A.2 TASK 1 — calendar and actions substrate | 30 min | 34 min | 2,637 sessions, 21 half sessions |
+| A.2 TASK 2 — cost model, verified and frozen | 35 min | 38 min | **one carried figure stale, three components missing** |
+| A.2 TASK 3 — universe, signal, verdict built dark | 50 min | 52 min | 10 hand-computed cases match to the cent |
+
+### A.2 TASK 1 — the calendar
+
+**2,637 sessions and 21 half sessions**, 2016-01-04 to 2026-06-30, built from
+the NYSE holiday and early-closing rules encoded in `orb.calendar` rather than
+downloaded, so it is reproducible without a vendor. **Two disagreements with the
+registration, recorded not reconciled: in-sample computes 1,762 against a stated
+~1,760, and the holdout computes 875 against a stated ~880.** The holdout
+shortfall is carried into A.2 TASK 4 and the computation wins, as Section 9
+requires. At the registered assumption, `t` moves from **2.616 at n = 880** to
+**2.609 at n = 875** — **no verdict row moves**, and both sit below the 3.0
+hurdle and above the 2.50 gate.
+
+**The second-source cross-check was not completed and was not fabricated.** Every
+vendor serving a machine-readable calendar is one of the nine that refused, so it
+is `Absent(not_yet_measured)`. What stands in is real: the session count is
+derived **twice by different arithmetic** and the two agree on all 10 complete
+years, and the opening-range start of the first in-sample session equals
+`CONFIG.pre_period_end_ms` **exactly** — the calendar and the carve-out boundary
+computed two independent ways, from a NYSE rule set and from a registered literal.
+
+### A.2 TASK 2 — the cost model, and the ADR-055 pattern firing as designed
+
+Live against IBKR's published schedule (**HTTP 200, 584,282 bytes, 2026-08-29**),
+terms checked first:
+
+| component | carried | **measured** | verdict |
+|---|---:|---:|---|
+| commission per share | 0.0035 | **0.0035** | agrees |
+| order minimum | 0.35 | **0.35** | agrees |
+| FINRA TAF per share sold | 0.000166 | **0.000195** | **STALE, 14.9 percent low** |
+| maximum per order | not modeled | **1 percent of trade value** | **NOT MODELED** |
+| FINRA CAT | not modeled | **0.000003/share** | **NOT MODELED** |
+| NSCC/DTC clearing | not modeled | **0.00020/share** | **NOT MODELED** |
+
+**The 1 percent cap can bind below the 0.35 minimum**, and the minimum does not
+survive it: 10 shares at 1.00 USD is a 10.00 USD trade whose cap is **0.10**.
+Pinned.
+
+**The SEC fee schedule is registered EMPTY on purpose.** One rate was measured
+(**0.0000206 × value of aggregate sales**); **its effective date was not**, and
+`sec.gov` returned **403 "Request Rate Threshold Exceeded"** on both attempts,
+20 s apart. Placing the 2026 rate in the schedule would silently apply it to a
+2016 session, so `rate_on` returns `Absent` for **every session in the registered
+window** and the whole round-trip cost refuses. **The model will not price a
+trade it cannot price honestly.** Pinned by test.
+
+**What it costs the hypothesis, measured.** A round trip at the central band on a
+50 USD name costs **≈ 0.0386 USD/share on a close exit and ≈ 0.0686 on a stop
+exit**, against the replication's measured gross edge of **0.070 USD/share**
+(carried, C-6). **A close exit consumes 55 percent of the edge; a stop exit
+consumes 98 percent. Slippage is 78 percent of the close-exit total.** Section
+6's claim that the cost band is the experiment's second axis is now a measured
+number rather than an assertion, and it **strengthens the DEGRADED expectation
+registered in Section 0 before any of this was measured.**
+
+Frozen at sha256 `3789221b9dd3fea5a9680547dfdf8ec7b1febaf246042fe1fa70e27ca610fba3`,
+latched, and pinned by a test that recomputes the hash from the model.
+**Amendment 3** records all of it, before A.2 TASK 4.
+
+### A.2 TASK 3 — built dark, and a stronger guarantee than blindness
+
+An opening-range rule **is** a statement about highs and lows, so the strategy
+modules cannot be blind. A stronger guarantee replaces the blindness pin:
+
+1. **Structural — they are unreachable.** `bars.py`, `universe.py`, `signal.py`
+   and `verdict.py` are `LATCHED_MODULES`, and
+   `test_no_stage_a_module_imports_a_latched_module` walks **every import in the
+   package** and requires that no module outside the set imports one of them.
+   **Nothing on the Stage A collection path can call the strategy, whatever
+   anyone later forgets.**
+2. **Behavioural — they refuse at runtime.** Every bar carries a `Provenance`.
+   `SEALED_VENDOR` is refused by every entry point until the Stage C latch;
+   `PRE_PERIOD` is checked against the boundary rather than trusted, so a bar
+   *claiming* the carve-out at the boundary instant is rejected at construction.
+
+**The ten hand-computed ticker-sessions matched to the cent on the first run.**
+Every opening range, breakout price, stop and close exit was computed on paper
+first; all ten agreed. They cover **all four registered trigger states** — LONG,
+SHORT, NONE and AMBIGUOUS. Named fixtures also pin: a bar stamped **exactly** at
+09:35:00.000 sitting outside the half-open range; a **touch** of the boundary not
+being a break; **the stop and the range boundary coinciding to the cent**, where
+a touch at 950 is a hit and 951 is not; the **one-cent entry-offset floor**
+binding on a 1.60 USD name where 0.05 percent is 0.08 cents; and a **half
+session**, whose exit window shifts three hours.
+
+**A recorded limitation.** The ten bars are **synthetic fixtures stamped inside
+the carve-out window, not real vendor bars**, because 0 of 9 vendors serve one.
+Provenance and boundary are genuinely exercised; the prices are constructed.
+**When a credential exists these same ten ticker-sessions are re-run against real
+pre-period bars and the hand computations redone.** Recorded as an open item and
+stated in the test module's own docstring, not only here.
+
+**The canary fires and the converse holds.** A planted edge at annualized Sharpe
+3.0 over 875 sessions clears both co-primaries and both gates; **pure noise
+clears neither**. And `test_all_four_conditions_are_required` shows a run that
+passes E1, E2 and persistence but fails concentration **still fails overall** —
+so no gate can quietly become advisory.
+
+**Bar construction caught one of my own malformed fixtures** (`open` below
+`low`) on its first run, which is the validator doing its job on the day it was
+written.
+
+**`make all` green: 224 tests, mypy strict clean over 38 files.**
+
+---

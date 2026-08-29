@@ -22,6 +22,21 @@ SRC_ROOT = REPO_ROOT / "src" / "orb"
 FIELD_REGISTRY_MODULE: str = "fields.py"
 """The declaration site of the two field lists. Names only; it reads nothing."""
 
+LATCHED_MODULES: frozenset[str] = frozenset(
+    {"bars.py", "universe.py", "signal.py", "verdict.py"}
+)
+"""The dark strategy modules. They name priced fields; nothing in Stage A reaches them.
+
+These are **Stage C code, written in Stage A**. The blindness pin cannot apply —
+an opening-range rule is a statement about highs and lows — so a **stronger**
+guarantee replaces it: `test_no_stage_a_module_imports_a_latched_module` walks
+every import in the repository and requires that **no module outside this set
+imports one of them**. Nothing on the Stage A collection path can reach the
+strategy, by construction rather than by discipline. At runtime a second pin
+holds: every entry point refuses a bar carrying `SEALED_VENDOR` provenance until
+the Stage C latch is written.
+"""
+
 SEALED_MODULES: frozenset[str] = frozenset({"seal.py", "comparator.py"})
 """The only modules permitted to touch a priced bar field.
 
@@ -149,9 +164,10 @@ def test_no_module_reads_a_priced_bar_field_anywhere() -> None:
     high, low, close, volume, vwap, trade count, bid or ask — under any
     spelling, as an attribute, a subscript or a ``.get`` — fails here.
     """
+    exempt = SEALED_MODULES | LATCHED_MODULES | {FIELD_REGISTRY_MODULE}
     violations: list[BarFieldRead] = []
     for path in _module_paths():
-        if path.name in SEALED_MODULES or path.name == FIELD_REGISTRY_MODULE:
+        if path.name in exempt:
             continue
         violations.extend(_bar_field_reads(path))
 
@@ -219,13 +235,6 @@ PENDING_ENFORCEMENT: dict[str, str] = {
     "in_sample_end": "A.2 TASK 1 — session calendar",
     "holdout_start": "A.2 TASK 1 — session calendar",
     "opening_range_minutes": "A.2 TASK 3 — signal built dark",
-    "selection_width": "A.2 TASK 3 — universe built dark",
-    "relvol_lookback_sessions": "A.2 TASK 3 — universe built dark",
-    "min_session_open_usd": "A.2 TASK 3 — universe built dark",
-    "min_avg_volume_shares": "A.2 TASK 3 — universe built dark",
-    "min_atr_usd": "A.2 TASK 3 — universe built dark",
-    "max_borrow_rate_annual": "A.2 TASK 3 — universe built dark",
-    "entry_offset_fraction": "A.2 TASK 3 — signal built dark",
     "risk_fraction_per_trade": "A.2 TASK 3 — sizing built dark",
     "max_concurrent_positions": "A.2 TASK 3 — sizing built dark",
     "max_gross_notional_multiple": "A.2 TASK 3 — sizing built dark",
@@ -235,14 +244,9 @@ PENDING_ENFORCEMENT: dict[str, str] = {
     "entry_slippage_usd": "A.2 TASK 2 — cost model",
     "stop_slippage_usd": "A.2 TASK 2 — cost model",
     "close_slippage_usd": "A.2 TASK 2 — cost model",
-    "n_co_primaries": "A.2 TASK 4 — power gate",
     "trial_count": "A.2 TASK 4 — power gate",
-    "deflated_sharpe_bar": "A.2 TASK 3 — verdict built dark",
     "holdout_per_trade_t_gate": "A.2 TASK 3 — verdict built dark",
-    "max_single_year_pnl_share": "A.2 TASK 3 — verdict built dark",
-    "min_positive_holdout_years": "A.2 TASK 3 — verdict built dark",
     "quartered_sharpe_assumption": "A.2 TASK 4 — power gate",
-    "trading_days_per_year": "A.2 TASK 4 — power gate",
     "probe_sessions": "A.1 TASK 3 — bar revision rate",
     "probe_tickers": "A.1 TASK 3 — bar revision rate",
     "probe_min_age_days": "A.1 TASK 3 — bar revision rate",
@@ -463,3 +467,74 @@ def test_the_comparator_is_the_only_module_that_reads_a_priced_field() -> None:
         "seal.py stores bytes and parses nothing; it must read no priced field: "
         f"{reads['seal.py']}"
     )
+
+
+# --------------------------------------------------------------------------
+# The latched modules — built dark, structurally unreachable from Stage A
+# --------------------------------------------------------------------------
+
+
+def _imported_orb_modules(path: Path) -> set[str]:
+    """Every ``orb.<name>`` this module imports, by parse tree."""
+    out: set[str] = set()
+    for node in ast.walk(_parse(path)):
+        if isinstance(node, ast.ImportFrom) and node.module:
+            if node.module == "orb" or node.module.startswith("orb."):
+                parts = node.module.split(".")
+                if len(parts) > 1:
+                    out.add(f"{parts[1]}.py")
+                for alias in node.names:
+                    out.add(f"{alias.name}.py")
+        elif isinstance(node, ast.Import):
+            for alias in node.names:
+                if alias.name.startswith("orb."):
+                    out.add(f"{alias.name.split('.')[1]}.py")
+    return out
+
+
+@pytest.mark.guard
+def test_no_stage_a_module_imports_a_latched_module() -> None:
+    """The structural guarantee that replaces the blindness pin for dark code.
+
+    An opening-range rule is a statement about highs and lows, so the strategy
+    modules cannot be blind. What they can be is **unreachable**: if no Stage A
+    module imports them, no Stage A code path can call them, whatever anyone
+    later forgets. This walks every import in the package and requires it.
+    """
+    offenders: list[str] = []
+    for path in _module_paths():
+        if path.name in LATCHED_MODULES:
+            continue
+        leaked = _imported_orb_modules(path) & LATCHED_MODULES
+        for name in sorted(leaked):
+            offenders.append(f"{path.name} imports {name}")
+    assert not offenders, (
+        "a Stage A module imports a latched strategy module, n = "
+        f"{len(offenders)}: {offenders}"
+    )
+
+
+@pytest.mark.guard
+def test_every_latched_module_exists_and_is_named() -> None:
+    present = {p.name for p in _module_paths()}
+    assert present >= LATCHED_MODULES, LATCHED_MODULES - present
+    assert not (LATCHED_MODULES & SEALED_MODULES), "a module is latched or sealed"
+
+
+@pytest.mark.guard
+def test_latched_modules_refuse_sealed_vendor_provenance_at_runtime() -> None:
+    """The second pin: unreachable is structural, refusal is behavioural."""
+    from orb.bars import Bar, Provenance, ProvenanceViolationError, require_readable
+
+    sealed = Bar(
+        timestamp_ms=1_700_000_000_000,
+        open_c=1000,
+        high_c=1050,
+        low_c=950,
+        close_c=1025,
+        volume=100,
+        provenance=Provenance.SEALED_VENDOR,
+    )
+    with pytest.raises(ProvenanceViolationError, match="built dark"):
+        require_readable((sealed,), "probe", latched=False)
+    require_readable((sealed,), "probe", latched=True)
