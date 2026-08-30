@@ -245,3 +245,101 @@ that cannot fire proves nothing.
 Toolchain provenance recorded to `reports/env_report.json` by `tools/env_report.py`.
 
 ---
+
+## 2026-08-30T05:04Z — TASK 2 COMPLETE — REGISTRATION.md, before any network call
+
+**ETA 40 min · actual ~12 min.** `REGISTRATION.md`, 533 lines. **No network call
+has been made by this repository at any point up to this commit.** The last
+commit before registration is `8bcc5bf`.
+
+**Section 0** registers three branches judged on reachability and cost, never on
+returns, with an explicit precedence rule: if the premium fails Section 6,
+SIGNAL_ABSENT fires **regardless of the venue finding**. VENUE_BLOCKED
+sub-classifies into *prohibited*, *capital-blocked*, *no-product* and
+*cost-exceeded*, because they are four different findings and only the first is a
+jurisdiction fact.
+
+**Section 2** fixes the measured quantity before any data:
+
+| element | registered value |
+|---|---|
+| tenor | **30 calendar days**, one tenor, both assets, no sweep |
+| implied estimator | **exchange-published 30-day model-free IV index (Deribit DVOL)**, annualised vol points; a fallback to ATM-forward option-level mark IV, interpolated **linearly in total variance**, is registered now and recorded as used-or-not, never blended |
+| realized estimator | **close-to-close, `ddof=1`, annualised by √365**, over the 30 days **following** the implied observation. Not Parkinson, not Garman-Klass, not Yang-Zhang, not intraday realized variance |
+| sampling | daily, at a **fixed UTC instant** set at first read and never moved |
+| sign | **`VRP_t = IV_t − RV_{t→t+30}`. Positive means the option market charged more than the underlying delivered — a seller of variance was paid.** |
+| depth | registered minimum **730 daily observations per asset**; **60** is the floor below which `Absent(insufficient_sample)` is recorded and no number printed |
+
+The **forward-looking** direction of the realized leg is pinned explicitly: RV
+over the 30 days *preceding* `t` is a different quantity and is not the
+subtrahend. This is the most common way the measurement is got wrong.
+
+**Section 2.6 registers the one conversion that makes premium and cost
+comparable, before any number exists**, with its arithmetic verified:
+`edge_bps = √(2/π)·√T·(IV−RV)·10,000`; at `T = 30/365 = 0.082192`,
+`√T = 0.286691`, `√(2/π) = 0.797885`, so **one volatility point of premium is
+22.875 bps of notional**. Its three limitations — continuous-hedging assumption,
+ATM-straddle-only, first-order — are registered as limitations rather than
+discovered later.
+
+**Section 3 registers the reachability criterion and no venue.** Permitted
+requires published text recorded verbatim with URL and date, an option product
+listed, and **no proxy, no VPN, no misrepresentation of residence**. **UNCLEAR is
+never read as permission and cannot support HARVESTABLE.** The two carried claims
+— ADR-034's Hyperliquid-only-short finding and Deribit's 2026-03-19 policy — are
+registered **as claims to be tested, not as findings**.
+
+**Section 4 registers the cost model and carries no figure from anywhere.**
+Central end takes the **median** half-spread on both legs and the registered
+rule's **median** rebalance count; pessimistic takes the **90th percentile** of
+each. **The assignment is registered here, before anything downstream is
+computed.** The hedging rule is registered as **±0.10 delta, evaluated daily at
+the fixed UTC instant**, with ±0.05 and ±0.20 swept as sensitivity — per ADR-034
+a rebalance band is a trade-off and is swept and reported, never chosen. If no
+venue is permitted: **`Absent(venue_blocked)`, synthesize nothing** — enforced
+structurally by Guard 1.
+
+**Section 5 registers the margin as 2.0× against the pessimistic end**, justified
+before any number exists by three named, unmeasured error sources all pushing the
+same way: quoted spread is not effected spread (H3 measured adverse selection
+**positive on all 28 instruments, +0.06 to +0.68 bps**); the rebalance count is a
+rule not an observed path; and the Section 2.6 conversion assumes continuous
+hedging, making the premium an **upper bound**. 2.0 is deliberately modest against
+ORB's measured **11.27×** — because ORB's was a *carry* error and this repository
+carries nothing.
+
+**Section 6** registers **one one-sided t-test at α = 0.05**, H₀ `mean(VRP) ≤ 0`,
+with **Newey–West HAC at bandwidth 30** registered *before any data* because the
+overlapping 30-day forward windows induce serial correlation by construction —
+the same defect ORB's audit A3 found after the fact, where independence made
+intervals **2–17× too narrow**. Non-overlapping windows are registered as
+robustness, and **if the two disagree in sign or significance the disagreement is
+the finding and neither is suppressed**. The **Berger 1982** note is recorded: the
+hypothesis is a **conjunction**, an intersection-union test gets the **full
+nominal level per component**, and no multiplicity correction applies.
+
+**Section 7** halves every effect size per **McLean and Pontiff (2016)** and
+records the arithmetic that decides the endpoint: a strategy-Sharpe endpoint of
+**1.32 annualised needs ≈ 119 weekly observations** to reach t = 2
+(`(2/1.32)² = 2.2957 yr × 52 = 119.4`), and **≈ 478 at the halved 0.66**
+(`(2/0.66)² = 9.1827 yr × 52 = 477.5`, more than nine years). **That is why the
+endpoint is the premium and not a strategy return.** Section 7.3 registers the
+design's own weakness before seeing data: at 730 daily observations with
+bandwidth 30 the effective independent sample is ≈ 24, detecting `d ≈ 0.508`, and
+**the halved-effect design is powered only if the premium is large**.
+
+**Section 8** states the epistemic boundary, including the one this repository
+most needs a reader to see: **a short-variance position's defining risk is the
+move that does not appear in a two-year sample, and the premium is compensation
+for exactly that risk — so measuring the premium without the tail measures the
+payment and not the liability.**
+
+**Section 9** records the assistant prior **HARVESTABLE 0.12 / VENUE_BLOCKED 0.76
+/ SIGNAL_ABSENT 0.12** with its reasoning, reserves the operator slot **empty**
+with a note that it blocks nothing in a single-stage census, and records the
+ORBExperiment calibration outcome: **assistant 0.15 and operator 0.30 both
+resolved against a NO on H1, and neither had priced the spread** — the closure
+came from a measured **0.076572 USD/share** entry half spread (**n = 550 minutes
+served, 0 refused**) against a carried QQQ band **11.27×** too small.
+
+---
