@@ -343,3 +343,133 @@ came from a measured **0.076572 USD/share** entry half spread (**n = 550 minutes
 served, 0 refused**) against a carried QQQ band **11.27×** too small.
 
 ---
+
+## 2026-08-30T05:40Z — TASK 3 COMPLETE — venue reachability, the first deciding measurement
+
+**ETA 60 min · actual ~36 min.** Full record in `reports/task3/venue_table.md`,
+`reports/task3/deribit_restricted_jurisdictions_verbatim.md`,
+`reports/task3/robots_and_terms.md`.
+
+**No venue was joined, no account opened, no order placed, no proxy or VPN used.**
+robots.txt recorded verbatim with SHA-256 for all 8 domains before any repeated
+fetch.
+
+### The headline: the registered expectation is contradicted
+
+**Section 9.1 priced VENUE_BLOCKED at 0.76 largely on the belief that no
+BC-reachable venue would offer an option product. At least one does.**
+
+**Interactive Brokers Canada Inc. — a CIRO member with a registered office at
+1800 McGill College Avenue, Suite 2106, Montreal, Quebec — publishes a dedicated
+product page on its own `.ca` domain offering CME Group Options on Micro Bitcoin
+and Micro Ether Futures**, with the verbatim call to action *"If you already have
+Options trading permission, you can begin trading CME Group Options on Micro
+Bitcoin and Micro Ether Futures."* This answers the prompt's precise question —
+permissioned for Canadian retail clients, **not** merely listed on the US site.
+HTTP 200, 123,443 bytes, retrieved 2026-08-30T05:15Z.
+
+### Live reference spot, two independent public endpoints, no account
+
+**BTC $78,124.575** (Coinbase) vs **$78,115.50** (Kraken), disagreeing by
+**1.16 bps**, `n = 2` sources. **ETH $2,456.205** vs **$2,455.41**, **3.24 bps**,
+`n = 2`. Coinbase used downstream, registered before use.
+
+### The venue table
+
+| venue / route | product | classification |
+|---|---|---|
+| **Deribit** | BTC/ETH options | **PROHIBITED** |
+| **CME MET options via IBKR Canada** | option on 0.10 ETH | **PERMITTED, capital-feasible** |
+| **CME MBT options via IBKR Canada** | option on 0.10 BTC | **PERMITTED, capital status UNRESOLVED** |
+| **CME BTC options (full, 5 BTC)** | $390,622.88 notional | **CAPITAL_BLOCKED, 390.6× the sleeve** |
+| **CME ETH options (full, 50 ETH)** | $122,810.25 notional | **CAPITAL_BLOCKED, 122.8× the sleeve** |
+| **Hyperliquid** | 232 perps, **0 options** | **NO_PRODUCT** |
+| **Canadian covered-call crypto ETFs** | TSX fund units | **NOT AN OPTION PRODUCT** (fails registered criterion 3.1(2)) |
+| **CIRO-registered crypto venues** (Webull Canada, approved 2026-06-30) | **spot only** | **NO_PRODUCT** |
+
+**Deribit: PROHIBITED, verified and dated.** The page's own machine-readable
+stamp is `2026-03-19T16:49:36Z` — **the registered 2026-03-19 date is confirmed
+exactly**, with the time of day added, and the policy is still current at
+retrieval. **"Canada" is listed bare.** Five other entries carry qualifiers that
+narrow the prohibition (Belarus and Russia have EEA/Switzerland nationality
+exemptions; Panama and the UAE restrict only *Retail Investors* and only to
+*spot*; the UK only *Retail Clients*; Ukraine only three named regions). **Canada
+carries no qualifier of any kind** — an unconditional whole-country prohibition
+over location, incorporation, establishment and residence. Not worked around.
+
+**Hyperliquid: NO_PRODUCT, measured not assumed.** `POST /info {"type":"meta"}`
+→ HTTP 200, 17,495 bytes, **universe n = 232**, and **zero** instrument names
+match any call/put/strike pattern. Three options-endpoint probes (`optionMeta`,
+`optionsMeta`, `metaOptions`) each returned **HTTP 422 "Failed to deserialize the
+JSON body into the target type"**. **No options product has listed since
+2026-07.** ADR-034's description is confirmed; its *implication* — that no
+BC-reachable venue offers a short in this asset class — **is now false for
+options.**
+
+### The $1,000 sleeve, and the capital determination
+
+| product | notional | sleeve ÷ notional | supported iff IM ≤ | determination |
+|---|---|---|---|---|
+| **MET option** | **$245.62** | **4.07×** | **407.1%** of notional | **NOT capital-blocked** — no margin regime charges four times notional; **the sleeve constraint is not binding at any IM below $1,000/contract** |
+| **MBT option** | **$7,812.46** | **0.128×** | **12.80%** of notional | **UNRESOLVED** — turns entirely on a figure that is `Absent(not_served)` |
+| BTC full | $390,622.88 | 0.0026× | 0.26% | **CAPITAL_BLOCKED** |
+| ETH full | $122,810.25 | 0.0081× | 0.81% | **CAPITAL_BLOCKED** |
+
+### Re-verification: two carried figures disagreed, and the measurement won
+
+| carried | source | re-measured | drift |
+|---|---|---|---|
+| MBT notional **$6,505** | MLCryptoEngine 2026-07-15 | **$7,812.46** | **+20.1%** |
+| MET notional **$191** | MLCryptoEngine 2026-07-15 | **$245.62** | **+28.6%** |
+
+Both carried figures are 46 days stale and **understate notional**. Every sleeve
+calculation above uses the re-measured values. This is the ADR-055 pattern doing
+its job on the first opportunity it had.
+
+### Recorded absences — CME margins, and why
+
+**`Absent(not_served)` for MES, MNQ, MGC, MBT initial and maintenance margin, and
+for short-option margin on MBT and MET.** Three reasons, all recorded:
+
+1. **CME Group refused, citing its own Data Terms of Use, and the refusal is
+   recorded verbatim** (HTTP 403, 602 bytes, SHA-256 `eecde3fa…a4f7e`): *"This IP
+   address is blocked due to suspected web scraping activity … Use of scripts,
+   software, spiders, robots, avatars, agents, tools or other scraping mechanisms
+   is strictly prohibited by CME Group's website Data Terms of Use."* **All
+   fetching of cmegroup.com stopped on receipt. No user-agent rotation, no proxy,
+   no retry loop, no third-party mirror substituted.** Terms bind.
+2. **IBKR Canada does not publish per-contract margin without a login.** Both
+   margin pages (HTTP 200, 275,624 bytes) serve a wizard and a table-view chooser,
+   not values. The legacy `index.php?f=marginnew&p=fut` endpoint (17,299 bytes)
+   contains no MBT/MES/MNQ/MGC margin row.
+3. **MLCryptoEngine holds no CME margin figure to carry** — grep for "initial
+   margin", "maintenance margin", "SPAN margin" across its markdown and
+   `config/venues.yaml` returns **zero** rows. These would have been new
+   measurements, not re-verifications.
+
+**Nothing is synthesized.** Open operator item: an operator with an IBKR Canada
+login can read all six figures in Client Portal and settle the MBT question
+against the measured threshold **IM ≤ 12.80% of $7,812.46 = $1,000.00**.
+
+### One further measured cost datum, recorded because it binds on TASK 5
+
+Verbatim from IBKR: *"Interactive Brokers calculates and charges a daily
+**'Exposure Fee'** … **Closing out short option positions may also reduce or
+eliminate the Exposure Fee. Testing has indicated that short positions in
+low-priced options generate the largest exposures relative to the amount of
+capital.**"* A short option book at this broker can attract a **daily** charge
+that is neither commission nor spread, and the broker names short options as the
+position type that generates it. Magnitude is account-specific and
+`Absent(not_served)`. **TASK 5's cost is therefore incomplete in a known
+direction and must never be read as complete.**
+
+### Canadian covered-call crypto ETFs — reachable, but not an option product
+
+Purpose **BTCY** (MER **1.28%**), Purpose **ETHY** (management fee **1.10%**, MER
+**1.29%**, MER capped **1.48%**), Global X **BCCL**. All TSX-listed and
+BC-reachable. **They fail registered criterion 3.1(2): the resident buys a fund
+unit, not an option.** Recorded as a distinct classification with its measured
+fee, because it is the honest comparison a reader will want — but it cannot
+support HARVESTABLE under the criterion registered before measurement.
+
+---
