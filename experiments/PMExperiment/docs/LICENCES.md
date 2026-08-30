@@ -88,17 +88,31 @@ Standing rule 7: operational health and sample composition never merge. Each
 candidate report was to be checked by three adversarial lenses — quotation
 fidelity, date provenance, scope and convenience.
 
-| candidate | lenses run on the first pass | lenses that failed and were re-run |
-|---|---|---|
-| 1 — Polymarket authorization | quotation fidelity | date provenance, scope and convenience |
-| 2 — academic datasets | all three | none |
-| 3 — third-party platforms | date provenance, scope and convenience | quotation fidelity |
+| candidate | lenses on the first pass | lenses added by the re-run | final coverage |
+|---|---|---|---|
+| 1 — Polymarket authorization | quotation fidelity | date provenance, scope and convenience | **3 / 3** |
+| 2 — academic datasets | all three | a second scope pass | **3 / 3** |
+| 3 — third-party platforms | date provenance, scope and convenience | quotation fidelity | **3 / 3** |
 
-Four of thirteen agents died on a session limit on the first pass and were
-re-run. **The verification did real work and is not decoration**: it overturned
-a material part of candidate 3 and corrected two selective quotations that would
-otherwise have gone to press. Its findings are recorded below beside the findings
-they correct, not filed separately.
+Four of thirteen agents died on a session limit on the first pass; the run was
+resumed and every lens now has a result. **The verification was not decoration
+and it is reported as load-bearing**, because it changed the document:
+
+- it **overturned** candidate 3's central factual claim — that Dune's in-force
+  Terms were unreadable — with one HTTP header;
+- it caught **two selective quotations** that had already gone into a draft of
+  this file: the Polymarket Terms' only affirmative grant, and Kalshi's
+  Section I PERMITTED USES;
+- it **refuted candidate 2 on ADR-012 element (1)** as well as element (2), a
+  failure the licence read had certified as "satisfied, and generously";
+- it **deleted one leg** of candidate 1's counterargument rebuttal as unsound;
+- it **closed the AI/ML axis**, which no licence read had searched, on the very
+  clause class that decided Kalshi.
+
+Every one of those corrections makes the record weaker or narrower, not
+stronger. None of them changed a verdict. Their findings are recorded below
+beside the findings they correct, rather than filed separately where a reader
+would not meet them.
 
 ---
 
@@ -217,18 +231,26 @@ Polymarket's own research arm published, on 2026-07-24:
 > Polymarket's exchange data is accessible to students, researchers, and
 > learners. Our open APIs provide access to markets, orders, trades, and more.
 
-Four reasons it does not move the verdict, each independently sufficient.
+Three reasons it does not move the verdict, each independently sufficient.
 **First**, it says *accessible*, not *permitted* — the distinction this
 repository has now recorded twice. **Second**, it fails ADR-012 on its face:
 occurrences of `licen` on that page — covering license, licence, licensed,
 licensing — are **zero**; occurrences of `Terms of Use` are **zero**; and its
 only date is a byline on a "7 min read" article, which is not an effective date.
-**Third**, the chronology defeats it: the guide predates the Terms by eighteen
-days, and the Terms carry an Entire Agreement clause superseding "all prior or
-contemporaneous representations … whether written or verbal". **Fourth**, the
-Institute advertises its independence — "The Founding Scientific Director sets
-the research agenda, not Polymarket" — and an entity that stresses it does not
-speak for Polymarket cannot be read as speaking for Polymarket's permissions.
+**Third**, the Institute advertises its independence — "The Founding Scientific
+Director sets the research agenda, not Polymarket" — and an entity that stresses
+it does not speak for Polymarket cannot be read as speaking for Polymarket's
+permissions.
+
+**A fourth reason was offered and is withdrawn here rather than carried.** The
+licence read argued that the guide "is dated eighteen days *before* the Terms
+took effect" and is therefore superseded as a prior representation. The
+verification pass refuted the leg: the page was **still live when fetched on
+2026-08-30**, so it is a standing published representation *after* the Terms'
+effective date, not merely a prior one. The same reading also promotes a
+publication byline into a date doing legal work — the exact move the report
+refuses one paragraph earlier. **An argument that fails is deleted, not
+softened**, and the three that remain are each sufficient without it.
 
 ### The Kalshi comparison, corrected
 
@@ -278,6 +300,42 @@ an authorization has been requested and granted. **Neither has happened. This
 stage drafted nothing, sent nothing, and contacted no one.** A route to ask is
 not an answer, and an unexercised route is not a permission.
 
+**The label is stated precisely, because it is easy to misread.** PROHIBITED
+here is the **baseline** — what the in-force Terms permit today, absent any
+authorization. It is **not** a record that authorization was sought and refused.
+**Nothing was requested, so nothing was refused.** A later reader must not
+convert this row into "Polymarket declined."
+
+### What the verification pass corrected in this candidate
+
+The verdict is unchanged. Four findings materially qualify how far it reaches,
+and are recorded because a claim that survives review unchanged in *scope* as
+well as in *conclusion* is rare enough to be suspicious.
+
+1. **The load-bearing clause was quoted without its defined terms, so its reach
+   was asserted rather than measured.** "Site", "any other Interface" and
+   "Features" are all defined terms in the instrument, and none of the
+   definitions was quoted. The prohibition's *existence* is measured; the exact
+   boundary of what it covers is not.
+2. **The on-chain path is narrower than the licence read claimed.** It stated
+   the bullet "prohibits the tool class this measurement would require, today,
+   of anyone." That overstates the text. The bullet is scoped to "the Site, any
+   other Interface, or Features", and **a public Polygon ledger is none of the
+   three on its face**. Amendment 6 already records the Polygon question as a
+   live reopening path "under a legal analysis this repository has not
+   performed", and that remains its status — neither closed here nor opened here.
+3. **The Restricted Jurisdictions list is incorporated by reference and names
+   Canada by province.** The Terms cite "the list published at
+   `https://docs.polymarket.com/api-reference/geoblock`", fetched HTTP 200 at
+   509,725 bytes, which names Canada four times at province level. For a
+   Canadian participant the Terms narrow further, as Amendment 6 recorded.
+4. **The AI/ML axis is now measured, and it is a null.** Across the
+   58,830-character Polymarket Terms: `artificial intelligence` **0**,
+   `machine learning` **0**, `large language` **0**, `llm` **0**, `neural`
+   **0**. **Polymarket has no AI-use clause where Kalshi has one**, and this is
+   a measured absence rather than an unchecked one. It was unchecked until the
+   verification ran it — on the very axis that decided Kalshi.
+
 ---
 
 ## Candidate 2 — published academic datasets of prediction-market records
@@ -325,9 +383,19 @@ model: "On-chain settlement only: No off-chain central limit order book (CLOB)
 quote-level data, cancellations, or resting-order depth is provided" — so the
 registered 1-cent half-spread could not be checked against this corpus.
 
-### Why it is UNMEASURED
+### Why it is UNMEASURED — on two elements, not one
 
-**ADR-012 element (2) fails, and there is no second document to fall back to.**
+**Element (1) fails as well**, and this correction came from the verification
+pass rather than from the licence read, which had certified element (1)
+"satisfied, and generously." **The two CC BY 4.0 clauses that grant were quoted
+and the two clauses in the same document that limit were passed over** — Section
+1's cap on Licensed Rights and Section 5(a)'s disclaimer of title, both set out
+below. Quoting a licence's grants while omitting its limits is not a verbatim
+reading of the clause bearing on the use; it is a verbatim reading of the half
+that helps. **Element (1) is measured as *text present*, not as *an effective
+grant*.**
+
+**Element (2) fails, and there is no second document to fall back to.**
 The dataset card prints no effective, last-updated or revision label; its only
 years are data-coverage bounds and a BibTeX citation year, neither of which may
 be promoted. **The CC BY 4.0 legal code prints no date whatsoever** — every
@@ -358,15 +426,32 @@ misread as a one-step fix:
    affiliated with or endorsed by Polymarket." **A third-party republisher's CC
    BY tag over a corpus derived from someone else's venue is not a measurement
    that the republisher held the rights to grant it.**
-2. **No AI or machine-learning clause search was run anywhere in the sweep** —
-   the very clause class that closed Kalshi. Until it is run, the sweep's "no
-   prohibition on derivative analysis or publication was found" cannot be relied
-   on for an AI-assisted use.
+2. **The AI and machine-learning axis was never searched by the licence read** —
+   the very clause class that closed Kalshi, on a use that is expressly
+   AI-assisted. The verification pass closed it **partially and reports the
+   remainder as open**: `artificial intelligence`, `machine learning`, `text and
+   data mining` and `automated` are **zero** in the CC BY 4.0 legal code, and
+   `artificial`, `machine learning` and `llm` are **zero** on the Polymarket-v1
+   card; Hugging Face's Terms mention machine learning only as the platform's
+   subject matter, never as a restriction. It remains **unchecked** in the four
+   dataset `LICENSE` bodies, in `SII-WANGZJ`'s `DATA_DESCRIPTION.md`, and — most
+   sharply — in **Manifold's Terms of Service, which was not read and which is a
+   prediction-market venue's ToS, the same document class where the Kalshi
+   prohibition lived.**
 3. **Whether a venue's terms reach a downstream on-chain-derived corpus at all
    is a question this repository has registered as open**, not settled. Amendment
    6 records the Polygon-read question as a live reopening path "under a legal
-   analysis this repository has not performed." The dataset candidate does not
-   get to treat it as answered.
+   analysis this repository has not performed." The licence read wrote "Neither
+   venue's terms govern this candidate" — **a positive assertion about the reach
+   of a document, which is exactly the class of claim ADR-012 governs**, and it
+   carries no clause and no date. The correct record is: **the venue terms'
+   reach over this corpus is UNRESOLVED**, and the repository proceeds as if
+   permission were absent. The card's own provenance section also narrows its
+   blanket "derived from public on-chain activity" disclaimer — it enumerates
+   `OrderFilled` events from Polymarket's first-generation exchange contract —
+   so whether the *market metadata* fields the gate needs (`category`,
+   `opens_at`, `close_at`) are on-chain in origin is **not established by the
+   documentation**.
 
 ### The other datasets, each recorded
 
@@ -384,11 +469,19 @@ misread as a one-step fix:
 
 ADR-012's effective-date requirement was written against a mutable
 Terms-of-Service page that a venue can silently rewrite, where knowing *which
-version* you read is the whole game. **CC BY 4.0 is a different kind of object**:
-`4.0` *is* its version identity, its text does not drift, and its grant is by
-its own words "irrevocable". Applied literally, ADR-012 makes it impossible for
-**any** CC-licensed dataset, anywhere, ever, to be recorded PERMITTED — because
-no Creative Commons legal code prints a date.
+version* you read is the whole game. **CC BY 4.0 looks like a different kind of
+object**: `4.0` *is* its version identity, and its grant is by its own words
+"irrevocable". Applied literally, ADR-012 makes it impossible for **any**
+CC-licensed dataset, anywhere, ever, to be recorded PERMITTED — because no
+Creative Commons legal code prints a date.
+
+**The strongest form of that argument does not survive its own document.** The
+legal code's footer reads: `Version 4.0 • See the errata page for any
+corrections and the date of change.` **The instrument carries an external,
+dated corrections register**, so "the text does not drift" is contradicted by
+the text. That cuts *toward* requiring a date, not away from it — which is the
+opposite of what the argument needed, and it was found by the verification pass
+rather than by the read that made the argument.
 
 **That tension is recorded, and this stage does not resolve it.** The operator
 prompt forbids softening ADR-012 to admit a candidate, and softening a standard
@@ -510,6 +603,13 @@ it is not properly a platform of this candidate and cannot carry the verdict.
 
 **Flipside Crypto, Allium, Nansen, Sim** — **no governing document retrieved.**
 Unavailable, never permissive. `sim.dune.com/terms` answers 301.
+
+**One quotation finding, recorded because the standard is verbatim.** All 17
+quoted or attributed strings for this candidate are present and contiguous in
+the documents named. **14 match byte-for-byte; 3 differ only in typographic
+apostrophes and quotation marks** — a silent normalisation, immaterial to
+meaning, and disclosed rather than left for a reader to discover on their own
+re-fetch.
 
 ### The finding that survives regardless of any of the above
 
