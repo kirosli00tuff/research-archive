@@ -304,3 +304,102 @@ def estimate_premium(
 def non_overlapping(premium: list[float], stride: int = TENOR_DAYS) -> list[float]:
     """Section 6's registered robustness: IID by construction, at n/30 cost."""
     return premium[::stride]
+
+
+# ---------------------------------------------------------------------------
+# The registered hedging rule (Section 4.3), which needs a blind field
+# ---------------------------------------------------------------------------
+
+
+def _normal_cdf(x: float) -> float:
+    return 0.5 * (1.0 + math.erf(x / math.sqrt(2.0)))
+
+
+def straddle_delta(
+    spot: float, strike: float, sigma: float, tenor_years: float
+) -> Maybe[float]:
+    """Delta of a long ATM straddle, ``2*N(d1) - 1``, at zero rates.
+
+    Lives in the sealed module because ``d1`` requires ``sigma`` — an implied
+    volatility, and therefore a blind field. This is why Section 4.3's rebalance
+    **count** could not be computed at TASK 5 while its **price** could.
+    """
+    if spot <= 0 or strike <= 0 or sigma <= 0 or tenor_years <= 0:
+        return Absent(
+            AbsenceReason.NOT_SERVED,
+            f"straddle delta undefined at spot={spot}, strike={strike}, "
+            f"sigma={sigma}, tenor_years={tenor_years}",
+        )
+    d1 = (math.log(spot / strike) + 0.5 * sigma * sigma * tenor_years) / (
+        sigma * math.sqrt(tenor_years)
+    )
+    return 2.0 * _normal_cdf(d1) - 1.0
+
+
+@final
+@dataclass(frozen=True, slots=True)
+class RebalanceCount:
+    """How many resizes the registered rule required over one tenor."""
+
+    band: float
+    rebalances: int
+    days_evaluated: int
+    max_abs_drift: float
+
+
+def count_rebalances(
+    closes: list[float],
+    strike: float,
+    sigma: float,
+    band: float = 0.10,
+    tenor_days: int = TENOR_DAYS,
+) -> Maybe[RebalanceCount]:
+    """Section 4.3, applied exactly as registered.
+
+    Delta-hedge a short ATM straddle, resized whenever the **net** position
+    delta moves more than ``+/- band`` from flat, evaluated once per calendar
+    day over the tenor. A resize returns the net to flat, so the drift is
+    measured from the option delta at the last resize, not from inception.
+    """
+    if len(closes) < 2:
+        return Absent(
+            AbsenceReason.INSUFFICIENT_SAMPLE,
+            f"a rebalance count needs at least 2 closes, got {len(closes)}",
+        )
+    if sigma <= 0 or strike <= 0 or band <= 0:
+        return Absent(
+            AbsenceReason.NOT_SERVED,
+            f"rebalance count undefined at sigma={sigma}, strike={strike}, band={band}",
+        )
+    anchor = straddle_delta(
+        closes[0], strike, sigma, tenor_days / TRADING_DAYS_PER_YEAR
+    )
+    if isinstance(anchor, Absent):
+        return anchor
+    rebalances = 0
+    max_drift = 0.0
+    evaluated = 0
+    for day in range(1, min(len(closes), tenor_days + 1)):
+        remaining_days = tenor_days - day
+        if remaining_days <= 0:
+            break
+        current = straddle_delta(
+            closes[day],
+            strike,
+            sigma,
+            remaining_days / TRADING_DAYS_PER_YEAR,
+        )
+        if isinstance(current, Absent):
+            continue
+        evaluated += 1
+        drift = abs(current - anchor)
+        max_drift = max(max_drift, drift)
+        if drift > band:
+            rebalances += 1
+            anchor = current
+    return RebalanceCount(
+        band=band,
+        rebalances=rebalances,
+        days_evaluated=evaluated,
+        max_abs_drift=max_drift,
+    )

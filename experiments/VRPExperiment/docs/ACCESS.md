@@ -59,8 +59,11 @@ Invalid index name, **HTTP 400**:
 {"code":-32602,"data":{"reason":"invalid index","param":"index_name"},"message":"Invalid params"}
 ```
 
-**Supported DVOL resolutions, measured by trying them: `60`, `3600`, `43200`.**
-Read from the endpoint, not from documentation.
+**Supported DVOL resolutions, measured by trying them: `60`, `3600`, `43200`,
+`1D`.** Read from the endpoint, not from documentation. *(`1D` was found on a
+later probe during TASK 6 preparation and is appended here rather than silently
+folded into the original list: the first list was incomplete because it tested
+only numeric-seconds values.)*
 
 ### 1.3 A refusal that does not look like one — recorded loudly
 
@@ -258,10 +261,44 @@ arbitrary in a registration and turns out to be load-bearing.**
 | implied estimator served | DVOL index, both assets | **HTTP 200, no account, 1,992 days** | **met** |
 | minimum depth | 730 daily observations per asset | **1,992 days available** | **met, 2.73×** |
 | minimum for any figure | 60 observations | far exceeded | **met** |
-| sampling frequency | daily at a fixed UTC instant | `resolution=43200` and `3600` both served | **met** |
+| sampling frequency | daily at a fixed UTC instant | **08:00 UTC**, taken hourly and filtered — see below | **met** |
 | revision behaviour | must be established | baselines recorded, re-checked at TASK 8 | **pending TASK 8** |
 | underlying closes for the realized leg | daily, same UTC instant | `get_index_price` served, HTTP 200 | **met** |
 
 **No fallback to Section 2.2's option-level construction is required.** It is
 recorded as **not used**, per the registration's instruction that the fallback
 be recorded as used or not used and never blended.
+
+
+---
+
+## 6. The fixed UTC instant, chosen before the latch
+
+Section 2.5 registered "one observation per calendar day, at a **fixed UTC
+instant**. The instant is fixed at the first read and never moved." **The
+instant is fixed here, before the TASK 6 latch, at 08:00 UTC**, and the reason
+is a measured misalignment rather than a preference.
+
+Measured on a 400-day window, timestamps only, no value read:
+
+| series | endpoint | `resolution=1D` bucket stamp |
+|---|---|---|
+| implied leg | `get_volatility_index_data` | **00:00 UTC** (n = 401 rows, all `hour == 0, minute == 0`) |
+| underlying leg | `get_tradingview_chart_data`, `BTC-PERPETUAL` | **08:00 UTC** (n = 401 rows, all `hour == 8, minute == 0`) |
+
+**The two endpoints bucket their daily bars eight hours apart**, so pairing them
+at `resolution=1D` would have silently offset the implied leg from the realized
+leg by eight hours on every one of ~1,900 observations. Daily bars cannot fix
+this; **both series are therefore taken at `resolution=3600` and filtered to the
+08:00 UTC observation**, which makes them exactly simultaneous.
+
+**08:00 UTC is also the right instant on the merits, not merely the convenient
+one: it is Deribit's option settlement time**, measured in TASK 5 on the live
+series (`BTC-25SEP26-78000-C` and its put, settlement `2026-09-25T08:00:00Z`).
+A 30-day tenor measured 08:00 → 08:00 is exactly the interval an option spans,
+which is what the standing rule *"option expiries carry their exchange
+settlement time"* points at.
+
+Requests are chunked at **40 days = 960 hourly rows**, under the 1,000-row page
+cap of §1.5, and the run **raises rather than continues** if any chunk returns
+≥ 1,000 rows. A silent truncation would shorten the series without any signal.

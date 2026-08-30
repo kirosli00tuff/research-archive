@@ -252,3 +252,72 @@ def test_the_estimator_cannot_tell_a_fixture_from_real_data() -> None:
     assert names == {"premium", "label", "bandwidth", "alpha"}
     for forbidden in ("is_real", "fixture", "source", "latch", "mode"):
         assert forbidden not in names
+
+
+# ---------------------------------------------------------------------------
+# The registered hedging rule, verified on known answers
+# ---------------------------------------------------------------------------
+
+
+def test_an_atm_straddle_is_delta_flat_to_a_small_convexity_term() -> None:
+    """At S = K the straddle delta is 2*N(sigma*sqrt(T)/2) - 1, near zero."""
+    from vrp.sealed_read import straddle_delta
+
+    delta = straddle_delta(100.0, 100.0, 0.60, 30.0 / 365.0)
+    assert not isinstance(delta, Absent)
+    expected_d1 = 0.5 * 0.60 * math.sqrt(30.0 / 365.0)
+    expected = 2.0 * 0.5 * (1.0 + math.erf(expected_d1 / math.sqrt(2.0))) - 1.0
+    assert delta == pytest.approx(expected, rel=1e-12)
+    assert 0.0 < delta < 0.15
+
+
+def test_straddle_delta_moves_the_right_way_and_saturates() -> None:
+    from vrp.sealed_read import straddle_delta
+
+    up = straddle_delta(140.0, 100.0, 0.60, 30.0 / 365.0)
+    down = straddle_delta(60.0, 100.0, 0.60, 30.0 / 365.0)
+    assert not isinstance(up, Absent) and not isinstance(down, Absent)
+    assert up > 0.9, "deep in the money the straddle is long one unit"
+    assert down < -0.9, "deep out of the money it is short one unit"
+
+
+def test_straddle_delta_refuses_impossible_inputs() -> None:
+    from vrp.sealed_read import straddle_delta
+
+    for args in (
+        (0.0, 100.0, 0.6, 0.1),
+        (100.0, 0.0, 0.6, 0.1),
+        (100.0, 100.0, 0.0, 0.1),
+        (100.0, 100.0, 0.6, 0.0),
+    ):
+        assert isinstance(straddle_delta(*args), Absent)
+
+
+def test_a_flat_price_path_requires_no_rebalance() -> None:
+    from vrp.sealed_read import RebalanceCount, count_rebalances
+
+    result = count_rebalances([100.0] * 31, strike=100.0, sigma=0.60, band=0.10)
+    assert isinstance(result, RebalanceCount)
+    assert result.rebalances == 0, "a flat path cannot breach a delta band"
+    assert result.days_evaluated == 29
+
+
+def test_a_trending_path_requires_more_rebalances_at_a_tighter_band() -> None:
+    from vrp.sealed_read import RebalanceCount, count_rebalances
+
+    closes = [100.0 * (1.01**i) for i in range(31)]
+    tight = count_rebalances(closes, strike=100.0, sigma=0.60, band=0.05)
+    registered = count_rebalances(closes, strike=100.0, sigma=0.60, band=0.10)
+    wide = count_rebalances(closes, strike=100.0, sigma=0.60, band=0.20)
+    assert isinstance(tight, RebalanceCount)
+    assert isinstance(registered, RebalanceCount)
+    assert isinstance(wide, RebalanceCount)
+    assert tight.rebalances >= registered.rebalances >= wide.rebalances
+    assert tight.rebalances > 0, "a 1%/day trend must breach a 0.05 band"
+
+
+def test_the_rebalance_count_refuses_rather_than_returning_zero() -> None:
+    from vrp.sealed_read import count_rebalances
+
+    assert isinstance(count_rebalances([100.0], 100.0, 0.6), Absent)
+    assert isinstance(count_rebalances([100.0, 101.0], 100.0, 0.0), Absent)
