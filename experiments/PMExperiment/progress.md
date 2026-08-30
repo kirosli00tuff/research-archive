@@ -838,3 +838,79 @@ enumeration ETA never stated because the enumeration was never armed. Stage B's
 rate, used as the basis here, again ran roughly two to three times long — but in
 the safe direction, and the dominant reason this stage came in short is that the
 terms closed it before its largest task began.
+
+---
+
+## Entry 8 — Stage D operator prompt, logged verbatim before any other work
+
+**Logged 2026-08-30T04:18:14Z, read from `date -u` at the moment of recording
+and not extrapolated from a previous timestamp (Entry 6.1). Per standing rule 1.
+Work follows in later entries; nothing below this line in this entry is work.**
+
+> BEGIN PROMPT - PMEXPERIMENT STAGE D: READ THREE CANDIDATE LICENSES, ENUMERATE NOTHING
+>
+> Read CLAUDE.md, REGISTRATION.md in full including Amendments 1 to 6, HYPOTHESES.md, DECISIONS.md including ADR-012, progress.md, report.md, docs/ACCESS.md and docs/BAND.md first. Per standing rule 1, log this prompt verbatim to progress.md before any other work. Per standing rule 2, state an ETA before arming each task and record actual against it; Entry 5 records that Stage A's rate overestimated Stage B by roughly a factor of two, and Entry 7's estimates ran high again.
+>
+> This stage enumerates nothing and measures no market. It reads licences and reports what they permit. No contract, price, order book, bucket count or dispersion may be produced by any task here. Sections 4 and 10 stand, and the Stage B region of 91 to 99 cents held to resolution is not reopened.
+>
+> Both venues are now closed on terms. Kalshi fired PENDING_ACCESS on 2026-08-29 and Polymarket on 2026-08-30, and Amendment 6 retracts the ground on which Amendment 1 moved the venue. ADR-012 governs every claim in this stage: a statement about what a source permits carries a quoted clause, the document's effective date, and the date it was fetched, or it is recorded as unmeasured and the stage proceeds as if permission were absent. Keyless is not permitted, and neither is open access, an academic framing, or a third party's convenience.
+>
+> Task 1: apply ADR-012 to itself before applying it to anything else.
+>
+> Write the check as a reusable procedure in pmexperiment/ with a test: a permission claim is admissible only when it carries clause text, an effective date and a fetch date. A claim missing any of the three is recorded as unmeasured. Verify by mutation that a claim stripped of its effective date fails.
+>
+> Note before fetching anything that a terms page may return HTTP 200 and be client-rendered, as Polymarket's did at 1,354 characters stripped from a 217 KB body. Establish that the document you read is the document, and report the byte counts you used to decide.
+>
+> Task 2: the three candidates, each read terms-first and reported independently.
+>
+> For each, report reachability, the governing document with its effective date, the clause bearing on this use quoted verbatim, and a verdict of PERMITTED, PROHIBITED or UNMEASURED. Do not fetch any data from any of them, only their licences.
+>
+> First, a Polymarket written-authorization request. Determine whether a contact route exists for research data access, as Kalshi's terms name written authorization. Report the route and the evidence for it, and draft nothing.
+>
+> Second, published academic datasets of prediction-market records. The large Polymarket trading corpus and any comparable released dataset. The question here is a licence question about the dataset, not about the venue, and the two are separate: a dataset released under a research licence may permit what the venue's terms do not. Establish the licence, its terms on derivative analysis and publication, and whether the records carry what the gate needs, which is entry price, category, maturity and resolution presence. Report depth and coverage from the dataset's own documentation rather than by inspecting records.
+>
+> Third, third-party data platforms carrying prediction-market tables, Dune among them. Their licensing position is their own and must be read as such. Report whether their terms permit programmatic query and republication of aggregates, and what tier that requires.
+>
+> Task 3: report what each candidate would and would not license, in the register's terms.
+>
+> For any candidate returning PERMITTED, state which universe it makes measurable, whether the Stage B region is reachable within it, and whether the Canadian-permitted filter of economic indicators, financial markets and climate at a 30-day minimum maturity can be applied to its records at all.
+>
+> Restate, whatever the outcome, that any measurement on Polymarket records licenses a statement about Polymarket and nothing about Kalshi, since H1t remains UNTESTED on three grounds including MLCryptoEngine's H2 at AUC 0.501. Pin that with a mutation-verified test.
+>
+> Task 4: state the honest position, including the possibility that there is none.
+>
+> If no candidate returns PERMITTED, say so plainly and record the consequence: the calibration question is unmeasurable at this house's standard until an authorization is granted, and the register carries BAND-OPEN as a cost finding with no calibration measurement behind it. That is a legitimate terminal state and should be written as one rather than as a setback.
+>
+> Do not propose a fourth venue to rescue an empty result, and do not soften ADR-012 to admit a candidate.
+>
+> Task 5: report. Append the entry with the three candidate tables, the admissibility procedure and its mutation result, and the honest position. Append ADRs for each candidate verdict. Extend the honesty tests to pin the verdicts and the transfer statement. Update report.md with a section written for the moment it landed. Continue ADR numbering past the recorded collision rather than renumbering. Run make lint, make typecheck, make test. Commit at each task boundary and push.
+>
+> END PROMPT
+
+**ETAs stated before arming, per standing rule 2.** The prompt directs that the
+overestimation findings be carried: Entry 5 measured Stage A's rate running
+roughly two times long against Stage B, and Entry 7.1 measured Stage C at ~17 min
+against 50 stated. These ETAs therefore derive from **Stage C's** measured rate
+where Stage C did comparable work, and from Stage B's where it did not.
+
+| task | ETA | basis (measured) |
+|---|---|---|
+| 0 — log the prompt | 2 min | Stage B Task 0 measured **1.7 min**; Stage C's Task 0 was not separately measured |
+| 1 — the admissibility procedure, its test and its mutation | 8 min | Stage B's band arithmetic with tests and guards measured **8.3 min**; this module is smaller but carries a mutation run |
+| 2 — three candidate licences, read terms-first | 20 min | Stage C's Task 2a measured **6.9 min** for one venue's robots.txt plus terms, including the client-rendered detour; three candidates at that rate is 20.7 min |
+| 3 — what each would and would not license, plus the transfer test | 8 min | Stage B's Task 5 verdict measured **1.4 min**; Stage C's transfer statement was folded into its entry; this adds a mutation-verified test |
+| 4 — the honest position | 5 min | a document block at Stage C's measured rate |
+| 5 — report, three ADRs, honesty tests, push | 12 min | Stage C's Task 5 measured **~6 min** for report, ADRs and six mutation runs; this carries three candidate tables and three ADRs |
+
+**Total stated: 55 min.** Actuals land in Entry 9.
+
+**Scope carried in and not reopenable here**, per the prompt: this stage
+enumerates nothing and measures no market. No contract, price, order book,
+bucket count or dispersion may be produced by any task. The Stage B region of
+91–99c held to resolution is not reopened, and no fourth venue is proposed to
+rescue an empty result.
+
+**One deviation visible at logging time:** the eight binding documents named in
+the prompt were read, read-only, before this entry was written, exactly as
+Entries 0, 4 and 6 recorded for Stages A, B and C. No other work has been done
+and no request has been sent to any endpoint.
