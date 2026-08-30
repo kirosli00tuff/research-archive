@@ -12,7 +12,7 @@ instant itself passes.
 from __future__ import annotations
 
 import json
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
 from datetime import UTC, date, datetime
 
 import pytest
@@ -24,10 +24,15 @@ from orb.costs_registered import REGISTERED_COST_MODEL
 from orb.dispersion import (
     CarveOutDispersion,
     CarveOutExecutionMix,
+    CarveOutFloorScanRow,
+    CarveOutSlippageBand,
     DispersionInputError,
     measure_carve_out_dispersion,
     measure_carve_out_execution_mix,
+    measure_carve_out_floor_scan,
+    measure_carve_out_slippage_band,
 )
+from orb.fields import PRICED_BAR_FIELDS as PRICED_FIELDS_FOR_TESTS
 from orb.preperiod import PrePeriodViolationError
 
 SLICE = list(sessions(date(2026, 7, 1), date(2026, 8, 28)))
@@ -439,3 +444,173 @@ def test_the_ambiguous_rate_counts_a_bar_that_crosses_both_extremes() -> None:
     assert result.name_sessions_ambiguous == 2
     assert result.name_sessions_triggered == 0, "an ambiguous session never trades"
     assert result.ambiguous_rate == pytest.approx(2 / evaluable)
+
+
+# --------------------------------------------------------------------------
+# Amendment 26 — the measured slippage band
+# --------------------------------------------------------------------------
+
+
+def _quote_payload(rows: list[tuple[int, float, float]]) -> bytes:
+    return json.dumps(
+        {"quotes": [{"t": _iso(t), "bp": bid, "ap": ask} for t, bid, ask in rows]}
+    ).encode()
+
+
+def _band(
+    payloads_by_ticker: dict[str, list[bytes]],
+    quotes: Callable[[str, int, int], bytes | None],
+    stop_share: float = 0.5,
+) -> CarveOutSlippageBand:
+    return measure_carve_out_slippage_band(
+        sorted(payloads_by_ticker),
+        lambda t: payloads_by_ticker[t],
+        quotes,
+        SLICE,
+        stop_share,
+        allow_short=True,
+    )
+
+
+def test_the_band_carries_only_summary_statistics_and_counts() -> None:
+    import dataclasses
+
+    result = _band(
+        {"AAA": _ticker_payloads({20, 25})},
+        lambda _t, a, _b: _quote_payload([(a, 59.99, 60.01)]),
+    )
+    for field in dataclasses.fields(result):
+        assert field.type in {"float", "int"}, (field.name, field.type)
+        assert field.name not in PRICED_FIELDS_FOR_TESTS, field.name
+
+
+def test_a_time_weighted_half_spread_weights_by_time_not_by_quote_count() -> None:
+    """One flickering quote must not dominate a minute it was barely present for."""
+    from orb.dispersion import _time_weighted_half_spread
+
+    start = 1_800_000_000_000
+    # A 0.02 spread standing 59 s, then a 1.00 spread standing 1 s.
+    payload = _quote_payload([(start, 59.99, 60.01), (start + 59_000, 59.50, 60.50)])
+    half = _time_weighted_half_spread(payload, start, start + 60_000)
+    assert half is not None
+    # Time-weighted: (0.02*59 + 1.00*1) / 60 / 2 = 0.008833...
+    assert half == pytest.approx((0.02 * 59 + 1.00 * 1) / 60 / 2, abs=1e-9)
+    # A count-weighted mean would have been (0.02 + 1.00) / 2 / 2 = 0.255.
+    assert half < 0.05
+
+
+def test_an_unusable_quote_payload_is_a_refused_minute_not_a_zero_spread() -> None:
+    """Standing rule 5: an absence is recorded, never synthesized as a number."""
+    from orb.dispersion import _time_weighted_half_spread
+
+    start = 1_800_000_000_000
+    assert _time_weighted_half_spread(b"not json", start, start + 60_000) is None
+    assert _time_weighted_half_spread(b'{"quotes": []}', start, start + 60_000) is None
+    crossed = _quote_payload([(start, 60.10, 60.00)])
+    assert _time_weighted_half_spread(crossed, start, start + 60_000) is None
+
+    result = _band({"AAA": _ticker_payloads({20, 25})}, lambda _t, _a, _b: None)
+    assert result.entry_quote_minutes_served == 0
+    assert result.entry_quote_minutes_refused == 2
+    assert result.entry_observations == 0
+    assert result.measured_entry_central == 0.0, (
+        "a refused minute contributes no slippage observation at all; the 0.0 "
+        "here is an absence and the caller reads entry_observations beside it"
+    )
+
+
+def test_an_intrabar_cross_is_recorded_as_a_lower_bound_of_zero() -> None:
+    """One-minute data cannot locate the first trade through the boundary.
+
+    The fixture breaks the range **inside** the trigger bar rather than gapping
+    through it, so the true overshoot lies somewhere in the bar and this writer
+    records **0.0** — a lower bound, counted separately so a reader can see how
+    much of the distribution is bounded rather than measured.
+    """
+    result = _band(
+        {"AAA": _ticker_payloads({20, 25})},
+        lambda _t, a, _b: _quote_payload([(a, 59.99, 60.01)]),
+    )
+    assert result.entry_crossed_intrabar == 2
+    assert result.entry_gapped_through == 0
+    assert result.entry_overshoot_median == 0.0
+    # The spread still contributes, so the band is not zero.
+    assert result.measured_entry_central == pytest.approx(0.01, abs=1e-9)
+
+
+def test_the_shift_is_the_band_width_not_the_band_level() -> None:
+    """p90 minus median per leg, mixed on the stop share. Hand-computed."""
+    result = _band(
+        {"AAA": _ticker_payloads({20, 25})},
+        lambda _t, a, _b: _quote_payload([(a, 59.99, 60.01)]),
+        stop_share=0.5,
+    )
+    entry_width = result.measured_entry_pessimistic - result.measured_entry_central
+    stop_width = result.measured_stop_pessimistic - result.measured_stop_central
+    close_width = result.measured_close_pessimistic - result.measured_close_central
+    assert result.measured_shift_usd_per_share == pytest.approx(
+        entry_width + 0.5 * stop_width + 0.5 * close_width, abs=1e-12
+    )
+
+
+# --------------------------------------------------------------------------
+# Amendment 27 — the H1b price-floor feasibility scan
+# --------------------------------------------------------------------------
+
+
+def _scan(
+    payloads_by_ticker: dict[str, list[bytes]],
+    floors: tuple[float, ...],
+) -> tuple[CarveOutFloorScanRow, ...]:
+    return measure_carve_out_floor_scan(
+        sorted(payloads_by_ticker),
+        lambda t: payloads_by_ticker[t],
+        SLICE,
+        ZERO_SEC_MODEL,
+        floors,
+        1.40,
+        allow_short=True,
+        equity_usd=100_000.0,
+    )
+
+
+def test_the_scan_returns_one_row_per_floor_and_carries_no_verdict() -> None:
+    import dataclasses
+
+    rows = _scan({"AAA": _ticker_payloads({20, 25})}, (5.0, 10.0, 100.0))
+    assert len(rows) == 3
+    assert [r.price_floor_usd for r in rows] == [5.0, 10.0, 100.0]
+    names = {f.name for f in dataclasses.fields(rows[0])}
+    assert not any("power" in n or "verdict" in n for n in names), (
+        "H1b is REGISTERED_NOT_OPEN; a power figure or a verdict would open it"
+    )
+
+
+def test_a_floor_above_every_price_empties_the_universe_and_says_so() -> None:
+    """A floor that empties the universe is a finding, and the row still returns."""
+    rows = _scan({"AAA": _ticker_payloads({20, 25})}, (100.0,))
+    empty = rows[0]
+    assert empty.selected_name_sessions == 0
+    assert empty.sessions_evaluated == 0
+    assert empty.triggered_trades == 0
+    assert empty.dispersion_usd_per_share == 0.0
+    assert empty.central_mean_to_shift_ratio == 0.0
+
+
+def test_a_raised_floor_is_a_strict_subset_of_the_registered_universe() -> None:
+    """The floor is applied ON TOP of the Section 2 filter, never instead of it."""
+    payloads = {
+        "AAA": _ticker_payloads({20, 25}),
+        "BBB": _ticker_payloads({20, 25}, close_at=59.0),
+    }
+    at_five, at_fifty = _scan(payloads, (5.0, 50.0))
+    assert at_five.selected_name_sessions > 0
+    assert at_fifty.selected_name_sessions <= at_five.selected_name_sessions
+    assert at_fifty.sessions_evaluated <= at_five.sessions_evaluated
+
+
+def test_the_registered_price_filter_is_not_changed_by_a_scan() -> None:
+    """The scan must leave `CONFIG.min_session_open_usd` exactly where it is."""
+    before = CONFIG.min_session_open_usd
+    _scan({"AAA": _ticker_payloads({20, 25})}, (5.0, 20.0, 100.0))
+    assert CONFIG.min_session_open_usd == before == 5.00

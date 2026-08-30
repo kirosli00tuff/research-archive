@@ -3505,3 +3505,63 @@ The prompt as supplied, reproduced without alteration:
 
     END PROMPT
 
+
+---
+
+## Entry 34 — STAGE A.-1 TASK 0 and STAGE A.0 TASK 1
+
+### TASK 0 — preconditions and the pre-committed criterion. **ETA 25 min · actual 23 min.**
+
+| check | result |
+|---|---|
+| working tree | **clean** at the moment of checking |
+| branch tracking | **`main` → `origin/main`**, `0 0` |
+| `git push --dry-run origin main` | **succeeds** |
+| **Stage C latch** · **Stage D latch** | **both absent, unopened** |
+| systemd units | **inert** — 0 loaded, 0 installed |
+
+**All five recorded.** Today is **2026-08-30** UTC, so the request ledger's day
+key rolled over.
+
+**The criterion was written, committed and pushed BEFORE any measurement**, as
+commit `4ae14dc`. **The ordering is checkable in `git log`** and it precedes the
+commit containing `tools/slippage_band.py`. That is the whole point of the task:
+a pass that measures a cost input after seeing a cost-driven null is exactly the
+shape a reader should distrust, because the measurer knows which answer rescues
+the hypothesis.
+
+**The arithmetic, reproduced in code rather than carried**, and it agrees with
+the operator's figures to every digit given:
+
+| quantity | figure |
+|---|---:|
+| required effect, `z(0.95) + z(0.80)` | **2.486475** |
+| **required pessimistic-cost mean** | **0.038493 USD/share** |
+| central mean at the registered 1.40 | **0.040386 USD/share** |
+| **required shift** | **0.001893 or below** |
+| measured shift (Amendment 20) | **0.041455** |
+| **required reduction** | **21.89-fold** |
+
+> **A 21.89-fold reduction is below a single tick across both legs. `GO` is not
+> an outcome of this pass, and the amendment says so before the measurement.**
+
+### TASK 1 — H1b registered, not opened. **ETA 35 min · actual 31 min.**
+
+**A filter change proposed after seeing an H1 null is a new hypothesis.** Folding
+it into H1 would let H1 be re-specified until it passed while the verdict carried
+**none** of the cost — the factor-zoo behaviour Section 9 registers Harvey, Liu
+and Zhu against.
+
+**H1b is registered with status `REGISTERED_NOT_OPEN`.** It changes **exactly one
+registered parameter** — the Section 2 price filter — and **leaves every other
+one unchanged**. **The floor itself is deliberately not registered**, because
+choosing one from the scan that motivated it would fit a parameter to its own
+evidence.
+
+**The multiplicity cost is paid explicitly: H1b increments the deflated-Sharpe
+trial count from 8 to 9, for H1b. H1's count of 8 is unchanged.** **The ninth
+trial exists because the change was proposed after seeing a null**, and that is
+the cost of having looked.
+
+**Opening H1b requires its own full registration, its own power gate computed
+rather than inherited, and explicit operator instruction. None exists.**

@@ -105,6 +105,32 @@ carries SL-3.** **Every statement about what a PASS would mean carries §11.2.**
    measured **0.982143** trigger rate the condition selects on almost nothing.
    **The registered rule is unchanged; the description was wrong.**
 
+### H1b — registered 2026-08-30, NOT OPENED
+
+**`REGISTERED_NOT_OPEN`.** The H1 rule with a raised price floor replacing the
+registered open-above-5.00-USD filter. **Exactly one registered parameter
+changes; every other one is unchanged.** The floor itself is **deliberately not
+registered** — this pass ran a feasibility scan and handed over a table.
+
+**It increments the deflated-Sharpe trial count from 8 to 9 for H1b.** H1's count
+of 8 is unchanged. **The ninth trial exists because the filter change was
+proposed after seeing an H1 null**, and that is the cost of having looked.
+
+**Opening it requires its own full registration, its own power gate computed
+rather than inherited, and explicit operator instruction. None exists.**
+
+| price floor | selected | filling 20 **in the scan sample** | mean relvol | dispersion | **central ÷ shift** |
+|---:|---:|---:|---:|---:|---:|
+| **5** | 560 | 28 of 28 | 2.0652 | 2.0296 | **0.9742** |
+| **10** | 560 | 28 of 28 | 1.8216 | 2.0962 | **0.9983** |
+| **20** | 560 | 28 of 28 | 1.6190 | 2.3821 | **1.1415** |
+| 50 | 446 | 0 of 28 | 1.4103 | 2.7093 | **1.4767** |
+| 100 | 310 | 0 of 28 | 1.4381 | 3.1992 | **2.1424** |
+
+**Do not read the "filling 20" column as a fact about the registered universe.**
+The scan sampled **200 names of 5,317** — every 26th ticker. A floor that thins a
+1-in-26 subsample says nothing about a universe **26.6 times larger**.
+
 ## What happens next, in order
 
 1. **On or after 2026-09-12, run `tools/repull_probe.py`.** It re-sends the

@@ -248,6 +248,38 @@ input comes from a **post-holdout regime** and may misstate in-sample dispersion
 in either direction by an unmeasured, unbounded amount. **Every in-sample figure
 carries SL-3.**
 
+### H1b — the price-floor feasibility scan, 2026-08-30
+
+**H1b is `REGISTERED_NOT_OPEN`.** This is a scan, not a verdict. **No power
+figure, no chosen floor.** Post-holdout carve-out, `n = 42` sessions, 28
+evaluable, 200 tickers, **0 requests sent**.
+
+| price floor | selected | sessions filling 20 | mean relvol | dispersion USD/share | central mean at 1.40 | shift | **central ÷ shift** |
+|---:|---:|---:|---:|---:|---:|---:|---:|
+| **5** | 560 | **28 of 28** | **2.0652** | 2.0296 | 0.040386 | 0.041455 | **0.9742** |
+| **10** | 560 | **28 of 28** | 1.8216 | 2.0962 | 0.041711 | 0.041782 | **0.9983** |
+| **20** | 560 | **28 of 28** | 1.6190 | 2.3821 | 0.047358 | 0.041488 | **1.1415** |
+| 50 | 446 | **0 of 28** | 1.4103 | 2.7093 | 0.060344 | 0.040866 | **1.4767** |
+| 100 | 310 | **0 of 28** | 1.4381 | 3.1992 | 0.085626 | 0.039967 | **2.1424** |
+
+**The registered mechanism is confirmed** — the ratio rises monotonically while
+the shift stays inside a 4 percent band, which is the price-invariance H1b
+asserted before the scan. **So is the competing effect**: mean relative volume of
+the selection **falls 2.0652 → 1.4103**, the rank-tail dilution the entry
+predicted. **Both are real and they run in opposite directions.**
+
+> **The "sessions filling 20" column measures the SCAN SAMPLE, not the registered
+> universe.** The scan runs on a **200-name systematic sample of a 5,317-name
+> listing** — every 26th ticker. A floor that fails to fill 20 names in a 1-in-26
+> subsample says **nothing** about a universe **26.6 times larger**. The 50 and
+> 100 USD rows are **not** evidence that those floors empty the registered
+> universe.
+
+**The entry-overshoot median is 0.0000 at every floor**, which is a **one-minute
+resolution limit and not a measurement that overshoot is zero**: almost every
+trigger crosses the boundary intrabar, and one-minute data cannot locate the
+first trade through a boundary inside a bar.
+
 ### Bar integrity — A.1 TASK 3 and TASK 4, **the two that decide this repository**
 
 | figure | value | n |

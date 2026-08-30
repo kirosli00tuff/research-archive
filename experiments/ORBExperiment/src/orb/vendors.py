@@ -59,6 +59,7 @@ MEASURED_CEILING_PER_MINUTE: Final[dict[str, float | None]] = {
     "massive:aggs": 5.0,
     "massive:grouped": 5.0,
     "alpaca:bars": None,
+    "alpaca:quotes": None,
     "alpaca:multibars": None,
     "alpaca:account": None,
     "alpaca:assets": None,
@@ -92,6 +93,7 @@ MEASURED_BURST_REFUSAL: Final[dict[str, tuple[int, float] | None]] = {
     "massive:aggs": (5, 16.74),
     "massive:grouped": None,
     "alpaca:bars": (384, 55.96),
+    "alpaca:quotes": None,
     "alpaca:multibars": None,
     "alpaca:account": None,
     "alpaca:assets": None,
@@ -115,6 +117,7 @@ MEASURED_SUSTAINED_ADMITTED_PER_MINUTE: Final[dict[str, float | None]] = {
     "massive:aggs": None,
     "massive:grouped": None,
     "alpaca:bars": 199.73,
+    "alpaca:quotes": None,
     "alpaca:multibars": None,
     "alpaca:account": None,
     "alpaca:assets": None,
@@ -142,6 +145,8 @@ CONSERVATIVE_SPACING_S: Final[dict[str, float]] = {
     # PACE_BASIS says so. The measured 384-request burst allowance is a looser
     # constraint than this and does not bind.
     "alpaca:bars": 0.61,
+    # An unmeasured endpoint keeps the slower figure. Amendment 26.
+    "alpaca:quotes": 1.0,
     # **Unmeasured endpoints keep the old figure.** Pacing is per endpoint,
     # never per host: a measurement on `alpaca:bars` licenses no change here.
     "alpaca:multibars": 1.0,
@@ -164,6 +169,7 @@ PACE_BASIS: Final[dict[str, str]] = {
         "NOT reached at 199.73/min over 75.10 s, n = 250, 0 refusals. Pace is "
         "half the maximum rate actually SUSTAINED, spacing rounded up."
     ),
+    "alpaca:quotes": "unmeasured endpoint; carries its vendor's figure",
     "alpaca:multibars": "unmeasured endpoint; carries its vendor's figure",
     "alpaca:account": "unmeasured endpoint; carries its vendor's figure",
     "alpaca:assets": "unmeasured endpoint; carries its vendor's figure",
@@ -479,6 +485,45 @@ def _alpaca_bars_url(
         vendor=ALPACA,
         pace_key="alpaca:bars",
         url=f"{ALPACA_DATA_HOST}/v2/stocks/{ticker}/bars?" + "&".join(parts),
+        headers=alpaca_headers(store),
+        feed=feed,
+    )
+
+
+def alpaca_quotes(
+    store: CredentialStore,
+    ticker: str,
+    start_iso: str,
+    end_iso: str,
+    *,
+    feed: str,
+    limit: int = 10000,
+    page_token: str | None = None,
+) -> VendorRequest:
+    """Historical NBBO quotes for one ticker between two UTC instants.
+
+    **``feed`` carries no default, on exactly the terms Amendment 13 set for
+    bars.** A quoted spread taken from a single venue is not the spread a
+    marketable order crosses on the consolidated tape, and the measured cost of
+    the wrong branch there was a **median 0.027761 of consolidated
+    first-5-minute volume over `n = 100` pairs**.
+
+    **Whether the tier serves this endpoint at all is a measurement**, made at
+    A.3 TASK 2 and recorded with the refusal payload verbatim if it does not.
+    """
+    require_consolidated_feed(feed, f"alpaca_quotes({ticker})")
+    parts = [
+        f"start={start_iso}",
+        f"end={end_iso}",
+        f"feed={feed}",
+        f"limit={limit}",
+    ]
+    if page_token is not None:
+        parts.append(f"page_token={page_token}")
+    return VendorRequest(
+        vendor=ALPACA,
+        pace_key="alpaca:quotes",
+        url=f"{ALPACA_DATA_HOST}/v2/stocks/{ticker}/quotes?" + "&".join(parts),
         headers=alpaca_headers(store),
         feed=feed,
     )

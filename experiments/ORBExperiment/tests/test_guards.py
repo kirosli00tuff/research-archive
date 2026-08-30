@@ -663,11 +663,18 @@ def test_the_dispersion_writer_returns_two_scalars() -> None:
     """
     import dataclasses as _dc
 
-    from orb.dispersion import CarveOutDispersion, CarveOutExecutionMix
+    from orb.dispersion import (
+        CarveOutDispersion,
+        CarveOutExecutionMix,
+        CarveOutFloorScanRow,
+        CarveOutSlippageBand,
+    )
 
     allowed_returns = {
         "CarveOutDispersion",
         "CarveOutExecutionMix",
+        "CarveOutSlippageBand",
+        "tuple[CarveOutFloorScanRow, ...]",
         "int",
         "float",
         "bool",
@@ -685,7 +692,7 @@ def test_the_dispersion_writer_returns_two_scalars() -> None:
         )
         if rendered not in allowed_returns:
             offenders.append(f"{node.name} -> {rendered}")
-    assert checked >= 2, f"expected both carve-out entry points, saw {checked}"
+    assert checked >= 4, f"expected every carve-out entry point, saw {checked}"
     assert not offenders, (
         "the carve-out writer may return only its registered scalar records: "
         f"{offenders}"
@@ -699,6 +706,52 @@ def test_the_dispersion_writer_returns_two_scalars() -> None:
                 "stop_exit_share",
                 "ambiguous_rate",
                 "mean_pessimistic_shift_usd_per_share",
+            ],
+        ),
+        (
+            CarveOutSlippageBand,
+            [
+                "entry_overshoot_mean",
+                "entry_overshoot_median",
+                "entry_overshoot_p90",
+                "entry_half_spread_mean",
+                "entry_half_spread_median",
+                "entry_half_spread_p90",
+                "entry_slippage_mean",
+                "entry_slippage_median",
+                "entry_slippage_p90",
+                "stop_overshoot_mean",
+                "stop_overshoot_median",
+                "stop_overshoot_p90",
+                "stop_half_spread_mean",
+                "stop_half_spread_median",
+                "stop_half_spread_p90",
+                "stop_slippage_mean",
+                "stop_slippage_median",
+                "stop_slippage_p90",
+                "close_slippage_mean",
+                "close_slippage_median",
+                "close_slippage_p90",
+                "measured_entry_central",
+                "measured_entry_pessimistic",
+                "measured_stop_central",
+                "measured_stop_pessimistic",
+                "measured_close_central",
+                "measured_close_pessimistic",
+                "stop_exit_share",
+                "measured_shift_usd_per_share",
+            ],
+        ),
+        (
+            CarveOutFloorScanRow,
+            [
+                "price_floor_usd",
+                "mean_relative_volume_of_selection",
+                "dispersion_usd_per_share",
+                "entry_overshoot_median",
+                "central_mean_usd_per_share",
+                "shift_usd_per_share",
+                "central_mean_to_shift_ratio",
             ],
         ),
     ]

@@ -3846,3 +3846,217 @@ verdict, no power figure, no chosen floor.
 - **It cannot rescue H1.** Amendment 24 §6 registered that before either ran.
 - **It reads no bar, sends no request, spends nothing, opens no latch and arms
   nothing.**
+
+---
+
+## Amendment 27 — the H1b price-floor feasibility scan, and one column that is a sample artefact
+
+**Date:** 2026-08-30 · **Status:** accepted · records a **feasibility scan** for
+**H1b**, which remains **`REGISTERED_NOT_OPEN`**; **decides nothing about H1**
+
+**What data existed when this amendment was made.** Everything held at
+Amendments 11 through 26, plus those amendments. **Zero dollars spent, zero
+requests sent by this scan** — the bytes were sealed on 2026-08-29 and re-reading
+a stored file is not a vendor call. **Neither latch exists.**
+
+**Amendment 24 §6, registered before this ran: whatever this shows, it is
+feasibility evidence for a new hypothesis and never a continuation of H1.**
+
+### 1. The table, handed over rather than acted on
+
+**Post-holdout carve-out, `n = 42` sessions, 28 evaluable, 200 tickers. The
+raised floor is applied on top of the registered Section 2 filter, never instead
+of it, so every scanned universe is a strict subset of the registered one.**
+
+| price floor | selected name-sessions | sessions | sessions filling 20 | mean relvol of the selection | dispersion USD/share | entry overshoot median | central mean at 1.40 | shift | **central ÷ shift** |
+|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| **5** | 560 | 28 | **28** | **2.0652** | 2.0296 | 0.0000 | 0.040386 | 0.041455 | **0.9742** |
+| **10** | 560 | 28 | **28** | 1.8216 | 2.0962 | 0.0000 | 0.041711 | 0.041782 | **0.9983** |
+| **20** | 560 | 28 | **28** | 1.6190 | 2.3821 | 0.0000 | 0.047358 | 0.041488 | **1.1415** |
+| **50** | 446 | 28 | **0** | 1.4103 | 2.7093 | 0.0000 | 0.060344 | 0.040866 | **1.4767** |
+| **100** | 310 | 28 | **0** | 1.4381 | 3.1992 | 0.0000 | 0.085626 | 0.039967 | **2.1424** |
+
+### 2. The registered mechanism is confirmed, and so is the competing effect
+
+**The mechanism H1b registered before the scan:** per-share slippage is roughly
+**price-invariant** while per-share dispersion and edge **scale with price**, so
+the edge-to-cost ratio should **rise** with the floor.
+
+**It rises monotonically: 0.9742 → 0.9983 → 1.1415 → 1.4767 → 2.1424.** The
+dispersion rises with it — **2.0296 → 3.1992 USD per share** — while the shift
+stays within a **4 percent band, 0.039967 to 0.041782**, which is the
+price-invariance the mechanism asserted, measured rather than assumed.
+
+**The competing effect H1b registered is also confirmed.** The **mean relative
+volume of the selection falls 2.0652 → 1.4103** as the floor rises from 5 to 50
+USD. That is exactly the rank-tail dilution the entry predicted: **the selection
+is a rank statistic, and ranking 20 out of a smaller pool selects a less extreme
+tail.** **Both effects are real and they run in opposite directions.**
+
+**The ratio crosses 1.0 between the 10 and 20 USD floors.** A ratio above 1 means
+the central mean exceeds the shift, which is the condition E2's pessimistic-cost
+mean needs to be positive. **This is stated as a property of the scan and not as
+a recommendation**, and **no floor is selected.**
+
+### 3. One column is a sample artefact and is labelled as one
+
+> **The "sessions filling 20" column measures the SCAN SAMPLE, not the
+> registered universe, and it must not be read as one.**
+
+The scan runs on a **200-name systematic sample of a 5,317-name active US common
+stock listing** — **every 26th ticker**. A floor that fails to fill 20 names *in
+a 1-in-26 subsample* says **nothing** about the registered universe, which is
+**26.6 times larger**.
+
+**So the correct reading of the 50 and 100 USD rows is: the scan sample thins out
+there, and the scan cannot establish what the registered universe does.**
+Establishing that needs a full-universe pull at those floors, which **this pass
+did not do and does not authorise.**
+
+**The 5, 10 and 20 USD rows are not affected**: all three fill 20 names on all 28
+sessions **within the sample**, which is a sufficient condition, not a necessary
+one.
+
+### 4. The entry overshoot is 0.0000 at every floor, and that is a resolution limit
+
+**Not a measurement that overshoot is zero.** It is the **median** of a
+distribution in which **almost every trigger crosses the boundary intrabar**, and
+**one-minute data cannot locate the first trade through a boundary inside a
+bar**. Amendment 26 records the same limit for the band measurement. **The
+figure is a lower bound and the median of a lower-bound distribution is 0.0000
+whenever fewer than half the triggers gap through.**
+
+**It supports the price-invariance claim only weakly**, and it is reported
+because it is what was measured, not because it settles anything.
+
+### 5. What this amendment does not do
+
+- **It does not open H1b**, select a floor, compute a verdict or compute a power
+  figure. H1b stays **`REGISTERED_NOT_OPEN`**.
+- **It does not change any registered rule.** The raised floors were applied on
+  top of the registered filter, in a scan, and `CONFIG.min_session_open_usd`
+  remains **5.00**.
+- **It cannot and does not affect H1's outcome.**
+- **It sends no request, spends nothing, opens no latch and arms nothing.**
+
+---
+
+## Amendment 26 — the slippage band, measured; the carried ETF figures understated it by up to 13-fold
+
+**Date:** 2026-08-30 · **Status:** accepted · amends **Section 6** by recording a
+**measured** band beside the carried one; **the registered band itself is not
+moved**
+
+**A note on the number and its position.** **This amendment is numbered 26 and
+appears in this file after Amendment 27.** Amendment 27 was appended while this
+amendment's measurement was still running, and `src/orb/dispersion.py` and
+ADR-038 already referred to this one as 26 in text that is committed and pushed.
+**The number is kept so every existing reference stays valid, the file order is
+the true chronology of appends, and the anomaly is recorded here rather than
+tidied away by editing pushed text.**
+
+**What data existed when this amendment was made.** Everything held at
+Amendments 11 through 25 and 27. **The pre-committed criterion of Amendment 24
+was already committed and pushed as `4ae14dc`, before a line of the measuring
+tool was written.** **Zero dollars spent.** **`n = 759` quote requests sent**,
+against a registered Alpaca daily cap of 3,000. **Neither latch exists.**
+
+### 1. What was measured, and where
+
+**Post-holdout carve-out only**, `n = 42` sessions, **28 evaluable**, 200
+tickers, boundary enforced **per bar**. The tier **serves historical NBBO
+quotes** — probed and confirmed before the tool was written — so **the quoted
+spread is measured, not assumed**: **760 quote minutes served, 0 refused.**
+
+### 2. The band, measured against carried, per leg
+
+| leg / end | **carried** (QQQ, C-6) | **measured** | ratio | verdict |
+|---|---:|---:|---:|---|
+| entry, central | 0.0200 | **0.087019** | **4.35×** | **the carried figure UNDERSTATED this leg** |
+| entry, pessimistic | 0.0400 | **0.354645** | **8.87×** | **UNDERSTATED** |
+| stop exit, central | 0.0400 | **0.033529** | 0.84× | *the carried figure overstated this leg* |
+| stop exit, pessimistic | 0.0800 | **0.198061** | **2.48×** | **UNDERSTATED** |
+| close exit, central | 0.0100 | **0.040000** | **4.00×** | **UNDERSTATED** |
+| close exit, pessimistic | 0.0200 | **0.261000** | **13.05×** | **UNDERSTATED** |
+
+**Five of six ends were understated by the carried band. One was overstated, and
+it is recorded because a measurement is not a reduction:** the **central stop
+exit** came in at **0.033529 against a carried 0.040**, `n = 210`.
+
+### 3. The per-leg distributions, with their n
+
+| leg | statistic | mean | median | p90 | n |
+|---|---|---:|---:|---:|---:|
+| **entry** | overshoot | 0.014073 | 0.000000 | 0.030000 | **550** — 93 gapped through, **457 crossed intrabar** |
+| **entry** | **half spread**, time-weighted | **0.131842** | **0.076572** | **0.333662** | **550 minutes served, 0 refused** |
+| **entry** | **total slippage** | 0.145915 | **0.087019** | **0.354645** | **550** |
+| **stop** | overshoot | 0.003333 | 0.000000 | 0.000000 | **210** — 15 gapped, 195 intrabar |
+| **stop** | **half spread** | 0.076879 | 0.031934 | 0.182336 | **210 served, 0 refused** |
+| **stop** | **total slippage** | 0.080212 | **0.033529** | **0.198061** | **210** |
+| **close** | official print against the 15:59 close | 0.099324 | **0.040000** | **0.261000** | **340**, 0 without an official print |
+
+**The assignment was fixed before any of this was computed** and is unchanged:
+**median → central, 90th percentile → pessimistic**, for the reasons ADR-038
+records.
+
+### 4. What drives it, and why the carried figure was never going to hold
+
+> **The entry half spread has a median of 0.076572 and a 90th percentile of
+> 0.333662 USD per share.** The carried band came from **QQQ, whose spread sits
+> near one cent.**
+
+**This is not a surprise once stated.** The registered universe selects the top
+20 names by **elevated opening relative volume** — that is, **the names with the
+most unusual activity in the first five minutes of the session**, which is
+precisely the population whose spreads are blown out at that moment. **The
+selection rule and the wide-spread population are the same population.**
+
+**The carried figure was an ETF's spread applied to news-driven single names at
+the one moment of the day they are least like an ETF.**
+
+### 5. The shift, and where it comes from
+
+**Measured shift: 0.467065 USD per share**, against a **carried-band shift of
+0.041455** — **11.27 times larger**.
+
+| component | contribution | share |
+|---|---:|---:|
+| entry width, p90 − median | **0.267626** | **57.3 %** |
+| stop width × 0.381818 | 0.062821 | 13.5 % |
+| close width × 0.618182 | 0.136618 | 29.3 % |
+| **total** | **0.467065** | 100 % |
+
+### 6. The direction, recorded because it is the pass's own control
+
+> **The measurement moved the cost picture in the direction that makes H1
+> WORSE, by a factor of 11.27.**
+
+**A rescue pass that measures a cost input after seeing a cost-driven null is
+exactly the shape a reader should distrust.** Amendment 24 answered that with a
+pre-committed criterion and a checkable commit order. **The result answers it a
+second way: the measurement went hard against the hypothesis.** No search for a
+favourable number produces an eleven-fold worse one.
+
+### 7. And the true figure is worse than this one
+
+**The overshoot distributions are LOWER BOUNDS.** **457 of 550 entry triggers and
+195 of 210 stop triggers crossed their boundary INTRABAR**, and one-minute data
+cannot locate the first trade through a boundary inside a bar, so those trades
+were recorded at **0.0 overshoot**. **The measured band is a lower bound on cost,
+and the true shift is larger than 0.467065.**
+
+**Market impact is not measured at all** and is a further addition.
+
+**So `NOT_RESCUED` is robust in exactly the way ADR-038 said it would be**: the
+design failed **at the most favourable honest reading of its own costs.**
+
+### 8. The registered band is NOT moved
+
+**`CONFIG.entry_slippage`, `stop_slippage` and `close_slippage` are unchanged**
+at (0.010, 0.020, 0.040), (0.020, 0.040, 0.080) and (0.005, 0.010, 0.020).
+**This amendment records a measurement beside them; it does not re-register
+them.** Moving the band on the strength of 42 post-holdout sessions would be
+re-specifying the cost model after seeing a null, which is the thing this pass
+exists not to do. **Amendment 21's route (b) — narrowing the band on measured
+execution evidence — is unaffected and remains open to the operator, though the
+measurement points the other way.**

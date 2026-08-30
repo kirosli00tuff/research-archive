@@ -1324,3 +1324,153 @@ The writer's contract grows a second record, `CarveOutExecutionMix`, carrying
 named plus the n's standing rule 13 requires, **a deviation named in Amendment 20
 rather than taken quietly**. **Mutation 16** adds a trade-list return to the new
 entry point and is caught by the extended pin.
+
+---
+
+## ADR-036: The rescue criterion is written and pushed before the measurement it judges
+
+**Date:** 2026-08-30 · **Status:** accepted · A.-1 TASK 0 of the rescue pass,
+REGISTRATION.md Amendment 24
+
+**Context.** Amendment 21 recorded that E2's pessimistic-cost mean is negative at
+the registered assumption and that joint power collapses to 0.043277. Stage A.3
+applies **one** lever — measuring the slippage band on the instruments actually
+traded, rather than inheriting an ETF's. **A pass that measures a cost input
+after seeing a cost-driven null is exactly the shape a reader should distrust**,
+because the measurer knows which direction of answer rescues the hypothesis.
+
+**Decision.** **The success criterion is written to the registration, committed
+and pushed before any line of the measuring tool is written.** Amendment 24,
+commit `4ae14dc`, precedes the commit containing `tools/slippage_band.py`, and
+**the ordering is checkable in `git log` by anyone who doubts it.**
+
+The criterion is stated in tiers evaluated at the registered 1.40 assumption on
+`n = 875`: **`RESCUED_DEGRADED`** if the measured shift falls **strictly below**
+the central mean of 0.040386 and E2 power rises above the 0.05 size of the test;
+**`NOT_RESCUED`** otherwise, **with H1 closing as `cost-bound`** and **no further
+rescue lever applied**.
+
+**`GO` was ruled out in advance, arithmetically.** E2 at 80 percent power on 875
+sessions needs a pessimistic-cost mean of **0.038493 USD/share**, hence a shift
+of **0.001893 or below** — a **21.89-fold** reduction from the measured 0.041455,
+and **below a single tick across both legs**. The amendment says so before the
+measurement rather than after it.
+
+**Alternatives rejected.** *Measure first, then decide what counts as success*:
+the entire failure mode. *Leave `GO` on the table as a third tier*: it is
+unreachable by arithmetic, and listing an unreachable tier would suggest the pass
+was hunting for one. *Let Change B rescue H1*: rejected in the same amendment
+(§6) — a filter change proposed after a null is a new hypothesis, registered
+separately as H1b. *Pre-commit only in a commit message*: a commit message is not
+the registration, and Section 14 is where a reader looks.
+
+**Consequences.** The pass has exactly one degree of freedom left — **what the
+data says** — and every other lever is nailed down in advance: the effect
+assumption, the alpha, the stop share, the registered rules, and **the assignment
+of median to the central band end and 90th percentile to the pessimistic end**,
+fixed in TASK 2 before the shift was computed. **Any deviation from that
+assignment voids the pass**, and the tool reads the band as measured rather than
+selecting among its statistics.
+
+---
+
+## ADR-037: H1b is a new hypothesis with its own trial-count cost, not an amendment to H1
+
+**Date:** 2026-08-30 · **Status:** accepted · A.0 TASK 1 of the rescue pass,
+REGISTRATION.md Amendment 25
+
+**Context.** Amendment 21 recorded that E2 collapses at the registered
+assumption. The price-floor idea arrived **after** that and **because** of it:
+per-share slippage is roughly price-invariant while per-share dispersion and edge
+scale with price, so raising the Section 2 price floor should improve the
+edge-to-cost ratio.
+
+**Decision.** **It is registered as a new hypothesis, H1b, with status
+`REGISTERED_NOT_OPEN`**, and **H1's outcome is decided without reference to it**
+(Amendment 24 §6, registered before either ran).
+
+**The multiplicity cost is paid explicitly: H1b increments the Section 8
+deflated-Sharpe trial count from 8 to 9, for H1b. H1's count of 8 is unchanged**,
+because H1's specification did not change.
+
+**The floor itself is deliberately not registered.** The pass scans 5, 10, 20, 50
+and 100 USD and hands the operator a table.
+
+**Alternatives rejected.** *Amend H1's Section 2 filter*: it would let H1 be
+re-specified until it passed while the verdict carried **none** of the cost of
+the re-specification — the factor-zoo behaviour Section 9 registers Harvey, Liu
+and Zhu against, and this repository does not get an exemption for being the one
+holding the null. *Register H1b and open it in the same pass*: opening needs its
+own registration, its own power gate computed rather than inherited, and explicit
+operator instruction; **none of the three exists**. *Choose the best floor from
+the scan*: that fits a parameter to the evidence that motivated it. *Skip the
+trial-count increment because H1b is not yet opened*: the ninth trial exists the
+moment the alternative is written down, and recording it later would be
+recording it after it had already been used.
+
+**Consequences.** The scan output is a table, not a verdict — **no power figure
+and no chosen floor**. The mechanism was **confirmed** and its **competing effect
+was measured with it**: the central-mean-to-shift ratio rises **0.9742 → 0.9983 →
+1.1415 → 1.4767 → 2.1424** across the five floors, while the **mean relative
+volume of the selection falls 2.0652 → 1.4103**, which is exactly the rank-tail
+dilution H1b registered as the competing effect. **One column is a sample
+artefact and is labelled as one**: the scan runs on a **200-name systematic
+sample of a 5,317-name listing**, so a floor that fails to fill 20 names *in the
+sample* says nothing about the registered universe, which is **26.6 times
+larger**.
+
+---
+
+## ADR-038: The slippage band is measured on the traded instruments, and its resolution limit is registered with it
+
+**Date:** 2026-08-30 · **Status:** accepted · A.3 TASK 2, REGISTRATION.md
+Amendment 26
+
+**Context.** Section 6's slippage band — **0.020 central and 0.040 pessimistic on
+entry, 0.040 and 0.080 on stop exits, 0.010 and 0.020 on close exits** — is
+**carried from the QQQ replication** (C-6), an **ETF whose spread sits near one
+cent**. The registered universe selects **news-driven single names**. **The
+carried figures were never measured on the instruments actually traded**, and
+Amendment 21's collapse turns on the band's *width*.
+
+**Decision.** Measure it, per leg, on the post-holdout carve-out, inside the
+sealed writer, and **fix the assignment before computing the shift**:
+
+- **median of the per-trade slippage distribution → the CENTRAL end.** The
+  central band is the modal execution a registered trade gets; a **mean** would
+  be dragged by the gap-through tail, which is the *pessimistic* case.
+- **90th percentile → the PESSIMISTIC end.** Section 6 calls that end a plausible
+  bad execution rather than a worst case; a **maximum** would be one session's
+  news gap.
+
+**The quoted spread is measured, not assumed.** The tier was probed and **does**
+serve historical NBBO quotes, so the **time-weighted quoted half spread** across
+each entry and stop minute is measured and added to the overshoot. **Weighting is
+by time held, not by quote count**, so one flickering quote cannot dominate a
+minute it was barely present for. **A minute whose quotes are unusable is a
+refused minute, counted as such, never a zero spread.**
+
+**Alternatives rejected.** *Replace the carried band with the overshoot alone*:
+the carried figure is a **total** slippage assumption and the overshoot is one
+**component**; substituting a component for a total would understate cost and
+manufacture a rescue. *Assume a spread rather than measure it*: standing rule 5,
+and the tier serves quotes so there was no need. *Count quotes rather than
+time-weight them*: a quote that stood for 20 milliseconds is not evidence about a
+minute. *Choose the statistic after seeing which produced a favourable shift*:
+Amendment 24 forbids it and the assignment above is fixed in the tool's docstring
+before it runs. *Report the band without its resolution limit*: the limit is what
+makes the result a bound rather than a point.
+
+**Consequences, and the limit that bounds them.** **When the trigger bar opens
+through the boundary, the overshoot is exactly measurable. When it opens inside
+and crosses within the minute, one-minute data cannot locate the first trade
+through the boundary**, and the writer records **0.0** for that trade. **The
+overshoot distributions are therefore LOWER BOUNDS, the measured band is a lower
+bound, and any power computed on it is an UPPER bound on power.** The two cases
+are counted separately so a reader can see how much of the distribution is
+bounded rather than measured.
+
+**That asymmetry is what makes a `NOT_RESCUED` outcome robust and a
+`RESCUED_DEGRADED` outcome conditional**: a design that fails at the *most
+favourable honest reading of its own costs* has failed, while one that passes
+there has passed only under a bound. Amendment 26 records which landed.

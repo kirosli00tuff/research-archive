@@ -1,0 +1,119 @@
+{
+  "assignment_fixed_before_computation": {
+    "central_end": "median of the per-trade slippage distribution",
+    "pessimistic_end": "90th percentile of the same distribution",
+    "why": "the central band is the modal execution a registered trade gets, and a mean would be dragged by the gap-through tail, which is the pessimistic case; the 90th percentile is a bad-but-reachable decile where a maximum would be one news gap"
+  },
+  "bars_read": 1927156,
+  "carried_shift_usd_per_share": 0.04145454545454546,
+  "carve_out_half": "post_holdout",
+  "cost_model_note": "The frozen Section 6 model is not consulted here; this tool measures the slippage band, which is an input to it.",
+  "first_session": "2026-07-01",
+  "kind": "measured_slippage_band",
+  "last_closed_session": "2026-08-28",
+  "measured_against_carried": {
+    "close_central": {
+      "carried": 0.01,
+      "measured": 0.04,
+      "ratio_measured_over_carried": 4.0,
+      "verdict": "MEASURED IS HIGHER \u2014 the carried figure UNDERSTATED this leg"
+    },
+    "close_pessimistic": {
+      "carried": 0.02,
+      "measured": 0.26100000000000023,
+      "ratio_measured_over_carried": 13.050000000000011,
+      "verdict": "MEASURED IS HIGHER \u2014 the carried figure UNDERSTATED this leg"
+    },
+    "entry_central": {
+      "carried": 0.02,
+      "measured": 0.08701938620876422,
+      "ratio_measured_over_carried": 4.350969310438211,
+      "verdict": "MEASURED IS HIGHER \u2014 the carried figure UNDERSTATED this leg"
+    },
+    "entry_pessimistic": {
+      "carried": 0.04,
+      "measured": 0.35464495116577943,
+      "ratio_measured_over_carried": 8.866123779144486,
+      "verdict": "MEASURED IS HIGHER \u2014 the carried figure UNDERSTATED this leg"
+    },
+    "stop_central": {
+      "carried": 0.04,
+      "measured": 0.03352891210212913,
+      "ratio_measured_over_carried": 0.8382228025532283,
+      "verdict": "MEASURED IS LOWER \u2014 the carried figure overstated this leg"
+    },
+    "stop_pessimistic": {
+      "carried": 0.08,
+      "measured": 0.19806129713302226,
+      "ratio_measured_over_carried": 2.4757662141627783,
+      "verdict": "MEASURED IS HIGHER \u2014 the carried figure UNDERSTATED this leg"
+    }
+  },
+  "measured_at": "2026-08-29",
+  "measured_band": {
+    "close_central": 0.04,
+    "close_pessimistic": 0.26100000000000023,
+    "entry_central": 0.08701938620876422,
+    "entry_pessimistic": 0.35464495116577943,
+    "stop_central": 0.03352891210212913,
+    "stop_pessimistic": 0.19806129713302226
+  },
+  "measured_shift_usd_per_share": 0.46706520287790176,
+  "name_sessions_evaluated": 560,
+  "one_minute_resolution_caveat": "An intrabar cross cannot be located at 1-minute resolution and is recorded as 0.0 overshoot. The overshoot distributions are LOWER BOUNDS, the band is a lower bound, and any power computed on it is an UPPER bound on power.",
+  "per_leg_statistics": {
+    "close_slippage": {
+      "mean": 0.09932352941176471,
+      "median": 0.04,
+      "n": 340,
+      "p90": 0.26100000000000023,
+      "without_an_official_print": 0
+    },
+    "entry_half_spread": {
+      "mean": 0.13184218642686601,
+      "median": 0.07657173002730797,
+      "minutes_refused": 0,
+      "minutes_served": 550,
+      "p90": 0.3336616327308769
+    },
+    "entry_overshoot": {
+      "crossed_intrabar": 457,
+      "gapped_through": 93,
+      "mean": 0.014072727272727273,
+      "median": 0.0,
+      "n": 550,
+      "p90": 0.03
+    },
+    "entry_slippage_total": {
+      "mean": 0.1459149136995933,
+      "median": 0.08701938620876422,
+      "n": 550,
+      "p90": 0.35464495116577943
+    },
+    "stop_half_spread": {
+      "mean": 0.07687871028716117,
+      "median": 0.031933850311200586,
+      "minutes_refused": 0,
+      "minutes_served": 210,
+      "p90": 0.18233613687173328
+    },
+    "stop_overshoot": {
+      "crossed_intrabar": 195,
+      "gapped_through": 15,
+      "mean": 0.003333333333333333,
+      "median": 0.0,
+      "n": 210,
+      "p90": 0.0
+    },
+    "stop_slippage_total": {
+      "mean": 0.0802120436204945,
+      "median": 0.03352891210212913,
+      "n": 210,
+      "p90": 0.19806129713302226
+    }
+  },
+  "quote_requests_sent": 759,
+  "sessions_used": 28,
+  "stop_exit_share_used": 0.3818181818181818,
+  "tickers_with_bars": 199
+}

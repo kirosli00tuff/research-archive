@@ -331,6 +331,22 @@ MUTATIONS: tuple[Mutation, ...] = (
             ),
         ),
     ),
+    Mutation(
+        17,
+        "make the slippage-band writer return a trade list",
+        "the per-leg summary contract of Amendment 26 becomes a hole and a "
+        "per-trade series leaves a sealed writer before the Stage C latch",
+        (
+            (
+                "src/orb/dispersion.py",
+                "def measure_carve_out_slippage_band(",
+                "def leak_the_slippages(values: list[float]) -> list[float]:"
+                "  # MUTATION 17\n"
+                "    return list(values)\n\n\n"
+                "def measure_carve_out_slippage_band(",
+            ),
+        ),
+    ),
 )
 
 

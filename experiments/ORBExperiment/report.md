@@ -860,3 +860,80 @@ registration exists to make sayable.
 
 **Three routes are open, none is chosen here, and none of them waits for
 2026-09-12.**
+
+---
+
+# The rescue pass — written for the moment it landed, 2026-08-30
+
+**Six tasks. Four amendments, 24 through 27. Three ADRs, 036 through 038. One
+lever applied to H1, one new hypothesis registered without being opened, and a
+criterion written before the measurement that judged it.**
+
+## The criterion came first, and the commit order proves it
+
+**A pass that measures a cost input after seeing a cost-driven null is exactly
+the shape a reader should distrust.** The measurer knows which direction of
+answer rescues the hypothesis. There is only one defence against that, and it is
+not a promise.
+
+**Amendment 24 was written, committed and pushed as `4ae14dc` before a single
+line of the measuring tool existed.** It states the tiers, it states the
+consequence of failure, and **the ordering is checkable in `git log` by anyone
+who doubts it.**
+
+**It also ruled `GO` out in advance, arithmetically.** For E2 to reach 80 percent
+power on 875 sessions at the registered 1.40 assumption, with the measured
+dispersion of 2.029585 USD per share and 19.642857 trades per session, the
+pessimistic-cost mean must be at least **0.038493 USD per share** — which means
+the shift must fall to **0.001893 or below**, a **21.89-fold reduction** from the
+measured 0.041455. **That is below a single tick across both legs.** No
+measurement of a real instrument can land there, and the amendment said so before
+the measurement rather than after it.
+
+**So the pass had exactly one degree of freedom left: what the data says.** The
+effect assumption, the alpha, the stop share, every registered rule, and **the
+assignment of median to the central band end and 90th percentile to the
+pessimistic end** were all nailed down in advance.
+
+## Why the band was worth measuring at all
+
+**Section 6's slippage band is carried from an ETF.** 0.020 central and 0.040
+pessimistic on entry, 0.040 and 0.080 on stop exits, 0.010 and 0.020 on close
+exits — all from the QQQ replication (C-6), an instrument whose spread sits near
+one cent.
+
+**The registered universe selects news-driven single names.** The carried figures
+were never measured on the instruments actually traded, and **Amendment 21's
+collapse turns on the band's width** — the pessimistic end minus the central end,
+mixed on the measured stop-exit share.
+
+**So the one honest lever available was to measure it.** Not to move it, not to
+narrow it, not to argue about it: to find out what it is on this universe.
+
+## What one-minute data can and cannot support
+
+**This is the limit that bounds everything below, and it was written into the
+tool's docstring before the tool ran.**
+
+**When the trigger bar opens through the boundary**, the first trade of that bar
+**is** the first trade through it, and the overshoot is **exactly measurable**.
+
+**When the bar opens inside the range and crosses within the minute**, the first
+trade through the boundary lies somewhere in that bar and **one-minute data
+cannot locate it.** The writer records **0.0** for that trade.
+
+**So the overshoot distributions are LOWER BOUNDS, the measured band is a lower
+bound, and any power computed on it is an UPPER bound on power.** The two cases
+are counted separately, so a reader can see how much of the distribution is
+bounded rather than measured.
+
+**That asymmetry is the whole epistemic value of the result.** A design that
+fails at **the most favourable honest reading of its own costs** has failed. A
+design that passes there has passed **only under a bound**.
+
+**The spread half was not bounded, because the tier serves quotes.** That was
+probed and confirmed before the tool was written, so the **time-weighted quoted
+half spread** across each entry and stop minute is **measured** and added to the
+overshoot. Weighting is by **time held**, not by quote count, so a quote that
+stood for twenty milliseconds cannot dominate a minute. **A minute whose quotes
+are unusable is a refused minute, counted as such, never a zero spread.**
