@@ -190,3 +190,58 @@ record at TASK 0.** The venue figures are dated 2026-07-15 / 2026-08-01 and are
 re-measured live in TASK 3 regardless.
 
 ---
+
+## 2026-08-30T04:52Z — TASK 1 COMPLETE — scaffold and guards
+
+**ETA 45 min · actual ~14 min.**
+
+`uv` project, package `vrp`, src layout, **Python 3.13.14** (pinned by
+`uv venv --python 3.13`; the machine's system interpreter is 3.14.4 and is not
+used). ruff 0.16.5, mypy 2.3.1 strict, pytest 9.1.1, pre-commit 4.6.2.
+Makefile targets `install lint fmt typecheck test all guards clean`.
+
+**`make all` is green on an empty tree: ruff format + check clean, mypy strict
+`Success: no issues found in 11 source files`, `28 passed`.**
+
+Five guards ported by shape from ORBExperiment, each named to the standing rule
+it pins.
+
+| guard | module | what it refuses |
+|---|---|---|
+| 1 · recorded absence | `src/vrp/absence.py` | `float()`, `int()`, `__index__`, every arithmetic operator both ways, ordering, `bool()`, `len()`, iteration, indexing. **10 absence reasons**, including the four the prompt distinguishes: `venue_blocked`, `venue_capital_blocked`, `venue_unclear`, `latch_unspent`. |
+| 2 · timezone | `src/vrp/tzguard.py` | naive datetimes at every boundary, **and non-UTC aware datetimes, which it refuses rather than converts** — a silent conversion hides which side was wrong. `ExchangeExpiry` cannot be constructed without a settlement instant, an exchange, and the published settlement rule verbatim. |
+| 3 · append-only ledger | `src/vrp/ledger.py` | non-durable writes (`O_APPEND` + `fsync` per line, short-write detected), and silent repair — a damaged line comes back as `TruncatedLedgerLine` and is excluded from `row_count()` rather than dropped. Rows are credential-redacted before serialisation. |
+| 4 · call-state enum | `src/vrp/callstate.py` | merging **operational health** (5 states) with **venue classification** (5 states). `combined_total()` raises structurally. **A 403 is `access_refused`, an operational fact; a jurisdiction finding comes only from published policy text.** |
+| 5 · blindness pin | `src/vrp/fields.py`, `src/vrp/seal.py`, AST walk in `tests/test_guards.py` | any module outside `{vrp/fields.py, vrp/seal.py, vrp/sealed_read.py}` naming any of **38 blind fields** — implied vol (`mark_iv`, `dvol`, …), realized vol, option price, premium — as a string literal, attribute, name, or parameter. |
+
+Plus the **TASK 6 latch** (`src/vrp/latch.py`): written before the read, records
+the SHA-256 of every participating module, refuses a second write with
+`LatchAlreadySpentError`, and exposes `verify_modules()` so post-read module
+drift is visible rather than silent.
+
+**Two design decisions recorded rather than assumed.**
+
+1. **Cost and reachability fields are deliberately READABLE, not blind.**
+   `bid`, `ask`, `initial_margin`, `commission`, `policy_text` and 25 others sit
+   in `READABLE_FIELDS`. Blinding them would blind the wrong half of the
+   experiment: TASK 3 and TASK 5 are the two *deciding* measurements and must be
+   readable to decide anything. Only the premium and its two estimator legs are
+   blind. The two registries are asserted disjoint at import.
+2. **The `open()` guard is narrowed to text handles, and the narrowing is
+   stated.** `os.open` / `os.fdopen` are exempt because they return a raw file
+   descriptor and are the only way Guard 3 gets `O_APPEND` plus `fsync`. Builtin
+   `open` and `Path.open` stay forbidden — those are the calls that would let a
+   module read and parse a served payload. **The guard fired on its first run
+   against `vrp/ledger.py:74`**, which is the evidence it binds on real modules
+   and not only on fixtures.
+
+**Both AST guards carry a canary that demonstrably fires.**
+`test_the_blindness_pin_actually_fires_on_a_planted_violation` plants
+`payload["mark_iv"]` and asserts the walk returns it;
+`test_the_open_guard_fires_on_a_planted_path_open` plants a builtin `open`, a
+`Path.open` and an `os.open` and asserts exactly the first two are caught. A pin
+that cannot fire proves nothing.
+
+Toolchain provenance recorded to `reports/env_report.json` by `tools/env_report.py`.
+
+---
