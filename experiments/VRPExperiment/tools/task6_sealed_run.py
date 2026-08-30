@@ -48,7 +48,6 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 SRC = REPO_ROOT / "src" / "vrp"
 OUT = REPO_ROOT / "reports" / "task6"
 RAW = REPO_ROOT / "data" / "raw" / "task6"
-LATCH_PATH = REPO_ROOT / "reports" / "task6" / "task6.latch.json"
 BASE = "https://www.deribit.com/api/v2/public/"
 UA = "VRPExperiment/0.1 (research; contact [private email removed])"
 MS_PER_DAY = 86_400_000
@@ -153,7 +152,14 @@ def fetch_underlying_daily(currency: str, days_back: int) -> dict[date, float]:
                 "instrument_name": f"{currency}-PERPETUAL",
                 "start_timestamp": str(start),
                 "end_timestamp": str(stop),
-                "resolution": "3600",
+                # NOT "3600". This endpoint takes TradingView resolutions in
+                # MINUTES, so hourly is "60"; the DVOL endpoint takes SECONDS,
+                # where "60" means one minute. The same literal means different
+                # things on the two endpoints. Attempt 1 was refused for this
+                # reason -- verbatim: {"reason":"unsupported resolution",
+                # "param":"resolution"}, HTTP 400 -- and the refusal is what
+                # identified the defect. See REGISTRATION.md Amendment 1.
+                "resolution": "60",
             },
         )
         result = payload["result"]
@@ -294,7 +300,20 @@ def stability(
     return out
 
 
-def run(mode: str, days_back: int) -> dict[str, Any]:
+def latch_path(attempt: int) -> Path:
+    """Attempt 1 keeps the original name so it is never overwritten.
+
+    A later attempt gets its own file. **An aborted attempt's latch is never
+    deleted or reused** — it stands as the record that a read was begun, and
+    Amendment 1 of `REGISTRATION.md` records why a second attempt is not a
+    second look at the answer.
+    """
+    if attempt == 1:
+        return OUT / "task6.latch.json"
+    return OUT / f"task6.latch.{attempt}.json"
+
+
+def run(mode: str, days_back: int, attempt: int = 1) -> dict[str, Any]:
     OUT.mkdir(parents=True, exist_ok=True)
     RAW.mkdir(parents=True, exist_ok=True)
     report: dict[str, Any] = {
@@ -306,12 +325,24 @@ def run(mode: str, days_back: int) -> dict[str, Any]:
         "days_requested": days_back,
         "assets": {},
     }
+    report["attempt"] = attempt
     if mode == "real":
-        latch = Latch(LATCH_PATH)
+        path = latch_path(attempt)
+        latch = Latch(path)
         modules = [*sorted(SRC.glob("*.py")), Path(__file__)]
-        record = latch.write(modules, "TASK 6 single sealed read of Deribit DVOL")
+        record = latch.write(
+            modules,
+            f"TASK 6 sealed read of Deribit DVOL, attempt {attempt}"
+            + (
+                ""
+                if attempt == 1
+                else "; attempt 1 aborted on a venue parameter refusal before "
+                "any estimator ran (REGISTRATION.md Amendment 1)"
+            ),
+        )
         report["latch"] = record.as_row()
-        sys.stdout.write(f"LATCH WRITTEN: {LATCH_PATH}\n")
+        report["latch_path"] = str(path)
+        sys.stdout.write(f"LATCH WRITTEN: {path}\n")
 
     for currency in ("BTC", "ETH"):
         if mode == "fixture":
@@ -383,7 +414,8 @@ def run(mode: str, days_back: int) -> dict[str, Any]:
                 f"p={primary.one_sided_p:.3e} CI_lower={primary.ci_lower_bps:.2f} bps\n"
             )
     report["finished_at"] = iso_now()
-    target = OUT / f"{mode}_result.json"
+    suffix = "" if attempt == 1 else f"_attempt{attempt}"
+    target = OUT / f"{mode}{suffix}_result.json"
     target.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", "utf-8")
     sys.stdout.write(f"wrote {target}\n")
     return report
@@ -393,8 +425,18 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--mode", choices=("fixture", "real"), required=True)
     parser.add_argument("--days-back", type=int, default=1992)
+    parser.add_argument(
+        "--attempt",
+        type=int,
+        default=1,
+        help=(
+            "which sealed-read attempt this is. Attempt 1 writes "
+            "task6.latch.json; a later attempt writes its own file and never "
+            "overwrites an earlier one."
+        ),
+    )
     args = parser.parse_args()
-    run(args.mode, args.days_back)
+    run(args.mode, args.days_back, args.attempt)
     return 0
 
 

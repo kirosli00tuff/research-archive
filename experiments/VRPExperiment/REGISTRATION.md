@@ -529,5 +529,61 @@ missed last time is only calibrated if the thing actually binds.
 
 ## Amendment log
 
-No amendments. Any amendment is appended here with its date, its reason, and the
-commit that introduced it. **No section above is edited in place.**
+Any amendment is appended here with its date, its reason, and the commit that
+introduced it. **No section above is edited in place.**
+
+### Amendment 1 — 2026-08-30 — the first sealed-read attempt aborted before any estimator ran
+
+**What happened.** At 2026-08-30T06:55:35.492Z the TASK 6 latch was written to
+`reports/task6/task6.latch.json`, recording the SHA-256 of all ten `src/vrp`
+modules and of the run tool, at commit `adac707`. The run then began fetching
+and **failed on its first underlying-leg request** with **HTTP 400**. The
+venue's refusal payload, verbatim:
+
+```json
+{"error":{"message":"Invalid params","data":{"reason":"unsupported resolution","param":"resolution"},"code":-32602}}
+```
+
+**The cause, which is a real API inconsistency and not a guess.**
+`get_volatility_index_data` takes its `resolution` in **seconds**, so hourly is
+`3600`. `get_tradingview_chart_data` takes TradingView resolutions in
+**minutes**, so hourly is `60`. **The same literal `60` means one minute on the
+first endpoint and one hour on the second.** The driver passed `3600` to both.
+Confirmed by probing five separate chunks spanning 2021-03 to 2026-08: DVOL
+returned HTTP 200 with 799–961 rows on every one, and the chart endpoint
+returned HTTP 400 with the identical payload on every one.
+
+**Why this is not a second look at the answer.** Stated as facts that can be
+checked against the repository rather than as an assurance:
+
+1. **No estimator ran.** `reports/task6/real_result.json` does not exist. The
+   failure occurred inside `fetch_underlying_daily` for the first asset, before
+   `build_premium_series` or `estimate_premium` was reached.
+2. **No data was written.** `data/raw/task6/` was empty after the abort. The raw
+   series files are written only after both fetch functions return.
+3. **No premium value was observed, printed, or logged**, by the tool or by the
+   operator. The only output of the aborted run was a Python traceback ending in
+   `urllib.error.HTTPError: HTTP Error 400: Bad Request`.
+4. **The fix was driven entirely by a status code and a refusal payload naming a
+   parameter.** It could have been derived with no access to the data at all,
+   and was: the diagnosis probed five chunks and read only HTTP codes and row
+   counts.
+
+**What is done about it.** The aborted latch **is not deleted and is not
+reused**. `reports/task6/task6.latch.json` stands permanently as the record that
+a read was begun on 2026-08-30 and aborted. The corrected run writes a **second,
+separately named latch**, `reports/task6/task6.latch.2.json`, and its result is
+written to `reports/task6/real_attempt2_result.json`. Both latches are committed.
+
+**What this costs.** The registration's protection is that the machinery is
+fixed before the outcome is seen, and that protection is intact: the only change
+between attempt 1 and attempt 2 is a **single string literal** in a request
+parameter — `"3600"` to `"60"` — plus the attempt-numbering that keeps the first
+latch. No estimator, no window, no estimator parameter, no tenor, no sign
+convention and no inference rule was touched. The diff is auditable in the
+commit that precedes attempt 2.
+
+**What would have been dishonest, recorded so the alternative is visible.**
+Deleting `task6.latch.json` and re-running as though attempt 1 had never
+happened. That would have left no trace of a read having been begun, and it is
+exactly the quiet rewrite the latch exists to make impossible.
