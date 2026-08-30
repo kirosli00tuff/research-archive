@@ -537,3 +537,112 @@ in Entry 5 holds across every task, so the next stage should estimate
 document-and-arithmetic work from **Stage B's** measured rate rather than
 Stage A's: no task here exceeded its ETA, and the largest single block — the
 band arithmetic with its tests and guards — took 8.3 min.
+
+---
+
+## Entry 6 — Stage C operator prompt, logged verbatim before any other work
+
+**Logged 2026-08-29T19:32Z, per standing rule 1. Work follows in later entries;
+nothing below this line in this entry is work.**
+
+> BEGIN PROMPT - PMEXPERIMENT STAGE C: THE POWER GATE OVER 91-99c
+>
+> Read CLAUDE.md, REGISTRATION.md in full including Amendments 1 to 4,
+> HYPOTHESES.md, DECISIONS.md, progress.md, report.md and docs/BAND.md first.
+> Per standing rule 1, log this prompt verbatim to progress.md before any other
+> work. Per standing rule 2, state an ETA before arming each task and record
+> actual against it, and note that Entry 5 found Stage A's rate overestimated
+> Stage B by roughly a factor of two.
+>
+> Scope, fixed by Stage B and not reopenable here. The gate fires over entry
+> prices 91 to 99 cents, held to resolution, either side of the book, and no
+> other region. The 1 to 10 cent half is out on sign, the eight non-tail deciles
+> are out because no magnitude is registered there, and the round-trip route is
+> out on a margin thinner than the FX base understates cost. Do not widen the
+> region to improve the count.
+>
+> Task 1: register Section 1's missing volume floor before enumerating anything.
+>
+> Stage A Task 2 never armed, so the floor was never registered, and Entry 5
+> records that this is why BAND-NARROW's volume clause could not be evaluated.
+> Register it now, justified before it is applied, per standing rule 9. State
+> what it costs in sample as a first-class output rather than choosing it to
+> preserve one.
+>
+> Task 2: enumerate the Polymarket universe, reading no outcome.
+>
+> Public read endpoints require no key, no authentication and no wallet. Measure
+> the access properties rather than trusting them: reachability, rate limits, and
+> how deep resolved history goes. Record robots.txt and the published terms
+> before any repeated fetch, per standing rule 12, and report what they permit.
+> If the terms do not sanction this read, stop and report on access, as Stage A
+> did for Kalshi.
+>
+> Enumerate resolved contracts and record, per contract, the fields the gate
+> needs and nothing more: identifier, category, entry-price bucket, and whether a
+> resolution exists. Do not read the resolution value. Section 4 and Section 10
+> stand, and the gate reads bucket counts and dispersion only.
+>
+> Task 3: fire the gate.
+>
+> Compute the minimum detectable effect over the 91 to 99 cent region from bucket
+> counts and dispersion alone, and judge it against the registered effect band
+> and against the 5.85 probability points the band requires at k equals 1.
+>
+> Report the MDE beside the requirement in the same sentence, with its n, per
+> standing rule 13. State GO, DEGRADED or BLOCKED against Section 0.2's
+> registered conditions without adjusting them.
+>
+> Then report the same computation restricted to the Canadian-permitted
+> categories of economic indicators, financial markets and climate at a 30-day
+> minimum maturity, as a separate pass. Amendment 1 registered in advance that
+> Polymarket's mispricing concentrates in politics and sports, which this filter
+> excludes, so a split verdict is expected and is a legitimate finding rather
+> than a failure.
+>
+> Task 4: state what the verdict does and does not license.
+>
+> A GO on Polymarket licenses a calibration measurement on Polymarket. It
+> licenses nothing about Kalshi, because H1t transfer is registered UNTESTED on
+> three grounds including MLCryptoEngine's H2 at AUC 0.501. Say so explicitly in
+> the entry, and do not let a Polymarket GO be written anywhere as evidence about
+> a Canadian-tradeable venue.
+>
+> Task 5: report. Append the entry with the registered floor and its sample cost,
+> the measured access table, the gate verdict on both passes, and the transfer
+> statement. Append ADRs for the volume floor and the access findings. Extend the
+> honesty tests to pin the verdict, its figures and the transfer statement,
+> verified by mutation. Update report.md with a section written for the moment it
+> landed. Note the ADR numbering collision Entry 5 recorded and continue past it
+> rather than renumbering. Run make lint, make typecheck, make test. Commit at
+> each task boundary and push.
+>
+> END PROMPT
+
+**ETAs stated before arming, per standing rule 2.** The prompt directs that
+Entry 5's calibration finding be carried: Stage A's rate overestimated Stage B
+by roughly a factor of two per task, and Entry 5.1 measured the whole stage at
+22.9 min against 75 stated. These ETAs therefore derive from **Stage B's**
+measured rate, not Stage A's.
+
+| task | ETA | basis (measured) |
+|---|---|---|
+| 0 — log the prompt | 2 min | Stage B Task 0 measured **1.7 min** on a prompt of comparable length |
+| 1 — register the volume floor | 8 min | Stage B's Amendment 4 measured **1.4 min**; this needs its justification researched first |
+| 2a — access, terms, robots.txt | 12 min | Stage A's probe-and-terms phase measured **11 min**, and terms hunting dominated it |
+| 2b — enumeration | **not yet stated** | cannot be derived honestly before 2a measures request latency and history depth. Stated before 2b is armed, from the probe, exactly as Entry 2 derived its probe ETA from a measured 127.6 ms |
+| 3 — fire the gate | 10 min | Stage B's band arithmetic with tests and guards measured **8.3 min** |
+| 4 — the transfer statement | 3 min | a short document block at Stage B's measured rate |
+| 5 — report, ADRs, tests, push | 15 min | Stage B's Task 6 measured **4.6 min**; this stage has an access table and two gate passes to report |
+
+**Total stated so far: 50 min plus enumeration.** Actuals land in Entry 7.
+
+**Scope carried in from Stage B and not reopenable here**, per the prompt: the
+gate fires over 91–99c held to resolution, either side of the book, and no
+other region. **The region is not widened to improve a count.** If the count is
+short, that is the finding, exactly as standing rule 9 requires for a filter.
+
+**One thing recorded before any request goes out:** Stage A ended
+PENDING_ACCESS on Kalshi's terms, not on its plumbing. The same test is applied
+to Polymarket first, before any repeated fetch, and if the recorded terms do
+not sanction this read the stage stops and reports on access.
