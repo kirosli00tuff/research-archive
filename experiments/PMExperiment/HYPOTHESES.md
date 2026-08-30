@@ -151,3 +151,46 @@ same figures.
 
 **Next gate:** the power gate, over 91–99c held to resolution and no other
 region. It was not designed in Stage B.
+
+---
+
+## Amended 2026-08-30 — Polymarket fires PENDING_ACCESS; H1 is unmeasured on both venues
+
+**H1 remains OPEN and is now unmeasured on every venue this repository has
+examined.** The power gate has still never fired. **No statistic relating a
+price to an outcome exists.** Zero contracts have ever been enumerated from
+Polymarket, and zero market-data requests were sent to it.
+
+| venue | verdict | ground | date |
+|---|---|---|---|
+| Kalshi | **PENDING_ACCESS** | Data Terms prohibit systematic retrieval and AI-mediated use without written authorization; Developer Agreement unreadable (HTTP 429) | 2026-08-29 |
+| Polymarket | **PENDING_ACCESS** | Terms of Use, effective 2026-08-11, prohibit "data mining tools, robots, crawlers, or similar data gathering and extraction tools", scope expressly reaching API **and on-chain** access | 2026-08-30 |
+
+**The same failure mode has now closed two venues, and the second was not
+foreseen because it was not measured.** Amendment 1 moved the venue here on the
+ground that Polymarket's data was "public by construction rather than by
+permission" — a claim about permission inferred from the absence of an API key,
+citing no clause and no date. Amendment 6 retracts that ground. **Keyless is not
+the same as permitted, and this register now records the mistake twice so it is
+not made a third time.**
+
+**What this does *not* change.** The Stage B band verdict stands: BAND-OPEN over
+91–99c held to resolution, on arithmetic that read no venue and needed none. It
+is unaffected by access, because it never depended on it.
+
+**H1t — transfer — is untouched and remains UNTESTED.** There is now no
+Polymarket calibration result at all, so there is nothing to transfer even in
+principle. The three grounds recorded above stand, including MLCryptoEngine's H2
+at **AUC 0.501**.
+
+**Registered so it is not re-proposed:** the Canadian-permitted subset's
+category and maturity filter has still never been applied to any real
+enumeration, and Amendment 5's volume floor of **$1,000** is registered but
+**never exercised** — its cost in sample is unmeasured, reported absent rather
+than as zero.
+
+**What would reopen either venue** is recorded in REGISTRATION.md Sections 15.1
+and 15.3 and in Amendment 6: written authorization from the venue, a sanctioned
+bulk or builder channel, or — for Polymarket only, and unanswered — a Polygon
+read through infrastructure that is not a Polymarket Interface. **None of these
+is a second look, because no outcome has ever been read.**

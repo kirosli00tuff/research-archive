@@ -664,3 +664,137 @@ previous timestamp is documented, not measured.** Every subsequent time in
 Stage C is read from `date -u` at the moment it is recorded. Stage C's elapsed
 figures in Entry 7 are computed from 03:31:03Z, the first measured Stage C
 timestamp, not from the erroneous 19:32Z.
+
+---
+
+## Entry 7 — Stage C: the power gate over 91–99c — 2026-08-30
+
+**Verdict, one sentence: PENDING_ACCESS — Polymarket's Terms of Use, effective
+2026-08-11 and read in full before any repeated fetch, prohibit "data mining
+tools, robots, crawlers, or similar data gathering and extraction tools" with no
+entity-type qualification, and reach anyone "connecting via an API" and data
+taken "directly or through an API, or any other means, including on-chain", so
+the enumeration was never armed and the power gate did not fire over 91–99c or
+anywhere else.**
+
+**Zero market-data requests were sent to Polymarket. Zero contracts enumerated.
+Zero dollars.** No price bucket was built, no dispersion computed, and no
+statistic relating a price to an outcome exists in this repository.
+
+### ETA against actual, per task (standing rule 2)
+
+| task | ETA, with its basis | actual |
+|---|---|---|
+| 0 — log the prompt | 2 min, from Stage B Task 0's measured 1.7 min | **not separately measured**; its commit is the first measured Stage C timestamp, 03:31:03Z (`84f7b92`) |
+| 1 — register the volume floor | 8 min | **3.0 min** (03:31:03Z → 03:34:00Z, `f789079`) |
+| 2a — access, terms, robots.txt | 12 min, from Stage A's measured 11-min probe-and-terms phase | **6.9 min** (03:34:00Z → 03:40:52Z, `1b3124e`) |
+| 2b — enumeration | **never stated, never armed** | the terms closed it before it could be armed |
+| 3 — fire the gate | 10 min | **did not fire** — PENDING_ACCESS, exactly as Section 0.3's registered row prescribes |
+| 4 — the transfer statement | 3 min | folded into this entry and report.md |
+| 5 — report, ADRs, tests, push | 15 min | recorded at push in this entry's commit |
+
+**Deferring 2b's ETA was the right call and is worth recording as practice.**
+Standing rule 2 requires an ETA "derived from a probe or from comparable measured
+work, never guessed". The enumeration had no comparable measured work, so its
+estimate was deliberately withheld until the probe could supply one. The probe
+instead closed the task. **No fictional estimate was ever recorded against work
+that never ran** — which is what would have happened had the ETA been guessed at
+arming time to fill the cell.
+
+### Task 1 — the volume floor, registered and unexercised
+
+Registered as **Amendment 5**: total traded volume **≥ $1,000** per contract,
+imported verbatim from the benchmark study whose magnitudes set the registered
+effect band (Section 3 records Bürgi, Deng and Whelan filtering to "total staked
+≥ $1,000"). The point is provenance, not the number: **a floor chosen by someone
+else, before this repository existed, cannot have been tuned to a sample this
+repository had not yet seen**, which is the exact failure standing rule 9 exists
+to prevent. ADR-011.
+
+**Its cost in sample: not measured.** No enumeration ran, so the floor has never
+been exercised on a real contract. Reported absent, never as zero (standing
+rule 5). The benchmark's companion spread filter was deliberately **not** adopted,
+because measuring it needs an order-book read this stage does not perform, and a
+filter whose sample cost cannot be measured is worse than no filter.
+
+### Task 2 — the access table (full evidence in `docs/ACCESS.md`)
+
+| quantity | reading, 2026-08-30 |
+|---|---|
+| `robots.txt`, polymarket.com | **HTTP 200, 35.7 ms**, 73 bytes: `User-agent: *`, a sitemap line, **no `Disallow` of any kind** |
+| `robots.txt`, gamma-api / clob / data-api | **404** in 280.1 / 201.4 / 220.9 ms — no crawl directives on any API host |
+| Terms of Use | read **in full**, 59,617 bytes, effective **2026-08-11**, Adventure One QSS, Inc. |
+| the deciding clause | prohibits "data mining tools, robots, crawlers, or similar data gathering and extraction tools", **unconditional on entity type** |
+| its scope | binding notice reaches "CONNECTING VIA AN API"; Data clause reaches data taken "directly or through an API, or any other means, **including on-chain**" |
+| developer docs | rate limits and builder tiers published; occurrences of "terms of use" **0**, "license" **0**, "acceptable use" **0**, "public data" **0** |
+| reachability, rate limits, history depth | **WITHHELD**, following ADR-007 — measuring would itself be the prohibited act |
+| requests to Polymarket hosts | **7**, all single-shot: 4 robots.txt, 2 page fetches, 1 rendered read. **None asked for a contract, price, order book or resolution.** |
+
+**Reading the terms took work, and the shortcut would have produced a false
+report.** `polymarket.com/tos` returns HTTP 200 but is client-rendered: its
+217 KB body strips to **1,354 characters**, and its 129 KB Next.js payload
+carries only an app shell under a route named `(embedded-docs)/tos`. Reporting
+from either of the first two reads would have been reporting on a page shell
+while believing it was the terms.
+
+**The ordering clause of rule 12 did the work it was written to do.** Stage A
+read **11** keyless Kalshi market requests before its terms position was
+established and could withhold only the rate-limit burst afterwards. Stage C read
+robots.txt and the terms **first** and sent **zero** market-data requests.
+
+### What is recorded against the verdict, not only for it
+
+robots.txt is **fully permissive** — a real contrast with Kalshi. The Data clause
+that names on-chain access is **conditional on entity type** and does not bind a
+retail researcher, so it is cited for scope and is **not** the ground. And the
+strongest counterargument is real and is set out in full in Amendment 6: the
+crawlers bullet forbids scraping from "the Site, any other Interface, or
+Features", "Interface" means sites where the Terms are posted, and the Terms are
+not posted at `gamma-api.polymarket.com`. Three reasons it is not taken, the
+governing one being that **a venue may not be held to a looser reading than
+another because its verdict would be more convenient.**
+
+### Task 3 — the gate did not fire, on either pass
+
+Both passes are **absent, not zero**. The unrestricted 91–99c pass and the
+Canadian-permitted pass (economic indicators, financial markets, climate, at a
+30-day minimum maturity) each require a bucket count and a dispersion, and
+neither exists. No MDE was computed, so none is reported against the registered
+band or against Stage B's 5.85-point requirement. Section 0.3's PENDING_ACCESS
+row prescribes exactly this: Section 0 reports on access, not on the hypothesis,
+and the stage ends there as a valid outcome.
+
+**The scope fixed by Stage B was not widened.** The prompt forbade widening the
+region to improve a count, and no count existed to be improved. Recorded because
+the temptation is real and the record should show it was not taken.
+
+### Task 4 — what a Polymarket verdict would and would not license
+
+Stated whatever the verdict, as instructed, and it holds more sharply now that
+there is no verdict to transfer: **a GO on Polymarket would have licensed a
+calibration measurement on Polymarket and nothing whatever about Kalshi.** H1t
+is registered **UNTESTED** on three grounds, including this program's own
+MLCryptoEngine H2 measuring cross-venue transfer at **AUC 0.501**. **No
+Polymarket figure exists, and none may ever be written anywhere as evidence
+about a Canadian-tradeable venue.**
+
+### The finding underneath the verdict
+
+**Amendment 1's premise did not survive measurement, and it was this
+repository's own.** It moved the venue here on the ground that Polymarket's data
+is "public by construction rather than by permission" and that "standing rule 12
+is satisfied here rather than circumvented" — citing no clause, no effective
+date and no fetch date, where Stage A's Kalshi finding quoted its terms verbatim
+with the date retrieved. It inferred **permission** from the absence of an
+**authentication** requirement. Amendment 6 retracts the ground; Amendment 1
+itself stands as the record of what was decided and why.
+
+**ADR-012 converts it into a practice:** a claim about what a venue's terms
+permit carries a quoted clause, the document's effective date and the date it
+was fetched — or it is recorded as unmeasured and the stage proceeds as if
+permission were absent. **Keyless is not permitted.** The register now carries
+that mistake twice so it is not made a third time.
+
+**What stands:** Stage B's BAND-OPEN over 91–99c held to resolution, computed
+from registered constants, never dependent on venue access, and unaffected by
+this verdict.

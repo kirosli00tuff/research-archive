@@ -245,3 +245,85 @@ def test_the_verdict_strings_in_code_match_the_registration() -> None:
     reg = _read("REGISTRATION.md")
     for verdict in band.BandVerdict:
         assert verdict.value in reg
+
+
+# --- Stage C: Polymarket fired PENDING_ACCESS on 2026-08-30 ------------------
+#
+# The load-bearing one is the retraction. Amendment 1 moved the whole
+# measurement venue on an unmeasured claim about terms; if that retraction ever
+# leaves the record, the same mistake is available to be made a third time.
+
+
+def test_polymarket_access_verdict_is_recorded_with_its_clause() -> None:
+    reg = _read("REGISTRATION.md")
+    access = _read("docs/ACCESS.md")
+    assert "The Polymarket access gate, fired 2026-08-30: PENDING_ACCESS" in reg
+    assert "fails closed" in access
+    for clause in ("data mining tools, robots, crawlers", "including on-chain"):
+        assert clause in reg, f"the deciding clause left the record: {clause}"
+        assert clause in access
+    assert "2026-08-11" in reg, "the terms' effective date must travel with them"
+    assert "59,617" in access, "the size of the document actually read"
+
+
+def test_amendment_one_premise_is_retracted_not_quietly_dropped() -> None:
+    """The stage's real finding: this repository's own unmeasured claim."""
+    reg = _read("REGISTRATION.md")
+    assert "That claim was never measured" in reg
+    assert "Polymarket is the same case as Kalshi, not the opposite one" in reg
+    assert "public by construction rather than by permission" in reg, (
+        "the retracted claim must stay quoted, not paraphrased away"
+    )
+
+
+def test_the_terms_claim_practice_is_registered() -> None:
+    """ADR-012 turns the failure into a rule, or it will simply recur."""
+    dec = _read("DECISIONS.md")
+    assert (
+        "a quoted clause, the document's effective date, and the date it was "
+        "fetched" in dec
+    )
+    hyp = _read("HYPOTHESES.md")
+    assert "Keyless is not the same as permitted" in hyp
+
+
+def test_stage_c_sent_no_market_data_requests() -> None:
+    """Reading terms first is what made this possible; it must stay provable."""
+    access = _read("docs/ACCESS.md")
+    reg = _read("REGISTRATION.md")
+    assert "Zero market-data requests were sent" in access
+    assert "sent **zero market-data requests**" in reg
+    assert "WITHHELD" in reg
+
+
+def test_the_counterargument_to_the_access_verdict_is_recorded() -> None:
+    """A verdict that lists only its supports is not a verdict."""
+    reg = _read("REGISTRATION.md")
+    assert "recorded rather than suppressed" in reg
+    assert (
+        "A venue may not be held to a looser reading than another because its "
+        "verdict would be more convenient" in reg
+    )
+
+
+def test_volume_floor_cost_in_sample_is_reported_absent_not_zero() -> None:
+    """Standing rule 5 applied to a filter that was registered but never ran."""
+    p = _read("progress.md")
+    assert "Its cost in sample: not measured" in p
+    assert "never as zero" in p
+
+
+def test_transfer_statement_holds_even_with_no_polymarket_result() -> None:
+    """Task 4 stands whatever the verdict, so it must not depend on one."""
+    p = _read("progress.md")
+    r = _read("report.md")
+    assert "and nothing whatever about Kalshi" in p
+    assert "and nothing whatever about Kalshi" in r
+    assert "AUC 0.501" in p
+
+
+def test_the_gate_did_not_fire_and_both_passes_are_absent() -> None:
+    p = _read("progress.md")
+    assert "the power gate did not fire" in p
+    assert "absent, not zero" in p
+    assert "The scope fixed by Stage B was not widened" in p

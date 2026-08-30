@@ -135,3 +135,98 @@ Stage A's Task 2 never armed — which is why BAND-NARROW's "below usable volume
 clause could not be evaluated at all.
 
 A later correction is a new line, never an edit.
+
+---
+
+## Stage C — the power gate over 91–99c — 2026-08-30
+
+**The verdict, in one sentence: PENDING_ACCESS — Polymarket's Terms of Use,
+effective 2026-08-11 and read in full before any repeated fetch, prohibit "data
+mining tools, robots, crawlers, or similar data gathering and extraction tools"
+with no entity-type qualification, and their scope reaches anyone "connecting
+via an API" and data taken "directly or through an API, or any other means,
+including on-chain" — so the enumeration was never armed, the power gate did not
+fire over 91–99c or anywhere else, and zero market-data requests were sent to
+the venue.**
+
+**The finding underneath the verdict is about this repository, not about
+Polymarket.** Amendment 1 moved the entire measurement venue here on the stated
+ground that Polymarket's data is "public by construction rather than by
+permission" and that "standing rule 12 is satisfied here rather than
+circumvented." That claim cited no terms document, no clause, no effective date
+and no fetch date. It inferred **permission** from the absence of an
+**authentication** requirement — and those are different properties. Stage A had
+already shown the gap on Kalshi, whose data was equally keyless and equally
+prohibited. Amendment 6 retracts the ground; ADR-012 converts the lesson into a
+practice, that a claim about what terms permit carries a quoted clause with both
+dates or is recorded as unmeasured.
+
+**Polymarket is the same case as Kalshi, not the opposite one.** That sentence
+is the result. Two venues, both serving data reachable without a credential,
+both publishing terms that withhold the systematic retrieval this measurement
+needs absent prior written consent.
+
+**What was measured, and what was deliberately not.** `robots.txt` on
+polymarket.com returns HTTP 200 in 35.7 ms with `User-agent: *` and **no
+`Disallow` at all** — genuinely more permissive than Kalshi, whose website
+served a 429 bot challenge before robots.txt. The three API hosts publish no
+crawl directives. The developer documentation publishes rate limits and a
+builder program and **zero** occurrences of "terms of use", "license",
+"acceptable use" or "public data". Reachability, rate limits and history depth
+were **withheld** rather than measured, following ADR-007: standing rule 12
+outranks standing rule 4 precisely when the measurement would itself be the
+prohibited act.
+
+**The ordering clause of rule 12 earned its keep, and that is worth saying
+plainly.** "Record robots.txt and the published terms *before any repeated
+fetch*" is what made the withholding possible. Stage A read eleven keyless
+Kalshi market requests before its terms position was established and could only
+withhold the rate-limit burst afterwards. Stage C read the terms first and sent
+**zero** market-data requests. The rule did exactly the work it was written to
+do, and it should not be softened.
+
+**Reading the terms took work, and the shortcut would have produced a false
+report.** `polymarket.com/tos` returns HTTP 200 but is client-rendered: 217 KB of
+body strips to 1,354 characters, and the Next.js payload carries only an app
+shell under a route named `(embedded-docs)/tos`. Reporting from either of the
+first two reads would have been reporting on a page shell while believing it was
+the terms. The document itself is embedded from elsewhere, and it is 59,617
+bytes long.
+
+**What is recorded against the finding rather than for it.** Three things cut
+the other way and are stated because a verdict that lists only its supports is
+not a verdict. robots.txt is fully permissive. The Data clause — the one that
+names on-chain access — is **conditional on entity type** and does not bind a
+retail researcher, so it is quoted for scope and is not the ground. And the
+strongest counterargument is real: the crawlers bullet forbids scraping from
+"the Site, any other Interface, or Features", "Interface" is defined as sites
+where the Terms are posted, and the Terms are not posted at
+`gamma-api.polymarket.com`. Amendment 6 sets that argument out in full and gives
+three reasons it is not taken, the governing one being that a venue may not be
+held to a looser reading than another because its verdict would be more
+convenient.
+
+**Task 1 landed and is not wasted.** Section 1's volume floor — missing since
+Stage A never armed the task that would have filled it — is now registered as
+Amendment 5 at **total traded volume ≥ $1,000**, imported verbatim from the
+benchmark study whose magnitudes set the effect band. A floor chosen by someone
+else, before this repository existed, cannot have been tuned to a sample this
+repository had not yet seen. **Its cost in sample is unmeasured and is reported
+absent, not as zero**, because no enumeration ever ran.
+
+**On what a Polymarket result would and would not have licensed.** The stage was
+instructed to state this whatever the verdict, and it holds more sharply now
+that there is no result at all: a GO on Polymarket would have licensed a
+calibration measurement **on Polymarket**, and nothing whatever about Kalshi.
+H1t — transfer — is registered UNTESTED on three grounds, including this
+program's own MLCryptoEngine H2 measuring cross-venue transfer at **AUC 0.501**.
+No Polymarket figure exists to be misread as evidence about a Canadian-tradeable
+venue, and none may be written as one if it ever does.
+
+**What stands.** Stage B's BAND-OPEN verdict over 91–99c held to resolution is
+untouched, because it was computed from registered constants and never depended
+on venue access. What is now unavailable is the count that would say whether
+that region holds contracts in usable numbers — and that remains, as it has been
+since Section 0.4, an open question rather than an answered one.
+
+A later correction is a new line, never an edit.

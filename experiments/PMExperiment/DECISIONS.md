@@ -338,3 +338,52 @@ measured is worse than no filter at all.
 **What would change it:** nothing in Stage C. A later stage may register a
 different floor only by numbered amendment carrying its own evidence, and the
 sample cost of both floors must then be reported side by side.
+
+---
+
+## ADR-012. Polymarket fails the access gate on the same clause class as Kalshi, and a claim about terms now requires a quotation
+
+**Status:** accepted, 2026-08-30. Recorded as REGISTRATION.md Amendment 6 and
+Section 15.3, with the evidence in `docs/ACCESS.md`.
+
+Stage C read Polymarket's `robots.txt` on four hosts and its Terms of Use in
+full before any repeated fetch. The terms prohibit "data mining tools, robots,
+crawlers, or similar data gathering and extraction tools to scrape or otherwise
+remove data", with no entity-type qualification, and their scope reaches anyone
+"CONNECTING VIA AN API" and data taken "directly or through an API, or any other
+means, including on-chain". The enumeration Stage C was to perform is that tool
+class. **PENDING_ACCESS, zero market-data requests sent.**
+
+**The decision this ADR exists to record is not the verdict. It is why the
+verdict was a surprise.** Amendment 1 moved the entire measurement venue to
+Polymarket on the stated ground that "the data is public by construction rather
+than by permission" and that "standing rule 12 is satisfied here rather than
+circumvented" — citing no terms document, no clause, no effective date and no
+fetch date. It inferred **permission** from the absence of an **authentication**
+requirement. Those are different properties, and the second does not imply the
+first. Stage A had already demonstrated the gap on Kalshi, whose data was also
+keyless and also prohibited.
+
+**Registered practice, extending standing rule 12.** A claim in this repository
+about what a venue's terms permit carries **a quoted clause, the document's
+effective date, and the date it was fetched** — or it is recorded as unmeasured
+and the stage proceeds as if permission were absent. Stage A's Kalshi finding
+met that bar. Amendment 1 did not, and its ground is retracted by Amendment 6.
+An operator who wants this in `CLAUDE.md`'s numbered rules should add it there;
+it is recorded here so the practice binds regardless.
+
+**Consequence, and what is deliberately not concluded.** Reachability, rate
+limits and history depth were **withheld**, following ADR-007's precedence of
+rule 12 over rule 4, because measuring them would itself be the prohibited act.
+Whether a Polygon read through infrastructure that is not a Polymarket Interface
+falls outside these terms is a **live question this repository has not
+answered**, and it is recorded as a reopening path rather than taken as a
+workaround. The counterargument that the API hosts may not be "Interfaces" as
+defined is set out in full in Amendment 6 with three reasons it is not adopted;
+the governing one is that a venue may not be held to a looser reading than
+another because its verdict would be more convenient.
+
+**The ordering clause earned its place.** Rule 12's "before any repeated fetch"
+is what made the withholding possible: Stage A read 11 keyless market requests
+before its terms position was established, Stage C read the terms first and sent
+zero. That clause should not be softened.
