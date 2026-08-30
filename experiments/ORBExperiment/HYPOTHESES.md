@@ -81,6 +81,29 @@ documented answer rather than a failure of process.
 
 ---
 
+### H1b — H-ORB with a raised price floor · **REGISTERED_NOT_OPEN**
+
+> Among US common stocks with elevated opening relative volume **and a session
+> open at or above a raised price floor**, the sign of the first excursion past
+> the opening 5-minute range predicts the direction of the remainder of the
+> session, net of modeled costs, out of sample from 2023-01-03.
+
+| | |
+|---|---|
+| **Status** | **`REGISTERED_NOT_OPEN`** · registered **2026-08-30** (Amendment 25). **It is registered. It is not opened.** No verdict may be computed against it, and none is by this pass. |
+| **What it changes from H1** | **Exactly one registered parameter**: the Section 2 price filter, `min_session_open_usd`, currently **open above 5.00 USD**, is replaced by a **raised floor**. **Every other registered parameter is unchanged** — the 5-minute range, the top-20 selection width, the 14-session relative-volume lookback, the 1,000,000-share average-volume filter, the 0.50 USD ATR filter, the Section 3 entry, stop and exit, the Section 4 sizing, the Section 6 cost model and the Section 8 bars and gates. |
+| **The floor itself is NOT registered** | Deliberately. This pass runs a **feasibility scan** across 5, 10, 20, 50 and 100 USD and **hands the operator a table**. **Selecting a floor is part of opening H1b, not part of scanning for it**, and a floor chosen from the scan would be a parameter fitted on the data that motivated it. |
+| **Motivation, mechanistic and stated before measurement** | **Per-share slippage is approximately invariant to price** — a spread is a tick or a few ticks whether the stock is 8 USD or 300 USD — while **per-share dispersion and per-share edge both scale with price**, because a day's move is a percentage of the price. **So the ratio of edge to cost should improve as the floor rises.** This is a mechanism, not a result, and it is written here **before** the scan runs. |
+| **The competing effect, recorded with it** | **A higher floor shrinks the eligible universe**, and a smaller universe may **reduce the relative-volume extremity** the top-20 selection can reach — the selection is a rank statistic, and ranking 20 out of a smaller pool selects a less extreme tail. **It may also fail to fill 20 names at all.** **The net direction of the two effects is unknown before measurement**, and this entry does not predict one. |
+| **The multiple-testing consequence, paid rather than hidden** | **H1b increments the Section 8 deflated-Sharpe trial count from 8 to 9** *for H1b*. **Any future H1b verdict carries the larger correction.** **H1's own trial count of 8 is unchanged**, because H1's specification did not change. **This cost is being paid because the filter change was proposed AFTER seeing an H1 null, not before** — that is the whole reason a ninth trial exists to be counted, and pretending otherwise would be the factor-zoo behaviour Section 9 registers Harvey, Liu and Zhu against. |
+| **What opening it requires** | **Its own full registration** — universe, event rule, entry, exit, costs, inference and outcome map restated for the raised floor; **its own power gate**, computed rather than inherited; and **explicit operator instruction**. **None of the three exists.** |
+| **What this pass produces for it** | **A carve-out feasibility scan only** — post-holdout sessions strictly after 2026-06-30, under the Amendment 11 two-sided carve-out. **No verdict, no power figure, no chosen floor.** |
+| **It cannot rescue H1** | Registered in **Amendment 24 §6, before the scan ran**: whatever the scan shows, it is **feasibility evidence for a new hypothesis and never a continuation of H1**. **H1's outcome is decided by the Amendment 24 §3 criterion alone.** |
+| **Priors** | **None recorded.** A prior belongs with an opened hypothesis, and recording one now would be recording a belief about a rule whose floor is not yet chosen. |
+| **Working** | `REGISTRATION.md` Amendment 25, `reports/stage_a3rescue/task4_floor_scan.json`. |
+
+---
+
 ## Closed before opening — the ten candidates culled at registration
 
 Each was considered as an alternative to H1 and closed **before any data

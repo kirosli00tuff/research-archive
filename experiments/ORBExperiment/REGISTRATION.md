@@ -3754,3 +3754,95 @@ TASK 1 and **it is not opened by this pass.**
 - **It changes no rule, no threshold, no gate and no Section 0 branch.**
 - **It does not touch the effect assumption, the alpha, the stop share or the
   registered cost band.** TASK 2 measures the band; it does not choose it.
+
+---
+
+## Amendment 25 — H1b registered as a new hypothesis, not opened, and its trial-count cost paid
+
+**Date:** 2026-08-30 · **Status:** accepted · registers a **new hypothesis** in
+`HYPOTHESES.md`; **amends Section 8's trial count for H1b only** and **leaves
+H1's at 8**
+
+**What data existed when this amendment was made.** Everything held at
+Amendments 11 through 24, plus those amendments — **including Amendment 24, the
+pre-committed rescue criterion.** **The Stage A.3 slippage-band measurement and
+the price-floor scan had not been run.** **Zero dollars spent, zero requests
+sent. Neither latch exists.**
+
+### 1. Why this is a new hypothesis and not an amendment to H1
+
+**A filter change proposed after seeing an H1 null is a new hypothesis.**
+
+Amendment 21 recorded that E2 collapses at the registered assumption. The
+price-floor idea arrived **after** that, and it arrived **because** of it.
+Folding it into H1 as an amended Section 2 filter would let H1 be re-specified
+until it passed, and the resulting verdict would carry **none** of the
+multiplicity cost of the re-specification. **That is the factor-zoo behaviour
+Section 9 registers Harvey, Liu and Zhu against**, and this repository does not
+get to do it because it happens to be the one holding the null.
+
+**So H1b is registered separately, with `REGISTERED_NOT_OPEN` status, and H1's
+outcome is decided without reference to it.**
+
+### 2. What H1b changes, and what it does not
+
+**Exactly one registered parameter changes**: the Section 2 price filter,
+`CONFIG.min_session_open_usd`, currently **open above 5.00 USD**, is replaced by
+a **raised floor**. **Every other registered parameter is unchanged.**
+
+**The floor itself is deliberately not registered.** This pass scans 5, 10, 20,
+50 and 100 USD and **hands the operator a table**. **Choosing a floor from that
+table is part of opening H1b**, and a floor selected from the scan that motivated
+it would be a parameter fitted to its own evidence.
+
+### 3. The motivation, mechanistic and written before the scan
+
+**Per-share slippage is approximately invariant to price.** A quoted spread is a
+tick or a few ticks whether the stock trades at 8 USD or 300 USD.
+
+**Per-share dispersion and per-share edge both scale with price**, because a
+session's move is a percentage of the price level.
+
+**So the ratio of edge to cost should improve as the floor rises.** That is a
+mechanism, and it is written here **before** the measurement, so the scan can
+falsify it.
+
+**The competing effect is recorded with it.** A higher floor **shrinks the
+eligible universe**, and the top-20 selection is a **rank statistic**: ranking 20
+out of a smaller pool selects a **less extreme** relative-volume tail. At a high
+enough floor it may not fill 20 names at all. **The net direction of the two
+effects is unknown before measurement and this amendment does not predict one.**
+
+### 4. The multiplicity cost, paid explicitly
+
+> **H1b increments the Section 8 deflated-Sharpe trial count from 8 to 9, for
+> H1b. Any future H1b verdict carries the larger correction.**
+
+**H1's trial count of 8 is unchanged**, because H1's specification did not
+change. The registered 8 remains four opening-range lengths crossed with two
+entry rules.
+
+**The ninth trial is the price floor**, and it exists **because the filter change
+was proposed after seeing an H1 null rather than before.** **That is the cost of
+having looked**, and recording it is the difference between a registered
+hypothesis and a re-specified one.
+
+### 5. What opening H1b requires, none of which exists
+
+1. **Its own full registration** — universe, event rule, entry, exit, costs,
+   inference and outcome map, restated for the raised floor.
+2. **Its own power gate**, computed rather than inherited from H1. **H1's power
+   figures do not transfer**: the dispersion, the trades per session and the
+   trigger rate all change with the universe.
+3. **Explicit operator instruction.**
+
+**This pass produces a carve-out feasibility scan and nothing else** — no
+verdict, no power figure, no chosen floor.
+
+### 6. What this amendment does not do
+
+- **It does not open H1b**, and no verdict may be computed against it.
+- **It does not change H1's trial count, or any other H1 parameter.**
+- **It cannot rescue H1.** Amendment 24 §6 registered that before either ran.
+- **It reads no bar, sends no request, spends nothing, opens no latch and arms
+  nothing.**
