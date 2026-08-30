@@ -4060,3 +4060,134 @@ re-specifying the cost model after seeing a null, which is the thing this pass
 exists not to do. **Amendment 21's route (b) — narrowing the band on measured
 execution evidence — is unaffected and remains open to the operator, though the
 measurement points the other way.**
+
+---
+
+## Amendment 28 — NOT_RESCUED. The pre-committed criterion is applied and H1 closes as cost-bound
+
+**Date:** 2026-08-30 · **Status:** accepted · applies **Amendment 24**, the
+criterion committed as `4ae14dc` **before the measurement existed**
+
+**What data existed when this amendment was made.** Everything held at
+Amendments 11 through 27, **including the measured band of Amendment 26**. **The
+bar revision rate and the cross-vendor agreement share still do not exist**, and
+neither is eligible before **2026-09-12**. **Zero dollars spent. Neither latch
+exists. No in-sample or holdout bar has been read.**
+
+### 1. The outcome
+
+> ## **`NOT_RESCUED`**
+>
+> **The measured shift is 0.467065 USD per share. The central mean at the
+> registered 1.40 assumption is 0.040386. The shift exceeds it by 11.56 times.**
+>
+> **The pessimistic-cost mean is −0.426679 USD per share. E2 power is 0.000000.
+> Joint power is 0.000000. No session count reaches 80 percent at any
+> assumption.**
+
+**The criterion required the shift to fall strictly below 0.040386. It rose to
+0.467065.** The tier is not close, and the pass does not pretend it is.
+
+### 2. The full table, at `alpha = 0.05`
+
+| assumption | horizon | n | pessimistic mean | **E1** | **E2** | **JOINT** | min n E1 | min n E2 | min n JOINT |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| published 2.81 | holdout | 875 | **−0.386004** | 0.999835 | **0.000000** | **0.000000** | 198 | **none** | **none** |
+| published 2.81 | in-sample | 1,762 | −0.386004 | 1.000000 | **0.000000** | **0.000000** | 198 | none | none |
+| **REGISTERED 1.40** | **holdout** | **875** | **−0.426679** | **0.832450** | **0.000000** | **0.000000** | **795** | **none** | **none** |
+| REGISTERED 1.40 | in-sample | 1,762 | −0.426679 | 0.980162 | **0.000000** | **0.000000** | 795 | none | none |
+| quartered 0.70 | holdout | 875 | −0.446872 | 0.366747 | **0.000000** | **0.000000** | 3,180 | none | none |
+| quartered 0.70 | in-sample | 1,762 | −0.446872 | 0.581652 | **0.000000** | **0.000000** | 3,180 | none | none |
+
+### 3. A correction to what the operator expected the closure to say
+
+**The operator's instruction anticipated that the closure would be conditional on
+the halving heuristic**, on the grounds that *"E2 passes at the published 2.81
+assumption where power reaches 0.820"*. **That was true under the carried band
+and it is no longer true under the measured one**, and the difference is recorded
+here rather than repeated as though it still held.
+
+| E2 power at the published 2.81, holdout `n = 875` | figure |
+|---|---:|
+| under the **carried** band (Amendment 21) | **0.819524** |
+| under the **measured** band (Amendment 26) | **0.000000** |
+
+> **The closure does NOT rest on the halving heuristic. It holds at the published
+> magnitude too.** At **2.81** — the source study's own undecayed figure — the
+> pessimistic-cost mean is **−0.386004 USD per share** and E2 power is **zero**.
+
+**This makes the closure stronger than the operator expected, not weaker**, and
+it removes the one conditionality the instruction asked to be recorded. **What
+the closure does still rest on is the registered cost band and the measured
+slippage**, and §5 states that.
+
+### 4. What was not done
+
+**Registered explicitly, because each was available:**
+
+- **The cost band was not moved.** `CONFIG`'s slippage tuples are unchanged.
+- **The effect assumption was not moved.** Still 1.40.
+- **The alpha was not moved.** Still Amendment 18's 0.05.
+- **The stop share was not moved.** Still the measured 0.381818.
+- **No statistic was selected after the fact.** Median → central and 90th
+  percentile → pessimistic was fixed in ADR-038 and in the tool's docstring
+  before the shift was computed.
+- **No weaker E2 was substituted**, and **no further rescue lever was applied** —
+  Amendment 24 registered that there would not be one.
+- **H1b was not used to rescue H1.** Amendment 24 §6 forbade it before either
+  ran, and H1b stays `REGISTERED_NOT_OPEN`.
+
+### 5. What the closure rests on, stated so a later reader can attack it
+
+**H1 closes as `cost-bound`: the effect may be real; it does not survive the
+modeled cost.** The closure rests on:
+
+1. **The registered Section 6 cost model and its pessimistic band**, registered
+   before any data existed.
+2. **A slippage band measured on 42 post-holdout sessions**, `n = 550` entry
+   observations, `n = 210` stop, `n = 340` close — **a different regime from the
+   holdout it is applied to** (Amendment 11's caveat), and **a lower bound**,
+   because 457 of 550 entry triggers crossed intrabar and market impact is not
+   measured at all.
+3. **A dispersion of 2.029585 USD per share**, measured on the same carve-out.
+
+**The honest attack on this closure is the second item**, and it is the one
+Amendment 21 route (b) names: **real execution evidence could narrow the band.**
+**This repository holds none, has no broker credential, and none is planned.**
+**The measurement it does hold points the other way, by a factor of 11.27.**
+
+**What the closure is NOT.** It is **not** a finding that the opening-range
+effect does not exist. **E1 remains powered at 0.832450** at the registered
+assumption, and nothing here measures whether the directional edge is real. **It
+is a finding that this design cannot clear its own registered cost band**, which
+is a statement about the design.
+
+### 6. The calibration ledger
+
+**Both priors were recorded before any measurement and are scored against the
+outcome.**
+
+| prior | value | recorded | outcome |
+|---|---:|---|---|
+| **assistant** | **0.15** | 2026-08-28, before any measurement | **H1 closed without a positive verdict** |
+| **operator** | **0.30**, label `INDEPENDENT`, `independent_but_not_blind` | 2026-08-29 | **same** |
+
+**Neither prior is scored as correct or incorrect by a closure of this kind.**
+Both were probabilities on *"a real capturable edge surviving the registered cost
+model out of sample"*, and **H1 closed before any out-of-sample read occurred**.
+**The registered outcome is that the design could not reach the test**, so the
+event both priors were about **did not resolve**. The ledger records the closure,
+its kind, and that fact — **it does not convert an unresolved event into a
+scored one.**
+
+**The disagreement ratio of 2.0 between the two priors is likewise unresolved**,
+and Amendment 5's recorded ambiguity about the operator's reasoning stays
+unresolved with it.
+
+### 7. What this amendment does not do
+
+- **It does not close H1b**, which remains `REGISTERED_NOT_OPEN`.
+- **It does not close H2 or H3**, which remain parked.
+- **It opens no latch, arms nothing, sends nothing and spends nothing.**
+- **It does not change the 2026-09-12 re-pull date**, which now governs a
+  repository whose primary hypothesis is closed.
