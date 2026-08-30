@@ -1,0 +1,147 @@
+{
+  "MBT": [
+    {
+      "band": "\u2264 1,000",
+      "tiered_usd": 0.85,
+      "fixed_usd": 0.85
+    },
+    {
+      "band": "1,001 - 10,000",
+      "tiered_usd": 0.71,
+      "fixed_usd": 0.57
+    },
+    {
+      "band": "> 20,000",
+      "tiered_usd": 0.43,
+      "fixed_usd": null
+    },
+    {
+      "band": "\u2264 1,000",
+      "tiered_usd": 0.25,
+      "fixed_usd": 0.25
+    },
+    {
+      "band": "1,001 - 10,000",
+      "tiered_usd": 0.21,
+      "fixed_usd": 0.17
+    },
+    {
+      "band": "> 20,000",
+      "tiered_usd": 0.13,
+      "fixed_usd": null
+    }
+  ],
+  "MET": [
+    {
+      "band": "\u2264 1,000",
+      "tiered_usd": 0.2,
+      "fixed_usd": 0.2
+    },
+    {
+      "band": "1,001 - 10,000",
+      "tiered_usd": 0.17,
+      "fixed_usd": 0.14
+    },
+    {
+      "band": "> 20,000",
+      "tiered_usd": 0.11,
+      "fixed_usd": 5.0
+    }
+  ],
+  "BRR (full BTC)": [
+    {
+      "band": "\u2264 1,000",
+      "tiered_usd": 5.0,
+      "fixed_usd": 5.0
+    },
+    {
+      "band": "1,001 - 10,000",
+      "tiered_usd": 4.2,
+      "fixed_usd": 3.4
+    },
+    {
+      "band": "> 20,000",
+      "tiered_usd": 2.6,
+      "fixed_usd": null
+    },
+    {
+      "band": "\u2264 1,000",
+      "tiered_usd": 0.85,
+      "fixed_usd": 0.85
+    },
+    {
+      "band": "1,001 - 10,000",
+      "tiered_usd": 0.71,
+      "fixed_usd": 0.57
+    },
+    {
+      "band": "> 20,000",
+      "tiered_usd": 0.43,
+      "fixed_usd": null
+    }
+  ],
+  "ETH (full)": [
+    {
+      "band": "\u2264 1,000",
+      "tiered_usd": 3.0,
+      "fixed_usd": 3.0
+    },
+    {
+      "band": "1,001 - 10,000",
+      "tiered_usd": 2.55,
+      "fixed_usd": 2.1
+    },
+    {
+      "band": "> 20,000",
+      "tiered_usd": 1.65,
+      "fixed_usd": null
+    },
+    {
+      "band": "\u2264 1,000",
+      "tiered_usd": 0.2,
+      "fixed_usd": 0.2
+    },
+    {
+      "band": "1,001 - 10,000",
+      "tiered_usd": 0.17,
+      "fixed_usd": 0.14
+    },
+    {
+      "band": "> 20,000",
+      "tiered_usd": 0.11,
+      "fixed_usd": null
+    }
+  ],
+  "MES/MNQ/MGC/M2K micro": [
+    {
+      "band": "\u2264 1,000",
+      "tiered_usd": 0.25,
+      "fixed_usd": 0.25
+    },
+    {
+      "band": "1,001 - 10,000",
+      "tiered_usd": 0.2,
+      "fixed_usd": 0.15
+    },
+    {
+      "band": "> 20,000",
+      "tiered_usd": 0.1,
+      "fixed_usd": null
+    },
+    {
+      "band": "\u2264 1,000",
+      "tiered_usd": 0.2,
+      "fixed_usd": 0.2
+    },
+    {
+      "band": "1,001 - 10,000",
+      "tiered_usd": 0.17,
+      "fixed_usd": 0.14
+    },
+    {
+      "band": "> 20,000",
+      "tiered_usd": 0.11,
+      "fixed_usd": null
+    }
+  ]
+}

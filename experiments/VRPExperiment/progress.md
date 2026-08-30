@@ -574,3 +574,123 @@ revise past rows with no signal. It is also not independent: the filename
 **No fallback to Section 2.2 is required; it is recorded as NOT USED.**
 
 ---
+
+## 2026-08-30T07:00Z — TASK 5 COMPLETE — cost on the permitted venues
+
+**ETA 60 min · actual ~48 min.** Full record in `docs/COSTS.md`,
+`reports/task5/`. **Section 4 registered no cost figure from anywhere and this
+document carries none.**
+
+### Commission — MEASURED live, `n = 1` published schedule, retrieved 2026-08-30T06:20Z
+
+`interactivebrokers.ca/en/pricing/commissions-futures.php`, HTTP 200, 489,783 B.
+Lowest volume tier (**≤ 1,000 contracts/month**), where Tiered and Fixed coincide:
+
+| product | per contract |
+|---|---|
+| **CME Micro Ether futures & futures options (MET)** | **USD 0.20** |
+| **CME Micro Bitcoin futures & futures options (MBT)** | **USD 0.85** |
+| CME Bitcoin (BRR, full) | USD 5.00 |
+| CME Ether (ETH/ETHUSDRR, full) | USD 3.00 |
+| **Spot-Quoted / E-Nano / E-micro (MES, MNQ, M2K, MGC, +25)** | **USD 0.25** |
+
+In basis points at the measured spot:
+
+| | notional | one side | round trip | **straddle round trip (4 fills)** |
+|---|---|---|---|---|
+| **MET option** | $245.62 | **8.143 bps** | 16.285 bps | **32.571 bps** |
+| **MBT option** | $7,812.46 | **1.088 bps** | 2.176 bps | **4.352 bps** |
+
+**The central tension, in one number: the MET straddle's commission is 7.48×
+more expensive in bps than MBT's — 32.571 against 4.352 — purely because MET's
+notional is 31.8× smaller. MET is the only unambiguously capital-feasible route,
+and it is the expensive one.** ADR-023's "notional decides everything on CME"
+arriving as the binding constraint rather than a curiosity.
+
+### Three of five cost legs are `Absent`, and none is synthesized
+
+| leg | status |
+|---|---|
+| commission | **MEASURED** |
+| exchange & regulatory fee | **`Absent(not_served)`** — CME's Data Terms of Use refusal binds; verbatim in TASK 3. IBKR's own page says these are **additional**: *"Aside from the commission … non-member exchange and regulatory fees are applied."* |
+| option bid-ask on MET/MBT | **`Absent(not_served)`** — no public source. IBKR quote → HTTP 200 serving a 404 body; Barchart → HTTP 404; Yahoo → HTTP 401 `{"code":"Unauthorized","description":"Invalid Crumb"}`. CME not probed for quotes: its refusal binds. |
+| hedge bid-ask | **`Absent(not_served)`** — same reason |
+| rebalance count | **deferred to TASK 6, structurally** — a straddle's delta is `2·N(d₁)−1` and `d₁` needs an implied volatility, which is a **blind field**. TASK 5 measures the *price per rebalance* (MET $0.20 = 8.143 bps, MBT $0.85 = 1.088 bps); TASK 6 measures the *count*; they multiply only after the latch. |
+
+**No spread was carried from Deribit, from MLCryptoEngine, from tick size, or
+from a comparable instrument.** That substitution is the exact ORB defect — five
+of six legs understated, the shift **11.27×** too small, and one leg
+*over*stated, which is why "just assume worse" is not the answer either.
+
+**The all-in cost is `Absent`. The honest floor is not zero**: every absent leg
+is non-negative, so the measured **strict lower bounds** are **MET ≥ 32.571 bps**
+and **MBT ≥ 4.352 bps** of notional per straddle round trip, plus rebalance
+commissions. A lower bound is used as one in TASK 7 and is never reported as
+the cost.
+
+### One structural advantage worth recording
+
+Both legs — the option and its delta hedge — sit on **one venue, in one account,
+at one commission schedule**. Unlike MLCryptoEngine ADR-034's carry trade, where
+a 40 bps long leg and a 1.5 bps short leg sat behind two sets of credentials at a
+27× asymmetry, **there is no cross-venue structure here.** That did not have to
+be true and it is a real property of this route.
+
+### Reference spread on Deribit — measured, labelled, and never substituted
+
+**A venue British Columbia residents may not use.** Measured because a reader
+will ask what a liquid crypto option book costs, and because the answer is part
+of the finding. **No verdict reads it.** The tool emits *differences only* —
+never a mid, mark or premium level, which are blind until TASK 6.
+
+ATM strike at the listed expiry nearest 30 days (**2026-09-25T08:00:00Z**,
+**26.06 days**, settlement 08:00 UTC), BTC strike 78,000 and ETH strike 2,500,
+across **24 registered windows**, 20 s apart.
+
+| leg | n quoted | n unquoted | median | p90 | range |
+|---|---|---|---|---|---|
+| BTC call | **24** | **0** | **6.25 bps** | 7.50 | 5.0–10.0 |
+| BTC put | **24** | **0** | **5.00 bps** | 7.50 | 5.0–7.5 |
+| ETH call | **24** | **0** | **5.00 bps** | 7.50 | 5.0–7.5 |
+| ETH put | **24** | **0** | **7.50 bps** | 10.00 | 5.0–12.5 |
+
+**The spread is tick-bound.** Raw spreads take only the values 0.0010, 0.0015,
+0.0020, 0.0025 coin — **every one an exact multiple of the 0.0005-coin tick,
+which is 5 bps of a one-coin notional** — with the touch at **two ticks in the
+modal case**. Same structure as MLCryptoEngine's PUMP finding, where a pinned
+spread could not compress and competition lengthened the queue instead. This
+makes the 24-window sample a good estimate of a *stable* quantity rather than a
+lucky draw on a moving one. Depth at the touch was real: BTC call bid 1.5–32.1,
+ask 0.2–16.7; ETH put bid 18–395, ask 18–764.
+
+**Straddle round trip on Deribit at the medians: BTC 22.50 bps, ETH 25.00 bps.**
+
+> **The comparison, stated carefully.** The **commission alone** on the
+> capital-feasible permitted route — **MET at 32.571 bps, with its spread and
+> exchange fee still `Absent`** — already exceeds the **entire quoted spread
+> cost** of the same trade on the prohibited venue (**22.50 / 25.00 bps**).
+> **This is a comparison, not a substitution.** It gives MET no spread and
+> completes no cost. What it establishes needs no substituted figure: **the venue
+> where this trade is cheap is the one a British Columbia resident may not use,
+> and the venue they may use is more expensive in commission alone than the
+> other is in total spread.**
+
+### TASK 6 machinery built while TASK 5's measurement ran
+
+`src/vrp/sealed_read.py` — the one module permitted to name a blind field —
+implements exactly the registered estimators: close-to-close RV at `ddof=1`
+annualised by **√365**, the sign `VRP = IV − RV`, **Newey–West HAC at bandwidth
+30**, a one-sided t-test with a self-contained Student-t CDF (continued-fraction
+incomplete beta, no third-party dependency), and the Section 2.6 conversion.
+`tests/test_estimators.py` adds **16 tests, 44 total, all green.**
+
+**The three registered fixtures behave as registered:** the canary **fires** on a
+planted 8-volatility-point premium (`p < 0.05`, CI lower > 0), **stays silent**
+on the zero fixture (`p > 0.05`), and **stays silent** on the negative fixture
+(`t < 0`, `p > 0.5`). A test asserts an **IID standard error would have been the
+narrower one** on an overlapping series — the ORB audit-A3 defect, pinned as a
+test rather than discovered later. A further test asserts `estimate_premium` has
+**no parameter that could distinguish a fixture from real data**, so no code path
+can behave differently on the real read.
+
+---
