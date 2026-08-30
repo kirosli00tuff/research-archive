@@ -1,0 +1,10 @@
+[Unit]
+Description=ORBExperiment corporate-actions watcher at 22:45 UTC
+
+[Timer]
+OnCalendar=*-*-* 22:45:00 UTC
+Persistent=true
+AccuracySec=1min
+
+[Install]
+WantedBy=timers.target

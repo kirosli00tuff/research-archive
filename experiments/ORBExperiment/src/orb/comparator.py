@@ -1,0 +1,420 @@
+"""The sealed comparator — the single exception to the blindness field lists.
+
+**It is a sealed writer.** It reads price and volume values from two vendors,
+emits **only aggregate mismatch counts and rates**, and **returns no bar value
+to any caller**. Pinned by
+``tests/test_guards.py::test_comparator_returns_no_bar_value``.
+
+Why the exception exists. Concretum Research ran identical opening-range code
+against four vendors with identical dates, parameters and starting capital and
+reported final portfolio values from **226,000 to 726,000 USD** — a threefold
+spread from vendor choice alone (carried, C-13). Measuring that spread requires
+comparing prices. **Measuring it is not the same as reading it**, and the
+difference is enforced here: every public method returns an `int`, a `float`
+share, or a frozen findings record whose fields are all counts.
+
+The two measurements this module exists for:
+
+- **A.1 TASK 3, bar revision.** Identical request set, re-sent after at least 14
+  calendar days. What share of stored bytes changed?
+- **A.1 TASK 4, cross-vendor agreement.** Identical slice from a second vendor.
+  What share of session-ticker pairs disagree on the **first-5-minute high or
+  low** — the only disagreement that changes an entry price?
+"""
+
+from __future__ import annotations
+
+import hashlib
+import json
+from collections.abc import Mapping, Sequence
+from dataclasses import dataclass
+from datetime import datetime
+from typing import Final, final
+
+from orb.config import CONFIG
+from orb.integrity import AgreementFinding, RevisionFinding, TapeFinding
+
+CENT: Final[int] = 100
+"""Prices are compared in integer cents. Float equality on money is a bug."""
+
+_VOLUME_KEYS: Final[tuple[str, ...]] = ("v", "volume")
+"""Vendor dialects for the volume field, read only inside this module."""
+
+_OHLC_KEYS: Final[tuple[tuple[str, ...], ...]] = (
+    ("o", "open"),
+    ("h", "high"),
+    ("l", "low"),
+    ("c", "close"),
+)
+"""Vendor dialects for the four priced fields, read only inside this module."""
+
+
+def _to_cents(value: object) -> int | None:
+    """Round a served price to integer cents. Non-numeric returns None."""
+    if isinstance(value, bool) or not isinstance(value, int | float):
+        return None
+    return round(float(value) * CENT)
+
+
+def _ohlc_cents(bar: Mapping[str, object]) -> tuple[int | None, ...]:
+    """The four priced fields of one bar, in cents. Never returned to a caller."""
+    out: list[int | None] = []
+    for aliases in _OHLC_KEYS:
+        found: int | None = None
+        for alias in aliases:
+            if alias in bar:
+                found = _to_cents(bar[alias])
+                break
+        out.append(found)
+    return tuple(out)
+
+
+def _volume(bar: Mapping[str, object]) -> float | None:
+    """One bar's volume. **Never returned to a caller.**
+
+    Massive serves fractional share volume on some bars, so this is a float
+    rather than an int. It is summed and divided inside this module and leaves
+    it only as a ratio.
+    """
+    for alias in _VOLUME_KEYS:
+        if alias in bar:
+            raw = bar[alias]
+            if isinstance(raw, bool) or not isinstance(raw, int | float):
+                return None
+            return float(raw)
+    return None
+
+
+def _stamp_ms(bar: Mapping[str, object]) -> int | None:
+    """A bar's timestamp in epoch milliseconds. A **readable** field.
+
+    Massive serves epoch milliseconds as an integer; Alpaca serves RFC 3339 in
+    UTC. Both are normalised here so that a window test is a comparison of two
+    integers rather than of two vendor dialects. **Never a naive timestamp** —
+    an Alpaca stamp that carries no zone is refused rather than assumed UTC.
+    """
+    for alias in ("t", "timestamp"):
+        if alias not in bar:
+            continue
+        raw = bar[alias]
+        if isinstance(raw, bool):
+            return None
+        if isinstance(raw, int):
+            return raw
+        if isinstance(raw, str):
+            text = raw.replace("Z", "+00:00")
+            try:
+                moment = datetime.fromisoformat(text)
+            except ValueError:
+                return None
+            if moment.tzinfo is None:
+                return None
+            return int(moment.timestamp() * 1000)
+        return None
+    return None
+
+
+def _timestamps(bars: Sequence[Mapping[str, object]]) -> set[int]:
+    """Bar timestamps. A **readable** field: no gate applies."""
+    stamps: set[int] = set()
+    for bar in bars:
+        for alias in ("t", "timestamp"):
+            if alias in bar:
+                raw = bar[alias]
+                if isinstance(raw, int) and not isinstance(raw, bool):
+                    stamps.add(raw)
+                break
+    return stamps
+
+
+BAR_ARRAY_KEYS: Final[tuple[str, ...]] = ("results", "bars")
+"""The envelope keys the two credentialed vendors carry their bar arrays under.
+
+Neither is a priced field — Massive wraps its aggregates in ``results`` and
+Alpaca wraps its bars in ``bars`` — but the parse still lives inside the sealed
+comparator, so that **one module** turns vendor bytes into anything at all.
+"""
+
+
+def count_bars(payload: bytes) -> int:
+    """How many bars a served payload carries. **A count, and only a count.**
+
+    ``bar_count per session`` sits on the readable field list, so this is a
+    readable quantity. It is computed here rather than in a caller because a
+    caller that parses a vendor payload once will parse it again for something
+    else. Returns 0 for a refusal, an unparseable body, or a served empty set —
+    and the **caller distinguishes those three by status code**, never by this
+    number. Standing rule 7: an error never quietly becomes a data condition.
+    """
+    try:
+        parsed = json.loads(payload)
+    except (json.JSONDecodeError, UnicodeDecodeError):
+        return 0
+    if isinstance(parsed, list):
+        return len(parsed)
+    if not isinstance(parsed, dict):
+        return 0
+    total = 0
+    for key in BAR_ARRAY_KEYS:
+        found = parsed.get(key)
+        if isinstance(found, list):
+            total += len(found)
+        elif isinstance(found, dict):
+            for rows in found.values():
+                if isinstance(rows, list):
+                    total += len(rows)
+    return total
+
+
+def _quantile(sorted_values: Sequence[float], q: float) -> float:
+    """Linear-interpolation quantile over an already-sorted sequence.
+
+    An empty sequence returns 0.0 and **the caller must read the n beside it**:
+    every figure in a :class:`TapeFinding` travels with
+    ``pairs_with_volume_in_both``, so a 0.0 median at n = 0 is legible as an
+    absence rather than as a measurement.
+    """
+    if not sorted_values:
+        return 0.0
+    if len(sorted_values) == 1:
+        return float(sorted_values[0])
+    position = q * (len(sorted_values) - 1)
+    lower = int(position)
+    upper = min(lower + 1, len(sorted_values) - 1)
+    weight = position - lower
+    return float(sorted_values[lower] * (1 - weight) + sorted_values[upper] * weight)
+
+
+@final
+class SealedComparator:
+    """Reads two vendors' bars. Returns counts. Never returns a bar value."""
+
+    __slots__ = ()
+
+    # --- A.1 TASK 3 — bar revision ------------------------------------
+
+    def compare_pulls(
+        self,
+        first: Mapping[str, bytes],
+        second: Mapping[str, bytes],
+        first_bars: Mapping[str, Sequence[Mapping[str, object]]],
+        second_bars: Mapping[str, Sequence[Mapping[str, object]]],
+        corporate_action_keys: frozenset[str],
+        wait_days_observed: int,
+    ) -> RevisionFinding:
+        """Measure what changed between two identical request sets.
+
+        ``first`` and ``second`` map a session-ticker key to the **raw stored
+        bytes** of each pull. The byte comparison needs no parse at all.
+        """
+        keys = sorted(set(first) & set(second))
+        changed_files = 0
+        changed_count_pairs = 0
+        timestamp_change_pairs = 0
+        corporate_action_overlap = 0
+        bars_compared = 0
+        changed_bars = 0
+
+        for key in keys:
+            if (
+                hashlib.sha256(first[key]).digest()
+                != hashlib.sha256(second[key]).digest()
+            ):
+                changed_files += 1
+                if key in corporate_action_keys:
+                    corporate_action_overlap += 1
+
+            a = first_bars.get(key, ())
+            b = second_bars.get(key, ())
+            bars_compared += max(len(a), len(b))
+
+            if len(a) != len(b):
+                changed_count_pairs += 1
+
+            stamps_a, stamps_b = _timestamps(a), _timestamps(b)
+            if stamps_a != stamps_b:
+                timestamp_change_pairs += 1
+
+            by_stamp_a = {
+                s: _ohlc_cents(bar) for bar, s in zip(a, sorted(stamps_a), strict=False)
+            }
+            by_stamp_b = {
+                s: _ohlc_cents(bar) for bar, s in zip(b, sorted(stamps_b), strict=False)
+            }
+            for stamp in set(by_stamp_a) | set(by_stamp_b):
+                if by_stamp_a.get(stamp) != by_stamp_b.get(stamp):
+                    changed_bars += 1
+
+        share = changed_bars / bars_compared if bars_compared else 0.0
+        return RevisionFinding(
+            changed_bar_share=share,
+            bars_compared=bars_compared,
+            changed_bar_count=changed_bars,
+            session_ticker_pairs_compared=len(keys),
+            pairs_with_changed_bar_count=changed_count_pairs,
+            pairs_with_timestamp_change=timestamp_change_pairs,
+            changes_coinciding_with_corporate_action=corporate_action_overlap,
+            wait_days_observed=wait_days_observed,
+        )
+
+    # --- A.1 TASK 4 — cross-vendor agreement --------------------------
+
+    def compare_vendors(
+        self,
+        primary: Mapping[str, Sequence[Mapping[str, object]]],
+        secondary: Mapping[str, Sequence[Mapping[str, object]]],
+        opening_range_windows: Mapping[str, tuple[int, int]],
+        delisted_served: int,
+        delisted_with_intraday: int,
+    ) -> AgreementFinding:
+        """Measure cross-vendor agreement. Returns counts only.
+
+        ``opening_range_windows`` maps a session-ticker key to the half-open
+        ``[start_ms, end_ms)`` of its opening range, resolved by
+        ``orb.sessionclock`` so that the window is DST-correct.
+        """
+        keys = sorted(set(primary) & set(secondary))
+        present_in_both = 0
+        agreeing_to_the_cent = 0
+        pairs_agreeing_first5 = 0
+
+        for key in keys:
+            a_bars = {s: bar for bar, s in self._stamped(primary[key])}
+            b_bars = {s: bar for bar, s in self._stamped(secondary[key])}
+            shared = set(a_bars) & set(b_bars)
+            present_in_both += len(shared)
+            for stamp in shared:
+                if _ohlc_cents(a_bars[stamp]) == _ohlc_cents(b_bars[stamp]):
+                    agreeing_to_the_cent += 1
+
+            start, end = opening_range_windows.get(key, (0, 0))
+            if self._first5_extremes(a_bars, start, end) == self._first5_extremes(
+                b_bars, start, end
+            ):
+                pairs_agreeing_first5 += 1
+
+        share = pairs_agreeing_first5 / len(keys) if keys else 0.0
+        return AgreementFinding(
+            first5_high_low_agreement_share=share,
+            session_ticker_pairs_compared=len(keys),
+            bars_present_in_both=present_in_both,
+            bars_agreeing_to_the_cent=agreeing_to_the_cent,
+            delisted_names_served=delisted_served,
+            delisted_names_with_intraday_history=delisted_with_intraday,
+        )
+
+    # --- A.1 TASK 4 — tape identification, Amendment 7 -----------------
+
+    def compare_tapes(
+        self,
+        primary: Mapping[str, Sequence[Mapping[str, object]]],
+        secondary: Mapping[str, Sequence[Mapping[str, object]]],
+        opening_range_windows: Mapping[str, tuple[int, int]],
+    ) -> TapeFinding:
+        """Which tape does each feed carry? Returns ratios and counts only.
+
+        Sums the **first-5-minute volume** of each feed per session-ticker pair
+        and reports the distribution of ``secondary / primary``. A single-venue
+        subset presents a systematically small fraction of a consolidated
+        feed's volume, so the median identifies the tape and the interquartile
+        range says how consistently it does.
+
+        **No volume value leaves this method.** The sums are formed, divided and
+        discarded; what returns is a :class:`TapeFinding` whose every field is a
+        ratio or a count.
+        """
+        keys = sorted(set(primary) | set(secondary))
+        ratios: list[float] = []
+        both = primary_only = secondary_only = neither = 0
+
+        for key in keys:
+            window = opening_range_windows.get(key)
+            if window is None:
+                continue
+            start, end = window
+            a = self._window_volume(primary.get(key, ()), start, end)
+            b = self._window_volume(secondary.get(key, ()), start, end)
+            if a > 0.0 and b > 0.0:
+                both += 1
+                ratios.append(b / a)
+            elif a > 0.0:
+                primary_only += 1
+            elif b > 0.0:
+                secondary_only += 1
+            else:
+                neither += 1
+
+        ratios.sort()
+        below = sum(1 for r in ratios if r < CONFIG.tape_single_venue_share_max)
+        return TapeFinding(
+            median_ratio=_quantile(ratios, 0.50),
+            iqr_low_ratio=_quantile(ratios, 0.25),
+            iqr_high_ratio=_quantile(ratios, 0.75),
+            min_ratio=ratios[0] if ratios else 0.0,
+            max_ratio=ratios[-1] if ratios else 0.0,
+            share_below_single_venue_threshold=(below / len(ratios) if ratios else 0.0),
+            session_ticker_pairs_compared=len(keys),
+            pairs_with_volume_in_both=both,
+            pairs_with_volume_in_primary_only=primary_only,
+            pairs_with_volume_in_secondary_only=secondary_only,
+            pairs_with_volume_in_neither=neither,
+        )
+
+    @staticmethod
+    def _window_volume(
+        bars: Sequence[Mapping[str, object]], start_ms: int, end_ms: int
+    ) -> float:
+        """Total volume inside a half-open window. **Internal only.**"""
+        total = 0.0
+        for bar in bars:
+            stamp = _stamp_ms(bar)
+            if stamp is None or not (start_ms <= stamp < end_ms):
+                continue
+            found = _volume(bar)
+            if found is not None:
+                total += found
+        return total
+
+    @staticmethod
+    def _stamped(
+        bars: Sequence[Mapping[str, object]],
+    ) -> list[tuple[Mapping[str, object], int]]:
+        out: list[tuple[Mapping[str, object], int]] = []
+        for bar in bars:
+            for alias in ("t", "timestamp"):
+                raw = bar.get(alias)
+                if isinstance(raw, int) and not isinstance(raw, bool):
+                    out.append((bar, raw))
+                    break
+        return out
+
+    @staticmethod
+    def _first5_extremes(
+        bars: Mapping[int, Mapping[str, object]], start_ms: int, end_ms: int
+    ) -> tuple[int | None, int | None]:
+        """The opening range high and low in cents. **Internal only.**
+
+        Returned to `compare_vendors` for an equality test and to nothing else.
+        A caller outside this module cannot reach it: the method is private and
+        `compare_vendors` returns an `AgreementFinding` of counts.
+        """
+        highs: list[int] = []
+        lows: list[int] = []
+        for stamp, bar in bars.items():
+            if not (start_ms <= stamp < end_ms):
+                continue
+            _, high, low, _ = _ohlc_cents(bar)
+            if high is not None:
+                highs.append(high)
+            if low is not None:
+                lows.append(low)
+        return (max(highs) if highs else None, min(lows) if lows else None)
+
+
+@final
+@dataclass(frozen=True, slots=True)
+class ComparatorContract:
+    """What the comparator may return, asserted as data for the guard to read."""
+
+    returns: tuple[str, ...] = ("RevisionFinding", "AgreementFinding")
+    every_field_is_a_count: bool = True

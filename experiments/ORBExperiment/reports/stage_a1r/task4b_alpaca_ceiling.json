@@ -1,0 +1,180 @@
+{
+  "burst_allowance_requests": 384,
+  "burst_allowance_window_s": 55.96,
+  "burst_note": "The escalation fit inside one rolling minute, so 384 admitted in 55.96 s is a BURST ALLOWANCE, not a sustained ceiling. A token bucket of capacity near 400 refilling at the documented 200/min would produce exactly that observation.",
+  "burst_rate_per_min_over_the_escalation": 411.72,
+  "ceiling_state": "MEASURED_SUSTAINED_AT_OR_ABOVE",
+  "cells": [
+    {
+      "admitted": 25,
+      "attempted_rate_per_min": 223.16,
+      "ceiling_reached": false,
+      "cell": "sequential, 0.2 s spacing (A.1 TASK 7 shape)",
+      "elapsed_s": 6.72,
+      "first_refusal_at_request": null,
+      "n_planned": 25,
+      "n_sent": 25,
+      "refusal_payloads_verbatim_redacted": [],
+      "refused_429": 0,
+      "requested_spacing_s": 0.2,
+      "status_distribution": {
+        "200": 25
+      },
+      "sustained_admitted_rate_per_min": 223.16,
+      "workers": 1
+    },
+    {
+      "admitted": 40,
+      "attempted_rate_per_min": 223.55,
+      "ceiling_reached": false,
+      "cell": "sequential, 0.05 s spacing",
+      "elapsed_s": 10.74,
+      "first_refusal_at_request": null,
+      "n_planned": 40,
+      "n_sent": 40,
+      "refusal_payloads_verbatim_redacted": [],
+      "refused_429": 0,
+      "requested_spacing_s": 0.05,
+      "status_distribution": {
+        "200": 40
+      },
+      "sustained_admitted_rate_per_min": 223.55,
+      "workers": 1
+    },
+    {
+      "admitted": 60,
+      "attempted_rate_per_min": 227.0,
+      "ceiling_reached": false,
+      "cell": "sequential, no spacing",
+      "elapsed_s": 15.86,
+      "first_refusal_at_request": null,
+      "n_planned": 60,
+      "n_sent": 60,
+      "refusal_payloads_verbatim_redacted": [],
+      "refused_429": 0,
+      "requested_spacing_s": 0.0,
+      "status_distribution": {
+        "200": 60
+      },
+      "sustained_admitted_rate_per_min": 227.0,
+      "workers": 1
+    },
+    {
+      "admitted": 80,
+      "attempted_rate_per_min": 450.7,
+      "ceiling_reached": false,
+      "cell": "2 workers, no spacing",
+      "elapsed_s": 10.65,
+      "first_refusal_at_request": null,
+      "n_planned": 80,
+      "n_sent": 80,
+      "refusal_payloads_verbatim_redacted": [],
+      "refused_429": 0,
+      "requested_spacing_s": 0.0,
+      "status_distribution": {
+        "200": 80
+      },
+      "sustained_admitted_rate_per_min": 450.7,
+      "workers": 2
+    },
+    {
+      "admitted": 120,
+      "attempted_rate_per_min": 764.28,
+      "ceiling_reached": false,
+      "cell": "4 workers, no spacing",
+      "elapsed_s": 9.42,
+      "first_refusal_at_request": null,
+      "n_planned": 120,
+      "n_sent": 120,
+      "refusal_payloads_verbatim_redacted": [],
+      "refused_429": 0,
+      "requested_spacing_s": 0.0,
+      "status_distribution": {
+        "200": 120
+      },
+      "sustained_admitted_rate_per_min": 764.28,
+      "workers": 4
+    },
+    {
+      "admitted": 59,
+      "attempted_rate_per_min": 1542.31,
+      "ceiling_reached": true,
+      "cell": "8 workers, no spacing",
+      "elapsed_s": 2.57,
+      "first_refusal_at_request": 60,
+      "n_planned": 160,
+      "n_sent": 66,
+      "refusal_payloads_verbatim_redacted": [
+        "{\"message\": \"too many requests.\"}\n"
+      ],
+      "refused_429": 7,
+      "requested_spacing_s": 0.0,
+      "status_distribution": {
+        "200": 59,
+        "429": 7
+      },
+      "sustained_admitted_rate_per_min": 1378.73,
+      "workers": 8
+    },
+    {
+      "admitted": 250,
+      "attempted_rate_per_min": 199.73,
+      "ceiling_reached": false,
+      "cell": "SUSTAINED: 2 workers, scheduled at 200/min, after a 75 s cooldown",
+      "cooldown_s": 75.0,
+      "elapsed_s": 75.1,
+      "first_refusal_at_request": null,
+      "first_refusal_elapsed_s": null,
+      "n_planned": 250,
+      "n_sent": 250,
+      "ran_longer_than_one_rolling_minute": true,
+      "refusal_payloads_verbatim_redacted": [],
+      "refused_429": 0,
+      "status_distribution": {
+        "200": 250
+      },
+      "sustained_admitted_rate_per_min": 199.73,
+      "target_per_minute": 200.0,
+      "workers": 2
+    }
+  ],
+  "documented_label": "carried, vendor documentation, never measured",
+  "documented_per_minute": 200,
+  "first_refusal_at_request": 60,
+  "kind": "alpaca_rate_ceiling",
+  "measured_ceiling_basis": "the sustained admitted rate in the first cell that drew a refusal, at request 60 of 160 planned",
+  "measured_ceiling_per_minute": 1378.73,
+  "measured_sustained_ceiling_basis": "n = 250 requests admitted with 0 refusals over 75.10 s \u2014 longer than one rolling minute \u2014 so the sustained ceiling is AT OR ABOVE 199.73/min and is not known exactly. This is a lower bound, never a ceiling.",
+  "measured_sustained_ceiling_per_minute": 199.73,
+  "operating_pace_basis": "half the measured sustained figure, clamped to half the documented 200/min. The operating figure stays on the conservative side of both: a measurement may license a faster pace than a vendor documents, and this repository does not take it.",
+  "operating_pace_per_minute": 99.86,
+  "operating_spacing_s": 0.601,
+  "pace_key": "alpaca:bars",
+  "refusal_payloads_verbatim_redacted": [
+    "{\"message\": \"too many requests.\"}\n"
+  ],
+  "sustained_admitted_rate_per_min": 1378.73,
+  "sustained_cell": {
+    "admitted": 250,
+    "attempted_rate_per_min": 199.73,
+    "ceiling_reached": false,
+    "cell": "SUSTAINED: 2 workers, scheduled at 200/min, after a 75 s cooldown",
+    "cooldown_s": 75.0,
+    "elapsed_s": 75.1,
+    "first_refusal_at_request": null,
+    "first_refusal_elapsed_s": null,
+    "n_planned": 250,
+    "n_sent": 250,
+    "ran_longer_than_one_rolling_minute": true,
+    "refusal_payloads_verbatim_redacted": [],
+    "refused_429": 0,
+    "status_distribution": {
+      "200": 250
+    },
+    "sustained_admitted_rate_per_min": 199.73,
+    "target_per_minute": 200.0,
+    "workers": 2
+  },
+  "total_requests_sent": 641,
+  "vendor": "alpaca"
+}

@@ -1,0 +1,405 @@
+{
+  "attempts": [
+    {
+      "bar_count": 0,
+      "body_redacted": "{\"status\":\"NOT_AUTHORIZED\",\"request_id\":\"6d156b287a7e98b0dcc311468bfc45b6\",\"message\":\"Your plan doesn't include this data timeframe. Please upgrade your plan at https://polygon.io/pricing\"}",
+      "health": "source_failed",
+      "served": false,
+      "served_byte_count": 189,
+      "session": "2014-10-08",
+      "sha256": "4ab7259e3f1e61542fb8bdc6bb9dbf14c0bd2a9baf285d8aaaffbb8208befc93",
+      "status_code": 403,
+      "vendor": "massive"
+    },
+    {
+      "bar_count": 0,
+      "body_redacted": "{\"status\":\"NOT_AUTHORIZED\",\"request_id\":\"08a2e6e890748f152c18057877ae63f0\",\"message\":\"Your plan doesn't include this data timeframe. Please upgrade your plan at https://polygon.io/pricing\"}",
+      "health": "source_failed",
+      "served": false,
+      "served_byte_count": 189,
+      "session": "2020-08-31",
+      "sha256": "4a4b4d57bb2ed7052ebcfd36a941748949ec9ee817e2252e7979e834af87721d",
+      "status_code": 403,
+      "vendor": "massive"
+    },
+    {
+      "bar_count": 0,
+      "body_redacted": "{\"status\":\"NOT_AUTHORIZED\",\"request_id\":\"c87b5f1a35def0246465d315cefa0ecd\",\"message\":\"Your plan doesn't include this data timeframe. Please upgrade your plan at https://polygon.io/pricing\"}",
+      "health": "source_failed",
+      "served": false,
+      "served_byte_count": 189,
+      "session": "2023-08-14",
+      "sha256": "b6aca5b8b36b938edd00e712e8118a60d420f0919cddbb4a016a9f1b7ff63caa",
+      "status_code": 403,
+      "vendor": "massive"
+    },
+    {
+      "bar_count": 835,
+      "body_redacted": "<served payload, not recorded: a bar value never leaves the seal>",
+      "health": "stored",
+      "served": true,
+      "served_byte_count": 79897,
+      "session": "2025-02-05",
+      "sha256": "d0cf2a35d8f4ba114248376c990b648ac4a3654ddc3649618dbe865cdcd4866e",
+      "status_code": 200,
+      "vendor": "massive"
+    },
+    {
+      "bar_count": 0,
+      "body_redacted": "{\"status\":\"NOT_AUTHORIZED\",\"request_id\":\"12c6d58ace3f7852be14b2f6278800c5\",\"message\":\"Your plan doesn't include this data timeframe. Please upgrade your plan at https://polygon.io/pricing\"}",
+      "health": "source_failed",
+      "served": false,
+      "served_byte_count": 189,
+      "session": "2024-05-08",
+      "sha256": "cf52149d73c643b8f3121c24f207c62a9da84de62492b9144e067b97fb6a525f",
+      "status_code": 403,
+      "vendor": "massive"
+    },
+    {
+      "bar_count": 818,
+      "body_redacted": "<served payload, not recorded: a bar value never leaves the seal>",
+      "health": "stored",
+      "served": true,
+      "served_byte_count": 78829,
+      "session": "2024-09-20",
+      "sha256": "ed4296042841a4edd9f673f1cf152a4f16c904347b934f4cf6d0d652224f0639",
+      "status_code": 200,
+      "vendor": "massive"
+    },
+    {
+      "bar_count": 0,
+      "body_redacted": "{\"status\":\"NOT_AUTHORIZED\",\"request_id\":\"0441c8e5ed11ad78dec791726d0deafb\",\"message\":\"Your plan doesn't include this data timeframe. Please upgrade your plan at https://polygon.io/pricing\"}",
+      "health": "source_failed",
+      "served": false,
+      "served_byte_count": 189,
+      "session": "2024-07-16",
+      "sha256": "605bdea09e86d8840f963b93bfcb5f4b7b039a7d3fc8ffd82fe7e47d266e17c0",
+      "status_code": 403,
+      "vendor": "massive"
+    },
+    {
+      "bar_count": 0,
+      "body_redacted": "{\"status\":\"NOT_AUTHORIZED\",\"request_id\":\"c8ca531912d7e24cf2cf54ce0f457df1\",\"message\":\"Your plan doesn't include this data timeframe. Please upgrade your plan at https://polygon.io/pricing\"}",
+      "health": "source_failed",
+      "served": false,
+      "served_byte_count": 189,
+      "session": "2024-08-16",
+      "sha256": "d81febb7bba3bf9a898ed6622c9626c193daa763287939086813479478b3b53c",
+      "status_code": 403,
+      "vendor": "massive"
+    },
+    {
+      "bar_count": 725,
+      "body_redacted": "<served payload, not recorded: a bar value never leaves the seal>",
+      "health": "stored",
+      "served": true,
+      "served_byte_count": 69277,
+      "session": "2024-09-04",
+      "sha256": "d76895e8142889fdf53b717c3fb955c8c51c15f2d3a43dd46df71c77f32e6983",
+      "status_code": 200,
+      "vendor": "massive"
+    },
+    {
+      "bar_count": 0,
+      "body_redacted": "{\"status\":\"NOT_AUTHORIZED\",\"request_id\":\"c51fbfdc14b16d2db0d0f8e4141895d0\",\"message\":\"Your plan doesn't include this data timeframe. Please upgrade your plan at https://polygon.io/pricing\"}",
+      "health": "source_failed",
+      "served": false,
+      "served_byte_count": 189,
+      "session": "2024-08-26",
+      "sha256": "cb2514e706e89811964a8c61f5c2e7a4bf014fb1802c2ce658eba72faad95f25",
+      "status_code": 403,
+      "vendor": "massive"
+    },
+    {
+      "bar_count": 814,
+      "body_redacted": "<served payload, not recorded: a bar value never leaves the seal>",
+      "health": "stored",
+      "served": true,
+      "served_byte_count": 77812,
+      "session": "2024-08-29",
+      "sha256": "8fc1ffbfcd6aab04eafc46904918cab54aa75f0642f48e53b7f0513b90809c67",
+      "status_code": 200,
+      "vendor": "massive"
+    },
+    {
+      "bar_count": 0,
+      "body_redacted": "{\"status\":\"NOT_AUTHORIZED\",\"request_id\":\"8276c6b30ae3fae2659e464dbdf1bb65\",\"message\":\"Your plan doesn't include this data timeframe. Please upgrade your plan at https://polygon.io/pricing\"}",
+      "health": "source_failed",
+      "served": false,
+      "served_byte_count": 189,
+      "session": "2024-08-27",
+      "sha256": "8b027c062727e3d85e3aa9b2e1f979bec86935001fe9df2bd2b7c83cf56700c8",
+      "status_code": 403,
+      "vendor": "massive"
+    },
+    {
+      "bar_count": 0,
+      "body_redacted": "{\"status\":\"NOT_AUTHORIZED\",\"request_id\":\"16d828b9de1237607a6bd0168935f7fa\",\"message\":\"Your plan doesn't include this data timeframe. Please upgrade your plan at https://polygon.io/pricing\"}",
+      "health": "source_failed",
+      "served": false,
+      "served_byte_count": 189,
+      "session": "2024-08-28",
+      "sha256": "9635819ba5f8a2cfa19ac65847f7ebfb3e81dbbe7642ae390596470f52be5501",
+      "status_code": 403,
+      "vendor": "massive"
+    },
+    {
+      "bar_count": 0,
+      "body_redacted": "{\"status\":\"NOT_AUTHORIZED\",\"request_id\":\"8884e02c9b9caf40f09f7d6547e576ad\",\"message\":\"Your plan doesn't include this data timeframe. Please upgrade your plan at https://polygon.io/pricing\"}",
+      "health": "source_failed",
+      "served": false,
+      "served_byte_count": 189,
+      "session": "2024-08-28",
+      "sha256": "c13c5a80eed0f8e8d6150f98de8b31f55b0fa981a082f8f803a049cca11d04d6",
+      "status_code": 403,
+      "vendor": "massive"
+    },
+    {
+      "bar_count": 814,
+      "body_redacted": "<served payload, not recorded: a bar value never leaves the seal>",
+      "health": "stored",
+      "served": true,
+      "served_byte_count": 77812,
+      "session": "2024-08-29",
+      "sha256": "aa1a668da14de4f92357ffda2cf84f4530340bb56795118fb319fdc59de94ef7",
+      "status_code": 200,
+      "vendor": "massive"
+    },
+    {
+      "bar_count": 707,
+      "body_redacted": "<served payload, not recorded: a bar value never leaves the seal>",
+      "health": "stored",
+      "served": true,
+      "served_byte_count": 67517,
+      "session": "2024-08-30",
+      "sha256": "ea3be1019e7e4fdf75a0329934f389c4f52e50ae921011f01f45c2c16347e3fc",
+      "status_code": 200,
+      "vendor": "massive"
+    },
+    {
+      "bar_count": 0,
+      "body_redacted": "<served payload, not recorded: a bar value never leaves the seal>",
+      "health": "stored",
+      "served": false,
+      "served_byte_count": 52,
+      "session": "2014-10-08",
+      "sha256": "b154890f552830fdc487233ab3bb5334b2e872641fdc8f6e50c65592cbe3d0a8",
+      "status_code": 200,
+      "vendor": "alpaca"
+    },
+    {
+      "bar_count": 955,
+      "body_redacted": "<served payload, not recorded: a bar value never leaves the seal>",
+      "health": "stored",
+      "served": true,
+      "served_byte_count": 102169,
+      "session": "2020-08-31",
+      "sha256": "26dad5cd85659f94d9ddcf3ad71767698f0f765026875983545c9f019f4742ba",
+      "status_code": 200,
+      "vendor": "alpaca"
+    },
+    {
+      "bar_count": 658,
+      "body_redacted": "<served payload, not recorded: a bar value never leaves the seal>",
+      "health": "stored",
+      "served": true,
+      "served_byte_count": 69137,
+      "session": "2017-09-19",
+      "sha256": "2e435124699f6e2b77913f52d1af3ce9e0b313681998edbdb07ff541c847ded2",
+      "status_code": 200,
+      "vendor": "alpaca"
+    },
+    {
+      "bar_count": 572,
+      "body_redacted": "<served payload, not recorded: a bar value never leaves the seal>",
+      "health": "stored",
+      "served": true,
+      "served_byte_count": 60381,
+      "session": "2016-03-31",
+      "sha256": "3712130b542cf0c81c41b71e727d72998b826ebda5e575386cbbdff100a54b37",
+      "status_code": 200,
+      "vendor": "alpaca"
+    },
+    {
+      "bar_count": 0,
+      "body_redacted": "<served payload, not recorded: a bar value never leaves the seal>",
+      "health": "stored",
+      "served": false,
+      "served_byte_count": 52,
+      "session": "2015-07-06",
+      "sha256": "b154890f552830fdc487233ab3bb5334b2e872641fdc8f6e50c65592cbe3d0a8",
+      "status_code": 200,
+      "vendor": "alpaca"
+    },
+    {
+      "bar_count": 0,
+      "body_redacted": "<served payload, not recorded: a bar value never leaves the seal>",
+      "health": "stored",
+      "served": false,
+      "served_byte_count": 52,
+      "session": "2015-11-13",
+      "sha256": "b154890f552830fdc487233ab3bb5334b2e872641fdc8f6e50c65592cbe3d0a8",
+      "status_code": 200,
+      "vendor": "alpaca"
+    },
+    {
+      "bar_count": 664,
+      "body_redacted": "<served payload, not recorded: a bar value never leaves the seal>",
+      "health": "stored",
+      "served": true,
+      "served_byte_count": 68459,
+      "session": "2016-01-22",
+      "sha256": "2e627cd051c41438a4836cf7217d26d702f81c3945b8d0272a5cc6ef652960cb",
+      "status_code": 200,
+      "vendor": "alpaca"
+    },
+    {
+      "bar_count": 0,
+      "body_redacted": "<served payload, not recorded: a bar value never leaves the seal>",
+      "health": "stored",
+      "served": false,
+      "served_byte_count": 52,
+      "session": "2015-12-17",
+      "sha256": "b154890f552830fdc487233ab3bb5334b2e872641fdc8f6e50c65592cbe3d0a8",
+      "status_code": 200,
+      "vendor": "alpaca"
+    },
+    {
+      "bar_count": 694,
+      "body_redacted": "<served payload, not recorded: a bar value never leaves the seal>",
+      "health": "stored",
+      "served": true,
+      "served_byte_count": 73234,
+      "session": "2016-01-05",
+      "sha256": "56763269b6e84838f166237d0f48c8f6b3508c4041c91a19f5f0463b7aaff222",
+      "status_code": 200,
+      "vendor": "alpaca"
+    },
+    {
+      "bar_count": 0,
+      "body_redacted": "<served payload, not recorded: a bar value never leaves the seal>",
+      "health": "stored",
+      "served": false,
+      "served_byte_count": 52,
+      "session": "2015-12-24",
+      "sha256": "b154890f552830fdc487233ab3bb5334b2e872641fdc8f6e50c65592cbe3d0a8",
+      "status_code": 200,
+      "vendor": "alpaca"
+    },
+    {
+      "bar_count": 0,
+      "body_redacted": "<served payload, not recorded: a bar value never leaves the seal>",
+      "health": "stored",
+      "served": false,
+      "served_byte_count": 52,
+      "session": "2015-12-30",
+      "sha256": "b154890f552830fdc487233ab3bb5334b2e872641fdc8f6e50c65592cbe3d0a8",
+      "status_code": 200,
+      "vendor": "alpaca"
+    },
+    {
+      "bar_count": 0,
+      "body_redacted": "<served payload, not recorded: a bar value never leaves the seal>",
+      "health": "stored",
+      "served": false,
+      "served_byte_count": 52,
+      "session": "2015-12-31",
+      "sha256": "b154890f552830fdc487233ab3bb5334b2e872641fdc8f6e50c65592cbe3d0a8",
+      "status_code": 200,
+      "vendor": "alpaca"
+    },
+    {
+      "bar_count": 718,
+      "body_redacted": "<served payload, not recorded: a bar value never leaves the seal>",
+      "health": "stored",
+      "served": true,
+      "served_byte_count": 75669,
+      "session": "2016-01-04",
+      "sha256": "740d7acb57c845a62465d261122bc870ed2ebd86882372c709733da9b8f15c89",
+      "status_code": 200,
+      "vendor": "alpaca"
+    },
+    {
+      "bar_count": 0,
+      "body_redacted": "<served payload, not recorded: a bar value never leaves the seal>",
+      "health": "stored",
+      "served": false,
+      "served_byte_count": 52,
+      "session": "2015-12-31",
+      "sha256": "b154890f552830fdc487233ab3bb5334b2e872641fdc8f6e50c65592cbe3d0a8",
+      "status_code": 200,
+      "vendor": "alpaca"
+    },
+    {
+      "bar_count": 718,
+      "body_redacted": "<served payload, not recorded: a bar value never leaves the seal>",
+      "health": "stored",
+      "served": true,
+      "served_byte_count": 75669,
+      "session": "2016-01-04",
+      "sha256": "740d7acb57c845a62465d261122bc870ed2ebd86882372c709733da9b8f15c89",
+      "status_code": 200,
+      "vendor": "alpaca"
+    },
+    {
+      "bar_count": 694,
+      "body_redacted": "<served payload, not recorded: a bar value never leaves the seal>",
+      "health": "stored",
+      "served": true,
+      "served_byte_count": 73234,
+      "session": "2016-01-05",
+      "sha256": "56763269b6e84838f166237d0f48c8f6b3508c4041c91a19f5f0463b7aaff222",
+      "status_code": 200,
+      "vendor": "alpaca"
+    }
+  ],
+  "candidate_session_count": 5934,
+  "holdout_start": "2023-01-03",
+  "in_sample_start": "2016-01-04",
+  "search_span": [
+    "2003-01-02",
+    "2026-07-29"
+  ],
+  "ticker": "AAPL",
+  "today": "2026-08-28",
+  "vendors": {
+    "alpaca": {
+      "earliest_served_session": "2016-01-04",
+      "probes": 16,
+      "sessions_served": 2657,
+      "verification": [
+        {
+          "served": false,
+          "session": "2015-12-31"
+        },
+        {
+          "served": true,
+          "session": "2016-01-04"
+        },
+        {
+          "served": true,
+          "session": "2016-01-05"
+        }
+      ]
+    },
+    "massive": {
+      "earliest_served_session": "2024-08-29",
+      "probes": 16,
+      "sessions_served": 479,
+      "verification": [
+        {
+          "served": false,
+          "session": "2024-08-28"
+        },
+        {
+          "served": true,
+          "session": "2024-08-29"
+        },
+        {
+          "served": true,
+          "session": "2024-08-30"
+        }
+      ]
+    }
+  }
+}

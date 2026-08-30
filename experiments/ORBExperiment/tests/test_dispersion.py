@@ -1,0 +1,616 @@
+"""The carve-out dispersion writer, against synthetic fixtures with known answers.
+
+The bars here are constructed, not served. Every session is engineered so the
+registered rule has **one** answer, and the test asserts that answer rather than
+whatever the code happens to produce.
+
+The boundary fixtures sit **on** the carve-out edge: a payload carrying a bar
+stamped one millisecond before 2026-07-01T04:00:00.000Z is **refused**, and the
+instant itself passes.
+"""
+
+from __future__ import annotations
+
+import json
+from collections.abc import Callable, Sequence
+from datetime import UTC, date, datetime
+
+import pytest
+
+from orb.calendar import Session, sessions
+from orb.config import CONFIG
+from orb.costs import CostModel, SecFeeSchedule
+from orb.costs_registered import REGISTERED_COST_MODEL
+from orb.dispersion import (
+    CarveOutDispersion,
+    CarveOutExecutionMix,
+    CarveOutFloorScanRow,
+    CarveOutSlippageBand,
+    DispersionInputError,
+    measure_carve_out_dispersion,
+    measure_carve_out_execution_mix,
+    measure_carve_out_floor_scan,
+    measure_carve_out_slippage_band,
+)
+from orb.fields import PRICED_BAR_FIELDS as PRICED_FIELDS_FOR_TESTS
+from orb.preperiod import PrePeriodViolationError
+
+SLICE = list(sessions(date(2026, 7, 1), date(2026, 8, 28)))
+"""42 post-holdout sessions — the same slice the live pull uses."""
+
+ZERO_SEC_MODEL: CostModel = CostModel(
+    commission_per_share=REGISTERED_COST_MODEL.commission_per_share,
+    commission_order_minimum=REGISTERED_COST_MODEL.commission_order_minimum,
+    commission_max_fraction_of_trade_value=(
+        REGISTERED_COST_MODEL.commission_max_fraction_of_trade_value
+    ),
+    finra_taf_per_share_sold=REGISTERED_COST_MODEL.finra_taf_per_share_sold,
+    finra_cat_per_share=REGISTERED_COST_MODEL.finra_cat_per_share,
+    clearing_per_share=REGISTERED_COST_MODEL.clearing_per_share,
+    sec_fees=SecFeeSchedule(
+        effective_dates=(date(2026, 1, 1),), rates_per_dollar=(0.0,)
+    ),
+    entry_slippage=REGISTERED_COST_MODEL.entry_slippage,
+    stop_slippage=REGISTERED_COST_MODEL.stop_slippage,
+    close_slippage=REGISTERED_COST_MODEL.close_slippage,
+)
+"""The frozen model with the **one unmeasured component** set to its hard lower
+bound of zero. A fee cannot be negative, so this end of the bracket is a fact
+about arithmetic rather than an assumption about the world."""
+
+
+def _iso(ms: int) -> str:
+    return (
+        datetime.fromtimestamp(ms / 1000, tz=UTC)
+        .isoformat(timespec="milliseconds")
+        .replace("+00:00", "Z")
+    )
+
+
+def _bar(
+    ms: int, o: float, h: float, low: float, c: float, v: int
+) -> dict[str, object]:
+    return {"t": _iso(ms), "o": o, "h": h, "l": low, "c": c, "v": v}
+
+
+def _payload(rows: Sequence[dict[str, object]]) -> bytes:
+    return json.dumps({"bars": list(rows), "next_page_token": None}).encode()
+
+
+HALF_RANGE = 0.35
+"""The opening range is 0.70 USD wide, so the registered 14-session ATR filter
+— **above 0.50 USD** — passes on a quiet session.
+
+A narrower fixture fails that filter and evaluates nothing. The first draft of
+these tests used 0.20 and was caught by the filter rather than by an assertion,
+which is the InsiderExperiment lesson arriving from the other side: a fixture
+that does not clear a registered threshold measures the threshold, not the code.
+"""
+
+
+def _flat_session(
+    session: Session, price: float, volume: int
+) -> list[dict[str, object]]:
+    """A session that never breaks its opening range. Trigger NONE, by design."""
+    open_ms, range_end_ms = session.opening_range_utc()
+    exit_start, exit_end = session.close_exit_utc()
+    high, low = price + HALF_RANGE, price - HALF_RANGE
+    rows = [
+        _bar(open_ms + i * 60_000, price, high, low, price, volume) for i in range(5)
+    ]
+    # Every post-range bar stays strictly inside the range, so nothing triggers
+    # and nothing touches a stop.
+    rows.extend(
+        _bar(stamp, price, high - 0.01, low + 0.01, price, volume)
+        for stamp in (range_end_ms, exit_start, exit_end - 60_000)
+    )
+    return rows
+
+
+def _breakout_session(
+    session: Session, price: float, volume: int, close_at: float
+) -> list[dict[str, object]]:
+    """A clean long break of the opening-range high, then a stated close."""
+    open_ms, range_end_ms = session.opening_range_utc()
+    exit_start, exit_end = session.close_exit_utc()
+    high, low = price + HALF_RANGE, price - HALF_RANGE
+    rows = [
+        _bar(open_ms + i * 60_000, price, high, low, price, volume) for i in range(5)
+    ]
+    # The first bar after the range clears the high and never reaches the stop,
+    # which sits at the opposite extreme of the range.
+    rows.append(_bar(range_end_ms, high, high + 1.00, high, high + 0.90, volume))
+    rows.extend(
+        _bar(stamp, close_at, close_at + 0.05, close_at - 0.05, close_at, volume)
+        for stamp in (exit_start, exit_end - 60_000)
+    )
+    return rows
+
+
+def _ticker_payloads(breakout_on: set[int], close_at: float = 61.0) -> list[bytes]:
+    rows: list[dict[str, object]] = []
+    for index, session in enumerate(SLICE):
+        # A quiet trailing history, then a volume spike on the breakout day, so
+        # relative volume ranks the name first on exactly the sessions chosen.
+        volume = 2_000_000 if index in breakout_on else 1_500_000
+        if index in breakout_on:
+            rows.extend(_breakout_session(session, 60.0, volume, close_at))
+        else:
+            rows.extend(_flat_session(session, 60.0, volume))
+    return [_payload(rows)]
+
+
+def _run(
+    payloads_by_ticker: dict[str, list[bytes]],
+    model: CostModel = ZERO_SEC_MODEL,
+    *,
+    allow_short: bool = True,
+) -> CarveOutDispersion:
+    return measure_carve_out_dispersion(
+        sorted(payloads_by_ticker),
+        lambda t: payloads_by_ticker[t],
+        SLICE,
+        model,
+        allow_short=allow_short,
+        equity_usd=100_000.0,
+    )
+
+
+# --------------------------------------------------------------------------
+# The contract: two scalars, and the counts that carry their n
+# --------------------------------------------------------------------------
+
+
+def test_the_writer_returns_two_scalars_and_integer_counts() -> None:
+    import dataclasses
+
+    result = _run({"AAA": _ticker_payloads({20, 25})})
+    floats = [f.name for f in dataclasses.fields(result) if f.type == "float"]
+    assert floats == ["net_pnl_per_share_stdev", "trigger_rate"]
+    assert all(
+        isinstance(getattr(result, f.name), int)
+        for f in dataclasses.fields(result)
+        if f.type == "int"
+    )
+
+
+def test_a_session_that_never_breaks_its_range_does_not_trigger() -> None:
+    """Trigger rate 0.0 with a non-zero denominator is a measurement, not an absence."""
+    result = _run({"AAA": _ticker_payloads(set())})
+    assert result.name_sessions_evaluated > 0
+    assert result.name_sessions_triggered == 0
+    assert result.trigger_rate == 0.0
+    assert result.trades_priced == 0
+    assert result.net_pnl_per_share_stdev == 0.0
+
+
+def test_the_trigger_rate_is_the_realized_share_with_its_denominator() -> None:
+    """Two breakouts among the evaluable sessions of one name. Hand-counted."""
+    breakouts = {20, 25}
+    result = _run({"AAA": _ticker_payloads(breakouts)})
+    evaluable = len(SLICE) - CONFIG.relvol_lookback_sessions
+    assert result.sessions_evaluated == evaluable
+    assert result.name_sessions_evaluated == evaluable
+    assert result.name_sessions_triggered == len(breakouts)
+    assert result.trigger_rate == pytest.approx(len(breakouts) / evaluable)
+
+
+def test_a_priced_trade_produces_a_dispersion_and_an_unpriced_one_does_not() -> None:
+    """The frozen model refuses every trade; the zero-SEC bracket prices them.
+
+    This is the measured shape of the A.2 TASK 2 finding: the SEC Section 31
+    rate was measured at 0.0000206 per dollar and **its effective date was
+    not**, so ``SEC_FEE_SCHEDULE`` is empty on purpose and
+    :meth:`orb.costs.SecFeeSchedule.rate_on` returns ``Absent`` for every
+    session. **The model refuses to price a trade rather than take a fee from
+    the wrong year**, and this test pins that the refusal reaches the writer as
+    a counted refusal rather than as a silent zero.
+    """
+    payloads = {"AAA": _ticker_payloads({20, 25, 30})}
+
+    frozen = _run(payloads, REGISTERED_COST_MODEL)
+    assert frozen.trades_priced == 0
+    assert frozen.trades_refused_by_cost_model == 3
+    assert frozen.net_pnl_per_share_stdev == 0.0
+    assert frozen.name_sessions_triggered == 3, (
+        "a cost-model refusal must not reduce the measured trigger rate"
+    )
+
+    bracketed = _run(payloads, ZERO_SEC_MODEL)
+    assert bracketed.trades_priced == 3
+    assert bracketed.trades_refused_by_cost_model == 0
+    assert bracketed.trigger_rate == frozen.trigger_rate
+
+
+def test_the_dispersion_is_zero_at_n_below_two_and_the_count_says_so() -> None:
+    """0.0 at `n < 2` is an absence. The caller reads the n beside it."""
+    result = _run({"AAA": _ticker_payloads({20})}, ZERO_SEC_MODEL)
+    assert result.trades_priced == 1
+    assert result.net_pnl_per_share_stdev == 0.0
+
+
+def test_two_trades_with_different_outcomes_give_a_positive_dispersion() -> None:
+    result = _run(
+        {
+            "AAA": _ticker_payloads({20, 25}, close_at=61.0),
+            "BBB": _ticker_payloads({20, 25}, close_at=59.0),
+        },
+        ZERO_SEC_MODEL,
+    )
+    assert result.trades_priced == 4
+    assert result.net_pnl_per_share_stdev > 0.0
+
+
+# --------------------------------------------------------------------------
+# The carve-out boundary, enforced per bar
+# --------------------------------------------------------------------------
+
+
+def test_a_bar_inside_the_sealed_window_is_refused_rather_than_dropped() -> None:
+    """One millisecond before the boundary. **On the edge, not near it.**"""
+    boundary = CONFIG.post_holdout_start_ms
+    payload = _payload([_bar(boundary - 1, 60.0, 60.1, 59.9, 60.0, 1000)])
+    with pytest.raises(PrePeriodViolationError):
+        measure_carve_out_dispersion(
+            ["AAA"],
+            lambda _t: [payload],
+            SLICE,
+            ZERO_SEC_MODEL,
+            allow_short=True,
+            equity_usd=100_000.0,
+        )
+
+
+def test_the_boundary_instant_itself_is_admitted() -> None:
+    boundary = CONFIG.post_holdout_start_ms
+    payload = _payload([_bar(boundary, 60.0, 60.1, 59.9, 60.0, 1000)])
+    result = measure_carve_out_dispersion(
+        ["AAA"],
+        lambda _t: [payload],
+        SLICE,
+        ZERO_SEC_MODEL,
+        allow_short=True,
+        equity_usd=100_000.0,
+    )
+    assert result.bars_read == 1
+
+
+# --------------------------------------------------------------------------
+# The registered inputs it refuses to average over
+# --------------------------------------------------------------------------
+
+
+def test_too_few_sessions_for_the_trailing_window_is_refused() -> None:
+    short_slice = SLICE[: CONFIG.relvol_lookback_sessions]
+    with pytest.raises(DispersionInputError, match="trailing relative-volume"):
+        measure_carve_out_dispersion(
+            ["AAA"],
+            lambda _t: [_payload([])],
+            short_slice,
+            ZERO_SEC_MODEL,
+            allow_short=True,
+            equity_usd=100_000.0,
+        )
+
+
+def test_the_long_only_restriction_is_the_callers_to_state() -> None:
+    """``allow_short`` stands in for a filter this repository has not measured."""
+    payloads = {"AAA": _ticker_payloads({20, 25})}
+    both = _run(payloads, ZERO_SEC_MODEL, allow_short=True)
+    long_only = _run(payloads, ZERO_SEC_MODEL, allow_short=False)
+    # These fixtures break upward, so the two agree — which is the point: the
+    # flag changes what is *eligible*, never what a long trade is worth.
+    assert both.name_sessions_triggered == long_only.name_sessions_triggered
+
+
+# --------------------------------------------------------------------------
+# Amendment 20 — the execution mix, measured rather than assumed
+# --------------------------------------------------------------------------
+
+
+def _mix(
+    payloads_by_ticker: dict[str, list[bytes]],
+    model: CostModel = ZERO_SEC_MODEL,
+    *,
+    allow_short: bool = True,
+) -> CarveOutExecutionMix:
+    return measure_carve_out_execution_mix(
+        sorted(payloads_by_ticker),
+        lambda t: payloads_by_ticker[t],
+        SLICE,
+        model,
+        allow_short=allow_short,
+    )
+
+
+def test_the_mix_carries_exactly_the_four_named_scalars_and_its_counts() -> None:
+    import dataclasses
+
+    result = _mix({"AAA": _ticker_payloads({20, 25})})
+    floats = [f.name for f in dataclasses.fields(result) if f.type == "float"]
+    assert floats == [
+        "stop_exit_share",
+        "ambiguous_rate",
+        "mean_pessimistic_shift_usd_per_share",
+    ]
+    assert isinstance(result.sessions_used, int)
+    assert all(
+        isinstance(getattr(result, f.name), int)
+        for f in dataclasses.fields(result)
+        if f.type == "int"
+    )
+
+
+def test_an_all_close_exit_mix_gives_the_close_exit_shift() -> None:
+    """Two breakouts held to the close. Hand-computed: 0.030 USD/share."""
+    result = _mix({"AAA": _ticker_payloads({20, 25}, close_at=61.0)})
+    assert result.name_sessions_triggered == 2
+    assert result.stop_exits == 0
+    assert result.close_exits == 2
+    assert result.stop_exit_share == 0.0
+    assert result.mean_pessimistic_shift_usd_per_share == pytest.approx(
+        0.030, abs=1e-12
+    )
+
+
+def test_an_all_stop_exit_mix_gives_the_stop_exit_shift() -> None:
+    """Two breakouts that reverse through the stop. Hand-computed: 0.060."""
+    result = _mix({"AAA": _ticker_payloads({20, 25}, close_at=59.0)})
+    assert result.name_sessions_triggered == 2
+    assert result.stop_exits == 2
+    assert result.close_exits == 0
+    assert result.stop_exit_share == 1.0
+    assert result.mean_pessimistic_shift_usd_per_share == pytest.approx(
+        0.060, abs=1e-12
+    )
+
+
+def test_a_half_and_half_mix_interpolates_the_shift() -> None:
+    result = _mix(
+        {
+            "AAA": _ticker_payloads({20, 25}, close_at=61.0),
+            "BBB": _ticker_payloads({20, 25}, close_at=59.0),
+        }
+    )
+    assert result.stop_exits == 2
+    assert result.close_exits == 2
+    assert result.stop_exit_share == pytest.approx(0.5, abs=1e-12)
+    assert result.mean_pessimistic_shift_usd_per_share == pytest.approx(
+        0.045, abs=1e-12
+    )
+
+
+def test_the_mix_is_read_off_the_bars_and_not_off_priced_trades() -> None:
+    """The frozen model prices nothing, and the mix must survive that.
+
+    The frozen Section 6 model returns `Absent` for every trade, its SEC
+    Section 31 effective date being unmeasured. **Reading the exit mix off
+    priced trades would have made it silently zero**, and a zero stop share
+    understates the pessimistic shift by 0.030 USD per share on every trade.
+    """
+    payloads = {
+        "AAA": _ticker_payloads({20, 25}, close_at=61.0),
+        "BBB": _ticker_payloads({20, 25}, close_at=59.0),
+    }
+    frozen = _mix(payloads, REGISTERED_COST_MODEL)
+    bracketed = _mix(payloads, ZERO_SEC_MODEL)
+
+    assert frozen.stop_exit_share == bracketed.stop_exit_share
+    assert frozen.mean_pessimistic_shift_usd_per_share == pytest.approx(
+        bracketed.mean_pessimistic_shift_usd_per_share, abs=1e-12
+    )
+    assert frozen.stop_exits == 2 and frozen.close_exits == 2
+
+    # And the dispersion writer, on the same inputs, prices nothing at all.
+    assert _run(payloads, REGISTERED_COST_MODEL).trades_priced == 0
+
+
+def test_an_untriggered_slice_reports_a_zero_share_beside_a_zero_denominator() -> None:
+    """0.0 at n = 0 is an absence, and the caller reads the n beside it."""
+    result = _mix({"AAA": _ticker_payloads(set())})
+    assert result.name_sessions_evaluated > 0
+    assert result.name_sessions_triggered == 0
+    assert result.trades_with_a_resolved_exit == 0
+    assert result.stop_exit_share == 0.0
+    assert result.mean_pessimistic_shift_usd_per_share == 0.0
+
+
+def test_the_ambiguous_rate_counts_a_bar_that_crosses_both_extremes() -> None:
+    """Section 2 excludes these, and the excluded share is a measured figure."""
+    rows: list[dict[str, object]] = []
+    for index, session in enumerate(SLICE):
+        if index in {20, 25}:
+            open_ms, range_end_ms = session.opening_range_utc()
+            exit_start, exit_end = session.close_exit_utc()
+            high, low = 60.0 + HALF_RANGE, 60.0 - HALF_RANGE
+            rows.extend(
+                _bar(open_ms + i * 60_000, 60.0, high, low, 60.0, 2_000_000)
+                for i in range(5)
+            )
+            # One bar clearing the high AND the low: the minute cannot say
+            # which came first, so the session is ambiguous and excluded.
+            rows.append(
+                _bar(range_end_ms, 60.0, high + 1.00, low - 1.00, 60.0, 2_000_000)
+            )
+            rows.extend(
+                _bar(stamp, 60.0, high - 0.01, low + 0.01, 60.0, 2_000_000)
+                for stamp in (exit_start, exit_end - 60_000)
+            )
+        else:
+            rows.extend(_flat_session(session, 60.0, 1_500_000))
+    result = _mix({"AAA": [_payload(rows)]})
+    evaluable = len(SLICE) - CONFIG.relvol_lookback_sessions
+    assert result.name_sessions_evaluated == evaluable
+    assert result.name_sessions_ambiguous == 2
+    assert result.name_sessions_triggered == 0, "an ambiguous session never trades"
+    assert result.ambiguous_rate == pytest.approx(2 / evaluable)
+
+
+# --------------------------------------------------------------------------
+# Amendment 26 — the measured slippage band
+# --------------------------------------------------------------------------
+
+
+def _quote_payload(rows: list[tuple[int, float, float]]) -> bytes:
+    return json.dumps(
+        {"quotes": [{"t": _iso(t), "bp": bid, "ap": ask} for t, bid, ask in rows]}
+    ).encode()
+
+
+def _band(
+    payloads_by_ticker: dict[str, list[bytes]],
+    quotes: Callable[[str, int, int], bytes | None],
+    stop_share: float = 0.5,
+) -> CarveOutSlippageBand:
+    return measure_carve_out_slippage_band(
+        sorted(payloads_by_ticker),
+        lambda t: payloads_by_ticker[t],
+        quotes,
+        SLICE,
+        stop_share,
+        allow_short=True,
+    )
+
+
+def test_the_band_carries_only_summary_statistics_and_counts() -> None:
+    import dataclasses
+
+    result = _band(
+        {"AAA": _ticker_payloads({20, 25})},
+        lambda _t, a, _b: _quote_payload([(a, 59.99, 60.01)]),
+    )
+    for field in dataclasses.fields(result):
+        assert field.type in {"float", "int"}, (field.name, field.type)
+        assert field.name not in PRICED_FIELDS_FOR_TESTS, field.name
+
+
+def test_a_time_weighted_half_spread_weights_by_time_not_by_quote_count() -> None:
+    """One flickering quote must not dominate a minute it was barely present for."""
+    from orb.dispersion import _time_weighted_half_spread
+
+    start = 1_800_000_000_000
+    # A 0.02 spread standing 59 s, then a 1.00 spread standing 1 s.
+    payload = _quote_payload([(start, 59.99, 60.01), (start + 59_000, 59.50, 60.50)])
+    half = _time_weighted_half_spread(payload, start, start + 60_000)
+    assert half is not None
+    # Time-weighted: (0.02*59 + 1.00*1) / 60 / 2 = 0.008833...
+    assert half == pytest.approx((0.02 * 59 + 1.00 * 1) / 60 / 2, abs=1e-9)
+    # A count-weighted mean would have been (0.02 + 1.00) / 2 / 2 = 0.255.
+    assert half < 0.05
+
+
+def test_an_unusable_quote_payload_is_a_refused_minute_not_a_zero_spread() -> None:
+    """Standing rule 5: an absence is recorded, never synthesized as a number."""
+    from orb.dispersion import _time_weighted_half_spread
+
+    start = 1_800_000_000_000
+    assert _time_weighted_half_spread(b"not json", start, start + 60_000) is None
+    assert _time_weighted_half_spread(b'{"quotes": []}', start, start + 60_000) is None
+    crossed = _quote_payload([(start, 60.10, 60.00)])
+    assert _time_weighted_half_spread(crossed, start, start + 60_000) is None
+
+    result = _band({"AAA": _ticker_payloads({20, 25})}, lambda _t, _a, _b: None)
+    assert result.entry_quote_minutes_served == 0
+    assert result.entry_quote_minutes_refused == 2
+    assert result.entry_observations == 0
+    assert result.measured_entry_central == 0.0, (
+        "a refused minute contributes no slippage observation at all; the 0.0 "
+        "here is an absence and the caller reads entry_observations beside it"
+    )
+
+
+def test_an_intrabar_cross_is_recorded_as_a_lower_bound_of_zero() -> None:
+    """One-minute data cannot locate the first trade through the boundary.
+
+    The fixture breaks the range **inside** the trigger bar rather than gapping
+    through it, so the true overshoot lies somewhere in the bar and this writer
+    records **0.0** — a lower bound, counted separately so a reader can see how
+    much of the distribution is bounded rather than measured.
+    """
+    result = _band(
+        {"AAA": _ticker_payloads({20, 25})},
+        lambda _t, a, _b: _quote_payload([(a, 59.99, 60.01)]),
+    )
+    assert result.entry_crossed_intrabar == 2
+    assert result.entry_gapped_through == 0
+    assert result.entry_overshoot_median == 0.0
+    # The spread still contributes, so the band is not zero.
+    assert result.measured_entry_central == pytest.approx(0.01, abs=1e-9)
+
+
+def test_the_shift_is_the_band_width_not_the_band_level() -> None:
+    """p90 minus median per leg, mixed on the stop share. Hand-computed."""
+    result = _band(
+        {"AAA": _ticker_payloads({20, 25})},
+        lambda _t, a, _b: _quote_payload([(a, 59.99, 60.01)]),
+        stop_share=0.5,
+    )
+    entry_width = result.measured_entry_pessimistic - result.measured_entry_central
+    stop_width = result.measured_stop_pessimistic - result.measured_stop_central
+    close_width = result.measured_close_pessimistic - result.measured_close_central
+    assert result.measured_shift_usd_per_share == pytest.approx(
+        entry_width + 0.5 * stop_width + 0.5 * close_width, abs=1e-12
+    )
+
+
+# --------------------------------------------------------------------------
+# Amendment 27 — the H1b price-floor feasibility scan
+# --------------------------------------------------------------------------
+
+
+def _scan(
+    payloads_by_ticker: dict[str, list[bytes]],
+    floors: tuple[float, ...],
+) -> tuple[CarveOutFloorScanRow, ...]:
+    return measure_carve_out_floor_scan(
+        sorted(payloads_by_ticker),
+        lambda t: payloads_by_ticker[t],
+        SLICE,
+        ZERO_SEC_MODEL,
+        floors,
+        1.40,
+        allow_short=True,
+        equity_usd=100_000.0,
+    )
+
+
+def test_the_scan_returns_one_row_per_floor_and_carries_no_verdict() -> None:
+    import dataclasses
+
+    rows = _scan({"AAA": _ticker_payloads({20, 25})}, (5.0, 10.0, 100.0))
+    assert len(rows) == 3
+    assert [r.price_floor_usd for r in rows] == [5.0, 10.0, 100.0]
+    names = {f.name for f in dataclasses.fields(rows[0])}
+    assert not any("power" in n or "verdict" in n for n in names), (
+        "H1b is REGISTERED_NOT_OPEN; a power figure or a verdict would open it"
+    )
+
+
+def test_a_floor_above_every_price_empties_the_universe_and_says_so() -> None:
+    """A floor that empties the universe is a finding, and the row still returns."""
+    rows = _scan({"AAA": _ticker_payloads({20, 25})}, (100.0,))
+    empty = rows[0]
+    assert empty.selected_name_sessions == 0
+    assert empty.sessions_evaluated == 0
+    assert empty.triggered_trades == 0
+    assert empty.dispersion_usd_per_share == 0.0
+    assert empty.central_mean_to_shift_ratio == 0.0
+
+
+def test_a_raised_floor_is_a_strict_subset_of_the_registered_universe() -> None:
+    """The floor is applied ON TOP of the Section 2 filter, never instead of it."""
+    payloads = {
+        "AAA": _ticker_payloads({20, 25}),
+        "BBB": _ticker_payloads({20, 25}, close_at=59.0),
+    }
+    at_five, at_fifty = _scan(payloads, (5.0, 50.0))
+    assert at_five.selected_name_sessions > 0
+    assert at_fifty.selected_name_sessions <= at_five.selected_name_sessions
+    assert at_fifty.sessions_evaluated <= at_five.sessions_evaluated
+
+
+def test_the_registered_price_filter_is_not_changed_by_a_scan() -> None:
+    """The scan must leave `CONFIG.min_session_open_usd` exactly where it is."""
+    before = CONFIG.min_session_open_usd
+    _scan({"AAA": _ticker_payloads({20, 25})}, (5.0, 20.0, 100.0))
+    assert CONFIG.min_session_open_usd == before == 5.00

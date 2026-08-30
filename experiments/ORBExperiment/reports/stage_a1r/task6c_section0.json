@@ -1,0 +1,60 @@
+{
+  "clause": "PENDING-REVISION Amendment 10",
+  "fired_at": "2026-08-29T19:31:11+00:00",
+  "inputs": {
+    "agreement_finding": "Absent(not_yet_measured): A.1 TASK 4 measured the tape (SAME_TAPE, median 1.005197, n = 100 pairs); the registered first-5-minute high-or-low agreement share is a separate measurement and has not been made",
+    "alpha_correction": "Amendment 18: Section 8's rule is a conjunction, an intersection-union test, and Berger 1982 gives each component the full nominal level. The union correction was not owed.",
+    "alpha_per_co_primary": 0.05,
+    "alpha_superseded": 0.025320565519103666,
+    "bar_revision_finding": "Absent(not_yet_measured): the registered 14-calendar-day wait started 2026-08-29 and is eligible 2026-09-12; A.1 TASK 9 sealed 480 files, 737,507 bars, 2,400 session-ticker pairs on a feed confirmed by measurement to be consolidated",
+    "carve_out_caveat": "Amendment 11: the dispersion input comes from a POST-HOLDOUT regime (2026-07-01 to 2026-08-28), later than the sample it is applied to, and may misstate in-sample dispersion in either direction by an amount this repository has not measured and does not claim to bound.",
+    "collection_access": "SERVING_FULL_REACH",
+    "delisted_checks_n": 229,
+    "delisted_names_with_intraday_history": 203,
+    "e1_min_n_for_80_at_registered": 795,
+    "e1_power_at_published_2_81": 0.9998354661484129,
+    "e1_power_at_registered_1_40": 0.8324500493878693,
+    "e2_central_mean_at_registered": 0.04038617169045801,
+    "e2_dispersion_usd_per_share": 2.029585030455633,
+    "e2_min_n_for_80_at_registered": "Absent(no trade count reaches the target: the pessimistic-cost mean is -0.001068374 USD per share, at or below zero, so the one-sided alternative the test is powered against lies inside the null)",
+    "e2_null": "Amendment 19: mean net PnL per trade above zero at the PESSIMISTIC end of the registered Section 6 slippage band",
+    "e2_pessimistic_mean_at_registered": -0.0010683737640874436,
+    "e2_power_at_published_2_81": 0.819523804601201,
+    "e2_power_at_registered_1_40": 0.043276644872287495,
+    "earliest_eligible_repull": "2026-09-12",
+    "hypothesis_restated": "REGISTRATION.md \u00a71.1, Amendment 22: the breakout is a DIRECTION rule, not a selector. Measured trigger rate 0.982143, n = 560.",
+    "joint_binding_component": "E2",
+    "joint_power_at_published_holdout": 0.819523804601201,
+    "joint_power_at_registered_holdout": 0.043276644872287495,
+    "latch_condition": "Section 10.1, Amendment 21: JOINT power at or above 0.80. Neither component power alone satisfies clause 1.",
+    "measured_ambiguous_rate": 0.0,
+    "measured_ambiguous_rate_n": 560,
+    "measured_ambiguous_rate_upper_bound_rule_of_three": 0.005357142857142857,
+    "measured_pessimistic_shift_usd_per_share": 0.04145454545454545,
+    "measured_stop_exit_share": 0.38181818181818183,
+    "measured_stop_exit_share_n": 550,
+    "observation_not_a_branch_change": "BLOCKED-1 is registered on E1 power at the PUBLISHED magnitude against the 0.50 floor, and E1 at 2.81 is 0.999835, so it does not fire. Recorded for the operator and NOT acted on: had BLOCKED-1 been defined on JOINT power at the REGISTERED assumption it would fire, because that figure is 0.043277. This pass does not change the branch.",
+    "scope_limitation_sl3": "REGISTRATION.md \u00a711.1 SL-3: all 1,762 in-sample sessions rest on a single unverified feed.",
+    "sessions_achievable_holdout": 875,
+    "sessions_in_sample": 1762
+  },
+  "kind": "section0_verdict",
+  "reason": "access passes and the integrity measurement still does not exist: bar revision (not_yet_measured: the registered 14-calendar-day wait started 2026-08-29 and is eligible 2026-09-12; A.1 TASK 9 sealed 480 files, 737,507 bars, 2,400 session-ticker pairs on a feed confirmed by measurement to be consolidated); cross-vendor agreement (not_yet_measured: A.1 TASK 4 measured the tape (SAME_TAPE, median 1.005197, n = 100 pairs); the registered first-5-minute high-or-low agreement share is a separate measurement and has not been made). Nothing is armed. The registered 14-calendar-day wait between the probe pull and its identical re-pull has not elapsed, and that wait is the measurement \u2014 a re-pull sent early measures a revision rate biased toward zero, and zero is the shape of a PASS. This is a parked outcome, not a failure, and it is not a source-integrity closure.",
+  "stage": "A.2 inference repair TASK 6",
+  "two_questions_kept_apart": {
+    "does_JOINT_power_clear_its_80_percent_bar": false,
+    "does_the_corrected_alpha_alone_move_E1_across_its_80_percent_bar": true,
+    "e1_at_registered_before_and_after": [
+      0.7435206445941073,
+      0.8324500493878693
+    ],
+    "e1_min_sessions_before_and_after": [
+      1006,
+      795
+    ],
+    "joint_min_sessions_for_80_at_registered": "Absent: the joint condition is unreachable at any n because E2's is",
+    "joint_power_at_registered_holdout": 0.043276644872287495,
+    "these_are_different_questions": "Correcting the multiplicity error made E1 powered and left the DESIGN unpowered. Both are true. Reporting either without the other would misdescribe this repository."
+  },
+  "verdict": "PENDING_REVISION"
+}
