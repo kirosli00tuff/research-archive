@@ -1,0 +1,60 @@
+{
+  "MET option (0.10 ETH)": {
+    "commission_per_contract_usd": 0.2,
+    "notional_usd": 245.62,
+    "one_side_bps": 8.1426,
+    "round_trip_bps": 16.2853
+  },
+  "MBT option (0.10 BTC)": {
+    "commission_per_contract_usd": 0.85,
+    "notional_usd": 7812.46,
+    "one_side_bps": 1.088,
+    "round_trip_bps": 2.176
+  },
+  "MET future (0.10 ETH)": {
+    "commission_per_contract_usd": 0.2,
+    "notional_usd": 245.62,
+    "one_side_bps": 8.1426,
+    "round_trip_bps": 16.2853
+  },
+  "MBT future (0.10 BTC)": {
+    "commission_per_contract_usd": 0.85,
+    "notional_usd": 7812.46,
+    "one_side_bps": 1.088,
+    "round_trip_bps": 2.176
+  },
+  "BRR option (5 BTC)": {
+    "commission_per_contract_usd": 5.0,
+    "notional_usd": 390622.88,
+    "one_side_bps": 0.128,
+    "round_trip_bps": 0.256
+  },
+  "ETH option (50 ETH)": {
+    "commission_per_contract_usd": 3.0,
+    "notional_usd": 122810.25,
+    "one_side_bps": 0.2443,
+    "round_trip_bps": 0.4886
+  },
+  "MES micro S&P": {
+    "commission_per_contract_usd": 0.25,
+    "notional_usd": null
+  },
+  "MNQ micro Nasdaq": {
+    "commission_per_contract_usd": 0.25,
+    "notional_usd": null
+  },
+  "MGC micro gold": {
+    "commission_per_contract_usd": 0.25,
+    "notional_usd": null
+  },
+  "MET straddle round trip, commission only": {
+    "usd": 0.8,
+    "notional_usd": 245.62,
+    "bps": 32.5706
+  },
+  "MBT straddle round trip, commission only": {
+    "usd": 3.4,
+    "notional_usd": 7812.46,
+    "bps": 4.352
+  }
+}

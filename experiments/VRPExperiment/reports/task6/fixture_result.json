@@ -1,0 +1,236 @@
+{
+  "assets": {
+    "BTC": {
+      "days_paired": 300,
+      "dropped_incomplete_forward_window": 30,
+      "implied_days_served": 300,
+      "implied_span": [
+        "2025-11-03",
+        "2026-08-29"
+      ],
+      "n": 270,
+      "planted_premium_vol_points": 0.08,
+      "primary_overlapping_hac": {
+        "ci_lower_bps": 132.8716,
+        "ci_lower_vol_points": 0.058087,
+        "hac_bandwidth": 30,
+        "hac_standard_error": 0.022154,
+        "label": "BTC_overlapping_hac",
+        "mean_bps": 216.5144,
+        "mean_vol_points": 0.094653,
+        "n": 270,
+        "one_sided_p": 1.3422672684917481e-05,
+        "positive_share": 0.859259,
+        "t_statistic": 4.2725
+      },
+      "rebalances": [
+        {
+          "band": 0.05,
+          "max": 26,
+          "max_abs_drift_median": 0.3834,
+          "mean": 18.9963,
+          "median": 20,
+          "min": 10,
+          "n": 270,
+          "p90": 24
+        },
+        {
+          "band": 0.1,
+          "max": 22,
+          "max_abs_drift_median": 0.3849,
+          "mean": 13.3667,
+          "median": 14,
+          "min": 5,
+          "n": 270,
+          "p90": 18
+        },
+        {
+          "band": 0.2,
+          "max": 14,
+          "max_abs_drift_median": 0.4153,
+          "mean": 6.7111,
+          "median": 6,
+          "min": 2,
+          "n": 270,
+          "p90": 10
+        }
+      ],
+      "robustness_non_overlapping_iid": "insufficient_sample: 9 observations is below the registered floor of 60",
+      "stability_quarters": [
+        {
+          "from": "2025-11-03",
+          "mean_bps": -2.376,
+          "mean_vol_points": -0.001039,
+          "n": 67,
+          "one_sided_p": 0.5146381687397519,
+          "part": 1,
+          "positive_share": 0.4328,
+          "t": -0.037,
+          "to": "2026-01-08"
+        },
+        {
+          "from": "2026-01-09",
+          "mean_bps": 255.911,
+          "mean_vol_points": 0.111876,
+          "n": 67,
+          "one_sided_p": 1.1721951228681551e-08,
+          "part": 2,
+          "positive_share": 1.0,
+          "t": 6.343,
+          "to": "2026-03-16"
+        },
+        {
+          "from": "2026-03-17",
+          "mean_bps": 295.176,
+          "mean_vol_points": 0.129041,
+          "n": 67,
+          "one_sided_p": 1.7324798104453612e-06,
+          "part": 3,
+          "positive_share": 1.0,
+          "t": 5.069,
+          "to": "2026-05-22"
+        },
+        {
+          "from": "2026-05-23",
+          "mean_bps": 314.423,
+          "mean_vol_points": 0.137455,
+          "n": 69,
+          "one_sided_p": 1.759401529641111e-24,
+          "part": 4,
+          "positive_share": 1.0,
+          "t": 15.616,
+          "to": "2026-07-30"
+        }
+      ],
+      "underlying_days_served": 300,
+      "underlying_span": [
+        "2025-11-03",
+        "2026-08-29"
+      ],
+      "window": [
+        "2025-11-03",
+        "2026-07-30"
+      ]
+    },
+    "ETH": {
+      "days_paired": 300,
+      "dropped_incomplete_forward_window": 30,
+      "implied_days_served": 300,
+      "implied_span": [
+        "2025-11-03",
+        "2026-08-29"
+      ],
+      "n": 270,
+      "planted_premium_vol_points": 0.08,
+      "primary_overlapping_hac": {
+        "ci_lower_bps": 167.3465,
+        "ci_lower_vol_points": 0.073158,
+        "hac_bandwidth": 30,
+        "hac_standard_error": 0.012689,
+        "label": "ETH_overlapping_hac",
+        "mean_bps": 215.253,
+        "mean_vol_points": 0.094101,
+        "n": 270,
+        "one_sided_p": 7.882068756891864e-13,
+        "positive_share": 0.988889,
+        "t_statistic": 7.4162
+      },
+      "rebalances": [
+        {
+          "band": 0.05,
+          "max": 26,
+          "max_abs_drift_median": 0.3424,
+          "mean": 17.6222,
+          "median": 18,
+          "min": 7,
+          "n": 270,
+          "p90": 22
+        },
+        {
+          "band": 0.1,
+          "max": 20,
+          "max_abs_drift_median": 0.3545,
+          "mean": 12.4444,
+          "median": 13,
+          "min": 5,
+          "n": 270,
+          "p90": 17
+        },
+        {
+          "band": 0.2,
+          "max": 13,
+          "max_abs_drift_median": 0.4052,
+          "mean": 6.1593,
+          "median": 6,
+          "min": 2,
+          "n": 270,
+          "p90": 9
+        }
+      ],
+      "robustness_non_overlapping_iid": "insufficient_sample: 9 observations is below the registered floor of 60",
+      "stability_quarters": [
+        {
+          "from": "2025-11-03",
+          "mean_bps": 211.694,
+          "mean_vol_points": 0.092545,
+          "n": 67,
+          "one_sided_p": 0.00025468897729574236,
+          "part": 1,
+          "positive_share": 0.9851,
+          "t": 3.656,
+          "to": "2026-01-08"
+        },
+        {
+          "from": "2026-01-09",
+          "mean_bps": 207.667,
+          "mean_vol_points": 0.090785,
+          "n": 67,
+          "one_sided_p": 4.518338190868133e-06,
+          "part": 2,
+          "positive_share": 1.0,
+          "t": 4.812,
+          "to": "2026-03-16"
+        },
+        {
+          "from": "2026-03-17",
+          "mean_bps": 244.494,
+          "mean_vol_points": 0.106884,
+          "n": 67,
+          "one_sided_p": 0.001800731534418909,
+          "part": 3,
+          "positive_share": 0.9701,
+          "t": 3.019,
+          "to": "2026-05-22"
+        },
+        {
+          "from": "2026-05-23",
+          "mean_bps": 197.682,
+          "mean_vol_points": 0.08642,
+          "n": 69,
+          "one_sided_p": 1.5658534882602907e-09,
+          "part": 4,
+          "positive_share": 1.0,
+          "t": 6.809,
+          "to": "2026-07-30"
+        }
+      ],
+      "underlying_days_served": 300,
+      "underlying_span": [
+        "2025-11-03",
+        "2026-08-29"
+      ],
+      "window": [
+        "2025-11-03",
+        "2026-07-30"
+      ]
+    }
+  },
+  "attempt": 1,
+  "bps_per_volatility_point": 22.874639,
+  "days_requested": 300,
+  "finished_at": "2026-08-30T06:57:32Z",
+  "kind": "task6_fixture",
+  "mode": "fixture",
+  "started_at": "2026-08-30T06:57:32Z",
+  "tenor_days": 30
+}
