@@ -798,3 +798,43 @@ that mistake twice so it is not made a third time.
 **What stands:** Stage B's BAND-OPEN over 91–99c held to resolution, computed
 from registered constants, never dependent on venue access, and unaffected by
 this verdict.
+
+---
+
+## Entry 7.1 — addendum: a fault in the mutation harness, and the Task 5 actual
+
+**Six mutations, all six load-bearing** (standing rule 14). The suite fails when
+Amendment 1's retraction is un-written to "That claim was well supported", when
+the counterargument's conclusion is gutted, when its "recorded rather than
+suppressed" framing is deleted, when the zero-request record is changed to
+"sent several market-data requests", when the transfer statement becomes "and
+plausibly something about Kalshi too", and when the unexercised floor's sample
+cost is reported as zero instead of not measured. All six restore green at
+**72 tests**.
+
+**The first run reported one of those six as passing, and that was wrong.** The
+counterargument mutation appeared not to break anything. It had not broken
+anything because **it had never been applied**: `sed` is line-based, the target
+sentence is hard-wrapped across two lines in the source, and the pattern
+therefore matched nothing. The suite passed because the document was unchanged.
+
+**A mutation that does not mutate is not evidence, and the harness now proves it
+changed the file before it trusts the result** — `git diff --quiet` on the
+target, with a no-op reported as a harness fault rather than counted as a guard
+result. Re-run under that check with single-line patterns, both counterargument
+mutations fail the suite as required.
+
+This is the mirror image of the fault Entry 1 recorded, and the same root cause:
+**the test reader folds whitespace and the mutation tool does not.** Entry 1's
+version had a hard-wrapped needle failing a literal match on text that was
+genuinely present, and the fix belonged in the reader. This version had a
+hard-wrapped needle silently *not* removing text, and the fix belongs in the
+harness. Recorded so the next session verifies the change rather than the
+absence of a failure.
+
+**Task 5 actual: ~6 min against the 15-min ETA** (03:40:52Z → the commit
+carrying this entry). **Stage C total: ~17 min against 50 min stated**, with the
+enumeration ETA never stated because the enumeration was never armed. Stage B's
+rate, used as the basis here, again ran roughly two to three times long — but in
+the safe direction, and the dominant reason this stage came in short is that the
+terms closed it before its largest task began.
