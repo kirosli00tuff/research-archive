@@ -110,3 +110,83 @@ Print an end-state summary: the Section 0 verdict with its inputs, the venue tab
 ### END VERBATIM PROMPT
 
 ---
+
+## 2026-08-30T04:38Z — TASK 0 COMPLETE — preconditions, remote, duplication screen
+
+**ETA 20 min · actual ~6 min.**
+
+| item | result |
+|---|---|
+| Working tree | `/home/kiros-li/Documents/GitHub/VRPExperiment`, clean, branch `main` |
+| Commit at start | `eda2d65` "Repo init: VRPExperiment scaffold placeholder", **1 commit** |
+| Toolchain | uv 0.12.0, python3 3.14.4, gh authenticated as `kirosli00tuff` |
+| Remote | **CREATED AND PUSHED.** `https://github.com/kirosli00tuff/VRPExperiment` (private). `gh repo create` exit 0. `git push -u origin main` exit 0; local HEAD `31c9345` equals `origin/main`. **No gh authentication failure. No open operator item on the remote.** |
+| Duplication screen | 14 repos × 9 terms. Recorded in `docs/DUPLICATION.md`. |
+
+**Duplication screen result: CLEAR, no ADJACENT.**
+
+- `variance risk premium`, `implied volatility`, `volatility premium`,
+  `delta hedge`: **0 lines** in all 13 non-control repositories.
+- `VRP`: raw substring counts up to 4,154 (solattn) are **entirely artifacts** —
+  **0** word-boundary hits anywhere outside this repo; matches sit inside
+  Bluesky DIDs and base58 Solana addresses.
+- `DVOL`: **0** word-boundary hits in the entire tree outside this repo.
+- `realized volatility`: 10 lines, all of it used as an **input feature or
+  regime switch** (AiTrader ADX regime detector; MLCryptoEngine triple-barrier
+  width scaling; NPDExperiment `rvol_20`/`rvol_60` feature names). **Not one
+  line compares realized to implied.**
+- `straddle`: 15 lines, **every one the English verb** ("straddles midnight
+  UTC", "Noise straddles 1.0"). Zero option straddles.
+- `option`: 1,993 lines, all CLI/API/config vocabulary. Zero option contracts.
+
+**Three named closures, reasoned rather than asserted — all CLEAR.**
+
+1. **MLCryptoEngine H5 / H8 (funding carry).** A funding rate prices the
+   perpetual's deviation from spot — a **first moment**, contractually specified
+   and **published directly by the venue**. A variance premium is a **difference
+   of two estimators** on the **second moment**, never published, one implied by
+   inversion from a price and one computed from subsequent returns. Funding
+   compensates carrying inventory against a directional crowd (H5 measured it
+   correlating **0.5+ with trailing trend**: BTC pays 5.77 bps/day in uptrends
+   vs 1.87 in downtrends); a variance premium compensates bearing **gamma**.
+   There is no funding rate on an option. Different quantity, different risk,
+   different instrument.
+2. **NPLExperiment H5 (HIP-3 basis 4.14 bp, n = 188, 18 bp floor).** A basis is
+   an **instantaneous cross-price dislocation** between two claims on one
+   underlying, with a **convergence relation** to arbitrage, computable from a
+   single simultaneous quote pair. A variance premium is a wedge between a
+   **price and a subsequent realization** over a stated tenor, with **no
+   convergence relation** — nothing forces implied and realized together, and a
+   seller is short gamma and can lose with no mispricing having existed. NPL's
+   18 bp floor is a cost floor on an arbitrage; this repository's hurdle is a
+   floor on a **risk premium**.
+3. **MLCryptoEngine H2 (CME micro futures, AUC 0.501, n = 224,425,675 events).**
+   H2 is a **prediction** claim with an AUC endpoint; this makes **no prediction
+   claim**. A market can be exactly AUC 0.500 and still pay a large variance
+   premium — efficiency is the standard *explanation* for the premium, not a
+   refutation. H2's edge would have been a **zero-sum transfer** from uninformed
+   flow; a variance premium is **risk-bearing compensation** paid by hedgers for
+   convexity. H2 traded the **linear** MBT future; this measures the **convex**
+   option. H2's own reopening clause scopes it to a different instrument or
+   feature class and to AUC; a variance premium is neither.
+
+**Carried qualification into the register entry** (a dependency, not a
+duplication): venue-reachability priors come from MLCryptoEngine ADR-034 and CME
+cost priors from MLCryptoEngine H2. Both are dated measurements. Both are
+re-verified live in TASK 3 and TASK 5 before use; if re-verification disagrees,
+the measurement wins and the disagreement is recorded.
+
+**Re-verification already performed at TASK 0** (measured beats documented):
+
+| carried figure | prompt states | measured live from source | source |
+|---|---|---|---|
+| ORB entry half spread | 0.0766 USD/share, n = 550 | **0.076572** median, **0.333662** p90, **n = 550 minutes served, 0 refused** | `ORBExperiment/README.md:300`, `docs/HANDOVER.md:59`, `reports/stage_a3rescue/task2_slippage_band.json:74` (0.07657173002730797) |
+| MET micro ether cost | 101.76 bps | **101.762 bps**, notional **$191**, round turn $1.94 | `MLCryptoEngine/report.md:1165` |
+| MBT micro bitcoin | $6,505 notional | **$6,505** notional, round turn **$4.04**, **6.211 bps** | `MLCryptoEngine/report.md:1164` |
+| ADR-034 Hyperliquid | 3 bps, cheapest BC-reachable, only short | Confirmed verbatim: "the only reachable venue offering a short is Hyperliquid perps", Hyperliquid perps base tier **1.5 bps/side = 3.0 bps round trip**, verified 2026-08-01 | `MLCryptoEngine/DECISIONS.md:1480`, `HYPOTHESES.md:305` |
+
+All four carried figures agree with source to rounding. **No disagreement to
+record at TASK 0.** The venue figures are dated 2026-07-15 / 2026-08-01 and are
+re-measured live in TASK 3 regardless.
+
+---
