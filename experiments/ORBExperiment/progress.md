@@ -3389,3 +3389,119 @@ bar-integrity evidence resolves it.**
 clean over 56 files, **410 tests passing**. **16 mutations, 0 harness
 failures.** **0 requests sent, 0 dollars spent.** **Both latches absent, 0
 systemd units loaded.**
+
+---
+
+## Entry 33 — the rescue-pass operator prompt, logged verbatim before any other work
+
+**Recorded 2026-08-30T03:12:32Z.** Standing rule 1. At the moment this entry was written the
+tree was clean, `main` tracked `origin/main` at **0 ahead, 0 behind**, and the
+last commit on the remote was `df16da1` — *"docs: A.2 TASK 7 — close-out, 4 ADRs,
+16 mutations, 0 harness failures"*.
+
+**Nothing was written, measured, requested or amended before this line.**
+
+The prompt as supplied, reproduced without alteration:
+
+    BEGIN PROMPT
+
+    ORBExperiment, Stage A.3 rescue pass. Effort: high. Run autonomously. Commit at every task boundary and push to origin/main immediately after every commit. Never force-push, never amend or rewrite a pushed commit. Append-only rules govern every registration edit.
+
+    Read first, for state and not for text: REGISTRATION.md Sections 1, 2, 3, 6, 8, 9, 10, 11 and 14, reports/stage_a2repair/task3_execution_mix.json and task4_joint_power.json, Amendments 11, 15 and 21, DECISIONS.md, and docs/HANDOVER.md.
+
+    Standing rules remain in force. This pass reads only the amended post-holdout carve-out, strictly after 2026-06-30. It arms nothing, spends nothing, and does not touch the Stage C or Stage D latches. It is the final rescue pass for H1 and the registration records it as such before TASK 1 runs.
+
+    Context established by measurement and not to be re-derived: dispersion 2.029585 USD per share. Central mean at the registered 1.40 assumption 0.040386. Measured pessimistic shift 0.041455, giving a pessimistic-cost mean of minus 0.001068. Stop-exit share 0.381818 on 550 triggered trades. Ambiguous rate 0.0 on 560 name-sessions. Trigger rate 0.982. E1 power at alpha 0.05 is 0.8325 on 875 holdout sessions. E2 power 0.0433, joint power 0.0433, joint minimum n Absent.
+
+    STAGE A.-1 : TASK 0. Preconditions and the pre-committed success criterion.
+
+    Confirm the tree is clean, main tracks origin/main, push dry-run succeeds, both latches unopened, systemd units inert.
+
+    Write the success criterion to the registration before any measurement, as a new amendment, and compute nothing until it is committed and pushed. This exists so the pass cannot be read as a search for a favourable number.
+
+    Record the arithmetic first. E2 reaching 80 percent power on 875 sessions at the registered 1.40 assumption requires a pessimistic-cost mean of at least 0.038493 USD per share, which requires the shift to fall to 0.001893 or below, a 22-fold reduction from the measured 0.041455. State plainly that this is not reachable by any honest cost measurement and that GO is therefore not an outcome of this pass.
+
+    The criterion, in three tiers, all evaluated at the registered 1.40 assumption on the 875-session holdout.
+
+    RESCUED_DEGRADED: the measured shift from TASK 2 falls strictly below the central mean of 0.040386, making the pessimistic-cost mean positive, and E2 power rises above the 0.05 size of the test. H1 continues under a DEGRADED scope with E2 underpowered and that scope stated in Section 11.
+
+    NOT_RESCUED: the measured shift remains at or above 0.040386. The pessimistic-cost mean stays at or below zero and E2's alternative remains inside its own null.
+
+    Register the consequence of NOT_RESCUED now, before the number exists: H1 closes as cost-bound, which is an existing closure kind in HYPOTHESES.md, and no further rescue lever is applied. Record that the operator pre-committed to this before the measurement, with the date.
+
+    Change B is evaluated separately and cannot rescue H1. Record that a Change B result, whatever it shows, is feasibility evidence for a new hypothesis and never a continuation of H1.
+
+    Commit. Push.
+
+    STAGE A.0 : TASK 1. Register Change B as H1b, not as an amendment to H1.
+
+    Open a new register entry, H1b, status REGISTERED_NOT_OPEN. The claim is the H1 rule with a raised price floor, replacing the registered open above 5.00 USD filter. Every other registered parameter is unchanged.
+
+    Record the motivation as mechanistic and stated before measurement: per-share slippage is approximately invariant to price, while per-share dispersion and per-share edge both scale with price, so the ratio of edge to cost should improve as the floor rises. Record the competing effect that a higher floor shrinks the eligible universe and may reduce the top-20 selection's relative-volume extremity, and that the net direction is unknown before measurement.
+
+    Record the multiple-testing consequence explicitly. H1b increments the deflated Sharpe trial count in Section 8 from 8 to 9. Record that any future H1b verdict carries the larger correction, and that this cost is being paid because the filter change was proposed after seeing an H1 null and not before.
+
+    State in the entry that H1b is registered but not opened, that this pass produces only a carve-out feasibility scan, and that opening H1b requires its own full registration, its own power gate and explicit operator instruction.
+
+    Commit. Push.
+
+    STAGE A.1 : TASK 2. Change A. Measure the slippage band on carve-out data.
+
+    Run inside the sealed writer on post-holdout sessions strictly after 2026-06-30. The carried band of 0.020 central and 0.040 pessimistic on entry, 0.040 and 0.080 on stop exits, 0.010 and 0.020 on close exits came from the QQQ replication, an ETF with a spread near one cent. This universe selects news-driven single names. The carried figures were never measured on the instruments actually traded.
+
+    Measure what the data supports, per leg.
+
+    For entry, measure the overshoot: the distance in USD per share between the registered range boundary and the actual first traded price through it, per triggered trade. Report the mean, median, the 90th percentile and the distribution with its n. The 90th percentile is the pessimistic-end candidate and the median is the central-end candidate. Record which statistic is assigned to which end and why, before computing the resulting shift.
+
+    For stop exits, measure the same overshoot at the stop level on the 38.18 percent of trades that stop out.
+
+    For close exits, measure the dispersion of the closing print against the last trade of the 15:55 to 15:59 window.
+
+    If the tier serves quote data, additionally measure the time-weighted quoted spread across the entry minute and report it beside the overshoot as an independent check. If quotes are not served, record Absent(not_served) with the refusal, never an assumption.
+
+    The writer emits only summary statistics per leg and the resulting central and pessimistic band figures. It returns no trade, no per-name figure and no bar value. Extend the existing return-type pin and add a mutation returning a trade list, which must fail.
+
+    Report every measured figure against the carried figure it replaces, in the same sentence with its n, in the falsified-planning-figure shape. Where a measured figure is worse than the carried one, record that too. This is a measurement, not a reduction.
+
+    Commit. Push.
+
+    STAGE A.1 : TASK 3. Recompute the shift, E2 and joint power on the measured band.
+
+    Recompute the pessimistic-minus-central shift using the TASK 2 band and the measured stop share of 0.381818. Recompute the pessimistic-cost mean, E2 power at alpha 0.05 and joint power, at all three Sharpe assumptions on both 875 and 1,762 sessions.
+
+    Evaluate the TASK 0 criterion and record RESCUED_DEGRADED or NOT_RESCUED explicitly, with the deciding number beside it.
+
+    Do not adjust the effect assumption, the alpha, the stop share or any registered rule to move this figure. Do not select among the TASK 2 statistics after seeing which produces a favourable shift. The assignment of median to central and 90th percentile to pessimistic is fixed in TASK 2 before the shift is computed, and any deviation voids the pass.
+
+    Commit. Push.
+
+    STAGE A.1 : TASK 4. Change B. The H1b price-floor feasibility scan.
+
+    Carve-out data only. Scan price floors of 5, 10, 20, 50 and 100 USD. For each, inside the sealed writer, report only: the eligible universe size, the achieved top-20 selection count, the mean relative volume of the selection, the per-trade dispersion in USD per share, the measured entry overshoot, and the implied ratio of central mean to shift at the registered 1.40 assumption.
+
+    Report the ratio as the comparison figure across floors. Do not compute a verdict, do not compute power for H1b, and do not select a floor. This is a feasibility scan and its output is a table handed to the operator.
+
+    Record the sample cost at each floor: how many name-sessions survive, and whether the top-20 selection is still fillable. A floor that empties the universe is a finding.
+
+    Commit. Push.
+
+    STAGE A.2 : TASK 5. Fire the outcome.
+
+    On RESCUED_DEGRADED: record the DEGRADED scope in Section 11 in plain words, stating that H1 survives on a measured cost band with E2 passing but underpowered, that GO was not reachable, and that any positive verdict is conditional on the measured band holding out of sample. Re-fire Section 0. The bar revision and agreement measurements remain absent until 2026-09-12, so the landing is PENDING_REVISION.
+
+    On NOT_RESCUED: close H1 in HYPOTHESES.md as cost-bound. Write the closure in the house shape, carrying every deciding figure with its n: the measured band, the resulting shift, the central mean, the pessimistic-cost mean, E2 power, joint power, and the pre-committed criterion with its date. State that the closure rests on the registered 1.40 effect assumption, that E2 passes at the published 2.81 assumption where power reaches 0.820, and that the closure is therefore conditional on the halving heuristic rather than on the absence of any effect. Record the assistant prior of 0.15 and the operator prior of 0.30 against the outcome for the calibration ledger.
+
+    Do not close H1b. It remains REGISTERED_NOT_OPEN regardless of the H1 outcome.
+
+    STAGE A.2 : TASK 6. Docs and close-out.
+
+    Add ADRs for the measured slippage band, the H1b registration with its trial-count increment, and the pre-committed rescue criterion. Update the README what-is-measured-so-far table. Add a report.md section for this pass. Update docs/HANDOVER.md with the outcome, the H1b feasibility table, the open operator items, and the unchanged 2026-09-12 re-pull date.
+
+    Re-run make lint, typecheck, test and the full mutation harness. Evidence in reports/stage_a3rescue.
+
+    progress.md entries per task with ETA against actual. Final commit. Push.
+
+    Print an end-state summary: the pre-committed criterion, the measured band per leg against the carried figures with their n, the recomputed shift, the pessimistic-cost mean, E2 power, joint power, the RESCUED_DEGRADED or NOT_RESCUED outcome, the H1 status, the H1b feasibility table, and every open operator item.
+
+    END PROMPT
+

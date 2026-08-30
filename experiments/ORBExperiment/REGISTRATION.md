@@ -3658,3 +3658,99 @@ the one that would have fired.
 - **It closes nothing.** H1 remains **OPEN**.
 - **It changes no Section 0 branch.** `src/orb/section0.py` is byte-identical to
   its state before this pass.
+
+---
+
+## Amendment 24 — the rescue-pass success criterion, pre-committed before any measurement
+
+**Date:** 2026-08-30 · **Status:** accepted · **written and pushed BEFORE the
+measurement it judges**; amends **Section 11** by adding the scope a
+`RESCUED_DEGRADED` outcome would carry
+
+**What data existed when this amendment was made.** Everything held at
+Amendments 11 through 23, plus those amendments. **The Stage A.3 slippage-band
+measurement had not been made and no line of the tool that makes it had been
+written.** **Zero dollars spent, zero requests sent. Neither latch exists.**
+
+> ### **This amendment exists so the pass cannot be read as a search for a favourable number.** It is committed and pushed **before** TASK 2 computes anything, and the commit order is checkable in `git log`.
+
+### 1. This is the final rescue pass for H1, and the registration says so first
+
+**Registered here, before TASK 1 runs.** Stage A.3 applies **one** lever to H1 —
+a measurement of the slippage band on the instruments actually traded — and
+**no further rescue lever is applied afterwards.** Whatever this pass measures,
+H1 is resolved on it under the criterion below.
+
+### 2. The arithmetic, recorded first, and verified rather than carried
+
+**For E2 to reach 80 percent power on the 875-session holdout at the registered
+1.40 Sharpe assumption**, with the measured dispersion of **2.029585 USD per
+share** and the measured **19.642857 trades per session** (17,188 trades):
+
+| quantity | figure |
+|---|---:|
+| required effect, `z(0.95) + z(0.80)` | **2.486475** |
+| **required pessimistic-cost mean** | **0.038493 USD/share** |
+| central mean at the registered 1.40 | **0.040386 USD/share** |
+| **required shift** | **0.001893 USD/share or below** |
+| measured shift (Amendment 20) | **0.041455 USD/share** |
+| **required reduction** | **21.89-fold** |
+
+**Reproduced in code before this amendment was written**, and it agrees with the
+figures the operator stated to every digit given.
+
+> ### **A 21.89-fold reduction in the slippage band is not reachable by any honest cost measurement. `GO` is therefore NOT an outcome of this pass, and this amendment says so before the measurement rather than after it.**
+
+The lower bound on entry slippage alone — the quoted spread a marketable order
+crosses — is of the order of one cent on a liquid single name. **0.001893 USD per
+share across both legs is below a single tick.** No measurement of a real
+instrument can land there.
+
+### 3. The criterion, in tiers, all at the registered 1.40 assumption on `n = 875`
+
+**`RESCUED_DEGRADED`** — the TASK 2 measured shift falls **strictly below**
+**0.040386**, so the **pessimistic-cost mean is positive** and **E2 power rises
+above 0.05**, the size of the test. **H1 continues under a DEGRADED scope**, with
+**E2 passing but underpowered**, and that scope is stated in Section 11.
+
+**`NOT_RESCUED`** — the measured shift remains **at or above 0.040386**. The
+pessimistic-cost mean stays **at or below zero** and **E2's alternative remains
+inside its own null.**
+
+**`GO` is unreachable and is not a tier.** See §2.
+
+### 4. The consequence of NOT_RESCUED, registered now, before the number exists
+
+> ### **On `NOT_RESCUED`, H1 closes as `cost-bound`** — an **existing** closure kind in `HYPOTHESES.md`, precedent MLCryptoEngine H6 — **and no further rescue lever is applied.**
+
+**The operator pre-committed to this on 2026-08-30, before the measurement**, and
+this amendment is the record of that commitment. **A later reader can verify the
+ordering in `git log`**: this commit precedes the commit that contains the
+measuring tool.
+
+### 5. Section 11 addition, conditional and written in advance
+
+**If and only if `RESCUED_DEGRADED` fires**, Section 11 gains the scope recorded
+at TASK 5: that **H1 survived on a measured cost band rather than on the carried
+one**, that **`GO` was never reachable in this pass**, that **E2 passes but is
+underpowered**, and that **any positive verdict is conditional on the measured
+band holding out of sample** — a band measured on **42 post-holdout sessions**
+and applied to a **holdout of 875**.
+
+### 6. Change B cannot rescue H1, and that is registered here too
+
+**Whatever the Change B price-floor scan shows, it is feasibility evidence for a
+new hypothesis and never a continuation of H1.** A filter change proposed
+**after** seeing an H1 null is a **new hypothesis with its own multiplicity
+cost**, not a repair of the old one. It is registered separately as **H1b** at
+TASK 1 and **it is not opened by this pass.**
+
+**H1's outcome is decided by §3 alone.**
+
+### 7. What this amendment does not do
+
+- **It reads no bar, sends no request and spends nothing.**
+- **It opens no latch and arms nothing.**
+- **It changes no rule, no threshold, no gate and no Section 0 branch.**
+- **It does not touch the effect assumption, the alpha, the stop share or the
+  registered cost band.** TASK 2 measures the band; it does not choose it.
