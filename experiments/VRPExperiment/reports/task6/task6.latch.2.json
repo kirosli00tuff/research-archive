@@ -1,0 +1,18 @@
+{
+  "kind": "latch:real",
+  "module_hashes": {
+    "/home/kiros-li/Documents/GitHub/VRPExperiment/src/vrp/__init__.py": "4b047df4bf8086a07823702f85fe2147949ab439ce91a44c74c06e7b18fd7204",
+    "/home/kiros-li/Documents/GitHub/VRPExperiment/src/vrp/absence.py": "e13dc825bb9adbedd891f810294d18c49bf743e0dc67ebd62b557a5fe1a02683",
+    "/home/kiros-li/Documents/GitHub/VRPExperiment/src/vrp/callstate.py": "80184e5e116980b244604167a8931aa1e011de0ad1a8e7725e34826122f8deb2",
+    "/home/kiros-li/Documents/GitHub/VRPExperiment/src/vrp/fields.py": "0cf51b6f58c34f08b5acb2b0d6145fe3d49133a8c9b130cbef0629d647826595",
+    "/home/kiros-li/Documents/GitHub/VRPExperiment/src/vrp/latch.py": "ce918fe6b492281f88579a5cd93aa0de4e0d5c03bd2f211e6fa957e6add16ddf",
+    "/home/kiros-li/Documents/GitHub/VRPExperiment/src/vrp/ledger.py": "e63211ac8686810da3338032fc7cc14ad8f12f77b7b7a76311cee603e5cb76de",
+    "/home/kiros-li/Documents/GitHub/VRPExperiment/src/vrp/redact.py": "5f7a3b8adad0148c9ac056a8054e9afd5ac5c7097d4f4f9705839e8e186e9e22",
+    "/home/kiros-li/Documents/GitHub/VRPExperiment/src/vrp/seal.py": "71bc2cf2cfc2510f336e2821df970d6271c21836ebcb88fc9473308fc5778d8e",
+    "/home/kiros-li/Documents/GitHub/VRPExperiment/src/vrp/sealed_read.py": "701048ccc3a4467167a3682830782261be96112ac55c59952bb40b52ddc3a5d1",
+    "/home/kiros-li/Documents/GitHub/VRPExperiment/src/vrp/tzguard.py": "4ae748528795c1ebd8cf17d9ebb3a69a0fb276341031933fab48fe1a10034f26",
+    "/home/kiros-li/Documents/GitHub/VRPExperiment/tools/task6_sealed_run.py": "47ee85a33fb835a9620c4e7fd4f055feb80f2b5da373d177f9c7cf2c43a871f2"
+  },
+  "note": "TASK 6 sealed read of Deribit DVOL, attempt 2; attempt 1 aborted on a venue parameter refusal before any estimator ran (REGISTRATION.md Amendment 1)",
+  "written_at": "2026-08-30T06:58:05.858Z"
+}

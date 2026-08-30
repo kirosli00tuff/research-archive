@@ -694,3 +694,119 @@ test rather than discovered later. A further test asserts `estimate_premium` has
 can behave differently on the real read.
 
 ---
+
+## 2026-08-30T07:05Z — TASK 6 COMPLETE — the sealed read
+
+**ETA 50 min · actual ~55 min** (the overrun is attempt 1's abort and Amendment 1).
+
+**Attempt 1 aborted before any estimator ran.** Latch written
+2026-08-30T06:55:35.492Z; the run failed on its first underlying-leg request
+with **HTTP 400**, verbatim `{"reason":"unsupported resolution",
+"param":"resolution"}`. Cause, confirmed across five chunks spanning 2021-03 to
+2026-08: **`get_volatility_index_data` takes `resolution` in SECONDS (hourly =
+3600) and `get_tradingview_chart_data` takes TradingView resolutions in MINUTES
+(hourly = 60) — the same literal `60` means one minute on one endpoint and one
+hour on the other.** DVOL returned 200 with 799–961 rows on every probe; the
+chart endpoint returned 400 on every one. **`real_result.json` does not exist,
+`data/raw/task6/` was empty, and the only output was a traceback.** The aborted
+latch is **kept, not deleted or reused**; `REGISTRATION.md` **Amendment 1**
+records all of it, including what would have been dishonest. The only change
+between attempts is **one string literal** in a request parameter.
+
+**Attempt 2, latch `task6.latch.2.json` written 2026-08-30T06:58:05.858Z.**
+
+| | BTC | ETH |
+|---|---|---|
+| DVOL hourly rows → daily at 08:00 UTC | 47,696 → **1,985** | 47,696 → **1,985** |
+| perpetual hourly rows → daily at 08:00 UTC | 47,858 → **1,992** | 47,858 → **1,992** |
+| days paired / dropped for incomplete forward window | 1,985 / **30** | 1,985 / **30** |
+| **n** | **1,955** | **1,955** |
+| window | **2021-03-24 → 2026-07-30** | same |
+| **mean premium** | **0.086607 vol pts = 198.111 bps** | **0.052045 vol pts = 119.052 bps** |
+| HAC SE (bandwidth 30) | 0.014709 | 0.021528 |
+| **t** | **5.888** | **2.418** |
+| **one-sided p** | **2.297 × 10⁻⁹** | **7.859 × 10⁻³** |
+| **CI lower** | **0.062401 vol pts = 142.740 bps** | **0.016618 vol pts = 38.012 bps** |
+| positive share | 0.7386 | 0.6455 |
+| **non-overlapping robustness, n = 66** | 220.872 bps, t 4.568, p 1.128 × 10⁻⁵, CI lower 140.188 | 132.793 bps, t 2.088, p 0.0203, CI lower 26.688 |
+
+**The registered robustness check agrees with the primary in sign and
+significance on both assets**, so the clause "if they disagree, the disagreement
+is the finding" is not triggered.
+
+**Stability — and this is where the two assets part company.**
+
+| quarter | BTC | ETH |
+|---|---|---|
+| Q1 2021-03-24→2022-07-24, n = 488 | +284.53 bps, p = 2.56 × 10⁻⁴ | +146.27 bps, **p = 0.146, not significant** |
+| Q2 →2023-11-24, n = 488 | +250.59 bps, p = 6.82 × 10⁻⁵ | +291.21 bps, p = 3.14 × 10⁻⁵ |
+| Q3 →2025-03-26, n = 488 | +145.13 bps, p = 4.55 × 10⁻³ | **−18.56 bps, NEGATIVE, p = 0.597** |
+| Q4 →2026-07-30, n = 491 | +112.72 bps, p = 0.0182 | +57.66 bps, **p = 0.211, not significant** |
+
+**BTC is significant in all four quarters but decays monotonically — 284.53 →
+250.59 → 145.13 → 112.72 bps, a 60.4% fall**, the same shape MLCryptoEngine H5
+measured in funding carry. **ETH is significant in only one of four quarters and
+is NEGATIVE in another; the full-sample ETH result rests heavily on Q2.**
+
+**Rebalances under the registered ±0.10 band, daily, over the 30-day tenor,
+n = 1,955 paths per asset:** BTC median **11**, p90 **16**, max 20; ETH median
+**11**, p90 **16**, max 22. Swept as ADR-034 requires rather than chosen: at
+±0.05 both medians are 17 (p90 21–22); at ±0.20 both are 5 (p90 9).
+
+---
+
+## 2026-08-30T07:12Z — TASK 7 COMPLETE — Section 0 fired
+
+**ETA 20 min · actual ~7 min.** Verdict in `HYPOTHESES.md`.
+
+# **VERDICT: VENUE_BLOCKED**, qualified — one route open on two named figures.
+
+**SIGNAL_ABSENT does not fire.** Both assets reject H₀ at the registered
+one-sided α = 0.05 with the registered HAC bandwidth 30: **BTC p = 2.297 × 10⁻⁹,
+ETH p = 7.859 × 10⁻³, n = 1,955 each**, and the non-overlapping check agrees.
+
+**HARVESTABLE cannot fire, structurally.** It requires the premium CI lower
+bound to exceed **2.0 × the measured pessimistic cost** on a reachable venue.
+**The pessimistic cost is `Absent(not_served)` on both permitted routes** —
+option bid-ask, hedge bid-ask and CME exchange fee. **A branch conditioned on a
+measured cost cannot fire on an absent one**, and Guard 1 enforces that rather
+than leaving it to discipline.
+
+**The deciding arithmetic, every input measured, each with its n:**
+
+| | **MET (ETH premium)** | **MBT (BTC premium)** |
+|---|---|---|
+| straddle round trip, commission only | **32.571 bps** | **4.352 bps** |
+| hedge, central (11 rebalances, n = 1,955) | 89.569 bps | 11.968 bps |
+| hedge, pessimistic (16 rebalances, p90) | 130.282 bps | 17.408 bps |
+| **central total (LOWER BOUND)** | **122.140 bps** | **16.320 bps** |
+| **pessimistic total (LOWER BOUND)** | **162.853 bps** | **21.760 bps** |
+| required for HARVESTABLE (2.0×) | **325.706 bps** | **43.520 bps** |
+| **premium CI lower bound (n = 1,955)** | **38.012 bps** | **142.740 bps** |
+| **verdict** | **FAILS by 8.57×** | **passes by 3.28× on commission alone** |
+
+**MET is decided and the margin is not what decides it.** The ETH premium's
+**point estimate, 119.052 bps, is below the central commission-only cost of
+122.140 bps.** The premium does not cover the commission, before any spread,
+exchange fee or margin is charged. And because every measured figure is a strict
+**lower bound** on cost, **cost can only make this worse.**
+
+**MBT is not decided, and cannot be from outside a brokerage account.** It passes
+the margin on commission alone **at any rebalance count up to the daily maximum
+of 29** (worst case 35.904 bps, 2× = 71.81 bps, against a CI lower bound of
+142.740). Two figures would settle it: **initial margin ≤ 12.80% of the
+$7,812.46 notional (≤ $1,000/contract)**, and **absent cost legs ≤ 49.61 bps** of
+notional at the pessimistic end.
+
+**Prior calibration.** Assistant **0.76 on VENUE_BLOCKED** resolves in favour —
+**but the branch was right for a partly wrong reason, and that is recorded.** The
+prior assumed CME crypto options might not be permissioned for Canadian retail;
+**they are** — IBKR Canada Inc., a CIRO member, publishes a dedicated page. The
+prior worried **MBT would be too big for the sleeve**; what actually decided the
+measurable route is that **MET is too small for the commission**, 7.48× more
+expensive in bps for exactly ADR-023's reason. In ORBExperiment neither prior had
+priced the spread; here the prior *had* priced the cost side — Section 4 carried
+no figure precisely because of that lesson — but priced it on the **wrong
+instrument**.
+
+---

@@ -1,0 +1,277 @@
+{
+  "assets": {
+    "BTC": {
+      "days_paired": 1985,
+      "dropped_incomplete_forward_window": 30,
+      "implied_days_served": 1985,
+      "implied_span": [
+        "2021-03-24",
+        "2026-08-29"
+      ],
+      "n": 1955,
+      "primary_overlapping_hac": {
+        "ci_lower_bps": 142.7401,
+        "ci_lower_vol_points": 0.062401,
+        "hac_bandwidth": 30,
+        "hac_standard_error": 0.014709,
+        "label": "BTC_overlapping_hac",
+        "mean_bps": 198.111,
+        "mean_vol_points": 0.086607,
+        "n": 1955,
+        "one_sided_p": 2.2965959114251576e-09,
+        "positive_share": 0.738619,
+        "t_statistic": 5.8879
+      },
+      "rebalances": [
+        {
+          "band": 0.05,
+          "max": 26,
+          "max_abs_drift_median": 0.3978,
+          "mean": 16.2685,
+          "median": 17,
+          "min": 4,
+          "n": 1955,
+          "p90": 21
+        },
+        {
+          "band": 0.1,
+          "max": 20,
+          "max_abs_drift_median": 0.4067,
+          "mean": 10.8077,
+          "median": 11,
+          "min": 2,
+          "n": 1955,
+          "p90": 16
+        },
+        {
+          "band": 0.2,
+          "max": 14,
+          "max_abs_drift_median": 0.4324,
+          "mean": 5.5095,
+          "median": 5,
+          "min": 0,
+          "n": 1955,
+          "p90": 9
+        }
+      ],
+      "robustness_non_overlapping_iid": {
+        "ci_lower_bps": 140.1876,
+        "ci_lower_vol_points": 0.061285,
+        "hac_bandwidth": 0,
+        "hac_standard_error": 0.021138,
+        "label": "BTC_non_overlapping",
+        "mean_bps": 220.872,
+        "mean_vol_points": 0.096558,
+        "n": 66,
+        "one_sided_p": 1.1279134941095236e-05,
+        "positive_share": 0.742424,
+        "t_statistic": 4.5679
+      },
+      "stability_quarters": [
+        {
+          "from": "2021-03-24",
+          "mean_bps": 284.53,
+          "mean_vol_points": 0.124387,
+          "n": 488,
+          "one_sided_p": 0.00025559579409758164,
+          "part": 1,
+          "positive_share": 0.7541,
+          "t": 3.498,
+          "to": "2022-07-24"
+        },
+        {
+          "from": "2022-07-25",
+          "mean_bps": 250.587,
+          "mean_vol_points": 0.109548,
+          "n": 488,
+          "one_sided_p": 6.820919294091758e-05,
+          "part": 2,
+          "positive_share": 0.7561,
+          "t": 3.845,
+          "to": "2023-11-24"
+        },
+        {
+          "from": "2023-11-25",
+          "mean_bps": 145.132,
+          "mean_vol_points": 0.063447,
+          "n": 488,
+          "one_sided_p": 0.004551794102350646,
+          "part": 3,
+          "positive_share": 0.7418,
+          "t": 2.619,
+          "to": "2025-03-26"
+        },
+        {
+          "from": "2025-03-27",
+          "mean_bps": 112.719,
+          "mean_vol_points": 0.049277,
+          "n": 491,
+          "one_sided_p": 0.018215417684982346,
+          "part": 4,
+          "positive_share": 0.7026,
+          "t": 2.098,
+          "to": "2026-07-30"
+        }
+      ],
+      "underlying_days_served": 1992,
+      "underlying_span": [
+        "2021-03-17",
+        "2026-08-29"
+      ],
+      "window": [
+        "2021-03-24",
+        "2026-07-30"
+      ]
+    },
+    "ETH": {
+      "days_paired": 1985,
+      "dropped_incomplete_forward_window": 30,
+      "implied_days_served": 1985,
+      "implied_span": [
+        "2021-03-24",
+        "2026-08-29"
+      ],
+      "n": 1955,
+      "primary_overlapping_hac": {
+        "ci_lower_bps": 38.0124,
+        "ci_lower_vol_points": 0.016618,
+        "hac_bandwidth": 30,
+        "hac_standard_error": 0.021528,
+        "label": "ETH_overlapping_hac",
+        "mean_bps": 119.0521,
+        "mean_vol_points": 0.052045,
+        "n": 1955,
+        "one_sided_p": 0.007858540106723278,
+        "positive_share": 0.645524,
+        "t_statistic": 2.4175
+      },
+      "rebalances": [
+        {
+          "band": 0.05,
+          "max": 26,
+          "max_abs_drift_median": 0.4132,
+          "mean": 16.5893,
+          "median": 17,
+          "min": 3,
+          "n": 1955,
+          "p90": 22
+        },
+        {
+          "band": 0.1,
+          "max": 22,
+          "max_abs_drift_median": 0.4167,
+          "mean": 10.9913,
+          "median": 11,
+          "min": 2,
+          "n": 1955,
+          "p90": 16
+        },
+        {
+          "band": 0.2,
+          "max": 16,
+          "max_abs_drift_median": 0.4488,
+          "mean": 5.7483,
+          "median": 5,
+          "min": 1,
+          "n": 1955,
+          "p90": 9
+        }
+      ],
+      "robustness_non_overlapping_iid": {
+        "ci_lower_bps": 26.6879,
+        "ci_lower_vol_points": 0.011667,
+        "hac_bandwidth": 0,
+        "hac_standard_error": 0.027798,
+        "label": "ETH_non_overlapping",
+        "mean_bps": 132.793,
+        "mean_vol_points": 0.058053,
+        "n": 66,
+        "one_sided_p": 0.020344672900974938,
+        "positive_share": 0.666667,
+        "t_statistic": 2.0883
+      },
+      "stability_quarters": [
+        {
+          "from": "2021-03-24",
+          "mean_bps": 146.27,
+          "mean_vol_points": 0.063944,
+          "n": 488,
+          "one_sided_p": 0.14582879107593305,
+          "part": 1,
+          "positive_share": 0.6455,
+          "t": 1.056,
+          "to": "2022-07-24"
+        },
+        {
+          "from": "2022-07-25",
+          "mean_bps": 291.212,
+          "mean_vol_points": 0.127308,
+          "n": 488,
+          "one_sided_p": 3.1428446071868534e-05,
+          "part": 2,
+          "positive_share": 0.7889,
+          "t": 4.037,
+          "to": "2023-11-24"
+        },
+        {
+          "from": "2023-11-25",
+          "mean_bps": -18.556,
+          "mean_vol_points": -0.008112,
+          "n": 488,
+          "one_sided_p": 0.5969522476880395,
+          "part": 3,
+          "positive_share": 0.5369,
+          "t": -0.246,
+          "to": "2025-03-26"
+        },
+        {
+          "from": "2025-03-27",
+          "mean_bps": 57.659,
+          "mean_vol_points": 0.025207,
+          "n": 491,
+          "one_sided_p": 0.21108500630319577,
+          "part": 4,
+          "positive_share": 0.611,
+          "t": 0.803,
+          "to": "2026-07-30"
+        }
+      ],
+      "underlying_days_served": 1992,
+      "underlying_span": [
+        "2021-03-17",
+        "2026-08-29"
+      ],
+      "window": [
+        "2021-03-24",
+        "2026-07-30"
+      ]
+    }
+  },
+  "attempt": 2,
+  "bps_per_volatility_point": 22.874639,
+  "days_requested": 1992,
+  "finished_at": "2026-08-30T06:59:48Z",
+  "kind": "task6_real",
+  "latch": {
+    "kind": "latch:real",
+    "module_hashes": {
+      "/home/kiros-li/Documents/GitHub/VRPExperiment/src/vrp/__init__.py": "4b047df4bf8086a07823702f85fe2147949ab439ce91a44c74c06e7b18fd7204",
+      "/home/kiros-li/Documents/GitHub/VRPExperiment/src/vrp/absence.py": "e13dc825bb9adbedd891f810294d18c49bf743e0dc67ebd62b557a5fe1a02683",
+      "/home/kiros-li/Documents/GitHub/VRPExperiment/src/vrp/callstate.py": "80184e5e116980b244604167a8931aa1e011de0ad1a8e7725e34826122f8deb2",
+      "/home/kiros-li/Documents/GitHub/VRPExperiment/src/vrp/fields.py": "0cf51b6f58c34f08b5acb2b0d6145fe3d49133a8c9b130cbef0629d647826595",
+      "/home/kiros-li/Documents/GitHub/VRPExperiment/src/vrp/latch.py": "ce918fe6b492281f88579a5cd93aa0de4e0d5c03bd2f211e6fa957e6add16ddf",
+      "/home/kiros-li/Documents/GitHub/VRPExperiment/src/vrp/ledger.py": "e63211ac8686810da3338032fc7cc14ad8f12f77b7b7a76311cee603e5cb76de",
+      "/home/kiros-li/Documents/GitHub/VRPExperiment/src/vrp/redact.py": "5f7a3b8adad0148c9ac056a8054e9afd5ac5c7097d4f4f9705839e8e186e9e22",
+      "/home/kiros-li/Documents/GitHub/VRPExperiment/src/vrp/seal.py": "71bc2cf2cfc2510f336e2821df970d6271c21836ebcb88fc9473308fc5778d8e",
+      "/home/kiros-li/Documents/GitHub/VRPExperiment/src/vrp/sealed_read.py": "701048ccc3a4467167a3682830782261be96112ac55c59952bb40b52ddc3a5d1",
+      "/home/kiros-li/Documents/GitHub/VRPExperiment/src/vrp/tzguard.py": "4ae748528795c1ebd8cf17d9ebb3a69a0fb276341031933fab48fe1a10034f26",
+      "/home/kiros-li/Documents/GitHub/VRPExperiment/tools/task6_sealed_run.py": "47ee85a33fb835a9620c4e7fd4f055feb80f2b5da373d177f9c7cf2c43a871f2"
+    },
+    "note": "TASK 6 sealed read of Deribit DVOL, attempt 2; attempt 1 aborted on a venue parameter refusal before any estimator ran (REGISTRATION.md Amendment 1)",
+    "written_at": "2026-08-30T06:58:05.858Z"
+  },
+  "latch_path": "/home/kiros-li/Documents/GitHub/VRPExperiment/reports/task6/task6.latch.2.json",
+  "mode": "real",
+  "started_at": "2026-08-30T06:58:05Z",
+  "tenor_days": 30
+}
