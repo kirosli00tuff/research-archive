@@ -1,0 +1,133 @@
+{
+  "all_identical": true,
+  "gap": "\u224870 minutes",
+  "kind": "task4_revision_recheck",
+  "windows": [
+    {
+      "currency": "BTC",
+      "data_identical": true,
+      "data_only_sha256": "fa63b50d8879cc74db37488c4082120725182ff6a855ec183947a39d5e2be8ef",
+      "days_back": 45,
+      "params": {
+        "currency": "BTC",
+        "end_timestamp": "1784181600000",
+        "resolution": "3600",
+        "start_timestamp": "1783576800000"
+      },
+      "recheck_data_only_sha256": "fa63b50d8879cc74db37488c4082120725182ff6a855ec183947a39d5e2be8ef",
+      "recheck_row_count": 169,
+      "recheck_taken_at": "2026-08-30T07:03:22Z",
+      "requested_window_utc": [
+        "2026-07-09T06:00:00Z",
+        "2026-07-16T06:00:00Z"
+      ],
+      "row_count": 169,
+      "taken_at": "2026-08-30T06:26:08.230000Z"
+    },
+    {
+      "currency": "BTC",
+      "data_identical": true,
+      "data_only_sha256": "8c3f100adf973a436f02765b9947530f66c6cf7bd76a6fd6e80fa6a26a6e245c",
+      "days_back": 365,
+      "params": {
+        "currency": "BTC",
+        "end_timestamp": "1756533600000",
+        "resolution": "3600",
+        "start_timestamp": "1755928800000"
+      },
+      "recheck_data_only_sha256": "8c3f100adf973a436f02765b9947530f66c6cf7bd76a6fd6e80fa6a26a6e245c",
+      "recheck_row_count": 169,
+      "recheck_taken_at": "2026-08-30T07:03:23Z",
+      "requested_window_utc": [
+        "2025-08-23T06:00:00Z",
+        "2025-08-30T06:00:00Z"
+      ],
+      "row_count": 169,
+      "taken_at": "2026-08-30T06:26:08.399000Z"
+    },
+    {
+      "currency": "BTC",
+      "data_identical": true,
+      "data_only_sha256": "dbe71688a237c845fc41bec41daf3c8e55e4cab0961cbf6e5559f4e5c7ea7111",
+      "days_back": 900,
+      "params": {
+        "currency": "BTC",
+        "end_timestamp": "1710309600000",
+        "resolution": "3600",
+        "start_timestamp": "1709704800000"
+      },
+      "recheck_data_only_sha256": "dbe71688a237c845fc41bec41daf3c8e55e4cab0961cbf6e5559f4e5c7ea7111",
+      "recheck_row_count": 169,
+      "recheck_taken_at": "2026-08-30T07:03:23Z",
+      "requested_window_utc": [
+        "2024-03-06T06:00:00Z",
+        "2024-03-13T06:00:00Z"
+      ],
+      "row_count": 169,
+      "taken_at": "2026-08-30T06:26:08.569000Z"
+    },
+    {
+      "currency": "ETH",
+      "data_identical": true,
+      "data_only_sha256": "14b42a8bc42fab6b2dcf7b008eaa99a0ab8cb0ffb5d1bb4ddfe07a040c391e06",
+      "days_back": 45,
+      "params": {
+        "currency": "ETH",
+        "end_timestamp": "1784181600000",
+        "resolution": "3600",
+        "start_timestamp": "1783576800000"
+      },
+      "recheck_data_only_sha256": "14b42a8bc42fab6b2dcf7b008eaa99a0ab8cb0ffb5d1bb4ddfe07a040c391e06",
+      "recheck_row_count": 169,
+      "recheck_taken_at": "2026-08-30T07:03:23Z",
+      "requested_window_utc": [
+        "2026-07-09T06:00:00Z",
+        "2026-07-16T06:00:00Z"
+      ],
+      "row_count": 169,
+      "taken_at": "2026-08-30T06:26:08.772000Z"
+    },
+    {
+      "currency": "ETH",
+      "data_identical": true,
+      "data_only_sha256": "f7ec7c9a195a2fe3b898bc9dfea664414365ef2a15fad3635b9dedbf266e44f9",
+      "days_back": 365,
+      "params": {
+        "currency": "ETH",
+        "end_timestamp": "1756533600000",
+        "resolution": "3600",
+        "start_timestamp": "1755928800000"
+      },
+      "recheck_data_only_sha256": "f7ec7c9a195a2fe3b898bc9dfea664414365ef2a15fad3635b9dedbf266e44f9",
+      "recheck_row_count": 169,
+      "recheck_taken_at": "2026-08-30T07:03:23Z",
+      "requested_window_utc": [
+        "2025-08-23T06:00:00Z",
+        "2025-08-30T06:00:00Z"
+      ],
+      "row_count": 169,
+      "taken_at": "2026-08-30T06:26:08.941000Z"
+    },
+    {
+      "currency": "ETH",
+      "data_identical": true,
+      "data_only_sha256": "2647860f242c4b1aea00b3d9ce4e19d117d38d59c94d133919b9ca1e524edadb",
+      "days_back": 900,
+      "params": {
+        "currency": "ETH",
+        "end_timestamp": "1710309600000",
+        "resolution": "3600",
+        "start_timestamp": "1709704800000"
+      },
+      "recheck_data_only_sha256": "2647860f242c4b1aea00b3d9ce4e19d117d38d59c94d133919b9ca1e524edadb",
+      "recheck_row_count": 169,
+      "recheck_taken_at": "2026-08-30T07:03:23Z",
+      "requested_window_utc": [
+        "2024-03-06T06:00:00Z",
+        "2024-03-13T06:00:00Z"
+      ],
+      "row_count": 169,
+      "taken_at": "2026-08-30T06:26:09.144000Z"
+    }
+  ]
+}

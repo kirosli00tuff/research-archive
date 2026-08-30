@@ -810,3 +810,52 @@ no figure precisely because of that lesson — but priced it on the **wrong
 instrument**.
 
 ---
+
+## 2026-08-30T07:35Z — TASK 8 COMPLETE — artifact and close-out
+
+**ETA 45 min · actual ~23 min.**
+
+**TASK 4's revision question, re-checked across a real interval.** The six
+data-only baselines recorded at 06:05Z were re-fetched at ~07:15Z, a gap of
+**≈ 70 minutes**: **all six windows byte-identical** (BTC and ETH at 45, 365 and
+900 days back, 169 rows each, row counts unchanged). The whole-response digests
+differ every time, as ADR-009 explains — that is the envelope's timing fields,
+not a revision. **CryptoDataDownload's two DVOL CSVs were also re-fetched and
+were byte-identical, including all 1,985 historical rows** — but this is a
+**weak** test and is recorded as one: the files had not been republished in the
+interval, so it establishes only that they are not rewritten *continuously*, not
+that past rows never change. **The structural H11 risk stands regardless**, and
+CDD was used only to corroborate history depth.
+
+**Files written:** `docs/ARTIFACT.md` (284 lines, the citable deliverable,
+self-contained), `README.md` (one page, what-is-measured table carrying every
+figure with its n), `DECISIONS.md` (**11 numbered ADRs**), `docs/HANDOVER.md`,
+`docs/VENUE_TABLE_UPDATE.md`.
+
+**`make all` green: ruff clean, mypy strict clean on 17 source files, 50 tests
+passed.** Toolchain provenance refreshed to `reports/env_report.json`.
+
+---
+
+## Task ledger — ETA against actual
+
+| task | ETA | actual | note |
+|---|---|---|---|
+| 0 · preconditions, remote, duplication screen | 20 min | **~6 min** | remote created and pushed first try |
+| 1 · scaffold and guards | 45 min | **~14 min** | 5 guards + latch, 28 tests |
+| 2 · REGISTRATION.md | 40 min | **~12 min** | 533 lines, before any network call |
+| 3 · venue reachability | 60 min | **~36 min** | the registered expectation was contradicted |
+| 4 · public data access | 50 min | **~32 min** | two self-corrections |
+| 5 · cost measurement | 60 min | **~48 min** | 3 of 5 legs `Absent`; TASK 6 machinery built in parallel |
+| 6 · the sealed read | 50 min | **~55 min** | overran on attempt 1's abort and Amendment 1 |
+| 7 · fire Section 0 | 20 min | **~7 min** | |
+| 8 · artifact and close-out | 45 min | **~23 min** | |
+| **total** | **6 h 30 m** | **≈ 3 h 53 m** | |
+
+**The only overrun was TASK 6**, and it was the abort: attempt 1 wrote its latch
+and failed on a request-parameter refusal. The recovery cost ~15 minutes and
+produced Amendment 1, which is a better artifact than a clean first run would
+have been — it is the only place in this repository where the latch machinery is
+demonstrated doing its job against a real failure.
+
+---
