@@ -1,0 +1,301 @@
+{
+  "corrections": [
+    "revision digest now covers result.data only; the whole-response digest is contaminated by the usIn/usOut/usDiff server-timing fields",
+    "rate ceiling now escalates concurrency; a sequential burst measured round-trip latency at 3.64 req/s and drew no refusal"
+  ],
+  "kind": "task4_rate_and_revision",
+  "rate_heavy": {
+    "endpoint": "get_volatility_index_data",
+    "method": "concurrent burst, doubling concurrency from 2 until a non-200 status is drawn or the registered ceiling of 64 concurrent requests is reached",
+    "params": {
+      "currency": "BTC",
+      "end_timestamp": "1788071160318",
+      "resolution": "3600",
+      "start_timestamp": "1787898360318"
+    },
+    "peak_rate_without_refusal": 120.45,
+    "refusal": null,
+    "registered_max_concurrency": 64,
+    "steps": [
+      {
+        "achieved_rate_per_second": 10.01,
+        "concurrency": 2,
+        "non_200_count": 0,
+        "requests": 2,
+        "status_counts": {
+          "200": 2
+        },
+        "wall_seconds": 0.2
+      },
+      {
+        "achieved_rate_per_second": 23.82,
+        "concurrency": 4,
+        "non_200_count": 0,
+        "requests": 4,
+        "status_counts": {
+          "200": 4
+        },
+        "wall_seconds": 0.168
+      },
+      {
+        "achieved_rate_per_second": 37.88,
+        "concurrency": 8,
+        "non_200_count": 0,
+        "requests": 8,
+        "status_counts": {
+          "200": 8
+        },
+        "wall_seconds": 0.211
+      },
+      {
+        "achieved_rate_per_second": 68.95,
+        "concurrency": 16,
+        "non_200_count": 0,
+        "requests": 16,
+        "status_counts": {
+          "200": 16
+        },
+        "wall_seconds": 0.232
+      },
+      {
+        "achieved_rate_per_second": 120.45,
+        "concurrency": 32,
+        "non_200_count": 0,
+        "requests": 32,
+        "status_counts": {
+          "200": 32
+        },
+        "wall_seconds": 0.266
+      },
+      {
+        "achieved_rate_per_second": 113.08,
+        "concurrency": 64,
+        "non_200_count": 0,
+        "requests": 64,
+        "status_counts": {
+          "200": 64
+        },
+        "wall_seconds": 0.566
+      }
+    ]
+  },
+  "rate_light": {
+    "endpoint": "get_index_price",
+    "method": "concurrent burst, doubling concurrency from 2 until a non-200 status is drawn or the registered ceiling of 64 concurrent requests is reached",
+    "params": {
+      "index_name": "btc_usd"
+    },
+    "peak_rate_without_refusal": 126.76,
+    "refusal": null,
+    "registered_max_concurrency": 64,
+    "steps": [
+      {
+        "achieved_rate_per_second": 11.99,
+        "concurrency": 2,
+        "non_200_count": 0,
+        "requests": 2,
+        "status_counts": {
+          "200": 2
+        },
+        "wall_seconds": 0.167
+      },
+      {
+        "achieved_rate_per_second": 21.43,
+        "concurrency": 4,
+        "non_200_count": 0,
+        "requests": 4,
+        "status_counts": {
+          "200": 4
+        },
+        "wall_seconds": 0.187
+      },
+      {
+        "achieved_rate_per_second": 44.96,
+        "concurrency": 8,
+        "non_200_count": 0,
+        "requests": 8,
+        "status_counts": {
+          "200": 8
+        },
+        "wall_seconds": 0.178
+      },
+      {
+        "achieved_rate_per_second": 87.6,
+        "concurrency": 16,
+        "non_200_count": 0,
+        "requests": 16,
+        "status_counts": {
+          "200": 16
+        },
+        "wall_seconds": 0.183
+      },
+      {
+        "achieved_rate_per_second": 56.62,
+        "concurrency": 32,
+        "non_200_count": 0,
+        "requests": 32,
+        "status_counts": {
+          "200": 32
+        },
+        "wall_seconds": 0.565
+      },
+      {
+        "achieved_rate_per_second": 126.76,
+        "concurrency": 64,
+        "non_200_count": 0,
+        "requests": 64,
+        "status_counts": {
+          "200": 64
+        },
+        "wall_seconds": 0.505
+      }
+    ]
+  },
+  "retrieved_at": "2026-08-30T06:25:49.532000Z",
+  "revision_baseline": [
+    {
+      "currency": "BTC",
+      "data_only_sha256": "fa63b50d8879cc74db37488c4082120725182ff6a855ec183947a39d5e2be8ef",
+      "days_back": 45,
+      "params": {
+        "currency": "BTC",
+        "end_timestamp": "1784181600000",
+        "resolution": "3600",
+        "start_timestamp": "1783576800000"
+      },
+      "requested_window_utc": [
+        "2026-07-09T06:00:00Z",
+        "2026-07-16T06:00:00Z"
+      ],
+      "row_count": 169,
+      "served_window_utc": [
+        "2026-07-09T06:00:00Z",
+        "2026-07-16T06:00:00Z"
+      ],
+      "status_code": 200,
+      "taken_at": "2026-08-30T06:26:08.230000Z",
+      "transport_error": "",
+      "whole_response_sha256": "bf4a94f0ae55108aa4a51ae20d44aa41603f29032679ca241906962fd2cd33c0"
+    },
+    {
+      "currency": "BTC",
+      "data_only_sha256": "8c3f100adf973a436f02765b9947530f66c6cf7bd76a6fd6e80fa6a26a6e245c",
+      "days_back": 365,
+      "params": {
+        "currency": "BTC",
+        "end_timestamp": "1756533600000",
+        "resolution": "3600",
+        "start_timestamp": "1755928800000"
+      },
+      "requested_window_utc": [
+        "2025-08-23T06:00:00Z",
+        "2025-08-30T06:00:00Z"
+      ],
+      "row_count": 169,
+      "served_window_utc": [
+        "2025-08-23T06:00:00Z",
+        "2025-08-30T06:00:00Z"
+      ],
+      "status_code": 200,
+      "taken_at": "2026-08-30T06:26:08.399000Z",
+      "transport_error": "",
+      "whole_response_sha256": "41d4bd3ed8465d387f151dee89415412e0a0a4ff8e8d1ef0822d3cece12a412a"
+    },
+    {
+      "currency": "BTC",
+      "data_only_sha256": "dbe71688a237c845fc41bec41daf3c8e55e4cab0961cbf6e5559f4e5c7ea7111",
+      "days_back": 900,
+      "params": {
+        "currency": "BTC",
+        "end_timestamp": "1710309600000",
+        "resolution": "3600",
+        "start_timestamp": "1709704800000"
+      },
+      "requested_window_utc": [
+        "2024-03-06T06:00:00Z",
+        "2024-03-13T06:00:00Z"
+      ],
+      "row_count": 169,
+      "served_window_utc": [
+        "2024-03-06T06:00:00Z",
+        "2024-03-13T06:00:00Z"
+      ],
+      "status_code": 200,
+      "taken_at": "2026-08-30T06:26:08.569000Z",
+      "transport_error": "",
+      "whole_response_sha256": "fd5481f00c3cf36ccd30680435f0006aacaef086044b9f90c7e9d673185b944c"
+    },
+    {
+      "currency": "ETH",
+      "data_only_sha256": "14b42a8bc42fab6b2dcf7b008eaa99a0ab8cb0ffb5d1bb4ddfe07a040c391e06",
+      "days_back": 45,
+      "params": {
+        "currency": "ETH",
+        "end_timestamp": "1784181600000",
+        "resolution": "3600",
+        "start_timestamp": "1783576800000"
+      },
+      "requested_window_utc": [
+        "2026-07-09T06:00:00Z",
+        "2026-07-16T06:00:00Z"
+      ],
+      "row_count": 169,
+      "served_window_utc": [
+        "2026-07-09T06:00:00Z",
+        "2026-07-16T06:00:00Z"
+      ],
+      "status_code": 200,
+      "taken_at": "2026-08-30T06:26:08.772000Z",
+      "transport_error": "",
+      "whole_response_sha256": "8272162e34e078efacf6fef2a556f8b1de33a7b238d5e09575cbb18a39486079"
+    },
+    {
+      "currency": "ETH",
+      "data_only_sha256": "f7ec7c9a195a2fe3b898bc9dfea664414365ef2a15fad3635b9dedbf266e44f9",
+      "days_back": 365,
+      "params": {
+        "currency": "ETH",
+        "end_timestamp": "1756533600000",
+        "resolution": "3600",
+        "start_timestamp": "1755928800000"
+      },
+      "requested_window_utc": [
+        "2025-08-23T06:00:00Z",
+        "2025-08-30T06:00:00Z"
+      ],
+      "row_count": 169,
+      "served_window_utc": [
+        "2025-08-23T06:00:00Z",
+        "2025-08-30T06:00:00Z"
+      ],
+      "status_code": 200,
+      "taken_at": "2026-08-30T06:26:08.941000Z",
+      "transport_error": "",
+      "whole_response_sha256": "4551299bb677c12599ec831833b285437fe33915036fc4e6c57ffb481b3efe11"
+    },
+    {
+      "currency": "ETH",
+      "data_only_sha256": "2647860f242c4b1aea00b3d9ce4e19d117d38d59c94d133919b9ca1e524edadb",
+      "days_back": 900,
+      "params": {
+        "currency": "ETH",
+        "end_timestamp": "1710309600000",
+        "resolution": "3600",
+        "start_timestamp": "1709704800000"
+      },
+      "requested_window_utc": [
+        "2024-03-06T06:00:00Z",
+        "2024-03-13T06:00:00Z"
+      ],
+      "row_count": 169,
+      "served_window_utc": [
+        "2024-03-06T06:00:00Z",
+        "2024-03-13T06:00:00Z"
+      ],
+      "status_code": 200,
+      "taken_at": "2026-08-30T06:26:09.144000Z",
+      "transport_error": "",
+      "whole_response_sha256": "1ea5183707be1f618aa8a5d2ebb1f1c5d1bdd87193a85c48a5424b9790c1364f"
+    }
+  ]
+}

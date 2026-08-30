@@ -1,0 +1,1582 @@
+{
+  "base_url": "https://www.deribit.com/api/v2/public/",
+  "blindness_note": "This tool reads no volatility value. It extracts status codes, byte counts, row counts, index-0 timestamps and SHA-256 digests only.",
+  "endpoints": [
+    {
+      "byte_count": 117,
+      "elapsed_ms": 178.6,
+      "endpoint": "get_time",
+      "error": "",
+      "params": {},
+      "row_count": null,
+      "sha256": "7b709f72a5df08a7278602510c7930f7de5bd86703b7b4c6692be54c87450e08",
+      "status_code": 200
+    },
+    {
+      "byte_count": 124,
+      "elapsed_ms": 177.7,
+      "endpoint": "status",
+      "error": "",
+      "params": {},
+      "row_count": null,
+      "sha256": "8a64275686342b312cb3c4203b333b2cb9cca8515467cd07dc68f29400656e28",
+      "status_code": 200
+    },
+    {
+      "byte_count": 165,
+      "elapsed_ms": 174.7,
+      "endpoint": "get_index_price",
+      "error": "",
+      "params": {
+        "index_name": "btc_usd"
+      },
+      "row_count": null,
+      "sha256": "b11af688a5692b54b070c4d6b565946a14e499ff9a5a9826aa4154091dd63309",
+      "status_code": 200
+    },
+    {
+      "byte_count": 163,
+      "elapsed_ms": 167.8,
+      "endpoint": "get_index_price",
+      "error": "",
+      "params": {
+        "index_name": "eth_usd"
+      },
+      "row_count": null,
+      "sha256": "7194727c00c9e85adb6488612794492b1cef6b67603d8bd501af13d40249905c",
+      "status_code": 200
+    },
+    {
+      "byte_count": 2064,
+      "columns_served": 5,
+      "continuation": null,
+      "elapsed_ms": 187.2,
+      "endpoint": "get_volatility_index_data",
+      "error": "",
+      "first_ts": 1787896800000,
+      "first_utc": "2026-08-28T06:00:00Z",
+      "last_ts": 1788069600000,
+      "last_utc": "2026-08-30T06:00:00Z",
+      "params": {
+        "currency": "BTC",
+        "end_timestamp": "1788071016709",
+        "resolution": "3600",
+        "start_timestamp": "1787898216709"
+      },
+      "row_count": 49,
+      "sha256": "20dbd999905cb2c885f3390aa367c939d3e6accf3520cf856096838346e1406c",
+      "status_code": 200
+    },
+    {
+      "byte_count": 2077,
+      "columns_served": 5,
+      "continuation": null,
+      "elapsed_ms": 165.1,
+      "endpoint": "get_volatility_index_data",
+      "error": "",
+      "first_ts": 1787896800000,
+      "first_utc": "2026-08-28T06:00:00Z",
+      "last_ts": 1788069600000,
+      "last_utc": "2026-08-30T06:00:00Z",
+      "params": {
+        "currency": "ETH",
+        "end_timestamp": "1788071016709",
+        "resolution": "3600",
+        "start_timestamp": "1787898216709"
+      },
+      "row_count": 49,
+      "sha256": "f5b19359fb38c444023188f37ebf38ac90068d73a856dee84bc216a583cb48c2",
+      "status_code": 200
+    },
+    {
+      "byte_count": 895883,
+      "elapsed_ms": 312.0,
+      "endpoint": "get_instruments",
+      "error": "",
+      "params": {
+        "currency": "BTC",
+        "kind": "option"
+      },
+      "row_count": 1026,
+      "sha256": "233bc8bcd7b4c1e2ef0d408e9bb2afed32bd9828c7e56f62c726644610ce4ea1",
+      "status_code": 200
+    },
+    {
+      "byte_count": 763918,
+      "elapsed_ms": 233.1,
+      "endpoint": "get_instruments",
+      "error": "",
+      "params": {
+        "currency": "ETH",
+        "kind": "option"
+      },
+      "row_count": 876,
+      "sha256": "623e424b7face044f187d6970958fa7b8ac11511ff9755732df820d801a9d6f1",
+      "status_code": 200
+    },
+    {
+      "byte_count": 22442,
+      "elapsed_ms": 164.3,
+      "endpoint": "get_currencies",
+      "error": "",
+      "params": {},
+      "row_count": 50,
+      "sha256": "ad82e5eeecf335187d4b7546d6b4656012599220ccb601b5c64bccd66e02a272",
+      "status_code": 200
+    },
+    {
+      "byte_count": 206,
+      "elapsed_ms": 159.6,
+      "endpoint": "get_volatility_index_data",
+      "error": "",
+      "params": {
+        "currency": "DOGE"
+      },
+      "refusal_payload_verbatim": "{\"jsonrpc\":\"2.0\",\"error\":{\"code\":-32602,\"data\":{\"reason\":\"value required\",\"param\":\"start_timestamp\"},\"message\":\"Invalid params\"},\"testnet\":false,\"usIn\":1788071038460890,\"usOut\":1788071038460961,\"usDiff\":71}",
+      "row_count": null,
+      "sha256": "51d2136714c5a22e93634f2d3e7571d49bc7d9a5172d23ebe6e349aa467c90bd",
+      "status_code": 400
+    },
+    {
+      "byte_count": 200,
+      "elapsed_ms": 160.3,
+      "endpoint": "get_index_price",
+      "error": "",
+      "params": {
+        "index_name": "not_a_real_index"
+      },
+      "refusal_payload_verbatim": "{\"jsonrpc\":\"2.0\",\"error\":{\"code\":-32602,\"data\":{\"reason\":\"invalid index\",\"param\":\"index_name\"},\"message\":\"Invalid params\"},\"testnet\":false,\"usIn\":1788071038869264,\"usOut\":1788071038869348,\"usDiff\":84}",
+      "row_count": null,
+      "sha256": "bec8609f2a9550239bd001d1bb38eba8e66171c3ce1234fee07c0f1099334193",
+      "status_code": 400
+    }
+  ],
+  "history_depth": [
+    {
+      "approx_earliest_served_utc": "2021-03-17T06:23:58.039000Z",
+      "currency": "BTC",
+      "deepest_served_days_back": 1992,
+      "first_empty_days_back": 1993,
+      "method": "exponential bracket then bisection on a 7-day window",
+      "probe_count": 22,
+      "probes": [
+        {
+          "byte_count": 256,
+          "columns_served": 5,
+          "continuation": null,
+          "days_back": 1,
+          "elapsed_ms": 169.9,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "first_ts": 1787961600000,
+          "first_utc": "2026-08-29T00:00:00Z",
+          "last_ts": 1788048000000,
+          "last_utc": "2026-08-30T00:00:00Z",
+          "params": {
+            "currency": "BTC",
+            "end_timestamp": "1788589438039",
+            "resolution": "43200",
+            "start_timestamp": "1787984638039"
+          },
+          "row_count": 3,
+          "sha256": "664f4676d182cf8437034363a257ebf1b10599fc7e26699ecb7fabe25b803a87",
+          "status_code": 200
+        },
+        {
+          "byte_count": 336,
+          "columns_served": 5,
+          "continuation": null,
+          "days_back": 2,
+          "elapsed_ms": 172.8,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "first_ts": 1787875200000,
+          "first_utc": "2026-08-28T00:00:00Z",
+          "last_ts": 1788048000000,
+          "last_utc": "2026-08-30T00:00:00Z",
+          "params": {
+            "currency": "BTC",
+            "end_timestamp": "1788503038039",
+            "resolution": "43200",
+            "start_timestamp": "1787898238039"
+          },
+          "row_count": 5,
+          "sha256": "afdbf43363b2342a591307000d5b258f0d784fcc2104b24837a70a3cdfec92a8",
+          "status_code": 200
+        },
+        {
+          "byte_count": 496,
+          "columns_served": 5,
+          "continuation": null,
+          "days_back": 4,
+          "elapsed_ms": 176.7,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "first_ts": 1787702400000,
+          "first_utc": "2026-08-26T00:00:00Z",
+          "last_ts": 1788048000000,
+          "last_utc": "2026-08-30T00:00:00Z",
+          "params": {
+            "currency": "BTC",
+            "end_timestamp": "1788330238039",
+            "resolution": "43200",
+            "start_timestamp": "1787725438039"
+          },
+          "row_count": 9,
+          "sha256": "da2edf7dcaae90f415d1421dc1eb4731285df0c9a0609704cdf240bb9450f552",
+          "status_code": 200
+        },
+        {
+          "byte_count": 730,
+          "columns_served": 5,
+          "continuation": null,
+          "days_back": 8,
+          "elapsed_ms": 239.3,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "first_ts": 1787356800000,
+          "first_utc": "2026-08-22T00:00:00Z",
+          "last_ts": 1787961600000,
+          "last_utc": "2026-08-29T00:00:00Z",
+          "params": {
+            "currency": "BTC",
+            "end_timestamp": "1787984638039",
+            "resolution": "43200",
+            "start_timestamp": "1787379838039"
+          },
+          "row_count": 15,
+          "sha256": "27c94904e29e30591dafbbac12601d9a52383b106bd1d7714aaa8cf516d54b79",
+          "status_code": 200
+        },
+        {
+          "byte_count": 733,
+          "columns_served": 5,
+          "continuation": null,
+          "days_back": 16,
+          "elapsed_ms": 162.6,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "first_ts": 1786665600000,
+          "first_utc": "2026-08-14T00:00:00Z",
+          "last_ts": 1787270400000,
+          "last_utc": "2026-08-21T00:00:00Z",
+          "params": {
+            "currency": "BTC",
+            "end_timestamp": "1787293438039",
+            "resolution": "43200",
+            "start_timestamp": "1786688638039"
+          },
+          "row_count": 15,
+          "sha256": "e45cc2def5fd6bf58f17e68bc6382a0cb3d99e19935d038e5780096a344d515f",
+          "status_code": 200
+        },
+        {
+          "byte_count": 735,
+          "columns_served": 5,
+          "continuation": null,
+          "days_back": 32,
+          "elapsed_ms": 166.5,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "first_ts": 1785283200000,
+          "first_utc": "2026-07-29T00:00:00Z",
+          "last_ts": 1785888000000,
+          "last_utc": "2026-08-05T00:00:00Z",
+          "params": {
+            "currency": "BTC",
+            "end_timestamp": "1785911038039",
+            "resolution": "43200",
+            "start_timestamp": "1785306238039"
+          },
+          "row_count": 15,
+          "sha256": "cc098b91955862362baf33c20c7eb41d515939ef11101ef9c50081e0a7ff5b7c",
+          "status_code": 200
+        },
+        {
+          "byte_count": 734,
+          "columns_served": 5,
+          "continuation": null,
+          "days_back": 64,
+          "elapsed_ms": 178.4,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "first_ts": 1782518400000,
+          "first_utc": "2026-06-27T00:00:00Z",
+          "last_ts": 1783123200000,
+          "last_utc": "2026-07-04T00:00:00Z",
+          "params": {
+            "currency": "BTC",
+            "end_timestamp": "1783146238039",
+            "resolution": "43200",
+            "start_timestamp": "1782541438039"
+          },
+          "row_count": 15,
+          "sha256": "d23bba1702a0d8b37546002129f234b81154ebab78db82472904914620298e09",
+          "status_code": 200
+        },
+        {
+          "byte_count": 729,
+          "columns_served": 5,
+          "continuation": null,
+          "days_back": 128,
+          "elapsed_ms": 166.6,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "first_ts": 1776988800000,
+          "first_utc": "2026-04-24T00:00:00Z",
+          "last_ts": 1777593600000,
+          "last_utc": "2026-05-01T00:00:00Z",
+          "params": {
+            "currency": "BTC",
+            "end_timestamp": "1777616638039",
+            "resolution": "43200",
+            "start_timestamp": "1777011838039"
+          },
+          "row_count": 15,
+          "sha256": "74fe83bb6d1121d072544cc3fbd6dab323773460ca7ddff23abe3f2ffd8c031b",
+          "status_code": 200
+        },
+        {
+          "byte_count": 726,
+          "columns_served": 5,
+          "continuation": null,
+          "days_back": 256,
+          "elapsed_ms": 162.4,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "first_ts": 1765929600000,
+          "first_utc": "2025-12-17T00:00:00Z",
+          "last_ts": 1766534400000,
+          "last_utc": "2025-12-24T00:00:00Z",
+          "params": {
+            "currency": "BTC",
+            "end_timestamp": "1766557438039",
+            "resolution": "43200",
+            "start_timestamp": "1765952638039"
+          },
+          "row_count": 15,
+          "sha256": "79bbb1533c4cb197c6e91c8f9cdfc3abcd73fa699194d679842a344159decf64",
+          "status_code": 200
+        },
+        {
+          "byte_count": 724,
+          "columns_served": 5,
+          "continuation": null,
+          "days_back": 512,
+          "elapsed_ms": 240.8,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "first_ts": 1743811200000,
+          "first_utc": "2025-04-05T00:00:00Z",
+          "last_ts": 1744416000000,
+          "last_utc": "2025-04-12T00:00:00Z",
+          "params": {
+            "currency": "BTC",
+            "end_timestamp": "1744439038039",
+            "resolution": "43200",
+            "start_timestamp": "1743834238039"
+          },
+          "row_count": 15,
+          "sha256": "2a103c3c8034f1ca8e321ab17c81765ceb6ff2c38d799cb107d40eb8a59f4dd2",
+          "status_code": 200
+        },
+        {
+          "byte_count": 735,
+          "columns_served": 5,
+          "continuation": null,
+          "days_back": 1024,
+          "elapsed_ms": 173.1,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "first_ts": 1699574400000,
+          "first_utc": "2023-11-10T00:00:00Z",
+          "last_ts": 1700179200000,
+          "last_utc": "2023-11-17T00:00:00Z",
+          "params": {
+            "currency": "BTC",
+            "end_timestamp": "1700202238039",
+            "resolution": "43200",
+            "start_timestamp": "1699597438039"
+          },
+          "row_count": 15,
+          "sha256": "fce8bfed80535cce0088052f87af55162a0aedde0eac537d8b14c5461f62e7d7",
+          "status_code": 200
+        },
+        {
+          "byte_count": 136,
+          "columns_served": null,
+          "continuation": null,
+          "days_back": 2048,
+          "elapsed_ms": 218.9,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "params": {
+            "currency": "BTC",
+            "end_timestamp": "1611728638039",
+            "resolution": "43200",
+            "start_timestamp": "1611123838039"
+          },
+          "row_count": 0,
+          "sha256": "7af052d65b90f18a9b500e43e35b5a835a6b9b55323b7a7268d3ebc743c03fc6",
+          "status_code": 200
+        },
+        {
+          "byte_count": 765,
+          "columns_served": 5,
+          "continuation": null,
+          "days_back": 1536,
+          "elapsed_ms": 168.2,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "first_ts": 1655337600000,
+          "first_utc": "2022-06-16T00:00:00Z",
+          "last_ts": 1655942400000,
+          "last_utc": "2022-06-23T00:00:00Z",
+          "params": {
+            "currency": "BTC",
+            "end_timestamp": "1655965438039",
+            "resolution": "43200",
+            "start_timestamp": "1655360638039"
+          },
+          "row_count": 15,
+          "sha256": "c703542b45e2c831f8d824bbf94f8f132291585df5510fd8c7bb3004673a1838",
+          "status_code": 200
+        },
+        {
+          "byte_count": 733,
+          "columns_served": 5,
+          "continuation": null,
+          "days_back": 1792,
+          "elapsed_ms": 166.2,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "first_ts": 1633219200000,
+          "first_utc": "2021-10-03T00:00:00Z",
+          "last_ts": 1633824000000,
+          "last_utc": "2021-10-10T00:00:00Z",
+          "params": {
+            "currency": "BTC",
+            "end_timestamp": "1633847038039",
+            "resolution": "43200",
+            "start_timestamp": "1633242238039"
+          },
+          "row_count": 15,
+          "sha256": "fbce8b6890957b23952d6bab2f1910fd165a637fdee565acf9ce82282fc1eb7c",
+          "status_code": 200
+        },
+        {
+          "byte_count": 780,
+          "columns_served": 5,
+          "continuation": null,
+          "days_back": 1920,
+          "elapsed_ms": 178.4,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "first_ts": 1622160000000,
+          "first_utc": "2021-05-28T00:00:00Z",
+          "last_ts": 1622764800000,
+          "last_utc": "2021-06-04T00:00:00Z",
+          "params": {
+            "currency": "BTC",
+            "end_timestamp": "1622787838039",
+            "resolution": "43200",
+            "start_timestamp": "1622183038039"
+          },
+          "row_count": 15,
+          "sha256": "151989203e4d2e9a6427a4a4bddceefa76105b24e9e66544bff6bb629b481644",
+          "status_code": 200
+        },
+        {
+          "byte_count": 732,
+          "columns_served": 5,
+          "continuation": null,
+          "days_back": 1984,
+          "elapsed_ms": 178.6,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "first_ts": 1616630400000,
+          "first_utc": "2021-03-25T00:00:00Z",
+          "last_ts": 1617235200000,
+          "last_utc": "2021-04-01T00:00:00Z",
+          "params": {
+            "currency": "BTC",
+            "end_timestamp": "1617258238039",
+            "resolution": "43200",
+            "start_timestamp": "1616653438039"
+          },
+          "row_count": 15,
+          "sha256": "350722adcf7d3043538b45a686c48c5e67d6f86514541df90c89c1337a1774b3",
+          "status_code": 200
+        },
+        {
+          "byte_count": 136,
+          "columns_served": null,
+          "continuation": null,
+          "days_back": 2016,
+          "elapsed_ms": 181.3,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "params": {
+            "currency": "BTC",
+            "end_timestamp": "1614493438039",
+            "resolution": "43200",
+            "start_timestamp": "1613888638039"
+          },
+          "row_count": 0,
+          "sha256": "289dd76bac4b258f7f2318960e84256c3cce33cdba57ef363f3cfd4558ed1c12",
+          "status_code": 200
+        },
+        {
+          "byte_count": 136,
+          "columns_served": null,
+          "continuation": null,
+          "days_back": 2000,
+          "elapsed_ms": 184.3,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "params": {
+            "currency": "BTC",
+            "end_timestamp": "1615875838039",
+            "resolution": "43200",
+            "start_timestamp": "1615271038039"
+          },
+          "row_count": 0,
+          "sha256": "c27e2fa1f7305a4f5ba68e97618ae0f1a903b8f7cb826a534ccabb01e1838285",
+          "status_code": 200
+        },
+        {
+          "byte_count": 174,
+          "columns_served": 5,
+          "continuation": null,
+          "days_back": 1992,
+          "elapsed_ms": 185.2,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "first_ts": 1616544000000,
+          "first_utc": "2021-03-24T00:00:00Z",
+          "last_ts": 1616544000000,
+          "last_utc": "2021-03-24T00:00:00Z",
+          "params": {
+            "currency": "BTC",
+            "end_timestamp": "1616567038039",
+            "resolution": "43200",
+            "start_timestamp": "1615962238039"
+          },
+          "row_count": 1,
+          "sha256": "3611e3a11f2e9fb2257c3851d3db8e5c8999fd28623e6ad136de2bddc2a082f5",
+          "status_code": 200
+        },
+        {
+          "byte_count": 136,
+          "columns_served": null,
+          "continuation": null,
+          "days_back": 1996,
+          "elapsed_ms": 225.5,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "params": {
+            "currency": "BTC",
+            "end_timestamp": "1616221438039",
+            "resolution": "43200",
+            "start_timestamp": "1615616638039"
+          },
+          "row_count": 0,
+          "sha256": "3f7c94dc4e0af7d72e4d930666723e2f0e7cb20aa5e92ed1eb89926456ab11e1",
+          "status_code": 200
+        },
+        {
+          "byte_count": 136,
+          "columns_served": null,
+          "continuation": null,
+          "days_back": 1994,
+          "elapsed_ms": 169.3,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "params": {
+            "currency": "BTC",
+            "end_timestamp": "1616394238039",
+            "resolution": "43200",
+            "start_timestamp": "1615789438039"
+          },
+          "row_count": 0,
+          "sha256": "531606c6143e7facbae40f7711c032244a2e56cc37d79d816b29bcc68eaa62f5",
+          "status_code": 200
+        },
+        {
+          "byte_count": 136,
+          "columns_served": null,
+          "continuation": null,
+          "days_back": 1993,
+          "elapsed_ms": 160.3,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "params": {
+            "currency": "BTC",
+            "end_timestamp": "1616480638039",
+            "resolution": "43200",
+            "start_timestamp": "1615875838039"
+          },
+          "row_count": 0,
+          "sha256": "f71ae8e30cb44f9978c31d35a34a8fea2be120a148501c6643750bdf6c1232fc",
+          "status_code": 200
+        }
+      ],
+      "resolution_seconds": 43200
+    },
+    {
+      "approx_earliest_served_utc": "2021-03-17T06:24:06.471000Z",
+      "currency": "ETH",
+      "deepest_served_days_back": 1992,
+      "first_empty_days_back": 1993,
+      "method": "exponential bracket then bisection on a 7-day window",
+      "probe_count": 22,
+      "probes": [
+        {
+          "byte_count": 256,
+          "columns_served": 5,
+          "continuation": null,
+          "days_back": 1,
+          "elapsed_ms": 200.6,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "first_ts": 1787961600000,
+          "first_utc": "2026-08-29T00:00:00Z",
+          "last_ts": 1788048000000,
+          "last_utc": "2026-08-30T00:00:00Z",
+          "params": {
+            "currency": "ETH",
+            "end_timestamp": "1788589446471",
+            "resolution": "43200",
+            "start_timestamp": "1787984646471"
+          },
+          "row_count": 3,
+          "sha256": "4b2ac7851806c0319c1c43c448dabac3e62f6f23499cbaa652978be695fccf00",
+          "status_code": 200
+        },
+        {
+          "byte_count": 336,
+          "columns_served": 5,
+          "continuation": null,
+          "days_back": 2,
+          "elapsed_ms": 5168.9,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "first_ts": 1787875200000,
+          "first_utc": "2026-08-28T00:00:00Z",
+          "last_ts": 1788048000000,
+          "last_utc": "2026-08-30T00:00:00Z",
+          "params": {
+            "currency": "ETH",
+            "end_timestamp": "1788503046471",
+            "resolution": "43200",
+            "start_timestamp": "1787898246471"
+          },
+          "row_count": 5,
+          "sha256": "854ee484545cb3ef4c9292bbc40507d2ba483adda91249cefd0a8bef422090f8",
+          "status_code": 200
+        },
+        {
+          "byte_count": 496,
+          "columns_served": 5,
+          "continuation": null,
+          "days_back": 4,
+          "elapsed_ms": 169.6,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "first_ts": 1787702400000,
+          "first_utc": "2026-08-26T00:00:00Z",
+          "last_ts": 1788048000000,
+          "last_utc": "2026-08-30T00:00:00Z",
+          "params": {
+            "currency": "ETH",
+            "end_timestamp": "1788330246471",
+            "resolution": "43200",
+            "start_timestamp": "1787725446471"
+          },
+          "row_count": 9,
+          "sha256": "5883106de1c7999979aa85665ceb5ca7dd8a25da680b75f04c2a473f2ac7f9b6",
+          "status_code": 200
+        },
+        {
+          "byte_count": 735,
+          "columns_served": 5,
+          "continuation": null,
+          "days_back": 8,
+          "elapsed_ms": 184.3,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "first_ts": 1787356800000,
+          "first_utc": "2026-08-22T00:00:00Z",
+          "last_ts": 1787961600000,
+          "last_utc": "2026-08-29T00:00:00Z",
+          "params": {
+            "currency": "ETH",
+            "end_timestamp": "1787984646471",
+            "resolution": "43200",
+            "start_timestamp": "1787379846471"
+          },
+          "row_count": 15,
+          "sha256": "75235b173989d4f1c43933a3277e0c176e4c95e05bf1f596186dfee872d7f51e",
+          "status_code": 200
+        },
+        {
+          "byte_count": 730,
+          "columns_served": 5,
+          "continuation": null,
+          "days_back": 16,
+          "elapsed_ms": 165.0,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "first_ts": 1786665600000,
+          "first_utc": "2026-08-14T00:00:00Z",
+          "last_ts": 1787270400000,
+          "last_utc": "2026-08-21T00:00:00Z",
+          "params": {
+            "currency": "ETH",
+            "end_timestamp": "1787293446471",
+            "resolution": "43200",
+            "start_timestamp": "1786688646471"
+          },
+          "row_count": 15,
+          "sha256": "221559f452e282455e7767c3adf0d160c3e03228665464cba17d86e22f222907",
+          "status_code": 200
+        },
+        {
+          "byte_count": 730,
+          "columns_served": 5,
+          "continuation": null,
+          "days_back": 32,
+          "elapsed_ms": 167.6,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "first_ts": 1785283200000,
+          "first_utc": "2026-07-29T00:00:00Z",
+          "last_ts": 1785888000000,
+          "last_utc": "2026-08-05T00:00:00Z",
+          "params": {
+            "currency": "ETH",
+            "end_timestamp": "1785911046471",
+            "resolution": "43200",
+            "start_timestamp": "1785306246471"
+          },
+          "row_count": 15,
+          "sha256": "73dc9d24c5b9975bcdf6cf65d241d13f36e51d595fce36613979d21cb1379824",
+          "status_code": 200
+        },
+        {
+          "byte_count": 729,
+          "columns_served": 5,
+          "continuation": null,
+          "days_back": 64,
+          "elapsed_ms": 165.5,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "first_ts": 1782518400000,
+          "first_utc": "2026-06-27T00:00:00Z",
+          "last_ts": 1783123200000,
+          "last_utc": "2026-07-04T00:00:00Z",
+          "params": {
+            "currency": "ETH",
+            "end_timestamp": "1783146246471",
+            "resolution": "43200",
+            "start_timestamp": "1782541446471"
+          },
+          "row_count": 15,
+          "sha256": "b0ae28c2fbe3cfc5377887bfa497456b82917d58c4a4a71b2d44c79912ee0b42",
+          "status_code": 200
+        },
+        {
+          "byte_count": 728,
+          "columns_served": 5,
+          "continuation": null,
+          "days_back": 128,
+          "elapsed_ms": 231.2,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "first_ts": 1776988800000,
+          "first_utc": "2026-04-24T00:00:00Z",
+          "last_ts": 1777593600000,
+          "last_utc": "2026-05-01T00:00:00Z",
+          "params": {
+            "currency": "ETH",
+            "end_timestamp": "1777616646471",
+            "resolution": "43200",
+            "start_timestamp": "1777011846471"
+          },
+          "row_count": 15,
+          "sha256": "00541403f2776a0cc70947b4739be6b72a0d03891a2bb2cfdecb517a7c31a6fc",
+          "status_code": 200
+        },
+        {
+          "byte_count": 736,
+          "columns_served": 5,
+          "continuation": null,
+          "days_back": 256,
+          "elapsed_ms": 170.9,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "first_ts": 1765929600000,
+          "first_utc": "2025-12-17T00:00:00Z",
+          "last_ts": 1766534400000,
+          "last_utc": "2025-12-24T00:00:00Z",
+          "params": {
+            "currency": "ETH",
+            "end_timestamp": "1766557446471",
+            "resolution": "43200",
+            "start_timestamp": "1765952646471"
+          },
+          "row_count": 15,
+          "sha256": "ca2c8283a5c25d58bdabb4a91f31830c8b2d5e0799ab078514b3b14276326b23",
+          "status_code": 200
+        },
+        {
+          "byte_count": 731,
+          "columns_served": 5,
+          "continuation": null,
+          "days_back": 512,
+          "elapsed_ms": 270.4,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "first_ts": 1743811200000,
+          "first_utc": "2025-04-05T00:00:00Z",
+          "last_ts": 1744416000000,
+          "last_utc": "2025-04-12T00:00:00Z",
+          "params": {
+            "currency": "ETH",
+            "end_timestamp": "1744439046471",
+            "resolution": "43200",
+            "start_timestamp": "1743834246471"
+          },
+          "row_count": 15,
+          "sha256": "8e6c4314bc79b9950fd93b82e03f71290a5f1051e6caf8f4552f70bd53f90b40",
+          "status_code": 200
+        },
+        {
+          "byte_count": 728,
+          "columns_served": 5,
+          "continuation": null,
+          "days_back": 1024,
+          "elapsed_ms": 163.1,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "first_ts": 1699574400000,
+          "first_utc": "2023-11-10T00:00:00Z",
+          "last_ts": 1700179200000,
+          "last_utc": "2023-11-17T00:00:00Z",
+          "params": {
+            "currency": "ETH",
+            "end_timestamp": "1700202246471",
+            "resolution": "43200",
+            "start_timestamp": "1699597446471"
+          },
+          "row_count": 15,
+          "sha256": "2c41bee1500e39b95a9cf34a671275e60415101a3ec4d38f8c72458e596e01db",
+          "status_code": 200
+        },
+        {
+          "byte_count": 136,
+          "columns_served": null,
+          "continuation": null,
+          "days_back": 2048,
+          "elapsed_ms": 163.9,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "params": {
+            "currency": "ETH",
+            "end_timestamp": "1611728646471",
+            "resolution": "43200",
+            "start_timestamp": "1611123846471"
+          },
+          "row_count": 0,
+          "sha256": "dd79f282a45f20b948a164527b2fb0764b7c31626424668a1526f697e128fd41",
+          "status_code": 200
+        },
+        {
+          "byte_count": 786,
+          "columns_served": 5,
+          "continuation": null,
+          "days_back": 1536,
+          "elapsed_ms": 171.3,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "first_ts": 1655337600000,
+          "first_utc": "2022-06-16T00:00:00Z",
+          "last_ts": 1655942400000,
+          "last_utc": "2022-06-23T00:00:00Z",
+          "params": {
+            "currency": "ETH",
+            "end_timestamp": "1655965446471",
+            "resolution": "43200",
+            "start_timestamp": "1655360646471"
+          },
+          "row_count": 15,
+          "sha256": "5f8dd88bf1f7ae96127aa56afce254ac0c1ea2d6cfdd4ca8c2a4a0410dc920f0",
+          "status_code": 200
+        },
+        {
+          "byte_count": 750,
+          "columns_served": 5,
+          "continuation": null,
+          "days_back": 1792,
+          "elapsed_ms": 195.1,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "first_ts": 1633219200000,
+          "first_utc": "2021-10-03T00:00:00Z",
+          "last_ts": 1633824000000,
+          "last_utc": "2021-10-10T00:00:00Z",
+          "params": {
+            "currency": "ETH",
+            "end_timestamp": "1633847046471",
+            "resolution": "43200",
+            "start_timestamp": "1633242246471"
+          },
+          "row_count": 15,
+          "sha256": "563631c2205f109bb131cc9b82ab33083908e9d7007ec445812274314b1af932",
+          "status_code": 200
+        },
+        {
+          "byte_count": 790,
+          "columns_served": 5,
+          "continuation": null,
+          "days_back": 1920,
+          "elapsed_ms": 164.6,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "first_ts": 1622160000000,
+          "first_utc": "2021-05-28T00:00:00Z",
+          "last_ts": 1622764800000,
+          "last_utc": "2021-06-04T00:00:00Z",
+          "params": {
+            "currency": "ETH",
+            "end_timestamp": "1622787846471",
+            "resolution": "43200",
+            "start_timestamp": "1622183046471"
+          },
+          "row_count": 15,
+          "sha256": "26d80d4090860118beefb1a4cb52878e5cd3d8e6ec791b6aaccecf2a82b3595c",
+          "status_code": 200
+        },
+        {
+          "byte_count": 738,
+          "columns_served": 5,
+          "continuation": null,
+          "days_back": 1984,
+          "elapsed_ms": 175.5,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "first_ts": 1616630400000,
+          "first_utc": "2021-03-25T00:00:00Z",
+          "last_ts": 1617235200000,
+          "last_utc": "2021-04-01T00:00:00Z",
+          "params": {
+            "currency": "ETH",
+            "end_timestamp": "1617258246471",
+            "resolution": "43200",
+            "start_timestamp": "1616653446471"
+          },
+          "row_count": 15,
+          "sha256": "4d0662bd7aa77ec4b5df46f98d4fb0480d48b7dab7d7930f349189fca26d8dc1",
+          "status_code": 200
+        },
+        {
+          "byte_count": 136,
+          "columns_served": null,
+          "continuation": null,
+          "days_back": 2016,
+          "elapsed_ms": 164.5,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "params": {
+            "currency": "ETH",
+            "end_timestamp": "1614493446471",
+            "resolution": "43200",
+            "start_timestamp": "1613888646471"
+          },
+          "row_count": 0,
+          "sha256": "7bb0769e6689d25ccbd553ddb61abd6284a212f86cc658f84f5825b01670757c",
+          "status_code": 200
+        },
+        {
+          "byte_count": 136,
+          "columns_served": null,
+          "continuation": null,
+          "days_back": 2000,
+          "elapsed_ms": 266.2,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "params": {
+            "currency": "ETH",
+            "end_timestamp": "1615875846471",
+            "resolution": "43200",
+            "start_timestamp": "1615271046471"
+          },
+          "row_count": 0,
+          "sha256": "5bbd3536eeba245b25aa38a99e02d23c31222d2ea2eefb546db4cb4568b57d7f",
+          "status_code": 200
+        },
+        {
+          "byte_count": 175,
+          "columns_served": 5,
+          "continuation": null,
+          "days_back": 1992,
+          "elapsed_ms": 157.2,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "first_ts": 1616544000000,
+          "first_utc": "2021-03-24T00:00:00Z",
+          "last_ts": 1616544000000,
+          "last_utc": "2021-03-24T00:00:00Z",
+          "params": {
+            "currency": "ETH",
+            "end_timestamp": "1616567046471",
+            "resolution": "43200",
+            "start_timestamp": "1615962246471"
+          },
+          "row_count": 1,
+          "sha256": "1426a5714696047380f02e7ad0678514941546d8b701621e7f6fd76a1a45a453",
+          "status_code": 200
+        },
+        {
+          "byte_count": 136,
+          "columns_served": null,
+          "continuation": null,
+          "days_back": 1996,
+          "elapsed_ms": 169.1,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "params": {
+            "currency": "ETH",
+            "end_timestamp": "1616221446471",
+            "resolution": "43200",
+            "start_timestamp": "1615616646471"
+          },
+          "row_count": 0,
+          "sha256": "0e1464140a23df888412085a25ea424fb179b442331e7af8ba7b0facb6542b05",
+          "status_code": 200
+        },
+        {
+          "byte_count": 136,
+          "columns_served": null,
+          "continuation": null,
+          "days_back": 1994,
+          "elapsed_ms": 162.1,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "params": {
+            "currency": "ETH",
+            "end_timestamp": "1616394246471",
+            "resolution": "43200",
+            "start_timestamp": "1615789446471"
+          },
+          "row_count": 0,
+          "sha256": "bfc836f52f4e329862d803db215f639419f607a56eaed9937489bfc702f54d2a",
+          "status_code": 200
+        },
+        {
+          "byte_count": 136,
+          "columns_served": null,
+          "continuation": null,
+          "days_back": 1993,
+          "elapsed_ms": 164.1,
+          "endpoint": "get_volatility_index_data",
+          "error": "",
+          "params": {
+            "currency": "ETH",
+            "end_timestamp": "1616480646471",
+            "resolution": "43200",
+            "start_timestamp": "1615875846471"
+          },
+          "row_count": 0,
+          "sha256": "ecf3b80a71cc12f95339902f9b365adb413ff389fee33c5cd9aa2469c4802676",
+          "status_code": 200
+        }
+      ],
+      "resolution_seconds": 43200
+    }
+  ],
+  "kind": "task4_deribit_probe",
+  "rate_ceiling": {
+    "achieved_rate_per_second": 3.64,
+    "attempts": [
+      {
+        "elapsed_ms": 175.1,
+        "error": "",
+        "n": 1,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 162.3,
+        "error": "",
+        "n": 2,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 210.1,
+        "error": "",
+        "n": 3,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 159.9,
+        "error": "",
+        "n": 4,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 192.3,
+        "error": "",
+        "n": 5,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 159.8,
+        "error": "",
+        "n": 6,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 177.5,
+        "error": "",
+        "n": 7,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 171.3,
+        "error": "",
+        "n": 8,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 162.6,
+        "error": "",
+        "n": 9,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 189.5,
+        "error": "",
+        "n": 10,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 166.4,
+        "error": "",
+        "n": 11,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 165.4,
+        "error": "",
+        "n": 12,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 167.7,
+        "error": "",
+        "n": 13,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 161.5,
+        "error": "",
+        "n": 14,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 173.7,
+        "error": "",
+        "n": 15,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 162.1,
+        "error": "",
+        "n": 16,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 169.5,
+        "error": "",
+        "n": 17,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 162.9,
+        "error": "",
+        "n": 18,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 161.2,
+        "error": "",
+        "n": 19,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 170.7,
+        "error": "",
+        "n": 20,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 164.1,
+        "error": "",
+        "n": 21,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 221.6,
+        "error": "",
+        "n": 22,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 157.7,
+        "error": "",
+        "n": 23,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 158.3,
+        "error": "",
+        "n": 24,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 165.8,
+        "error": "",
+        "n": 25,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 178.9,
+        "error": "",
+        "n": 26,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 158.9,
+        "error": "",
+        "n": 27,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 204.0,
+        "error": "",
+        "n": 28,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 166.0,
+        "error": "",
+        "n": 29,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 190.2,
+        "error": "",
+        "n": 30,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 162.0,
+        "error": "",
+        "n": 31,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 160.2,
+        "error": "",
+        "n": 32,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 159.4,
+        "error": "",
+        "n": 33,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 163.6,
+        "error": "",
+        "n": 34,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 172.4,
+        "error": "",
+        "n": 35,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 160.0,
+        "error": "",
+        "n": 36,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 161.4,
+        "error": "",
+        "n": 37,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 158.5,
+        "error": "",
+        "n": 38,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 184.2,
+        "error": "",
+        "n": 39,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 160.3,
+        "error": "",
+        "n": 40,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 161.1,
+        "error": "",
+        "n": 41,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 1164.2,
+        "error": "",
+        "n": 42,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 166.8,
+        "error": "",
+        "n": 43,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 155.1,
+        "error": "",
+        "n": 44,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 160.0,
+        "error": "",
+        "n": 45,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 159.9,
+        "error": "",
+        "n": 46,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 169.2,
+        "error": "",
+        "n": 47,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 292.4,
+        "error": "",
+        "n": 48,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 198.0,
+        "error": "",
+        "n": 49,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 5175.1,
+        "error": "",
+        "n": 50,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 217.8,
+        "error": "",
+        "n": 51,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 167.2,
+        "error": "",
+        "n": 52,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 168.3,
+        "error": "",
+        "n": 53,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 170.1,
+        "error": "",
+        "n": 54,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 167.6,
+        "error": "",
+        "n": 55,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 264.2,
+        "error": "",
+        "n": 56,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 168.3,
+        "error": "",
+        "n": 57,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 180.1,
+        "error": "",
+        "n": 58,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 177.2,
+        "error": "",
+        "n": 59,
+        "status_code": 200
+      },
+      {
+        "elapsed_ms": 162.9,
+        "error": "",
+        "n": 60,
+        "status_code": 200
+      }
+    ],
+    "endpoint": "get_index_price",
+    "first_refusal_at_request": null,
+    "max_burst_attempted": 60,
+    "method": "sequential unthrottled burst, escalating until refusal",
+    "refusal_payload_verbatim": "",
+    "refusal_status": null,
+    "requests_completed": 60,
+    "wall_seconds": 16.48
+  },
+  "retrieved_at": "2026-08-30T06:23:36.709000Z",
+  "revision": [
+    {
+      "currency": "BTC",
+      "digests_identical": false,
+      "fetch_a": {
+        "byte_count": 6838,
+        "columns_served": 5,
+        "continuation": null,
+        "elapsed_ms": 195.3,
+        "endpoint": "get_volatility_index_data",
+        "error": "",
+        "first_ts": 1783576800000,
+        "first_utc": "2026-07-09T06:00:00Z",
+        "last_ts": 1784181600000,
+        "last_utc": "2026-07-16T06:00:00Z",
+        "params": {
+          "currency": "BTC",
+          "end_timestamp": "1784183059888",
+          "resolution": "3600",
+          "start_timestamp": "1783578259888"
+        },
+        "row_count": 169,
+        "sha256": "d2640e9ac2b9b3ed46578b89f866143b7bdde7012e17db84ad9f06b19d83cd97",
+        "status_code": 200
+      },
+      "fetch_b": {
+        "byte_count": 6838,
+        "columns_served": 5,
+        "continuation": null,
+        "elapsed_ms": 171.4,
+        "endpoint": "get_volatility_index_data",
+        "error": "",
+        "first_ts": 1783576800000,
+        "first_utc": "2026-07-09T06:00:00Z",
+        "last_ts": 1784181600000,
+        "last_utc": "2026-07-16T06:00:00Z",
+        "params": {
+          "currency": "BTC",
+          "end_timestamp": "1784183059888",
+          "resolution": "3600",
+          "start_timestamp": "1783578259888"
+        },
+        "row_count": 169,
+        "sha256": "c6ff93955b05c95f1aa989c82731c94d2ff02490c2b7cc8108b492fb6b9a7f67",
+        "status_code": 200
+      },
+      "note": "A fixed, closed historical window requested twice. Identical digests mean no row in the window changed between the two reads. No value is read to answer this.",
+      "row_counts_identical": true,
+      "seconds_between_reads": 5.0,
+      "window_utc": [
+        "2026-07-09T06:24:19.888000Z",
+        "2026-07-16T06:24:19.888000Z"
+      ]
+    },
+    {
+      "currency": "ETH",
+      "digests_identical": false,
+      "fetch_a": {
+        "byte_count": 6835,
+        "columns_served": 5,
+        "continuation": null,
+        "elapsed_ms": 216.8,
+        "endpoint": "get_volatility_index_data",
+        "error": "",
+        "first_ts": 1783576800000,
+        "first_utc": "2026-07-09T06:00:00Z",
+        "last_ts": 1784181600000,
+        "last_utc": "2026-07-16T06:00:00Z",
+        "params": {
+          "currency": "ETH",
+          "end_timestamp": "1784183065256",
+          "resolution": "3600",
+          "start_timestamp": "1783578265256"
+        },
+        "row_count": 169,
+        "sha256": "131e163767782dd1e9914d34415e56ef20f0ea30c1c39e33ae7d31fed6e8663b",
+        "status_code": 200
+      },
+      "fetch_b": {
+        "byte_count": 6835,
+        "columns_served": 5,
+        "continuation": null,
+        "elapsed_ms": 172.8,
+        "endpoint": "get_volatility_index_data",
+        "error": "",
+        "first_ts": 1783576800000,
+        "first_utc": "2026-07-09T06:00:00Z",
+        "last_ts": 1784181600000,
+        "last_utc": "2026-07-16T06:00:00Z",
+        "params": {
+          "currency": "ETH",
+          "end_timestamp": "1784183065256",
+          "resolution": "3600",
+          "start_timestamp": "1783578265256"
+        },
+        "row_count": 169,
+        "sha256": "02e5d9c08f19afc0c6ab5bcef3c6ba74c2b1e4de8bcd2dfda2b5caa4d18f0f84",
+        "status_code": 200
+      },
+      "note": "A fixed, closed historical window requested twice. Identical digests mean no row in the window changed between the two reads. No value is read to answer this.",
+      "row_counts_identical": true,
+      "seconds_between_reads": 5.0,
+      "window_utc": [
+        "2026-07-09T06:24:25.256000Z",
+        "2026-07-16T06:24:25.256000Z"
+      ]
+    }
+  ],
+  "user_agent": "VRPExperiment/0.1 (research; contact [private email removed])"
+}

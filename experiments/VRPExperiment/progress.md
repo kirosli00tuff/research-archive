@@ -473,3 +473,104 @@ fee, because it is the honest comparison a reader will want — but it cannot
 support HARVESTABLE under the criterion registered before measurement.
 
 ---
+
+## 2026-08-30T06:12Z — TASK 4 COMPLETE — public data access
+
+**ETA 50 min · actual ~32 min.** Full record in `docs/ACCESS.md`,
+`reports/task4/deribit_probe.json`, `reports/task4/rate_and_revision_baseline.json`.
+
+**No registration, no onboarding, no order.** Deribit's *private* endpoint was
+probed once to confirm the public/private split is real; it refused correctly
+with `{"code":13009,"data":{"reason":"invalid_token"},"message":"unauthorized"}`,
+HTTP 400. No credential was sent and none is held. **Blindness held: the probe
+tools read status codes, byte counts, row counts, index-0 timestamps and SHA-256
+digests, and no volatility value.**
+
+### Deribit, the registered primary — every requirement met
+
+- **All 9 valid public endpoints HTTP 200 with no account**, `n = 11` probes.
+  Live: **1,026 BTC option instruments, 876 ETH option instruments.**
+- **History depth bisected, not assumed: 1,992 days back for both assets**
+  (~2021-03-17), `n = 22` probes per asset. **2.73× the registered 730-day
+  minimum.** Corroborated independently by CryptoDataDownload's oldest DVOL row
+  at 2021-03-24.
+- **Supported resolutions measured by trying them: 60, 3600, 43200 s.** 300, 900
+  and 21600 refuse with, verbatim, `{"code":-32602,"data":{"reason":"unsupported
+  resolution","param":"resolution"},"message":"Invalid params"}`.
+- **The 1,000-row cap is a page size, not a depth limit.** A 30-day request at
+  `resolution=60` returned exactly 1,000 rows covering **0.69 days** plus a
+  `continuation` token; following it once returned 1,000 more rows, **contiguous**
+  with page 1. Recorded because mistaking a truncated first page for the end of
+  the series would silently shorten every window in the analysis.
+
+### Two self-corrections, recorded rather than silently applied
+
+**1. The revision test's first result was a false positive.** Fetching a fixed
+closed 7-day window twice, 5 s apart, produced different whole-response digests.
+Cause: the JSON-RPC envelope carries `usIn`/`usOut`/`usDiff` server-timing fields
+that change every call. **With those excluded the 169 data rows were
+byte-identical** — data-only SHA-256
+`fa63b50d8879cc74db37488c4082120725182ff6a855ec183947a39d5e2be8ef` on both
+fetches. A whole-response digest is the wrong instrument for this question and
+would have reported a revision that did not happen. **Six data-only baselines
+recorded** (BTC and ETH at 45, 365 and 900 days back, 169 rows each) for
+re-checking at TASK 8 across a real interval.
+
+**2. The rate ceiling was not found by a sequential burst.** 60 sequential
+requests achieved **3.64 req/s** and drew no refusal — that measured round-trip
+latency. Re-run as a **concurrent escalation** doubling from 2 to 64:
+**no refusal on either endpoint, `n = 126` requests each**, peaking at
+**126.76 req/s** (`get_index_price`) and **120.45 req/s**
+(`get_volatility_index_data`). The honest statement is **"no rate refusal at or
+below 126.76 req/s" — an upper bound that was not reached, not a measured
+ceiling.** The escalation stopped at the registered 64-concurrent ceiling rather
+than hammering a public endpoint until it broke.
+
+### A refusal that does not look like one
+
+`get_volatility_index_data?currency=DOGE&resolution=3600` returns **HTTP 200**
+with `{"result":{"data":[],"continuation":null}}`. **An unsupported currency
+returns a successful empty response, not an error**, and a caller reading "empty"
+as "no volatility" would synthesize a value for an instrument that does not
+exist. Guard 4's separation of `NO_DATA` from every composition fact is exactly
+what stops this. Deribit's own status code is inconsistent here — HTTP 400 when
+`resolution` is omitted, HTTP 200 with an empty array when it is supplied — so
+the status code alone is not a reliable discriminator and is not treated as one.
+
+### The eight alternatives, and the structural finding
+
+| source | account? | option-level IV or index? | history | revision risk |
+|---|---|---|---|---|
+| **Deribit** | **no** | **both** | **1,992 days** | baselines recorded |
+| CryptoDataDownload | no | index only, **derived from Deribit** | 1,986 daily rows, 2021-03-24→2026-08-30 | **HIGH** |
+| **Laevitas** | **YES — refused** | — | — | — |
+| **Amberdata** | **YES — refused** | — | — | — |
+| Tardis | history **paid** | lists a `deribit_volatility_index` channel | not measured | not pursued — spend nothing |
+| OKX | no | **option-level** + greeks | **snapshot only** | n/a |
+| Bybit | no | **option-level** | **snapshot only** | n/a |
+| Binance eoptions | no | **option-level** + greeks | **snapshot only** | n/a |
+
+Refusals verbatim: Laevitas `{"status":400,"message":"Api Key is Required"}`;
+Amberdata `{"message":"Forbidden"}` HTTP 403. **`Absent(not_served)` for both;
+nothing estimated or substituted.** Volmex: two candidate paths both 404 — recorded
+as **not located**, deliberately *not* as *does not exist*.
+
+**The structural finding that decides the source choice: only two of the eight
+sources serve history at all, and one of them is a mirror of the other.** OKX,
+Bybit and Binance each serve *richer* data than Deribit's index — full
+option-level bid/ask IV with greeks, publicly, no account — and **all three serve
+a live snapshot only**. They cannot supply a 730-day series unless this
+repository had been recording daily for two years, which it has not. **This is
+why Section 2.2's fallback was registered *within* Deribit rather than across
+venues, and that registration was made before any of this was measured.**
+
+**CryptoDataDownload carries the H11 risk by construction.** It is a single CSV
+containing today's row, so it is rebuilt on every publication — the exact shape
+that killed MLCryptoEngine H11, a source that regenerates whole files and can
+revise past rows with no signal. It is also not independent: the filename
+`DeriBit_volatility_OHLC_BTC.csv` says it is Deribit's own index redistributed.
+**Used only to corroborate history depth, and for nothing else. Not a fallback.**
+
+**No fallback to Section 2.2 is required; it is recorded as NOT USED.**
+
+---
