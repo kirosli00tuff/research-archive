@@ -652,3 +652,94 @@ program's own MLCryptoEngine H2 measuring cross-venue transfer at **AUC 0.501**.
 over Polymarket-derived records would license reading those records; it would not
 make them evidence about a Canadian-tradeable venue. No Polymarket figure exists
 today, and none may ever be written anywhere as evidence about Kalshi.
+
+---
+
+## The honest position
+
+**No candidate returns PERMITTED. There is none.**
+
+**The consequence, stated plainly: the calibration question is unmeasurable at
+this house's standard until an authorization is granted.** Not unmeasurable in
+principle, and not unmeasured because the arithmetic came out badly — the power
+gate has still never fired, on any venue, over any region. Unmeasurable because
+every route to the records either prohibits the reading or cannot show it is
+permitted, and this repository does not proceed on the second any more than on
+the first.
+
+**What the register now carries, in full:**
+
+| finding | status | what stands behind it |
+|---|---|---|
+| **BAND-OPEN**, entry prices 91–99c held to resolution, requiring 5.85 points at k = 1 against a band top of 8.00 | **fired 2026-08-29** | arithmetic over registered constants. **No calibration measurement whatsoever.** |
+| Kalshi access | **PENDING_ACCESS**, 2026-08-29 | terms; and now, under Stage D's own procedure, **UNMEASURED on the effective-date element** |
+| Polymarket access | **PENDING_ACCESS**, 2026-08-30 | terms, effective 2026-08-11, quoted and dated |
+| three licence candidates | **PROHIBITED / UNMEASURED / PROHIBITED**, 2026-08-30 | this document |
+| H1 | **OPEN**, unmeasured on every route examined | nothing |
+| H1t, transfer | **UNTESTED** | nothing, and there is nothing to transfer |
+
+**BAND-OPEN is a cost finding with no calibration measurement behind it, and
+that sentence is the whole of what this repository has established about
+prices.** It records that cost alone does not close the question. It is not
+evidence that an edge exists. Every magnitude any cited source places inside its
+surviving bucket — Bürgi's 2.0 and 3.0 points — **fails** the cost floor, and
+the band survives on its registered top, set by the one source whose n the
+registration never recorded.
+
+### Why this is a terminal state and not a setback
+
+**It is the outcome the design was built to produce cheaply, and it produced it
+cheaply.** Four stages: **zero dollars, zero contracts enumerated, zero
+market-data requests to Polymarket, and no statistic relating a price to an
+outcome anywhere in this repository.** The precedent this repository was built
+against — NPDExperiment — discovered its answer after 415 days of collection, in
+the same session that read the result. This one has discovered, before
+collecting anything, that the collection is not permitted.
+
+**A negative on access is a real finding about the world, not a failure to
+find one.** The finding is: *the public prediction-market record is technically
+reachable and, at every route this stage could read, not licensed for the
+systematic reading a calibration measurement requires.* Two venues and three
+third-party routes now say the same thing, in five different documents, for four
+different reasons. That is a result. It is the result.
+
+**And the register is honest about what it cost.** The permitted-subset filter
+has still never been applied to a real enumeration. Amendment 5's volume floor
+of $1,000 is registered and **never exercised** — its cost in sample is
+unmeasured, reported absent rather than as zero. Those are not oversights; they
+are the registered casualties of an access verdict, exactly as Section 0.3
+prescribes.
+
+### What is deliberately not done here
+
+**No fourth venue is proposed.** The prompt forbids it and the reasoning is the
+repository's own: proposing a new venue after three routes close is how a
+measurement-only project turns into a search for a venue that will say yes, and
+the sequence Kalshi → Polymarket → datasets → platforms has already produced one
+retracted amendment for exactly that reason.
+
+**ADR-012 is not softened to admit a candidate.** The one candidate it excludes
+on a technicality it arguably was not written for — a CC-licensed dataset, which
+no Creative Commons legal code dates — is recorded with that tension stated in
+full, escalated to the operator, and **left closed**. Curing the date would not
+open it anyway: element (1), chain of title, and the AI-clause gap all remain.
+
+### What would change it
+
+Only these, and each is an operator decision rather than a measurement:
+
+1. **Written authorization** from Adventure One QSS, Inc., or from Kalshi. This
+   remains the only path that reopens measurement on a **Canadian-tradeable**
+   venue, and Stage D establishes that Polymarket publishes addresses but none
+   addressed to this asker, while Kalshi names the ask and publishes no address
+   at all.
+2. **A numbered amendment** on whether an immutable named public licence
+   satisfies ADR-012's element (2) by version identity — registered *before* the
+   measurement it governs, and only alongside closing element (1), the chain of
+   title, and the AI-clause search.
+3. **A paid tier** at a third-party platform, which requires an account, an
+   acceptance of terms and a payment — all outside standing rule 11 absent an
+   explicit operator instruction — and which would still not establish that the
+   platform holds redistributable rights in the underlying records.
+
+None of these is a second look, because no outcome has ever been read.
