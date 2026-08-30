@@ -458,6 +458,60 @@ alone total **0.0300** on the held route before any FX at all, against a
 registered band bottom of **0.0200**. **No FX treatment, no venue price and no
 exit route reaches the bottom of the band.**
 
+### 15.3 The Polymarket access gate, fired 2026-08-30: PENDING_ACCESS
+
+**In one sentence: PENDING_ACCESS — Polymarket's published Terms of Use,
+effective 2026-08-11 and read in full before any repeated fetch, prohibit the
+data-gathering tool class this enumeration requires and extend expressly to API
+and on-chain access, so Section 0 reports on access exactly as Section 0.3's
+registered row prescribes and exactly as Stage A did for Kalshi.**
+
+**The power gate did not fire — not over 91–99c and not over any other region.
+No contract was enumerated, no price bucket was built, no dispersion was
+computed, and no statistic relating a price to an outcome exists in this
+repository.** Evidence and verbatim clauses in `docs/ACCESS.md`; the retraction
+of Amendment 1's premise is Amendment 6.
+
+| quantity | reading, 2026-08-30 |
+|---|---|
+| `robots.txt`, polymarket.com | HTTP 200 in **35.7 ms**, 73 bytes: `User-agent: *`, a sitemap line, and **no `Disallow` of any kind** |
+| `robots.txt`, gamma-api / clob / data-api | HTTP **404** in 280 / 201 / 221 ms — no crawl directives published on any API host |
+| Terms of Use | read in full, **59,617 bytes**, effective **2026-08-11**, Adventure One QSS, Inc. |
+| the decisive clause | prohibits "data mining tools, robots, crawlers, or similar data gathering and extraction tools to scrape or otherwise remove data", with **no entity-type qualification** |
+| scope of that prohibition | the binding notice reaches anyone "CONNECTING VIA AN API"; the Data clause reaches data taken "directly or through an API, or any other means, **including on-chain**" |
+| developer docs | Cloudflare IP-based rate limits and builder tiers published; **no** terms, licence, acceptable-use policy or public-data grant |
+| market-data reachability, rate limits, history depth | **WITHHELD — not measured.** See below. |
+| contracts enumerated | **0** |
+| Amendment 5's volume floor, cost in sample | **not measured** — reported absent, never as zero (standing rule 5) |
+
+**Why reachability was withheld rather than measured, and why that is not a gap
+in the record.** Standing rule 4 says measured beats documented, and the stage
+prompt asked for reachability, rate limits and history depth. Every one of those
+measurements requires sending market-data requests to a venue whose recorded
+terms prohibit the tool class that sends them. ADR-007 settled this precedence
+on 2026-08-29 for Kalshi — rule 12 outranks rule 4 when measuring would itself
+be the prohibited act — and the same reasoning applies unchanged here.
+
+**The ordering is the improvement over Stage A, and it is worth recording.**
+Rule 12 requires the terms be recorded *before any repeated fetch*. Stage A read
+**11 keyless market requests** before its terms position was established and
+could only withhold the rate-limit burst afterwards. Stage C read `robots.txt`
+and the terms **first**, and therefore sent **zero market-data requests** to
+Polymarket. The rule's ordering clause did the work it was written to do.
+
+**Request log:** 7 requests to Polymarket hosts on 2026-08-30 — 4 `robots.txt`,
+2 page fetches (`/tos`, `docs.polymarket.com`), 1 rendered read of `/tos` — plus
+1 fetch of the embedded terms document from `docs.google.com`. All single-shot,
+spaced, no retries, no pagination. **None requested a contract, a price, an
+order book or a resolution.**
+
+**What would reopen access** is recorded in Amendment 6: prior written consent
+from Adventure One QSS, Inc.; enrolment in the builder program the Terms name;
+or a Polygon read through infrastructure that is not a Polymarket Interface,
+under a legal analysis this repository has not performed. Any reopening is a new
+numbered gate firing under Section 16. Nothing here is a second look, because no
+outcome was ever read.
+
 ---
 
 ## 16. Closure conditions
@@ -728,3 +782,100 @@ contracts, so it **reduces** every count the power gate consumes and biases
 toward BLOCKED — against H1. It also **raises** the reliability of the prices
 that remain. Neither direction is traded off against the other; both are stated
 so the verdict can be read against them.
+
+---
+
+### Amendment 6 — Polymarket's terms are measured, and Amendment 1's premise does not survive
+
+**Made 2026-08-30, before any contract was enumerated from Polymarket and while
+no statistic relating a price to an outcome exists.** Figures, dates and
+verbatim clauses in `docs/ACCESS.md`.
+
+**What Amendment 1 claimed**, as the whole ground for moving the measurement
+venue:
+
+> Polymarket's public read endpoints require no key, no authentication and no
+> wallet, and settlement sits on Polygon, so the data is public by construction
+> rather than by permission. This is the opposite of Kalshi's position, where
+> the data was technically reachable and the terms did not sanction reaching
+> it. Standing rule 12 is satisfied here rather than circumvented.
+
+**That claim was never measured.** It cites no terms document, no clause, no
+effective date and no fetch date — where Stage A's Kalshi finding quoted its
+terms verbatim with the date retrieved. Amendment 1 inferred a conclusion about
+*permission* from the absence of an *authentication* requirement. Those are
+different things, and substituting one for the other is exactly what standing
+rule 4 exists to prevent. The substitution was made inside this registration.
+
+**What the terms say.** POLYMARKET.COM TERMS OF USE, effective 2026-08-11,
+published by Adventure One QSS, Inc., read in full on 2026-08-30. The
+prohibited-conduct list includes, with no entity-type qualification:
+
+> Use any data mining tools, robots, crawlers, or similar data gathering and
+> extraction tools to scrape or otherwise remove data from the Site, any other
+> Interface, or Features;
+
+> Use any manual process to monitor or copy any of the material on the Site, any
+> other Interface, or Features or for any other unauthorized purpose without our
+> prior written consent;
+
+> Harvest or otherwise collect information from the Site, any other Interface,
+> or the Features for any unauthorized purpose;
+
+**The scope reaches both paths Amendment 1 relied on.** The binding notice
+covers "ACCESSING, INTERACTING WITH OR USING THE SITE, ANY FEATURE OR ANY OTHER
+INTERFACE (INCLUDING BY CONNECTING VIA AN API, LINKING YOUR WALLET, OR OTHERWISE
+CREATING AN IDENTIFIER ON THE SITE)", and the Data clause defines its subject as
+data "contained on our Site, any Interface or Features **directly or through an
+API, or any other means, including on-chain**, whether in raw, derived,
+aggregated, or anonymized form". **The terms name API access and on-chain access
+explicitly.** "Public by construction rather than by permission" is contradicted
+by the document Amendment 1 never read.
+
+**Registered consequence: Polymarket is the same case as Kalshi, not the
+opposite one.** Both venues serve data that is technically reachable without a
+credential, and both publish terms that do not sanction the systematic retrieval
+this measurement needs without prior written consent. The distinction Amendment
+1 drew does not exist. Amendment 1 is **not** withdrawn — the venue move stands
+as the record of what was decided and why — but its stated ground is retracted
+here, and no later document may cite it.
+
+**One clause that does not bind, recorded for accuracy.** The Data restriction
+is conditional on entity type: it prohibits access by "a non-retail,
+professional entity that engages in capital markets activities" or by "a market
+data distributor". A Canadian retail individual conducting measurement-only
+research is neither, so that clause is **not** the ground of this finding. The
+data-mining and crawlers prohibition carries no such condition, and it is.
+
+**The strongest counterargument, recorded rather than suppressed, and why it is
+not taken.** The crawlers bullet forbids scraping "from the Site, any other
+Interface, or Features", and "Interface" is defined as Polymarket.com "and any
+other site to which the Terms are posted". The Terms are not posted at
+`gamma-api.polymarket.com`, so it can be argued those API hosts are not
+Interfaces and that bullet does not literally reach them. Three reasons it is
+not taken: the binding notice expressly extends the Terms to anyone "CONNECTING
+VIA AN API"; the data those hosts serve is data "contained on our Site, any
+Interface or Features", which the Data clause says may be accessed "directly or
+through an API"; and reading a prohibition as narrowly as possible in order to
+do the thing it names is assuming permissiveness, which standing rule 5 forbids
+and which ADR-006 already refused for Kalshi. **A venue may not be held to a
+looser reading than another because its verdict would be more convenient.**
+
+**A further restriction, recorded though not the ground.** The Restricted
+Jurisdictions for trading name **Alberta, British Columbia, Ontario and Quebec**
+individually, and the Terms provide that a user in a Restricted Jurisdiction "is
+only permitted to use the Content Features on the Site or any other Interface
+and may not use the Site or any other Interface for any other purpose". For a
+participant in those provinces, permitted use narrows further, to news and
+information about global current events.
+
+**No separate developer licence grants what the Terms withhold.**
+`docs.polymarket.com`, measured 2026-08-30, publishes Cloudflare IP-based rate
+limits and a builder program with tiers, and publishes **no** terms of use, data
+licence, acceptable-use policy or public-data grant.
+
+**What would reopen access:** prior written consent from Adventure One QSS,
+Inc.; or enrolment in the builder program the Terms name; or a Polygon read
+performed through infrastructure that is not a Polymarket Interface, under a
+legal analysis this repository has not done. The third is recorded as an open
+question, **not** as a workaround adopted now.

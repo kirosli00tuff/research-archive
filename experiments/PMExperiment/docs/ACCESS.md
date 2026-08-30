@@ -87,3 +87,130 @@ terms documents and the rate-limit docs page were read through ordinary
 page fetches, not the API. No request enumerated beyond a single page; no
 dataset was compiled; the raw probe responses were not retained beyond this
 report and the two tickers named above.
+
+---
+
+# Polymarket — measured 2026-08-30 by Stage C
+
+## Verdict
+
+**PENDING_ACCESS.** Section 0.5's condition 5 fails closed: the published terms,
+recorded before any repeated fetch, do not sanction the systematic keyless
+reading this measurement requires. **Zero market-data requests were sent** — no
+contract, price, order book or resolution was requested — and the power gate did
+not fire. Amendment 6 records that this also falsifies Amendment 1's stated
+ground for moving the venue here.
+
+## robots.txt, on every host this stage would have used
+
+| host | status | latency | content |
+|---|---|---|---|
+| `polymarket.com` | **200** | 35.7 ms | 73 bytes: `User-agent: *` + `Sitemap: https://polymarket.com/sitemaps/sitemap-index.xml`. **No `Disallow` of any kind.** |
+| `gamma-api.polymarket.com` | 404 | 280.1 ms | `404 page not found` — no crawl directives published |
+| `clob.polymarket.com` | 404 | 201.4 ms | nginx 404 — no crawl directives published |
+| `data-api.polymarket.com` | 404 | 220.9 ms | `404 page not found` — no crawl directives published |
+
+**robots.txt is permissive, and it is not the governing document.** The website
+publishes no crawl restriction at all — a genuine contrast with Kalshi, whose
+website returned an HTTP 429 bot challenge before robots.txt was even served.
+Standing rule 12 requires both robots.txt **and** the published terms; where they
+disagree, a permissive robots.txt does not licence what the terms prohibit.
+
+## The terms, as recorded (before any repeated fetch, per standing rule 12)
+
+**POLYMARKET.COM TERMS OF USE**, effective **2026-08-11**, published by
+Adventure One QSS, Inc. Retrieved 2026-08-30, 59,617 bytes.
+
+*How it was retrieved, recorded because it took work:* `polymarket.com/tos`
+returns HTTP 200 in 198 ms but is client-rendered — its 217 KB body strips to
+1,354 characters of text, and its Next.js flight payload (129 KB) carries only
+the app shell, under a route segment named `(embedded-docs)/tos`. The terms are
+an embedded document, retrieved from the `docs.google.com` document that payload
+references (HTTP 200, 578 ms). **The first two reads did not contain the terms,
+and reporting from them would have been reporting on a page shell.**
+
+**Prohibited conduct, quoted verbatim, with no entity-type qualification:**
+
+> Use any data mining tools, robots, crawlers, or similar data gathering and
+> extraction tools to scrape or otherwise remove data from the Site, any other
+> Interface, or Features;
+
+> Use any manual process to monitor or copy any of the material on the Site, any
+> other Interface, or Features or for any other unauthorized purpose without our
+> prior written consent;
+
+> Harvest or otherwise collect information from the Site, any other Interface,
+> or the Features for any unauthorized purpose;
+
+**Scope, quoted verbatim — the terms reach API and on-chain access by name:**
+
+> BY ACCESSING, INTERACTING WITH OR USING THE SITE, ANY FEATURE OR ANY OTHER
+> INTERFACE (INCLUDING BY CONNECTING VIA AN API, LINKING YOUR WALLET, OR
+> OTHERWISE CREATING AN IDENTIFIER ON THE SITE) … YOU AGREE … TO BE BOUND BY THE
+> TERMS
+
+> Access or use any data, content, or information contained on our Site, any
+> Interface or Features directly or through an API, or any other means,
+> including on-chain, whether in raw, derived, aggregated, or anonymized form
+> (the "Data") if you are (i) a non-retail, professional entity that engages in
+> capital markets activities … or (ii) a market data distributor, in each case
+> unless otherwise agreed to in writing by us
+
+**The Data clause is conditional and does not bind a retail researcher.** Its
+prohibition attaches to capital-market entities and market-data distributors,
+and a Canadian retail individual doing measurement-only research is neither. It
+is quoted here for its **scope language**, which establishes that the Terms
+contemplate and govern API and on-chain access — not as the ground of the
+verdict. The ground is the unconditional data-mining and crawlers bullet above.
+
+**Geographic scope, recorded though not the ground:**
+
+> USE OF THE SITE, PLATFORM OR TECHNOLOGY FEATURES FOR TRADING IS NOT PERMITTED
+> BY PERSONS OR ENTITIES WHO RESIDE IN … ALBERTA … BRITISH COLUMBIA … ONTARIO …
+> QUEBEC …
+
+> If you are in a Restricted Jurisdiction (as defined below), you are only
+> permitted to use the Content Features on the Site or any other Interface and
+> may not use the Site or any other Interface for any other purpose
+
+Four Canadian provinces are named individually. For a participant in them,
+permitted use narrows to the Content Features — "news and information about
+global current events" — and no other purpose.
+
+**Clauses that do *not* exist in the document**, checked and recorded as absent
+rather than assumed: no occurrence of "spider", "automated", "systematic",
+"machine learning", "artificial intelligence", or "Canada" as a country-level
+term. The AI-use prohibition that decided Kalshi has **no** counterpart here;
+this finding rests on the crawlers bullet alone.
+
+## The developer documentation, measured
+
+`docs.polymarket.com`, HTTP 200 in 268.6 ms, 396 KB. Publishes "Rate Limits —
+Cloudflare IP-based request limits for Polymarket APIs", "CLOB Trading Rate
+Limits", and a builder program with tiers. Occurrences of "terms of use": **0**.
+Of "license"/"licence": **0**. Of "acceptable use": **0**. Of "public data":
+**0**. **No separate developer agreement grants what the Terms of Use withhold**,
+and no published licence makes the market data free to compile.
+
+## Reachability, rate limits and history depth — withheld, not measured
+
+**Deliberately not measured, following ADR-007's precedent of 2026-08-29.** Each
+of those figures requires sending market-data requests to a venue whose recorded
+terms prohibit the tool class that sends them. Standing rule 12 outranks
+standing rule 4 exactly here: measuring would itself be the prohibited act.
+Reported as withheld — never as zero, and never as unknown-therefore-fine.
+
+**The ordering did the work.** Rule 12 requires the terms be recorded *before any
+repeated fetch*. Stage A read 11 keyless Kalshi market requests before its terms
+position was established; Stage C read robots.txt and the terms first and sent
+**zero** market-data requests to Polymarket.
+
+## Request log
+
+**7 requests to Polymarket hosts on 2026-08-30**, all single-shot, spaced ~2 s,
+no retries, no pagination: 4 `robots.txt` (200, 404, 404, 404), 1 `/tos` page
+(200, 198 ms), 1 `docs.polymarket.com` (200, 269 ms), 1 rendered read of `/tos`.
+Plus 1 request to `docs.google.com` for the embedded terms document (200,
+578 ms). **No request asked for a contract, a price, an order book, a resolution
+or a listing of any kind. No dataset was compiled, and `data/raw/` is empty for
+this venue.**
