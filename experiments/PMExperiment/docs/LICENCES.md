@@ -395,13 +395,20 @@ reading of the clause bearing on the use; it is a verbatim reading of the half
 that helps. **Element (1) is measured as *text present*, not as *an effective
 grant*.**
 
-**Element (2) fails, and there is no second document to fall back to.**
-The dataset card prints no effective, last-updated or revision label; its only
-years are data-coverage bounds and a BibTeX citation year, neither of which may
-be promoted. **The CC BY 4.0 legal code prints no date whatsoever** — every
-four-digit year in the document was enumerated, and the only dated references
-are to the WIPO Copyright Treaty of 1996. The grant is undated and the terms it
-incorporates are undated too.
+**Element (2) fails.** The dataset card prints no effective, last-updated or
+revision label; its only years are data-coverage bounds and a BibTeX citation
+year, neither of which may be promoted. **The CC BY 4.0 legal code prints no
+date whatsoever** — every four-digit year in the document was enumerated, and
+the only dated references are to the WIPO Copyright Treaty of 1996. The grant is
+undated and the terms it incorporates are undated too.
+
+**A correction to that finding, made here rather than left standing.** The
+licence read concluded "there is no second document to fall back to." **There
+is one, it is named on the face of the legal code, and it was not read** — the
+footer points to an errata page carrying "the date of change". So element (2)
+is recorded as **failing on the documents actually read**, and the one document
+that might bear on it was not fetched. That is a gap in this stage's evidence,
+not a property of the licence, and it is written down as a gap.
 
 Exactly **one document in the whole sweep carried a properly labelled effective
 date** — Hugging Face's own Terms of Service, "Effective Date: September 15,
@@ -655,9 +662,46 @@ today, and none may ever be written anywhere as evidence about Kalshi.
 
 ---
 
+## What this stage did not read, recorded so it is not mistaken for absence
+
+A completeness pass over all three candidate reports found that **the candidate
+space was sampled, not enumerated**, and the gaps are listed here rather than
+left for a later session to rediscover. None of them is a document that was read
+and found permissive; all are documents that were **not read at all**.
+
+| not read | why it matters |
+|---|---|
+| **Versioned repository deposits — Zenodo, Dataverse, OSF, figshare** | **the sharpest gap.** A DOI landing page prints a licence, a publication date and a version *by construction* — the one document class that routinely satisfies all three ADR-012 elements. Candidate 2 reached UNMEASURED on element (2) **without fetching a single deposit landing page**, recording only a search-result absence. |
+| the **CC BY 4.0 errata page**, named in the legal code's own footer | bears directly on element (2), the element candidate 2 fails |
+| **Manifold's Terms of Service** | its data page incorporates the restrictions by reference; the governing instrument was left at the door, and it is a prediction-market venue's ToS — the document class where the Kalshi prohibition lived |
+| **six Dune addenda incorporated by reference**, including the Data Hub Service Addendum | the Data Hub is the product closest to a data study; only the SQL API Addendum was read |
+| **Token Terminal's Subscription Agreement** | its ToS was called fully measured while naming an agreement that was not read |
+| **Kalshi's non-PDF surface** — main Terms of Use, help centre, API documentation licensing | one 3-page Data Terms PDF was the whole of the Kalshi reading in this stage |
+| **ICE documents** | Polymarket institutional data is distributed through ICE, whose address is quoted and whose terms are unread |
+| **IEM, PredictIt, Metaculus, Betfair**; Kaggle, BigQuery public datasets, Snowflake Marketplace, subgraph hosts | dismissed in a line each, or never considered |
+| **regulatory disclosure routes** | Kalshi is a CFTC-designated contract market with public reporting obligations; whether settlement history is obtainable from a **regulator** rather than a venue was never asked |
+
+**The direction of bias is named: an under-sampled candidate space biases toward
+UNMEASURED**, which is the fail-closed direction and therefore the safe one —
+but it is still a bias, and a verdict of "there is none" is a verdict over what
+was read. **It is not a proof that no permitted route exists.** The honest
+position below is stated with that limit attached, not without it.
+
+**One further observation from the completeness pass, recorded because it is
+uncomfortable and correct.** Three reports on permission produced **zero
+coverage figures** — no bucket count, no per-category resolved-contract count,
+no dispersion, from any route. That is this stage's registered scope working as
+designed: it enumerates nothing. But the precedent this repository was built
+against, NPDExperiment, failed on **power**, not on permission. **Even if an
+authorization were granted tomorrow, the power question would still be
+unanswered**, and nothing in Stages A through D has moved it.
+
+---
+
 ## The honest position
 
-**No candidate returns PERMITTED. There is none.**
+**No candidate returns PERMITTED. There is none among the routes this stage
+read.**
 
 **The consequence, stated plainly: the calibration question is unmeasurable at
 this house's standard until an authorization is granted.** Not unmeasurable in

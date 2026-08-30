@@ -230,3 +230,112 @@ that region holds contracts in usable numbers — and that remains, as it has be
 since Section 0.4, an open question rather than an answered one.
 
 A later correction is a new line, never an edit.
+
+---
+
+## Stage D — three candidate licences, and there is none — 2026-08-30
+
+**The verdict, in one sentence: no candidate returns PERMITTED — Polymarket
+publishes contact addresses but every one of them is scoped to someone else, the
+leading academic dataset states CC BY 4.0 and documents all four gate inputs
+over 1,201,580,990 rows yet fails the evidence standard on two elements, and
+Dune's in-force Terms prohibit the tool class outright and gate programmatic
+query behind a paid subscription — so the calibration question is unmeasurable
+at this house's standard until an authorization is granted, and that is a
+terminal state rather than a setback.**
+
+**Nothing was enumerated to reach this.** No contract, price, order book, volume
+or resolution was requested from any venue, dataset or platform. Only licences
+were read. Zero dollars.
+
+**The stage's first act was to apply its own rule to itself, and the rule
+convicted the record.** ADR-012 requires that a claim about what a source
+permits carry a quoted clause, an effective date and a fetch date. Written as a
+procedure and fired over this repository's own three claims, it returns:
+Amendment 1 inadmissible on all three elements, as expected; Stage C's
+Polymarket finding admissible on all three; and **Stage A's Kalshi finding
+admissible on two of three.** ADR-012 says that finding "met that bar." It did
+not — **no tracked document records an effective date for the Kalshi Data Terms
+of Use, and the licence read confirmed at source that the document prints none.**
+This changes no verdict, because an unmeasured permission and a prohibited one
+both mean proceed as if permission were absent. It changes what the record may
+claim about its own evidence, and it is recorded because **a procedure that only
+ever convicts other people's documents is not a procedure.**
+
+**The most useful thing the stage produced is a distinction it had to enforce
+against itself within the hour.** UNMEASURED is not a synonym for PROHIBITED:
+same operating posture, different epistemic content, one a measured refusal and
+the other an absence. The licence read of Dune declared its current Terms
+unreadable behind Cloudflare, quoted every clause from a superseded archive, and
+published PROHIBITED anyway. **Bare `curl` returns 403; the same `curl` with
+nothing added but a browser User-Agent returns HTTP 200.** The in-force
+instrument was one header away, and publishing a prohibition from a document
+never read is **Amendment 1's error with the sign reversed** — that amendment
+inferred permission from a document it never read. The evidence standard has no
+direction-of-travel exemption, and a repository that had just been handed a
+pre-blessed no-candidate outcome had every incentive not to notice.
+
+**What each candidate turned out to be.** Polymarket publishes six addresses and
+designates none of them for this ask: the data-licensing route opens "If you or
+your clients are Capital Markets Entities", the builder programme's published
+upgrade path is gated on "Route orders through Polymarket", and the Terms carry
+no notices clause and no postal address at all. **Kalshi is the mirror image —
+it names prior written authorization as the only key and publishes no address to
+present it at, in a document that is itself undated.** Nothing was drafted and
+nobody was contacted, so **nothing was refused**; PROHIBITED is the baseline, not
+a rejection. The dataset question is genuinely separate from the venue question
+and it still fails: `Polymarket-v1` carries everything the gate would need,
+including resolution *presence* separable from resolution *value*, and neither
+its card nor the CC BY 4.0 legal code prints any date — while the licence's own
+Section 1 limits it to rights "the Licensor has authority to license" and
+Section 5(a) disclaims title, over a corpus its own card says is unaffiliated
+with the venue it came from.
+
+**The adversarial verification earned its cost and is reported as load-bearing.**
+Nine lenses across three candidates overturned Dune's central factual claim,
+caught two selective quotations already sitting in a draft of the evidence
+document — the Polymarket Terms' only affirmative grant, and Kalshi's PERMITTED
+USES clause, which grants personal non-commercial access while conditioning
+AI/ML training on written consent — refuted the dataset candidate on a second
+element its reader had certified "satisfied, and generously", deleted an unsound
+leg of a rebuttal rather than softening it, and closed the AI-and-machine-
+learning axis that no licence read had searched, on the very clause class that
+decided Kalshi. **Every correction made the record narrower or weaker. None
+changed a verdict.**
+
+**What the stage did not read is stated, because a sampled space is not an
+enumerated one.** Versioned repository deposits — Zenodo, Dataverse, OSF,
+figshare — were never fetched, and a DOI landing page prints a licence, a date
+and a version *by construction*. The dataset candidate therefore reached
+UNMEASURED on the effective-date element **without fetching the one document
+class that carries that element by construction.** The direction of that bias is
+named: under-sampling biases toward UNMEASURED, which is the fail-closed
+direction and the safe one, and it is a bias all the same. **"There is none" is
+a verdict over what was read. It is not a proof that no permitted route exists.**
+
+**The honest position, and why it is a terminal state.** The register now carries
+BAND-OPEN as a cost finding with **no calibration measurement behind it** —
+that sentence is the whole of what this repository has established about prices.
+Four stages have produced zero dollars spent, zero contracts enumerated, zero
+market-data requests to the measurement venue, and **no statistic anywhere
+relating a price to an outcome.** NPDExperiment discovered its answer after 415
+days of collection, in the session that read the result. This one discovered,
+before collecting anything, that the collection is not permitted. Two venues and
+three third-party routes now say the same thing in five documents for four
+different reasons, and **that is a result, not the absence of one.**
+
+**No fourth venue is proposed and the standard was not softened to admit a
+candidate.** The one candidate excluded on a technicality the rule arguably was
+not written for — no Creative Commons legal code prints a date — is recorded
+with that tension stated at full strength, escalated to the operator, and left
+closed. Curing the date would not open it: the chain of title, the grant's own
+limits, and an unrun AI-clause search all survive the fix.
+
+**One thing is uncomfortable and belongs here rather than in a footnote.** Three
+reports on permission produced zero coverage figures. That is the stage's
+registered scope working exactly as designed — it enumerates nothing. But the
+precedent this repository was built against failed on **power**, not on
+permission. **If an authorization arrived tomorrow, the power question would
+still be unanswered**, and nothing in Stages A through D has moved it.
+
+A later correction is a new line, never an edit.

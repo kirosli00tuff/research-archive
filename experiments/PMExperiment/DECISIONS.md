@@ -387,3 +387,161 @@ another because its verdict would be more convenient.
 is what made the withholding possible: Stage A read 11 keyless market requests
 before its terms position was established, Stage C read the terms first and sent
 zero. That clause should not be softened.
+
+---
+
+## ADR-013. The Polymarket written-authorization route exists, is addressed to someone else, and the baseline stays PROHIBITED
+
+**Status:** accepted, 2026-08-30. Evidence in `docs/LICENCES.md`. Numbering
+continues past the duplicate ADR-006/ADR-007 pairs recorded above rather than
+renumbering them.
+
+Stage D asked whether a contact route exists through which a researcher could
+request the written authorization both venues' terms name. **It does, and none
+of the published routes is addressed to this asker.** `data-licensing@polymarket.com`
+is the closest in subject matter and its own sentence opens "If you or your
+clients are **Capital Markets Entities**"; the builder program's published
+upgrade path is gated on "Route orders through Polymarket and demonstrate
+consistent usage", which a repository that will never trade cannot pass; the
+Terms' only Contact Us clause is scoped to "questions, complaints, or claims
+concerning the Features"; and the Terms contain **no notices clause and no
+postal address** — `Notices` 0 occurrences, `authorization` 0 occurrences across
+58,830 characters.
+
+**Decision: the candidate is recorded PROHIBITED as a baseline, and nothing is
+drafted or sent.** The in-force Terms, effective 2026-08-11 under a genuine
+`Effective as of` label and read in full as 14 contiguous chunks, prohibit the
+tool class with no entity-type qualification and no consent proviso — the
+proviso in the adjacent bullet attaches to *manual* processes, so even a granted
+consent under it would not unlock automated collection.
+
+**The label is deliberately precise. Nothing was requested, so nothing was
+refused.** PROHIBITED here is what the Terms permit today absent authorization;
+it is not a record that Polymarket declined. A later reader may not convert this
+row into a refusal.
+
+**Consequence, and the part that cuts against the verdict.** The verification
+pass established three limits on how far this reaches: the load-bearing clause
+was quoted **without its defined terms**, so its boundary is asserted rather
+than measured; the bullet is scoped to "the Site, any other Interface, or
+Features", and **a public Polygon ledger is none of the three on its face**, so
+Amendment 6's Polygon question stays open rather than being closed here; and the
+AI/ML axis is now **measured as a null** — `artificial intelligence` 0,
+`machine learning` 0 across the Polymarket Terms. **Polymarket has no AI clause
+where Kalshi has one**, and that asymmetry is recorded because it was unchecked
+until the verification ran it, on the very clause class that decided Kalshi.
+
+**Two corrections to this repository's own record, made here rather than left.**
+First, **the Kalshi Data Terms of Use print no date at all** — `Effective` 0,
+`Last Updated` 0 — so ADR-012's statement that "Stage A's Kalshi finding met
+that bar" overstates it by one element: the finding met two of three. **This
+changes no verdict**, because UNMEASURED and PROHIBITED both mean proceed as if
+permission were absent, and it is recorded because a procedure that only ever
+convicts other people's documents is not a procedure. Second, **Kalshi's Section
+I PERMITTED USES was never disclosed here** and cuts both ways: it grants
+personal, non-commercial access while conditioning AI/ML training and cached
+data sets on prior written consent. Quoting only the prohibitions made the
+framing one-sided.
+
+---
+
+## ADR-014. A dataset's licence is a separate question from its venue's, and the leading dataset fails ADR-012 on two elements
+
+**Status:** accepted, 2026-08-30. Evidence in `docs/LICENCES.md`.
+
+The premise Stage D was given is correct and is affirmed: **a dataset released
+under a research licence may permit what the venue's terms do not, and the two
+questions are separate.** The sweep found seven released corpora. The leading
+one, `TimeSeventeen/Polymarket-v1`, states CC BY 4.0 three times, documents all
+four inputs the power gate needs — entry price, category, maturity, and
+resolution *presence* separable from resolution *value*, which is what standing
+rule 8 requires — over 1,201,580,990 rows spanning 2022-11-21 to 2026-04-28.
+
+**Decision: UNMEASURED, on ADR-012 elements (1) and (2).**
+
+Element (2) fails because **neither the dataset card nor the CC BY 4.0 legal
+code prints any date**, and there is no third document to fall back to. Element
+(1) fails because the licence read quoted the two clauses of CC BY 4.0 that
+grant and passed over the two in the same document that limit — Section 1
+capping Licensed Rights to what "the Licensor has authority to license", and
+Section 5(a) disclaiming warranties of title and non-infringement. **Element (1)
+is measured as text present, not as an effective grant.**
+
+**The tension this raises is registered rather than resolved.** ADR-012's
+effective-date requirement was written against a mutable terms page a venue can
+silently rewrite. Applied literally it makes it impossible for **any**
+CC-licensed dataset ever to be recorded PERMITTED, because no Creative Commons
+legal code prints a date. That is a serious argument and it is recorded at full
+strength. It is not acted on: softening an evidence standard at the precise
+moment it excludes the one attractive candidate, having applied it without
+complaint to Kalshi and Polymarket when it excluded them, is what standing rule
+9 exists to prevent. **The strongest form of the argument also fails on its own
+document** — the legal code's footer points to an errata page carrying "the date
+of change", so "the text does not drift" is contradicted by the text.
+
+**Consequence: curing the date would not open this candidate, and no reader
+should think it would.** Three gaps survive it. The chain of title is
+unestablished — a third-party republisher's CC BY tag over a corpus derived from
+another venue's platform is not a measurement that the republisher held the
+rights to grant it. The AI/ML clause search, the class that closed Kalshi, is
+**unrun** on the dataset LICENSE bodies and on Manifold's Terms of Service.
+And whether a venue's terms reach a downstream on-chain-derived corpus is a
+question Amendment 6 registered as **open**; "neither venue's terms govern this
+candidate" is itself a positive claim about a document's reach, carrying no
+clause and no date, and is restated as UNRESOLVED.
+
+**What would change it:** a numbered amendment on version-identity-in-place-of-
+date, registered *before* the measurement it governs and only alongside closing
+element (1), the chain of title, and the AI-clause search.
+
+---
+
+## ADR-015. A third party's convenience is not permission, and PROHIBITED on an unread instrument is Amendment 1's error reversed
+
+**Status:** accepted, 2026-08-30. Evidence in `docs/LICENCES.md`.
+
+**Decision: PROHIBITED for Dune, the one in-scope platform measured; UNMEASURED
+for Flipside, Allium, Nansen and Sim, whose governing documents were not
+retrieved.**
+
+Dune's in-force Terms of Service, labelled `Last updated on: June 3rd, 2026` —
+a last-updated label, and the substitution for an effective label is disclosed
+rather than smuggled — bind anyone "REGARDLESS OF WHETHER YOU HAVE REGISTERED
+WITH DUNE AS A USER", prohibit "bots, crawlers, scrapers, or other automated
+means" and any "mean other than Dune's provided interface", retain "all rights
+to all elements of the Service", and grant only a **non-sublicensable**,
+revocable right to use the *Services* — a right in a service, not in data.
+Permission was searched for affirmatively rather than inferred from silence:
+`aggregate`, `derived`, `redistribute`, `republish`, `resell`, `commercial use`,
+`creative commons`, `open source`, `public domain` — **zero occurrences each**.
+Programmatic query is account-gated with no keyless path, the API key issuing
+only "After the User's subscription to a Subscription Plan", and the tier price
+is recorded **UNMEASURED** because the pricing page is a client-rendered shell
+at 0.14–0.40 % text and the figures a search summary offered came from no
+document that was read.
+
+**The decision this ADR exists to record is not the verdict. It is the error
+the verification caught on the way to it.** The licence read declared Dune's
+current Terms **unreadable** — "Cloudflare is fingerprinting the TLS/client, not
+the headers" — quoted every clause from a superseded May 2025 archive, and
+published PROHIBITED anyway. Both halves were wrong. Bare `curl` returns 403;
+the same `curl` with nothing added but a browser `User-Agent` returns **HTTP
+200**, and the in-force instruments were one header away. And **PROHIBITED on an
+instrument that was never read is a synthesized value** — standing rule 5
+forbids exactly that, and **ADR-012 has no direction-of-travel exemption**.
+
+**This is Amendment 1's error with the sign reversed.** Amendment 1 inferred
+*permission* from a document it never read; this read inferred *prohibition*
+from a document it never read. The convenience rule of Amendment 6 — "a venue
+may not be held to a looser reading than another because its verdict would be
+more convenient" — is **symmetric**, and with a no-candidate outcome pre-blessed
+as legitimate, an over-strict reading had become the convenient one. The verdict
+above stands only because the in-force instrument was subsequently retrieved and
+independently re-extracted; it does not stand on the archive.
+
+**Consequence, independent of every clause above: Dune's terms nowhere establish
+that Dune holds redistributable rights in the third-party prediction-market data
+it surfaces.** Routing through a third-party platform cannot cure an upstream
+position that has already fired PENDING_ACCESS. A third party's convenience is
+not permission, and a platform that hosts a table is not thereby able to license
+it onward.

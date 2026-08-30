@@ -194,3 +194,50 @@ and 15.3 and in Amendment 6: written authorization from the venue, a sanctioned
 bulk or builder channel, or — for Polymarket only, and unanswered — a Polygon
 read through infrastructure that is not a Polymarket Interface. **None of these
 is a second look, because no outcome has ever been read.**
+
+---
+
+## Amended 2026-08-30 — three licence routes close; H1 is unmeasurable, not merely unmeasured
+
+**H1 remains OPEN. The power gate has still never fired. No statistic relating a
+price to an outcome exists.** Stage D enumerated nothing and read only licences.
+
+**Recorded here so these three are not re-proposed**, which is this file's whole
+job. Each closed on a document, not on a hunch:
+
+| route | verdict | the figure or clause that closed it | date |
+|---|---|---|---|
+| a Polymarket **written-authorization request** | **PROHIBITED** (baseline) | Terms effective 2026-08-11 prohibit "data mining tools, robots, crawlers…"; six published addresses, **none designated for this ask**; `Notices` 0 and `authorization` 0 occurrences in 58,830 characters | 2026-08-30 |
+| published **academic datasets** | **UNMEASURED** | `TimeSeventeen/Polymarket-v1` states CC BY 4.0 and documents all four gate inputs over **1,201,580,990 rows** (2022-11-21 → 2026-04-28), but **no date is printed on the card or in the CC BY 4.0 legal code**, and the grant was quoted without Section 1's cap to rights "the Licensor has authority to license" | 2026-08-30 |
+| **third-party platforms**, Dune among them | **PROHIBITED** (Dune) / **UNMEASURED** (Flipside, Allium, Nansen, Sim) | Dune Terms `Last updated on: June 3rd, 2026` bind non-registrants, prohibit "bots, crawlers, scrapers", grant no right in data, and issue API keys only "After the User's subscription to a Subscription Plan" | 2026-08-30 |
+
+**What would reopen each** is recorded in `docs/LICENCES.md` and ADR-013 to
+ADR-015, and every one is an **operator decision, not a measurement**: written
+authorization from a venue; a numbered amendment on whether an immutable named
+public licence satisfies ADR-012's effective-date element by version identity —
+which would still leave chain of title and an unrun AI-clause search open; or a
+paid platform tier, which needs an account, an acceptance of terms and a payment,
+all outside standing rule 11.
+
+**Registered so it is not re-proposed: no fourth venue.** The sequence Kalshi →
+Polymarket → datasets → platforms has already produced one retracted amendment
+from exactly that move.
+
+**The limit on this row, stated with it:** the candidate space was **sampled,
+not enumerated** — versioned repository deposits (Zenodo, Dataverse, OSF,
+figshare) were never fetched, and that is the one document class carrying a
+licence, a date and a version by construction. **"There is none" is a verdict
+over what was read.** Under-sampling biases toward UNMEASURED, which is the
+fail-closed direction, and it is a bias all the same.
+
+**H1t — transfer — is untouched and remains UNTESTED**, on the three grounds
+already recorded including MLCryptoEngine's H2 at **AUC 0.501**. Stage D adds
+one sentence to it, now pinned by a mutation-verified test: **a dataset licence
+changes the permission, never the venue.** A CC BY 4.0 grant over
+Polymarket-derived records would license reading them; it would not make them
+evidence about a Canadian-tradeable venue.
+
+**What stands unchanged:** Stage B's **BAND-OPEN** over 91–99c held to
+resolution, requiring **5.85 points** at k = 1 against a band top of **8.00** —
+computed from registered constants, never dependent on access, and now carried in
+the register as **a cost finding with no calibration measurement behind it**.

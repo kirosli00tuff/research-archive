@@ -10,7 +10,7 @@ specific sentence rather than a vague property.
 
 from pathlib import Path
 
-from pmexperiment import band
+from pmexperiment import admissibility, band
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -343,8 +343,67 @@ def test_a_dataset_licence_changes_the_permission_never_the_venue() -> None:
     lic = _read("docs/LICENCES.md")
     assert "A dataset licence changes the permission, never the venue" in lic
     assert (
-        "licenses a statement about Polymarket and nothing whatever about Kalshi"
-        in lic
+        "licenses a statement about Polymarket and nothing whatever about Kalshi" in lic
     )
     assert "AUC 0.501" in lic, "the transfer ground must travel with the statement"
     assert "UNTESTED" in lic
+
+
+def test_no_candidate_returns_permitted_and_each_verdict_is_recorded() -> None:
+    """The three verdicts, with the document and date each rests on."""
+    lic = _read("docs/LICENCES.md")
+    assert "No candidate returns PERMITTED" in lic
+    for verdict in admissibility.CandidateVerdict:
+        assert verdict.value in lic, f"{verdict.value} left the evidence document"
+    assert "2026-08-11" in lic, "candidate 1's effective date must travel with it"
+    assert "Last updated on: June 3rd, 2026" in lic, "candidate 3's in-force label"
+    assert "cc-by-4.0" in lic, "candidate 2's stated licence"
+
+
+def test_unmeasured_is_never_written_as_a_synonym_for_prohibited() -> None:
+    """The distinction the code enforces must survive in the prose too.
+
+    Collapsing the two is what let a licence read publish PROHIBITED from an
+    instrument it had never opened — Amendment 1's error with the sign
+    reversed. If this sentence goes, the next session has no reason not to.
+    """
+    lic = _read("docs/LICENCES.md")
+    assert "UNMEASURED is not a synonym for PROHIBITED" in lic
+    assert "Amendment 1's error with the sign reversed" in lic
+    assert "ADR-012 has no direction-of-travel exemption" in lic
+
+
+def test_the_kalshi_effective_date_gap_is_recorded_against_our_own_record() -> None:
+    """ADR-012 applied to itself. It must keep convicting the record, not others."""
+    lic = _read("docs/LICENCES.md")
+    dec = _read("DECISIONS.md")
+    p = _read("progress.md")
+    assert "It met two elements of three" in lic
+    assert "overstates it by one element" in dec
+    assert "only ever convicts other people's documents is not a procedure" in p
+
+
+def test_nothing_was_requested_so_nothing_was_refused() -> None:
+    """Candidate 1's label must not be readable as a refusal by the venue."""
+    lic = _read("docs/LICENCES.md")
+    assert "Nothing was requested, so nothing was refused" in lic
+    assert "a record that authorization was sought and refused" in lic
+
+
+def test_the_unread_candidate_space_is_recorded_as_a_limit_on_the_verdict() -> None:
+    """A sampled space is not an enumerated one, and the bias has a direction."""
+    lic = _read("docs/LICENCES.md")
+    p = _read("progress.md")
+    assert "the candidate space was sampled, not enumerated" in lic
+    assert "is not a proof that no permitted route exists" in lic
+    assert "Zenodo" in lic, "the unread deposit family must stay named"
+    assert "the power question would still be unanswered" in p
+
+
+def test_band_open_is_carried_as_a_cost_finding_with_nothing_behind_it() -> None:
+    """Task 4's registered consequence, in the words it was registered in."""
+    lic = _read("docs/LICENCES.md")
+    r = _read("report.md")
+    assert "cost finding with no calibration measurement behind it" in lic
+    assert "cost finding with **no calibration measurement behind it**" in r
+    assert "No fourth venue is proposed" in lic

@@ -914,3 +914,283 @@ rescue an empty result.
 the prompt were read, read-only, before this entry was written, exactly as
 Entries 0, 4 and 6 recorded for Stages A, B and C. No other work has been done
 and no request has been sent to any endpoint.
+
+---
+
+## Entry 9 — Stage D: three candidate licences, and there is none — 2026-08-30
+
+**Verdict, one sentence: no candidate returns PERMITTED — a Polymarket
+written-authorization route exists but every published address is scoped to
+someone else, the leading academic dataset states CC BY 4.0 and documents all
+four gate inputs over 1,201,580,990 rows yet fails ADR-012 on elements (1) and
+(2) alike, and Dune's in-force Terms prohibit the tool class and gate
+programmatic query behind a paid subscription — so the calibration question is
+unmeasurable at this house's standard until an authorization is granted, and
+that is a terminal state rather than a setback.**
+
+**Zero contracts enumerated. Zero market-data requests. Zero dollars.** No
+price bucket was built, no dispersion computed, and no statistic relating a
+price to an outcome exists in this repository. Sections 4 and 10 stand intact,
+and the Stage B region of 91–99c held to resolution was not reopened.
+
+### ETA against actual, per task (standing rule 2)
+
+| task | ETA, with its basis | actual |
+|---|---|---|
+| 0 — log the prompt | 2 min, from Stage B Task 0's measured 1.7 min | **1.45 min** (04:18:14Z → 04:19:41Z, `aa37749`) |
+| 1 — the admissibility procedure, its test and its mutation | 8 min, from Stage B's measured 8.3 min for arithmetic with tests and guards | **~9 min** (04:19:41Z → 04:28:05Z `b67fc84`, plus five source-level mutation runs) |
+| 2 — three candidate licences, read terms-first | 20 min, from Stage C Task 2a's measured 6.9 min for one venue, scaled by three | **~111 min** (04:31:37Z → 06:22:49Z `7b5a751`), plus **2.9 min** folding in the verification's corrections (`3204e5a`) |
+| 3 — the transfer statement and its mutation-verified test | 8 min | **0.8 min** (06:25:40Z → 06:26:28Z, `80b9b9d`) |
+| 4 — the honest position | 5 min | **0.8 min** (06:26:28Z → 06:27:18Z, `e6f6f3c`) |
+| 5 — report, three ADRs, honesty tests, push | 12 min, from Stage C Task 5's measured ~6 min | recorded at push in this entry's commit |
+
+**Total stated 55 min. Task 1 is the first task in this repository's history to
+exceed its ETA, and Task 2 exceeded it by a factor of 5.5.** Both are recorded
+rather than explained away, and the cause of the second is worth more than the
+number.
+
+**The named cause: the Task 2 ETA was scaled from work of a different kind, not
+merely a different size.** Stage C's measured 6.9 minutes covered reading
+`robots.txt` and one terms document on one host, where the question was already
+known and the answer was in one place. Stage D read **thirty-odd documents
+across three candidate families**, each requiring the real instrument to be
+located behind a client-rendered shell, followed by an adversarial verification
+pass that independently re-fetched and re-extracted every one of them —
+**13 agents, ~2.1 M subagent tokens and 454 tool uses across two passes**, four
+of which died on a session limit and had to be resumed. **Standing rule 2 asks
+for an ETA derived from "comparable measured work", and this work was not
+comparable.** An estimate scaled linearly from a different activity is a guess
+wearing a measurement's clothes. This is Entry 5's lesson in a new form: there
+the basis was the right activity at the wrong rate, here it was the wrong
+activity entirely.
+
+### Task 1 — ADR-012 applied to itself, and it does not flatter the record
+
+`pmexperiment/admissibility.py` is ADR-012's sentence as a procedure: a claim
+about what a source permits is admissible only when it carries **clause text, an
+effective date and a fetch date**, and a claim missing any one of the three is
+recorded **UNMEASURED**. It judges the *form* of a claim and never its merits —
+a procedure that scored the persuasiveness of a clause would be dressing a
+judgement up as a measurement.
+
+**UNMEASURED is not a synonym for PROHIBITED**, and the code enforces the
+distinction: the same operational consequence — proceed as if permission were
+absent — and different epistemic content, one a measured refusal and the other
+an absence. That distinction stopped being academic within the hour; see Task 2,
+candidate 3.
+
+**The mutation result: five source-level mutations, all five load-bearing.** The
+suite fails when the effective-date check is stripped (the mutation Task 1 names
+by hand), when the clause check is stripped, when the fetch-date check is
+stripped, when `permits()` is allowed to read UNMEASURED as permission, and when
+the client-rendered-shell detector is disabled. All five restore green at 89
+tests. Each of the three elements is separately verified load-bearing at runtime
+in `tests/test_guards.py`, blanked one at a time, because a procedure requiring
+only two of three would pass a test that blanked all three at once.
+
+**The harness failed first, and the failure was Entry 7.1's lesson in a new
+form.** The first run reported HARNESS FAULT rather than a result: `git diff
+--quiet` cannot see a change to a file git does not know about, and
+`admissibility.py` was still untracked, so the change-proof mechanism gave a
+false negative and `git checkout --` could not restore the mutated file. **The
+harness refused to count the result, which is exactly what Entry 7.1 rebuilt it
+to do.** Re-run against a committed baseline, all five mutations bite.
+
+**Fired over this repository's own three claims, one comes out against the
+record.** ADR-012 states that "Stage A's Kalshi finding met that bar." **It met
+two elements of three.** `docs/ACCESS.md` quotes the Kalshi prohibitions
+verbatim and records the fetch date of 2026-08-29, and **no tracked document
+records an effective date for the Kalshi Data Terms of Use** — the only
+effective date anywhere in this repository is Polymarket's 2026-08-11. The
+licence read confirmed it at source: across the extracted PDF, `Effective` **0
+occurrences**, `Last Updated` **0**. **This changes no verdict**, because
+UNMEASURED and PROHIBITED both mean proceed as if permission were absent. What
+it changes is the strength the record claims for itself, and it is recorded
+because a procedure that only ever convicts other people's documents is not a
+procedure.
+
+Amendment 1's claim, judged by the rule its own failure produced, is
+inadmissible on **all three** elements.
+
+### Task 2 — the three candidates (full evidence in `docs/LICENCES.md`)
+
+| # | candidate | verdict | governing document | effective date | the clause |
+|---|---|---|---|---|---|
+| 1 | Polymarket written-authorization request | **PROHIBITED** | POLYMARKET.COM TERMS OF USE | **2026-08-11**, `Effective as of` label on the masthead | "Use any data mining tools, robots, crawlers, or similar data gathering and extraction tools to scrape or otherwise remove data…" |
+| 2 | published academic datasets | **UNMEASURED** | `TimeSeventeen/Polymarket-v1` card + CC BY 4.0 legal code | **ABSENT on both** | "Released under **CC-BY-4.0**. You may share and adapt the material for any purpose…" |
+| 3 | third-party platforms (Dune) | **PROHIBITED** (Dune) / **UNMEASURED** (the rest) | Dune Terms of Service + SQL API Addendum | `Last updated on: June 3rd, 2026` (a last-updated label, substitution disclosed) | "bots, crawlers, scrapers, or other automated means" |
+
+**Candidate 1. A route to ask exists; none of them is addressed to this asker.**
+`data-licensing@polymarket.com` is the closest in subject matter and its own
+sentence opens "If you or your clients are **Capital Markets Entities**". The
+builder program's published upgrade path is gated on "Route orders through
+Polymarket and demonstrate consistent usage" — a gate a repository that will
+never trade cannot pass. The Terms' only Contact Us clause is scoped to
+"questions, complaints, or claims concerning the Features", and the document
+contains **no notices clause and no postal address**: `Notices` 0 occurrences,
+`authorization` 0 occurrences across 58,830 characters. **Kalshi is the mirror
+image — it names the ask and publishes no address at all**: `@` 0 occurrences,
+`contact` 0, in a document that is itself undated. **Nothing was drafted, sent,
+or requested, so nothing was refused.** PROHIBITED is the baseline absent
+authorization, not a record that Polymarket declined.
+
+**Candidate 2. The dataset question is genuinely separate from the venue
+question, and it still fails.** `TimeSeventeen/Polymarket-v1` states CC BY 4.0
+three times and documents all four gate inputs — `price` with `block_timestamp`,
+`category`, `opens_at`/`close_at`, and `resolution_status`, which establishes
+resolution **presence** separably from **value**, exactly as standing rule 8
+requires — over **1,201,580,990 rows spanning 2022-11-21 to 2026-04-28**, read
+from the card's published schema table with **no record inspected**. It fails
+element (2) because neither the card nor the CC BY 4.0 legal code prints any
+date, and element (1) because the read quoted the two clauses that grant and
+passed over the two in the same document that limit: Section 1 caps Licensed
+Rights to what "the Licensor has authority to license", and Section 5(a)
+disclaims warranties of title and non-infringement.
+
+**Candidate 3. The in-force instrument was read only because the verification
+caught that it had not been.** The licence read declared Dune's current Terms
+unreadable — "Cloudflare is fingerprinting the TLS/client, not the headers" —
+quoted every clause from a superseded May 2025 archive, and published PROHIBITED
+anyway. **Bare `curl` returns 403; the same `curl` with nothing added but a
+browser `User-Agent` returns HTTP 200.** The in-force Terms were one header
+away, and this session independently re-extracted them from the retained
+172,750-byte body: the printed label and every load-bearing clause are present,
+and `aggregat`, `derived`, `redistribut`, `republish`, `resell` are **zero
+occurrences each** in the current text too.
+
+**Publishing PROHIBITED from an unread instrument is Amendment 1's error with
+the sign reversed** — Amendment 1 inferred *permission* from a document it never
+read. **ADR-012 has no direction-of-travel exemption**, and Amendment 6's
+convenience rule is symmetric: with a no-candidate outcome pre-blessed as
+legitimate, an over-strict reading had become the convenient one. ADR-015.
+
+### What the adversarial verification changed, reported as load-bearing
+
+Nine lenses across three candidates, all of them run after four agents died on a
+session limit and the run was resumed. **Every correction narrowed or weakened
+the record, and none changed a verdict** — which is the pattern a verification
+should produce when the verdicts are right and the reasoning is not yet.
+
+- It **overturned** candidate 3's central factual claim with one HTTP header.
+- It caught **two selective quotations** already in a draft of `docs/LICENCES.md`:
+  the Polymarket Terms' only affirmative grant, and Kalshi's Section I PERMITTED
+  USES, which grants personal non-commercial access while conditioning AI/ML
+  training on prior written consent. Quoting only prohibitions had made the
+  Kalshi framing one-sided.
+- It **refuted candidate 2 on element (1)**, which the read had certified
+  "satisfied, and generously".
+- It **deleted a leg** of candidate 1's rebuttal: the Institute guide was still
+  live when fetched, so it is a standing representation, not a superseded prior
+  one. An argument that fails is deleted, not softened.
+- It **closed the AI/ML axis**, unsearched by every licence read, on the very
+  clause class that decided Kalshi — and found a **measured null**:
+  `artificial intelligence` 0, `machine learning` 0 across the Polymarket Terms.
+  **Polymarket has no AI clause where Kalshi has one.**
+- It found that the on-chain path is **narrower** than claimed: the bullet is
+  scoped to "the Site, any other Interface, or Features", and a public Polygon
+  ledger is none of the three on its face. Amendment 6's Polygon question stays
+  **open**, neither closed nor opened here.
+
+### What was not read, recorded so it is not mistaken for absence
+
+A completeness pass established that **the candidate space was sampled, not
+enumerated**. The sharpest gap: **versioned repository deposits — Zenodo,
+Dataverse, OSF, figshare — were never fetched**, and a DOI landing page prints a
+licence, a publication date and a version *by construction*. Candidate 2 reached
+UNMEASURED on the effective-date element **without fetching the one document
+class that carries that element by construction**. Also unread: the CC BY 4.0
+errata page named in the legal code's own footer, Manifold's Terms of Service,
+six Dune addenda incorporated by reference, Token Terminal's Subscription
+Agreement, ICE's terms, Kalshi's non-PDF surface, and any regulatory disclosure
+route for a CFTC-designated contract market. Full list in `docs/LICENCES.md`.
+
+**The direction of bias is named: an under-sampled space biases toward
+UNMEASURED, the fail-closed direction.** It is still a bias. **"There is none"
+is a verdict over what was read, and it is not a proof that no permitted route
+exists.**
+
+**And one observation that is uncomfortable and correct:** three reports on
+permission produced **zero coverage figures** — no bucket count, no dispersion,
+from any route. That is this stage's registered scope working as designed. But
+NPDExperiment failed on **power**, not on permission. **Even if an authorization
+were granted tomorrow, the power question would still be unanswered**, and
+nothing in Stages A through D has moved it.
+
+### Task 3 — what each candidate would and would not license
+
+**No candidate returns PERMITTED, so the registered questions are not reached
+for any of them** — which universe becomes measurable, whether the Stage B
+region of 91–99c is reachable inside it, and whether the Canadian-permitted
+filter can be applied. They are recorded as **not reached**, not as answered in
+the negative.
+
+The one that came closest is recorded with what it *would* have offered, so a
+later session need not rediscover it: `Polymarket-v1` would on its documentation
+make the unrestricted Polymarket universe measurable, and carries the `category`,
+`opens_at` and `close_at` fields the permitted filter of economic indicators,
+financial markets and climate at a 30-day minimum maturity would need. **It
+documents no order-book depth, so Amendment 5's volume floor could be applied
+but the registered 1-cent half-spread could not be checked.**
+
+**The transfer statement, which holds whatever the outcome and is now pinned by
+a mutation-verified test:** any measurement on Polymarket records — from the
+venue, from a dataset, or from a third-party platform — **licenses a statement
+about Polymarket and nothing whatever about Kalshi.** H1t remains **UNTESTED**
+on three grounds including MLCryptoEngine's H2 at **AUC 0.501**. **A dataset
+licence changes the permission, never the venue.** Rewriting that sentence to
+"arguably settles the venue question too" fails the suite; restoring it passes.
+
+### Task 4 — the honest position
+
+**There is none, and that is a legitimate terminal state.**
+
+The calibration question is **unmeasurable at this house's standard until an
+authorization is granted** — not in principle, and not because the arithmetic
+came out badly. The power gate has still never fired on any venue over any
+region. It is unmeasurable because every route this stage read either prohibits
+the reading or cannot show it is permitted, **and this repository does not
+proceed on the second any more than on the first.**
+
+**The register carries BAND-OPEN as a cost finding with no calibration
+measurement behind it**, and that sentence is the whole of what this repository
+has established about prices. It records that cost alone does not close the
+question. **It is not evidence that an edge exists** — every magnitude any cited
+source places inside its surviving bucket, Bürgi's 2.0 and 3.0 points, **fails**
+the cost floor, and the band survives on its registered top, set by the one
+source whose n the registration never recorded.
+
+**Why this is written as a terminal state and not a setback.** It is the outcome
+the design was built to reach cheaply, and it reached it cheaply: four stages,
+**zero dollars, zero contracts enumerated, zero market-data requests to
+Polymarket, and no statistic relating a price to an outcome anywhere in this
+repository.** NPDExperiment discovered its answer after **415 days** of
+collection in the session that read the result; this one discovered, before
+collecting anything, that the collection is not permitted. **Two venues and
+three third-party routes now say the same thing, in five documents, for four
+different reasons. That is a result.**
+
+**No fourth venue is proposed.** The sequence Kalshi → Polymarket → datasets →
+platforms has already produced one retracted amendment from exactly that move,
+and proposing a fifth route after four close is how a measurement-only project
+turns into a search for someone who will say yes. **ADR-012 was not softened to
+admit a candidate**, and the one candidate it excludes on a technicality it
+arguably was not written for is recorded with that tension stated in full,
+escalated to the operator, and left closed.
+
+**What would change it**, each an operator decision rather than a measurement:
+written authorization from Adventure One QSS, Inc. or from Kalshi — still the
+only path that reopens a **Canadian-tradeable** venue; a numbered amendment on
+whether an immutable named public licence satisfies element (2) by version
+identity, registered *before* the measurement it governs and only alongside
+closing element (1), the chain of title and the AI-clause search; or a paid
+third-party tier, which needs an account, an acceptance of terms and a payment,
+all outside standing rule 11 absent an explicit operator instruction — and which
+still would not establish that the platform holds redistributable rights in the
+underlying records.
+
+**None of these is a second look, because no outcome has ever been read.**
+
+### What stands
+
+Stage B's **BAND-OPEN** over 91–99c held to resolution, computed from registered
+constants, never dependent on venue access, and untouched by any of this.
