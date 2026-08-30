@@ -327,3 +327,24 @@ def test_the_gate_did_not_fire_and_both_passes_are_absent() -> None:
     assert "the power gate did not fire" in p
     assert "absent, not zero" in p
     assert "The scope fixed by Stage B was not widened" in p
+
+
+# --- Stage D: three candidate licences, none PERMITTED — 2026-08-30 ---------
+#
+# The load-bearing one is the transfer statement. Stage D read licences that
+# would, if one had been granted, have put Polymarket-derived records within
+# reach — and a licence changes only who may read the records, never which
+# venue they describe. If that sentence ever leaves the record, a later session
+# has a corpus and no reason left not to call it evidence about Kalshi.
+
+
+def test_a_dataset_licence_changes_the_permission_never_the_venue() -> None:
+    """Task 3's transfer statement, which holds whatever the verdicts were."""
+    lic = _read("docs/LICENCES.md")
+    assert "A dataset licence changes the permission, never the venue" in lic
+    assert (
+        "licenses a statement about Polymarket and nothing whatever about Kalshi"
+        in lic
+    )
+    assert "AUC 0.501" in lic, "the transfer ground must travel with the statement"
+    assert "UNTESTED" in lic
