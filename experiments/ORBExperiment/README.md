@@ -23,7 +23,39 @@ here can mean anything, and **BLOCKED is the correct and cheap answer**.
 
 ---
 
-## Status: Section 0 re-fired **PENDING_REVISION** on 2026-08-29
+## Status: **H1 is CLOSED — `cost-bound` — 2026-08-30**
+
+> ### **The registered rule cannot clear its own registered cost band.** The measured slippage band on the traded instruments gives a pessimistic-minus-central shift of **0.467065 USD per share** against a central mean of **0.040386** at the registered effect assumption. The pessimistic-cost mean is **−0.426679**. **E2 power 0.000000. Joint power 0.000000.**
+
+**The closure was decided by a criterion committed and pushed as `4ae14dc`
+BEFORE the measurement that decided it**, and the commit order is checkable in
+`git log`. **`GO` was ruled out arithmetically in that same commit**: it needed a
+**21.89-fold** reduction in the shift, which is below a single tick across both
+legs.
+
+**The measurement went hard against the hypothesis.** The carried band came from
+**QQQ, an ETF with a ~1-cent spread**; the registered universe selects
+**news-driven single names by elevated opening relative volume** — the population
+whose spreads are widest at exactly the moment the rule trades them. **Five of
+six band ends were understated by the carried figures**, the entry pessimistic
+end by **8.87×** and the close pessimistic end by **13.05×**. **No search for a
+favourable number produces an eleven-fold worse one.**
+
+**It does not rest on the halving heuristic.** At the source study's own
+undecayed **2.81** the pessimistic-cost mean is **−0.386004** and E2 power is
+**zero** as well.
+
+**What the closure is NOT.** It is **not** a finding that the opening-range
+effect does not exist. **E1 remains powered at 0.832450**, **no in-sample or
+holdout bar was ever read**, and **both latches remain absent**. **It is a
+finding about this design.**
+
+**H1b** — the same rule with a raised price floor — is **`REGISTERED_NOT_OPEN`**
+and **was not used to rescue H1**, which Amendment 24 forbade before either ran.
+
+---
+
+## Superseded status: Section 0 re-fired **PENDING_REVISION** on 2026-08-29
 
 **Nothing is armed. Nothing is closed. H1 is OPEN.**
 
@@ -248,6 +280,40 @@ input comes from a **post-holdout regime** and may misstate in-sample dispersion
 in either direction by an unmeasured, unbounded amount. **Every in-sample figure
 carries SL-3.**
 
+### The rescue pass — the measured slippage band, 2026-08-30
+
+**`n = 759` quote requests, 0 dollars spent.** Post-holdout carve-out, `n = 42`
+sessions, 28 evaluable, 200 tickers. **The tier serves NBBO quotes: 760 quote
+minutes served, 0 refused**, so the spread is **measured, not assumed**.
+
+| leg / end | **carried** (QQQ) | **measured** | ratio | verdict |
+|---|---:|---:|---:|---|
+| entry, central | 0.0200 | **0.087019** | **4.35×** | **UNDERSTATED** |
+| entry, pessimistic | 0.0400 | **0.354645** | **8.87×** | **UNDERSTATED** |
+| stop, central | 0.0400 | **0.033529** | 0.84× | *overstated* |
+| stop, pessimistic | 0.0800 | **0.198061** | **2.48×** | **UNDERSTATED** |
+| close, central | 0.0100 | **0.040000** | **4.00×** | **UNDERSTATED** |
+| close, pessimistic | 0.0200 | **0.261000** | **13.05×** | **UNDERSTATED** |
+
+| figure | value | n |
+|---|---:|---|
+| entry half spread, time-weighted | median **0.076572**, p90 **0.333662** | **550 minutes, 0 refused** |
+| entry total slippage | median **0.087019**, p90 **0.354645** | 550 |
+| stop total slippage | median **0.033529**, p90 **0.198061** | 210 |
+| close slippage vs the official print | median **0.040000**, p90 **0.261000** | 340 |
+| **measured shift** | **0.467065 USD/share** — carried band gives 0.041455 | — |
+| **pessimistic-cost mean at 1.40** | **−0.426679 USD/share** | — |
+| **E2 power** at 1.40 / 2.81 / 0.70 | **0.000000 / 0.000000 / 0.000000** | 875 |
+| **JOINT power** at 1.40 | **0.000000**, min n **unreachable** | 875 |
+| E1 power at 1.40 — **unchanged** | **0.832450**, min n 795 | 875 |
+
+**The measured band is a LOWER BOUND on cost.** **457 of 550 entry triggers and
+195 of 210 stop triggers crossed their boundary intrabar**, and one-minute data
+cannot locate the first trade through a boundary inside a bar, so those were
+recorded at 0.0 overshoot. **Market impact is not measured at all.** **So the
+closure is robust: the design failed at the most favourable honest reading of its
+own costs.**
+
 ### H1b — the price-floor feasibility scan, 2026-08-30
 
 **H1b is `REGISTERED_NOT_OPEN`.** This is a scan, not a verdict. **No power
@@ -369,9 +435,9 @@ by an unmeasured, unbounded amount.
 
 | figure | value |
 |---|---|
-| tests | **410 passing** |
+| tests | **419 passing** |
 | mypy strict | **clean, 56 source files** |
-| mutations applied to real source | **16**, **0 harness failures** |
+| mutations applied to real source | **17**, **0 harness failures** |
 | guards | every one exercised by a mutation or a boundary fixture |
 
 ---

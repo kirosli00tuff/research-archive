@@ -2,9 +2,10 @@
 
 **Read this before touching anything.**
 
-> ## There are now TWO binding constraints, and only one of them is a calendar.
-> ## **1. The earliest eligible re-pull is 2026-09-12.**
-> ## **2. JOINT power is 0.043277 at the registered assumption, and no session count reaches 80 percent. That one does not wait for anything.**
+> # H1 IS CLOSED.
+> ## **`cost-bound`, 2026-08-30, Amendment 28.** The registered rule cannot clear its own registered cost band.
+> ## The measured shift is **0.467065 USD/share** against a central mean of **0.040386**. The pessimistic-cost mean is **−0.426679**. **E2 power 0.000000, JOINT power 0.000000.**
+> ## **The bar-integrity re-pull is still due 2026-09-12 and is still the right measurement — but H1 closed on cost before it arrived.**
 > Nothing in this repository can produce a bar-integrity verdict before that
 > date, and no amount of further work moves it. `tools/repull_probe.py` refuses
 > every earlier attempt with exit **78**, naming the date, having sent nothing.
@@ -34,76 +35,65 @@ broker credential exists and none is planned.**
 
 ## Where it stands
 
-**Section 0 re-fired `PENDING_REVISION` on 2026-08-29 for the third time that
-day** — the inference-repair pass, **Amendment 23**. **Nothing is armed. Nothing
-is closed. H1 is OPEN.**
+**H1 is CLOSED as `cost-bound`, 2026-08-30** (A.3 rescue pass TASK 5, Amendment
+28). **Section 0 re-fired `PENDING_REVISION` on the same date** — the
+bar-integrity clause is **orthogonal** to the closure and its measurement is
+still due 2026-09-12.
 
-**Twenty-three amendments stand. Thirty-five ADRs. Read amendments 18 through 23
-and ADRs 032 through 035 first — they change what the experiment can conclude.**
+**Twenty-eight amendments stand. Thirty-eight ADRs. Read amendments 24 to 28 and
+ADRs 036 to 038 first — they are the closure and the pre-commitment that decided
+it.**
 
-### The inference, repaired and then found unpowered
-
-| finding | figure | n |
-|---|---|---|
-| **alpha per co-primary** | **0.05** — superseded **0.02532057** (Amendment 18) | — |
-| **E1 power at the registered 1.40** | **0.832450** — was 0.743521 | **875** |
-| E1 power at 2.81 / 0.70, holdout | 0.999835 / 0.366747 | 875 |
-| E1 power at 1.40 / 2.81 / 0.70, in-sample | 0.980162 / 1.000000 / 0.581652 | 1,762 |
-| **E1 minimum n for 80 percent** | **795** — was 1,006, against **875 achievable** | — |
-| **measured stop-exit share** | **0.381818** — 210 stop, 340 close | **550** |
-| **measured ambiguous rate** | **0.000000**, rule-of-three bound **0.005357** | **560** |
-| **measured pessimistic shift** | **0.041455 USD/share** — bounds 0.030 / 0.060 | 550 |
-| E2 central mean at 1.40 | **+0.040386 USD/share** | — |
-| **E2 pessimistic-cost mean at 1.40** | **−0.001068 USD/share — NEGATIVE** | — |
-| **E2 power at 1.40, holdout** | **0.043277** — below the 0.05 size of the test | 875 |
-| E2 power at 2.81 / 0.70, holdout | 0.819524 / 0.001271 | 875 |
-| **E2 minimum n for 80 percent at 1.40** | **Absent — unreachable at any n** | — |
-| **JOINT POWER at 1.40, holdout** | **0.043277**, binding component **E2** | **875** |
-| JOINT power at 2.81, holdout | 0.819524, binding component E2 | 875 |
-| **JOINT minimum n for 80 percent at 1.40** | **Absent — unreachable at any n** | — |
-| JOINT minimum n for 80 percent at 2.81 | **827** | — |
-| **break-even Sharpe** | **1.437035** — the registered 1.40 sits **2.577 percent** below it | — |
-| break-even stop share at 1.40 | **0.346206** against a measured 0.381818 | — |
-| **measured trigger rate** | **0.982143** — the breakout is a **direction rule** | 560 |
-| E2 dispersion input | **2.029585 USD/share** | 550 |
-
-### Access and integrity, unchanged by this pass
+### The closure, and every figure it rests on
 
 | finding | figure | n |
 |---|---|---|
-| **credentials authenticating** | **2 of 2** | 2 |
-| **primary vendor** | **Alpaca** — 2016-01-04, 1,762/1,762 in-sample, 875/875 holdout | 16 probes |
-| **reference vendor** | **Massive** — 2024-08-29, 0/1,762 in-sample, 459/875 holdout | 16 probes |
-| **tape, Massive vs Alpaca-SIP** | **`SAME_TAPE`**, median **1.005197** | 100 pairs |
-| **sealed slice feed** | **`CONFIRMED_CONSOLIDATED`** — `sip`, measured not assumed | 7 chunks |
-| **delisted names with intraday history** | **203** — **`PASS`** | 229 |
-| **Alpaca burst allowance** | **384 admitted in 55.96 s**, the 385th refused `429` | 391 |
-| **Alpaca sustained ceiling** | **NOT reached** — 250 of 250 at **199.73/min** | 250 |
-| **Alpaca operating pace / daily cap** | **98.36/min** at 0.61 s / **3,000** | — |
-| **bar revision rate** | **`Absent(not_yet_measured)`** — eligible **2026-09-12** | 0 |
-| **cross-vendor agreement share** | **`Absent(not_yet_measured)`** | 0 |
-| operator prior | **0.30, `INDEPENDENT`** (Amendment 5) | — |
-| tests / mypy / mutations | **410 passing** / **clean over 56 files** / **16 mutations, 0 harness failures** | — |
+| **H1 status** | **CLOSED — `cost-bound`** | — |
+| **criterion pre-committed** | **2026-08-30, commit `4ae14dc`, before the measurement** | — |
+| **measured entry band** | central **0.087019**, pessimistic **0.354645** | **550** |
+| — carried (QQQ) | 0.020 / 0.040 — **understated 4.35× and 8.87×** | — |
+| **measured stop band** | central **0.033529**, pessimistic **0.198061** | **210** |
+| — carried | 0.040 / 0.080 — central **overstated**, pessimistic understated 2.48× | — |
+| **measured close band** | central **0.040000**, pessimistic **0.261000** | **340** |
+| — carried | 0.010 / 0.020 — **understated 4.00× and 13.05×** | — |
+| entry half spread, time-weighted | median **0.076572**, p90 **0.333662** | **550 minutes, 0 refused** |
+| **measured shift** | **0.467065 USD/share** — carried band gives **0.041455** | — |
+| central mean at the registered 1.40 | **0.040386** | — |
+| **pessimistic-cost mean** | **−0.426679** — negative by **11.56×** | — |
+| **E2 power** at 1.40 / 2.81 / 0.70 | **0.000000 / 0.000000 / 0.000000** | 875 |
+| **JOINT power** at 1.40 | **0.000000**, min n **unreachable at any n** | 875 |
+| **E1 power at 1.40 — UNCHANGED** | **0.832450**, min n **795** of 875 | 875 |
+| assistant prior · operator prior | **0.15** · **0.30 `INDEPENDENT`** — **neither scored; the event did not resolve** | — |
+| tests / mypy / mutations | **419 passing** / **clean** / **17 mutations, 0 harness failures** | — |
 | dollars spent | **0** | — |
 
-**Every E2 and joint figure carries the Amendment 11 caveat**: the dispersion
-input comes from a **post-holdout regime** and may misstate in-sample dispersion
-in either direction by an unmeasured, unbounded amount. **Every in-sample figure
-carries SL-3.** **Every statement about what a PASS would mean carries §11.2.**
+**The measured band is a LOWER BOUND.** **457 of 550 entry triggers crossed
+intrabar** and one-minute data cannot locate the first trade through a boundary
+inside a bar; **market impact is not measured at all.** **The design failed at
+the most favourable honest reading of its own costs.**
 
-### Four things a fresh reader will otherwise get wrong
+**The closure does NOT rest on the halving heuristic.** Under the carried band E2
+reached **0.819524** at the published 2.81; **under the measured band it is
+0.000000 there too.**
 
-1. **`0.832450` is E1's power, not the design's.** Section 10.1 makes the latch
-   condition **JOINT** power, bounded above by the smaller component. **The
-   design's power is 0.043277.**
-2. **Correcting the multiplicity error made E1 powered and left the design
-   unpowered.** Both are true. Neither may be reported without the other.
-3. **The E2 collapse is a property of the registered design, not of the world.**
-   The pessimistic-cost mean is negative because the registered 1.40 assumption
-   sits **2.577 percent** below the break-even Sharpe of **1.437035**.
-4. **The breakout is a direction rule, not a selector** (Amendment 22). At a
-   measured **0.982143** trigger rate the condition selects on almost nothing.
-   **The registered rule is unchanged; the description was wrong.**
+**What the closure is NOT.** Not a finding that the opening-range effect does not
+exist. **E1 remains powered at 0.832450, no in-sample or holdout bar was ever
+read, and both latches remain absent.** **It is a finding about this design.**
+
+### Access and integrity, unchanged and now orthogonal
+
+| finding | figure | n |
+|---|---|---|
+| primary vendor | **Alpaca** — 2016-01-04, 1,762/1,762 in-sample, 875/875 holdout | 16 |
+| reference vendor | **Massive** — 2024-08-29 | 16 |
+| tape · sealed slice feed | **`SAME_TAPE`** 1.005197 · **`CONFIRMED_CONSOLIDATED`** | 100 · 7 |
+| delisted names with intraday history | **203** — **`PASS`** | 229 |
+| **bar revision rate** | **`Absent`** — eligible **2026-09-12** | 0 |
+| **cross-vendor agreement share** | **`Absent`** | 0 |
+
+**Both integrity measurements remain absent and remain due.** **They no longer
+gate H1, which closed on cost.** Whether to run the 2026-09-12 re-pull at all is
+now an operator decision, not a step in a ladder.
 
 ### H1b — registered 2026-08-30, NOT OPENED
 
@@ -133,7 +123,18 @@ The scan sampled **200 names of 5,317** — every 26th ticker. A floor that thin
 
 ## What happens next, in order
 
-1. **On or after 2026-09-12, run `tools/repull_probe.py`.** It re-sends the
+> ### **There is no ladder any more. H1 is closed, and everything below is an operator decision rather than a next step.**
+
+**Nothing in this repository is waiting to run.** The three items below were the
+ladder while H1 was open; they are listed because the machinery is armed and
+correct, **not because anything requires them.**
+
+**The decision that actually faces the operator** is which of the four open items
+to act on — and **item 4, the H1 closure follow-up, is the live one.**
+
+### The three former ladder steps, now optional
+
+1. **On or after 2026-09-12, `tools/repull_probe.py` can still be run.** It re-sends the
    identical request set from `reports/stage_a1r/task9_probe_manifest.json`,
    seals the bytes into `data/access/sealed_repull/`, and hands both pulls to
    `orb.comparator.SealedComparator.compare_pulls`. It writes
@@ -144,8 +145,10 @@ The scan sampled **200 names of 5,317** — every 26th ticker. A floor that thin
    first-5-minute high-or-low agreement, **not** the tape ratio, which is a
    different measurement. **It can only be run over the 459 holdout sessions on
    or after 2024-08-29**, and its scope limit is registered (Amendment 8).
-3. **Then re-fire Section 0** with both integrity inputs present. Only then are
-   `GO` and `DEGRADED` reachable at all.
+3. **Then Section 0 could be re-fired** with both integrity inputs present.
+   **`GO` and `DEGRADED` would still be unreachable**, because both require the
+   co-primaries at power and **joint power is 0.000000**. **Running these three
+   would measure bar integrity; it would not reopen H1.**
 
 ## Rules that bind whatever the task is
 
@@ -197,7 +200,7 @@ The scan sampled **200 names of 5,317** — every 26th ticker. A floor that thin
 derived from a daily allowance, **because none was measured on either vendor**.
 They are circuit breakers, not throughput targets.
 
-## Open operator items — four, and the fourth does not wait for anything
+## Open operator items — four, and only the fourth is live
 
 **Both earlier items are discharged.** The credentials exist and authenticate;
 the Section 13 prior is filled at **0.30, `INDEPENDENT`**, satisfying **Section
@@ -246,7 +249,32 @@ closed**.
    2026-09-12 re-pull.** SL-3 changes what a verdict *means*, never when one
    fires.
 
-4. **Choose a route for the collapsed E2. THIS IS THE ONE THAT DOES NOT WAIT.**
+4. **THE LIVE ITEM — what to do now that H1 is closed `cost-bound`.**
+   **Amendment 28, ADR-038.** The rescue lever was applied and the measurement
+   went **eleven times against** the hypothesis. **Amendment 24 registered that
+   no further rescue lever would be applied, and none was.** What remains is a
+   choice about **what this repository does next**, and none of it is automatic:
+   - **(a) Stop here.** H1 is closed with a documented negative, which is a
+     legitimate and expected outcome this registration named from its first
+     commit. **The bar-integrity re-pull becomes unnecessary**, and the
+     repository is complete as a record.
+   - **(b) Run the 2026-09-12 re-pull anyway**, to finish the bar-integrity
+     measurement **as a standalone result about the vendor** rather than as a
+     gate on H1. It is cheap, the machinery is armed and correct, and **it would
+     be the only remaining measurement this repository was built to make.**
+   - **(c) Open H1b**, which needs its own full registration, its own power gate
+     computed rather than inherited, and explicit operator instruction. **The
+     feasibility scan says the mechanism is real and the sample cost is real
+     too.** **Note it inherits the closure's problem**: the measured entry half
+     spread of **0.076572 median** is what killed H1, and a raised floor
+     improves the ratio only if the spread does not scale with price — which the
+     scan's overshoot column **cannot** confirm at one-minute resolution.
+   - **(d) Pursue Amendment 21 route (b)** — narrow the registered cost band on
+     **real execution evidence**. **This repository holds none and has no broker
+     credential.** It is the only route that could reopen a cost-bound closure,
+     and **the measurement in hand points the other way by 11.27×.**
+
+**Superseded item 4 — the collapsed-E2 routes of Amendment 21.**
    **`REGISTRATION.md` Amendment 21, ADR-034.** The measured pessimistic shift of
    **0.041455 USD/share** exceeds the implied central mean of **0.040386** at the
    registered 1.40 assumption, so the **pessimistic-cost mean is −0.001068**,

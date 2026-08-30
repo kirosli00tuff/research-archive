@@ -937,3 +937,144 @@ half spread** across each entry and stop minute is **measured** and added to the
 overshoot. Weighting is by **time held**, not by quote count, so a quote that
 stood for twenty milliseconds cannot dominate a minute. **A minute whose quotes
 are unusable is a refused minute, counted as such, never a zero spread.**
+
+## What the measurement said
+
+**It went hard against the hypothesis.**
+
+| leg / end | **carried** (QQQ) | **measured** | ratio |
+|---|---:|---:|---:|
+| entry, central | 0.0200 | **0.087019** | **4.35×** |
+| entry, pessimistic | 0.0400 | **0.354645** | **8.87×** |
+| stop, central | 0.0400 | **0.033529** | *0.84×* |
+| stop, pessimistic | 0.0800 | **0.198061** | **2.48×** |
+| close, central | 0.0100 | **0.040000** | **4.00×** |
+| close, pessimistic | 0.0200 | **0.261000** | **13.05×** |
+
+**Five of six ends were understated by the carried band. One was overstated** —
+the central stop exit, at 0.033529 against 0.040, `n = 210` — **and it is
+recorded, because a measurement is not a reduction.**
+
+**The driver is the entry half spread**: **median 0.076572, 90th percentile
+0.333662 USD per share**, over **550 minutes served and 0 refused**. The carried
+figure came from **QQQ, whose spread sits near one cent**.
+
+**That is not a surprise once it is stated.** The registered universe selects the
+**top 20 names by elevated opening relative volume** — the names with the most
+unusual activity in the first five minutes of the session. **The selection rule
+and the wide-spread population are the same population.** The carried figure was
+an ETF's spread applied to news-driven single names **at the one moment of the
+day they are least like an ETF.**
+
+**The resulting shift is 0.467065 USD per share against a carried-band shift of
+0.041455 — 11.27 times larger**, of which the entry width is **57.3 percent**.
+
+## The verdict the criterion had already fixed
+
+> ## **`NOT_RESCUED`.** The criterion required the shift to fall **strictly below 0.040386**. It rose to **0.467065**, **11.56 times** the central mean.
+>
+> **Pessimistic-cost mean −0.426679. E2 power 0.000000. Joint power 0.000000. No session count reaches 80 percent at any assumption.**
+
+**And the direction is the pass's own control.** A rescue pass that measures a
+cost input after seeing a cost-driven null is exactly the shape a reader should
+distrust. **Amendment 24 answered that with a pre-committed criterion and a
+checkable commit order. The result answers it a second way: no search for a
+favourable number produces an eleven-fold worse one.**
+
+## One thing the closure was expected to say, and does not
+
+**The instruction anticipated a closure conditional on the halving heuristic**,
+on the grounds that E2 passes at the published 2.81 where power reaches 0.820.
+**That was true under the carried band and is not true under the measured one.**
+
+| E2 power at 2.81, holdout `n = 875` | figure |
+|---|---:|
+| under the **carried** band | **0.819524** |
+| under the **measured** band | **0.000000** |
+
+**At the source study's own undecayed magnitude the pessimistic-cost mean is
+−0.386004 and E2 power is zero.** **The closure holds there too**, which makes it
+**stronger than expected, not weaker**, and removes the one conditionality the
+instruction asked to be recorded. **Repeating that sentence as though it still
+applied would have been the easy thing and the wrong one.**
+
+## H1, closed
+
+**`cost-bound`.** The effect may be real; **it does not survive the modeled
+cost.** Precedent MLCryptoEngine H6.
+
+**What it rests on, stated so it can be attacked:** the registered Section 6
+model and its pessimistic band, registered before any data existed; a slippage
+band measured on **42 post-holdout sessions**, which is **a different regime from
+the holdout it is applied to** and **a lower bound**; and a dispersion of
+2.029585 USD per share.
+
+**The honest attack is the second**, and it is Amendment 21's route (b): **real
+execution evidence could narrow the band.** This repository holds none, has no
+broker credential, and none is planned — **and the measurement it does hold
+points the other way by a factor of 11.27.**
+
+**What the closure is not.** **It is not a finding that the opening-range effect
+does not exist.** **E1 remains powered at 0.832450.** **No in-sample or holdout
+bar was ever read. Both latches remain absent.** **Nothing in this repository
+measured whether the directional edge is real.** **It is a finding that this
+design cannot clear its own registered cost band** — a statement about the
+design.
+
+## The calibration ledger, and an event that did not resolve
+
+**Assistant prior 0.15**, recorded 2026-08-28. **Operator prior 0.30**, label
+`INDEPENDENT`, recorded 2026-08-29.
+
+**Neither is scored correct or incorrect by a closure of this kind.** Both were
+probabilities on *"a real capturable edge surviving the registered cost model out
+of sample"*, and **H1 closed before any out-of-sample read occurred.** **The event
+they were about did not resolve.** The ledger records the closure, its kind and
+that fact, **and does not convert an unresolved event into a scored one.** The
+factor-of-2.0 disagreement between the two priors stays unresolved with it.
+
+## H1b, registered and not opened
+
+**A filter change proposed after seeing a null is a new hypothesis.** Folding the
+price floor into H1 would have let H1 be re-specified until it passed while the
+verdict carried **none** of the cost. **So it is H1b, `REGISTERED_NOT_OPEN`, and
+it increments the deflated-Sharpe trial count from 8 to 9 — for H1b.** H1's count
+of 8 is unchanged. **The ninth trial exists because the change was proposed after
+seeing a null**, and that is the cost of having looked.
+
+**The scan confirmed both halves of the registered mechanism**, which is the most
+interesting thing in it. **The central-mean-to-shift ratio rises monotonically
+0.9742 → 0.9983 → 1.1415 → 1.4767 → 2.1424** while the shift stays inside a **4
+percent band** — the price-invariance H1b asserted, measured. **And mean relative
+volume of the selection falls 2.0652 → 1.4103** — the rank-tail dilution it also
+predicted. **Both are real and they run in opposite directions.**
+
+**One column is a sample artefact and is labelled as one.** The scan ran on a
+**200-name systematic sample of a 5,317-name listing**. A floor that fails to fill
+20 names in a **1-in-26 subsample** says nothing about a universe **26.6 times
+larger**. **The 50 and 100 USD rows are not evidence that those floors empty the
+registered universe.**
+
+## What a reader should take from this section
+
+**A registration exists to make a negative sayable, and this is what that looks
+like when it happens.**
+
+**The lever was honest and it was the only one available**: the cost band was
+carried from an ETF and had never been measured on the instruments the rule
+actually trades. **Measuring it was the right thing to do whichever way it came
+out.**
+
+**It came out eleven times worse.**
+
+**The one structural doubt this registration named first is the one that closed
+it.** Section 1's structural doubt 2, written before any data existed: *the
+independent replication measured a gross edge of 0.070 USD per share and found
+net PnL crossing zero at roughly 0.022 USD per share of entry slippage — the
+entire gross edge of the index version measured smaller than a realistic slippage
+assumption.* **The measured entry half spread on this universe has a median of
+0.076572.** **The doubt was right, and it was right for the reason it gave.**
+
+**What stopped this repository in the end was not the calendar.** The
+bar-integrity re-pull is still due **2026-09-12**, and it is still the right
+measurement — **but H1 closed on cost before it arrived.**

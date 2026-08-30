@@ -3565,3 +3565,173 @@ the cost of having looked.
 
 **Opening H1b requires its own full registration, its own power gate computed
 rather than inherited, and explicit operator instruction. None exists.**
+
+---
+
+## Entry 35 — STAGE A.1 TASKS 2, 3 and 4
+
+### TASK 2 — the slippage band, measured. **ETA 90 min · actual 96 min.**
+
+**The tier serves NBBO quotes.** Probed and confirmed **before** the tool was
+written, so the spread is **measured, not assumed**: **760 quote minutes served,
+0 refused**, `n = 759` requests.
+
+**The assignment was fixed before the shift was computed** — **median → central,
+90th percentile → pessimistic** — and it is recorded in ADR-038 and in the tool's
+docstring, not chosen afterwards.
+
+| leg / end | carried (QQQ) | **measured** | ratio | verdict |
+|---|---:|---:|---:|---|
+| entry, central | 0.0200 | **0.087019** | **4.35×** | **UNDERSTATED** |
+| entry, pessimistic | 0.0400 | **0.354645** | **8.87×** | **UNDERSTATED** |
+| stop, central | 0.0400 | **0.033529** | 0.84× | *overstated* |
+| stop, pessimistic | 0.0800 | **0.198061** | **2.48×** | **UNDERSTATED** |
+| close, central | 0.0100 | **0.040000** | **4.00×** | **UNDERSTATED** |
+| close, pessimistic | 0.0200 | **0.261000** | **13.05×** | **UNDERSTATED** |
+
+**Five of six ends were understated. One was overstated and is recorded, because
+a measurement is not a reduction.**
+
+**The driver is the entry half spread: median 0.076572, p90 0.333662, `n = 550`.**
+The carried figure came from **QQQ, whose spread is near one cent**. **The
+registered universe selects the top 20 by elevated opening relative volume — the
+names with the widest spreads at exactly the moment the rule trades them. The
+selection rule and the wide-spread population are the same population.**
+
+**Measured shift 0.467065 USD/share against a carried-band shift of 0.041455 —
+11.27× larger.** Entry width is **57.3 percent** of it.
+
+**The band is a LOWER BOUND.** **457 of 550 entry triggers and 195 of 210 stop
+triggers crossed intrabar**, recorded at 0.0 overshoot, because one-minute data
+cannot locate the first trade through a boundary inside a bar. **Market impact is
+not measured at all.**
+
+**The registered band was NOT moved.** `CONFIG`'s slippage tuples are unchanged.
+
+### TASK 3 — the criterion applied. **ETA 40 min · actual 34 min.**
+
+> ## **`NOT_RESCUED`.** The criterion required the shift **strictly below 0.040386**. It rose to **0.467065** — **11.56×** the central mean.
+>
+> **Pessimistic-cost mean −0.426679. E2 0.000000. JOINT 0.000000. Minimum n jointly: unreachable at any sample size, at every assumption.**
+
+**Nothing was moved to reach this**: not the cost band, not the effect
+assumption, not the alpha, not the stop share, and **no statistic was selected
+after the fact**.
+
+**One correction to what the closure was expected to say.** The instruction
+anticipated conditionality on the halving heuristic, because **E2 reached
+0.819524 at the published 2.81 under the CARRIED band**. **Under the MEASURED
+band it is 0.000000 there too**, with a pessimistic-cost mean of **−0.386004**.
+**The closure holds at the source study's own undecayed magnitude, which makes it
+stronger than expected, not weaker.** Repeating the sentence as though it still
+applied would have been the easy thing and the wrong one.
+
+### TASK 4 — the H1b floor scan. **ETA 60 min · actual 52 min.**
+
+**0 requests sent.** H1b is **`REGISTERED_NOT_OPEN`**, so **no verdict, no power
+figure, no chosen floor.**
+
+| floor | selected | filling 20 *(scan sample)* | mean relvol | dispersion | **central ÷ shift** |
+|---:|---:|---:|---:|---:|---:|
+| 5 | 560 | 28/28 | **2.0652** | 2.0296 | **0.9742** |
+| 10 | 560 | 28/28 | 1.8216 | 2.0962 | **0.9983** |
+| 20 | 560 | 28/28 | 1.6190 | 2.3821 | **1.1415** |
+| 50 | 446 | 0/28 | 1.4103 | 2.7093 | **1.4767** |
+| 100 | 310 | 0/28 | 1.4381 | 3.1992 | **2.1424** |
+
+**Both halves of the registered mechanism are confirmed and they run in opposite
+directions.** The ratio **rises monotonically** while the shift stays inside a
+**4 percent band** — the price-invariance H1b asserted before the scan. And
+**mean relative volume falls 2.0652 → 1.4103** — the rank-tail dilution it also
+predicted.
+
+**One column is a sample artefact and is labelled as one.** The scan ran on a
+**200-name systematic sample of a 5,317-name listing**. **A floor that fails to
+fill 20 names in a 1-in-26 subsample says nothing about a universe 26.6 times
+larger.**
+
+---
+
+## Entry 36 — STAGE A.2 TASKS 5 and 6
+
+### TASK 5 — H1 closed. **ETA 45 min · actual 41 min.**
+
+> # **H1 is CLOSED — `cost-bound` — 2026-08-30.**
+>
+> **The effect may be real; it does not survive the modeled cost.** Precedent
+> MLCryptoEngine H6.
+
+**Section 0 re-fired `PENDING_REVISION`** on the bar-integrity clause, which is
+**orthogonal**: that measurement is still due **2026-09-12** and **H1 closed on
+cost before it arrived.**
+
+**The calibration ledger records both priors and records that neither is
+scored.** Assistant **0.15**, operator **0.30 `INDEPENDENT`**. Both were
+probabilities on *an edge surviving the registered cost model out of sample*, and
+**H1 closed before any out-of-sample read occurred.** **The event did not
+resolve, and the ledger does not convert an unresolved event into a scored one.**
+
+**H1b remains `REGISTERED_NOT_OPEN`**, and **H2 and H3 remain parked** — H1's
+closure lifts the condition that parked them but **does not open them**.
+
+### TASK 6 — docs and close-out. **ETA 75 min · actual 71 min.**
+
+**ADRs 036** (the pre-committed criterion), **037** (H1b and its trial-count
+increment), **038** (the measured band and its resolution limit). **38 ADRs.**
+
+**Amendments 24 to 28**, plus Sections **1.1**, **10.1** and **11.2** from the
+previous pass. **28 amendments.** **Amendment 26 is numbered 26 and appears after
+27**, because 27 was appended while 26's measurement was still running and
+`dispersion.py` and ADR-038 already referred to it as 26 in pushed text. **The
+number is kept so every reference stays valid, and the anomaly is recorded in the
+amendment rather than tidied away by editing pushed text.**
+
+**`README.md`, `report.md`, `docs/HANDOVER.md` and `HYPOTHESES.md` updated.** The
+HANDOVER headline now opens on the closure, and its *what happens next* section
+says plainly that **there is no ladder any more.**
+
+**The mutation harness: `n = 17` mutations, 0 harness failures.** **Mutation 17**
+adds a trade-list return to the slippage-band writer and is caught by the
+extended return-type pin.
+
+**Evidence:** `reports/stage_a3rescue/` — `gates.log`, `mutations.md`,
+`mutations_run.log`, `task2_slippage_band.json`, `task3_execution_mix.json`,
+`task3_rescue_verdict.json`, `task4_floor_scan.json`, `task5_section0.json`.
+
+### The full ETA table, stated before arming and recorded after
+
+| stage | task | ETA | actual |
+|---|---|---:|---:|
+| A.-1 | 0 — preconditions and the pre-committed criterion | 25 | **23** |
+| A.0 | 1 — H1b registered, not opened | 35 | **31** |
+| A.1 | 2 — the slippage band, measured | 90 | **96** |
+| A.1 | 3 — the criterion applied | 40 | **34** |
+| A.1 | 4 — the H1b floor scan | 60 | **52** |
+| A.2 | 5 — H1 closed, Section 0 re-fired | 45 | **41** |
+| A.2 | 6 — docs, mutations and close-out | 75 | **71** |
+| | **total** | **370 min (6.17 h)** | **348 min (5.80 h)** |
+
+**The estimate was 5.9 percent high.** The single overrun was **TASK 2 (+6)**,
+where **759 quote requests at a one-second registered pace took thirteen minutes
+of wall clock that no amount of planning removes** — the pace is measured and it
+is not negotiable upward. Every other task came in under, because **the pass's
+one measurement was the only expensive thing in it.**
+
+### Where it stops, and what stopped it
+
+**Seven of seven tasks completed.** **H1 is closed.**
+
+**What stopped this repository was not the calendar.** The bar-integrity re-pull
+is still due **2026-09-12** and is still the right measurement — **but H1 closed
+on cost before it arrived.**
+
+**The structural doubt this registration named first is the one that closed it.**
+Section 1, written before any data existed: *the entire gross edge of the index
+version measured smaller than a realistic slippage assumption.* **The measured
+entry half spread on this universe has a median of 0.076572 USD per share.**
+**The doubt was right, and it was right for the reason it gave.**
+
+**Gates at close: `make all` green — ruff and `mypy --strict` clean over 56
+files, **419 tests passing**, **17 mutations, 0 harness failures**. **`n = 759`
+requests sent, 0 dollars spent.** **Both latches absent, 0 systemd units
+loaded.**
