@@ -1194,3 +1194,77 @@ underlying records.
 
 Stage B's **BAND-OPEN** over 91–99c held to resolution, computed from registered
 constants, never dependent on venue access, and untouched by any of this.
+
+---
+
+## Entry 9.1 — addendum: thirteen mutations, and the mutation harness lost work
+
+**Thirteen mutations, all thirteen load-bearing** (standing rule 14). Five at
+source level over `pmexperiment/admissibility.py`: the suite fails when the
+effective-date check is stripped — the mutation Task 1 names by hand — and
+equally when the clause check is stripped, when the fetch-date check is
+stripped, when `permits()` is allowed to read UNMEASURED as permission, and when
+the client-rendered-shell detector is disabled. Eight over the documents: the
+suite fails when a candidate is admitted as PERMITTED, when UNMEASURED is
+collapsed into PROHIBITED, when the record is allowed to say the Kalshi finding
+met the bar in full, when a refusal is invented that never happened, when the
+unread candidate space is described as exhaustively enumerated, when BAND-OPEN
+gains a calibration measurement it does not have, when the transfer statement is
+softened, and when the self-conviction sentence is dropped. All thirteen restore
+green at **95 tests**.
+
+### The harness lost work, and the fault is recorded rather than repaired quietly
+
+**The mutation harness destroyed uncommitted edits to `docs/LICENCES.md`.** Its
+restore step is `git checkout -- <target>`, which restores the *last committed*
+state. The target held two uncommitted Task 5 edits — the CC BY errata
+correction and the whole "what this stage did not read" section — and the first
+mutation's restore discarded both. They were rewritten from the session record
+and the suite is green, so nothing is missing from the repository; what was lost
+was the work of writing them twice.
+
+**Two fixes, and the second is the one that matters.** The harness now refuses to
+run on a dirty target — a checkout that could discard uncommitted work is a
+harness fault, not a restore — and Task 5's work was committed before the
+mutations were re-run. **A tool whose recovery path is `git checkout` may only be
+pointed at a clean tree.**
+
+**And the hard-wrap fault appeared for the third time, in its third form.** Three
+of the eight document mutations first reported HARNESS FAULT — pattern absent —
+because the needles are hard-wrapped in the source and the harness matched
+literally. This is the same root cause Entry 1 and Entry 7.1 both recorded: **the
+test reader folds whitespace and the mutation tool does not.** Entry 1's fault
+was a reader failing to match text that was present, and the fix belonged in the
+reader. Entry 7.1's was a `sed` silently *not* removing text, and the fix
+belonged in the harness. This one is Entry 7.1's again, and the fix is the same
+place: the harness now joins the needle's words with `\s+` before matching, so a
+line break cannot hide a target from it.
+
+**The harness reported all three as faults rather than as passing guards**, which
+is precisely what Entry 7.1 rebuilt it to do. **A mutation that does not mutate
+is still not evidence, and the machinery that says so has now earned its place
+twice.** Re-run fold-tolerant against a clean tree, all three bite.
+
+### Task 5 actual, and the stage total
+
+**Task 5: ~14 min against the 12-min ETA** (06:27:18Z → the commit carrying this
+entry), covering Entry 9, the Stage D section of `report.md`, the HYPOTHESES.md
+amendment, ADR-013 to ADR-015, six new honesty tests, thirteen mutation runs and
+one harness repair.
+
+**Stage D total: ~2 h 15 min against 55 min stated** (04:18:14Z → push),
+overrunning by a factor of 2.5 — **the first stage in this repository to run long
+rather than short.** Stages B and C each came in at roughly a third of their
+estimates and Entry 7.1 predicted the same again. **The prediction was wrong, and
+the reason is Task 2**: every prior stage's estimate was scaled from
+document-writing or arithmetic, and Task 2 was neither. It was an adversarially
+verified read of a candidate space, and it took 111 minutes against 20.
+
+**The lesson for the next stage's estimates, stated so it is not rediscovered:**
+Stage B taught that a rate can be wrong, and Stage D teaches that **an activity
+can be wrong**. Standing rule 2 requires an ETA "derived from a probe or from
+comparable measured work" — and when no comparable work exists, Entry 7's
+practice of **deferring the estimate until a probe can supply one** is better
+than scaling a different activity to fill the cell. Stage C deferred its
+enumeration ETA and recorded no fictional number. Stage D should have deferred
+Task 2's.
