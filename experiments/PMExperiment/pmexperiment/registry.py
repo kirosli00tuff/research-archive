@@ -41,6 +41,14 @@ ACCESS_OUTCOME_PRESENCE_MAX_RECORDS: int = 5
 # before the filter is applied. Only the maturity rule is fixed from Task 0.
 PERMITTED_MIN_MATURITY_DAYS: int = 30
 
+# Amendment 5 — the volume floor, imported verbatim from the benchmark study
+# whose magnitudes set the effect band (Section 3: "total staked >= $1,000").
+# A floor chosen by someone else, before this repository existed, cannot have
+# been tuned to this sample. It biases every count the gate consumes toward
+# BLOCKED, and it is part of the permitted filter only, never the unrestricted
+# universe.
+PERMITTED_MIN_VOLUME_USD: float = 1000.0
+
 # --- Section 2 / 11 — the registered cost model -----------------------------
 FEE_PER_SIDE_USD: float = 0.02
 FEE_SIDES: int = 2

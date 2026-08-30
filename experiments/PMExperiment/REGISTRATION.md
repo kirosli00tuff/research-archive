@@ -669,3 +669,62 @@ returns, understating by a further 0.015 × 0.03 = **0.00045** on a 95c contract
 that wins 98 % of the time. Both lean **toward** H1. Their sum, **0.00195**, is
 recorded here so Task 4 can report where a survival margin is thinner than the
 slack in its own inputs.
+
+---
+
+### Amendment 5 — the volume floor of Section 1, registered before any enumeration
+
+**Made 2026-08-30, before a single contract had been enumerated from any
+venue.** Section 1 registered that the Canadian-permitted filter carries "a
+volume floor chosen and justified **before** it is applied". Stage A's Task 2
+never armed, so the floor was never filled in, and Entry 5 records that this is
+exactly why Amendment 2's BAND-NARROW row could not be evaluated in Stage B. It
+is filled here, ahead of Stage C's enumeration, as standing rule 9 requires.
+
+**The registered floor: total traded volume ≥ $1,000 USD per contract.**
+
+**Why this number, and why it is not mine.** It is the volume filter of the
+benchmark study whose magnitudes set the registered effect band. Section 3
+records Bürgi, Deng and Whelan analyzing contracts with "total staked ≥ $1,000,
+final spread ≤ 20c, open at least 24 hours". Importing the benchmark's own floor
+has three properties no self-chosen number has:
+
+1. **It was chosen by someone else, before this repository existed, for reasons
+   unrelated to this sample.** Standing rule 9 forbids tuning a filter to
+   increase a sample; a floor imported from the study that defines the effect
+   band cannot have been tuned to this one.
+2. **It makes the sample comparable to the band it is judged against.** The
+   registered band's magnitudes were measured on contracts that passed this
+   filter. A looser floor would judge a different population against those
+   magnitudes.
+3. **It is a floor the cost model needs.** Section 2 assumes a 1-cent
+   half-spread. On a contract with negligible volume there is no meaningful
+   spread to cross, so the registered cost there is not merely uncertain — it is
+   undefined.
+
+**What is deliberately not adopted.** The benchmark's two companion filters are
+**not** registered here. *Open at least 24 hours* is subsumed by the registered
+30-day minimum maturity, which is strictly stronger. *Final spread ≤ 20c*
+requires an order-book read this stage does not perform and Section 10 does not
+need; adopting it would add a filter whose cost in sample could not be measured
+from the fields the gate is allowed to read. Both omissions are recorded here
+rather than left to be noticed later.
+
+**Denomination, with its caveat.** Polymarket reports volume in USDC; the
+benchmark's "total staked" is US dollars on Kalshi. The two are treated as
+comparable at a 1:1 peg, which is an assumption. Direction: a USDC discount
+would make the floor slightly loose in dollar terms and a premium slightly
+tight; at the magnitudes involved the effect is far below one contract of
+sample.
+
+**Scope: the floor is part of the permitted filter, exactly where Section 1
+places it**, and is not applied to the unrestricted universe, which Section 1
+defines as "All resolved contracts retrievable from the public source". The
+floor's cost in sample is reported on **both** universes as a first-class
+output, so a reader sees what it removes and not only what it leaves.
+
+**Direction of bias, named before application.** The floor removes thin
+contracts, so it **reduces** every count the power gate consumes and biases
+toward BLOCKED — against H1. It also **raises** the reliability of the prices
+that remain. Neither direction is traded off against the other; both are stated
+so the verdict can be read against them.

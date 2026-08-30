@@ -74,6 +74,19 @@ def test_access_floor_is_pinned() -> None:
     assert registry.ACCESS_OUTCOME_PRESENCE_MAX_RECORDS == 5
 
 
+def test_volume_floor_is_pinned_to_amendment_five() -> None:
+    """The floor is the benchmark's, so the document must show its provenance.
+
+    Pinning the citation as well as the number matters here: a bare 1000.0
+    could be re-justified after a count is seen, and the whole point of
+    Amendment 5 is that this number was chosen by someone else first.
+    """
+    doc = _registration()
+    assert "total traded volume ≥ $1,000 USD per contract" in doc
+    assert "total staked ≥ $1,000, final spread ≤ 20c" in doc
+    assert registry.PERMITTED_MIN_VOLUME_USD == 1000.0
+
+
 def test_cost_model_is_pinned() -> None:
     doc = _registration()
     assert "2 cents per contract per side" in doc

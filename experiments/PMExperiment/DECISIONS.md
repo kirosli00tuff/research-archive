@@ -305,3 +305,36 @@ is in the best position an assumption can hold.
 in `9b4bd4f`, one commit *before* the Amendment 4 text it cites landed in
 `4d75f66`. Both sit inside the same task and no verdict fired between them, but
 the lag is real and is written down rather than rebased away.
+
+---
+
+## ADR-011. The volume floor is imported from the benchmark, not chosen here
+
+**Status:** accepted, 2026-08-30. Registered as REGISTRATION.md Amendment 5
+before Stage C enumerated anything. Numbering continues past the duplicate
+ADR-006/ADR-007 pairs recorded above rather than renumbering them.
+
+Section 1 required "a volume floor chosen and justified **before** it is
+applied", and Stage A never armed the task that would have filled it in. The
+danger in filling it now is plain: this is the one registered parameter whose
+value directly moves the count the power gate consumes, and it is being set by
+the same session that will go on to read that count.
+
+**Decision: adopt the benchmark study's own floor — total traded volume ≥
+$1,000 — verbatim from Section 3's record of Bürgi, Deng and Whelan.** A number
+chosen by someone else, before this repository existed, for reasons unrelated to
+this sample, cannot have been tuned to this sample; that is the specific failure
+standing rule 9 exists to prevent. It also keeps the population comparable to
+the one the registered effect band was measured on.
+
+**Consequence.** The floor reduces every count the gate consumes and so biases
+toward BLOCKED, against H1; it also removes contracts on which the registered
+1-cent half-spread is undefined rather than merely uncertain. Its cost in sample
+is reported on both universes as a first-class output. The benchmark's companion
+spread filter is **not** adopted, because measuring it needs an order-book read
+this stage does not perform, and a filter whose cost in sample cannot be
+measured is worse than no filter at all.
+
+**What would change it:** nothing in Stage C. A later stage may register a
+different floor only by numbered amendment carrying its own evidence, and the
+sample cost of both floors must then be reported side by side.

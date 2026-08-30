@@ -646,3 +646,21 @@ short, that is the finding, exactly as standing rule 9 requires for a filter.
 PENDING_ACCESS on Kalshi's terms, not on its plumbing. The same test is applied
 to Polymarket first, before any repeated fetch, and if the recorded terms do
 not sanction this read the stage stops and reports on access.
+
+---
+
+## Entry 6.1 — correction to Entry 6's logging timestamp
+
+**Entry 6 states it was logged at 2026-08-29T19:32Z. That figure is wrong.**
+It was extrapolated from Entry 5.1's measured 19:28:45Z rather than read from
+the clock. The measured logging time is **2026-08-30T03:31Z** — the session
+resumed after a gap of roughly eight hours, and the calendar date had rolled
+over.
+
+Recorded as a new line rather than an edit, per the append-only rule. The
+substantive point is standing rule 4's, and it applies to this repository's own
+records as much as to a venue's documentation: **a timestamp inferred from a
+previous timestamp is documented, not measured.** Every subsequent time in
+Stage C is read from `date -u` at the moment it is recorded. Stage C's elapsed
+figures in Entry 7 are computed from 03:31:03Z, the first measured Stage C
+timestamp, not from the erroneous 19:32Z.
