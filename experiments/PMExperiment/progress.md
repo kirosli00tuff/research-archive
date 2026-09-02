@@ -1268,3 +1268,90 @@ practice of **deferring the estimate until a probe can supply one** is better
 than scaling a different activity to fill the cell. Stage C deferred its
 enumeration ETA and recorded no fictional number. Stage D should have deferred
 Task 2's.
+
+---
+
+## Entry 10 — Stage E operator prompt, logged verbatim before any other work
+
+**Logged 2026-09-02T09:22:59Z, read from `date -u` at the moment of recording and
+not extrapolated from a previous timestamp (Entry 6.1). Per standing rule 1.
+Work follows in later entries; nothing below this line in this entry is work.**
+
+> BEGIN PROMPT - PMEXPERIMENT STAGE E: CLOSE THE PROJECT AS A TERMINAL ACCESS FINDING
+>
+> Read CLAUDE.md, REGISTRATION.md with all amendments, HYPOTHESES.md, DECISIONS.md through ADR-015, progress.md, report.md, docs/ACCESS.md, docs/BAND.md and docs/LICENCES.md first. Per standing rule 1, log this prompt verbatim before any other work. Per standing rule 2, state an ETA per task and record actual against it.
+>
+> This stage closes the project. It reads no venue, enumerates nothing, and computes no calibration statistic. Sections 4 and 10 stand to the end.
+>
+> Task 1: record the Kalshi reply as a measured access finding, since it changes the register.
+>
+> Stage D concluded no candidate permitted and wrote it as terminal. Kalshi's institutional desk has since replied, and the position is materially different from what the register holds. Record, in the ADR-012 shape with the date received: that the described use fits their Internal Use data licence, so it was not declined on the merits; that applying requires an established legal entity with formation documents and beneficial owner verification, which an individual undergraduate does not have; and that the 2021 historical depth is available through historical endpoints on the appropriate licence, since those are not subject to the live-data cutoff measured at roughly spring 2024.
+>
+> Note plainly that this is correspondence rather than a published instrument, so it carries a received date rather than an effective date, and say what that does to its admissibility under ADR-012 rather than glossing it.
+>
+> Task 2: record the entity path as closed by operator decision, with the reason.
+>
+> The operator consulted the university and judged institutional sponsorship not achievable within the time available, with fourth-year term starting. Forming a personal legal entity was judged disproportionate to a registered prior of 5 to 8 percent against a band verdict already recorded as thin.
+>
+> Record this as a decision rather than a discovery. It is the operator declining a cost, not evidence about the hypothesis.
+>
+> Task 3: state the terminal position.
+>
+> H1 is unmeasurable at this house's standard. Not disproven, not unlikely, unmeasurable: both venues closed on terms, all three licence candidates failed, and the one route that exists is gated on an entity the operator does not hold and has decided not to create.
+>
+> BAND-OPEN stands as what it always was, a cost finding computed from registered constants with no calibration measurement behind it. It must not be written anywhere as evidence that an edge exists.
+>
+> Record the reopening condition precisely: an established legal entity applying for Internal Use, or an academic tier offered by Kalshi if one is, or a licensed dataset whose licensor held authority to license. Note that a reply to the pending academic-tier question, if one arrives, is a one-line register update and not a reopening.
+>
+> Task 4: rewrite README.md for a cold reader.
+>
+> Lead with the question, the answer and the reason. Put the transferable output high, because it is the contribution: ADR-012 as a procedure, ADR-015 on the symmetry of convenience, the self-audit that convicted this repository's own Stage A finding at two of three elements, and Stage B's direction correction placing every registered magnitude at high entry prices where proportional FX is largest.
+>
+> State the registered prior and that a null was the modal expected outcome, so the closure reads as the method working rather than as a disappointment. State that no market price was ever read.
+>
+> Task 5: pin and close.
+>
+> Extend the honesty tests so the terminal verdict, the BAND-OPEN caveat and the reopening condition must be present, verified by mutation. Confirm the licence, that no credential-shaped string sits in any tracked file or in git history, and that .env.example is still empty. Append the final dated entry, an ADR for the closure, and a report.md section written for the moment it landed. Continue past the recorded ADR numbering collision rather than renumbering. Run make lint, make typecheck, make test. Push.
+>
+> END PROMPT
+
+**ETAs stated before arming, per standing rule 2.** Entry 9 measured the lesson
+these are built on: Stage D overran by a factor of 2.5 because Task 2's estimate
+was scaled from **a different activity**, not merely a different rate, and its
+closing instruction was to defer an estimate rather than fabricate a basis.
+Stage E is document work end to end — it fetches nothing — so every cell below
+derives from Stage D's *measured document* work, and the one cell with no
+comparable is named as such rather than dressed up.
+
+| task | ETA | basis (measured) |
+|---|---|---|
+| 0 — log the prompt | 2 min | Entry 9 measured **1.45 min** for exactly this act |
+| 1 — the Kalshi reply as a measured access finding | 8 min | Stage D Task 5's non-mutation half — Entry 9, a report section, a HYPOTHESES amendment and three ADRs — occupied roughly **8 of its measured 14 min**; Task 1 here writes one ADR, one amendment and two evidence-document sections |
+| 2 — the entity path closed by operator decision | 4 min | Stage D Task 4 measured **0.8 min** for a single document block; this carries an ADR and a register row beside it |
+| 3 — the terminal position | 8 min | Task 1's basis, applied over Section 15.4, Section 16, the unfilled Section 13 and a HYPOTHESES amendment |
+| 4 — rewrite README.md for a cold reader | 8 min | **no comparable measured work exists** — this repository has never timed a whole-file rewrite. Scaled from Task 1's basis by length and **flagged here as the weakest cell in the table**, for precisely the reason Entry 9 recorded |
+| 5 — pin and close | 20 min | Stage D Task 5 measured **~14 min** for a report section, three ADRs, six honesty tests and thirteen mutation runs; this adds a licence and git-history audit and the push |
+
+**Total stated: 50 min.** Actuals land in Entry 11.
+
+**Scope carried in and not reopenable here**, per the prompt: this stage closes
+the project. It reads no venue, enumerates nothing, and computes no calibration
+statistic. **Sections 4 and 10 stand to the end.** The Stage B region of 91–99c
+held to resolution is not reopened, no fourth venue is proposed, and the ADR
+numbering collision recorded on 2026-08-29 is continued past rather than
+renumbered.
+
+**One thing visible at logging time that the prompt's own framing does not
+carry, recorded now rather than at the point it becomes convenient.** The prompt
+refers to "a registered prior of 5 to 8 percent". **Section 13, `The operator
+prior`, is empty** — it reads "*To be filled by the operator before the gate
+fires*" and has read that since Section 0 was committed on 2026-08-29. The
+figure is therefore being supplied **at closure, after the band gate has fired**,
+and Task 3 records it as such rather than as something the register already
+held. This is noted in the prompt log so the sequence is fixed before any
+document is written about it.
+
+**One deviation visible at logging time:** the nine binding documents named in
+the prompt were read, read-only, before this entry was written, exactly as
+Entries 0, 4, 6 and 8 recorded for Stages A through D. No other work has been
+done and no request has been sent to any endpoint.
