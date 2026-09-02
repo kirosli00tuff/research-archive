@@ -1590,3 +1590,62 @@ names. Lint, typecheck and test are green at **108 tests**.
 stages, **zero dollars, zero contracts enumerated, zero statistics relating a
 price to an outcome**, and a power gate that never fired. **The question is not
 answered.** It is closed.
+
+---
+
+## Entry 12 — Amendment 9: trading access is not data permission — 2026-09-02
+
+**No ETA stated; a single append raised after closure.** Zero requests sent,
+zero contracts enumerated, zero dollars. Sections 4 and 10 stand.
+
+**Why this exists.** The operator raised, after Stage E closed, that Polymarket
+becoming available to Canadians might reopen H1. It would not, and the gap was
+real: no tracked document recorded the distinction. Stage E was written before
+the question was asked, and a future reader would have made the inference in
+good faith, because it looks like a reopening condition and is not one.
+
+**The rule, now registered:** a regulatory change to trading access is not
+evidence about data permission. Stage C closed Polymarket on its **data terms**,
+whose prohibition on data mining tools, robots and crawlers carries no
+entity-type qualification and whose data clause reaches material taken directly,
+through an API, or by any other means including on-chain. Canadian availability
+governs who may trade, not who may extract.
+
+**What such a change would do**, neither of which is access to the data: collapse
+H1t, since transfer is UNTESTED only because the measurable and tradeable venues
+differ; and widen the permitted category set, since Amendment 1 registered the
+documented mispricing as concentrating in politics and sports, which the Canadian
+filter excludes.
+
+**Fourth reopening condition added:** a Polymarket data licence or written
+authorization — neither necessary nor sufficient on Canadian trading access.
+
+### Two harness faults found and fixed, both in the guard rather than the claim
+
+**Fault 1: the assertions matched text that does not exist.** Three new tests
+asserted phrases without the bold markers the documents actually carry, so
+`governs **who may trade**` failed a check for `governs who may trade`. Entry 7.1
+and the Stage-B-era whitespace fix are the same family: **a formatting accident
+failing a literal match on content that is genuinely present.**
+
+**The first repair was worse than the fault.** Stripping `*` inside the shared
+`_read` fixed the three and **silently broke four pre-existing assertions**,
+which had been matching on text that includes the markers. Widening a shared
+reader changes what every existing test checks. The repair was reverted and
+scoped: `_read_unstyled` strips emphasis for the three tests that need it, and
+the four keep the reader they were written against.
+
+**Fault 2: the mutation proved nothing, twice.** Both attempts targeted a phrase
+that is **hard-wrapped across a line**, so `sed` and a literal `str.replace`
+matched nothing and the document was never mutated. The suite then passed and the
+run was briefly read as a green mutation. **A mutation that fails to mutate
+reports the same green as a guard that works** — Entry 7.1's fault in a third
+form, and the second time this repository has had to catch it.
+
+Rerun with a whitespace-tolerant regex over both files, two mutations, each
+failing the intended test and only it: weakening *is not evidence about* to *is
+decent evidence about* fails, and flipping *neither necessary nor sufficient* to
+*sufficient* fails. Restored, **111 pass**, lint and typecheck clean.
+
+**This amendment does not reopen H1.** It records what would not, adds one thing
+that would, and stops.

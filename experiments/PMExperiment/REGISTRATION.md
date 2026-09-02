@@ -1114,3 +1114,57 @@ no other region, exactly where Stage C left it.
 platforms → back to Kalshi has produced one retracted amendment already. That a
 route finally answered is not a licence to resume searching for one that says
 yes.
+
+---
+
+### Amendment 9 — a change in Polymarket's Canadian regulatory status does not reopen H1
+
+**Made 2026-09-02, appended after Amendment 8, with no statistic relating a price
+to an outcome in existence and none ever computed.** This amendment adds a
+reopening condition and forecloses a reading of the existing ones. It reads no
+venue and enumerates nothing.
+
+**Why it is written at all.** The operator raised, after closure, that Polymarket
+becoming available to Canadians might reopen H1. It would not, and the reason is
+narrow enough that a future reader could get it wrong in good faith. It looks
+like a reopening condition and is not one, so it is recorded here rather than
+left to be re-derived.
+
+**The distinction.** Stage C closed Polymarket on its **data terms**, not on
+trading access. The prohibition on data mining tools, robots and crawlers carries
+**no entity-type qualification**, and the data clause reaches material taken
+**directly, through an API, or by any other means, including on-chain**.
+Canadian availability governs **who may trade**, not **who may extract**. A CIRO
+authorization therefore leaves Stage C's PENDING_ACCESS verdict exactly where it
+stands, and Amendment 6's retraction of the on-chain premise stands with it.
+
+**Stated as a rule, so it generalizes:** a regulatory change to trading access is
+not evidence about data permission. The two are separate instruments and are
+measured separately under ADR-012.
+
+**What such a change *would* do, recorded so this entry is useful rather than
+only prohibitive.**
+
+1. **It would collapse H1t.** Transfer is UNTESTED precisely because the
+   measurable venue and the tradeable venue differ. A single venue serving both
+   removes that gap, and with it the MLCryptoEngine H2 precedent at **AUC 0.501**
+   that made transfer unassumable.
+2. **It would widen the permitted category set.** Amendment 1 registered that
+   Polymarket's documented mispricing concentrates in **politics and sports**,
+   which the Canadian filter of economic indicators, financial markets and
+   climate **excludes**. Those contracts coming into reach would remove the
+   category mismatch registered in advance as a reason a real effect might sit
+   entirely outside a tradeable set.
+
+Neither of those is access to the data. Both are downstream of it.
+
+**Fourth reopening condition, added to Amendment 8's three:**
+
+4. **a Polymarket data licence or written authorization** — the same instrument
+   Stage C found absent, obtained. **Canadian trading access is neither necessary
+   nor sufficient for it:** not necessary, because a licence could be granted
+   without any change in trading availability; not sufficient, because trading
+   availability grants nothing about extraction.
+
+**This amendment does not reopen H1.** It records what would not, adds one thing
+that would, and stops. No fourth venue is proposed and no search is resumed.

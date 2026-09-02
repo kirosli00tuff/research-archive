@@ -742,3 +742,55 @@ arrived tomorrow, the power question would still be unanswered.** Following
 Insider rather than NPD saved 415 days and every dollar; it did not answer the
 question the whole design was built to answer, and nothing in this repository
 should be read as though it had.
+
+---
+
+## ADR-019. Trading access and data permission are separate instruments
+
+**Status:** accepted, 2026-09-02.
+
+Raised after closure: would Polymarket becoming available to Canadians reopen
+H1? No tracked document answered it, and the inference is one a careful reader
+would make in good faith.
+
+Stage C closed Polymarket on its data terms. The crawler prohibition carries no
+entity-type qualification and the data clause reaches material taken directly,
+through an API, or by any other means including on-chain. A CIRO authorization
+governs who may trade, not who may extract.
+
+**Consequence:** registered as a general rule under ADR-012 rather than as a
+Polymarket fact — a regulatory change to trading access is not evidence about
+data permission, and the two are measured separately. A Polymarket data licence
+is added as a fourth reopening condition, with Canadian trading access recorded
+as neither necessary nor sufficient for it.
+
+---
+
+## ADR-020. A shared test reader is not the place to fix one test's problem
+
+**Status:** accepted, 2026-09-02.
+
+Three new assertions failed on bold markers inside the sentences they checked.
+Stripping `*` in the shared `_read` fixed them and silently changed what four
+pre-existing assertions were checking, since those had been matching text that
+includes the markers.
+
+**Consequence:** normalization is scoped to the tests that need it.
+`_read_unstyled` exists for content assertions; `_read` is unchanged for the
+tests written against it. Widening a shared fixture to fix a local failure is a
+silent rewrite of every test that depends on it.
+
+---
+
+## ADR-021. A mutation must be proven to have mutated
+
+**Status:** accepted, 2026-09-02.
+
+Two mutation attempts targeted a phrase hard-wrapped across a line. Neither
+`sed` nor a literal `str.replace` matched, the document was never altered, and
+the passing suite briefly read as a green mutation result. This is Entry 7.1's
+fault in a third form and the second time this repository has caught it.
+
+**Consequence:** a mutation run reports whether the document changed, and a
+mutation that fails to alter its target is reported as inconclusive rather than
+counted. Patterns are whitespace-tolerant, because the documents hard-wrap.

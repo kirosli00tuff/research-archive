@@ -28,6 +28,18 @@ def _read(name: str) -> str:
     return " ".join(raw.split())
 
 
+def _read_unstyled(name: str) -> str:
+    """As `_read`, with emphasis markers stripped as well.
+
+    Bold markers sit inside sentences, so `governs **who may trade**` does
+    not contain `governs who may trade`. That is formatting, not content.
+    Scoped to the tests that need it rather than applied to the shared reader,
+    because four existing assertions match on text that includes the markers
+    and widening the reader silently changed what they were checking.
+    """
+    return _read(name).replace("*", "")
+
+
 def test_readme_states_it_never_trades() -> None:
     readme = _read("README.md")
     assert "never trades, holds no account, places no order" in readme
@@ -561,3 +573,30 @@ def test_the_correspondence_is_unmeasured_under_the_repositorys_own_procedure() 
     assert admissibility.CandidateVerdict.PERMITTED.value not in _read("README.md"), (
         "no route in this repository was ever PERMITTED"
     )
+
+
+def test_trading_access_is_not_data_permission() -> None:
+    """Amendment 9's rule. A future reader must not mistake a CIRO
+    authorization for a reopening: Stage C closed Polymarket on its data
+    terms, and trading availability grants nothing about extraction."""
+    reg = _read_unstyled("REGISTRATION.md")
+    hyp = _read_unstyled("HYPOTHESES.md")
+    claim = (
+        "a regulatory change to trading access is not evidence about data permission"
+    )
+    assert claim in reg.lower()
+    assert claim in hyp.lower()
+    assert "governs who may trade, not who may extract" in reg.lower()
+
+
+def test_fourth_reopening_condition_is_a_licence_not_market_access() -> None:
+    for doc in ("REGISTRATION.md", "HYPOTHESES.md"):
+        t = _read_unstyled(doc).lower()
+        assert "a polymarket data licence or written authorization" in t
+        assert "neither necessary nor sufficient for it" in t
+
+
+def test_amendment_9_does_not_reopen_h1() -> None:
+    reg = _read_unstyled("REGISTRATION.md")
+    assert "This amendment does not reopen H1" in reg
+    assert "No fourth venue is proposed" in reg

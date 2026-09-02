@@ -322,3 +322,37 @@ searching for one that says yes.
 
 **H2 and H3 stay PARKED and are not carried forward.** Both depended on H1's gate
 clearing, and it never fired.
+
+---
+
+## Amended 2026-09-02 — the fourth reopening condition, and one thing that is not one
+
+Appended after closure. Registration Amendment 9 carries the reasoning; this row
+carries the conclusion, so a reader of this file alone does not get it wrong.
+
+**A change in Polymarket's Canadian regulatory status does not reopen H1.**
+Stage C closed Polymarket on its **data terms**, not on trading access. The
+prohibition on data mining tools, robots and crawlers carries no entity-type
+qualification, and the data clause reaches material taken directly, through an
+API, or by any other means, including on-chain. **Canadian availability governs
+who may trade, not who may extract.**
+
+Stated as a rule so it generalizes: **a regulatory change to trading access is
+not evidence about data permission.**
+
+What such a change *would* do, neither of which is access to the data:
+
+- **collapse H1t**, since transfer is UNTESTED only because the measurable venue
+  and the tradeable venue differ, and one venue serving both removes the
+  MLCryptoEngine **AUC 0.501** precedent that made transfer unassumable;
+- **widen the permitted category set**, since Amendment 1 registered that
+  Polymarket's mispricing concentrates in **politics and sports**, which the
+  Canadian filter excludes.
+
+**Fourth reopening condition, added to the three above:**
+
+4. **a Polymarket data licence or written authorization** — the instrument Stage
+   C found absent, obtained. **Canadian trading access is neither necessary nor
+   sufficient for it:** not necessary, because a licence could be granted with no
+   change in trading availability; not sufficient, because trading availability
+   grants nothing about extraction.
