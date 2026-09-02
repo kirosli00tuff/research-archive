@@ -11,6 +11,13 @@ nobody could find the answer has cost this house real time before.
 This file contains **no analysis**. It records what the registration and the
 sealed reads established.
 
+**Status at 2026-09-02, Stage E — TERMINAL: H1 is unmeasurable at this house's
+standard. Not disproven, not unlikely, unmeasurable.** The project is closed.
+The power gate never fired, on any venue, over any region, and no statistic
+relating a price to an outcome was ever computed. The reopening conditions are
+in REGISTRATION.md Amendment 8 and in the final amendment below. Every dated
+status line below this one is history, kept so the sequence is visible.
+
 **Status at 2026-08-29, Stage A: H1 OPEN, registered, PENDING_ACCESS.**
 Section 0 was committed before the first request; the access gate then failed
 closed on the recorded terms and on keyless history depth. No calibration
@@ -241,3 +248,77 @@ evidence about a Canadian-tradeable venue.
 resolution, requiring **5.85 points** at k = 1 against a band top of **8.00** —
 computed from registered constants, never dependent on access, and now carried in
 the register as **a cost finding with no calibration measurement behind it**.
+
+---
+
+## Amended 2026-09-02, Stage E — H1 terminates unmeasurable; the project closes
+
+**H1 is unmeasurable at this house's standard. Not disproven, not unlikely,
+unmeasurable.** The power gate never fired. **No statistic relating a price to
+an outcome was ever computed in this repository**, and none ever will be under
+this registration.
+
+**Why the word is "unmeasurable" and not either of the two it is often confused
+with:**
+
+| | |
+|---|---|
+| **not disproven** | nothing was ever measured against H1 — zero contracts enumerated, zero buckets built, zero dispersions computed |
+| **not unlikely** | the operator's prior of **5 to 8 percent** was given at closure on 2026-09-02, not registered in advance; Section 13 was never filled and is left empty permanently. It is not a result and nothing here moves it |
+| **unmeasurable** | every route to the records either prohibits the reading, cannot show it is permitted, or requires standing this operator does not have |
+
+**What closed it, in order, each on a document or a decision rather than a
+hunch:**
+
+| step | outcome | date |
+|---|---|---|
+| Kalshi, keyless | PENDING_ACCESS on terms | 2026-08-29 |
+| Polymarket | PENDING_ACCESS on terms effective 2026-08-11 | 2026-08-30 |
+| three licence candidates | PROHIBITED / UNMEASURED / PROHIBITED — **no candidate PERMITTED** | 2026-08-30 |
+| **Kalshi Internal Use** | **EXISTS-AND-UNTRAVELLED — not declined on the merits**, gated on an established legal entity | received 2026-09-01 |
+| the entity | **declined by the operator** — a cost decision, not evidence about H1 | 2026-09-02 |
+
+**The Stage D row above needs its correction carried with it, and this is the
+place it will be found.** Stage D wrote "there is none" as terminal on
+2026-08-30 **and recorded in the same document that the candidate space was
+sampled rather than enumerated.** A route surfaced two days later that Stage D
+had not read. **The caveat was right.** Recorded here because this file's whole
+job is to stop a settled question being re-asked — and the thing worth not
+re-discovering is that *this repository's own no-route finding was incomplete
+within the week, exactly as it said it might be.*
+
+**BAND-OPEN, carried forward one last time with its caveat attached.** It is a
+**cost finding computed from registered constants with no calibration
+measurement behind it. It must not be written anywhere as evidence that an edge
+exists.** Every magnitude any cited source places inside its surviving bucket —
+Bürgi's **2.0** and **3.0** points — fails the **0.0300** cost floor; the band
+survives on its top of **8.00** alone, set by the one source whose n the
+registration never recorded; and the required underpricing at 95c held to
+resolution is **5.85 points** at k = 1.
+
+**H1t — transfer — remains UNTESTED**, on the three grounds already recorded
+including MLCryptoEngine's H2 at **AUC 0.501**. **There was never anything to
+transfer.**
+
+### What would reopen this entry, and what would not
+
+**Reopening requires one of these three to be satisfied**, and each is an
+operator action rather than a measurement:
+
+1. **an established legal entity applying for Internal Use** — necessary, not
+   sufficient: the fee is UNMEASURED, whether Internal Use permits **publishing**
+   a calibration result is UNRESOLVED, and the AI/ML written consent is
+   UNRESOLVED;
+2. **an academic tier offered by Kalshi, if one is** — a question about one is
+   **pending and unanswered** as of 2026-09-02, and its existence is UNMEASURED,
+   not absent;
+3. **a licensed dataset whose licensor held authority to license** — the
+   chain-of-title element ADR-014's leading candidate could not show.
+
+**A reply to the pending academic-tier question is not a reopening.** If one
+arrives it is **a one-line register update** recording what it said. **No fourth
+venue is proposed**, and a route finally answering is not a licence to resume
+searching for one that says yes.
+
+**H2 and H3 stay PARKED and are not carried forward.** Both depended on H1's gate
+clearing, and it never fired.

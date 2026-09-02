@@ -570,7 +570,75 @@ is assumed.
 
 ---
 
+### 15.5 Terminal position, 2026-09-02: H1 is unmeasurable at this house's standard
+
+**In one sentence: H1 is unmeasurable at this house's standard — not disproven,
+not unlikely, unmeasurable — because both venues closed on terms, all three
+licence candidates failed, and the one route that exists is gated on an entity
+the operator does not hold and has decided not to create.**
+
+**The word is chosen and the two it is not are chosen with it.**
+
+| what this verdict is not | why |
+|---|---|
+| **not disproven** | nothing was measured against H1. No contract was enumerated, no bucket built, no dispersion computed |
+| **not unlikely** | the stated prior of 5 to 8 percent is the operator's, given at closure, and it is not a result. No evidence in this repository moves it in either direction |
+| **unmeasurable** | every route to the records either prohibits the reading, cannot show it is permitted, or requires standing this operator does not have |
+
+**The power gate has never fired, on any venue, over any region.** That is the
+single fact this entire register reduces to. **No statistic relating a price to
+an outcome exists in this repository**, and Sections 4 and 10 stand intact to
+the end.
+
+**The route by route position at closure:**
+
+| route | state | date |
+|---|---|---|
+| Kalshi, keyless | **PENDING_ACCESS** — terms do not sanction keyless systematic retrieval or AI-mediated use without written authorization | 2026-08-29 |
+| Polymarket | **PENDING_ACCESS** — Terms effective 2026-08-11 prohibit the data-gathering tool class, expressly including on-chain | 2026-08-30 |
+| a Polymarket written-authorization request | **PROHIBITED** as a baseline; no published address is addressed to this asker | 2026-08-30 |
+| published academic datasets | **UNMEASURED** — ADR-012 elements (1) and (2) both unmet on the leading candidate | 2026-08-30 |
+| third-party platforms | **PROHIBITED** (Dune) / **UNMEASURED** (four others) | 2026-08-30 |
+| **Kalshi Internal Use** | **EXISTS-AND-UNTRAVELLED** — not declined on the merits, gated on an established legal entity | received 2026-09-01 |
+| the entity | **declined by the operator**, Amendment 7 — a cost decision, not a finding | 2026-09-02 |
+
+**This is not the closure Section 16 registered, and that is stated rather than
+smoothed over.** Section 16 provides for H1 to close when **both verdict cells
+fire BLOCKED** — a power outcome, with realized MDEs and their n beside it.
+**Neither cell ever fired.** There is no realized MDE, because there is no
+enumeration to compute one from. **H1 therefore does not close under Section 16
+at all.** It terminates on access and standing, an ending Section 16 did not
+contemplate, and the registered closure conditions are recorded here as **never
+met** rather than as satisfied by a substitute.
+
+**BAND-OPEN stands as what it always was.** It is a **cost finding computed from
+registered constants with no calibration measurement behind it.** It records that
+cost alone does not close the tradeable question over entry prices 91–99c held to
+resolution, requiring **5.85 points** at k = 1 against a registered band top of
+**8.00**. **It must not be written anywhere as evidence that an edge exists.**
+Every magnitude any cited source places inside its surviving bucket — Bürgi's
+**2.0** and **3.0** points — **fails** the **0.0300** cost floor, and the band
+survives on its top alone, set by the one source whose n the registration never
+recorded.
+
+**H1t, transfer, remains UNTESTED**, on the three grounds already registered
+including MLCryptoEngine's H2 at **AUC 0.501**. There has never been anything to
+transfer.
+
+**The totals at closure: five stages, zero dollars, zero contracts enumerated,
+zero market-data requests to Polymarket, zero requests of any kind in Stage E,
+and no statistic relating a price to an outcome anywhere in this repository.**
+
+---
+
 ## 16. Closure conditions
+
+**Recorded 2026-09-02 at closure, before the paragraph it qualifies: none of
+these conditions was ever met.** Neither verdict cell fired, no realized MDE
+exists, and H1 does **not** close under this section. It terminates unmeasurable
+on access and standing — see Section 15.5 and Amendment 8. The paragraph below
+stands unedited as it was registered on 2026-08-29, so a reader can see what the
+design provided for and what actually happened.
 
 Written before the read. **H1 closes** if both verdict cells fire BLOCKED:
 the question is then not testable at achievable power from the public
@@ -997,3 +1065,52 @@ misread it.
 **And it is not a refusal by Kalshi.** The desk did not decline; **this
 repository declined.** Section 15.4's label is EXISTS-AND-UNTRAVELLED and it
 stays that way.
+
+---
+
+### Amendment 8 — the project closes, and the conditions that would reopen it
+
+**Made 2026-09-02, at closure, with no statistic relating a price to an outcome
+in existence and none ever computed.** This amendment ends the project. It reads
+no venue, enumerates nothing, and computes nothing.
+
+**The terminal verdict is Section 15.5: H1 is unmeasurable at this house's
+standard — not disproven, not unlikely, unmeasurable.** The closure conditions
+of Section 16 were **never met**; neither verdict cell ever fired, no realized
+MDE exists, and the project ends on access and standing rather than on power.
+
+**The reopening conditions, stated precisely and exhaustively.** Each is an
+operator action, and none is a measurement:
+
+1. **An established legal entity applying for Internal Use.** The route Section
+   15.4 records: not declined on the merits, gated on formation documents and
+   beneficial-owner verification. **Necessary, not sufficient** — the fee is
+   UNMEASURED, whether Internal Use permits **publishing** a calibration result
+   is UNRESOLVED, and whether it carries the **AI/ML written consent** Kalshi's
+   Section I conditions separately is UNRESOLVED. All three must be read before
+   any enumeration.
+2. **An academic tier offered by Kalshi, if one is.** A question about one is
+   **pending** with the institutional desk and unanswered as of 2026-09-02. Its
+   existence is **UNMEASURED** — not absent, not assumed.
+3. **A licensed dataset whose licensor held authority to license.** ADR-014's
+   chain-of-title element, which the leading candidate could not show. A CC BY
+   tag applied by a republisher over another venue's records is not a
+   measurement that the republisher held the rights to grant it.
+
+**A reply to the pending academic-tier question is not a reopening.** If one
+arrives, it is **a one-line register update** recording what it said — nothing
+more. Only condition 1, 2 or 3 actually being **satisfied** reopens anything, and
+a reopening is a new numbered firing under Section 16, not a resumption of this
+one.
+
+**What may never be done under any of the three.** No route reopens Section 4 or
+Section 10; no route permits recomputing the fee-versus-edge band, which
+Amendment 2 fixed as computed once; no route permits adding a bucket to it
+afterwards; and **no route makes BAND-OPEN evidence that an edge exists.** A
+reopened measurement starts at the power gate over 91–99c held to resolution and
+no other region, exactly where Stage C left it.
+
+**And no fourth venue.** The sequence Kalshi → Polymarket → datasets →
+platforms → back to Kalshi has produced one retracted amendment already. That a
+route finally answered is not a licence to resume searching for one that says
+yes.
