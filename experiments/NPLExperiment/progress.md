@@ -1515,3 +1515,42 @@ window: 423 `fundingHistory`, 396 `l2Book`, 30 `metaAndAssetCtxs`, 41
 `meta`, 4 `perpDexs`. The **recurring** cost is the forward pass alone —
 **209 a day, 1.05 percent of the cap** — and it runs last, behind a yield
 that postpones H5 rather than competing with H2.
+
+
+## 2026-09-02T09:40Z — ADR-032: bounded network wait on both collector units
+
+Not a stage. An infrastructure fix made in chat with the operator present,
+touching two systemd units and adding one script. No registered design
+changed, no outcome path touched, the H2 reader still dark with all three
+latches absent.
+
+Found during the daily health check. Four watcher sweeps since 2026-08-31
+polled zero dexs and recorded source_failed on meta:main and perpDexs with a
+null http_status. All four sat at boot or resume boundaries and each was
+followed by a clean 11-dex sweep. A direct endpoint probe returned http 200
+in 0.15s, ruling out the venue.
+
+Cause. The units carried After/Wants=network-online.target, which orders a
+--user unit against the user manager's own target rather than the system
+one, and which is not re-evaluated after suspend. The dependency looked
+right and did nothing.
+
+Fix. scripts/wait_for_net.sh as ExecStartPre on npl-watch.service and
+npl-daily.service. DNS poll every 3s to a 60s deadline, then proceed either
+way. Charges nothing, since resolution is not a venue request and the
+request ledger stays the sole authority on spend. Never suppresses an
+outage, since a timeout exits 0 and the pass records source_failed loudly.
+Tested both paths: happy path returns in 0.054s, bogus host at a 6s deadline
+exits 0 and writes the timeout line to stderr.
+
+Verified after the edit. daemon-reload clean, ExecStartPre parsed on both
+units, both timers still active, next fire times unchanged at 03:05 PDT and
+18:40 PDT, live units byte-identical to the ops/systemd copies.
+
+Honest scope. Data integrity was never at risk. The guard fired correctly
+every time, the next sweep recovered, the daily pass catches up, and forward
+listing dates rest on first-candle and funding cross-checks rather than on
+sighting time. The change buys two narrow things: a birth in the last hour
+of a UTC day can no longer have its inferred date shifted by a delayed
+sighting, and four benign markers no longer sit in the log where a real
+outage needs to be visible. The second is the better reason.

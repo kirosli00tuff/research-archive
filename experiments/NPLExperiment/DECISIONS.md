@@ -544,3 +544,59 @@ function** — structurally in the path, not left to the caller — with an AST
 pin on that position. It cost the entry its retrospective sample (27 of 151
 eligible, 39 usable observations) and was kept anyway: a gate relaxed after
 it turns out to be expensive is not a gate.
+
+
+## ADR-032: A bounded network wait before each collector pass
+
+Four watcher sweeps between 2026-08-31T21:23Z and 2026-09-02T09:10Z polled
+zero dexs and recorded `source_failed` on both `meta:main` and `perpDexs`
+with a null http_status, meaning the request never reached the wire. Every
+one sat at a boot or resume boundary (21:23Z, 06:04Z, 01:52Z, 09:10Z) and
+the sweep that followed each recovered cleanly at 11 dexs polled. A direct
+probe of the endpoint during the investigation returned http 200 in 0.15s,
+so the venue was never the cause.
+
+Both units already carried `After=network-online.target` and
+`Wants=network-online.target`. That is close to a no-op here for two
+reasons: `network-online.target` belongs to the system manager and a
+`--user` unit ordering against it orders against the user manager's own
+target, which nothing reaches; and the target is not re-evaluated after a
+suspend, which is the other half of the observed boundary set.
+
+Decided. `scripts/wait_for_net.sh` runs as `ExecStartPre` on both
+`npl-watch.service` and `npl-daily.service`. It polls DNS for
+`api.hyperliquid.xyz` every 3 seconds up to a 60 second deadline, then
+proceeds either way.
+
+Two properties are load-bearing and both are tested.
+
+It charges nothing. Resolution only, never a venue request, so the
+registered request ledger and its daily cap stay the single authority on
+spend. A connectivity probe that charged the venue would have made the
+ledger a partial record.
+
+It never suppresses a real outage. On timeout it exits 0 and the pass runs
+and records `source_failed` loudly, per the standing rule that a refusal is
+loud and an absence is a recorded state. A wait that failed the unit would
+have converted a recorded absence into a silent skip, which is the failure
+this project is built to refuse. Verified by test: bogus host at a 6 second
+deadline exits 0 and writes the timeout line to stderr for the journal.
+
+What this does not do, stated so nobody reads it as more than it is. It
+changes no registered design: not the universe, not the entry anchor, not
+eligibility, not coverage bars, not any outcome path. The H2 reader stays
+dark and all three latches stay absent. It is infrastructure hardening on a
+collector, recorded as an ADR rather than a registration amendment for that
+reason.
+
+The honest cost-benefit. Data integrity was not at risk: the guard behaved
+correctly at every failure, the next hourly sweep recovered, the daily pass
+catches up regardless, and forward listing dates are cross-checked against
+first-candle and funding evidence rather than resting on sighting time. Two
+narrow gains justify the change. A birth in the final hour of a UTC day
+whose sighting slipped past midnight could have shifted an inferred date by
+a day. And four benign markers in the log make a genuine venue outage
+harder to see, which is the more valuable of the two.
+
+Live units and `ops/systemd/` copies verified identical after the edit.
+`daemon-reload` clean, both timers still active, next fire times unchanged.

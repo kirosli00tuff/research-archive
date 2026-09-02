@@ -9,4 +9,5 @@ Type=oneshot
 WorkingDirectory=/home/kiros-li/Documents/GitHub/NPLExperiment
 Environment=PATH=/home/kiros-li/.local/bin:/usr/local/bin:/usr/bin:/bin
 MemoryMax=2G
+ExecStartPre=/home/kiros-li/Documents/GitHub/NPLExperiment/scripts/wait_for_net.sh
 ExecStart=/home/kiros-li/.local/bin/uv run python -m npl.cli watch
