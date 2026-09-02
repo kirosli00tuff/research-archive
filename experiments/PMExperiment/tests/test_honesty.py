@@ -407,3 +407,159 @@ def test_band_open_is_carried_as_a_cost_finding_with_nothing_behind_it() -> None
     assert "cost finding with no calibration measurement behind it" in lic
     assert "cost finding with **no calibration measurement behind it**" in r
     assert "No fourth venue is proposed" in lic
+
+
+# --- Stage E: the project closes as a terminal access finding — 2026-09-02 ---
+#
+# These are the last gates this repository will add, and they guard the three
+# sentences a later reader is most likely to soften. The terminal verdict is
+# "unmeasurable", not "disproven" and not "unlikely" — a closure written on
+# access must never be readable as a closure written on evidence. The BAND-OPEN
+# caveat is the one number this repository produced, and it is a cost finding
+# with nothing behind it. The reopening conditions are what stop a later session
+# reopening on something easier than what was actually registered.
+
+CLOSING_DOCS = ("README.md", "REGISTRATION.md", "HYPOTHESES.md")
+
+
+def test_the_terminal_verdict_says_unmeasurable_and_not_the_two_it_is_confused_with() -> (
+    None
+):
+    """H1 closed on access and standing. It was never measured against."""
+    for name in CLOSING_DOCS:
+        doc = _read(name)
+        assert "H1 is unmeasurable at this house's standard" in doc, name
+        low = doc.lower()
+        assert "not disproven, not unlikely, unmeasurable" in low, name
+
+
+def test_band_open_carries_its_caveat_into_the_closure() -> None:
+    """The one number produced here, with the sentence that keeps it honest."""
+    for name in CLOSING_DOCS:
+        doc = _read(name)
+        assert (
+            "cost finding computed from registered constants with no calibration "
+            "measurement behind it" in doc
+        ), name
+        assert (
+            "must not be written anywhere as evidence that an edge exists" in doc
+        ), name
+        assert "5.85 points" in doc and "8.00 points" in doc, name
+        assert "0.0300" in doc, name
+
+
+def test_the_reopening_conditions_are_stated_in_all_three_closing_documents() -> None:
+    """Reopening requires one of exactly three things, and no easier fourth."""
+    for name in CLOSING_DOCS:
+        low = _read(name).lower()
+        assert "established legal entity applying for internal use" in low, name
+        assert "academic tier offered by kalshi" in low, name
+        assert "licensed dataset whose licensor held authority to license" in low, name
+        assert "no fourth venue" in low, name
+
+
+def test_a_reply_to_the_pending_question_is_not_a_reopening() -> None:
+    """A one-line register update is not the same act as reopening a gate."""
+    for name in CLOSING_DOCS:
+        doc = _read(name)
+        assert "one-line register update" in doc, name
+        assert "not a reopening" in doc, name
+
+
+def test_the_kalshi_route_is_neither_a_permission_nor_a_refusal() -> None:
+    """ADR-013's discipline, applied to the one route that answered.
+
+    The desk raised no merits objection and nothing was applied for. Both
+    halves must survive: a later reader may not convert this into a licence,
+    and may not convert it into a refusal by Kalshi either.
+    """
+    for name in ("README.md", "REGISTRATION.md", "docs/ACCESS.md"):
+        doc = _read(name)
+        assert "EXISTS-AND-UNTRAVELLED" in doc, name
+        assert "not declined on the merits" in doc, name
+        assert "nothing was granted and nothing was refused" in doc, name
+    reg = _read("REGISTRATION.md")
+    assert "an established legal entity" in reg
+    assert "necessary step on this route, not a sufficient one" in reg
+
+
+def test_the_entity_decline_is_filed_as_a_decision_and_never_as_evidence() -> None:
+    """The distinction that keeps every access verdict meaning what it says.
+
+    A project that closes on access and a project whose operator stopped paying
+    look identical from outside. Only one of them is a finding.
+    """
+    reg = _read("REGISTRATION.md")
+    dec = _read("DECISIONS.md")
+    assert "the operator declining a cost. It is not evidence about H1" in reg
+    assert "It is not a discovery, and it is not evidence about H1" in dec
+
+
+def test_the_operator_prior_is_never_described_as_pre_registered() -> None:
+    """Section 13 was never filled. A backfill would be worse than the gap."""
+    reg = _read("REGISTRATION.md")
+    readme = _read("README.md")
+    assert "may not be described anywhere as pre-registered" in reg
+    assert "stated, not pre-registered" in readme
+    assert "5 to 8 percent" in reg and "5 to 8 percent" in readme
+
+
+def test_section_thirteen_is_still_empty_and_stays_that_way() -> None:
+    """The empty slot is the record of a prior that was never registered."""
+    reg = (ROOT / "REGISTRATION.md").read_text(encoding="utf-8")
+    start = reg.index("## 13. The operator prior")
+    end = reg.index("## 14. Reproducibility")
+    body = " ".join(reg[start:end].split())
+    assert "To be filled by the operator before the gate fires" in body
+    assert "percent" not in body, "Section 13 was backfilled; the gap is the record"
+    assert "%" not in body, "Section 13 was backfilled; the gap is the record"
+
+
+def test_the_closure_is_not_the_one_section_sixteen_registered() -> None:
+    """Neither verdict cell fired, so H1 does not close under Section 16."""
+    reg = _read("REGISTRATION.md")
+    assert "none of these conditions was ever met" in reg
+    assert "H1 does **not** close under this section" in reg
+    assert "H1 therefore does not close under Section 16 at all" in reg
+
+
+def test_the_price_reading_is_stated_exactly_and_not_rounded_to_never() -> None:
+    """Stage A's probes did receive prices. Rounding that to 'never' is a lie."""
+    readme = _read("README.md")
+    assert "No price series was ever collected" in readme
+    assert "last_price_dollars" in readme
+    assert "no statistic relating a price to an outcome was ever computed" in readme
+
+
+def test_stage_d_own_completeness_caveat_is_recorded_as_having_been_right() -> None:
+    """The strongest argument here for writing limits: one paid off in two days."""
+    readme = _read("README.md")
+    dec = _read("DECISIONS.md")
+    lic = _read("docs/LICENCES.md")
+    assert "Stage D was wrong in the exact way Stage D said it might be" in readme
+    assert "Stage D was wrong in the exact way Stage D said it might be" in dec
+    assert "The caveat was vindicated in two days" in lic
+
+
+def test_the_admissibility_procedure_records_its_own_blind_spot() -> None:
+    """Fired over correspondence, the check proved weaker than its own ADR."""
+    access = _read("docs/ACCESS.md")
+    dec = _read("DECISIONS.md")
+    readme = _read("README.md")
+    assert "It cannot tell a quotation from a summary" in access
+    assert "The check is weaker than the ADR it implements" in dec
+    assert "cannot tell a quotation from a paraphrase" in readme
+
+
+def test_the_correspondence_is_unmeasured_under_the_repositorys_own_procedure() -> None:
+    """A received date is not an effective date, and it was not made into one."""
+    access = _read("docs/ACCESS.md")
+    reg = _read("REGISTRATION.md")
+    dec = _read("DECISIONS.md")
+    assert "it returns UNMEASURED" in access
+    assert "UNMEASURED on element (2)" in reg
+    assert "received date, not an effective date" in access
+    assert "received date, not an effective date" in dec
+    assert admissibility.CandidateVerdict.PERMITTED.value not in _read("README.md"), (
+        "no route in this repository was ever PERMITTED"
+    )

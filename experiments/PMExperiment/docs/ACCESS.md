@@ -219,6 +219,15 @@ this venue.**
 
 # Kalshi — the institutional desk reply, received 2026-09-01, recorded by Stage E
 
+## Verdict
+
+**EXISTS-AND-UNTRAVELLED.** A route exists and was **not declined on the
+merits**; it is gated on an established legal entity, and **nothing was applied
+for, so nothing was granted and nothing was refused**. The claim itself is
+recorded **UNMEASURED** under ADR-012 — correspondence carries a **received
+date, not an effective date** — and UNMEASURED here means *not checkable in the
+required form*, never *doubted* and never *PROHIBITED*.
+
 **This section records correspondence, not a probe.** Stage E sent no request to
 any Kalshi endpoint and to no other host. The reply reached the operator and was
 read here. **Zero market-data requests, zero contracts, zero dollars**, and no
