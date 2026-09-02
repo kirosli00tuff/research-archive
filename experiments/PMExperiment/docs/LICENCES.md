@@ -787,3 +787,60 @@ Only these, and each is an operator decision rather than a measurement:
    platform holds redistributable rights in the underlying records.
 
 None of these is a second look, because no outcome has ever been read.
+
+---
+
+# Addendum — Stage E, 2026-09-02: one of these routes was answered
+
+**This section is appended, not an edit.** Everything above it stands as Stage D
+wrote it on 2026-08-30, including the verdicts, so a reader can see what was
+believed then and what is known now.
+
+**Row 1 of "What would change it" was travelled, and it answered.** Kalshi's
+institutional desk replied on **2026-09-01** that the use as described **fits
+their Internal Use data licence** — **it was not declined on the merits** — and
+that applying requires **an established legal entity** with formation documents
+and beneficial-owner verification. It further reports that the **2021 historical
+depth is available through historical endpoints** on that licence, not subject
+to the live-data cutoff Stage A measured at roughly spring 2024. Full record in
+`docs/ACCESS.md`, REGISTRATION.md Section 15.4 and DECISIONS.md ADR-016.
+
+**What that does to this document's central sentence.** "There is none among the
+routes this stage read" was true and remains true of what Stage D read. **"There
+is none" was never true of the world**, and this document said so in its own
+limits section: *the candidate space was sampled, not enumerated*, and *"there is
+none" is a verdict over what was read, and it is not a proof that no permitted
+route exists.* **The caveat was vindicated in two days.** It is the strongest
+argument this repository can offer for writing completeness limits at all.
+
+**One row above is now known to be incomplete as written.** Row 1 says Kalshi
+"names the ask and publishes no address at all". A reachable institutional desk
+exists; **how it was reached is not recorded here**, because this repository did
+not reach it and will not synthesize the route. What is recorded is that Stage
+D's search for a Kalshi contact route was not exhaustive, in a document that
+already said its search was not exhaustive.
+
+**What has not changed, and must not be read as having changed:**
+
+- **No licence was granted.** Nothing was applied for, so nothing was granted and
+  nothing was refused. The route exists; it was not travelled.
+- **The claim is UNMEASURED under ADR-012**, on element (2) — correspondence
+  carries a received date, not an effective date — and in substance on element
+  (1), because what is held is the operator's summary, not the reply's text.
+- **Three questions survive the entity requirement, all unread:** the fee,
+  whether Internal Use permits **publishing** a calibration result, and whether
+  it carries the **AI/ML written consent** that Kalshi's Section I conditions
+  separately. **An established legal entity is a necessary step, not a
+  sufficient one.**
+- **BAND-OPEN is still a cost finding with no calibration measurement behind
+  it.** Nothing in the reply is a price, and no statistic relating a price to an
+  outcome exists in this repository.
+- **The transfer statement is untouched.** A dataset licence changes the
+  permission, never the venue — and neither does a venue licence change the
+  absence of a measurement.
+- **No fourth venue is proposed.** A route answering is not a licence to resume
+  the search.
+
+**And one thing this addendum does not do: it does not reopen Stage D's other
+two verdicts.** Polymarket and the three licence candidates are where Stage D
+left them. One route answered; the rest were not re-asked.

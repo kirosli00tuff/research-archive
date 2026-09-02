@@ -545,3 +545,85 @@ it surfaces.** Routing through a third-party platform cannot cure an upstream
 position that has already fired PENDING_ACCESS. A third party's convenience is
 not permission, and a platform that hosts a table is not thereby able to license
 it onward.
+
+---
+
+## ADR-016. Kalshi's institutional desk did not decline on the merits, and the gate moves from permission to standing
+
+**Status:** accepted, 2026-09-02, on correspondence received 2026-09-01.
+Evidence in `docs/ACCESS.md`, "Kalshi — the institutional desk reply". Numbering
+continues past the duplicate ADR-006/ADR-007 pairs recorded above rather than
+renumbering, per the note of 2026-08-29.
+
+**Decision: the Kalshi Internal Use route is recorded as EXISTS-AND-UNTRAVELLED,
+and the claim that the use fits it is recorded UNMEASURED under ADR-012.** Both
+labels are deliberate and neither is PERMITTED.
+
+The reply reports three things. The use as described **fits Kalshi's Internal
+Use data licence** — so it was **not declined on the merits**, and no merits
+objection was raised at all. Applying requires **an established legal entity**
+with formation documents and beneficial-owner verification. And the **2021
+historical depth is available through historical endpoints** on the appropriate
+licence, which are not subject to the live-data cutoff Stage A measured at
+roughly spring 2024.
+
+**The decision this ADR exists to record is not the label. It is that Stage D
+was wrong in the exact way Stage D said it might be.** Stage D published "no
+candidate returns PERMITTED" and "there is none" as a terminal state on
+2026-08-30, and attached its own limit in the same document: the candidate space
+was **sampled, not enumerated**, and *"there is none" is a verdict over what was
+read.* **Two days later a route surfaced that Stage D had not read.** The limit
+clause was not decoration and it was not modesty; it was correct, and it earned
+its place in a way no test could have forced. **A completeness caveat that turns
+out to be load-bearing within the week is the strongest argument in this
+repository for writing them at all.**
+
+**Admissibility, stated rather than glossed, because the prompt is right that it
+is the interesting part.** Correspondence carries a **received date, not an
+effective date** — a letter has no commencement clause and there is no second
+document to fall back to. Fired through `pmexperiment.admissibility`, the claim
+returns **UNMEASURED on element (2)**. The argument that a received date *is* the
+effective date for an instrument that has no other is a good one, is recorded at
+full strength in `docs/ACCESS.md`, and is **not adopted** — not because it is
+weak, but because element (2) was written against a mutable page a venue can
+silently rewrite, and amending it at closure to govern a measurement that will
+never be made is worse than leaving the question open.
+
+**And the honest asymmetry against ADR-014, which this ADR will not claim credit
+for.** ADR-014 held this standard when holding it excluded the one attractive
+candidate, at real cost. **Here holding it costs nothing**, because the entity
+requirement closes the route whichever way admissibility falls. Applying a rule
+when it is free is not evidence that the rule is being applied.
+
+**A second gap, and it is the larger one.** Element (1) requires **a quoted
+clause**, and what this repository holds is **the operator's summary of the
+reply, not its text**. No sentence of the correspondence is quoted anywhere
+here. **Firing the procedure over it exposed a blind spot in the procedure**:
+`missing_elements()` checks only that `clause` is non-empty, so it would score a
+paraphrase as satisfying element (1) when ADR-012 plainly does not. **The check
+is weaker than the ADR it implements, and this is the first claim that showed
+it** — every earlier claim was fired over a document this repository had itself
+fetched, where the distinction never arose. It is **recorded and deliberately not
+repaired**: adding a detector at closure, to a gate governing measurements that
+will never run, is scope in the wrong direction, and no honest detector exists —
+quotation marks are not evidence of quotation.
+
+**What the reply does not establish, because finding 1 will otherwise be read as
+a green light.** Nothing was applied for, so **nothing was granted and nothing
+was refused**. The fee is **UNMEASURED**. Whether an Internal Use licence permits
+**publishing** a calibration result is **UNRESOLVED** and is the sharpest of
+these — the licence is named for internal use, this repository exists to publish,
+and the instrument was never read. Whether it carries the **AI/ML written
+consent** that Kalshi's Section I conditions separately — the clause class that
+closed Kalshi in Stage A — is **UNRESOLVED**. **An established legal entity is a
+necessary step on this route, not a sufficient one.**
+
+**Consequence for Stage A, recorded because it is the good kind of surprise.**
+Finding 3 does not touch Stage A's measurement. Stage A wrote that the
+2021→Apr 2025 span is *"not reproducible keylessly"* — a claim about the keyless
+surface, not about the archive — and that phrasing is exactly right under the
+reply. **Had it been written as "the history does not reach 2021" it would now
+be false.** The depth finding is an input to power that is now known to be
+obtainable on a route this repository will not travel; **no count, bucket or
+dispersion exists for any Kalshi universe**, so nothing whatever follows from it
+for the power gate, which has still never fired.

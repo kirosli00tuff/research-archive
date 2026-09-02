@@ -214,3 +214,111 @@ Plus 1 request to `docs.google.com` for the embedded terms document (200,
 578 ms). **No request asked for a contract, a price, an order book, a resolution
 or a listing of any kind. No dataset was compiled, and `data/raw/` is empty for
 this venue.**
+
+---
+
+# Kalshi — the institutional desk reply, received 2026-09-01, recorded by Stage E
+
+**This section records correspondence, not a probe.** Stage E sent no request to
+any Kalshi endpoint and to no other host. The reply reached the operator and was
+read here. **Zero market-data requests, zero contracts, zero dollars**, and no
+contract, price, order book or resolution was asked for or received.
+
+**It is recorded because it changes the register.** Stage D closed on 2026-08-30
+with "no candidate returns PERMITTED" and wrote it as terminal, while attaching
+its own limit: *"There is none" is a verdict over what was read, and it is not a
+proof that no permitted route exists.* **That limit was vindicated in two days.**
+A route exists, and Stage D had not read it.
+
+## What the reply reports
+
+Three findings, each **as reported by the operator** and none of them verified by
+this repository against a published instrument:
+
+| # | finding | what it changes |
+|---|---|---|
+| 1 | the use as described **fits Kalshi's Internal Use data licence** | **the route was not declined on the merits.** No merits objection was raised at all |
+| 2 | applying requires **an established legal entity**, with formation documents and beneficial-owner verification | the gate moves from *permission* to *standing*. An individual undergraduate holds no such entity |
+| 3 | the **2021 historical depth is available through historical endpoints** on the appropriate licence, which are **not** subject to the live-data cutoff | Stage A's keyless cutoff at roughly spring 2024 is a property of **the keyless surface**, not of the archive |
+
+## The date this carries, and what it does to admissibility under ADR-012
+
+**Received 2026-09-01. It carries no effective date, because correspondence has
+none** — a letter is not a published instrument with a commencement clause, and
+there is no second document to fall back to. This is stated rather than glossed,
+because the whole of ADR-012 is that a claim about permission must be checkable
+by someone who was not there.
+
+**Fired through `pmexperiment.admissibility` as a claim, it returns UNMEASURED.**
+Element (2), the effective date, is absent and no substitute is registered.
+That verdict does **not** mean the reply is doubted; UNMEASURED is not a synonym
+for PROHIBITED, and it is emphatically not a synonym for untrue. It means the
+claim is not checkable in the form ADR-012 requires.
+
+**The argument for admitting it, stated at full strength.** Correspondence takes
+effect on receipt. The received date is functionally the effective date for an
+instrument that has no other, and ADR-012's effective-date element was written
+against **a mutable terms page a venue can silently rewrite** — a hazard a dated
+private reply does not have. On that reading element (2) is satisfied by the
+received date and the claim is ADMISSIBLE. It is a good argument and it is not
+adopted here.
+
+**Why it is not adopted, and the reason is not the one that would flatter this
+procedure.** ADR-014 refused to soften this standard when strictness excluded
+the one attractive candidate, at real cost. **Here strictness costs nothing** —
+finding 2 closes the route whichever way admissibility falls, so applying the
+rule strictly buys no protection and earns the procedure no credit. It is
+applied strictly anyway, for consistency and for one substantive reason: a
+version-identity or receipt-date amendment to element (2) would be a **general**
+change to the standard, and registering a general change at closure, to govern
+a measurement that will never be made, is worse than leaving it open.
+
+**A second gap, larger than the first, and this one is not curable by
+amendment.** Element (1) requires **a quoted clause**. What this repository
+holds is **the operator's summary of the reply, not its text.** The three
+findings above are a paraphrase; no sentence of the correspondence is quoted
+anywhere in this repository.
+
+**And firing the procedure exposed a blind spot in the procedure itself.**
+`missing_elements()` tests that `clause` is non-empty. It cannot tell a
+quotation from a summary, so it would score the paraphrase above as satisfying
+element (1) when ADR-012 plainly does not. **The check is weaker than the ADR it
+implements, and this is the first claim that showed it** — every earlier claim
+was fired over a document the repository had itself fetched, where the
+distinction never arose. **It is recorded and deliberately not repaired.**
+Adding a quotation detector at closure would be a change to a gate written for
+measurements that will never run, and no honest detector exists anyway: quotation
+marks are not evidence of quotation.
+
+## What the reply does not establish, reported absent rather than as zero
+
+| question | state |
+|---|---|
+| is a licence granted? | **No. Nothing was applied for, so nothing was granted and nothing was refused.** The reply describes a route; it is not the route travelled |
+| the fee, if any, for an Internal Use licence | **UNMEASURED.** No figure was reported and none is assumed |
+| does Internal Use permit **publishing** a calibration result? | **UNRESOLVED, and it is the sharpest of these.** The licence is named for internal use; this repository exists to publish a public report. The instrument was never read, and a name is not a clause |
+| does an Internal Use licence carry the **AI/ML written consent** Kalshi's Section I PERMITTED USES conditions separately? | **UNRESOLVED.** That clause class is what closed Kalshi in Stage A; whether this licence satisfies it is unread |
+| what the historical endpoints actually return, at what depth and coverage | **UNMEASURED — never requested.** No count, no bucket, no dispersion exists for any Kalshi universe |
+
+**The consequence of the last two rows, stated so no reader mistakes finding 1
+for a green light: an established legal entity is a necessary step on this
+route, not a sufficient one.** Three further documents would have to be read
+after it, and none of them has been.
+
+## What this does to Stage A's measured finding
+
+**Nothing, and that is worth recording.** Stage A measured the earliest
+retrievable settled close as sitting between 2024-01-01 and 2024-05-31 (n = 6
+bracketing probes) and wrote the consequence as **"the 2021→Apr 2025 span
+analyzed by Bürgi-Deng-Whelan is *not reproducible keylessly*."** Finding 3 says
+the archive exists behind the licence. **The measurement stands and so does its
+phrasing** — it reported a property of the keyless surface and claimed nothing
+about the archive. Had it been written as "the history does not reach 2021", it
+would now be false. **The careful phrasing was load-bearing and it held.**
+
+**What finding 3 does change is a power input, and only in principle.** A
+2021-onward settled history is a larger sample than a 2024-onward one. **No
+count exists for either**, no bucket was ever built, and no dispersion was ever
+computed, so nothing follows from this for the power gate — which has still
+never fired. Recorded as an input that is now known to be **obtainable on a
+route this repository will not travel**, never as a number.

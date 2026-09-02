@@ -514,6 +514,62 @@ outcome was ever read.
 
 ---
 
+### 15.4 The Kalshi Internal Use route, recorded 2026-09-01: EXISTS-AND-UNTRAVELLED
+
+**In one sentence: Kalshi's institutional desk replied that the use as described
+fits their Internal Use data licence — so the route was not declined on the
+merits — while applying requires an established legal entity with formation
+documents and beneficial-owner verification, and the 2021 historical depth is
+available on that licence through historical endpoints not subject to the
+live-data cutoff Stage A measured at roughly spring 2024.**
+
+**This is correspondence, not a gate firing over a measurement.** Stage E sent
+**zero requests** to Kalshi or to any other host. **No contract was enumerated,
+no price bucket was built, no dispersion was computed, and no statistic relating
+a price to an outcome exists in this repository.** Sections 4 and 10 stand
+intact. Full evidence, and the admissibility analysis this summarises, in
+`docs/ACCESS.md` and DECISIONS.md ADR-016.
+
+| quantity | reading, received 2026-09-01 |
+|---|---|
+| merits | **not declined.** The use as described fits the Internal Use data licence; no merits objection was raised |
+| the applying requirement | **an established legal entity**, with formation documents and beneficial-owner verification |
+| the operator's standing | an individual undergraduate. **No such entity is held** |
+| historical depth on the licence | **2021 onward, through historical endpoints**, expressly not subject to the live-data cutoff |
+| Stage A's keyless cutoff, restated | earliest keyless settled close between **2024-01-01 and 2024-05-31**, n = 6 bracketing probes — a property of the keyless surface, **not of the archive** |
+| licence granted | **none. Nothing was applied for, so nothing was granted and nothing was refused** |
+| fee | **UNMEASURED.** No figure reported, none assumed |
+| does Internal Use permit **publishing** a calibration result? | **UNRESOLVED.** The instrument was never read, and a licence's name is not a clause |
+| does it carry the AI/ML written consent Kalshi's Section I conditions separately? | **UNRESOLVED.** That clause class is what closed Kalshi in Stage A |
+| contracts enumerated, requests sent, dollars spent | **0, 0, 0** |
+
+**Admissibility under ADR-012, stated and not glossed.** Correspondence carries a
+**received date, not an effective date**. Fired through
+`pmexperiment.admissibility`, the claim returns **UNMEASURED on element (2)**,
+and separately this repository holds **the operator's summary rather than the
+reply's text**, so element (1)'s quotation requirement is unmet in substance even
+though the check cannot see it. UNMEASURED here means *not checkable in the form
+ADR-012 requires*; it does not mean doubted, and it is not a synonym for
+PROHIBITED. The argument that a received date *is* the effective date for an
+instrument that has no other is recorded at full strength in `docs/ACCESS.md`
+and is not adopted, because amending the standard at closure to govern a
+measurement that will never be made is worse than leaving it open.
+
+**What this changes in the register, stated plainly.** Stage D closed on
+2026-08-30 with "no candidate returns PERMITTED" and "there is none", **while
+recording in the same document that the candidate space was sampled rather than
+enumerated and that "there is none" is a verdict over what was read.** That
+limit was correct, and was shown correct within two days. The register no longer
+holds that no route exists. **It holds that one exists, that it was not refused,
+and that this operator cannot stand up to it.**
+
+**An established legal entity is a necessary step on this route, not a
+sufficient one.** Three unread questions survive it: the fee, whether Internal
+Use permits publication, and the AI/ML consent. None has been measured and none
+is assumed.
+
+---
+
 ## 16. Closure conditions
 
 Written before the read. **H1 closes** if both verdict cells fire BLOCKED:
