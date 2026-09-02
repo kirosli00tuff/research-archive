@@ -1560,3 +1560,33 @@ no dispersion, from any route. **If an authorization arrived tomorrow the power
 question would still be unanswered.** Following Insider rather than NPD saved 415
 days and every dollar. It did not answer the question the design was built to
 answer, and nothing here should be read as though it had.
+
+---
+
+## Entry 11.1 — addendum, recorded after the push: the closing actuals
+
+**Task 5 actual: ~7.9 min against the 20-min ETA** (09:36:29Z → 09:44:22Z,
+commit `905d552` pushed to `origin/main`), covering thirteen honesty tests,
+fourteen mutation runs, the whole-history credential audit, ADR-018, the
+`report.md` section, Entry 11, and the three make targets.
+
+**Stage E total: ~21.4 min against 50 min stated** (09:22:59Z → 09:44:22Z),
+coming in at **43 % of estimate**. Stages B and C ran at roughly a third of
+theirs, Stage D overran by 2.5, and this one is back under. **Four stages short,
+one long, and the one that ran long is still the only one whose estimate was
+scaled from the wrong activity.**
+
+**One correctness note on the make targets, recorded rather than left in the
+shell history.** `make lint` failed on the first run: `ruff format` reflowed one
+assertion, and after reformatting `ruff check` raised **E501 at 90 > 88** on a
+test function name long enough to break the line. It was renamed to
+`test_terminal_verdict_is_unmeasurable_not_disproven_not_unlikely`, the mutation
+harness's reference was updated with it, and **all fourteen mutations were
+re-run against the committed tree afterwards — 14 killed, 0 survived, 0 harness
+faults**, so the rename is proved not to have quietly disarmed the guard it
+names. Lint, typecheck and test are green at **108 tests**.
+
+**The last figure in this repository, and it is the right one to end on.** Five
+stages, **zero dollars, zero contracts enumerated, zero statistics relating a
+price to an outcome**, and a power gate that never fired. **The question is not
+answered.** It is closed.
