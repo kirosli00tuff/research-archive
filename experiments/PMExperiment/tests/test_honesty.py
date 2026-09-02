@@ -422,9 +422,7 @@ def test_band_open_is_carried_as_a_cost_finding_with_nothing_behind_it() -> None
 CLOSING_DOCS = ("README.md", "REGISTRATION.md", "HYPOTHESES.md")
 
 
-def test_the_terminal_verdict_says_unmeasurable_and_not_the_two_it_is_confused_with() -> (
-    None
-):
+def test_terminal_verdict_is_unmeasurable_not_disproven_not_unlikely() -> None:
     """H1 closed on access and standing. It was never measured against."""
     for name in CLOSING_DOCS:
         doc = _read(name)
@@ -441,9 +439,9 @@ def test_band_open_carries_its_caveat_into_the_closure() -> None:
             "cost finding computed from registered constants with no calibration "
             "measurement behind it" in doc
         ), name
-        assert (
-            "must not be written anywhere as evidence that an edge exists" in doc
-        ), name
+        assert "must not be written anywhere as evidence that an edge exists" in doc, (
+            name
+        )
         assert "5.85 points" in doc and "8.00 points" in doc, name
         assert "0.0300" in doc, name
 

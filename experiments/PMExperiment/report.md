@@ -339,3 +339,149 @@ permission. **If an authorization arrived tomorrow, the power question would
 still be unanswered**, and nothing in Stages A through D has moved it.
 
 A later correction is a new line, never an edit.
+
+---
+
+## Stage E — the project closes as a terminal access finding — 2026-09-02
+
+**The verdict, in one sentence: H1 is unmeasurable at this house's standard —
+not disproven, not unlikely, unmeasurable — because both venues closed on their
+own terms, all three licence candidates failed, and the one route that does
+exist was found not to have been declined on the merits but to be gated on an
+established legal entity that the operator does not hold and, having consulted
+the university and weighed the cost against a stated prior of 5 to 8 percent,
+has decided not to create.**
+
+**Nothing was read to reach this.** Stage E sent **zero requests** to any host.
+No contract, price, order book, bucket count or dispersion was produced. The
+power gate has never fired, on any venue, over any region, and **no statistic
+relating a price to an outcome exists in this repository.** Sections 4 and 10
+stand intact to the last commit.
+
+### The thing that happened, which the register did not expect
+
+Stage D closed three days ago with "no candidate returns PERMITTED" and wrote it
+as terminal. **Kalshi's institutional desk then replied, on 2026-09-01, and the
+position it describes is materially different from the one the register held.**
+The use as described **fits their Internal Use data licence** — it was **not
+declined on the merits**, and no merits objection was raised at all. Applying
+requires **an established legal entity**, with formation documents and
+beneficial-owner verification. And the **2021 historical depth is available
+through historical endpoints** on that licence, outside the live-data cutoff
+Stage A measured at roughly spring 2024.
+
+**Stage D was wrong in the exact way Stage D said it might be, and that is the
+most interesting sentence in this report.** Its own limits section recorded that
+the candidate space was **sampled, not enumerated**, and that *"there is none" is
+a verdict over what was read, and it is not a proof that no permitted route
+exists.* **The caveat was vindicated in two days.** A completeness limit that
+pays off inside a week is the strongest argument this repository can make for
+writing them at all — and it cost one paragraph.
+
+### What the reply is worth as evidence, stated rather than glossed
+
+**Correspondence carries a received date, not an effective date.** Fired through
+this repository's own procedure it returns **UNMEASURED on element (2)**, and
+separately what is held here is **the operator's summary rather than the reply's
+text**, so element (1)'s quotation requirement is unmet in substance too.
+UNMEASURED means *not checkable in the required form*. It does not mean doubted,
+and it is not a synonym for PROHIBITED.
+
+**The argument for admitting it is good and is recorded at full strength.** A
+letter takes effect on receipt; element (2) was written against a mutable terms
+page a venue can silently rewrite, a hazard a dated private reply does not have.
+**It was not adopted** — amending a general evidence standard at closure, to
+govern a measurement that will never be made, is worse than leaving the question
+open.
+
+**And the honest asymmetry, which this report will not claim credit for.**
+ADR-014 held this standard when holding it excluded the one attractive
+candidate, at real cost. **Here holding it costs nothing**, because the entity
+requirement closes the route whichever way admissibility falls. Applying a rule
+when it is free is not evidence that the rule is being applied.
+
+**Firing the procedure over correspondence exposed a blind spot in the
+procedure.** `missing_elements()` checks only that a clause is non-empty, so it
+**cannot tell a quotation from a paraphrase** and would have scored the summary
+as satisfying element (1). **The check is weaker than the ADR it implements**,
+and this is the first claim in five stages that showed it — every earlier claim
+was fired over a document this repository had itself fetched. It is recorded and
+**deliberately not repaired**: no honest detector exists, and quotation marks
+are not evidence of quotation.
+
+### The decision, filed in its own category
+
+The operator consulted the university and judged **institutional sponsorship not
+achievable within the time available**, with fourth-year term starting. Forming
+a **personal legal entity** was judged **disproportionate** to a stated prior of
+5 to 8 percent against a band already thin — the surviving region being the top
+**2.15 of 6.0 points** at 95c, requiring **5.85 points** at k = 1 against a band
+top of **8.00**, with Bürgi's **2.0** and **3.0** both failing the **0.0300**
+cost floor.
+
+**This is the operator declining a cost. It is not a discovery, and it is not
+evidence about H1 in either direction.** Every prior closure here rests on a
+document or on arithmetic over registered constants; this one rests on a
+person's judgement about their own time and money, and it is filed separately so
+the two are never collapsed. **A project that closes on access and a project
+whose operator stopped paying look identical from the outside, and only one of
+them is a finding.**
+
+**Kalshi did not refuse.** Nothing was applied for, so nothing was granted and
+nothing was refused. The route's label is **EXISTS-AND-UNTRAVELLED** and it stays
+that way.
+
+### The prior arrives late, and the empty slot is left empty
+
+Section 13, `The operator prior`, reads *"to be filled by the operator before the
+gate fires"* and **was never filled**. The 5-to-8-percent figure arrives at
+closure, **after** the band gate and both access gates had fired. It is recorded
+in Amendment 7 rather than written into Section 13, and it **may never be
+described as pre-registered**. A visible gap is a truer record than a
+plausible-looking backfill, and pinning that is now a test.
+
+**Recorded because it reframes the whole closure and not because it flatters
+it:** at a prior of 5 to 8 percent, **a null was the modal expected outcome from
+the beginning.** This ending is the method working, not a disappointment.
+
+### What stands, and what must never be written
+
+**BAND-OPEN stands as exactly what it always was: a cost finding computed from
+registered constants with no calibration measurement behind it. It must not be
+written anywhere as evidence that an edge exists.** Every magnitude any cited
+source places inside its surviving bucket fails the cost floor; the band survives
+on its top alone, set by the one source whose n the registration never recorded.
+
+**H1t, transfer, remains UNTESTED** on the three registered grounds including
+MLCryptoEngine's H2 at **AUC 0.501**. There was never anything to transfer.
+
+**The registered closure conditions were never met.** Section 16 provides for H1
+to close when both verdict cells fire BLOCKED, with realized MDEs beside them.
+**Neither cell fired and no MDE exists.** H1 does not close under Section 16 at
+all; it terminates on access and standing, an ending the design did not
+contemplate. That is annotated in Section 16 rather than smoothed over.
+
+### What would reopen it
+
+**An established legal entity applying for Internal Use** — necessary, not
+sufficient, with the fee UNMEASURED and both the publication question and the
+AI/ML consent UNRESOLVED. **An academic tier offered by Kalshi, if one is** — a
+question is pending and unanswered, and its existence is UNMEASURED rather than
+absent. **A licensed dataset whose licensor held authority to license.** **A
+reply to the pending academic-tier question is a one-line register update, not a
+reopening**, and **no fourth venue is proposed.**
+
+### The totals
+
+**Five stages. Zero dollars. Zero contracts enumerated. Zero market-data requests
+to Polymarket. Zero requests of any kind in Stage E. No price bucket, no
+dispersion, and no statistic relating a price to an outcome, anywhere, ever.**
+
+NPDExperiment discovered its answer after **415 days** of collection in the
+session that read the result. This repository discovered, before collecting
+anything, that the collection was not permitted — and then that the one permitted
+route required standing it does not have. **Even if an authorization arrived
+tomorrow the power question would still be unanswered**, and nothing in five
+stages has moved it. That is the honest end of it.
+
+A later correction is a new line, never an edit.

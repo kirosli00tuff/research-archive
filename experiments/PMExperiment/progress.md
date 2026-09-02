@@ -1355,3 +1355,208 @@ document is written about it.
 the prompt were read, read-only, before this entry was written, exactly as
 Entries 0, 4, 6 and 8 recorded for Stages A through D. No other work has been
 done and no request has been sent to any endpoint.
+
+---
+
+## Entry 11 — Stage E: the project closes as a terminal access finding — 2026-09-02
+
+**Verdict, one sentence: H1 is unmeasurable at this house's standard — not
+disproven, not unlikely, unmeasurable — because both venues closed on their own
+terms, all three licence candidates failed, and the one route that does exist was
+found not to have been declined on the merits but to be gated on an established
+legal entity the operator does not hold and has decided not to create.**
+
+**Zero requests sent to any host in this stage. Zero contracts enumerated. Zero
+dollars.** No price bucket was built, no dispersion computed, and **no statistic
+relating a price to an outcome exists in this repository.** Sections 4 and 10
+stand intact to the last commit.
+
+### ETA against actual, per task (standing rule 2)
+
+| task | ETA, with its basis | actual |
+|---|---|---|
+| 0 — log the prompt | 2 min, from Entry 9's measured 1.45 min for the same act | **0.7 min** (09:22:59Z → 09:23:41Z, `2006ae6`) |
+| 1 — the Kalshi reply as a measured access finding | 8 min, from Stage D Task 5's non-mutation half at ~8 of its measured 14 min | **7.8 min** (09:23:41Z → 09:31:26Z, `17dfebd`) |
+| 2 — the entity path closed by operator decision | 4 min, from Stage D Task 4's measured 0.8 min scaled for an ADR and a register row | **0.9 min** (09:31:26Z → 09:32:22Z, `fe7e6b9`) |
+| 3 — the terminal position | 8 min, Task 1's basis over Section 15.5, Section 16, Section 13 and a HYPOTHESES amendment | **1.7 min** (09:32:22Z → 09:34:01Z, `f8128b2`) |
+| 4 — rewrite README.md | 8 min, **flagged in Entry 10 as the weakest cell**: no comparable measured work exists | **2.5 min** (09:34:01Z → 09:36:29Z, `1ba50aa`) |
+| 5 — pin and close | 20 min, from Stage D Task 5's measured ~14 min plus a licence and git-history audit | recorded at push in this entry's commit |
+
+**Total stated 50 min.** Tasks 0 through 4 stated 30 min and ran **13.6 min**,
+coming in at 45 % of estimate — and the distribution is more useful than the
+total.
+
+**The closing lesson on estimates, which is not the one Entry 10 expected.**
+Entry 9 taught that **an activity can be wrong**: Stage D's Task 2 was scaled
+from work of a different kind and overran by a factor of 5.5. Entry 10 applied
+that lesson by deriving every cell from Stage D's *measured document* work and
+by **naming Task 4 as the weakest cell**, having no comparable. The results:
+
+- **Task 1, the one cell with a genuine same-activity comparable, landed within
+  3 %** — 7.8 min against 8.
+- **Every cell scaled from that basis *by length* rather than by activity came
+  in at a fifth to a third of estimate.** Scaling by size is the same error as
+  scaling by activity, in miniature.
+- **Task 4, the cell explicitly flagged as weak, missed by a factor of 3.2.**
+
+**So the flag was right that the estimate was unreliable and told nobody
+anything about which way.** Labelling an estimate as weak is not a correction to
+it; it is a guess wearing a warning label. The thing that actually predicted
+accuracy in this stage was **whether a same-activity measurement existed** —
+one cell had one and hit; five did not and missed. Entry 9's remedy stands and is
+sharpened: **defer the estimate until a probe can supply one**, and prefer no
+number to a flagged one.
+
+### Task 1 — the reply, and what a two-day-old caveat turned out to be worth
+
+Kalshi's institutional desk replied on **2026-09-01**. The use as described
+**fits their Internal Use data licence** — **not declined on the merits**, no
+merits objection raised at all. Applying requires **an established legal entity**
+with formation documents and beneficial-owner verification. The **2021 historical
+depth is available through historical endpoints** on that licence, outside the
+live-data cutoff Stage A measured at roughly spring 2024.
+
+**The received date was not in the prompt and was not synthesized.** Standing
+rule 5 forbids exactly that, so it was asked for and supplied: **2026-09-01**.
+
+**Admissibility, stated rather than glossed.** Correspondence carries a
+**received date, not an effective date**. Fired through
+`pmexperiment.admissibility` the claim returns **UNMEASURED on element (2)**, and
+separately what this repository holds is **the operator's summary rather than the
+reply's text**, so element (1) is unmet in substance too. The argument that a
+received date *is* the effective date for an instrument that has no other is
+recorded at full strength and **not adopted** — amending a general standard at
+closure, to govern a measurement that will never be made, is worse than leaving
+it open. **The asymmetry against ADR-014 is stated rather than claimed as
+credit: there, holding the standard cost the one attractive candidate; here it
+costs nothing, because the entity requirement closes the route either way.**
+
+**Firing the procedure over correspondence found a blind spot in the
+procedure.** `missing_elements()` checks only that a clause is non-empty and
+**cannot tell a quotation from a paraphrase**. **The check is weaker than the ADR
+it implements**, and this is the first claim in five stages that showed it —
+every earlier one was fired over a document this repository had itself fetched.
+**Recorded, deliberately not repaired**: no honest detector exists, and quotation
+marks are not evidence of quotation.
+
+**And the finding that is worth more than the reply.** Stage D published "there
+is none" as terminal on 2026-08-30 **while recording in the same document that
+its candidate space was sampled rather than enumerated**, and that *"there is
+none" is a verdict over what was read.* **A route surfaced two days later.** The
+caveat cost one paragraph and was load-bearing inside a week. **That is the
+strongest argument this repository can make for writing completeness limits at
+all**, and it is recorded in ADR-016, in `docs/LICENCES.md` and in `README.md`
+so it is not lost.
+
+**One correction to Stage A that did not need making, recorded because it is the
+good kind of surprise.** Stage A wrote that the 2021→Apr 2025 span is *"not
+reproducible keylessly"* — a claim about the keyless surface, not the archive.
+Finding 3 confirms the archive exists behind the licence. **Had that sentence
+been written as "the history does not reach 2021", it would now be false.** The
+careful phrasing was load-bearing and it held.
+
+### Task 2 — the decision, filed in its own category
+
+The operator consulted the university and judged **institutional sponsorship not
+achievable within the time available**, with fourth-year term starting. Forming a
+**personal legal entity** was judged **disproportionate** to a stated prior of
+5 to 8 percent against a band already thin — the top **2.15 of 6.0 points** at
+95c, requiring **5.85 points** at k = 1 against a band top of **8.00**, with
+Bürgi's **2.0** and **3.0** both failing the **0.0300** floor.
+
+**This is the operator declining a cost. It is not a discovery and it is not
+evidence about H1 in either direction.** Filed as ADR-017 in its own category
+because **a project that closes on access and a project whose operator stopped
+paying look identical from outside, and only one of them is a finding.**
+**Kalshi did not refuse**; nothing was applied for, so nothing was granted and
+nothing was refused, and the label stays **EXISTS-AND-UNTRAVELLED**.
+
+### Task 3 — the terminal position, and one thing the prompt's framing got wrong
+
+**H1 is unmeasurable at this house's standard.** Section 15.5 and Amendment 8.
+
+**The prompt referred to "a registered prior of 5 to 8 percent". Section 13,
+`The operator prior`, is empty and has been since 2026-08-29.** The figure
+arrives **at closure, after the band gate and both access gates had fired**. It
+is recorded in Amendment 7 and **may never be described as pre-registered**;
+Section 13 is **left empty permanently**, because a visible gap is a truer record
+than a plausible-looking backfill, and a test now fails if it is filled.
+Recorded because it reframes the closure rather than because it flatters it: at
+5 to 8 percent, **a null was the modal expected outcome from the beginning.**
+
+**The registered closure conditions were never met.** Section 16 provides for H1
+to close when both verdict cells fire BLOCKED with realized MDEs beside them.
+**Neither fired; no MDE exists.** H1 does **not** close under Section 16 at all.
+That is annotated in Section 16, which is otherwise left exactly as registered.
+
+### Task 4 — README.md, and two corrections to the prompt's framing
+
+Rewritten for a cold reader, leading with the question, the answer and the
+reason, with the transferable output moved to the top: **ADR-012 as a procedure**
+(now with its blind spot disclosed), **ADR-015's symmetry of convenience**, **the
+self-audit that convicted this repository's own Stage A finding at two of three
+elements**, and **Stage B's direction correction** placing every registered
+magnitude at 88–95c, where proportional FX is largest.
+
+**Two claims the prompt asked for were not written as asked, and the reasons are
+recorded rather than the claims quietly adjusted:**
+
+1. **"the registered prior"** — it is not registered. The README says **"stated,
+   not pre-registered"** and explains why, as above.
+2. **"no market price was ever read"** — **not accurate.** Stage A's 11 keyless
+   probe requests received **two settled records carrying `last_price_dollars`
+   and `result`**, recorded in `docs/ACCESS.md` since 2026-08-29. The README
+   states that exactly and says instead that **no price series was ever collected
+   and no statistic relating a price to an outcome was ever computed**, which is
+   true. Rounding the first to the second is precisely the class of claim this
+   repository exists to refuse, and doing it in the README would have been the
+   worst possible place.
+
+### Task 5 — pinned, audited, closed
+
+**Thirteen new honesty tests; fourteen mutations, all fourteen load-bearing.**
+The suite fails when the terminal verdict is softened to "unlikely", when the
+BAND-OPEN caveat is stripped, when a reopening condition is dropped, when the
+no-fourth-venue guard is removed, when a pending reply is promoted into a
+reopening, when the route is rewritten as a refusal by Kalshi, when the entity
+decline is reframed as evidence about H1, when the prior is called
+pre-registered, when Section 13 is backfilled, when the closure is passed off as
+Section 16's registered closure, when the price reading is rounded to "never",
+when Stage D's vindicated caveat is deleted, when the procedure's blind spot is
+concealed, and when the correspondence is promoted to an effective-dated
+instrument. All fourteen restore green at **108 tests**.
+
+**The harness ran clean on its first pass, which has not happened before.** Both
+of Entry 9.1's fixes were carried in from the start — it refuses a dirty target,
+and it folds whitespace in the needle before matching — and **zero harness
+faults** were reported against fourteen mutations, where Stage D's first passes
+reported faults on three of eight and then on all five source mutations. The
+hard-wrap fault that appeared three times across Entries 1, 7.1 and 9.1 **did not
+appear a fourth time.** It was fixed in the right place.
+
+**The audit, run over the whole history rather than the working tree.** **32
+commits, 189 reachable objects, every blob decompressed and scanned: zero
+credential-shaped strings.** The only env-shaped path ever added to this
+repository is `.env.example`, which is **294 bytes, five comment lines, and
+contains no `=` at all** — pinned by a test since the scaffold. `LICENSE` is MIT,
+17 lines, `Copyright (c) 2026 kirosli00tuff`. `.gitignore` covers `.env`,
+`.env.*` with `!.env.example`, `*.session`, `data/raw/` and `data/vendor/`.
+
+### What this repository is at the end
+
+**Five stages. Zero dollars. Zero contracts enumerated. Zero market-data requests
+to Polymarket. Zero requests of any kind in Stage E. No price bucket, no
+dispersion, and no statistic relating a price to an outcome, anywhere, ever.**
+
+**BAND-OPEN stands as a cost finding computed from registered constants with no
+calibration measurement behind it, and it must not be written anywhere as
+evidence that an edge exists.** **H1t remains UNTESTED** on three grounds
+including MLCryptoEngine's H2 at **AUC 0.501**.
+
+**And the uncomfortable one, kept in the entry rather than a footnote.** This
+repository was built against NPDExperiment's failure, which was a failure of
+**power**. Five stages here produced **zero coverage figures** — no bucket count,
+no dispersion, from any route. **If an authorization arrived tomorrow the power
+question would still be unanswered.** Following Insider rather than NPD saved 415
+days and every dollar. It did not answer the question the design was built to
+answer, and nothing here should be read as though it had.

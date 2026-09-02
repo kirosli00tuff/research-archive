@@ -678,3 +678,67 @@ should be read in.
 EXISTS-AND-UNTRAVELLED rather than becoming anything that reads as a refusal —
 the same discipline ADR-013 applied to Polymarket, where nothing was requested
 so nothing was refused. Here something was answered and nothing was applied for.
+
+---
+
+## ADR-018. The project closes on access and standing, and the closure is filed as a terminal state rather than a result about H1
+
+**Status:** accepted, 2026-09-02. The closing decision. Recorded as
+REGISTRATION.md Section 15.5 and Amendment 8, with the register updated in
+HYPOTHESES.md and the stage reported in `report.md`.
+
+**Decision: PMExperiment closes. H1 is unmeasurable at this house's standard —
+not disproven, not unlikely, unmeasurable.** Both venues closed on their own
+terms, all three licence candidates failed, and the one route that exists was not
+declined on the merits but is gated on an established legal entity the operator
+does not hold and has decided not to create (ADR-016, ADR-017).
+
+**The decision this ADR exists to record is the category of the ending.** Five
+stages produced **no contract, no price bucket, no dispersion and no statistic
+relating a price to an outcome.** An ending with no measurement in it can be
+filed two ways, and only one of them is honest here:
+
+| filing | what it would claim | why it is wrong |
+|---|---|---|
+| **a result about H1** | the effect is absent, or small, or not worth pursuing | **nothing was ever measured against H1.** No such claim has any support in this repository |
+| **a terminal access finding** | the question could not be reached at this house's evidence standard, by this operator, on the routes read | what actually happened |
+
+**It is filed as the second, and the guard is a test.** The terminal verdict, the
+BAND-OPEN caveat and the three reopening conditions are now pinned in
+`README.md`, `REGISTRATION.md` and `HYPOTHESES.md`, verified by **fourteen
+mutations, all fourteen load-bearing** — the suite fails when the verdict is
+softened to "unlikely", when the BAND-OPEN caveat is stripped, when a reopening
+condition is dropped, when the no-fourth-venue guard is removed, when a pending
+reply is promoted into a reopening, when the route is rewritten as a refusal by
+Kalshi, when the entity decline is reframed as evidence about H1, when the prior
+is described as pre-registered, when Section 13 is backfilled, when the closure
+is passed off as Section 16's registered closure, when the price reading is
+rounded to "never", when Stage D's vindicated caveat is deleted, when the
+procedure's blind spot is concealed, and when the correspondence is promoted to
+an effective-dated instrument.
+
+**The registered closure conditions were never met, and the closure does not
+pretend otherwise.** Section 16 provides for H1 to close when **both verdict
+cells fire BLOCKED**, with realized MDEs and their n beside them. **Neither cell
+ever fired.** There is no realized MDE because there is no enumeration to compute
+one from. **H1 does not close under Section 16 at all**; it terminates on access
+and standing, an ending Section 16 did not contemplate. Section 16 is annotated
+to say so and is otherwise left exactly as registered on 2026-08-29, so a reader
+can see the gap between what the design provided for and what happened.
+
+**Consequence for the one number this repository produced.** **BAND-OPEN is a
+cost finding computed from registered constants with no calibration measurement
+behind it, and it must not be written anywhere as evidence that an edge exists.**
+Amendment 2 fixed the band as computed once; no reopening recomputes it, adds a
+bucket to it, or converts it into a result. A reopened measurement starts at the
+power gate over 91–99c held to resolution and nowhere else.
+
+**And the closing observation, which is not comfortable.** This repository was
+built against NPDExperiment's failure, which was a failure of **power** — a
+design that could not have detected an effect anywhere in the range it was
+testing, discovered after 415 days. Five stages here produced **zero coverage
+figures**: no bucket count, no dispersion, from any route. **If an authorization
+arrived tomorrow, the power question would still be unanswered.** Following
+Insider rather than NPD saved 415 days and every dollar; it did not answer the
+question the whole design was built to answer, and nothing in this repository
+should be read as though it had.
