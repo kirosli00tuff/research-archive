@@ -935,3 +935,65 @@ Inc.; or enrolment in the builder program the Terms name; or a Polygon read
 performed through infrastructure that is not a Polymarket Interface, under a
 legal analysis this repository has not done. The third is recorded as an open
 question, **not** as a workaround adopted now.
+
+---
+
+### Amendment 7 — the operator prior arrives at closure, and the entity path is declined
+
+**Made 2026-09-02, after the band gate fired on 2026-08-29 and after both access
+gates fired.** It records two operator statements. **Neither is a measurement,
+and neither is evidence about H1.**
+
+**First, the prior. Section 13 stands empty, and it is left empty
+permanently.**
+
+Section 13, `The operator prior`, reads *"To be filled by the operator before
+the gate fires, and recorded with the date it was given."* It has read that
+since Section 0 was committed on 2026-08-29 and **it was never filled**. The
+operator's prior is now given as **5 to 8 percent** that H1 holds — supplied
+**2026-09-02**, at closure, after two gates had already fired.
+
+**It is recorded here rather than written into Section 13, and that is the
+point.** Filling Section 13 now would put a post-hoc number in the slot the
+registration reserved for a pre-registered one, and the empty slot is a more
+honest record than a filled one. **This prior may not be described anywhere as
+pre-registered, and no verdict in this repository may be read against it as
+though it had been.** It is a **stated** prior, dated at closure.
+
+**Why it is recorded at all, given that.** It is the input to the operator's
+cost decision below, and a decision whose input is unrecorded is not a decision
+a later reader can audit. A prior of 5 to 8 percent also makes a **null the
+modal expected outcome** — which is the frame the closure should be read in, and
+it is worth having on the record even arriving late.
+
+**Second, the entity path is declined. This is a decision, not a discovery.**
+
+Section 15.4 records that the one route which exists is gated on **an established
+legal entity** with formation documents and beneficial-owner verification. Two
+ways to hold one were considered and both are closed by operator decision:
+
+| path | disposition, 2026-09-02 | the operator's stated reason |
+|---|---|---|
+| **institutional sponsorship** through the university | **declined — not achievable in the time available** | the university was consulted; sponsorship could not be arranged before fourth-year term starts |
+| **forming a personal legal entity** | **declined — disproportionate** | the cost is out of proportion to a stated prior of 5 to 8 percent, against a band verdict already recorded as thin |
+
+**"Thin" is a figure, not an impression, and it travels with this row.** The
+surviving region is the top **2.15 of 6.0 points** of the effect band at an entry
+price of 95c on the held route, requiring **5.85 points** at k = 1 against a
+registered band top of **8.00**. Every magnitude any cited source places inside
+that bucket — Bürgi's **2.0** and **3.0** points — **fails** the cost floor of
+**0.0300**, which the 3.0 exactly ties with FX at zero. The band survives on its
+top alone, set by the one source whose n the registration never recorded.
+
+**What this amendment is not, stated so it cannot be misread later.** It is
+**the operator declining a cost. It is not evidence about H1**, in either
+direction. Nothing here says the effect is absent, present, small or large.
+Nothing here is a measurement of any kind: **no contract was enumerated, no
+bucket was built, no dispersion was computed, and no statistic relating a price
+to an outcome exists in this repository.** A later reader who finds this
+amendment and infers a verdict about prediction-market calibration from it has
+misread it.
+
+**And it is not a refusal by Kalshi.** The desk did not decline; **this
+repository declined.** Section 15.4's label is EXISTS-AND-UNTRAVELLED and it
+stays that way.

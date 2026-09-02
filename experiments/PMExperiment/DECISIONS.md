@@ -627,3 +627,54 @@ be false.** The depth finding is an input to power that is now known to be
 obtainable on a route this repository will not travel; **no count, bucket or
 dispersion exists for any Kalshi universe**, so nothing whatever follows from it
 for the power gate, which has still never fired.
+
+---
+
+## ADR-017. The entity path is declined by the operator, and a declined cost is not a finding
+
+**Status:** accepted, 2026-09-02. Recorded as REGISTRATION.md Amendment 7, with
+the route it declines recorded in Section 15.4 and ADR-016.
+
+**Decision: both routes to the established legal entity that a Kalshi Internal
+Use application requires are declined by the operator.** Institutional
+sponsorship through the university was consulted and judged **not achievable
+within the time available**, with fourth-year term starting. Forming a personal
+legal entity was judged **disproportionate** to a stated prior of **5 to 8
+percent** against a band verdict already recorded as thin — the surviving region
+being the top **2.15 of 6.0 points** at 95c, requiring **5.85 points** at k = 1
+against a band top of **8.00**, with every magnitude cited inside that bucket
+failing the **0.0300** cost floor.
+
+**The decision this ADR exists to record is the category, not the outcome.**
+This is **the operator declining a cost. It is not a discovery, and it is not
+evidence about H1.** Every prior closure in this repository — PENDING_ACCESS
+twice, three licence verdicts, BAND-OPEN — rests on a document or on arithmetic
+over registered constants. **This one rests on a person's judgement about their
+own time and money**, and it is filed in a different category deliberately so
+that no later reader collapses the two.
+
+**Why the distinction is worth an ADR rather than a sentence.** A repository
+that closes on access and a repository that closes because its operator stopped
+paying look identical from the outside — both end with no measurement. They are
+not the same finding, and only one of them is a finding at all. **Recording the
+difference is the only thing that keeps the access verdicts meaning what they
+say.** If this ADR were folded into the closure verdict, a later session could
+read the whole project as "the data was unreachable" when the accurate reading is
+"the data was unreachable on the routes read, one route opened, and the operator
+declined the cost of standing up to it."
+
+**The prior is recorded and is explicitly not pre-registered.** Section 13 was
+never filled and is left empty permanently; the 5-to-8-percent figure arrives at
+closure, **after** two gates had fired, and Amendment 7 records that it may never
+be described as pre-registered. **The empty Section 13 is a truer record than a
+filled one**, and this repository would rather carry a visible gap than a
+plausible-looking backfill. It is recorded at all because a cost decision whose
+input is unrecorded cannot be audited — and because a prior of 5 to 8 percent
+makes **a null the modal expected outcome**, which is the frame the closure
+should be read in.
+
+**Consequence: Kalshi did not refuse.** The desk raised no merits objection.
+**This repository declined**, and Section 15.4's label stays
+EXISTS-AND-UNTRAVELLED rather than becoming anything that reads as a refusal —
+the same discipline ADR-013 applied to Polymarket, where nothing was requested
+so nothing was refused. Here something was answered and nothing was applied for.
