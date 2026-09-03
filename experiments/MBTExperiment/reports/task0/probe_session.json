@@ -1,0 +1,28 @@
+{
+  "absent": {
+    "absent": "true",
+    "detail": "MBT_IB_PAPER_CLIENT_ID is unset or empty. Set it in .env, copying the shape from .env.example. This repository holds no default for it, because a default account number or a default port is how a session ends up somewhere nobody chose.",
+    "reason": "not_served"
+  },
+  "at": "2026-09-03T06:53:37.057Z",
+  "command": "probe",
+  "ok": false,
+  "probe": {
+    "accounts_returned": 0,
+    "detail": "no session was established; see the config or connect stage",
+    "handshake_seconds": {
+      "absent": "true",
+      "detail": "no session was established; see the config or connect stage",
+      "reason": "gateway_unreachable"
+    },
+    "probed_at": "2026-09-03T06:53:37.057Z",
+    "provenance": {
+      "absent": "true",
+      "detail": "no session was established; see the config or connect stage",
+      "reason": "gateway_unreachable"
+    },
+    "reachable": false,
+    "tick_delay": "unknown"
+  },
+  "stage": "config"
+}
