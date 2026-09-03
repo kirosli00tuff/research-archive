@@ -165,32 +165,45 @@ number of survivors, top three method improvements, next action.`
 
 async function batched(items, fn) { const out = []; for (let i = 0; i < items.length; i += BATCH) { const res = await parallel(items.slice(i, i + BATCH).map(it => () => fn(it))); out.push(...res) } return out }
 
+// Disk-state driven skipping (see agentA-blind.workflow.js): tools/agent_state.py <proposals> --agent D
+// passes {d1_done, d1_merge_done, d2_done, d2_rank_done, d3_gen_done, d3_screen_done, d45_done}.
+const ST = args || {}
+const D1_DONE = new Set(ST.d1_done || [])
+const D2_DONE = new Set(ST.d2_done || [])
+const D3_DONE = new Set(ST.d3_gen_done || [])
+const slug = a => a.replace(/[^a-z0-9]+/gi, '_').toLowerCase()
+const onDisk = (label) => { log(`${label}: on disk, skipped`); return Promise.resolve({ on_disk: true }) }
 phase('D1 Constraints')
-const d1 = await batched(REPOS, r => agent(d1Prompt(r), { model: 'opus', label: `D1:${r}`, phase: 'D1 Constraints', schema: D1_SCHEMA }))
+const d1 = await batched(REPOS, r => D1_DONE.has(r) ? onDisk(`D1:${r}`) : agent(d1Prompt(r), { model: 'opus', label: `D1:${r}`, phase: 'D1 Constraints', schema: D1_SCHEMA }))
 if (d1.filter(Boolean).length < REPOS.length) { log('D1 extraction incomplete; resume after the limit resets'); return { incomplete: 'D1' } }
-const d1m = await agent(D1_MERGE, { label: 'D1-merge', phase: 'D1 Constraints' })
+const d1m = ST.d1_merge_done ? await onDisk('D1-merge') : await agent(D1_MERGE, { label: 'D1-merge', phase: 'D1 Constraints' })
 if (!d1m) return { incomplete: 'D1-merge' }
 
 phase('D2 Method')
 const angles2 = ['registration template and guard set', 'statistics, power and interval conventions', 'process, amendments, calibration and audit']
-const d2 = await batched(angles2, a => agent(d2Prompt(a), { label: `D2:${a.slice(0, 20)}`, phase: 'D2 Method' }))
+const d2 = await batched(angles2, a => D2_DONE.has(slug(a)) ? onDisk(`D2:${slug(a)}`) : agent(d2Prompt(a), { label: `D2:${a.slice(0, 20)}`, phase: 'D2 Method' }))
 if (d2.filter(Boolean).length < angles2.length) return { incomplete: 'D2' }
-const d2r = await agent(D2_RANK, { label: 'D2-rank', phase: 'D2 Method' })
+const d2r = ST.d2_rank_done ? await onDisk('D2-rank') : await agent(D2_RANK, { label: 'D2-rank', phase: 'D2 Method' })
 if (!d2r) return { incomplete: 'D2-rank' }
 
 phase('D3 Hypotheses')
 const angles3 = ['microstructure and cost-structure driven', 'calendar, event and announcement driven', 'cross-asset, basis and funding driven', 'data-availability driven (what the program can measure that others cannot)', 'findings-motivated (untested variants, expired blockers, alternative endpoints named in the frozen findings)']
-const gens = await batched(angles3, a => agent(d3GenPrompt(a), { label: `D3-gen:${a.slice(0, 20)}`, phase: 'D3 Hypotheses' }))
+const gens = await batched(angles3, a => D3_DONE.has(slug(a)) ? onDisk(`D3-gen:${slug(a)}`) : agent(d3GenPrompt(a), { label: `D3-gen:${a.slice(0, 20)}`, phase: 'D3 Hypotheses' }))
 if (gens.filter(Boolean).length < angles3.length) return { incomplete: 'D3-gen' }
 // collect candidate ids from the json files via a small agent (script has no fs access)
 const CAND_SCHEMA = { type: 'object', properties: { candidates: { type: 'array', items: { type: 'object', properties: { id: { type: 'string' }, statement: { type: 'string' }, file: { type: 'string' } }, required: ['id','statement','file'] } } }, required: ['candidates'] }
-const cl = await agent(`Read every json file under ${OUT}/D3_candidates/ and return the list of candidates: id, statement, and the md file path that holds the full block (same basename, .md). Do not write anything.`, { model: 'opus', label: 'D3-collect', phase: 'D3 Hypotheses', schema: CAND_SCHEMA })
-if (!cl) return { incomplete: 'D3-collect' }
-const screens = await batched(cl.candidates, c => agent(screenPrompt(c), { label: `D3-screen:${c.id}`, phase: 'D3 Hypotheses', schema: SCREEN_SCHEMA }))
-const sv = screens.filter(Boolean)
-const writer = await agent(`Write ${OUT}/D3_screening.json containing exactly this JSON array (verbatim) and return "ok": ${JSON.stringify(sv)}`, { model: 'opus', label: 'D3-screen-write', phase: 'D3 Hypotheses' })
-if (!writer) return { incomplete: 'D3-screen-write' }
+let cl = { candidates: [] }, sv = []
+if (ST.d3_screen_done) {
+  log('D3 screening on disk, skipped')
+} else {
+  cl = await agent(`Read every json file under ${OUT}/D3_candidates/ and return the list of candidates: id, statement, and the md file path that holds the full block (same basename, .md). Do not write anything.`, { model: 'opus', label: 'D3-collect', phase: 'D3 Hypotheses', schema: CAND_SCHEMA })
+  if (!cl) return { incomplete: 'D3-collect' }
+  const screens = await batched(cl.candidates, c => agent(screenPrompt(c), { label: `D3-screen:${c.id}`, phase: 'D3 Hypotheses', schema: SCREEN_SCHEMA }))
+  sv = screens.filter(Boolean)
+  const writer = await agent(`Write ${OUT}/D3_screening.json containing exactly this JSON array (verbatim) and return "ok": ${JSON.stringify(sv)}`, { model: 'opus', label: 'D3-screen-write', phase: 'D3 Hypotheses' })
+  if (!writer) return { incomplete: 'D3-screen-write' }
+}
 
 phase('D4-D5 Verdict')
-const d45 = await agent(D4_D5, { label: 'D4-D5', phase: 'D4-D5 Verdict' })
+const d45 = ST.d45_done ? await onDisk('D4-D5') : await agent(D4_D5, { label: 'D4-D5', phase: 'D4-D5 Verdict' })
 return { d1: d1.filter(Boolean).length, d2: typeof d2r === 'string' ? d2r.slice(0, 1500) : d2r, candidates: cl.candidates.length, survivors: sv.filter(s => s.overall === 'SURVIVES').map(s => s.id), screened_out: sv.filter(s => s.overall !== 'SURVIVES').map(s => `${s.id}:${s.failing_gate}`), d45: typeof d45 === 'string' ? d45.slice(0, 3000) : d45 }

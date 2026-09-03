@@ -5,6 +5,7 @@ Usage: tools/agent_state.py <outdir> --ledger reopen|positives   (agents A and B
        tools/agent_state.py <outdir> --agent C                  (agent C blind chain)
        tools/agent_state.py <outdir> --seeded                   (seeded checks, any agent)
        tools/agent_state.py <adjdir> --adjudication             (agent C adjudication)
+       tools/agent_state.py <proposals-dir> --agent D            (agent D proposals)
 
 Output: {"done_repos": [...], "done_parts": {repo: [part, ...]}, "leads": ["repo: lead", ...]}
 Passed verbatim as `args` to the agent's workflow script, which then skips completed work.
@@ -123,7 +124,27 @@ def adjudication_state(adjdir):
     return {'done_repos': done, 'rules_done': {k: sorted(v) for k, v in partial.items()}}
 
 
+def d_state(outdir):
+    """Agent D: D1 per repo + merge, D2 per angle + rank, D3 generators + screening, D4-D5."""
+    def js(*parts):
+        return os.path.isfile(os.path.join(outdir, *parts))
+    def slugs(sub, suf):
+        d = os.path.join(outdir, sub)
+        return sorted(f[:-len(suf)] for f in os.listdir(d) if f.endswith(suf)) if os.path.isdir(d) else []
+    return {
+        'd1_done': [r for r in slugs('D1_constraints', '.json') if js('D1_constraints', r + '.md')],
+        'd1_merge_done': js('D1_CONSTRAINTS.md') and js('D1_CONSTRAINTS.json'),
+        'd2_done': slugs('D2_method', '.md'),
+        'd2_rank_done': js('D2_METHOD.md'),
+        'd3_gen_done': [a for a in slugs('D3_candidates', '.json') if js('D3_candidates', a + '.md')],
+        'd3_screen_done': js('D3_screening.json'),
+        'd45_done': js('RECOMMENDATION.md') and js('D4_VERDICT.md') and js('D3_HYPOTHESES.md'),
+    }
+
+
 def main():
+    if len(sys.argv) >= 4 and sys.argv[2] == '--agent' and sys.argv[3] == 'D':
+        print(json.dumps(d_state(sys.argv[1]), indent=1)); return
     if len(sys.argv) >= 3 and sys.argv[2] == '--adjudication':
         print(json.dumps(adjudication_state(sys.argv[1]), indent=1)); return
     if len(sys.argv) >= 3 and sys.argv[2] == '--seeded':
