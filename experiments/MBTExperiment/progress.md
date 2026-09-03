@@ -6,6 +6,160 @@ re-quotes them from measurement afterward. Every stage prompt is logged here
 
 ---
 
+## Stage B closed HARNESS-BLOCKED, 2026-09-03. The known-answer test never ran.
+
+**HARNESS-BLOCKED, 3 of 4 registered conditions held.** The harness builds, all
+five guards fire under mutation, and the census is armed with its projected
+completion date. **The known-answer test did not run**, because no Gateway
+session exists, so the what-if reader has never reproduced an independently
+checkable margin and its MBT output is not trusted. That is the binding
+condition, and it is the registered one rather than a substitute.
+
+**A blocked result was an expected outcome here and is a fully acceptable one.**
+No threshold was softened, no friendlier spread source substituted, no refused
+window dropped to reach twenty, no paper figure promoted into a gate, and the
+premium basis was fixed before any spread existed and was not reselected.
+
+### The numbers
+
+| figure | value | n |
+|---|---|---|
+| stage verdict | **HARNESS-BLOCKED** | 3 of 4 conditions held |
+| MARGIN gate | **ABSENT**, `no_live_session` | n = 0 live sessions |
+| COST gate | **ABSENT**, `insufficient_sample` | n = 0 of 20 windows |
+| registered COST ceiling | **34.600 bps** of notional | from 112.72 bps at n = 491 |
+| ceiling not selected, kept visible | 49.610 bps | from 142.740 bps at n = 1,955 |
+| MARGIN ceiling | $1,000/contract, 12.80% of $7,812.46 | quoted, not re-derived |
+| IB Gateway reachability | **0 reachable** | n = 13 TCP attempts, 3 probes |
+| exchange and regulatory fee | **`Absent(not_served)`** | n = 3 independent reasons |
+| census windows | **0 accepted, 0 refused** | of 20 required |
+| census duration once begun | **5 collection days** | fixed by the distinctness rule |
+| guards demonstrated by provoked refusal | **28 refusals** | n = 5 guards |
+| registered mutations behaving as registered | **5 of 5** | 0 failures |
+| boundary digest, open vs close | **identical**, manifests byte-identical | 2,901 entries, 324,887,193 bytes |
+| suite at close | **159 passed** | mypy strict clean, 29 files |
+
+### What fired, and why
+
+**Nothing fired. Both gates are ABSENT and both are recorded with their reasons
+rather than omitted from the verdict table.**
+
+**MARGIN** is `Absent(no_live_session)`. A margin is a property of the account and
+needs a U-prefixed session. It was registered as unfireable in this stage in
+Section 0.3, before any measurement, so this is the registered state rather than
+a shortfall against a target.
+
+**COST** is `Absent(insufficient_sample)` at 0 of 20 windows, and it carries a
+second block that survives the first. The fee leg is `Absent(not_served)`, so the
+all-in sum cannot be formed at all, and the gate falls back to the measured legs
+as a strict lower bound. **A lower bound can FAIL and can never PASS.** So both
+gates are blocked from PASS for independent reasons and the terminal state is
+over-determined: **fixing the Gateway alone would not change the verdict.**
+
+### The one defect worth carrying forward
+
+**The mutation harness found a hole in Guard 1 that nothing else found.** The
+package's only order construction went through an injected class, so the call
+site read `order_cls(...)` and sat outside the scan's constructor list. Flipping
+`whatIf` to `False` there changed nothing. **Review, `mypy --strict`, `ruff` and
+156 passing tests had all missed it.** Both fixes were kept: the site constructs
+`Order` directly, and the scan now keys on the `whatIf` argument rather than on
+the callee name. ADR-009.
+
+### ETAs, re-quoted from the log against their up-front figures
+
+| task | ETA stated up front | actual | outcome |
+|---|---|---|---|
+| 0 orientation and probes | 20 min | **1.2 min** | 17× fast |
+| 1 scaffold and five guards | 70 min | **16.2 min** | 4× fast |
+| 2 registration Section 0 | 30 min | **3.5 min** | 9× fast |
+| 3 registration Sections 1+ | 40 min | **0.8 min** | 50× fast |
+| 4 paper harness | **SKIPPED, declared blocked up front** | 3.3 min to record the block | **skipped, named as skipped** |
+| 5 bid-ask census | **clock-bound, not effort-bound** | 1.2 min to arm | 5 collection days once begun |
+| 6 fee leg | 15 min | **1.0 min** | 15× fast |
+| 7 fire the gates | 20 min | **1.0 min** | 20× fast |
+| 8 five mutations | 35 min | **2.7 min** | 13× fast |
+| 9 documents and closing checks | 40 min | in this entry | n/a |
+
+**Every effort-bound ETA was wrong in the same direction by roughly an order of
+magnitude, and the reason is locatable because the assumption was named.** The
+ETAs rested on "the authoring rate measured writing `tools/boundary_hash.py` and
+`tools/probe_gateway.py`, two modules of about 130 lines, both correct on the
+first run with no rework."
+
+**The named assumption held. An unnamed one did not.** What was actually measured
+about those two modules is that they needed **no rework**, a correctness
+property. The conversion from that into **minutes** was never measured and was
+substituted from a human-scale estimate of typing and reviewing time. So the
+error sits entirely in the unmeasured step, which is exactly where naming the
+assumption was supposed to leave it.
+
+**Task 3's 50× miss is the clearest case.** Its ETA assumed "fixing a rule costs
+about twice transcribing one", which is an *effort* claim. Effort and wall clock
+did not map onto each other at all, because both transcription and rule-fixing
+resolved to a single document write.
+
+**Task 4's ETA was declared SKIPPED up front**, not estimated and missed. It is
+named as skipped here rather than smoothed over. Recording the block still cost
+3.3 minutes, which was itself unestimated.
+
+**The one ETA that held is the clock-bound one.** Task 5 was stated as 5
+collection days minimum, derived from the registered rule rather than from an
+authoring rate, and that figure is unchanged: it is a property of the rule and no
+effort compresses it.
+
+### Boundary and neighbours
+
+**The VRPExperiment boundary is unchanged.** Hashed before any work and again at
+closure: 2,901 entries, 324,887,193 bytes, 0 unreadable paths, **both digests
+identical and the two manifests byte-identical**. Its working tree is clean and
+its HEAD is unchanged at `d37cf6d`. It was read as text and never written.
+
+**No systemd unit was installed by this stage and no timer was touched.** No unit
+file anywhere references MBTExperiment. The three protected timers keep their
+enablement symlinks in `timers.target.wants/`, dated 2026-07-29 and 2026-08-27
+and **unchanged by this stage**. `Linger=yes` is confirmed via `loginctl`.
+
+**One honest gap in that check.** `systemctl --user` could not reach the user
+scope bus from this session, so the **enabled and active runtime state of the
+three timers is `Absent(no_user_bus)`** rather than verified. The on-disk
+enablement is verified; the running state is not, and it is recorded as unchecked
+rather than claimed.
+
+**One timer did appear inside the session window and it is not this stage's.**
+`claude-auto-retry-reconcile.timer`, created 2026-09-02 23:51 PDT against a
+session that began 23:26 PDT, belongs to the third-party `claude-auto-retry` npm
+tool, executes `node .../claude-auto-retry/bin/cli.js reconcile`, and carries
+**zero references to MBTExperiment**. This stage ran no `systemctl` command that
+mutates anything and wrote nothing under `~/.config/systemd`.
+
+**NPLExperiment was not disturbed**: no file modified on 2026-09-03, and its H2
+collection continues toward its 2026-11-26 look. **`news_experiment.db` was never
+opened**: last access 2026-09-02 17:18, before this session began.
+
+**No `.env` was written anywhere outside this repository.** No `.env` under
+`~/Documents/GitHub` has an mtime inside the session window, and VRPExperiment has
+no `.env` at all, only an empty `.env.example` dated 2026-08-29.
+
+### Open operator items
+
+1. **The live margin read.** Needs a U-prefixed session. Blocked by the
+   non-functioning internal fans and by the absence of a live profile for this
+   project. Lifting the paper-only clause is an operator edit to `CLAUDE.md`,
+   never a flag. **The harness needs no change to accept it.**
+2. **`MBT_IB_PAPER_CLIENT_ID` is unset in `.env`.** The config guard refuses
+   before opening a socket and names the variable.
+3. **IB Gateway is not running.** Release 10.45 is installed and configured for
+   paper. No IBC exists, so it starts only through an interactive IBKR login.
+4. **The known-answer expected margin** is an operator input, read by a person,
+   because CME's Data Terms of Use refusal binds automated access.
+
+Items 2 and 3 unblock the census and the known-answer test. **Item 1 is the only
+one that unblocks the MARGIN gate.**
+
+---
+
+
 ## Stage B prompt, logged verbatim on receipt, 2026-09-02
 
 Logged before any other file was touched, per `CLAUDE.md`. Working directory was

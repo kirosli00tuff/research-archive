@@ -2,8 +2,10 @@
 
 **Two venue facts, measured. No premium, no order, no position.**
 
-Status: **Stage A.1 not yet run.** Scaffold and operating manual only. No
-registration exists, nothing has been measured, and no claim is made here.
+Status: **Stage B closed HARNESS-BLOCKED, 2026-09-03.** The harness is built,
+the registration is written, and the five guards fire under mutation. **No margin
+was read and no spread was measured**, because no IB Gateway session exists. See
+`FINDINGS.md` for every figure with its `n`, and `progress.md` for the run log.
 
 ---
 
@@ -51,23 +53,40 @@ The stage therefore terminates at **HARNESS-READY** or **HARNESS-BLOCKED**, neve
 at HARVESTABLE-CONFIRMED, and the live margin read becomes a named open operator
 item rather than a missing number.
 
+**Stage B reached HARNESS-BLOCKED on 3 of 4 conditions.** The binding one is the
+known-answer test: the what-if reader has never reproduced an independently
+checkable margin, so its output is not trusted. Two further items block the
+census: `MBT_IB_PAPER_CLIENT_ID` is unset, and IB Gateway is not running.
+
+**The registered COST ceiling is 34.600 bps, not 49.610.** Section 0.6 fixed the
+premium basis on the most recent quarter before any spread was measured, because
+the BTC premium decays monotonically across all four quarters (284.53 → 250.59 →
+145.13 → 112.72 bps, a 60.4% fall, n = 1,955). Both ceilings stay registered so
+the choice is visible.
+
 ## Commands
 
 ```bash
-make install           # uv sync + pre-commit hooks
-make all               # lint, typecheck, test
-make guards            # the structural guards, including the no-transmit scan
-make a1-probe          # PAPER  connect, verify permission, record provenance
-make a1-chain          # PAPER  resolve the ATM 30-day straddle
-make a1-whatif-paper   # PAPER  margin read, development only
-make a1-census         # PAPER  one bid-ask window; clock-bound to 20
-make a1-gates          # offline, fires MARGIN and COST from recorded figures
+make install       # uv sync + pre-commit hooks
+make all           # lint, typecheck, no-transmit scan, test
+make guards        # the structural guards alone
+make no-transmit   # guard one alone: the AST walk over the package
+make mutations     # the five registered mutations, applied to real source
+make b-probe       # PAPER  connect, read the account back, record provenance
+make b-census      # PAPER  append one bid-ask window; clock-bound to 20
+make b-gates       # offline, fires what can be fired and records what cannot
+make b-whatif-live # REFUSES: the paper-only clause is in force
 ```
+
+`uv run python -m mbt.cli verdict` recomputes the stage verdict from the recorded
+artifacts, so it changes the moment a condition is met.
 
 ## Read next
 
-`CLAUDE.md` for the contract and the boundaries, `REGISTRATION.md` once Stage
-A.1 writes it, `progress.md` for the stage record.
+`FINDINGS.md` for every claim with its `n`. `REGISTRATION.md` for what was
+registered and when. `CLAUDE.md` for the contract and the boundaries.
+`DECISIONS.md` for the nine ADRs. `progress.md` for the run log and the ETAs
+re-quoted against their up-front figures.
 
 MIT licensed. **Not financial advice.** The premium this route would harvest is
 payment for bearing crash risk. VRPExperiment measured the payment and states
