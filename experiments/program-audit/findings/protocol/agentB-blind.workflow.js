@@ -274,7 +274,7 @@ async function repoChain(rp) {
   if (partsDone.size) log(`${rp.repo}: reader draft(s) on disk for ${[...partsDone].join(', ')}, skipped`)
   const drafts = await parallel(rp.parts.map(p => () => partsDone.has(p.part)
     ? Promise.resolve('on-disk')
-    : agent(readerPrompt(rp.repo, p.part, p.docs, rp.parts.length), { label: `B-read:${rp.repo}:${p.part}`, phase: 'Read' })))
+    : agent(readerPrompt(rp.repo, p.part, p.docs, rp.parts.length), { model: 'opus', label: `B-read:${rp.repo}:${p.part}`, phase: 'Read' })))
   const r = { repo: rp.repo, parts, drafts: drafts.filter(Boolean).length }
   if (r.drafts < rp.parts.length) { log(`${rp.repo}: ${r.drafts}/${rp.parts.length} readers completed; consolidation deferred to a resume`); return { ...r, consolidated: null, applied: null } }
   if (r.repo in CONSOLIDATED) log(`${r.repo}: consolidated output on disk (${CONSOLIDATED[r.repo]} findings), consolidate skipped`)

@@ -243,8 +243,8 @@ async function repoChain(repo) {
   if (st.inventory) log(`${repo}: inventory on disk, locate skipped`)
   if (!inv) return { repo, stage: 'locate-failed' }
   const [ver, prov] = await parallel([
-    () => st.verification ? Promise.resolve('on-disk') : agent(verifyPrompt(repo, inv), { label: `C-verify:${repo}`, phase: 'Verify' }),
-    () => st.provenance ? Promise.resolve('on-disk') : agent(provenancePrompt(repo, inv), { label: `C-provenance:${repo}`, phase: 'Provenance' }),
+    () => st.verification ? Promise.resolve('on-disk') : agent(verifyPrompt(repo, inv), { model: 'opus', label: `C-verify:${repo}`, phase: 'Verify' }),
+    () => st.provenance ? Promise.resolve('on-disk') : agent(provenancePrompt(repo, inv), { model: 'opus', label: `C-provenance:${repo}`, phase: 'Provenance' }),
   ])
   if (!ver || !prov) return { repo, stage: 'verify-or-provenance-failed', ver: !!ver, prov: !!prov }
   const c = st.consolidated

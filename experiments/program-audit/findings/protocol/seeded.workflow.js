@@ -206,14 +206,14 @@ log(`triage done for ${tri.length}/13 repos`)
 if (tri.length < REPOS.length) { log('triage incomplete; stop here and resume after the limit resets'); return { triage: tri, incomplete: true } }
 
 phase('Checks')
-const c3 = await batched(REPOS, r => CHECK3_DONE.has(r) ? onDisk(`check3:${r}`) : agent(check3Prompt(r), { label: `${AGENT}-check3:${r}`, phase: 'Checks' }))
+const c3 = await batched(REPOS, r => CHECK3_DONE.has(r) ? onDisk(`check3:${r}`) : agent(check3Prompt(r), { model: 'opus', label: `${AGENT}-check3:${r}`, phase: 'Checks' }))
 const c12 = await parallel([
-  () => CHECKS_DONE.has(1) ? onDisk('check1') : agent(checkPrompt(1, 'multiplicity', CHECK1), { label: `${AGENT}-check1`, phase: 'Checks' }),
-  () => CHECKS_DONE.has(2) ? onDisk('check2') : agent(checkPrompt(2, 'endpoint independence', CHECK2), { label: `${AGENT}-check2`, phase: 'Checks' }),
+  () => CHECKS_DONE.has(1) ? onDisk('check1') : agent(checkPrompt(1, 'multiplicity', CHECK1), { model: 'opus', label: `${AGENT}-check1`, phase: 'Checks' }),
+  () => CHECKS_DONE.has(2) ? onDisk('check2') : agent(checkPrompt(2, 'endpoint independence', CHECK2), { model: 'opus', label: `${AGENT}-check2`, phase: 'Checks' }),
 ])
 const c45 = await parallel([
-  () => CHECKS_DONE.has(4) ? onDisk('check4') : agent(checkPrompt(4, 'carried vs measured', CHECK4), { label: `${AGENT}-check4`, phase: 'Checks' }),
-  () => CHECKS_DONE.has(5) ? onDisk('check5') : agent(checkPrompt(5, 'calibration', CHECK5), { label: `${AGENT}-check5`, phase: 'Checks' }),
+  () => CHECKS_DONE.has(4) ? onDisk('check4') : agent(checkPrompt(4, 'carried vs measured', CHECK4), { model: 'opus', label: `${AGENT}-check4`, phase: 'Checks' }),
+  () => CHECKS_DONE.has(5) ? onDisk('check5') : agent(checkPrompt(5, 'calibration', CHECK5), { model: 'opus', label: `${AGENT}-check5`, phase: 'Checks' }),
 ])
 const c3merge = ST.c3merge_done ? await onDisk('check3-merge') : await agent(`First run: cat ${RULES_PATH}   and follow every rule in it.
 ${ROLE}
@@ -228,7 +228,7 @@ const missing = [c3.filter(Boolean).length < REPOS.length ? 'check3' : null, c12
 if (missing.length) { log(`checks incomplete: ${missing.join(', ')}; resume after the limit resets`); return { incomplete: true, missing } }
 
 phase('Propagation')
-const c6 = CHECKS_DONE.has(6) ? await onDisk('check6') : await agent(checkPrompt(6, 'cross repository propagation', CHECK6), { label: `${AGENT}-check6`, phase: 'Propagation' })
+const c6 = CHECKS_DONE.has(6) ? await onDisk('check6') : await agent(checkPrompt(6, 'cross repository propagation', CHECK6), { model: 'opus', label: `${AGENT}-check6`, phase: 'Propagation' })
 
 return {
   triage: tri.map(t => ({ repo: t.repo, ci: t.confidence_intervals, corr: t.corrections, coprim: t.co_primary_declarations, carried: t.carried_figures, priors: t.prior_records, ledger: t.calibration_ledger_exists })),

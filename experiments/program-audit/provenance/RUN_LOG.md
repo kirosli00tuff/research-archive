@@ -187,3 +187,14 @@ NPDExperiment: [all]}; consolidated = {InsiderExperiment: 7, NPDExperiment: 4}; 
 provenance/launch-args/agentA-run8.args.json. Cleanliness check "01-agentA-blind-run8-BEFORE" (19:06Z):
 only the pre-existing entries. Task id w5e6202dj. Batches (BATCH = 2, smallest first): Insider/NPD
 verify+apply, then the nine unread repositories in ORDER.
+
+## 2026-09-03 19:08Z–19:27Z — Agent A blind pass, run 8 outcome (STOPPED by operator model-budget instruction)
+Task w5e6202dj (wf_c79bd45f-a47). Batch 1 completed and is banked: InsiderExperiment verifiers 1 and 2
+and applier (kept 3, corrected 4, dropped 0; IDs -1..-7 unchanged) and NPDExperiment verifiers 1 and 2
+and applier (kept 0, corrected 4, dropped 0; IDs -1..-4 unchanged), all Opus. Batch 2 had started the
+VRPExperiment and ETFExperiment readers on Fable at ~19:23Z when the operator wrote "im already at 80%
+fable limit weekly ... use fable sparingly please"; the run was stopped at 19:27Z with those two readers
+about three minutes in and nothing written to disk by them (no draft files). MODEL_POLICY.md revision 2
+records the new allocation: explicit Opus on every agent except A-cross-repo, B-cross-repo and D4-D5.
+All five workflow scripts patched and syntax-checked. Cleanliness check
+"01-agentA-blind-run8-stopped-AFTER": only the pre-existing entries.

@@ -97,11 +97,11 @@ async function repoChain(repo) {
   const rd = new Set(RULES_DONE[repo] || [])
   if (rd.size) log(`${repo}: rule ${[...rd].join('/')} partial(s) on disk, skipped`)
   const [a, b] = await parallel([
-    () => rd.has('A') ? Promise.resolve('on-disk') : agent(rulePrompt(repo, 'A'), { label: `C-rule-A:${repo}`, phase: 'Rule' }),
-    () => rd.has('B') ? Promise.resolve('on-disk') : agent(rulePrompt(repo, 'B'), { label: `C-rule-B:${repo}`, phase: 'Rule' }),
+    () => rd.has('A') ? Promise.resolve('on-disk') : agent(rulePrompt(repo, 'A'), { model: 'opus', label: `C-rule-A:${repo}`, phase: 'Rule' }),
+    () => rd.has('B') ? Promise.resolve('on-disk') : agent(rulePrompt(repo, 'B'), { model: 'opus', label: `C-rule-B:${repo}`, phase: 'Rule' }),
   ])
   if (!a || !b) return { repo, stage: 'rule-failed', a: !!a, b: !!b }
-  const rec = await agent(reconcilePrompt(repo), { label: `C-reconcile:${repo}`, phase: 'Reconcile', schema: RECONCILE_SCHEMA })
+  const rec = await agent(reconcilePrompt(repo), { model: 'opus', label: `C-reconcile:${repo}`, phase: 'Reconcile', schema: RECONCILE_SCHEMA })
   return { repo, stage: rec ? 'done' : 'reconcile-failed', rec }
 }
 
