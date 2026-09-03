@@ -238,6 +238,97 @@ def cmd_census(args: argparse.Namespace) -> int:
     return 0 if payload["ok"] else 1
 
 
+def cmd_straddle(args: argparse.Namespace) -> int:
+    """PAPER. Resolve the registered ATM 30-day straddle from the live chain.
+
+    **Every registered rule is applied as written.** The at-the-money reference
+    is the midpoint of the MBT front future's touch, the tenor is measured to the
+    expiry's settlement instant, and the whole straddle is refused if the
+    future's quote is refused for any of the reasons in Section 3.4. That last
+    clause is registered and is obeyed rather than worked around: no reference
+    price means no at-the-money strike, and one is never substituted.
+    """
+    from mbt.chain import resolve_straddle
+    from mbt.collect import enumerate_series, front_future
+    from mbt.probe import sample_leg
+
+    config = GatewayConfig.load(Environment(args.env))
+    from ib_async import IB
+
+    ib = IB()
+    errors: list[str] = []
+    ib.errorEvent += lambda reqId, code, msg, contract: errors.append(
+        f"reqId={reqId} code={code} {msg[:180]}"
+    )
+    ib.connect(config.host, config.port, clientId=config.client_id, timeout=20)
+    try:
+        accounts = list(ib.managedAccounts())
+        provenance = SessionProvenance.from_connection(
+            declared=Environment(args.env),
+            connected_account=accounts[0],
+            client_id=config.client_id,
+            host=config.host,
+            port=config.port,
+        )
+        at = utc_now()
+        future = front_future(ib)
+        series = enumerate_series(ib, at)
+
+        ib.reqMarketDataType(1)
+        if isinstance(future, Absent):
+            reference_row: object = future.as_row()
+            resolved: object = future.as_row()
+        else:
+            raw, screened = sample_leg(
+                ib,
+                future,
+                "future_hedge",
+                subscription_note="reqMarketDataType(1) requested for the ATM reference",
+            )
+            reference_row = raw.as_row()
+            if isinstance(screened, Absent):
+                resolved = screened.as_row()
+            else:
+                nearest = min(
+                    series, key=lambda s: abs(s.expiry.days_to_expiry(at) - TENOR_TARGET_DAYS)
+                )
+                outcome = resolve_straddle(
+                    [s.expiry for s in series], list(nearest.strikes), screened, at
+                )
+                resolved = outcome.as_row()
+
+        payload = {
+            "command": "straddle",
+            "at": iso_utc(utc_now(), "cmd_straddle"),
+            "environment": str(provenance.measured),
+            "registered_rules_applied": {
+                "atm_reference": "the midpoint of the MBT front future's touch (Section 3.1)",
+                "atm_strike": "nearest listed strike, ties to the LOWER strike (Section 3.2)",
+                "tenor": (
+                    "listed expiry nearest 30 days measured to the SETTLEMENT "
+                    "INSTANT, ties to the LONGER tenor (Section 3.3)"
+                ),
+                "refusal": (
+                    "if the future's quote is refused for any reason in Section "
+                    "3.4, the whole straddle is refused (Section 3.1)"
+                ),
+            },
+            "front_future": (
+                future.localSymbol if not isinstance(future, Absent) else future.as_row()
+            ),
+            "series_listed": len(series),
+            "reference_quote": reference_row,
+            "straddle": resolved,
+            "resolved": not (isinstance(resolved, dict) and resolved.get("absent") == "true"),
+            "broker_errors": errors,
+        }
+    finally:
+        ib.disconnect()
+
+    _emit(payload, REPORTS / "task3" / "straddle.json")
+    return 0 if payload["resolved"] else 1
+
+
 def cmd_known_answer(args: argparse.Namespace) -> int:
     """PAPER. Reproduce an independently checkable margin through the MBT path.
 
@@ -449,6 +540,10 @@ def build_parser() -> argparse.ArgumentParser:
     full_p = sub.add_parser("probe-full", help="PAPER. Handshake, permission, feed state")
     full_p.add_argument("--env", default="paper", choices=[e.value for e in Environment])
     full_p.set_defaults(func=cmd_probe_full)
+
+    st_p = sub.add_parser("straddle", help="PAPER. Resolve the registered ATM 30-day straddle")
+    st_p.add_argument("--env", default="paper", choices=[e.value for e in Environment])
+    st_p.set_defaults(func=cmd_straddle)
 
     ka_p = sub.add_parser("known-answer", help="PAPER. Reproduce a checkable margin")
     ka_p.add_argument("--env", default="paper", choices=[e.value for e in Environment])

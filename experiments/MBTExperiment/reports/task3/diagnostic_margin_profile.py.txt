@@ -1,0 +1,53 @@
+"""DIAGNOSTIC, OUTSIDE THE PACKAGE. Paper margin across LISTED strikes.
+
+No reference price is used, so no registered rule is exercised and no straddle is
+resolved. Every order carries whatIf=True as a literal. Open orders, trades,
+positions and fills are enumerated afterwards to prove nothing was placed."""
+import asyncio, json, sys, time
+sys.path.insert(0, "src")
+from mbt.config import GatewayConfig
+from mbt.provenance import Environment
+from ib_async import IB, FuturesOption, Order
+
+cfg = GatewayConfig.load(Environment.PAPER)
+ib = IB(); errs=[]
+ib.errorEvent += lambda i,c,m,ct: errs.append((c, m[:110]))
+ib.connect(cfg.host, cfg.port, clientId=cfg.client_id, timeout=20)
+
+EXPIRY, TCLASS = "20261002", "W1E"
+rows = []
+
+async def main():
+    params = await ib.reqSecDefOptParamsAsync("MBT", "CME", "FUT", 876880632)  # MBTV6
+    strikes = sorted({s for p in params if p.tradingClass == TCLASS for s in p.strikes})
+    lo, hi = 60000, 110000
+    band = [s for s in strikes if lo <= s <= hi]
+    chosen = band[:: max(1, len(band)//8)][:9]
+    print(f"listed strikes at {TCLASS}:{EXPIRY} = {len(strikes)}; sampled {len(chosen)} in [{lo},{hi}]", flush=True)
+    for strike in chosen:
+        for right in ("C", "P"):
+            q = await ib.qualifyContractsAsync(FuturesOption(symbol="MBT",
+                lastTradeDateOrContractMonth=EXPIRY, strike=strike, right=right,
+                exchange="CME", tradingClass=TCLASS, multiplier="0.1"))
+            if not q: continue
+            o = Order(action="SELL", orderType="MKT", totalQuantity=1,
+                      whatIf=True, transmit=True, tif="DAY")
+            assert o.whatIf is True
+            try:
+                st = await asyncio.wait_for(ib.whatIfOrderAsync(q[0], o), 20.0)
+            except asyncio.TimeoutError:
+                continue
+            if isinstance(st, list): continue
+            try: init = float(st.initMarginChange); maint = float(st.maintMarginChange)
+            except ValueError: continue
+            rows.append({"strike": strike, "right": right, "local_symbol": q[0].localSymbol,
+                         "init_margin_usd": round(init,2), "maint_margin_usd": round(maint,2),
+                         "commission_usd": st.commission})
+            print(f"  {right} {strike:>7.0f}  init={init:10.2f}  maint={maint:10.2f}  comm={st.commission}", flush=True)
+    print("\n=== PROOF NOTHING PLACED ===", flush=True)
+    print("  openOrders", len(ib.openOrders()), "trades", len(ib.trades()),
+          "positions", len(ib.positions()), "fills", len(ib.fills()), flush=True)
+    json.dump(rows, open(f"{sys.argv[1]}", "w"), indent=2)
+
+ib.run(main())
+ib.disconnect()
