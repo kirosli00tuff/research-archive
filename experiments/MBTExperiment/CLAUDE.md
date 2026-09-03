@@ -117,9 +117,20 @@ exists to foreclose.
 
 ## Boundaries
 
+**First action of every session: confirm the working directory.** If the path
+contains `/closed/`, or if a `_CLOSED_DO_NOT_RUN_HERE` marker sits at the root,
+**stop, report the path, and take no further action.** Do not write, do not
+commit, do not create a `.env`, do not run `make`. On 2026-09-02 a session was
+opened in VRPExperiment by mistake and got as far as overwriting its `.env`
+before stopping. Nothing was lost, and the check exists so the next one costs
+even less.
+
 Read-only source paths, hashed before and after every stage:
-`~/Documents/GitHub/VRPExperiment/` in full. Nothing in it is written, moved,
-renamed or deleted. Borrow its patterns by copying, never by importing.
+`~/Documents/GitHub/VRPExperiment/` in full, which relocates to
+`~/Documents/GitHub/closed/VRPExperiment/` once `stage_move_closed.sh` runs.
+Resolve it by locating the marker rather than by assuming either path. Nothing
+in it is written, moved, renamed or deleted. Borrow its patterns by copying,
+never by importing.
 
 **Do not re-run VRPExperiment's TASK 6 read.** Its latch is spent and a second
 read of that window voids its hypothesis.
