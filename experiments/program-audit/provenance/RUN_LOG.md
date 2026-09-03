@@ -259,3 +259,8 @@ idle gaps and with fewer orchestrator turns (the orchestrator is Fable and is be
   only the pre-existing entries.
 - Agent C run 1: task wv1y3i6h0 (wf_17777430-12f). Empty state (provenance/launch-args/agentC-run1.args.json);
   every stage on Opus. BEFORE check "03-agentC-blind-run1-BEFORE" (23:54Z): only the pre-existing entries.
+
+## 2026-09-04 00:0xZ — VRPExperiment.json synced to the corrected md (mechanical Opus agent)
+Result: kept 2 (findings 1, 4), corrected 5 (2, 3, 5, 6, 7), dropped 0; AUDIT-A-VRPExperiment-7 S4→S2;
+23 keys with citation_check on every finding; claim quotes verified character-for-character against the md;
+md untouched. VRPExperiment is complete for Agent A.
