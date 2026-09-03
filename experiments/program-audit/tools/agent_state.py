@@ -49,8 +49,9 @@ def parts_done(outdir, repo, ledger):
     return done
 
 
-def leads_from_md(outdir, repo):
-    mp = os.path.join(outdir, f'{repo}.md')
+def leads_from_md(outdir, repo, ledger):
+    """The consolidator writes the leads section into the ledger file (<repo>.reopen.md / <repo>.positives.md)."""
+    mp = os.path.join(outdir, f'{repo}.{ledger}.md')
     if not os.path.isfile(mp):
         return []
     text = open(mp, encoding='utf-8', errors='replace').read()
@@ -160,7 +161,7 @@ def main():
     for r in repos:
         if repo_is_done(outdir, r):
             state['done_repos'].append(r)
-            state['leads'].extend(leads_from_md(outdir, r))
+            state['leads'].extend(leads_from_md(outdir, r, ledger))
         else:
             p = parts_done(outdir, r, ledger)
             if p:
