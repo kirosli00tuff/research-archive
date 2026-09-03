@@ -257,6 +257,7 @@ const STATE = args || {}
 const DONE_REPOS = new Set(STATE.done_repos || [])
 const DONE_PARTS = STATE.done_parts || {}
 const DISK_LEADS = STATE.leads || []
+const LEADS_FILE = STATE.leads_file || '/home/kiros-li/Documents/GitHub/program-audit/provenance/launch-args/agentA-leads.json'
 const CONSOLIDATED = STATE.consolidated || {}   // repo -> n_findings, consolidator done but verify/apply not
 async function repoChain(rp) {
   const parts = rp.parts.map(p => p.part)
@@ -306,6 +307,7 @@ You are Agent A's CROSS-REPOSITORY reader. All thirteen per-repository passes ar
 every reopen ledger ${OUT}/*.reopen.md and every findings file ${OUT}/*.md (these are Agent A's own
 output; you may read them). The consolidators flagged these leads:
 ${leads.length ? leads.map(l => ' - ' + l).join('\n') : ' (none flagged; build your own list from the ledgers)'}
+Also read ${LEADS_FILE}: a JSON array of lead strings accumulated from every consolidator across all runs of this pass; treat it as part of the same list and cover every lead in it.
 
 TASK: for every stated blocker and every registered reopen condition in any repository, determine
 whether a DIFFERENT repository's later, dated work has already met it (an access obtained, a venue

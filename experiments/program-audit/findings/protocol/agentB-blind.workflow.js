@@ -263,6 +263,7 @@ const STATE = args || {}
 const DONE_REPOS = new Set(STATE.done_repos || [])
 const DONE_PARTS = STATE.done_parts || {}
 const DISK_LEADS = STATE.leads || []
+const LEADS_FILE = STATE.leads_file || '/home/kiros-li/Documents/GitHub/program-audit/provenance/launch-args/agentB-leads.json'
 const CONSOLIDATED = STATE.consolidated || {}   // repo -> n_findings, consolidator done but verify/apply not
 async function repoChain(rp) {
   const parts = rp.parts.map(p => p.part)
@@ -311,6 +312,7 @@ You are Agent B's CROSS-REPOSITORY reader. All thirteen per-repository passes ar
 every positives ledger ${OUT}/*.positives.md and every findings file ${OUT}/*.md (Agent B's own
 output; you may read them). The consolidators flagged these leads:
 ${leads.length ? leads.map(l => ' - ' + l).join('\n') : ' (none flagged; build your own list from the ledgers)'}
+Also read ${LEADS_FILE}: a JSON array of lead strings accumulated from every consolidator across all runs of this pass; treat it as part of the same list and cover every lead in it.
 
 TASKS:
  (a) STANDARDS CONSISTENCY: the repositories share a house method (outcome maps, halved effect
