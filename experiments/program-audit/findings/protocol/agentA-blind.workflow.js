@@ -257,6 +257,7 @@ const STATE = args || {}
 const DONE_REPOS = new Set(STATE.done_repos || [])
 const DONE_PARTS = STATE.done_parts || {}
 const DISK_LEADS = STATE.leads || []
+const CONSOLIDATED = STATE.consolidated || {}   // repo -> n_findings, consolidator done but verify/apply not
 async function repoChain(rp) {
   const parts = rp.parts.map(p => p.part)
   if (DONE_REPOS.has(rp.repo)) {
@@ -270,7 +271,10 @@ async function repoChain(rp) {
     : agent(readerPrompt(rp.repo, p.part, p.docs, rp.parts.length), { label: `A-read:${rp.repo}:${p.part}`, phase: 'Read' })))
   const r = { repo: rp.repo, parts, drafts: drafts.filter(Boolean).length }
   if (r.drafts < rp.parts.length) { log(`${rp.repo}: ${r.drafts}/${rp.parts.length} readers completed; consolidation deferred to a resume`); return { ...r, consolidated: null, applied: null } }
-  const c = await agent(consolidatorPrompt(r.repo, r.parts), { model: 'opus', label: `A-consolidate:${r.repo}`, phase: 'Consolidate', schema: CONSOLIDATOR_SCHEMA })
+  if (r.repo in CONSOLIDATED) log(`${r.repo}: consolidated output on disk (${CONSOLIDATED[r.repo]} findings), consolidate skipped`)
+  const c = (r.repo in CONSOLIDATED)
+    ? { n_findings: CONSOLIDATED[r.repo], cross_repo_leads: [], on_disk: true }
+    : await agent(consolidatorPrompt(r.repo, r.parts), { model: 'opus', label: `A-consolidate:${r.repo}`, phase: 'Consolidate', schema: CONSOLIDATOR_SCHEMA })
   if (!c) return { ...r, consolidated: null, applied: null }
   if (c.n_findings === 0) { log(`${r.repo}: no findings to verify`); return { ...r, consolidated: c, applied: null } }
   const [v1, v2] = await parallel([

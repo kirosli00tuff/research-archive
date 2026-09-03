@@ -1,0 +1,44 @@
+{
+ "done_repos": [
+  "HFExperiment",
+  "retail-power-limits"
+ ],
+ "done_parts": {
+  "InsiderExperiment": [
+   "all"
+  ],
+  "NPDExperiment": [
+   "all"
+  ]
+ },
+ "consolidated": {
+  "NPDExperiment": 4
+ },
+ "leads": [
+  "HFExperiment: L1 \u2014 The entire effect-size basis of H-F is imported and unverifiable here.** The 27.99 bp/day,",
+  "HFExperiment: Best guess:* **AiTrader**. Ask there: what n and what interval produced 27.99 bp/day at width 5, and",
+  "HFExperiment: L2 \u2014 Four registered reopen conditions point at AiTrader artefacts.** ADR-005 \"a full-pool refresh",
+  "HFExperiment: Best guess:* **AiTrader**. Any of the four, if satisfied there, reopens a closed HFExperiment item.",
+  "HFExperiment: L3 \u2014 H-F's first closure, \"resolved on statistical power rather than absent signal.\"**",
+  "HFExperiment: Best guess:* **AiTrader**.",
+  "HFExperiment: L4 \u2014 Broker facts: Alpaca Canadian eligibility, and IBKR fractional support through the API.**",
+  "HFExperiment: Best guess, in order:* **ORBExperiment** and **ETFExperiment** (US-equity strategies most likely to",
+  "HFExperiment: InsiderExperiment** and **NPDExperiment**. **MLCryptoEngine** may hold Alpaca credentials under the",
+  "HFExperiment: L5 \u2014 The runnable IBKR billing-plan sub-test (B10) triggers program-wide.** \"It resolves a",
+  "HFExperiment: Best guess:* **ORBExperiment**, **ETFExperiment**, **AiTrader** \u2014 whichever next proposes an IBKR",
+  "HFExperiment: L6 \u2014 Does the same verdict-schedule construction appear elsewhere, and does it carry the same",
+  "HFExperiment: Best guess:* the other registered-experiment repositories \u2014 **NPLExperiment**, **VRPExperiment**,",
+  "HFExperiment: ORBExperiment**, **PMExperiment**, **NPDExperiment**, **ETFExperiment**, **InsiderExperiment**.",
+  "HFExperiment: L7 \u2014 Stage B.2's registration is not in this repository.** \"B.2 registered and unrun\"",
+  "HFExperiment: Best guess:* any sibling `*Experiment` repository that stores its stage prompt in-tree \u2014 try",
+  "HFExperiment: NPLExperiment** and **VRPExperiment** first as the most recently developed, then **ORBExperiment**.",
+  "HFExperiment: L8 \u2014 A beta- or sector-hedged residual endpoint was never considered.** `grep \"beta\"` finds only",
+  "HFExperiment: Best guess:* **AiTrader** (it holds the cross-sectional round and the universe), secondarily any",
+  "HFExperiment: ORBExperiment**.",
+  "HFExperiment: L9 \u2014 The registered prior 0.15 and its provenance.** A4 records the prior as drafted by the session",
+  "HFExperiment: Best guess:* all `*Experiment` repositories.",
+  "retail-power-limits: Best guess: NPDExperiment.**",
+  "retail-power-limits: Best guess: InsiderExperiment.**",
+  "retail-power-limits: Best guess: each of NPDExperiment, InsiderExperiment, ETFExperiment, HFExperiment** \u2014 a"
+ ]
+}

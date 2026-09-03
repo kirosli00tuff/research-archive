@@ -115,3 +115,21 @@ provenance/launch-args/agentA-run6.args.json). Cleanliness check "01-agentA-blin
 the live scratchpad copy that agents read at start) and METHOD.md. Agent A run 6 was in progress;
 its rules already excluded everything outside the thirteen audited repositories, so no reader could
 have opened it. Agents launched from now on see the explicit name.
+
+## 2026-09-03 06:27Z–06:54Z — Agent A blind pass, run 6 outcome (KILLED with the harness session)
+Task w1c402gcy (wf_d4536152-b3a). The operator had to relaunch the session and CLI; the workflow
+died with the process at ~06:54Z. Journal: 6 started, 4 results — NPDExperiment reader (Fable),
+InsiderExperiment reader (Fable), NPDExperiment consolidator (Opus, 4 findings
+AUDIT-A-NPDExperiment-1..4, S1 ARITHMETIC DERIVED among them) and NPDExperiment verifier 1 (Opus).
+In flight when killed: NPDExperiment verifier 2 and the InsiderExperiment consolidator, which had
+written InsiderExperiment.md (7 IDs) and .reopen.md but not the .json. Those two partial files are
+copied to provenance/partial-outputs/ and will be overwritten by the re-run consolidator; the
+reader drafts (the consolidator's inputs) are intact. Cleanliness check
+"01-agentA-blind-run6-killed-AFTER" (06:58Z): only the pre-existing entries.
+Remedy: tools/agent_state.py now also reports "consolidated but unverified" repositories so the
+A/B scripts skip the consolidator and run only verify/apply (NPDExperiment: 4 findings).
+
+## 2026-09-03 06:59Z — Agent A blind pass, run 7 (fresh run, disk-state args)
+done_repos = [HFExperiment, retail-power-limits]; done_parts = {InsiderExperiment: [all],
+NPDExperiment: [all]}; consolidated = {NPDExperiment: 4}; 25 leads from the ledgers. Args recorded
+in provenance/launch-args/agentA-run7.args.json.

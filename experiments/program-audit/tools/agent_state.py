@@ -33,6 +33,23 @@ def repo_is_done(outdir, repo):
     return 'Citation check' in open(mp, encoding='utf-8', errors='replace').read()
 
 
+def consolidated_unverified(outdir, repo):
+    """Consolidator finished (valid json list, md carries every ID) but the verify/apply stage did not."""
+    jp, mp = os.path.join(outdir, f'{repo}.json'), os.path.join(outdir, f'{repo}.md')
+    if not (os.path.isfile(jp) and os.path.isfile(mp)):
+        return None
+    try:
+        data = json.load(open(jp))
+    except Exception:
+        return None
+    if not isinstance(data, list) or not data:
+        return None
+    md = open(mp, encoding='utf-8', errors='replace').read()
+    if 'Citation check' in md or not all(f.get('id') and f['id'] in md for f in data):
+        return None
+    return len(data)
+
+
 def parts_done(outdir, repo, ledger):
     d = os.path.join(outdir, '_drafts', repo)
     if not os.path.isdir(d):
@@ -157,11 +174,19 @@ def main():
     outdir, ledger = sys.argv[1], sys.argv[3]
     repos = sorted({f[:-5] for f in os.listdir(outdir) if f.endswith('.json') and not f.startswith(('CROSS_REPO', 'INDEX'))} |
                    set(os.listdir(os.path.join(outdir, '_drafts'))) if os.path.isdir(os.path.join(outdir, '_drafts')) else set())
-    state = {'done_repos': [], 'done_parts': {}, 'leads': []}
+    state = {'done_repos': [], 'done_parts': {}, 'consolidated': {}, 'leads': []}
     for r in repos:
         if repo_is_done(outdir, r):
             state['done_repos'].append(r)
             state['leads'].extend(leads_from_md(outdir, r, ledger))
+            continue
+        n = consolidated_unverified(outdir, r)
+        if n is not None:
+            state['consolidated'][r] = n
+            state['leads'].extend(leads_from_md(outdir, r, ledger))
+            p = parts_done(outdir, r, ledger)
+            if p:
+                state['done_parts'][r] = p
         else:
             p = parts_done(outdir, r, ledger)
             if p:
