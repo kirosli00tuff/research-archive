@@ -4,6 +4,7 @@
 Usage: tools/agent_state.py <outdir> --ledger reopen|positives   (agents A and B)
        tools/agent_state.py <outdir> --agent C                  (agent C blind chain)
        tools/agent_state.py <outdir> --seeded                   (seeded checks, any agent)
+       tools/agent_state.py <adjdir> --adjudication             (agent C adjudication)
 
 Output: {"done_repos": [...], "done_parts": {repo: [part, ...]}, "leads": ["repo: lead", ...]}
 Passed verbatim as `args` to the agent's workflow script, which then skips completed work.
@@ -109,7 +110,22 @@ def seeded_state(outdir):
     }
 
 
+def adjudication_state(adjdir):
+    """Agent C adjudication: rule-A / rule-B partials and the reconciled per-repository output."""
+    part = os.path.join(adjdir, '_partial')
+    done = sorted(f[:-5] for f in os.listdir(adjdir) if f.endswith('.json') and os.path.isfile(os.path.join(adjdir, f[:-5] + '.md'))) if os.path.isdir(adjdir) else []
+    partial = {}
+    if os.path.isdir(part):
+        for f in os.listdir(part):
+            m = re.match(r'^(.+)\.([AB])\.json$', f)
+            if m and os.path.isfile(os.path.join(part, f'{m.group(1)}.{m.group(2)}.md')) and m.group(1) not in done:
+                partial.setdefault(m.group(1), []).append(m.group(2))
+    return {'done_repos': done, 'rules_done': {k: sorted(v) for k, v in partial.items()}}
+
+
 def main():
+    if len(sys.argv) >= 3 and sys.argv[2] == '--adjudication':
+        print(json.dumps(adjudication_state(sys.argv[1]), indent=1)); return
     if len(sys.argv) >= 3 and sys.argv[2] == '--seeded':
         print(json.dumps(seeded_state(sys.argv[1]), indent=1)); return
     if len(sys.argv) >= 4 and sys.argv[2] == '--agent' and sys.argv[3] == 'C':

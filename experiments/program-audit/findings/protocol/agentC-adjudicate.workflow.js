@@ -87,10 +87,18 @@ ${F}/agentA and ${F}/agentB for ${repo} where you need the text.
 Return the counts.`
 }
 
+// Disk-state driven skipping (see agentA-blind.workflow.js): tools/agent_state.py <adjdir>
+// --adjudication passes {done_repos, rules_done:{repo:['A','B']}} as args; every launch is fresh.
+const STATE = args || {}
+const DONE_REPOS = new Set(STATE.done_repos || [])
+const RULES_DONE = STATE.rules_done || {}
 async function repoChain(repo) {
+  if (DONE_REPOS.has(repo)) { log(`${repo}: adjudication on disk, skipped`); return { repo, stage: 'done', rec: { repo, on_disk: true } } }
+  const rd = new Set(RULES_DONE[repo] || [])
+  if (rd.size) log(`${repo}: rule ${[...rd].join('/')} partial(s) on disk, skipped`)
   const [a, b] = await parallel([
-    () => agent(rulePrompt(repo, 'A'), { label: `C-rule-A:${repo}`, phase: 'Rule' }),
-    () => agent(rulePrompt(repo, 'B'), { label: `C-rule-B:${repo}`, phase: 'Rule' }),
+    () => rd.has('A') ? Promise.resolve('on-disk') : agent(rulePrompt(repo, 'A'), { label: `C-rule-A:${repo}`, phase: 'Rule' }),
+    () => rd.has('B') ? Promise.resolve('on-disk') : agent(rulePrompt(repo, 'B'), { label: `C-rule-B:${repo}`, phase: 'Rule' }),
   ])
   if (!a || !b) return { repo, stage: 'rule-failed', a: !!a, b: !!b }
   const rec = await agent(reconcilePrompt(repo), { label: `C-reconcile:${repo}`, phase: 'Reconcile', schema: RECONCILE_SCHEMA })
