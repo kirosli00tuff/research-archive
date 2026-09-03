@@ -6,6 +6,72 @@ re-quotes them from measurement afterward. Every stage prompt is logged here
 
 ---
 
+## Stage B.1 prompt, logged verbatim on receipt, 2026-09-03
+
+Logged before any other file was touched, per `CLAUDE.md`. Working directory was
+confirmed first: `/home/kiros-li/Documents/GitHub/MBTExperiment`, no `/closed/`
+in the path, no `_CLOSED_DO_NOT_RUN_HERE` marker at the root.
+
+```text
+BEGIN PROMPT - SUMMARY OF PROMPT: MBTExperiment Stage B.1. Resume the blocked stage at Task 4 now that IB Gateway paper is reachable and the client id is set. Run the known-answer test, take the paper margin read, begin the bid-ask census, re-fire the verdict. Registration is closed and not reopened. No live session, no order, no capital.
+
+Stage B.1: The known-answer test, the paper margin read, and the first census windows. Model: Opus 5. Effort: xhigh.
+
+Confirm your working directory first and print it. If the path contains /closed/, or a _CLOSED_DO_NOT_RUN_HERE marker sits at its root, stop and report the path. You should be in ~/Documents/GitHub/MBTExperiment.
+
+Read CLAUDE.md, README.md, REGISTRATION.md, FINDINGS.md and progress.md in full before touching anything. Log this prompt to progress.md verbatim on receipt.
+
+Run autonomously. Commit at every task boundary. Push nothing.
+
+What changed since Stage B closed HARNESS-BLOCKED, and nothing else changed. IB Gateway paper is now running and reachable on the configured port, measured at 5 of 5 TCP connects in 0.09 to 0.12 ms against 0 of 13 ECONNREFUSED last run. MBT_IB_PAPER_CLIENT_ID is now set. Both were named as blockers and both are cleared.
+
+The registration is CLOSED and is not reopened. Section 0 and Sections 1 onward are committed. The premium basis is fixed at the decayed quarter with a COST ceiling of 34.600 bps and stays fixed. The at-the-money strike rule, the 30-day tenor resolution rule, the window-distinctness rule and every refusal condition are registered and are obeyed as written, not improved. If a registered rule turns out to be wrong, record the defect and stop rather than amending it mid-stage, because an amendment made after seeing what the chain offers is the move the registration exists to foreclose.
+
+This stage transmits no order, opens no live session, authorizes no capital, sizes no position, and recomputes no premium. The paper-only clause remains in force and the MARGIN gate stays Absent(no_live_session).
+
+State a measured ETA for every task before arming it, derived from a probe that reads actual pace, with its assumption named. Re-quote each from the log at the end and name any skipped ETA as skipped.
+
+Task 1. Re-probe and record the reversal.
+
+Connect on paper and record what Stage B could not measure. The API handshake as distinct from the TCP connect, since a listener is not a working session. The account list read back, and the provenance guard's verdict on its prefix. Futures options permission on CME crypto products, which Stage B recorded Absent(gateway_unreachable) rather than Absent(no_permission). Market data subscription state and tick type on both an MBT option and the MBT front future, with UNKNOWN treated exactly as delayed is treated.
+
+If permission is genuinely absent now that it is measurable, that is a terminal finding. Record it, write the verdict, and stop.
+
+Task 2. The known-answer test, which is the condition that blocked the stage.
+
+Reproduce an independently checkable margin on a liquid product through the same code path that will read MBT, and record the comparison with the source of the independent figure. Do this before any MBT margin is believed. If the reproduction fails, the harness is not trusted, the MBT read is not taken, and the stage closes HARNESS-BLOCKED again with a different and more informative reason than last time.
+
+Task 3. The paper margin read, development only.
+
+Resolve the at-the-money 30-day MBT straddle from the live chain under the registered rules. Run a what-if preview against the short straddle. Parse the initial margin change, the maintenance margin change, and the commission estimate. Record the figure tagged paper, and confirm by test that feeding it to the MARGIN gate raises.
+
+Record whether the what-if commission estimate includes exchange and regulatory fees or excludes them. Stage B established that OrderState in ib_async 2.1.0 carries 17 fields and zero fee fields, so the expected answer is that the response cannot distinguish them. Confirm or contradict that against a live session and record which, since the absence of a field is not the absence of the fee from the scalar.
+
+Report the paper margin against the 1,000 dollar per contract threshold as an indication only, labelled as such, with a sentence saying plainly that a paper margin model is not the live one and that the gate remains absent.
+
+Task 4. Begin the census.
+
+Collect windows under the registered rules, at the registered maximum per UTC day with the registered spacing. Sample all three instruments, both option legs and the MBT future. Record per window both option bids and asks, the future bid and ask, the venue timestamp, the local timestamp, the subscription state and the tick delay status. Refuse any window with an unquoted, crossed, zero-bid, stale, delayed or UNKNOWN leg, record the refusal with its reason, and never fill a gap from another venue. Deribit's 22.50 bps stays reference only.
+
+Run the census as discrete sampling with the session closed between windows, never as a resident collector, because the machine's internal fans are not functioning. Report windows accepted and refused against the registered 20, with percentiles absent rather than zero while the sample is short.
+
+Update the projected completion date from the first window actually collected rather than from a hypothetical start.
+
+Task 5. Re-fire the verdict and document.
+
+Recompute all four registered conditions from artifacts. Fire the COST gate only if the registered window minimum is met, and remember it cannot PASS while the fee leg is absent, since a strict lower bound can FAIL but never PASS. The MARGIN gate stays absent with its reason.
+
+Write the progress.md entry newest first with the outcome in its first line, update FINDINGS.md with every claim carrying its sample size in the same sentence as its number, add ADRs for anything decided, and re-quote every ETA.
+
+Re-hash the VRPExperiment boundary and confirm it unchanged against the recorded c28e6860…89f81 and the 115-entry stable digest. Confirm no systemd unit was installed and no timer touched, that AiTrader's three timers remain enabled and active with Linger=yes, and that NPLExperiment's H2 collection toward its 2026-11-26 look was not disturbed.
+
+The governing rule. Stage B's mutation harness found a real defect precisely because a check was allowed to fail visibly rather than be reasoned away. Hold that line. Do not amend a registered rule to fit what the chain offers, do not promote the paper margin into a gate, do not drop a refused window to reach twenty, and do not estimate the fee leg. A second HARNESS-BLOCKED with a sharper reason is a better outcome than a HARNESS-READY that rests on a rule rewritten after the fact.
+
+END PROMPT
+```
+
+---
+
 ## Stage B closed HARNESS-BLOCKED, 2026-09-03. The known-answer test never ran.
 
 **HARNESS-BLOCKED, 3 of 4 registered conditions held.** The harness builds, all
