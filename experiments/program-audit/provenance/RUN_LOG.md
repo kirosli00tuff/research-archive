@@ -135,3 +135,46 @@ NPDExperiment: [all]}; consolidated = {NPDExperiment: 4}; 29 cross-repo leads ta
 structured results in the journals (the ledger parser in the scanner returns line-wrapped fragments,
 so it is not used for the prompt hints). Args recorded in provenance/launch-args/agentA-run7.args.json.
 Task id wux6sep9q (wf_e8863b9a-427), launched 07:01Z.
+
+## 2026-09-03 07:01Z–~07:10Z — Agent A blind pass, run 7 outcome (account session limit)
+Task wux6sep9q (wf_e8863b9a-427). Result: agents_done = 2, agents_error = 21; every failure carried
+"You've hit your session limit · resets 4:10am (America/Vancouver)" (11:10Z). The journal holds no
+labels or timestamps, so completion is reconstructed from results and file mtimes.
+Completed: NPDExperiment verifier 1 and verifier 2 (Opus); both verdicts saved verbatim to
+provenance/partial-outputs/agentA-NPDExperiment.verifier-verdicts.run7-limit.json (verifier 1: KEEP all;
+verifier 2: CORRECT on -1 with a disclosure_ref). The applier that would have consumed them failed on the
+limit, so run 8 re-runs both verifiers and the applier for NPDExperiment; the run-7 verdicts stay in
+provenance for comparison only and are not fed to run 8.
+Partial: the InsiderExperiment consolidator (Opus, second attempt) wrote InsiderExperiment.md (07:05:39Z,
+7 findings AUDIT-A-InsiderExperiment-1..7: one S2, three S3, three S4, with the "Dropped at consolidation"
+and "Live-repo access log" sections) and InsiderExperiment.reopen.md (07:07:38Z, with the 7-item
+"Leads for the cross-repository pass" section), then hit the limit before writing InsiderExperiment.json
+and before returning its structured result. Both files copied to
+provenance/partial-outputs/agentA-InsiderExperiment.{md,reopen.md}.run7-limit-consolidator.
+Failed before doing anything: the readers for VRPExperiment, ETFExperiment, solclear, PMExperiment,
+solattn, NPLExperiment, MLCryptoEngine, ORBExperiment and AiTrader (no draft files written; draft
+directories empty).
+Cleanliness check "01-agentA-blind-run7-AFTER" (18:56Z, first opportunity after the reboot below): only
+the pre-existing entries (AiTrader ` M COLLECTION_LOG.md`; HFExperiment four untracked curl-artifact
+names). Every audited HEAD equals its anchored SHA.
+
+## 2026-09-03 ~18:52Z — third reboot; scratchpad symlink re-created
+The operator reports the machine rebooted during the night; at 18:56Z uptime read 4 minutes, so the last
+boot was at about 18:52Z. /tmp was cleared again, which removed the harness scratchpad directory for the
+original session id (5ca157a0…) that every prompt path points at. Repaired at 18:56Z exactly as before:
+`ln -s /home/kiros-li/.cache/program-audit/scratchpad <session-dir>/scratchpad` for both harness session
+ids (5ca157a0… and the current 2c6a58bc…). The persistent directory was untouched: snapshot file counts
+413/109/98/73/292/75/147/157/32/47/21/99/55 for the thirteen repositories, unchanged since the anchor.
+No prompt path changed.
+
+## 2026-09-03 18:58Z — InsiderExperiment: json produced by mechanical transcription of the run-7 md
+Decision: rather than run the consolidator a third time (two partials already on disk), the run-7
+consolidator's completed InsiderExperiment.md is treated as the consolidation and the missing
+InsiderExperiment.json is produced by a single mechanical Opus agent (model policy: mechanical work goes
+to Opus) that transcribes the seven finding blocks into the 22-key contract from consolidatorPrompt(),
+with NPDExperiment.json and HFExperiment.json as the shape reference, and is forbidden to edit the md.
+The verifiers and applier then run in run 8 exactly as for any consolidated-but-unverified repository
+(tools/agent_state.py reports consolidated = {NPDExperiment: 4, InsiderExperiment: 7}), and verifier 1
+checks the json against the md as part of its citation lens. The seven cross-repository leads for
+InsiderExperiment are taken from the reopen ledger's "Leads for the cross-repository pass" section
+(the consolidator never returned its structured result) and added to the run-8 launch args.
