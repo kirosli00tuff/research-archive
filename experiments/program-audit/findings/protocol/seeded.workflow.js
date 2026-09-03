@@ -193,7 +193,7 @@ async function batched(items, fn) {
 }
 
 phase('Triage')
-const triage = await batched(REPOS, r => agent(triagePrompt(r), { label: `${AGENT}-triage:${r}`, phase: 'Triage', schema: TRIAGE_SCHEMA }))
+const triage = await batched(REPOS, r => agent(triagePrompt(r), { model: 'opus', label: `${AGENT}-triage:${r}`, phase: 'Triage', schema: TRIAGE_SCHEMA }))
 const tri = triage.filter(Boolean)
 log(`triage done for ${tri.length}/13 repos`)
 if (tri.length < REPOS.length) { log('triage incomplete; stop here and resume after the limit resets'); return { triage: tri, incomplete: true } }
@@ -216,7 +216,7 @@ repositories (repo, quantity, estimate, CI, n, ratio halfwidth·√n/sd, estimat
 independence plausible?, recomputed?, conclusion moved?), then the findings from all per-repository
 files reproduced verbatim (do not renumber), then a merged "What could not be checked". Write
 ${OUT}/CHECK3_intervals.json as the concatenation of the per-repository json arrays (validate JSON).
-Do not change any finding's substance. Return counts.`, { label: `${AGENT}-check3-merge`, phase: 'Checks' })
+Do not change any finding's substance. Return counts.`, { model: 'opus', label: `${AGENT}-check3-merge`, phase: 'Checks' })
 const missing = [c3.filter(Boolean).length < REPOS.length ? 'check3' : null, c12[0] ? null : 'check1', c12[1] ? null : 'check2', c45[0] ? null : 'check4', c45[1] ? null : 'check5', c3merge ? null : 'check3-merge'].filter(Boolean)
 if (missing.length) { log(`checks incomplete: ${missing.join(', ')}; resume after the limit resets`); return { incomplete: true, missing } }
 

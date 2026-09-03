@@ -166,7 +166,7 @@ number of survivors, top three method improvements, next action.`
 async function batched(items, fn) { const out = []; for (let i = 0; i < items.length; i += BATCH) { const res = await parallel(items.slice(i, i + BATCH).map(it => () => fn(it))); out.push(...res) } return out }
 
 phase('D1 Constraints')
-const d1 = await batched(REPOS, r => agent(d1Prompt(r), { label: `D1:${r}`, phase: 'D1 Constraints', schema: D1_SCHEMA }))
+const d1 = await batched(REPOS, r => agent(d1Prompt(r), { model: 'opus', label: `D1:${r}`, phase: 'D1 Constraints', schema: D1_SCHEMA }))
 if (d1.filter(Boolean).length < REPOS.length) { log('D1 extraction incomplete; resume after the limit resets'); return { incomplete: 'D1' } }
 const d1m = await agent(D1_MERGE, { label: 'D1-merge', phase: 'D1 Constraints' })
 if (!d1m) return { incomplete: 'D1-merge' }
@@ -184,11 +184,11 @@ const gens = await batched(angles3, a => agent(d3GenPrompt(a), { label: `D3-gen:
 if (gens.filter(Boolean).length < angles3.length) return { incomplete: 'D3-gen' }
 // collect candidate ids from the json files via a small agent (script has no fs access)
 const CAND_SCHEMA = { type: 'object', properties: { candidates: { type: 'array', items: { type: 'object', properties: { id: { type: 'string' }, statement: { type: 'string' }, file: { type: 'string' } }, required: ['id','statement','file'] } } }, required: ['candidates'] }
-const cl = await agent(`Read every json file under ${OUT}/D3_candidates/ and return the list of candidates: id, statement, and the md file path that holds the full block (same basename, .md). Do not write anything.`, { label: 'D3-collect', phase: 'D3 Hypotheses', schema: CAND_SCHEMA })
+const cl = await agent(`Read every json file under ${OUT}/D3_candidates/ and return the list of candidates: id, statement, and the md file path that holds the full block (same basename, .md). Do not write anything.`, { model: 'opus', label: 'D3-collect', phase: 'D3 Hypotheses', schema: CAND_SCHEMA })
 if (!cl) return { incomplete: 'D3-collect' }
 const screens = await batched(cl.candidates, c => agent(screenPrompt(c), { label: `D3-screen:${c.id}`, phase: 'D3 Hypotheses', schema: SCREEN_SCHEMA }))
 const sv = screens.filter(Boolean)
-const writer = await agent(`Write ${OUT}/D3_screening.json containing exactly this JSON array (verbatim) and return "ok": ${JSON.stringify(sv)}`, { label: 'D3-screen-write', phase: 'D3 Hypotheses' })
+const writer = await agent(`Write ${OUT}/D3_screening.json containing exactly this JSON array (verbatim) and return "ok": ${JSON.stringify(sv)}`, { model: 'opus', label: 'D3-screen-write', phase: 'D3 Hypotheses' })
 if (!writer) return { incomplete: 'D3-screen-write' }
 
 phase('D4-D5 Verdict')

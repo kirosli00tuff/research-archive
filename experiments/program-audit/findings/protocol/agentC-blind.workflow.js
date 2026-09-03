@@ -230,19 +230,19 @@ recomputation ...)". Keep json in sync. Return counts and final IDs.`
 }
 
 async function repoChain(repo) {
-  const inv = await agent(locatePrompt(repo), { label: `C-locate:${repo}`, phase: 'Locate', schema: LOCATE_SCHEMA })
+  const inv = await agent(locatePrompt(repo), { model: 'opus', label: `C-locate:${repo}`, phase: 'Locate', schema: LOCATE_SCHEMA })
   if (!inv) return { repo, stage: 'locate-failed' }
   const [ver, prov] = await parallel([
     () => agent(verifyPrompt(repo, inv), { label: `C-verify:${repo}`, phase: 'Verify' }),
     () => agent(provenancePrompt(repo, inv), { label: `C-provenance:${repo}`, phase: 'Provenance' }),
   ])
   if (!ver || !prov) return { repo, stage: 'verify-or-provenance-failed', ver: !!ver, prov: !!prov }
-  const c = await agent(consolidatorPrompt(repo), { label: `C-consolidate:${repo}`, phase: 'Consolidate', schema: CONSOLIDATOR_SCHEMA })
+  const c = await agent(consolidatorPrompt(repo), { model: 'opus', label: `C-consolidate:${repo}`, phase: 'Consolidate', schema: CONSOLIDATOR_SCHEMA })
   if (!c) return { repo, stage: 'consolidate-failed' }
   if (c.n_findings === 0) { log(`${repo}: no C findings to check`); return { repo, stage: 'done', consolidated: c, applied: null } }
-  const v = await agent(verifierPrompt(repo), { label: `C-check:${repo}`, phase: 'Check', schema: VERIFIER_SCHEMA })
+  const v = await agent(verifierPrompt(repo), { model: 'opus', label: `C-check:${repo}`, phase: 'Check', schema: VERIFIER_SCHEMA })
   if (!v) return { repo, stage: 'check-failed', consolidated: c }
-  const a = await agent(applierPrompt(repo, v), { label: `C-apply:${repo}`, phase: 'Check', schema: APPLIER_SCHEMA })
+  const a = await agent(applierPrompt(repo, v), { model: 'opus', label: `C-apply:${repo}`, phase: 'Check', schema: APPLIER_SCHEMA })
   return { repo, stage: a ? 'done' : 'apply-failed', consolidated: c, applied: a }
 }
 

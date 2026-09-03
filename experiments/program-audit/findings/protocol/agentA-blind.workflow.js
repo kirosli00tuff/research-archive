@@ -254,15 +254,15 @@ async function repoChain(rp) {
     agent(readerPrompt(rp.repo, p.part, p.docs, rp.parts.length), { label: `A-read:${rp.repo}:${p.part}`, phase: 'Read' })))
   const r = { repo: rp.repo, parts: rp.parts.map(p => p.part), drafts: drafts.filter(Boolean).length }
   if (r.drafts < rp.parts.length) { log(`${rp.repo}: ${r.drafts}/${rp.parts.length} readers completed; consolidation deferred to a resume`); return { ...r, consolidated: null, applied: null } }
-  const c = await agent(consolidatorPrompt(r.repo, r.parts), { label: `A-consolidate:${r.repo}`, phase: 'Consolidate', schema: CONSOLIDATOR_SCHEMA })
+  const c = await agent(consolidatorPrompt(r.repo, r.parts), { model: 'opus', label: `A-consolidate:${r.repo}`, phase: 'Consolidate', schema: CONSOLIDATOR_SCHEMA })
   if (!c) return { ...r, consolidated: null, applied: null }
   if (c.n_findings === 0) { log(`${r.repo}: no findings to verify`); return { ...r, consolidated: c, applied: null } }
   const [v1, v2] = await parallel([
-    () => agent(verifierPrompt(r.repo, 1), { label: `A-verify1:${r.repo}`, phase: 'Verify', schema: VERIFIER_SCHEMA }),
-    () => agent(verifierPrompt(r.repo, 2), { label: `A-verify2:${r.repo}`, phase: 'Verify', schema: VERIFIER_SCHEMA }),
+    () => agent(verifierPrompt(r.repo, 1), { model: 'opus', label: `A-verify1:${r.repo}`, phase: 'Verify', schema: VERIFIER_SCHEMA }),
+    () => agent(verifierPrompt(r.repo, 2), { model: 'opus', label: `A-verify2:${r.repo}`, phase: 'Verify', schema: VERIFIER_SCHEMA }),
   ])
   if (!v1 && !v2) return { ...r, consolidated: c, applied: null }
-  const a = await agent(applierPrompt(r.repo, v1, v2), { label: `A-apply:${r.repo}`, phase: 'Apply', schema: APPLIER_SCHEMA })
+  const a = await agent(applierPrompt(r.repo, v1, v2), { model: 'opus', label: `A-apply:${r.repo}`, phase: 'Apply', schema: APPLIER_SCHEMA })
   return { ...r, consolidated: c, applied: a }
 }
 phase('Read')
