@@ -34,8 +34,11 @@ a1-whatif-paper: ## PAPER. Margin read for development only; never verdict-beari
 a1-census: ## PAPER. Append one bid-ask observation window; clock-bound to 20
 	uv run python -m mbt.cli census --env paper
 
-a1-whatif-live: ## LIVE. The latched deciding margin read. Transmits no order
-	uv run python -m mbt.cli whatif --env live --deciding
+a1-whatif-live: ## DISABLED. Paper-only clause is in force; see CLAUDE.md
+	@echo "REFUSED: the paper-only clause is in force. The MARGIN gate is"
+	@echo "Absent(no_live_session) and no live session runs from this repo."
+	@echo "Lifting the clause is an operator edit to CLAUDE.md, never a flag."
+	@exit 1
 
 a1-gates: ## Fire the MARGIN and COST gates, offline, from recorded figures
 	uv run python -m mbt.cli gates

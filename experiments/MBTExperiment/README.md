@@ -34,12 +34,22 @@ fires.
 
 ## Paper and live
 
-Both are used, for different things, and neither substitutes for the other.
-Paper on port 4002 builds and verifies the harness. The deciding margin read is
-taken live, through a `whatIf` preview that transmits nothing. **A paper figure
-is never verdict-bearing**, and the environment tag on every recorded figure
-comes from the account the session actually connected to rather than from the
-variable that was supposed to select it.
+**Paper only, from 2026-09-02.** No live Gateway session runs here until the
+operator lifts the clause in `CLAUDE.md`. Two recorded operator constraints: the
+machine's internal fans are not functioning, so concurrent sessions are not run,
+and no separate live profile exists for this project yet.
+
+The consequence is not symmetric across the two gates. A margin figure is a
+property of the account and needs a U-prefixed session, so **the MARGIN gate does
+not fire and is recorded `Absent(no_live_session)`**. A quote is a property of the
+market data feed, which IBKR routes by subscription rather than by account type,
+so **the COST gate's spread legs are collectible now**, provided the session
+verifies a real-time subscription. Its fee leg stays `Absent(not_served)` in
+either environment, because paper fills are simulated.
+
+The stage therefore terminates at **HARNESS-READY** or **HARNESS-BLOCKED**, never
+at HARVESTABLE-CONFIRMED, and the live margin read becomes a named open operator
+item rather than a missing number.
 
 ## Commands
 
@@ -51,7 +61,6 @@ make a1-probe          # PAPER  connect, verify permission, record provenance
 make a1-chain          # PAPER  resolve the ATM 30-day straddle
 make a1-whatif-paper   # PAPER  margin read, development only
 make a1-census         # PAPER  one bid-ask window; clock-bound to 20
-make a1-whatif-live    # LIVE   the latched deciding read; transmits no order
 make a1-gates          # offline, fires MARGIN and COST from recorded figures
 ```
 

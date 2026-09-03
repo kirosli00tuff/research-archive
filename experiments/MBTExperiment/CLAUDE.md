@@ -40,6 +40,36 @@ is the failure its closure discipline exists to prevent.
 Both PASS gives **HARVESTABLE-CONFIRMED**. Either FAIL gives **VENUE_BLOCKED,
 unqualified**, and the question is finished.
 
+## Paper-only, from 2026-09-02, and what it forecloses
+
+**No live Gateway session runs in this repository until the operator lifts this
+clause.** Two operator constraints, both recorded rather than worked around:
+the machine's internal fans are not functioning, so concurrent live and paper
+sessions are not run; and no separate live profile exists for this project yet.
+
+The two provenance kinds are therefore separated, because they are not equally
+blocked:
+
+| figure kind | provenance carried | admissible from paper |
+|---|---|---|
+| **margin** — a property of the ACCOUNT | the account prefix read back from the session | **no.** Needs a U-prefixed session |
+| **quote** — a property of the MARKET DATA FEED | the subscription state and tick delay status | **yes, if real-time.** IBKR routes market data by subscription, not by account type |
+| **exchange and regulatory fees** | the commission report | **no.** Paper fills are simulated and their reports synthetic |
+
+**The MARGIN gate cannot fire in a paper-only stage and is not fired.** It is
+recorded `Absent(no_live_session)` with that reason, never estimated from a
+paper figure and never softened into a pass.
+
+**The COST gate's spread legs are collectible now.** Its fee leg stays
+`Absent(not_served)` regardless of environment.
+
+**The admissibility of a paper-sourced quote is a CLAIM, not a measurement.**
+It rests on the feed being subscription-routed. Record it as an assumption with
+that reasoning, and re-verify it against a live session whenever one becomes
+available. Per the standing rule, measured beats documented, and this one is
+currently documented.
+
+
 ## The decision Section 0 must settle before any collection
 
 The 142.740 bps lower bound behind the 49.610 threshold is a **full-sample**
