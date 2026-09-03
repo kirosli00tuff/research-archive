@@ -36,6 +36,21 @@ class MissingConfigError(ConfigError):
     """A required environment variable is unset or empty. Names the variable."""
 
 
+class MalformedConfigError(ConfigError):
+    """A required variable is set to a value of the wrong shape.
+
+    **The offending value is never echoed.** ``int()`` raises a ``ValueError``
+    carrying the string it failed on, and the string that reaches this path is
+    whatever the operator pasted. When that paste is an account number, the bare
+    ``ValueError`` prints it, and an account number never enters a log, a
+    traceback or an artifact. This class reports the variable, the expected shape
+    and the observed shape, and nothing else.
+
+    It is a :class:`ConfigError`, so the CLI records a typed absence instead of
+    exiting on an uncaught traceback.
+    """
+
+
 class PaperOnlyClauseError(ConfigError):
     """A live session was requested while the paper-only clause is in force."""
 
@@ -52,6 +67,31 @@ def load_dotenv(path: Path = ENV_PATH) -> dict[str, str]:
         key, _, value = line.partition("=")
         values[key.strip()] = value.strip()
     return values
+
+
+def _require_int(source: dict[str, str], name: str) -> int:
+    """Require a variable that must parse as a non-negative integer.
+
+    Shape is validated here rather than by ``int()`` at the call site, for two
+    reasons that fail differently. ``int()`` raises ``ValueError``, which is not
+    a :class:`ConfigError`, so the CLI's absence recording does not catch it. And
+    ``ValueError`` embeds the value it failed on, which for a mis-pasted account
+    number puts a credential-shaped identifier into a traceback.
+    """
+    text = _require(source, name)
+    if not text.isdigit():
+        raise MalformedConfigError(
+            f"{name} is set but is not an integer. The TWS API clientId is an "
+            f"int32, so a non-numeric value cannot be one. Observed shape: "
+            f"length {len(text)}, first character class "
+            f"{'alphabetic' if text[:1].isalpha() else 'non-alphanumeric'}. "
+            f"The value itself is not reported: a value of that shape in this "
+            f"slot is most often an account number pasted into it, and an "
+            f"account number never enters a log or an artifact. Set {name} to a "
+            f"small integer distinct from every other session against this "
+            f"Gateway."
+        )
+    return int(text)
 
 
 def _require(source: dict[str, str], name: str) -> str:
@@ -106,8 +146,8 @@ class GatewayConfig:
         return cls(
             declared=declared,
             host=_require(source, "MBT_IB_HOST"),
-            port=int(_require(source, "MBT_IB_PAPER_PORT")),
-            client_id=int(_require(source, "MBT_IB_PAPER_CLIENT_ID")),
+            port=_require_int(source, "MBT_IB_PAPER_PORT"),
+            client_id=_require_int(source, "MBT_IB_PAPER_CLIENT_ID"),
             expected_account=_require(source, "MBT_IB_PAPER_ACCOUNT"),
         )
 

@@ -18,12 +18,13 @@ from mbt.census import CensusLedger, summarise
 from mbt.clock import iso_utc, utc_now
 from mbt.config import ConfigError, GatewayConfig
 from mbt.gates import GateName, fire, fire_lower_bound
-from mbt.provenance import Environment
+from mbt.provenance import Environment, SessionProvenance
 from mbt.registry import (
     COST_CEILING_BPS,
     MARGIN_CEILING_USD_PER_CONTRACT,
     MIN_OBSERVATION_WINDOWS,
     REGISTERED_PREMIUM_BASIS,
+    TENOR_TARGET_DAYS,
 )
 from mbt.session import unreachable
 from mbt.verdict import decide
@@ -91,6 +92,131 @@ def cmd_probe(args: argparse.Namespace) -> int:
         )
     _emit(payload, REPORTS / "task0" / "probe_session.json")
     return 0 if payload["ok"] else 1
+
+
+def cmd_probe_full(args: argparse.Namespace) -> int:
+    """PAPER. Stage B.1 Task 1: handshake, accounts, permission, feed state.
+
+    Each measurement is separate because each failed separately in Stage B. A
+    TCP connect proves a listener, a handshake proves a session, and neither
+    proves a market-data subscription.
+    """
+    import time
+
+    from mbt.collect import enumerate_series, front_future
+    from mbt.probe import BoundedWhatIfBroker, observe_feed, probe_permission
+
+    declared = Environment(args.env)
+    try:
+        config = GatewayConfig.load(declared)
+    except ConfigError as exc:
+        payload = {
+            "command": "probe-full",
+            "ok": False,
+            "stage": "config",
+            "absent": Absent(AbsenceReason.NOT_SERVED, str(exc)).as_row(),
+            "at": iso_utc(utc_now(), "cmd_probe_full"),
+        }
+        _emit(payload, REPORTS / "task1" / "probe_session.json")
+        return 1
+
+    from ib_async import IB, FuturesOption
+
+    ib = IB()
+    errors: list[str] = []
+    ib.errorEvent += lambda reqId, code, msg, contract: errors.append(
+        f"reqId={reqId} code={code} {msg[:180]}"
+    )
+
+    started = time.perf_counter()
+    ib.connect(config.host, config.port, clientId=config.client_id, timeout=20)
+    handshake = time.perf_counter() - started
+
+    try:
+        accounts = list(ib.managedAccounts())
+        provenance = SessionProvenance.from_connection(
+            declared=declared,
+            connected_account=accounts[0],
+            client_id=config.client_id,
+            host=config.host,
+            port=config.port,
+        )
+
+        at = utc_now()
+        future = front_future(ib)
+        series = enumerate_series(ib, at)
+        nearest = min(
+            series,
+            key=lambda s: abs(s.expiry.days_to_expiry(at) - TENOR_TARGET_DAYS),
+            default=None,
+        )
+
+        legs: dict[str, object] = {}
+        permission_row: object = Absent(
+            AbsenceReason.NOT_SERVED, "no listed series, so no option to price"
+        ).as_row()
+        if nearest is not None and not isinstance(future, Absent):
+            strikes = list(nearest.strikes)
+            probe_strike = strikes[len(strikes) // 2]
+            call = ib.qualifyContracts(
+                FuturesOption(
+                    symbol="MBT",
+                    lastTradeDateOrContractMonth=nearest.expiry.label.split(":")[1],
+                    strike=probe_strike,
+                    right="C",
+                    exchange="CME",
+                    tradingClass=nearest.trading_class,
+                    multiplier="0.1",
+                )
+            )
+            put = ib.qualifyContracts(
+                FuturesOption(
+                    symbol="MBT",
+                    lastTradeDateOrContractMonth=nearest.expiry.label.split(":")[1],
+                    strike=probe_strike,
+                    right="P",
+                    exchange="CME",
+                    tradingClass=nearest.trading_class,
+                    multiplier="0.1",
+                )
+            )
+            if call and put:
+                legs = {"future_hedge": future, "option_call": call[0], "option_put": put[0]}
+                permission = probe_permission(BoundedWhatIfBroker(ib), call[0], errors)
+                permission_row = permission.as_row()
+
+        feed = {
+            "realtime_requested": [o.as_row() for o in observe_feed(ib, legs, 1)] if legs else [],
+            "delayed_requested": [o.as_row() for o in observe_feed(ib, legs, 3)] if legs else [],
+        }
+
+        payload = {
+            "command": "probe-full",
+            "ok": True,
+            "at": iso_utc(utc_now(), "cmd_probe_full"),
+            "api_handshake_seconds": round(handshake, 4),
+            "accounts_returned": len(accounts),
+            "provenance": provenance.as_row(),
+            "config": config.as_row(),
+            "front_future": (
+                future.localSymbol if not isinstance(future, Absent) else future.as_row()
+            ),
+            "series_listed": len(series),
+            "series": [s.as_row() for s in series],
+            "nearest_to_registered_tenor": nearest.as_row() if nearest else None,
+            "permission_probe": permission_row,
+            "feed": feed,
+            "orders_open_after_probe": len(ib.openOrders()),
+            "trades_after_probe": len(ib.trades()),
+            "positions_after_probe": len(ib.positions()),
+            "fills_after_probe": len(ib.fills()),
+            "broker_errors": errors,
+        }
+    finally:
+        ib.disconnect()
+
+    _emit(payload, REPORTS / "task1" / "probe_session.json")
+    return 0
 
 
 def cmd_census(args: argparse.Namespace) -> int:
@@ -193,6 +319,10 @@ def build_parser() -> argparse.ArgumentParser:
     census_p = sub.add_parser("census", help="PAPER. Append one observation window")
     census_p.add_argument("--env", default="paper", choices=[e.value for e in Environment])
     census_p.set_defaults(func=cmd_census)
+
+    full_p = sub.add_parser("probe-full", help="PAPER. Handshake, permission, feed state")
+    full_p.add_argument("--env", default="paper", choices=[e.value for e in Environment])
+    full_p.set_defaults(func=cmd_probe_full)
 
     gates_p = sub.add_parser("gates", help="Offline. Fire the gates from recorded figures")
     gates_p.set_defaults(func=cmd_gates)

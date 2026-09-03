@@ -1,0 +1,4 @@
+mark	utc	epoch	note
+session_start	2026-09-03T19:08:45Z	1788462525	stage B.1 opened; directory confirmed, prompt logged
+task1_start	2026-09-03T19:08:52Z	1788462532	re-probe: handshake, accounts, permission, market data
+task1_end	2026-09-03T19:31:22Z	1788463882	reversal measured; permission unknown through package path; no realtime subscription

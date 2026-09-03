@@ -26,7 +26,13 @@ from mbt.absence import (
 )
 from mbt.broker import TransmitRefusedError, build_short_option_order, what_if_order
 from mbt.clock import NaiveDatetimeError, NonUtcDatetimeError, ObservationClock, require_utc
-from mbt.config import GatewayConfig, MissingConfigError, PaperOnlyClauseError
+from mbt.config import (
+    ConfigError,
+    GatewayConfig,
+    MalformedConfigError,
+    MissingConfigError,
+    PaperOnlyClauseError,
+)
 from mbt.figures import Figure, TickDelayStatus
 from mbt.gates import (
     DelayedQuoteInadmissibleError,
@@ -316,6 +322,74 @@ def test_guard_two_config_names_the_missing_variable(
         expectation="the error names the variable, so a reader is not sent to the wrong file",
         exception=excinfo.value,
     )
+
+
+def test_guard_two_config_refuses_a_non_integer_client_id(
+    refusals: RefusalRecorder, tmp_path: Path
+) -> None:
+    """The defect found at the opening of Stage B.1, pinned so it cannot return.
+
+    The operator's ``.env`` carried the paper ACCOUNT NUMBER in the
+    ``MBT_IB_PAPER_CLIENT_ID`` slot. The loader passed it to a bare ``int()``,
+    which raised ``ValueError`` rather than a :class:`ConfigError`, so the CLI's
+    absence recording did not catch it and the command died on a traceback.
+    """
+    environ = {
+        "MBT_IB_HOST": "127.0.0.1",
+        "MBT_IB_PAPER_PORT": "4002",
+        "MBT_IB_PAPER_CLIENT_ID": "DU1234567",  # SYNTHETIC-FIXTURE
+        "MBT_IB_PAPER_ACCOUNT": "DU1234567",  # SYNTHETIC-FIXTURE
+    }
+    with pytest.raises(MalformedConfigError) as excinfo:
+        GatewayConfig.load(Environment.PAPER, environ=environ, dotenv_path=tmp_path / "absent.env")
+    assert isinstance(excinfo.value, ConfigError), (
+        "a malformed client id must raise a ConfigError so the CLI records a typed "
+        "absence rather than exiting on an uncaught ValueError"
+    )
+    assert "MBT_IB_PAPER_CLIENT_ID" in str(excinfo.value)
+    refusals.record(
+        guard="two: environment provenance",
+        scenario="the client id slot held an account number rather than an integer",
+        expectation="a typed ConfigError naming the variable, never a bare ValueError",
+        exception=excinfo.value,
+    )
+
+
+def test_guard_two_a_malformed_client_id_never_echoes_the_value() -> None:
+    """The worse half of the defect: ``int()`` prints the string it failed on.
+
+    With an account number in that slot, the ``ValueError`` message carried the
+    account number, so it reached stderr and would reach any artifact that
+    captured the traceback. ``tests/test_honesty.py`` scans TRACKED FILES and
+    cannot see a runtime exception path, so the scan was clean the whole time the
+    hole was open. This is the same shape as the Guard 1 hole the Stage B
+    mutation harness found.
+    """
+    secret = "DUR654321"  # SYNTHETIC-FIXTURE
+    environ = {
+        "MBT_IB_HOST": "127.0.0.1",
+        "MBT_IB_PAPER_PORT": "4002",
+        "MBT_IB_PAPER_CLIENT_ID": secret,
+        "MBT_IB_PAPER_ACCOUNT": secret,
+    }
+    with pytest.raises(MalformedConfigError) as excinfo:
+        GatewayConfig.load(Environment.PAPER, environ=environ, dotenv_path=Path("/nonexistent.env"))
+    assert secret not in str(excinfo.value), "the refusal echoed the account-shaped value"
+    assert secret not in repr(excinfo.value)
+    assert "length 9" in str(excinfo.value), "the shape is reported even though the value is not"
+
+
+def test_guard_two_config_also_validates_the_port_shape(tmp_path: Path) -> None:
+    """The port goes through the same validation, for the same two reasons."""
+    environ = {
+        "MBT_IB_HOST": "127.0.0.1",
+        "MBT_IB_PAPER_PORT": "not-a-port",
+        "MBT_IB_PAPER_CLIENT_ID": "4202",
+        "MBT_IB_PAPER_ACCOUNT": "DU1234567",  # SYNTHETIC-FIXTURE
+    }
+    with pytest.raises(MalformedConfigError) as excinfo:
+        GatewayConfig.load(Environment.PAPER, environ=environ, dotenv_path=tmp_path / "absent.env")
+    assert "MBT_IB_PAPER_PORT" in str(excinfo.value)
 
 
 # ===========================================================================
