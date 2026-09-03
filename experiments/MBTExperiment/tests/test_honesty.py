@@ -40,9 +40,28 @@ SECRET_PATTERNS = (
     re.compile(r"(?i)\b(password|passwd|secret|api[_-]?key|token)\s*[:=]\s*['\"][^'\"\s]{8,}['\"]"),
 )
 
-#: Lines that legitimately contain an account SHAPE while naming no account: the
-#: patterns above are themselves written here and in the docs that explain them.
-SHAPE_ALLOWLIST_FILES = frozenset({"tests/test_honesty.py"})
+#: The ONLY exemption, and it is line-scoped rather than file-scoped. A line
+#: carrying this marker may hold an account shape. A file-wide allowlist would
+#: mean a real account pasted anywhere in an exempt file passes unnoticed; a
+#: line marker makes every exemption visible at the exact line and makes claiming
+#: one a deliberate act rather than an accident.
+SYNTHETIC_MARKER = "SYNTHETIC-FIXTURE"
+
+#: Files permitted to carry the marker at all. A marker outside these is itself
+#: a finding, so the exemption cannot spread into the package.
+MARKER_PERMITTED_IN = frozenset({"tests/test_honesty.py", "tests/test_guards.py"})
+
+
+def scan_lines(text: str, patterns: tuple[re.Pattern[str], ...]) -> list[tuple[int, str]]:
+    """Match ``patterns`` line by line, skipping lines marked synthetic."""
+    hits: list[tuple[int, str]] = []
+    for number, line in enumerate(text.splitlines(), start=1):
+        if SYNTHETIC_MARKER in line:
+            continue
+        for pattern in patterns:
+            for match in pattern.finditer(line):
+                hits.append((number, match.group()))
+    return hits
 
 
 def tracked_files() -> list[Path]:
@@ -60,33 +79,47 @@ def readable_text(path: Path) -> str | None:
 
 
 def test_no_tracked_file_carries_an_ibkr_account_number() -> None:
+    """An account shape is a finding unless its own line is marked synthetic."""
     offenders: list[str] = []
     for path in tracked_files():
-        relative = str(path.relative_to(REPO))
-        if relative in SHAPE_ALLOWLIST_FILES or not path.exists():
-            continue
-        text = readable_text(path)
+        text = readable_text(path) if path.exists() else None
         if text is None:
             continue
-        for pattern in ACCOUNT_PATTERNS:
-            for match in pattern.finditer(text):
-                offenders.append(f"{relative}: {pattern.pattern} matched {match.group()!r}")
+        relative = str(path.relative_to(REPO))
+        offenders += [f"{relative}:{n}: {m!r}" for n, m in scan_lines(text, ACCOUNT_PATTERNS)]
     assert not offenders, "tracked files carry IBKR account shapes:\n" + "\n".join(offenders)
 
 
 def test_no_tracked_file_carries_a_key_shaped_string() -> None:
     offenders: list[str] = []
     for path in tracked_files():
-        relative = str(path.relative_to(REPO))
-        if relative in SHAPE_ALLOWLIST_FILES or not path.exists():
-            continue
-        text = readable_text(path)
+        text = readable_text(path) if path.exists() else None
         if text is None:
             continue
-        for pattern in SECRET_PATTERNS:
-            for match in pattern.finditer(text):
-                offenders.append(f"{relative}: matched {match.group()[:40]!r}")
+        relative = str(path.relative_to(REPO))
+        offenders += [f"{relative}:{n}: {m[:40]!r}" for n, m in scan_lines(text, SECRET_PATTERNS)]
     assert not offenders, "tracked files carry key shapes:\n" + "\n".join(offenders)
+
+
+def test_the_synthetic_marker_cannot_spread_beyond_the_test_suite() -> None:
+    """The exemption is narrow by construction, and this keeps it narrow."""
+    offenders = []
+    for path in tracked_files():
+        relative = str(path.relative_to(REPO))
+        if relative in MARKER_PERMITTED_IN or not path.exists():
+            continue
+        text = readable_text(path)
+        if text is not None and SYNTHETIC_MARKER in text:
+            offenders.append(relative)
+    assert not offenders, f"the synthetic marker appears outside the suite: {offenders}"
+
+
+def test_the_exemption_is_line_scoped_and_does_not_reach_the_next_line() -> None:
+    """A marker on one line must not exempt the line below it."""
+    marked = "acct = 'DU1234567'  # " + SYNTHETIC_MARKER  # SYNTHETIC-FIXTURE
+    unmarked = "leak = 'DU7654321'"  # SYNTHETIC-FIXTURE
+    hits = scan_lines(marked + "\n" + unmarked + "\n", ACCOUNT_PATTERNS)
+    assert [n for n, _ in hits] == [2], f"expected only line 2 to be a finding, got {hits}"
 
 
 def test_the_env_file_is_not_tracked() -> None:
@@ -97,9 +130,14 @@ def test_the_env_file_is_not_tracked() -> None:
 
 def test_the_scanner_actually_matches_the_shapes_it_claims_to() -> None:
     """A scanner nobody has seen fire is a scanner nobody has tested."""
-    assert any(p.search("account DU1234567 here") for p in ACCOUNT_PATTERNS)
-    assert any(p.search("account U1234567 here") for p in ACCOUNT_PATTERNS)
-    assert any(p.search('api_key = "abcdefghijklmnop"') for p in SECRET_PATTERNS)
+    paper = "acct DU1234567 x"  # SYNTHETIC-FIXTURE
+    live = "acct U1234567 x"  # SYNTHETIC-FIXTURE
+    dur = "acct DUR123456 x"  # SYNTHETIC-FIXTURE
+    key = 'api_key = "abcdefghijklmnop"'  # SYNTHETIC-FIXTURE
+    assert any(p.search(paper) for p in ACCOUNT_PATTERNS)
+    assert any(p.search(live) for p in ACCOUNT_PATTERNS)
+    assert any(p.search(dur) for p in ACCOUNT_PATTERNS)
+    assert any(p.search(key) for p in SECRET_PATTERNS)
 
 
 @pytest.mark.parametrize(

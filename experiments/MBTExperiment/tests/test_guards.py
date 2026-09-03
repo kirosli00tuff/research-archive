@@ -222,9 +222,9 @@ def test_guard_one_builder_emits_a_preview_order() -> None:
 @pytest.mark.parametrize(
     ("account", "expected"),
     [
-        ("DU1234567", Environment.PAPER),
-        ("U1234567", Environment.LIVE),
-        ("dur12345", Environment.PAPER),
+        ("DU1234567", Environment.PAPER),  # SYNTHETIC-FIXTURE
+        ("U1234567", Environment.LIVE),  # SYNTHETIC-FIXTURE
+        ("dur12345", Environment.PAPER),  # SYNTHETIC-FIXTURE
     ],
 )
 def test_guard_two_derives_environment_from_the_account_prefix(
@@ -241,7 +241,7 @@ def test_guard_two_refuses_a_live_declaration_on_a_paper_account(
     with pytest.raises(EnvironmentMismatchError) as excinfo:
         provenance = SessionProvenance.from_connection(
             declared=Environment.LIVE,
-            connected_account="DU1234567",
+            connected_account="DU1234567",  # SYNTHETIC-FIXTURE
             client_id=7,
             host="127.0.0.1",
             port=4002,
@@ -278,14 +278,14 @@ def test_guard_two_refuses_an_empty_account() -> None:
 def test_guard_two_accepts_a_matching_declaration_and_masks_the_number() -> None:
     provenance = SessionProvenance.from_connection(
         declared=Environment.PAPER,
-        connected_account="DU1234567",
+        connected_account="DU1234567",  # SYNTHETIC-FIXTURE
         client_id=7,
         host="127.0.0.1",
         port=4002,
     )
     assert provenance.measured is Environment.PAPER
     row = provenance.as_row()
-    assert "DU1234567" not in str(row), "the account number must never reach an artifact"
+    assert "DU1234567" not in str(row)  # SYNTHETIC-FIXTURE
     assert row["account_masked"] == "D*******7"
 
 
