@@ -178,3 +178,12 @@ The verifiers and applier then run in run 8 exactly as for any consolidated-but-
 checks the json against the md as part of its citation lens. The seven cross-repository leads for
 InsiderExperiment are taken from the reopen ledger's "Leads for the cross-repository pass" section
 (the consolidator never returned its structured result) and added to the run-8 launch args.
+
+## 2026-09-03 19:08Z — Agent A blind pass, run 8 (fresh run wf_c79bd45f-a47, disk-state args)
+Launched fresh (no resumeFromRunId) after the 11:10Z limit reset, with args from tools/agent_state.py:
+done_repos = [HFExperiment, retail-power-limits]; done_parts = {InsiderExperiment: [all],
+NPDExperiment: [all]}; consolidated = {InsiderExperiment: 7, NPDExperiment: 4}; 36 cross-repo leads
+(the 29 from run 7 plus the 7 InsiderExperiment leads from its reopen ledger). Args recorded in
+provenance/launch-args/agentA-run8.args.json. Cleanliness check "01-agentA-blind-run8-BEFORE" (19:06Z):
+only the pre-existing entries. Task id w5e6202dj. Batches (BATCH = 2, smallest first): Insider/NPD
+verify+apply, then the nine unread repositories in ORDER.
