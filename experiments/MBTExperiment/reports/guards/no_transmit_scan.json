@@ -20,7 +20,7 @@
     "StopLimitOrder",
     "StopOrder"
   ],
-  "package_files_scanned": 20,
+  "package_files_scanned": 22,
   "preview_wrappers_requiring_literal": [
     "what_if_order"
   ],

@@ -1,0 +1,37 @@
+{
+  "artifact": "census_projection_from_the_first_window_ACTUALLY_collected",
+  "duration_once_it_can_begin": {
+    "collection_days_required": 5,
+    "note": "The registered rule fixes the DURATION and not the start. This figure is a property of the rule and is unchanged from Stage B. It is NOT a projected completion date, because there is no start to add it to.",
+    "reason": "20 windows at the registered cap of 4 per UTC day"
+  },
+  "first_window_actually_collected": null,
+  "projected_completion_utc": {
+    "absent": "true",
+    "detail": "The projection is registered to run from the first window ACTUALLY collected, and none has been. Zero of 20 windows are accepted, at n = 3 attempts, every one refused on the at-the-money reference leg. **A projected completion date computed from a hypothetical start would be a schedule for a census that cannot begin**, and the blocker is not time: it is that no real-time market data subscription covers MBT on this account, so no window can be accepted on any day.",
+    "reason": "insufficient_sample"
+  },
+  "refusal_ledger": [
+    {
+      "leg": "future_hedge",
+      "local_ts": "2026-09-03T19:41:09.034Z",
+      "reason": "unquoted_leg"
+    },
+    {
+      "leg": "future_hedge",
+      "local_ts": "2026-09-03T19:41:35.951Z",
+      "reason": "unquoted_leg"
+    },
+    {
+      "leg": "future_hedge",
+      "local_ts": "2026-09-03T19:41:45.134Z",
+      "reason": "unquoted_leg"
+    }
+  ],
+  "taken_utc": "2026-09-03T19:42:00Z",
+  "what_must_clear_before_a_start_exists": "A real-time market data subscription covering CME crypto (MBT) on this account. Measured: broker error 354 on all three registered legs under a real-time request, and error 10167 offering delayed data instead, across n = 5 independent sessions between 19:11Z and 19:42Z. The absence is persistent across sessions, not a transient outage in one.",
+  "why_delayed_data_does_not_start_it": "Registered Section 3.4 refuses a delayed tick, and Section 3.1 refuses the whole straddle when the reference leg is refused. Delayed quotes were served on all three legs and were refused rather than widened into a cost band. Deribit's 22.50 bps remains REFERENCE ONLY and no gap is filled from it.",
+  "windows_accepted": 0,
+  "windows_refused": 3,
+  "windows_required": 20
+}

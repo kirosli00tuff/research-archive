@@ -301,3 +301,26 @@ def summarise(ledger: CensusLedger) -> CensusSummary:
         p90_bps=percentile(values, 0.90),
         refusal_reasons=reasons,
     )
+
+
+def window_stub_from_row(row: dict[str, object]) -> CensusWindow:
+    """Rebuild only what the distinctness rule reads: the recorded local clock.
+
+    The legs and the half-spreads are deliberately left empty. Rehydrating them
+    would mean reconstructing a Quote from its artifact form, and a
+    reconstruction that is never compared against the original is a second
+    representation of the same fact with nothing keeping the two in step.
+    :func:`check_distinct` reads ``local_ts`` and nothing else.
+    """
+    raw_sequence = row.get("sequence", 0)
+    sequence = int(raw_sequence) if isinstance(raw_sequence, (int, float, str)) else 0
+    raw_bps = row.get("straddle_round_trip_bps", 0.0)
+    bps = float(raw_bps) if isinstance(raw_bps, (int, float, str)) else 0.0
+    return CensusWindow(
+        sequence=sequence,
+        local_ts=str(row.get("local_ts", "")),
+        environment=Environment(str(row.get("environment", "paper"))),
+        legs={},
+        half_spreads_bps={},
+        straddle_round_trip_bps=bps,
+    )

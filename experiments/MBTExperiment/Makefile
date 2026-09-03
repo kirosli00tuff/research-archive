@@ -1,5 +1,6 @@
 .PHONY: help install lint typecheck test guards no-transmit boundary all \
-        b-probe b-chain b-whatif-paper b-census b-whatif-live b-gates mutations clean
+        b-probe b-probe-full b-straddle b-known-answer b-census b-whatif-live \
+        b-gates mutations clean
 
 help: ## List available targets
 	@grep -E '^[a-z0-9-]+:.*##' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-20s %s\n", $$1, $$2}'
@@ -35,6 +36,15 @@ all: lint typecheck no-transmit test ## lint, typecheck, no-transmit scan, test
 
 b-probe: ## PAPER. Connect, verify permission, record the environment provenance
 	uv run python -m mbt.cli probe --env paper
+
+b-probe-full: ## PAPER. Handshake, permission, subscription state on all three legs
+	uv run python -m mbt.cli probe-full --env paper
+
+b-straddle: ## PAPER. Resolve the registered ATM 30-day straddle from the live chain
+	uv run python -m mbt.cli straddle --env paper
+
+b-known-answer: ## PAPER. Reproduce a checkable margin through the MBT code path
+	uv run python -m mbt.cli known-answer --env paper
 
 b-census: ## PAPER. Append one bid-ask observation window; clock-bound to 20
 	uv run python -m mbt.cli census --env paper
