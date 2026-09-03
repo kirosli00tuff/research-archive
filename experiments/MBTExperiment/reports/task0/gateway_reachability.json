@@ -1,0 +1,55 @@
+{
+  "attempts": [
+    {
+      "elapsed_ms": 0.113,
+      "errno": 111,
+      "errno_name": "ECONNREFUSED",
+      "message": "[Errno 111] Connection refused",
+      "reachable": false
+    },
+    {
+      "elapsed_ms": 0.023,
+      "errno": 111,
+      "errno_name": "ECONNREFUSED",
+      "message": "[Errno 111] Connection refused",
+      "reachable": false
+    },
+    {
+      "elapsed_ms": 0.014,
+      "errno": 111,
+      "errno_name": "ECONNREFUSED",
+      "message": "[Errno 111] Connection refused",
+      "reachable": false
+    },
+    {
+      "elapsed_ms": 0.012,
+      "errno": 111,
+      "errno_name": "ECONNREFUSED",
+      "message": "[Errno 111] Connection refused",
+      "reachable": false
+    },
+    {
+      "elapsed_ms": 0.012,
+      "errno": 111,
+      "errno_name": "ECONNREFUSED",
+      "message": "[Errno 111] Connection refused",
+      "reachable": false
+    }
+  ],
+  "attempts_reachable": 0,
+  "attempts_total": 5,
+  "configured_client_id_present": false,
+  "host": "127.0.0.1",
+  "paper_account_shape": {
+    "configured": true,
+    "length": 9,
+    "note": "the number itself never enters an artifact; the prefix is the provenance signal",
+    "prefix": "D"
+  },
+  "port": 4002,
+  "port_role": "paper",
+  "probe": "ib_gateway_tcp_reachability",
+  "taken_utc": "2026-09-03T06:24:02Z",
+  "verdict": "UNREACHABLE",
+  "what_this_does_not_establish": "A TCP connect proves a listener, not a session. Account list, futures options permission on CME crypto products, chain enumeration and market data subscription state each need an API handshake and are recorded Absent until one succeeds."
+}

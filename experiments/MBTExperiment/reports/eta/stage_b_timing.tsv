@@ -1,0 +1,4 @@
+mark	utc	epoch	note
+session_start	2026-09-03T06:26:24Z	1788416784	stage B opened; directory confirmed
+task0_start	2026-09-03T06:26:24Z	1788416784	boundary hash and gateway probe
+task0_end	2026-09-03T06:27:35Z	1788416855	probes recorded; gateway UNREACHABLE
