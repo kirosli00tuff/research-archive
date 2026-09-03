@@ -197,3 +197,313 @@ own.
 `REGISTERED_PREMIUM_BASIS` in `src/mbt/registry.py` names basis B, and
 `tests/test_registration.py` pins both it and the two ceilings against this
 document.
+
+---
+
+## Section 1 — VRPExperiment Sections 4.1, 4.2 and 4.3, transcribed verbatim
+
+**Transcribed rather than paraphrased.** A paraphrase of a sampling rule is a new
+sampling rule. The text below is quoted from
+`~/Documents/GitHub/VRPExperiment/REGISTRATION.md`, read across the read-only
+boundary and hashed before and after this stage.
+
+### 1.1 VRPExperiment 4.1 — What must be measured, never carried
+
+> Only for venues classified **PERMITTED** in TASK 3:
+>
+> 1. **Quoted bid-ask on the specific option series that would be traded** —
+>    the ATM series at the 30-day tenor, not a proxy instrument — sampled across
+>    **at least 20 distinct observation windows**, reported as **median, 90th
+>    percentile, and the full distribution, each with its `n`**.
+> 2. **Exchange and broker commission**, verified against the **live** schedule on
+>    the retrieval date, recorded verbatim with its URL.
+> 3. **The cost of the delta hedge** on the reachable futures contract, measured
+>    **the same way** — bid-ask across ≥ 20 windows plus commission.
+> 4. **The number of rebalances a registered hedging rule would require, with the
+>    cost of each.** The hedging rule is registered in 4.3 below, before any data.
+
+### 1.2 VRPExperiment 4.2 — How cost is reported
+
+> All-in round-trip cost is reported **as a fraction of notional** and **as a
+> fraction of premium collected**, at **both a central and a pessimistic end**,
+> with **the statistic assigned to each end registered here, before anything
+> downstream is computed**:
+>
+> | end | option leg | hedge leg | commission | rebalance count |
+> |---|---|---|---|---|
+> | **central** | **median** half-spread | **median** half-spread | live schedule | the registered rule's **median** count |
+> | **pessimistic** | **90th percentile** half-spread | **90th percentile** half-spread | live schedule | the registered rule's **90th percentile** count |
+>
+> **This is the ORB lesson, named.** ORBExperiment carried a slippage band from a
+> different instrument (QQQ) onto US single names; when the band was finally
+> measured on the traded instrument, **five of six legs were understated**, the
+> resulting shift was **0.467065 USD/share against a carried 0.041455 — 11.27
+> times larger** — and the closure flipped. One leg (the central stop exit,
+> 0.033529 measured against 0.040 carried) was **overstated**, and ORB recorded it
+> because a measurement is not a reduction. **This registration carries no cost
+> figure from anywhere.**
+
+**The central and pessimistic assignment is fixed upstream and is not reopened
+here.** Central takes the median, pessimistic takes the 90th percentile. This
+stage inherits the assignment and does not re-derive it, re-argue it, or sweep it.
+
+### 1.3 VRPExperiment 4.3 — The registered hedging rule
+
+> Registered before any data so the rebalance count is not a free parameter:
+>
+> > **Delta-hedge the short ATM straddle on the reachable futures contract, resized
+> > whenever the position delta moves more than ±0.10 from flat, evaluated once per
+> > calendar day at the fixed UTC instant of Section 2.5, over the 30-day tenor.**
+>
+> The ±0.10 band and the daily evaluation are both **registered choices, not
+> optima**. Per MLCryptoEngine ADR-034, a rebalancing band is a **trade-off between
+> bounded capital and bounded trading cost** and is therefore **swept and reported,
+> never chosen**: the count is additionally reported at **±0.05 and ±0.20** as a
+> sensitivity, with the ±0.10 figure as the registered primary.
+
+### 1.4 The measured rebalance counts, carried
+
+Measured by VRPExperiment TASK 6 inside the sealed read, **n = 1,955 paths per
+asset**. Carried here as measurements, never recomputed.
+
+| quantity | value | n |
+|---|---|---|
+| rebalances at the registered ±0.10 band, median | **11** | 1,955 paths |
+| rebalances at the registered ±0.10 band, 90th percentile | **16** | 1,955 paths |
+| **BTC maximum** | **20** | 1,955 paths |
+| ETH maximum, recorded for completeness | 22 | 1,955 paths |
+| rebalances at the swept ±0.05 band, median | 17 | 1,955 paths |
+| rebalances at the swept ±0.20 band, median | 5 | 1,955 paths |
+| structural maximum a daily rule can reach over 30 days | 29 | a property of the rule, not a path |
+
+**This repository measures no ETH figure.** The ETH maximum is recorded because
+omitting it from a table that carries the BTC one would misrepresent the source.
+
+---
+
+## Section 2 — The commission figures, ported as measured
+
+**Measured by VRPExperiment against the live IBKR Canada schedule on
+2026-08-30**, lowest volume tier (≤ 1,000 contracts per month), where Tiered and
+Fixed rates coincide. Ported here as measurements. **Nothing below is
+recomputed**, and no figure is carried from any other repository.
+
+| figure | value |
+|---|---|
+| commission per MBT contract, lowest volume tier | **USD 0.85** |
+| straddle round trip, four contract fills, 4 × $0.85 = $3.40 | **4.352 bps of notional** |
+| one rebalance fill on the MBT micro future | **1.088 bps of notional** |
+| **all-in on commission alone, central** (straddle + 11 rebalances) | **16.320 bps** |
+| **all-in on commission alone, pessimistic** (straddle + 16 rebalances) | **21.760 bps** |
+
+Both all-in figures are pinned by identity in `tests/test_registration.py`:
+`4.352 + 11 × 1.088 = 16.320` and `4.352 + 16 × 1.088 = 21.760`.
+
+**The commission is not the all-in cost, and IBKR's own schedule says so**, in
+the text VRPExperiment recorded verbatim: *"non-member exchange and regulatory
+fees are applied, unless a client is pre-qualified by IBKR."* That leg is the
+subject of Task 6 and is `Absent(not_served)`.
+
+---
+
+## Section 3 — What Sections 4.1 to 4.3 leave to an implementer, fixed here
+
+**Each of these is a place where a quiet wrong answer produces a valid-looking
+straddle either way.** None is a detail. All are fixed before any chain was
+enumerated and any quote stored.
+
+### 3.1 The reference price that "at the money" is measured against
+
+> **The at-the-money reference is the midpoint of the MBT front future's touch at
+> the observation instant.** Not an index level, not the option's own underlying
+> field, and not a spot price from a third party.
+
+**Mechanism.** The straddle is delta-hedged with that future. A strike chosen
+against any other reference is not delta-neutral against the instrument that
+actually hedges it, so the registered hedging rule would begin from a non-zero
+delta and its rebalance count would no longer be the count that was measured.
+
+**If the future's quote is refused for any reason in 3.4, the whole straddle is
+refused.** No reference price means no at-the-money strike, and one is never
+substituted.
+
+### 3.2 The at-the-money strike selection rule
+
+> **The listed strike minimising the absolute distance from the reference price.
+> At a tie, the LOWER strike.**
+
+**Mechanism for the tie rule.** Two equidistant strikes are equally
+at-the-money, so the choice between them is **arbitrary by construction**. What
+matters is not which is chosen but that it is chosen **before any chain is
+enumerated**, so it cannot be made after seeing which of the two quotes tighter.
+Registering the arbitrary choice is the whole function of registering it.
+
+The artifact records whether the tie rule fired, so a reader can see it was
+exercised rather than merely present.
+
+### 3.3 The 30-day tenor resolution rule
+
+> **The listed expiry minimising the absolute distance from 30 days, measured
+> from the observation instant to the expiry's SETTLEMENT INSTANT, not to
+> midnight. At a tie, the LONGER tenor. An expiry already past is excluded.**
+
+**Mechanism for measuring to the settlement instant.** CME crypto options settle
+at a contract-specific time, not at midnight UTC. Two expiries on the same
+calendar day have different tenors, and calendar-day arithmetic reports them as
+identical. `tests/test_chain.py` contains a case constructed so the two rules
+**disagree** — 29.75 days against 30.458 days on one calendar date — so the test
+fails if the implementation ever reverts to calendar days.
+
+**Mechanism for the tie rule.** The registered hedging rule evaluates delta once
+per calendar day **over a 30-day tenor**, and the rebalance counts carried in 1.4
+were measured over exactly that path. A tenor shorter than 30 days truncates the
+path and offers fewer evaluation points than the rule those counts came from. At
+a tie the longer tenor is the one the registered 30-day path fits inside.
+
+**Rounding direction, stated plainly:** the rule rounds to **nearest**, and only
+at an exact tie does it round **up**.
+
+### 3.4 The refusal conditions
+
+> **A leg is refused, and with it the whole window, when any of the following
+> holds. Each is a typed absence carrying its reason, never a number.**
+
+| condition | test | typed reason |
+|---|---|---|
+| **unquoted leg** | bid or ask absent at the observation instant | `Absent(unquoted_leg)` |
+| **crossed book** | bid strictly greater than ask | `Absent(crossed_book)` |
+| **zero bid** | bid at or below zero | `Absent(zero_bid)` |
+| **stale timestamp** | venue stamp trails local capture by more than **5.0 seconds** | `Absent(stale_timestamp)` |
+| **delayed tick** | IBKR market data type 3, or any unreported status | `Absent(delayed_tick)` |
+| **frozen tick** | IBKR market data type 2 or 4 | `Absent(frozen_tick)` |
+
+**The order of the checks is registered and is not incidental.** Structure is
+checked before staleness, and staleness before delay. A crossed book on a delayed
+feed is reported as **crossed**, because the book being broken is the more
+specific fact and the one a reader needs first. Reporting it as merely delayed
+would hide that the venue served something impossible.
+
+**An unreported tick status is treated as inadmissible, never as real-time.**
+IBKR silently downgrades to delayed data when no subscription covers an
+instrument, so "no status" and "delayed" fail the same way by design.
+
+**A refused window is recorded with its reason and is never dropped.** Dropping
+refusals to reach 20 would turn the count into a selection, and the selection
+would be on exactly the book states the refusal conditions identify as unusual.
+
+**No gap is ever filled by widening a figure from another venue.** See Section 4.
+
+### 3.5 What makes two observation windows distinct, in clock terms
+
+> **Two observation windows are distinct if and only if their local capture
+> instants differ by at least 60 MINUTES, and at most 4 windows are drawn from
+> any one UTC CALENDAR DAY.**
+
+Stated in clock terms rather than in count terms, as required.
+
+**Mechanism for the 60 minutes.** An option book's touch persists over minutes.
+Two samples inside an hour re-measure one book state, inflating `n` without
+adding information, and an inflated `n` makes a 90th percentile look better
+determined than it is.
+
+**Mechanism for the 4-per-day cap.** Without it, 20 windows could all be drawn
+from one afternoon, and the 90th percentile would describe the tail of a single
+session rather than the tail across sessions. The cap forces the sample across at
+least **five collection days**.
+
+**The consequence, which is why Task 5 is clock-bound.** 20 windows at 4 per day
+is **5 collection days minimum**. The census cannot be compressed below that by
+any amount of effort, and the projected completion date follows from the first
+day a session exists, not from the day the harness was built.
+
+**A missed window is a gap in a discrete sample and is recorded as one, never
+backfilled.** Because the machine's internal fans are not functioning, the census
+runs as **discrete sampling with the session closed between windows**, never as a
+resident collector.
+
+### 3.6 What is deliberately NOT fixed here
+
+Recorded so that a later reader does not mistake an absence for an oversight.
+
+- **The central and pessimistic assignment.** Fixed upstream in VRPExperiment 4.2
+  and inherited. Not reopened.
+- **The ±0.10 delta band.** A registered choice, not an optimum. Swept at ±0.05
+  and ±0.20 and reported alongside, never selected between.
+- **The exchange and regulatory fee.** `Absent(not_served)`. Task 6 determines it
+  or records it absent, and does not estimate it.
+
+### 3.7 The trial grid, counted, and its deflation
+
+**A registration that does not count its own degrees of freedom has not
+constrained them.**
+
+| degree of freedom | choices available |
+|---|---|
+| premium basis | 2 — full sample, most recent quarter |
+| delta band as primary | 3 — ±0.05, ±0.10, ±0.20 |
+| central/pessimistic assignment | 2 — median/p90, or swapped |
+| at-the-money strike tie rule | 2 — lower, higher |
+| 30-day tenor tie rule | 2 — shorter, longer |
+
+**Discrete combinations: 2 × 3 × 2 × 2 × 2 = 48.** Three further tolerances are
+continuous rather than discrete: the staleness tolerance, the window spacing, and
+the windows-per-day cap.
+
+> **Deflation: every one of the 48 is fixed above, before any quote is stored,
+> and each of the three continuous tolerances is pinned to a single registered
+> value. The grid deflates to 1. Nothing is left selectable.**
+
+The sweeps at ±0.05 and ±0.20 are **not** a re-expansion of the grid: they are
+reported alongside the registered primary as a sensitivity, and no result is read
+off them.
+
+---
+
+## Section 4 — Deribit is REFERENCE ONLY and is never substituted
+
+> **Deribit's measured BTC straddle round-trip quoted spread of 22.50 bps
+> (medians, n = 24 observation windows per leg, 96 observations, zero unquoted)
+> is REFERENCE ONLY. It may never be substituted for a CME spread, and no gate
+> in this repository reads it.**
+
+**Deribit prohibits Canadian residents.** Its restricted-jurisdictions page,
+stamped `2026-03-19T16:49:36Z`, lists "Canada" bare, with none of the narrowing
+qualifiers five other entries carry. **A venue a British Columbia resident may
+not use has no cost in this experiment; it does not have a cheap cost.**
+
+**This rests on VRPExperiment ADR-008**, quoted:
+
+> **Decision.** Measure it, label it **REFERENCE ONLY, not a cost input**, and let
+> no verdict read it.
+>
+> **Consequence.** This is the ORBExperiment lesson applied in advance rather than
+> in hindsight: a band carried from a different instrument understated **five of
+> six legs** and produced a shift **11.27× too small**, while *over*stating a
+> sixth — so "assume worse" would not have rescued it either.
+
+**The sixth leg is the part that matters most and is the easiest to forget.**
+Because one leg was *over*stated, a reader cannot rescue a carried band by
+assuming the carried figure is merely optimistic. A carried band is wrong in both
+directions at once, which is why it is refused rather than adjusted.
+
+**What this forecloses in this stage, concretely.** If the census falls short of
+20 windows, or if legs are refused, the shortfall is reported as a shortfall. It
+is never topped up from Deribit, from MLCryptoEngine's futures measurements, from
+tick-size modelling, or from a comparable instrument.
+
+---
+
+## Section 5 — The operator prior
+
+> **RESERVED — EMPTY.**
+
+This slot exists for the calibration ledger and blocks nothing in this stage. If
+the operator records a prior before the census completes, it is scored alongside
+the assistant's; if not, **the absence is recorded as an absence rather than
+backfilled.**
+
+VRPExperiment's handover notes that its own assistant prior *"resolved in favour
+of the branch it weighted — but for a partly wrong reason"*, and that **a prior
+which gets the branch right through a wrong mechanism should not be scored as a
+clean hit.** That note is carried here as the standard this slot would be scored
+against.
