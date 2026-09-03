@@ -1,0 +1,30 @@
+{
+  "absent": {
+    "absent": "true",
+    "detail": "MBT_IB_PAPER_CLIENT_ID is unset or empty. Set it in .env, copying the shape from .env.example. This repository holds no default for it, because a default account number or a default port is how a session ends up somewhere nobody chose.",
+    "reason": "not_served"
+  },
+  "appended": false,
+  "at": "2026-09-03T06:54:39.870Z",
+  "census": {
+    "median_bps": {
+      "absent": "true",
+      "detail": "no observations, so the 50% percentile is absent and is never reported as zero or as nan.",
+      "reason": "insufficient_sample"
+    },
+    "meets_minimum": false,
+    "n_accepted": 0,
+    "n_refused": 0,
+    "n_required": 20,
+    "p90_bps": {
+      "absent": "true",
+      "detail": "no observations, so the 90% percentile is absent and is never reported as zero or as nan.",
+      "reason": "insufficient_sample"
+    },
+    "refusal_reasons": {}
+  },
+  "command": "census",
+  "ok": false,
+  "reason": "no session, so no window was appended. A missed window is a gap in a discrete sample and is recorded as one, never backfilled.",
+  "stage": "config"
+}
