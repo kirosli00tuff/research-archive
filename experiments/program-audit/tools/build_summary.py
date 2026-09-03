@@ -22,6 +22,8 @@ RULINGS = ['UPHELD', 'UPHELD_WITH_CORRECTION', 'NOT_UPHELD', 'UNRESOLVABLE_ON_AV
 
 
 def load(path):
+    if not os.path.isfile(path):
+        return []  # not produced (yet); the narrative reports gaps explicitly
     try:
         with open(path, encoding='utf-8') as fh:
             data = json.load(fh)
