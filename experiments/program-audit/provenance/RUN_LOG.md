@@ -198,3 +198,11 @@ about three minutes in and nothing written to disk by them (no draft files). MOD
 records the new allocation: explicit Opus on every agent except A-cross-repo, B-cross-repo and D4-D5.
 All five workflow scripts patched and syntax-checked. Cleanliness check
 "01-agentA-blind-run8-stopped-AFTER": only the pre-existing entries.
+
+## 2026-09-03 19:36Z — Agent A blind pass, run 9 (fresh run wf_60282a09-268, Opus readers)
+First run under MODEL_POLICY.md revision 2: readers, consolidators, verifiers and appliers all on Opus;
+only A-cross-repo inherits the session model. Args from tools/agent_state.py: done_repos =
+[HFExperiment, InsiderExperiment, NPDExperiment, retail-power-limits]; done_parts = {}; consolidated = {};
+the same 36 cross-repo leads as run 8 (provenance/launch-args/agentA-run9.args.json). Cleanliness check
+"01-agentA-blind-run8-stopped-AFTER" serves as the BEFORE check for this run (nothing touched an audited
+repository in between). Task id w4jh48cgb. Nine repositories to read, BATCH = 2, smallest first.
