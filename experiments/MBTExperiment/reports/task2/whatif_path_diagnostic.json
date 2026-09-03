@@ -1,0 +1,81 @@
+{
+  "artifact": "whatif_path_diagnostic",
+  "defects": [
+    {
+      "consequence": "no margin can be read by this package, on any product, in any environment",
+      "id": "D-3",
+      "measured": "IBKR error 321: \"Error validating request.-'bD' : cause - What-If order should have transmit flag set to TRUE.\" Raised on every product tried: SPY, the ES front future, the MBT front future and an MBT option, at n = 4 of 4 products. The request is then never resolved, so an unbounded wait hangs rather than failing.",
+      "title": "the venue rejects every what-if this package can construct",
+      "what_stage_b_believed": "broker.py records: 'Two flags rather than one because they fail differently: whatIf makes the request a preview, and transmit=False means that even a hypothetically mis-routed order would sit unsent.' and 'A preview never needs it'. The venue's own validation contradicts the last clause: a preview is REQUIRED to carry it.",
+      "where": "src/mbt/broker.py: build_short_option_order sets transmit=False, and what_if_order REFUSES transmit=True"
+    },
+    {
+      "consequence": "even with D-3 fixed, a what-if without an explicit TIF returns nothing",
+      "id": "D-4",
+      "measured": "With transmit=True and no tif, IBKR warns 10349 'Order TIF was set to DAY based on order preset' and ends the request with NO OrderState, which ib_async surfaces as an empty list. Isolated at n = 4 combinations on the MBT front future: tif unset and account unset -> EMPTY; account set only -> EMPTY; tif='DAY' only -> OrderState; tif='DAY' and account set -> OrderState. **tif is the load-bearing field and account is not.**",
+      "title": "an unset TIF makes the venue return no OrderState at all",
+      "where": "src/mbt/broker.py: build_short_option_order sets no tif"
+    }
+  ],
+  "proof_nothing_was_placed": {
+    "enumerated_from": "the session after every preview, in all 4 diagnostic runs",
+    "fills": 0,
+    "open_orders": 0,
+    "open_trades": 0,
+    "positions": 0,
+    "trades": 0
+  },
+  "status": "DIAGNOSTIC EVIDENCE, obtained OUTSIDE the package code path",
+  "taken_utc": "2026-09-03T19:20:00Z",
+  "venue_behaviour_once_both_defects_are_bypassed": {
+    "note": "Measured with whatIf=True, transmit=True and tif='DAY'. These are PAPER figures and are inadmissible to the MARGIN gate by REGISTRATION.md Section 0.3 and 0.4. They are recorded as development evidence about the venue.",
+    "previews": [
+      {
+        "action": "BUY 100",
+        "commission": 1.0003,
+        "currency": "USD",
+        "equity_with_loan_change": -1.96,
+        "init_margin_change": 32007.78,
+        "maint_margin_change": 32007.78,
+        "product": "SPY",
+        "response_seconds": 0.26,
+        "status": "PreSubmitted"
+      },
+      {
+        "action": "SELL 1",
+        "commission": 2.01,
+        "currency": "USD",
+        "equity_with_loan_change": -3.89,
+        "init_margin_change": 6496.82,
+        "maint_margin_change": 5649.42,
+        "product": "MBT front future MBTU6",
+        "response_seconds": 0.24,
+        "status": "PreSubmitted"
+      },
+      {
+        "STRIKE_CAVEAT": "Strike 110000 was chosen for a PERMISSION probe before any reference price existed. The front future's delayed mid was about 81,540, so this option is deep out of the money and is NOT the registered at-the-money series. Its margin is NOT the registered MBT figure and must not be read as one.",
+        "action": "SELL 1",
+        "commission": 2.01,
+        "currency": "USD",
+        "equity_with_loan_change": -6.8,
+        "init_margin_change": 3182.02,
+        "maint_margin_change": 2547.61,
+        "product": "MBT option W1EV6 C110000",
+        "response_seconds": 0.24,
+        "status": "PreSubmitted"
+      }
+    ],
+    "response_time_n": 7,
+    "response_time_range_seconds": [
+      0.24,
+      0.26
+    ]
+  },
+  "what_this_establishes": {
+    "futures_options_permission_on_cme_crypto": "PRESENT. The venue returned an initial margin for a short MBT option, so the account may price the instrument. Permission is a property of the ACCOUNT, and what was learned about the account does not depend on which code path asked. This is NOT the terminal finding Task 1 registered, which was permission ABSENT.",
+    "orderstate_fee_fields": "CONFIRMED against a live session, contradicting nothing: OrderState carries 17 fields and ZERO exchange or regulatory fee fields, at n = 3 previews. The field list is commission, commissionCurrency, completedStatus, completedTime, equityWithLoanAfter, equityWithLoanBefore, equityWithLoanChange, initMarginAfter, initMarginBefore, initMarginChange, maintMarginAfter, maintMarginBefore, maintMarginChange, maxCommission, minCommission, status, warningText. Stage B established this by reading the library; it is now measured against the venue.",
+    "what_it_does_not_establish": "The absence of a fee FIELD is not the absence of the fee from the scalar `commission`. The response cannot distinguish them, so the leg stays Absent(not_served) and is not estimated."
+  },
+  "what_was_NOT_done_and_why": "The package was NOT changed to set transmit=True. Doing so would weaken the one flag whose purpose is preventing order transmission, in reaction to what the venue turned out to demand, and it would flip the stage verdict to HARNESS-READY on a safety property rewritten after the fact. That is the exact move this stage's governing rule forecloses. The defect is recorded and the decision is left to the operator.",
+  "why_outside_the_package": "The package's preview path cannot obtain a margin from IBKR at all (defects D-3 and D-4 below). Answering Task 1's terminal question, whether futures options permission on CME crypto products is absent, required a what-if the venue would actually process. That was run as a scratchpad diagnostic rather than by changing the package, so the package's no-transmit property is exactly as Stage B left it. Every order object carried whatIf=True as a literal, which is what makes IBKR return a margin preview and discard the order."
+}

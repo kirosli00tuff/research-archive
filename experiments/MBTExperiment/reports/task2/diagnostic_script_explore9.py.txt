@@ -1,0 +1,56 @@
+"""DIAGNOSTIC. Isolate the empty-OrderState cause, and measure feed state on all three legs."""
+import asyncio, sys, time
+sys.path.insert(0, "src")
+from mbt.config import GatewayConfig
+from mbt.provenance import Environment
+from ib_async import IB, FuturesOption, Future, Order
+
+cfg = GatewayConfig.load(Environment.PAPER)
+ib = IB(); seen=[]
+ib.errorEvent += lambda i,c,m,ct: seen.append((i,c,m[:120],getattr(ct,'localSymbol',None)))
+ib.connect(cfg.host, cfg.port, clientId=cfg.client_id, timeout=15)
+acct = ib.managedAccounts()[0]
+
+futs = await_ = None
+async def main():
+    futs = await ib.reqContractDetailsAsync(Future(symbol="MBT", exchange="CME"))
+    f0 = sorted(futs, key=lambda c: c.contract.lastTradeDateOrContractMonth)[0].contract
+    fop = (await ib.qualifyContractsAsync(FuturesOption(symbol="MBT", lastTradeDateOrContractMonth="20261002",
+            strike=110000, right="C", exchange="CME", tradingClass="W1E", multiplier="0.1")))[0]
+
+    print("=== isolate the empty-OrderState cause (MBT future, transmit=True throughout) ===", flush=True)
+    for label, kw in (("no tif, no account", {}),
+                      ("tif=DAY only", {"tif": "DAY"}),
+                      ("account only", {"account": acct}),
+                      ("tif=DAY + account", {"tif": "DAY", "account": acct})):
+        o = Order(action="SELL", orderType="MKT", totalQuantity=1, whatIf=True, transmit=True, **kw)
+        assert o.whatIf is True
+        try:
+            st = await asyncio.wait_for(ib.whatIfOrderAsync(f0, o), 20.0)
+            ok = not isinstance(st, list)
+            print(f"   {label:22s} -> {'OrderState init=' + str(st.initMarginChange) if ok else 'EMPTY (no OrderState)'}", flush=True)
+        except asyncio.TimeoutError:
+            print(f"   {label:22s} -> TIMEOUT", flush=True)
+
+    print("\n=== market data feed state, all three legs ===", flush=True)
+    for mdtype, name in ((1, "REALTIME requested"), (3, "DELAYED requested")):
+        ib.reqMarketDataType(mdtype)
+        print(f" -- reqMarketDataType({mdtype}) [{name}]", flush=True)
+        for lbl, c in (("future_hedge", f0), ("option_call", fop)):
+            tk = ib.reqMktData(c, "", False, False)
+            for _ in range(24):
+                ib.sleep(0.25)
+                if tk.bid == tk.bid and tk.ask == tk.ask: break
+            print(f"    {lbl:13s} mdType={tk.marketDataType} bid={tk.bid} ask={tk.ask} "
+                  f"bidSize={tk.bidSize} askSize={tk.askSize} time={tk.time}", flush=True)
+            ib.cancelMktData(c)
+
+    print("\n=== errors ===", flush=True)
+    for s in seen:
+        if s[1] not in (2104,2106,2107,2158,10349): print("   ", s, flush=True)
+    print("\n=== PROOF NOTHING PLACED ===", flush=True)
+    print("   openOrders", len(ib.openOrders()), "trades", len(ib.trades()),
+          "positions", len(ib.positions()), "fills", len(ib.fills()), flush=True)
+
+ib.run(main())
+ib.disconnect()

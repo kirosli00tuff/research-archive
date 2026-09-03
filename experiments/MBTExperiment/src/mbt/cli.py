@@ -13,7 +13,8 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from mbt.absence import AbsenceReason, Absent
+from mbt.absence import AbsenceReason, Absent, Maybe
+from mbt.broker import build_short_option_order, what_if_order
 from mbt.census import CensusLedger, summarise
 from mbt.clock import iso_utc, utc_now
 from mbt.config import ConfigError, GatewayConfig
@@ -237,6 +238,131 @@ def cmd_census(args: argparse.Namespace) -> int:
     return 0 if payload["ok"] else 1
 
 
+def cmd_known_answer(args: argparse.Namespace) -> int:
+    """PAPER. Reproduce an independently checkable margin through the MBT path.
+
+    **The product is liquid and the path is the same one that would read MBT.**
+    A pipeline that has only ever been pointed at the instrument it was built for
+    has never been checked against anything, so the check runs the package's own
+    preview wrapper rather than a reimplementation of it that happens to work.
+
+    **The expected margin is an OPERATOR INPUT.** CME refused automated access to
+    its schedule, citing its own Data Terms of Use, and that refusal is obeyed
+    here. With no operator value supplied the check records an absence and the
+    MBT output stays untrusted. An absence is not a pass.
+    """
+    import os
+    import time
+
+    from mbt.config import load_dotenv
+    from mbt.probe import BoundedWhatIfBroker
+    from mbt.whatif import known_answer_check
+
+    source_env = {**load_dotenv(), **dict(os.environ)}
+    symbol = source_env.get("MBT_KNOWN_ANSWER_SYMBOL", "ES").strip() or "ES"
+    expected_text = source_env.get("MBT_KNOWN_ANSWER_MARGIN_USD", "").strip()
+    expected_source = source_env.get("MBT_KNOWN_ANSWER_SOURCE", "").strip()
+
+    expected: Maybe[float]
+    if not expected_text:
+        expected = Absent(
+            AbsenceReason.NOT_YET_MEASURED,
+            "MBT_KNOWN_ANSWER_MARGIN_USD is unset, so no independently checkable "
+            "margin was supplied to compare against. The expected value is an "
+            "operator input read by a person, because CME's Data Terms of Use "
+            "refusal binds automated access to its schedule. This repository does "
+            "not scrape it, infer it from a third party, or carry one from "
+            "another repository.",
+        )
+    else:
+        try:
+            expected = float(expected_text)
+        except ValueError:
+            expected = Absent(
+                AbsenceReason.NOT_SERVED,
+                "MBT_KNOWN_ANSWER_MARGIN_USD did not parse as a number.",
+            )
+
+    config = GatewayConfig.load(Environment(args.env))
+    from ib_async import IB, Future
+
+    ib = IB()
+    errors: list[str] = []
+    ib.errorEvent += lambda reqId, code, msg, contract: errors.append(
+        f"reqId={reqId} code={code} {msg[:180]}"
+    )
+    ib.connect(config.host, config.port, clientId=config.client_id, timeout=20)
+    try:
+        accounts = list(ib.managedAccounts())
+        provenance = SessionProvenance.from_connection(
+            declared=Environment(args.env),
+            connected_account=accounts[0],
+            client_id=config.client_id,
+            host=config.host,
+            port=config.port,
+        )
+        listed = [d.contract for d in ib.reqContractDetails(Future(symbol=symbol, exchange="CME"))]
+        dated = [c for c in listed if c is not None and c.lastTradeDateOrContractMonth]
+        if not dated:
+            raise RuntimeError(f"no listed {symbol} future to check against")
+        contract = min(dated, key=lambda c: c.lastTradeDateOrContractMonth)
+
+        broker = BoundedWhatIfBroker(ib)
+        started = time.perf_counter()
+        order = build_short_option_order(quantity=1)
+        preview = what_if_order(broker, contract, order, whatIf=True)
+        elapsed = time.perf_counter() - started
+
+        check = known_answer_check(
+            product=f"{symbol} front future {contract.localSymbol}",
+            expected=expected,
+            preview=preview,
+            source_of_expected=expected_source
+            or "ABSENT: no operator-supplied source was recorded",
+        )
+        blockers: list[str] = []
+        if isinstance(expected, Absent):
+            blockers.append(
+                "no operator-supplied expected margin "
+                f"(MBT_KNOWN_ANSWER_MARGIN_USD unset): {expected.reason}"
+            )
+        if broker.last_timed_out or not preview.init_margin_change.strip():
+            blockers.append(
+                "the venue returned no OrderState for a what-if built by this "
+                "package, so no margin was measured to compare"
+            )
+        payload: dict[str, Any] = {
+            **check.as_row(),
+            "blockers": blockers,
+            "blocker_count": len(blockers),
+            "detail": (
+                check.detail
+                if len(blockers) < 2
+                else (
+                    f"{len(blockers)} independent blockers, so the outcome is "
+                    "over-determined and clearing either one alone would not "
+                    "reproduce a known answer: " + "; ".join(blockers)
+                )
+            ),
+            "command": "known-answer",
+            "environment": str(provenance.measured),
+            "code_path": (
+                "mbt.broker.build_short_option_order -> mbt.broker.what_if_order, "
+                "the same path that would read MBT"
+            ),
+            "elapsed_seconds": round(elapsed, 4),
+            "venue_answered": not broker.last_timed_out,
+            "broker_errors": errors,
+            "orders_open_after_check": len(ib.openOrders()),
+            "trades_after_check": len(ib.trades()),
+        }
+    finally:
+        ib.disconnect()
+
+    _emit(payload, REPORTS / "task4" / "known_answer.json")
+    return 0 if payload.get("agrees") is True else 1
+
+
 def cmd_gates(_: argparse.Namespace) -> int:
     """Offline. Fire what can be fired from recorded figures, record what cannot."""
     ledger = CensusLedger(CENSUS_PATH)
@@ -323,6 +449,10 @@ def build_parser() -> argparse.ArgumentParser:
     full_p = sub.add_parser("probe-full", help="PAPER. Handshake, permission, feed state")
     full_p.add_argument("--env", default="paper", choices=[e.value for e in Environment])
     full_p.set_defaults(func=cmd_probe_full)
+
+    ka_p = sub.add_parser("known-answer", help="PAPER. Reproduce a checkable margin")
+    ka_p.add_argument("--env", default="paper", choices=[e.value for e in Environment])
+    ka_p.set_defaults(func=cmd_known_answer)
 
     gates_p = sub.add_parser("gates", help="Offline. Fire the gates from recorded figures")
     gates_p.set_defaults(func=cmd_gates)

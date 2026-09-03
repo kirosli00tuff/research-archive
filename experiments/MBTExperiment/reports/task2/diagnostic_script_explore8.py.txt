@@ -1,0 +1,50 @@
+"""DIAGNOSTIC. whatIf=True literal on every order. Proves afterwards nothing was placed."""
+import asyncio, sys, time
+sys.path.insert(0, "src")
+from mbt.config import GatewayConfig
+from mbt.provenance import Environment
+from ib_async import IB, FuturesOption, Future, Stock, Order
+
+cfg = GatewayConfig.load(Environment.PAPER)
+ib = IB()
+ib.errorEvent += lambda i,c,m,ct: print(f"   [err] reqId={i} code={c} sym={getattr(ct,'localSymbol',None)} :: {m[:150]}", flush=True)
+ib.connect(cfg.host, cfg.port, clientId=cfg.client_id, timeout=15)
+print("connected", flush=True)
+
+async def timed(label, contract, action, qty, **kw):
+    o = Order(action=action, orderType="MKT", totalQuantity=qty, whatIf=True, transmit=True,
+              tif="DAY", account=ib.managedAccounts()[0], **kw)
+    assert o.whatIf is True
+    t0 = time.perf_counter()
+    try:
+        st = await asyncio.wait_for(ib.whatIfOrderAsync(contract, o), 30.0)
+    except asyncio.TimeoutError:
+        print(f"  {label}: NO RESPONSE in 30s", flush=True); return None
+    dt = time.perf_counter()-t0
+    if isinstance(st, list):
+        print(f"  {label}: returned EMPTY in {dt:.2f}s -> no OrderState", flush=True); return None
+    print(f"  {label}: OK in {dt:.2f}s", flush=True)
+    print(f"     status={st.status!r} init={st.initMarginChange} maint={st.maintMarginChange}", flush=True)
+    print(f"     equityWithLoanChange={st.equityWithLoanChange}", flush=True)
+    print(f"     commission={st.commission} min={st.minCommission} max={st.maxCommission} cur={st.commissionCurrency!r}", flush=True)
+    print(f"     warning={st.warningText!r}", flush=True)
+    print(f"     n_fields={len(type(st).__dataclass_fields__)} fields={sorted(type(st).__dataclass_fields__)}", flush=True)
+    return st
+
+async def main():
+    spy = await ib.qualifyContractsAsync(Stock("SPY","SMART","USD"))
+    if spy: await timed("SPY BUY 100", spy[0], "BUY", 100)
+    futs = await ib.reqContractDetailsAsync(Future(symbol="MBT", exchange="CME"))
+    f0 = sorted(futs, key=lambda c: c.contract.lastTradeDateOrContractMonth)[0].contract
+    await timed(f"MBT FUTURE {f0.localSymbol} SELL 1", f0, "SELL", 1)
+    fop = await ib.qualifyContractsAsync(FuturesOption(symbol="MBT", lastTradeDateOrContractMonth="20261002",
+            strike=110000, right="C", exchange="CME", tradingClass="W1E", multiplier="0.1"))
+    if fop: await timed(f"MBT OPTION {fop[0].localSymbol} SELL 1  <-- PERMISSION PROBE", fop[0], "SELL", 1)
+    await asyncio.sleep(2)
+    print("\n=== PROOF NOTHING WAS PLACED ===", flush=True)
+    for name, val in (("openOrders", ib.openOrders()), ("openTrades", ib.openTrades()),
+                      ("trades", ib.trades()), ("positions", ib.positions()), ("fills", ib.fills())):
+        print(f"  {name}: {len(val)} -> {val}", flush=True)
+
+ib.run(main())
+ib.disconnect()
