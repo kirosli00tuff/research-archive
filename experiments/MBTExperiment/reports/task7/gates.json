@@ -1,0 +1,95 @@
+{
+  "at": "2026-09-03T06:58:43.070Z",
+  "census": {
+    "median_bps": {
+      "absent": "true",
+      "detail": "no observations, so the 50% percentile is absent and is never reported as zero or as nan.",
+      "reason": "insufficient_sample"
+    },
+    "meets_minimum": false,
+    "n_accepted": 0,
+    "n_refused": 0,
+    "n_required": 20,
+    "p90_bps": {
+      "absent": "true",
+      "detail": "no observations, so the 90% percentile is absent and is never reported as zero or as nan.",
+      "reason": "insufficient_sample"
+    },
+    "refusal_reasons": {}
+  },
+  "command": "gates",
+  "gates": [
+    {
+      "admissibility_note": "",
+      "ceiling": 1000.0,
+      "environment": "",
+      "figure_name": "",
+      "fired_at": "2026-09-03T06:58:43.070Z",
+      "gate": "margin",
+      "measured": null,
+      "outcome": "absent",
+      "reason": "Absent(no_live_session): a margin is a property of the ACCOUNT and needs a U-prefixed session. The paper-only clause is in force: the machine's internal fans are not functioning, so concurrent live and paper sessions are not run, and no separate live profile exists for this project.. An absent gate is a recorded state carrying its reason. It is never an unfired gate omitted from a verdict table, and never a paper figure promoted to stand in for a live one.",
+      "unit": "USD_per_contract"
+    },
+    {
+      "admissibility_note": "",
+      "ceiling": 34.6,
+      "environment": "",
+      "figure_name": "",
+      "fired_at": "2026-09-03T06:58:43.070Z",
+      "gate": "cost",
+      "measured": null,
+      "outcome": "absent",
+      "reason": "Absent(insufficient_sample): 0 of 20 registered windows collected, and the fee leg is Absent(not_served) regardless. The gate fires only when the minimum is met.. An absent gate is a recorded state carrying its reason. It is never an unfired gate omitted from a verdict table, and never a paper figure promoted to stand in for a live one.",
+      "unit": "bps_of_notional"
+    }
+  ],
+  "open_operator_items": [
+    "MBT_IB_PAPER_CLIENT_ID is unset in .env",
+    "IB Gateway is not running; it needs an interactive IBKR login",
+    "the live margin read needs a U-prefixed session, blocked by the non-functioning internal fans and by the absence of a live profile"
+  ],
+  "registered_cost_ceiling_bps": 34.6,
+  "registered_premium_basis": "recent_quarter_point",
+  "stage_verdict": {
+    "blocking": [
+      "all five guards fire under mutation",
+      "the known-answer test reproduces an independently checkable margin"
+    ],
+    "conditions": [
+      {
+        "condition": "the harness builds",
+        "detail": "no-transmit scan verdict 'CLEAN' over 16 package files, 0 findings",
+        "evidence": "reports/guards/no_transmit_scan.json",
+        "held": true
+      },
+      {
+        "condition": "all five guards fire under mutation",
+        "detail": "the mutation artifact is absent, so no guard has been shown to fail",
+        "evidence": "reports/mutations/mutations.json",
+        "held": false
+      },
+      {
+        "condition": "the known-answer test reproduces an independently checkable margin",
+        "detail": "no known-answer artifact: the check did not run, so the code path has not been checked against a known answer and its MBT output is not trusted",
+        "evidence": "reports/task4/known_answer.json",
+        "held": false
+      },
+      {
+        "condition": "the census is armed with its projected completion date",
+        "detail": "armed: 5 collection days required, 0 of 20 windows collected. Armed is not collected, and this condition asks only that the projection exists.",
+        "evidence": "reports/task5/projection_if_started_today.json",
+        "held": true
+      }
+    ],
+    "conditions_held": 2,
+    "conditions_total": 4,
+    "decided_at": "2026-09-03T06:58:43.070Z",
+    "unreachable_here": [
+      "HARVESTABLE-CONFIRMED",
+      "VENUE_BLOCKED"
+    ],
+    "verdict": "HARNESS-BLOCKED",
+    "why_unreachable": "Both need the MARGIN gate, which needs a U-prefixed session. The paper-only clause forecloses one, so neither is registered as available to this stage."
+  }
+}

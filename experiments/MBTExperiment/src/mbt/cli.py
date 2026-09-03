@@ -17,7 +17,7 @@ from mbt.absence import AbsenceReason, Absent
 from mbt.census import CensusLedger, summarise
 from mbt.clock import iso_utc, utc_now
 from mbt.config import ConfigError, GatewayConfig
-from mbt.gates import GateName, fire
+from mbt.gates import GateName, fire, fire_lower_bound
 from mbt.provenance import Environment
 from mbt.registry import (
     COST_CEILING_BPS,
@@ -26,6 +26,7 @@ from mbt.registry import (
     REGISTERED_PREMIUM_BASIS,
 )
 from mbt.session import unreachable
+from mbt.verdict import decide
 
 REPO = Path(__file__).resolve().parents[2]
 CENSUS_PATH = REPO / "data" / "quotes" / "census.jsonl"
@@ -129,14 +130,32 @@ def cmd_gates(_: argparse.Namespace) -> int:
         unit="USD_per_contract",
     )
 
-    cost_absent = Absent(
-        AbsenceReason.INSUFFICIENT_SAMPLE,
-        f"{summary.n_accepted} of {MIN_OBSERVATION_WINDOWS} registered windows "
-        "collected, and the fee leg is Absent(not_served) regardless. The gate "
-        "fires only when the minimum is met.",
-    )
-    cost_result = fire(GateName.COST, cost_absent, ceiling=COST_CEILING_BPS, unit="bps_of_notional")
+    # The COST gate. Its fee leg is Absent(not_served) regardless of environment,
+    # so the all-in sum cannot be formed and the gate falls back to the measured
+    # legs as a strict lower bound. That bound can FAIL and can never PASS.
+    absent_legs = ["exchange_and_regulatory_fee", "ibkr_daily_exposure_fee"]
+    if summary.meets_minimum and not isinstance(summary.p90_bps, Absent):
+        cost_result = fire_lower_bound(
+            GateName.COST,
+            summary.p90_bps,
+            ceiling=COST_CEILING_BPS,
+            unit="bps_of_notional",
+            absent_legs=absent_legs,
+        )
+    else:
+        cost_result = fire(
+            GateName.COST,
+            Absent(
+                AbsenceReason.INSUFFICIENT_SAMPLE,
+                f"{summary.n_accepted} of {MIN_OBSERVATION_WINDOWS} registered "
+                f"windows collected, and the fee leg is Absent(not_served) "
+                f"regardless. The gate fires only when the minimum is met.",
+            ),
+            ceiling=COST_CEILING_BPS,
+            unit="bps_of_notional",
+        )
 
+    outcome = decide()
     payload = {
         "command": "gates",
         "at": iso_utc(utc_now(), "cmd_gates"),
@@ -144,8 +163,22 @@ def cmd_gates(_: argparse.Namespace) -> int:
         "registered_cost_ceiling_bps": COST_CEILING_BPS,
         "census": summary.as_row(),
         "gates": [margin_result.as_row(), cost_result.as_row()],
+        "stage_verdict": outcome.as_row(),
+        "open_operator_items": [
+            "MBT_IB_PAPER_CLIENT_ID is unset in .env",
+            "IB Gateway is not running; it needs an interactive IBKR login",
+            "the live margin read needs a U-prefixed session, blocked by the "
+            "non-functioning internal fans and by the absence of a live profile",
+        ],
     }
     _emit(payload, REPORTS / "task7" / "gates.json")
+    return 0
+
+
+def cmd_verdict(_: argparse.Namespace) -> int:
+    """Offline. Recompute the stage verdict from the recorded artifacts."""
+    outcome = decide()
+    _emit(outcome.as_row(), REPORTS / "task7" / "verdict.json")
     return 0
 
 
@@ -163,6 +196,9 @@ def build_parser() -> argparse.ArgumentParser:
 
     gates_p = sub.add_parser("gates", help="Offline. Fire the gates from recorded figures")
     gates_p.set_defaults(func=cmd_gates)
+
+    verdict_p = sub.add_parser("verdict", help="Offline. Recompute the stage verdict")
+    verdict_p.set_defaults(func=cmd_verdict)
 
     return parser
 
