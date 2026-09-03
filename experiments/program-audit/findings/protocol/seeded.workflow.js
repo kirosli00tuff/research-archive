@@ -192,23 +192,30 @@ async function batched(items, fn) {
   return out
 }
 
+// Disk-state driven skipping (see agentA-blind.workflow.js): tools/agent_state.py <out> --seeded
+// passes {triage_done, check3_done, checks_done, c3merge_done} as args.state; every launch is fresh.
+const ST = (args && args.state) || {}
+const TRIAGE_DONE = new Set(ST.triage_done || [])
+const CHECK3_DONE = new Set(ST.check3_done || [])
+const CHECKS_DONE = new Set(ST.checks_done || [])
+const onDisk = (label) => { log(`${label}: on disk, skipped`); return Promise.resolve({ on_disk: true }) }
 phase('Triage')
-const triage = await batched(REPOS, r => agent(triagePrompt(r), { model: 'opus', label: `${AGENT}-triage:${r}`, phase: 'Triage', schema: TRIAGE_SCHEMA }))
+const triage = await batched(REPOS, r => TRIAGE_DONE.has(r) ? onDisk(`triage:${r}`).then(o => ({ ...o, repo: r })) : agent(triagePrompt(r), { model: 'opus', label: `${AGENT}-triage:${r}`, phase: 'Triage', schema: TRIAGE_SCHEMA }))
 const tri = triage.filter(Boolean)
 log(`triage done for ${tri.length}/13 repos`)
 if (tri.length < REPOS.length) { log('triage incomplete; stop here and resume after the limit resets'); return { triage: tri, incomplete: true } }
 
 phase('Checks')
-const c3 = await batched(REPOS, r => agent(check3Prompt(r), { label: `${AGENT}-check3:${r}`, phase: 'Checks' }))
+const c3 = await batched(REPOS, r => CHECK3_DONE.has(r) ? onDisk(`check3:${r}`) : agent(check3Prompt(r), { label: `${AGENT}-check3:${r}`, phase: 'Checks' }))
 const c12 = await parallel([
-  () => agent(checkPrompt(1, 'multiplicity', CHECK1), { label: `${AGENT}-check1`, phase: 'Checks' }),
-  () => agent(checkPrompt(2, 'endpoint independence', CHECK2), { label: `${AGENT}-check2`, phase: 'Checks' }),
+  () => CHECKS_DONE.has(1) ? onDisk('check1') : agent(checkPrompt(1, 'multiplicity', CHECK1), { label: `${AGENT}-check1`, phase: 'Checks' }),
+  () => CHECKS_DONE.has(2) ? onDisk('check2') : agent(checkPrompt(2, 'endpoint independence', CHECK2), { label: `${AGENT}-check2`, phase: 'Checks' }),
 ])
 const c45 = await parallel([
-  () => agent(checkPrompt(4, 'carried vs measured', CHECK4), { label: `${AGENT}-check4`, phase: 'Checks' }),
-  () => agent(checkPrompt(5, 'calibration', CHECK5), { label: `${AGENT}-check5`, phase: 'Checks' }),
+  () => CHECKS_DONE.has(4) ? onDisk('check4') : agent(checkPrompt(4, 'carried vs measured', CHECK4), { label: `${AGENT}-check4`, phase: 'Checks' }),
+  () => CHECKS_DONE.has(5) ? onDisk('check5') : agent(checkPrompt(5, 'calibration', CHECK5), { label: `${AGENT}-check5`, phase: 'Checks' }),
 ])
-const c3merge = await agent(`First run: cat ${RULES_PATH}   and follow every rule in it.
+const c3merge = ST.c3merge_done ? await onDisk('check3-merge') : await agent(`First run: cat ${RULES_PATH}   and follow every rule in it.
 ${ROLE}
 Mechanical merge task. Read every file under ${OUT}/CHECK3_intervals/ (thirteen md + json). Write
 ${OUT}/CHECK3_intervals.md: a method paragraph, a single table of EVERY interval examined across all
@@ -221,7 +228,7 @@ const missing = [c3.filter(Boolean).length < REPOS.length ? 'check3' : null, c12
 if (missing.length) { log(`checks incomplete: ${missing.join(', ')}; resume after the limit resets`); return { incomplete: true, missing } }
 
 phase('Propagation')
-const c6 = await agent(checkPrompt(6, 'cross repository propagation', CHECK6), { label: `${AGENT}-check6`, phase: 'Propagation' })
+const c6 = CHECKS_DONE.has(6) ? await onDisk('check6') : await agent(checkPrompt(6, 'cross repository propagation', CHECK6), { label: `${AGENT}-check6`, phase: 'Propagation' })
 
 return {
   triage: tri.map(t => ({ repo: t.repo, ci: t.confidence_intervals, corr: t.corrections, coprim: t.co_primary_declarations, carried: t.carried_figures, priors: t.prior_records, ledger: t.calibration_ledger_exists })),

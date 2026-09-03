@@ -3,6 +3,7 @@
 
 Usage: tools/agent_state.py <outdir> --ledger reopen|positives   (agents A and B)
        tools/agent_state.py <outdir> --agent C                  (agent C blind chain)
+       tools/agent_state.py <outdir> --seeded                   (seeded checks, any agent)
 
 Output: {"done_repos": [...], "done_parts": {repo: [part, ...]}, "leads": ["repo: lead", ...]}
 Passed verbatim as `args` to the agent's workflow script, which then skips completed work.
@@ -90,7 +91,27 @@ def c_state(outdir):
     return state
 
 
+SEEDED_FILES = {1: 'CHECK1_multiplicity', 2: 'CHECK2_endpoint_independence', 4: 'CHECK4_carried_vs_measured',
+                5: 'CHECK5_calibration', 6: 'CHECK6_cross_repository_propagation'}
+
+
+def seeded_state(outdir):
+    """Seeded checks: triage per repo, check3 per repo, checks 1/2/4/5/6 and the check3 merge."""
+    def js(*parts):
+        return os.path.isfile(os.path.join(outdir, *parts))
+    tri = os.path.join(outdir, '_triage')
+    c3 = os.path.join(outdir, 'CHECK3_intervals')
+    return {
+        'triage_done': sorted(f[:-5] for f in os.listdir(tri) if f.endswith('.json') and js('_triage', f[:-5] + '.md')) if os.path.isdir(tri) else [],
+        'check3_done': sorted(f[:-5] for f in os.listdir(c3) if f.endswith('.json') and js('CHECK3_intervals', f[:-5] + '.md')) if os.path.isdir(c3) else [],
+        'checks_done': [k for k, name in SEEDED_FILES.items() if js(name + '.json') and js(name + '.md')],
+        'c3merge_done': js('CHECK3_intervals.json') and js('CHECK3_intervals.md'),
+    }
+
+
 def main():
+    if len(sys.argv) >= 3 and sys.argv[2] == '--seeded':
+        print(json.dumps(seeded_state(sys.argv[1]), indent=1)); return
     if len(sys.argv) >= 4 and sys.argv[2] == '--agent' and sys.argv[3] == 'C':
         print(json.dumps(c_state(sys.argv[1]), indent=1)); return
     if len(sys.argv) < 4 or sys.argv[2] != '--ledger' or sys.argv[3] not in ('reopen', 'positives'):
