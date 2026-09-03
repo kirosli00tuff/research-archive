@@ -125,29 +125,59 @@ def condition_known_answer_reproduced() -> Condition:
     )
 
 
+def _duration_days(projection: dict[str, object]) -> object:
+    """The registered collection-day count, or absent. Never a default number."""
+    block = projection.get("duration_once_it_can_begin")
+    return block.get("collection_days_required") if isinstance(block, dict) else "an absent"
+
+
 def condition_census_armed() -> Condition:
-    """Armed means the projection exists, not that windows have been collected."""
-    projection = _load(REPORTS / "task5" / "projection_if_started_today.json")
+    """The census must carry a projected completion date, not merely a duration.
+
+    **The projection runs from the first window ACTUALLY collected**, not from a
+    hypothetical start. Stage B could only compute a hypothetical one, because no
+    session existed and no window could be attempted, and it recorded the
+    condition as held on that basis. A session now exists and windows have been
+    attempted, so the hypothetical projection is superseded by a real one, and a
+    real one requires a real first window.
+
+    **Reading the superseded artifact would be the drift a computed verdict
+    exists to prevent**: the stale file would keep reporting a completion date
+    for a census that cannot begin. See ADR-011.
+    """
+    projection = _load(REPORTS / "task5" / "projection_from_first_window.json")
     status = _load(REPORTS / "task5" / "census_status.json")
-    if projection is None:
-        return Condition(
-            "the census is armed with its projected completion date",
-            False,
-            "reports/task5/projection_if_started_today.json",
-            "no projection artifact, so the census carries no completion date",
-        )
     accepted = 0
     if status is not None:
         census = status.get("census")
         if isinstance(census, dict):
             accepted = int(census.get("n_accepted", 0) or 0)
+    if projection is None:
+        return Condition(
+            "the census is armed with its projected completion date",
+            False,
+            "reports/task5/projection_from_first_window.json",
+            "no projection artifact, so the census carries no completion date",
+        )
+    projected = projection.get("projected_completion_utc")
+    has_date = isinstance(projected, str) and projected.strip() != ""
     return Condition(
         "the census is armed with its projected completion date",
-        True,
-        "reports/task5/projection_if_started_today.json",
-        f"armed: {projection.get('collection_days_required')} collection days required, "
-        f"{accepted} of {MIN_OBSERVATION_WINDOWS} windows collected. Armed is not "
-        "collected, and this condition asks only that the projection exists.",
+        has_date,
+        "reports/task5/projection_from_first_window.json",
+        (
+            f"projected completion {projected}, from the first window actually "
+            f"collected, with {accepted} of {MIN_OBSERVATION_WINDOWS} windows accepted"
+        )
+        if has_date
+        else (
+            f"the projected completion date is ABSENT: {accepted} of "
+            f"{MIN_OBSERVATION_WINDOWS} windows are accepted and "
+            f"{projection.get('windows_refused')} were refused, so there is no first "
+            f"window to project from. The registered duration of "
+            f"{_duration_days(projection)} collection days is a property of the rule "
+            "and is not a completion date, because there is no start to add it to."
+        ),
     )
 
 

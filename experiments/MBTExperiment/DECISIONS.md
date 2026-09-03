@@ -272,3 +272,150 @@ matters**, and only mutating real source finds that.
 **Alternatives rejected.** *Adding `order_cls` to the constructor list* lost
 because it fixes one spelling of a general hole. *Keeping the injection and
 guarding by name only* lost for the same reason.
+
+---
+
+### ADR-010 — The venue requires `transmit=True` on a what-if, and the flag was NOT flipped (2026-09-03)
+
+**Context.** Measured on a live paper session: IBKR refuses every what-if this
+package can construct, with error 321, *"Error validating request.-'bD' : cause -
+What-If order should have transmit flag set to TRUE."* Raised on **4 of 4
+products** tried: SPY, the ES front future, the MBT front future and an MBT
+option. The request is then never resolved, so the call **hangs** rather than
+failing.
+
+`build_short_option_order` sets `transmit=False`, and `what_if_order` **refuses**
+an order carrying `transmit=True`. So the package cannot obtain a margin from the
+venue on any product, in any environment. **This is the binding half of the
+condition that blocked Stage B**, and it moved from the environment into this
+harness.
+
+Stage B's own reasoning, recorded in `broker.py`, was that *"a preview never
+needs it"*. The venue's validation says a preview is **required** to carry it.
+**The standing rule worked exactly as intended: measured behaviour beat
+documentation, and the documentation here was this repository's own.**
+
+A second defect sits behind it and would bind next. With `transmit=True` but no
+explicit TIF, IBKR warns 10349, *"Order TIF was set to DAY based on order
+preset"*, and ends the request with **no `OrderState` at all**. Isolated at
+**n = 4 combinations**: TIF unset returns nothing whether or not the account
+field is set, and `tif="DAY"` returns an `OrderState` whether or not it is.
+**TIF is load-bearing and the account field is not.**
+
+**Decision.** **Record both defects and change neither.** The package keeps
+`transmit=False` and keeps refusing `transmit=True`. Permission was measured by a
+diagnostic run **outside** the package, so the package's no-transmit property is
+exactly as Stage B left it, and the diagnostic script is preserved verbatim under
+`reports/task2/` so the measurement is reproducible without becoming package code.
+
+**Consequence.** The known-answer test cannot pass, so the stage closes
+**HARNESS-BLOCKED** a second time. That is the intended outcome and not a
+shortfall.
+
+**Why this is not a judgement call to make autonomously.** Flipping the flag
+would clear the binding blocker, and with an operator margin supplied the stage
+would reach HARNESS-READY. **That is precisely why it was not done here.** The
+change would weaken the single flag whose purpose is preventing order
+transmission, in reaction to what the venue turned out to demand, and the
+resulting HARNESS-READY would rest on a safety property rewritten after the fact.
+This stage's governing rule names that move exactly: *a second HARNESS-BLOCKED
+with a sharper reason is a better outcome than a HARNESS-READY that rests on a
+rule rewritten after the fact.*
+
+**The risk the flag actually carries, stated so the operator can weigh it.** With
+`transmit=False`, a `whatIf` that somehow became `False` would leave the order
+unsent: **two independent failures are needed to transmit**. With
+`transmit=True`, one is. The counterweight is that Guard 1 verifies the `whatIf`
+literal at build time at every construction site and every wrapper call,
+`what_if_order` asserts it again on the object at the moment of use, and
+registered mutation 1 breaks the suite when it is flipped. **The decision is
+whether one verified barrier is enough where there were two**, and it belongs to
+the operator.
+
+**Alternatives rejected.** *Flipping `transmit` to `True`* lost for the reason
+above. *Setting `transmit=True` only inside `what_if_order`, after the `whatIf`
+assertion* lost because it localises the change without altering the risk
+profile, and dressing a safety reduction as an encapsulation improvement is
+worse than making it plainly. *Leaving the defect unrecorded until a live
+session* lost because the measurement is cheap now and the evidence is complete.
+
+---
+
+### ADR-011 — The census projection runs from a window actually collected, so it is absent (2026-09-03)
+
+**Context.** Stage B recorded the condition *"the census is armed with its
+projected completion date"* as **held**, on a projection computed from a
+**hypothetical** start, because no session existed and no window could be
+attempted. A session now exists, **3 windows have been attempted and all 3 were
+refused**, and the stage prompt requires the projection to run from *the first
+window actually collected rather than from a hypothetical start*.
+
+**Decision.** `condition_census_armed` reads
+`reports/task5/projection_from_first_window.json` and holds **only when a
+projected completion date actually exists**. With 0 of 20 windows accepted there
+is no first window, so the date is `Absent(insufficient_sample)` and **the
+condition no longer holds**.
+
+**Consequence.** The verdict moves from 3 of 4 conditions held to **2 of 4**. The
+stage was already HARNESS-BLOCKED on the known-answer test, so this **sharpens
+the block rather than changing the outcome**, and it moves *away* from
+HARNESS-READY, which is the direction that needs no operator permission.
+
+**Why the stale artifact had to stop being read.** It would keep reporting a
+completion date of 2026-09-09 for a census that **cannot begin on any day**,
+because the blocker is a missing market-data subscription rather than elapsed
+time. **That is exactly the drift a computed verdict exists to prevent**, and a
+verdict reading a superseded artifact is a hand-written verdict with extra steps.
+
+**The registered duration is unchanged and is not a completion date.** 20 windows
+at the registered cap of 4 per UTC day is **5 collection days**. That figure is a
+property of the rule, it is the one ETA in Stage B that held, and it stays
+correct. It is not a completion date because there is no start to add it to.
+
+**Alternatives rejected.** *Keeping the hypothetical projection* lost for the
+drift reason. *Reporting the condition held because the duration exists* lost
+because the registered condition names a completion **date**, and a duration is
+not one. *Amending the registered condition text* lost outright: the registration
+is closed.
+
+---
+
+### ADR-012 — The client id held the account number, and the loader echoed it (2026-09-03)
+
+**Context.** Found before any measurement was taken. `.env` carried the **paper
+account number** in the `MBT_IB_PAPER_CLIENT_ID` slot. The TWS API `clientId` is
+an int32, so a 9-character D-prefixed string cannot be one: this was a paste,
+not a choice. The stage prompt records the variable as *now set*, and it was set,
+to a value that is not a client id.
+
+Two failures followed, and the second is worse. `GatewayConfig.load` passed the
+value to a bare `int()`, which raises `ValueError` rather than a `ConfigError`,
+so the CLI's absence recording did not catch it and the command died on an
+uncaught traceback. **And `ValueError` embeds the string it failed on**, so the
+account number reached stderr and would have reached any artifact that captured
+the traceback.
+
+**Decision.** Validate the shape in `_require_int`, raise `MalformedConfigError`
+(a `ConfigError`), and report **the variable and the observed shape, never the
+value**. Set the `.env` client id to `4202`, an integer distinct from AiTrader's
+`_DEFAULT_CLIENT_ID = 17`, since CLAUDE.md requires a distinct client id per
+environment and TradingView and TWS competing for one Gateway session starve each
+other.
+
+**Consequence.** A malformed client id now fails closed with a message that names
+the variable and describes the shape, and no credential-shaped value can reach a
+log through this path.
+
+**Why this is the same family as ADR-009.** `tests/test_honesty.py` scans
+**tracked files** for account shapes and was **clean the entire time the hole was
+open**, because it cannot see a runtime exception path. **A guard can refuse
+correctly while the path that actually matters goes unchecked** — which is the
+lesson ADR-009 recorded, arriving from a different direction.
+
+**Alternatives rejected.** *Supplying the client id through the process
+environment* lost because it works around the defect rather than recording and
+fixing it. *Leaving `.env` for the operator and stopping* lost because the value
+cannot be what was intended, the fix is not a registered rule, and stopping would
+have blocked every measurement in the stage on a paste error. *Guessing which
+integer the operator meant* was not attempted; `4202` is recorded as a choice
+made here, and the operator may change it freely.

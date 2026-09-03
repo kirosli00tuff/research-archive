@@ -8,3 +8,5 @@ task3_start	2026-09-03T19:36:05Z	1788464165	resolve the registered straddle; pap
 task3_end	2026-09-03T19:39:25Z	1788464365	straddle refused per registered rule; margin profile 3.44x-4.60x ceiling, indication only
 task4_start	2026-09-03T19:40:09Z	1788464409	begin the census: attempt windows under the registered rules
 task4_end	2026-09-03T19:42:31Z	1788464551	census begun: 0 of 20 accepted, 3 refused, projection absent
+task5_start	2026-09-03T19:43:04Z	1788464584	re-fire the verdict, re-hash the boundary, document
+task5_end	2026-09-03T19:48:50Z	1788464930	verdict re-fired HARNESS-BLOCKED 2 of 4; documents written

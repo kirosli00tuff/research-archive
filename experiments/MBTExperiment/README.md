@@ -2,10 +2,13 @@
 
 **Two venue facts, measured. No premium, no order, no position.**
 
-Status: **Stage B closed HARNESS-BLOCKED, 2026-09-03.** The harness is built,
-the registration is written, and the five guards fire under mutation. **No margin
-was read and no spread was measured**, because no IB Gateway session exists. See
-`FINDINGS.md` for every figure with its `n`, and `progress.md` for the run log.
+Status: **Stage B.1 closed HARNESS-BLOCKED, 2026-09-03.** IB Gateway now answers
+and the session works, so the harness was pointed at the live chain for the first
+time. **The blockers moved from the environment into this repository.** Two
+defects stop the what-if path reaching the venue, and no real-time market data
+subscription covers MBT, so **0 of 20 census windows were accepted and no margin
+was read through the package.** See `FINDINGS.md` for every figure with its `n`,
+and `progress.md` for the run log.
 
 ---
 
@@ -53,10 +56,24 @@ The stage therefore terminates at **HARNESS-READY** or **HARNESS-BLOCKED**, neve
 at HARVESTABLE-CONFIRMED, and the live margin read becomes a named open operator
 item rather than a missing number.
 
-**Stage B reached HARNESS-BLOCKED on 3 of 4 conditions.** The binding one is the
-known-answer test: the what-if reader has never reproduced an independently
-checkable margin, so its output is not trusted. Two further items block the
-census: `MBT_IB_PAPER_CLIENT_ID` is unset, and IB Gateway is not running.
+**Stage B.1 reached HARNESS-BLOCKED on 2 of 4 conditions**, down from 3 of 4,
+because the census projection now runs from a window actually collected and none
+was. Stage B's two named blockers cleared: the Gateway runs and the client id is
+set. Two new ones took their place, both measured and both inside this
+repository.
+
+**The venue rejects every what-if this package can construct**, with IBKR error
+321, *"What-If order should have transmit flag set to TRUE"*, at 4 of 4 products
+tried. `build_short_option_order` sets `transmit=False` and `what_if_order`
+refuses `transmit=True`. **The flag was not flipped.** Doing so would clear the
+binding blocker and reach HARNESS-READY on a safety property rewritten after
+seeing what the venue demands, so the evidence is recorded and the decision is
+left to the operator. See ADR-010.
+
+**And no real-time market data subscription covers CME crypto on this account**,
+measured as error 354 on all three legs across 5 independent sessions. Delayed
+quotes were served, measured, and refused under registered rule 3.4 rather than
+widened into a cost band.
 
 **The registered COST ceiling is 34.600 bps, not 49.610.** Section 0.6 fixed the
 premium basis on the most recent quarter before any spread was measured, because
@@ -73,6 +90,9 @@ make guards        # the structural guards alone
 make no-transmit   # guard one alone: the AST walk over the package
 make mutations     # the five registered mutations, applied to real source
 make b-probe       # PAPER  connect, read the account back, record provenance
+make b-probe-full  # PAPER  handshake, permission, subscription state on 3 legs
+make b-straddle    # PAPER  resolve the registered ATM 30-day straddle
+make b-known-answer# PAPER  reproduce a checkable margin through the MBT path
 make b-census      # PAPER  append one bid-ask window; clock-bound to 20
 make b-gates       # offline, fires what can be fired and records what cannot
 make b-whatif-live # REFUSES: the paper-only clause is in force
@@ -85,7 +105,7 @@ artifacts, so it changes the moment a condition is met.
 
 `FINDINGS.md` for every claim with its `n`. `REGISTRATION.md` for what was
 registered and when. `CLAUDE.md` for the contract and the boundaries.
-`DECISIONS.md` for the nine ADRs. `progress.md` for the run log and the ETAs
+`DECISIONS.md` for the twelve ADRs. `progress.md` for the run log and the ETAs
 re-quoted against their up-front figures.
 
 MIT licensed. **Not financial advice.** The premium this route would harvest is

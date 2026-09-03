@@ -1,5 +1,5 @@
 {
-  "at": "2026-09-03T07:02:45.740Z",
+  "at": "2026-09-03T19:45:00.197Z",
   "census": {
     "median_bps": {
       "absent": "true",
@@ -8,14 +8,16 @@
     },
     "meets_minimum": false,
     "n_accepted": 0,
-    "n_refused": 0,
+    "n_refused": 3,
     "n_required": 20,
     "p90_bps": {
       "absent": "true",
       "detail": "no observations, so the 90% percentile is absent and is never reported as zero or as nan.",
       "reason": "insufficient_sample"
     },
-    "refusal_reasons": {}
+    "refusal_reasons": {
+      "unquoted_leg": 3
+    }
   },
   "command": "gates",
   "gates": [
@@ -24,7 +26,7 @@
       "ceiling": 1000.0,
       "environment": "",
       "figure_name": "",
-      "fired_at": "2026-09-03T07:02:45.739Z",
+      "fired_at": "2026-09-03T19:45:00.197Z",
       "gate": "margin",
       "measured": null,
       "outcome": "absent",
@@ -36,7 +38,7 @@
       "ceiling": 34.6,
       "environment": "",
       "figure_name": "",
-      "fired_at": "2026-09-03T07:02:45.739Z",
+      "fired_at": "2026-09-03T19:45:00.197Z",
       "gate": "cost",
       "measured": null,
       "outcome": "absent",
@@ -45,20 +47,22 @@
     }
   ],
   "open_operator_items": [
-    "MBT_IB_PAPER_CLIENT_ID is unset in .env",
-    "IB Gateway is not running; it needs an interactive IBKR login",
-    "the live margin read needs a U-prefixed session, blocked by the non-functioning internal fans and by the absence of a live profile"
+    "NO REAL-TIME MARKET DATA SUBSCRIPTION covers CME crypto (MBT) on this account. Error 354 on all three registered legs; delayed offered instead. This blocks every census window and is the binding item.",
+    "The package cannot obtain a margin from the venue: IBKR error 321 requires a what-if to carry transmit=True, and build_short_option_order sets transmit=False while what_if_order refuses True. A second defect sits behind it: an unset TIF returns no OrderState at all. See ADR-010.",
+    "No operator-supplied known-answer margin (MBT_KNOWN_ANSWER_MARGIN_USD).",
+    "The live margin read needs a U-prefixed session, blocked by the non-functioning internal fans and by the absence of a live profile."
   ],
   "registered_cost_ceiling_bps": 34.6,
   "registered_premium_basis": "recent_quarter_point",
   "stage_verdict": {
     "blocking": [
-      "the known-answer test reproduces an independently checkable margin"
+      "the known-answer test reproduces an independently checkable margin",
+      "the census is armed with its projected completion date"
     ],
     "conditions": [
       {
         "condition": "the harness builds",
-        "detail": "no-transmit scan verdict 'CLEAN' over 17 package files, 0 findings",
+        "detail": "no-transmit scan verdict 'CLEAN' over 22 package files, 0 findings",
         "evidence": "reports/guards/no_transmit_scan.json",
         "held": true
       },
@@ -70,20 +74,20 @@
       },
       {
         "condition": "the known-answer test reproduces an independently checkable margin",
-        "detail": "no known-answer artifact: the check did not run, so the code path has not been checked against a known answer and its MBT output is not trusted",
+        "detail": "2 independent blockers, so the outcome is over-determined and clearing either one alone would not reproduce a known answer: no operator-supplied expected margin (MBT_KNOWN_ANSWER_MARGIN_USD unset): not_yet_measured; the venue returned no OrderState for a what-if built by this package, so no margin was measured to compare",
         "evidence": "reports/task4/known_answer.json",
         "held": false
       },
       {
         "condition": "the census is armed with its projected completion date",
-        "detail": "armed: 5 collection days required, 0 of 20 windows collected. Armed is not collected, and this condition asks only that the projection exists.",
-        "evidence": "reports/task5/projection_if_started_today.json",
-        "held": true
+        "detail": "the projected completion date is ABSENT: 0 of 20 windows are accepted and 3 were refused, so there is no first window to project from. The registered duration of 5 collection days is a property of the rule and is not a completion date, because there is no start to add it to.",
+        "evidence": "reports/task5/projection_from_first_window.json",
+        "held": false
       }
     ],
-    "conditions_held": 3,
+    "conditions_held": 2,
     "conditions_total": 4,
-    "decided_at": "2026-09-03T07:02:45.740Z",
+    "decided_at": "2026-09-03T19:45:00.197Z",
     "unreachable_here": [
       "HARVESTABLE-CONFIRMED",
       "VENUE_BLOCKED"

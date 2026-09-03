@@ -6,6 +6,215 @@ re-quotes them from measurement afterward. Every stage prompt is logged here
 
 ---
 
+## Stage B.1 closed HARNESS-BLOCKED, 2026-09-03. The blockers moved into the harness.
+
+**HARNESS-BLOCKED, 2 of 4 registered conditions held, down from 3 of 4 at Stage
+B.** Stage B was blocked because no Gateway session existed. **A session now
+exists, answers a validated preview in 0.24 to 0.26 seconds at n = 7 previews,
+and the stage is blocked anyway** — for two reasons Stage B could not see, both
+inside this repository rather than outside it.
+
+**This is the better of the two available outcomes.** No registered rule was
+amended to fit what the chain offered, no paper margin was promoted into a gate,
+no refused window was dropped to reach twenty, no fee was estimated, and the
+premium basis stayed fixed at 34.600 bps. The one change that would have reached
+HARNESS-READY was identified, measured, evidenced, and **left to the operator**.
+
+### The numbers
+
+| figure | value | n |
+|---|---|---|
+| stage verdict | **HARNESS-BLOCKED** | 2 of 4 conditions held |
+| MARGIN gate | **ABSENT**, `no_live_session` | n = 0 live sessions |
+| COST gate | **ABSENT**, `insufficient_sample` | n = 0 of 20 windows |
+| IB Gateway TCP reachability | **5 reachable** | n = 5 attempts, was 0 of 13 |
+| API handshake | **0.308 s** | n = 1 handshake |
+| account read back | **1, D prefix, length 9**, provenance agrees | n = 1 session |
+| listed MBT option series | **11 across 4 underlying futures** | n = 11 series |
+| expiry nearest the registered tenor | **W1E:20261002**, settling 2026-10-02T15:00:00Z | n = 11 candidates |
+| futures options permission, CME crypto | **PRESENT** | n = 1 preview |
+| real-time market data subscription | **ABSENT on all three legs** | n = 3 legs, 5 sessions |
+| census windows | **0 accepted, 3 refused** | of 20 required |
+| projected completion date | **`Absent(insufficient_sample)`** | n = 0 windows collected |
+| paper initial margin, indication only | **3,441.42 to 4,599.07 USD/contract** | n = 18 previews |
+| paper margin ratio to the $1,000 ceiling | **3.44x to 4.60x**, none below | n = 18 previews |
+| `OrderState` fields / fee fields | **17 / 0** | n = 3 previews, confirmed live |
+| what-if commission scalar | **2.01 USD/contract** vs a registered 0.85 | n = 18 previews |
+| registered mutations behaving as registered | **5 of 5** | 0 failures |
+| orders transmitted | **0** | n = 9 sessions, enumerated |
+| boundary digest, three snapshots | **identical**, manifests byte-identical | 2,901 entries, 324,887,193 bytes |
+| suite at close | **181 passed** | mypy strict clean, 36 files |
+
+### What fired, and why
+
+**Nothing fired. Both gates are ABSENT and both carry their reasons.**
+
+**MARGIN** is `Absent(no_live_session)`, unchanged, and **unchanged by the fact
+that paper margins turned out to be readable**. A margin is a property of the
+ACCOUNT.
+
+**COST** is `Absent(insufficient_sample)` at 0 of 20 windows, and the fee leg is
+`Absent(not_served)` regardless, so the gate falls back to a strict lower bound
+that can FAIL and never PASS.
+
+### The two blockers, both new and both inside this repository
+
+**One: the venue rejects every what-if this package can construct.** IBKR error
+321, *"What-If order should have transmit flag set to TRUE"*, at n = 4 of 4
+products. `build_short_option_order` sets `transmit=False` and `what_if_order`
+refuses `transmit=True`. The request is never resolved, so the call **hangs**
+rather than failing; the wait is now bounded and recorded as a typed absence. A
+second defect sits behind it: with no explicit TIF the venue returns **no
+`OrderState` at all**, isolated at n = 4 combinations, with TIF load-bearing and
+the account field not.
+
+**Stage B's own comment said "a preview never needs it".** The venue says a
+preview is required to carry it. The standing rule worked as intended: measured
+behaviour beat documentation, and the documentation was this repository's own.
+
+**Two: there is no real-time market data subscription for CME crypto.** Error 354
+on all three registered legs under a real-time request, error 10167 offering
+delayed instead, **persistent across n = 5 independent sessions between 19:11Z
+and 19:42Z**. Delayed quotes were served on all three legs, measured, and
+**refused as `delayed_tick`** under registered Section 3.4 rather than widened
+into a cost band. **These are measured refusals on real venue data**, where Stage
+B could only demonstrate the guards on constructed inputs.
+
+### The change that was not made
+
+**Flipping `transmit` to `True` would clear the binding blocker, and with an
+operator margin supplied the stage would reach HARNESS-READY.** That is precisely
+why it was not done autonomously.
+
+The change would weaken the single flag whose purpose is preventing order
+transmission, in reaction to what the venue turned out to demand. With
+`transmit=False` two independent failures are needed to transmit; with
+`transmit=True`, one. **The decision is whether one verified barrier is enough
+where there were two, and it belongs to the operator.** ADR-010 records the
+evidence, the counterweight and the rejected alternatives, and the diagnostic
+script is preserved verbatim under `reports/task2/` so the measurement is
+reproducible without becoming package code.
+
+### Two defects found before any measurement was taken
+
+**`MBT_IB_PAPER_CLIENT_ID` held the paper ACCOUNT NUMBER.** The stage prompt
+records the variable as now set, and it was set, to a value that cannot be a
+client id: the TWS API `clientId` is an int32.
+
+**And the loader echoed it.** `int()` raises `ValueError` carrying the string it
+failed on, which is not a `ConfigError`, so the CLI died on an uncaught traceback
+**with the account number in it**. `tests/test_honesty.py` scans **tracked files**
+and was clean the entire time the hole was open, because it cannot see a runtime
+exception path.
+
+> **This is the same family as ADR-009, arriving from a different direction: a
+> guard refusing correctly while the path that actually matters goes unchecked.**
+
+Both fixed. The refusal now names the variable and reports the observed shape,
+never the value. The client id is `4202`, distinct from AiTrader's `17`. ADR-012.
+
+### A registered-rule tension, recorded and NOT amended
+
+The registered tenor rule takes "the listed expiry minimising the absolute
+distance from 30 days" and does not restrict the universe of listed expiries.
+**Measured: the front future MBTU6 lists 6 expiries of which the longest is 22
+days**, so a front-future-only universe would contain no expiry near the
+registered 30-day tenor at all, while the full listed chain contains one at 29
+days on underlying MBTV6.
+
+The universe is therefore every listed MBT option expiry across every underlying
+futures month, which is what the rule says. **Narrowing it after seeing the chain
+would be the move the registration exists to foreclose**, and so would widening
+it. The tension between that and Section 3.1's front-future reference is recorded
+for the operator rather than resolved here.
+
+### ETAs, re-quoted from the log against their up-front figures
+
+| task | ETA stated up front | actual | outcome |
+|---|---|---|---|
+| 1 re-probe and record the reversal | 6 min | **22.50 min** | **3.75x SLOW** |
+| 2 the known-answer test | 8 min | **3.05 min** | 2.6x fast |
+| 3 the paper margin read | 5 min | **3.33 min** | 1.5x fast |
+| 4 begin the census | 4 min | **2.37 min** | 1.7x fast |
+| 5 re-fire the verdict and document | 12 min | **in this entry** | n/a |
+| **four closed tasks** | **23 min** | **31.25 min** | **1.36x slow** |
+
+**Stage B's ETAs missed by roughly an order of magnitude in one direction. These
+missed by 1.36x and in both directions, and the reason the error shrank is that
+the basis changed from an authoring-rate guess to this repository's own measured
+per-task wall clock.**
+
+**Task 1's 3.75x miss is the one that matters, and the assumption it broke was
+named up front.** Its ETA rested on Stage B's measured authoring rate plus a
+**4x allowance for broker round trips whose duration was not yet measured**. The
+round trips turned out to be fast — 0.24 to 0.31 s — so the allowance was not
+the problem. **What the ETA had no term for at all was exploration**: eleven
+successive probe scripts were needed to find out what the venue actually does,
+including two dead ends (a `pkill` pattern that matched its own parent shell, and
+an `ib.sleep` inside a running event loop). **The unmeasured step was not the
+round trip, it was the number of round trips needed to learn what to measure.**
+
+**Tasks 2 through 4 were then estimated from Task 1's measured clock and all
+three came in fast, by 1.5x to 2.6x.** The basis was sound and the correction
+overshot, which is the expected shape once exploration is finished and the work
+is authoring against a known target.
+
+**Task 5's ETA is stated and its actual is inside this entry**, as Stage B's was.
+It is not named as skipped, because it was estimated.
+
+**No ETA was skipped in this stage.**
+
+### Boundary and neighbours
+
+**The VRPExperiment boundary is unchanged across all three snapshots**: 2,901
+entries, 324,887,193 bytes, 0 unreadable paths, full digest `c28e6860…89f81` and
+stable digest `441495bc…53641` over 115 non-cache entries, identical at Stage B
+open, Stage B close and Stage B.1 close. **The Stage B and Stage B.1 manifests
+are byte-identical.** Its working tree is clean and its HEAD is unchanged at
+`d37cf6d`.
+
+**No systemd unit was installed and no timer was touched.** Zero unit files
+reference MBTExperiment, and nothing under `~/.config/systemd` was modified in the
+session window.
+
+**Stage B's one honest gap is now closed.** Stage B could not reach the user
+scope bus and recorded the timers' runtime state as `Absent(no_user_bus)`. This
+session reached it: **`news-collect.timer`, `npl-watch.timer` and
+`npl-daily.timer` are all `enabled` and all `active`**, with their enablement
+symlinks unchanged at 2026-07-29 and 2026-08-27, and **`Linger=yes`** confirmed
+via `loginctl`.
+
+**NPLExperiment was not disturbed.** Two files changed today,
+`data/state/watcher.jsonl` and `data/ledgers/requests.jsonl`, both written at
+**19:05:15Z, three and a half minutes before this session opened at 19:08:45Z**,
+by its own `npl-watch.timer` firing on its registered `*-*-* *:05:00 UTC`
+schedule. Its H2 collection continues toward its 2026-11-26 look.
+**`news_experiment.db` was never opened**: last access 2026-09-02 17:18, before
+this session began. **No `.env` was written anywhere outside this repository**,
+and VRPExperiment still has none.
+
+### Open operator items
+
+1. **No real-time market data subscription covers CME crypto (MBT) on this
+   account.** This is the binding item for the census: no day of collection
+   produces an accepted window while it is absent. Delayed data is offered and is
+   refused by registered rule 3.4.
+2. **The `transmit` decision.** One line, fully evidenced, ADR-010. It is the
+   binding item for the known-answer test and for any margin read.
+3. **The known-answer expected margin** remains an operator input, read by a
+   person, because CME's Data Terms of Use refusal binds automated access.
+   `MBT_KNOWN_ANSWER_MARGIN_USD` is the slot.
+4. **The live margin read** still needs a U-prefixed session, blocked by the
+   non-functioning internal fans and by the absence of a live profile. **The only
+   item that unblocks the MARGIN gate.**
+5. **The client id is `4202`**, chosen here because the slot held an account
+   number. Change it freely; it is distinct from AiTrader's `17`.
+
+Items 1 and 2 are independent, and **both must clear before the census and the
+known-answer test respectively can produce anything**.
+
+---
+
 ## Stage B.1 prompt, logged verbatim on receipt, 2026-09-03
 
 Logged before any other file was touched, per `CLAUDE.md`. Working directory was

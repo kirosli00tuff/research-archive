@@ -1,6 +1,6 @@
 {
   "stage": "B",
-  "at": "2026-09-03T07:02:03Z",
+  "at": "2026-09-03T19:43:09Z",
   "note": "Every refusal here is DEMONSTRATED as a produced artifact, never asserted. Python bytecode is purged before every run, because a same-byte-length restore once left mutated bytecode valid under CPython's mtime-and-size cache check and the harness reported a restore as still red.",
   "what_this_shows": "reports/guards/refusals.json shows each guard REFUSING when exercised. This artifact shows each TEST DETECTING the guard being disabled. A guard can refuse correctly while its test asserts nothing, and only this catches that.",
   "mutations": [
@@ -71,7 +71,7 @@
       "checks_that_fired": [
         "whatif_false_literal"
       ],
-      "restored_summary": "no-transmit scan CLEAN: 17 package files and 6 tool files walked, 0 findings"
+      "restored_summary": "no-transmit scan CLEAN: 22 package files and 6 tool files walked, 0 findings"
     },
     {
       "mutation": "the whatIf flag is supplied from an expression rather than a literal",
@@ -88,7 +88,7 @@
       "checks_that_fired": [
         "whatif_not_a_literal"
       ],
-      "restored_summary": "no-transmit scan CLEAN: 17 package files and 6 tool files walked, 0 findings"
+      "restored_summary": "no-transmit scan CLEAN: 22 package files and 6 tool files walked, 0 findings"
     },
     {
       "mutation": "a session trusts its declared environment instead of the connected account",
@@ -105,7 +105,7 @@
       "checks_that_fired": [
         "tests/test_guards.py::test_guard_two_refuses_a_live_declaration_on_a_paper_account"
       ],
-      "restored_summary": "....................................................................     [100%]"
+      "restored_summary": ".......................................................................  [100%]"
     },
     {
       "mutation": "a paper margin becomes admissible to a gate",
@@ -122,7 +122,7 @@
       "checks_that_fired": [
         "tests/test_guards.py::test_guard_three_a_paper_margin_reaching_a_gate_raises"
       ],
-      "restored_summary": "....................................................................     [100%]"
+      "restored_summary": ".......................................................................  [100%]"
     },
     {
       "mutation": "the deciding latch's spent check is inverted",
@@ -142,9 +142,9 @@
         "tests/test_guards.py::test_guard_four_records_module_hashes_and_detects_drift",
         "tests/test_guards.py::test_guard_four_the_latch_file_is_durable_on_disk"
       ],
-      "restored_summary": "....................................................................     [100%]"
+      "restored_summary": ".......................................................................  [100%]"
     }
   ],
-  "whole_suite_after_restore": "...............                                                          [100%]",
+  "whole_suite_after_restore": ".....................................                                    [100%]",
   "failures": 0
 }

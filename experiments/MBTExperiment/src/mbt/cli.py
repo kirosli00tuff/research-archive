@@ -134,10 +134,16 @@ def cmd_gates(_: argparse.Namespace) -> int:
         "gates": [margin_result.as_row(), cost_result.as_row()],
         "stage_verdict": outcome.as_row(),
         "open_operator_items": [
-            "MBT_IB_PAPER_CLIENT_ID is unset in .env",
-            "IB Gateway is not running; it needs an interactive IBKR login",
-            "the live margin read needs a U-prefixed session, blocked by the "
-            "non-functioning internal fans and by the absence of a live profile",
+            "NO REAL-TIME MARKET DATA SUBSCRIPTION covers CME crypto (MBT) on this "
+            "account. Error 354 on all three registered legs; delayed offered "
+            "instead. This blocks every census window and is the binding item.",
+            "The package cannot obtain a margin from the venue: IBKR error 321 "
+            "requires a what-if to carry transmit=True, and build_short_option_order "
+            "sets transmit=False while what_if_order refuses True. A second defect "
+            "sits behind it: an unset TIF returns no OrderState at all. See ADR-010.",
+            "No operator-supplied known-answer margin (MBT_KNOWN_ANSWER_MARGIN_USD).",
+            "The live margin read needs a U-prefixed session, blocked by the "
+            "non-functioning internal fans and by the absence of a live profile.",
         ],
     }
     emit(payload, REPORTS / "task7" / "gates.json")
