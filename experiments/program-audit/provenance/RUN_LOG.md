@@ -221,3 +221,41 @@ PMExperiment, solattn, NPLExperiment, MLCryptoEngine, ORBExperiment and AiTrader
 The consolidators' structured cross-repository leads were added to the run-10 args. The orchestrating
 session was itself rate-limited (a /compact attempt failed with the same message) and restarted.
 Cleanliness check "01-agentA-blind-run9-AFTER": only the pre-existing entries.
+
+## 2026-09-03 ~23:44Z — fourth reboot; scratchpad symlinks re-created
+The operator reported another reboot; at 23:54Z uptime read 10 minutes. /tmp was cleared again. The
+scratchpad symlink was re-created for the original session id (5ca157a0…, the path every prompt uses)
+and for the two later harness session ids; the persistent directory, its 13 snapshots and COMMON_RULES.md
+were untouched.
+
+## 2026-09-03 23:5xZ — VRPExperiment: applier completed the md but not the json (run 9)
+Re-inspection of run 9 shows the VRPExperiment applier (Opus) finished editing VRPExperiment.md at
+20:20Z — all seven findings carry a "Citation check" line, three verifier splits resolved against the
+snapshot, AUDIT-A-VRPExperiment-7 raised S4→S2 — and then hit the limit before syncing VRPExperiment.json
+(mtime 20:03Z, pre-correction) and before returning its counts. Decision, as for InsiderExperiment on
+run 7: the md is the consolidation of record; a single mechanical Opus agent syncs the json to it
+(severity, label, corrected lines and quotes, plus the citation_check key the appliers add), forbidden
+to touch the md. tools/agent_state.py already reports VRPExperiment complete (json present, md carries
+"Citation check"), so run 10 skips it.
+
+## 2026-09-03 23:56Z — Agent A run 10, Agent B run 1 and Agent C run 1 launched IN PARALLEL (operator instruction)
+Operator: "try to run agents B and C and D in parallel please". The blind passes of A, B and C are
+independent by construction (each reads only the snapshots, the live repositories read-only, and its
+own output directory; the rules forbid reading another agent's directory), so the brief's
+"each agent commits before the next starts" sequencing is relaxed for the blind passes on the
+operator's instruction; the dependent stages keep their order: seeded checks after each blind pass
+commits, C adjudication after A and B are complete and C's own blind and seeded output is committed,
+D after the findings-frozen tag (every D prompt reads SUMMARY.md and the adjudication, so D cannot
+start now). Trade-off recorded: three concurrent workflows put more agents in flight when the account
+session limit trips, so more in-flight work is lost per hit, but the window's budget is used without
+idle gaps and with fewer orchestrator turns (the orchestrator is Fable and is being spared).
+- Agent A run 10: task w8drvu029 (wf_c46820bd-e14). Args in provenance/launch-args/agentA-run10.args.json:
+  done_repos = [HFExperiment, InsiderExperiment, NPDExperiment, VRPExperiment, retail-power-limits];
+  ETFExperiment consolidated (8 findings) awaiting verify/apply; seven repositories to read. Cross-repo
+  leads are no longer passed as args; the cross-repo agent reads provenance/launch-args/agentA-leads.json
+  (56 leads from six consolidators). BEFORE check: "01-agentA-blind-run9-AFTER" (nothing touched since).
+- Agent B run 1: task wf2sax6x7 (wf_58f35560-86a). Empty state (provenance/launch-args/agentB-run1.args.json);
+  readers on Opus per MODEL_POLICY.md revision 2. BEFORE check "02-agentB-blind-run1-BEFORE" (23:54Z):
+  only the pre-existing entries.
+- Agent C run 1: task wv1y3i6h0 (wf_17777430-12f). Empty state (provenance/launch-args/agentC-run1.args.json);
+  every stage on Opus. BEFORE check "03-agentC-blind-run1-BEFORE" (23:54Z): only the pre-existing entries.
