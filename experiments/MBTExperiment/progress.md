@@ -136,8 +136,9 @@ for the operator rather than resolved here.
 | 2 the known-answer test | 8 min | **3.05 min** | 2.6x fast |
 | 3 the paper margin read | 5 min | **3.33 min** | 1.5x fast |
 | 4 begin the census | 4 min | **2.37 min** | 1.7x fast |
-| 5 re-fire the verdict and document | 12 min | **in this entry** | n/a |
-| **four closed tasks** | **23 min** | **31.25 min** | **1.36x slow** |
+| 5 re-fire the verdict and document | 12 min | **5.77 min** | 2.1x fast |
+| **all five tasks** | **35 min** | **37.02 min** | **1.06x slow** |
+| session, open to close | — | **40.08 min** | — |
 
 **Stage B's ETAs missed by roughly an order of magnitude in one direction. These
 missed by 1.36x and in both directions, and the reason the error shrank is that
@@ -159,8 +160,14 @@ three came in fast, by 1.5x to 2.6x.** The basis was sound and the correction
 overshot, which is the expected shape once exploration is finished and the work
 is authoring against a known target.
 
-**Task 5's ETA is stated and its actual is inside this entry**, as Stage B's was.
-It is not named as skipped, because it was estimated.
+**Task 5 came in at 5.77 min against 12, 2.1x fast**, and its named assumption
+was the one that broke in the useful direction: it assumed wall clock scales
+linearly with deliverable count, and it does not — the mutation re-run, the
+boundary re-hash and the neighbour checks are all seconds of machine time rather
+than minutes of authoring, so counting them as deliverables overstated them.
+
+**Across all five tasks the total was 37.02 min against 35 stated, 1.06x**, and the
+whole session ran 40.08 minutes from the directory check to this entry.
 
 **No ETA was skipped in this stage.**
 
