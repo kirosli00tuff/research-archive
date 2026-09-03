@@ -145,6 +145,71 @@ def require_admissible(figure: Figure, gate: GateName) -> str:
     return ""
 
 
+def fire_lower_bound(
+    gate: GateName,
+    lower_bound: float,
+    *,
+    ceiling: float,
+    unit: str,
+    absent_legs: list[str],
+) -> GateResult:
+    """Fire a gate against a STRICT LOWER BOUND on the cost. Never returns PASS.
+
+    When one cost leg is a recorded absence, the all-in cost is absent too, and
+    `Absent` refuses the arithmetic that would sum it. But the legs that ARE
+    measured still form a strict lower bound, because every absent leg is
+    non-negative, and **a lower bound is a real constraint even though it is not
+    the cost**.
+
+    The constraint is one-sided, and that asymmetry is the whole point:
+
+    - if the lower bound **exceeds** the ceiling, the true cost exceeds it too,
+      and **FAIL is sound**;
+    - if the lower bound sits **at or below** the ceiling, nothing follows, since
+      the absent legs could carry the total anywhere above it, and the result is
+      **ABSENT rather than PASS**.
+
+    So a gate with an absent leg **can close a question negatively and can never
+    close it positively.** VRPExperiment used its commission-only bound exactly
+    this way: a lower bound is used as a constraint and never reported as the
+    cost.
+    """
+    fired_at = iso_utc(utc_now(), "gates.fire_lower_bound")
+    legs = ", ".join(absent_legs) if absent_legs else "none"
+    if lower_bound > ceiling:
+        return GateResult(
+            gate=gate,
+            outcome=GateOutcome.FAIL,
+            ceiling=ceiling,
+            unit=unit,
+            measured=lower_bound,
+            reason=(
+                f"the measured legs alone reach {lower_bound} {unit}, above the "
+                f"registered ceiling of {ceiling} {unit}. Every absent leg is "
+                f"non-negative, so the true cost is at least this and FAIL is "
+                f"sound on a lower bound. Absent legs: {legs}."
+            ),
+            fired_at=fired_at,
+            admissibility_note="fired on a strict lower bound, which can FAIL but never PASS",
+        )
+    return GateResult(
+        gate=gate,
+        outcome=GateOutcome.ABSENT,
+        ceiling=ceiling,
+        unit=unit,
+        measured=None,
+        reason=(
+            f"the measured legs reach {lower_bound} {unit}, at or below the "
+            f"registered ceiling of {ceiling} {unit}, and nothing follows from "
+            f"that. The absent legs are non-negative and unbounded above by any "
+            f"evidence here, so they could carry the total past the ceiling. A "
+            f"PASS cannot be concluded from a lower bound. Absent legs: {legs}."
+        ),
+        fired_at=fired_at,
+        admissibility_note="fired on a strict lower bound, which can FAIL but never PASS",
+    )
+
+
 def fire(
     gate: GateName,
     figure: Maybe[Figure],

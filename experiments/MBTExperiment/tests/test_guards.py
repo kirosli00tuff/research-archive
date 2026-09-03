@@ -34,6 +34,7 @@ from mbt.gates import (
     GateOutcome,
     PaperFigureInadmissibleError,
     fire,
+    fire_lower_bound,
 )
 from mbt.latch import Latch, LatchAlreadySpentError, LatchedFigure, LatchNotWrittenError
 from mbt.provenance import (
@@ -609,4 +610,69 @@ def test_guard_five_naive_and_non_utc_datetimes_are_refused(refusals: RefusalRec
         scenario="a naive datetime reached a boundary",
         expectation="refused; a naive stamp is never assumed UTC and never assumed local",
         exception=naive.value,
+    )
+
+
+# ===========================================================================
+# The one-sided lower-bound gate. It can FAIL and it can never PASS.
+# ===========================================================================
+
+
+def test_a_lower_bound_above_the_ceiling_fails_soundly() -> None:
+    """Every absent leg is non-negative, so exceeding the ceiling is decisive."""
+    result = fire_lower_bound(
+        GateName.COST,
+        40.0,
+        ceiling=34.6,
+        unit="bps_of_notional",
+        absent_legs=["exchange_and_regulatory_fee"],
+    )
+    assert result.outcome is GateOutcome.FAIL
+    assert result.measured == 40.0
+
+
+def test_a_lower_bound_below_the_ceiling_is_absent_and_never_a_pass() -> None:
+    """Nothing follows: the absent legs could carry the total past the ceiling."""
+    result = fire_lower_bound(
+        GateName.COST,
+        12.0,
+        ceiling=34.6,
+        unit="bps_of_notional",
+        absent_legs=["exchange_and_regulatory_fee"],
+    )
+    assert result.outcome is GateOutcome.ABSENT
+    assert result.measured is None
+    assert "cannot be concluded from a lower bound" in result.reason
+
+
+@pytest.mark.parametrize("bound", [0.0, 1.0, 34.5, 34.6])
+def test_no_lower_bound_at_or_below_the_ceiling_ever_passes(bound: float) -> None:
+    result = fire_lower_bound(
+        GateName.COST, bound, ceiling=34.6, unit="bps_of_notional", absent_legs=["fee"]
+    )
+    assert result.outcome is not GateOutcome.PASS
+
+
+def test_the_absent_legs_are_named_in_the_result() -> None:
+    result = fire_lower_bound(
+        GateName.COST,
+        12.0,
+        ceiling=34.6,
+        unit="bps_of_notional",
+        absent_legs=["exchange_and_regulatory_fee", "ibkr_daily_exposure_fee"],
+    )
+    assert "exchange_and_regulatory_fee" in result.reason
+    assert "ibkr_daily_exposure_fee" in result.reason
+
+
+def test_summing_a_measured_leg_with_an_absent_one_raises(refusals: RefusalRecorder) -> None:
+    """This is WHY the lower-bound gate exists: the all-in sum cannot be formed."""
+    fee = Absent(AbsenceReason.NOT_SERVED, "CME refused automated access to its schedule")
+    with pytest.raises(AbsentCoercionError) as excinfo:
+        _ = 12.0 + fee
+    refusals.record(
+        guard="five: recorded absence",
+        scenario="a measured spread was added to the absent exchange and regulatory fee",
+        expectation="raises; the all-in cost cannot be formed, so the gate falls back to a lower bound",
+        exception=excinfo.value,
     )

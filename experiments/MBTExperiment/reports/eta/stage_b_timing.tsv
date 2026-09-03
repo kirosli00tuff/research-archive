@@ -12,3 +12,5 @@ task4_start	2026-09-03T06:51:15Z	1788418275	paper harness; needs a session
 task4_end	2026-09-03T06:54:32Z	1788418472	BLOCKED: no client id, no gateway
 task5_start	2026-09-03T06:54:39Z	1788418479	census armed
 task5_end	2026-09-03T06:55:53Z	1788418553	census armed, 0 of 20 windows
+task6_start	2026-09-03T06:56:36Z	1788418596	fee leg
+task6_end	2026-09-03T06:57:37Z	1788418657	fee leg Absent(not_served), COST gate one-sided
