@@ -145,6 +145,18 @@ sub-agent at once. Detailed timeline in `provenance/RUN_LOG.md`; summary:
   re-inspected. Later scratch work is committed under `work/`.
 - Run 3 was stopped and resumed once to apply the model policy; the cached Fable readers were
   kept.
+- The workflow runtime's resume cache turned out to be positional (it replays the longest
+  unchanged prefix of agent calls). With two repository chains interleaving and partial failures,
+  the call order shifted between runs and completed agents re-ran: the HFExperiment reader
+  executed twice (run 3 and run 4; the second draft, 7 findings, is the one consolidated; the
+  first, 8 findings, is in git history at 8c8e789), and run 5b started re-running the
+  HFExperiment consolidator and both retail-power-limits verifiers before it was stopped with no
+  file touched. From run 6 the cache is not relied upon: `tools/agent_state.py` scans the agent's
+  output directory and the workflow skips, via `args`, every repository or stage whose output is
+  complete on disk. Each launch's args are kept under `provenance/launch-args/`.
+- A manual limit reset by the operator at ~06:15Z started a new harness session; workflow
+  journals do not carry across sessions, which is why run 5a re-ran readers and was aborted
+  within two minutes (no file touched).
 
 `[AT FREEZE]` Complete list of runs, resumes and limit hits per agent.
 
