@@ -77,7 +77,11 @@ def main() -> int:
     env = {**load_env(REPO / ".env"), **os.environ}
     host = env.get("MBT_IB_HOST", "")
     port_text = env.get("MBT_IB_PAPER_PORT", "")
-    missing = [name for name, value in (("MBT_IB_HOST", host), ("MBT_IB_PAPER_PORT", port_text)) if not value]
+    missing = [
+        name
+        for name, value in (("MBT_IB_HOST", host), ("MBT_IB_PAPER_PORT", port_text))
+        if not value
+    ]
     if missing:
         print(f"REFUSED: missing required environment variables: {', '.join(missing)}")
         return 2

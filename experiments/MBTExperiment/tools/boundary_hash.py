@@ -60,8 +60,15 @@ def walk(root: Path) -> tuple[list[tuple[bytes, str, int, str]], list[str]]:
             if full.is_symlink():
                 # A symlink is recorded by its target text, never followed. A
                 # followed link can leave the boundary and hash something else.
-                target = os.readlink(full)
-                entries.append((rel_bytes, "link", len(target), hashlib.sha256(os.fsencode(target)).hexdigest()))
+                target = str(full.readlink())
+                entries.append(
+                    (
+                        rel_bytes,
+                        "link",
+                        len(target),
+                        hashlib.sha256(os.fsencode(target)).hexdigest(),
+                    )
+                )
                 continue
             try:
                 digest, size = file_sha256(full)
@@ -98,7 +105,9 @@ def main() -> int:
     parser.add_argument("--root", required=True, help="boundary root to hash, read-only")
     parser.add_argument("--out", required=True, help="path for the full manifest")
     parser.add_argument("--json", required=True, help="path for the summary json")
-    parser.add_argument("--label", required=True, help="snapshot label, for example 'open' or 'close'")
+    parser.add_argument(
+        "--label", required=True, help="snapshot label, for example 'open' or 'close'"
+    )
     args = parser.parse_args()
 
     root = Path(args.root).resolve()

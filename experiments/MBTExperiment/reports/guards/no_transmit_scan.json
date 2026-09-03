@@ -1,0 +1,29 @@
+{
+  "banned_transmit_methods": [
+    "cancelOrder",
+    "cancelOrderAsync",
+    "exerciseOptions",
+    "exerciseOptionsAsync",
+    "placeOrder",
+    "placeOrderAsync",
+    "reqGlobalCancel",
+    "reqGlobalCancelAsync"
+  ],
+  "finding_count": 0,
+  "findings": [],
+  "guard": "no_transmit_ast_scan",
+  "method": "ast.walk over every parse tree in src/mbt, and over tools/ for transmit call sites",
+  "order_constructors_requiring_literal": [
+    "LimitOrder",
+    "MarketOrder",
+    "Order",
+    "StopLimitOrder",
+    "StopOrder"
+  ],
+  "package_files_scanned": 16,
+  "preview_wrappers_requiring_literal": [
+    "what_if_order"
+  ],
+  "tools_files_scanned": 4,
+  "verdict": "CLEAN"
+}
