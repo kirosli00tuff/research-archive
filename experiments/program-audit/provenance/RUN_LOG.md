@@ -206,3 +206,18 @@ only A-cross-repo inherits the session model. Args from tools/agent_state.py: do
 the same 36 cross-repo leads as run 8 (provenance/launch-args/agentA-run9.args.json). Cleanliness check
 "01-agentA-blind-run8-stopped-AFTER" serves as the BEFORE check for this run (nothing touched an audited
 repository in between). Task id w4jh48cgb. Nine repositories to read, BATCH = 2, smallest first.
+
+## 2026-09-03 19:36Z–~20:27Z — Agent A blind pass, run 9 outcome (account session limit)
+Task w4jh48cgb (wf_60282a09-268). Result: agents_done = 8, agents_error = 19; every failure carried
+"You've hit your session limit · resets 4:50pm (America/Vancouver)" (23:50Z). Completed and banked
+(all Opus): the VRPExperiment and ETFExperiment readers (single "all" part each, drafts and reopen
+ledgers under _drafts/), both consolidators (VRPExperiment 7 findings AUDIT-A-VRPExperiment-1..7 with one
+S1 OVER_CLOSED DERIVED; ETFExperiment as recorded in its json) and all four verifiers, whose verdicts are
+saved verbatim to provenance/partial-outputs/agentA-VRP-ETF.verifier-verdicts.run9-limit.json. Both
+appliers failed on the limit, so run 10 re-runs verifiers and appliers for these two repositories
+(tools/agent_state.py reports them consolidated-but-unverified); the run-9 verdicts stay in provenance
+for comparison only. Failed before writing anything: all seventeen reader parts for solclear,
+PMExperiment, solattn, NPLExperiment, MLCryptoEngine, ORBExperiment and AiTrader.
+The consolidators' structured cross-repository leads were added to the run-10 args. The orchestrating
+session was itself rate-limited (a /compact attempt failed with the same message) and restarted.
+Cleanliness check "01-agentA-blind-run9-AFTER": only the pre-existing entries.

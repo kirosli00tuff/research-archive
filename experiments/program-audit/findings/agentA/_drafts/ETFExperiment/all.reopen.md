@@ -1,0 +1,102 @@
+# REOPEN LEDGER — ETFExperiment
+
+**Repository:** ETFExperiment · **Anchored SHA:** `4d110027674e7b4cd2861cf4e0e74f975111daf1` (master, 2026-08-28)
+**Scope:** every hypothesis, sub-stage verdict, routed-out candidate and stated blocker in the
+anchored snapshot. **This ledger is factual, not advocacy.** Figures are quoted as the repository
+records them, each with its n and a `file:line`. Where I recomputed a figure it is marked
+`[recomputed]` and the recomputation is in `all.md`.
+
+Repository lifetime, from the live git history (read-only): first commit 2026-08-28T00:57:16-07:00,
+last commit 4d11002 2026-08-28T19:43:48-07:00. Pre-registration Sections 0–14 committed
+2026-08-28T01:07–01:11-07:00, before the first network call. Six amendments, all dated 2026-08-28.
+Lifetime network cost: 220 charged requests, zero dollars (REGISTRATION.md:1160).
+
+---
+
+## 1. Registered hypotheses
+
+### H1 (H-ETF) — ETF flow prints predict the next day's BTC return net of a Hyperliquid round trip
+
+| field | value |
+|---|---|
+| **Status** | **CLOSED** — HYPOTHESES.md:69 |
+| **Closure kind** | `untestable-at-achievable-power` (the fourth kind, named in advance at HYPOTHESES.md:44-54) — HYPOTHESES.md:69, REGISTRATION.md:1004 |
+| **Closure date** | 2026-08-28 (Amendment 5, REGISTRATION.md:993; ADR-019, DECISIONS.md:521-523; progress.md Entry 7:526-528) |
+| **Closure mechanism** | **Operator decision on the Amendment 4 deadline finding, before Section 0 completed** — HYPOTHESES.md:69, REGISTRATION.md:1039-1041 |
+| **Deciding figure (n)** | Projected achieved N at 2027-03-31 = **163** (from forward accrual of 20.8 admissible days/month; achieved N on the closing date = **11**, all retro-archive, forward-capture 0) against a governing minimum N of **300** — shortfall **137 days**; against E1's minimum of **237** — shortfall **74 days**. HYPOTHESES.md:70; REGISTRATION.md:1008-1015; reports/stage_a2/power.json:116 (n=163), :114 (forward 0); reports/stage_a2/census.json:2-3 (11 admissible, 0 forward) |
+| **Supporting figures with n** | E1 power @0.18, n=163: **0.6105**; @0.09: **0.2015**; E2 @0.18: **0.5225** — reports/stage_a2/power.json:62,63,72. E1 minimum N: 237 @0.18, 845 @0.09, 3,776 @0.045 — power.json:19-21. E2 minimum N: **300** @0.18 (grid 200/250/300 = 0.677/0.710/0.800), **>1,200** @0.09 — reports/stage_a2/e2_minimum_n.json:4-18. Archive capture density **11/333 = 0.0330** (bar 0.60) — REGISTRATION.md:728. Retro revision **0 revised / 0 sign flips / 0 threshold crosses on n=11** (registered minimum 30) — reports/stage_a1/retro_revision.json:3-8 |
+| **Outcome read?** | **No.** No BTC price parsed by any code path; every funding rate at or after 2025-05-01 gated — REGISTRATION.md:1050-1052, :603-606 |
+| **Blockers (stated)** | (i) **Operator prior slot empty**, blocks Stage B structurally — REGISTRATION.md:469-478, :944-945, :1090; CLAUDE.md:115-117; README.md:82-85. (ii) **Archive capture density 0.0330 vs 0.60 bar, unrestorable** — REGISTRATION.md:863-867. (iii) **Rolling 5,001-row hourly candle window** destroys one day of retro outcome coverage per day, no archive behind it — REGISTRATION.md:664-670; DECISIONS.md:384-413. (iv) **No per-row publication timestamp on either surviving source (n = 2 of 2)** — docs/ACCESS.md:196-199. (v) **The projected N does not reach the governing minimum by 2027-03-31** — REGISTRATION.md:981-986. (vi) **The forward revision-integrity leg is calendar-bound to 2026-09-22 and was dropped** — REGISTRATION.md:1139-1153 |
+| **Reopen conditions (registered)** | **(a)** a flow source serving a **per-row publication timestamp** — HYPOTHESES.md:84. **(b)** an archive **or mirror** with **≥ 60 percent** pre-anchor capture density over the test window — HYPOTHESES.md:84. **(c)** a registered deadline **at or beyond 2027-10-31** with forward accrual sustained at 20.8 admissible days/month, **or** a design whose governing minimum N is **at or below 163** at the assumption it fires on; any (c) reopening must first pin the E2 minimum, unpinned at exactly 0.8000 from 300 simulations, SE 0.0231 — HYPOTHESES.md:84 |
+| **Explicitly NOT a reopen** | "**Not a better model, not a better feature set, not lower fees, and not more analysis of the 8 retro days or the 11 admissible days.**" — HYPOTHESES.md:84 |
+| **Trigger status, in-repo** | (a) not met: 0 of 2 probed sources serve one — docs/ACCESS.md:104,169. (b) **not tested beyond n = 1 archive**: only web.archive.org was ever queried (reports/stage_a1/robots_and_terms.json:39-56; src/etf/config.py:126-127) and only the two Farside URLs (reports/stage_a1/archive_density.json:30,60). (c) not met at the closing date; the first clause is a registration choice plus continued zero-dollar collection, and the collector it depends on was disarmed the same day — REGISTRATION.md:1157 |
+| **Recomputed reopen arithmetic** | `[recomputed]` On the repository's own projection (weekdays × 333/336, plus achieved 11): **N = 237 is reached 2027-07-14**, N = 275 on 2027-09-04, **N = 300 on 2027-10-12**. Reopen threshold (c)'s 2027-10-31 date is therefore set at the **unpinned E2 minimum of 300**, while the closure itself is explicitly stated against **E1's 237** (REGISTRATION.md:1015; DECISIONS.md:541-543) — a 3.5-month gap between the closure's stated basis and its registered reopen date |
+| **Possibly met by another repository?** | **(a) YES — flag for cross-repo pass.** MLCryptoEngine H11 closed on a *measured 75-day publication lag* of a free flow source (REGISTRATION.md:39-42, progress.md:39); any repository holding a flow or on-chain source that serves a per-row publication timestamp would satisfy (a). Candidates to check: MLCryptoEngine, NPLExperiment, AiTrader, MLCryptoEngine's Coin Metrics surface. **(b) YES — flag.** Any repository in the program that used a web archive other than the Internet Archive (archive.today / archive.ph, Common Crawl) or that measured a mirror's capture density. **(c) NO** — it is a registration decision internal to a successor of this repository |
+| **Working / provenance** | REGISTRATION.md (Sections 0–14 + Amendments 1–6); report.md; docs/ACCESS.md; DECISIONS.md ADR-001…ADR-020; progress.md Entries 0–8; reports/stage_a1/, reports/stage_a2/, reports/stage_a4/ |
+
+*No other hypothesis is registered. HYPOTHESES.md contains exactly one entry.*
+
+---
+
+## 2. Sub-stage verdicts and gates (each carries its own status and, where applicable, its own reopen)
+
+| entry | status | closure kind | closure date | deciding figure (n) | file:line | blockers (file:line) | reopen conditions (file:line) | possibly met by another repo? |
+|---|---|---|---|---|---|---|---|---|
+| **Section 0 outcome map** | **PARTIALLY FIRED — never completed** | not a closure kind; recorded as "left partially fired" | 2026-08-28 (Amd 3; restated Amd 5) | GO eliminated on archive density **11/333 = 0.0330** vs 0.60 bar; BLOCKED not fired on power, E1 **0.6105** (n=163) vs 0.50 floor; residual DEGRADED-vs-BLOCKED recorded **moot, not resolved** | REGISTRATION.md:861-887, :1027-1041; report.md:340-352 | the unmeasured forward revision-integrity leg, earliest completion **2026-09-22** — REGISTRATION.md:883-887 | none registered; the map fires once. Under the registered fire function DEGRADED arms collectors and BLOCKED does not (src/etf/section0.py:110,122,134,149,182; tests/test_section0.py:61,75) | no |
+| **A.1 Task 3 — publication lag** | **NOT MEASURED / ABANDONED** | none; recorded as calendar-bound then dropped with the collector | armed 2026-08-28T20:17:11Z, disarmed same day (commit 4d11002, 2026-08-28T19:43:48-07:00) | **2 captures exist** against a registered minimum of **15 US trading days**; 15th trading day 2026-09-21, print 2026-09-22 | report.md:163-179; progress.md:452-456; src/etf/config.py:183 (`lag_min_trading_days=15`) | calendar: 15 US trading days of forward capture — REGISTRATION.md:883-887 | implicitly: any future flow hypothesis "must measure it from scratch" — REGISTRATION.md:1152 | **flag**: MLCryptoEngine measured a 75-day publication lag on a different flow source (REGISTRATION.md:39-42) — a *different* source, so it does not substitute, but it is the comparator |
+| **A.1 Task 4 — as-printed observability** | **PASS CLOSED; verdict left PARTIAL-or-FAIL, unresolved** | GO-leg closure is irreversible ("captures … do not exist and cannot be created") | 2026-08-28 (Amd 2 / Amd 3) | retro leg: **11 of 333 = 0.0330** vs 0.60 (n = 333 printed OOS days); forward leg **not measured** vs 0.90 bar | REGISTRATION.md:728, :863-867; report.md:250-254; docs/ACCESS.md:432-436 | archive crawl rate **0.316 mementos/calendar day** (n = 153 OOS mementos over 484 days); unbounded-window ceiling **112/333 = 0.3363** — REGISTRATION.md:672-681, docs/ACCESS.md:380-387 | reopen (b) of H1: an archive or mirror at ≥ 60 % — HYPOTHESES.md:84 | **YES — flag (b)**: only web.archive.org was probed |
+| **A.1 Task 4 — retro revision rate** | **MEASURED, BELOW REGISTERED MINIMUM, CARRIES NO VERDICT** | n/a | 2026-08-28 | **0 revised, 0 sign flips, 0 threshold crosses, 11 of 11 intact, n = 11** against registered minimum **30** | reports/stage_a1/retro_revision.json:3-8; REGISTRATION.md:751-770; src/etf/config.py:187 (`retro_revision_sample_min=30`) | the archive supplies only 11 comparable days — REGISTRATION.md:711-731 | barred from reuse: "may not cite the n = 11 figure as evidence of anything" — REGISTRATION.md:1152-1153; DECISIONS.md:608-611 | no — explicitly non-transferable |
+| **A.1 Task 4 — forward revision integrity** | **FORGONE BY DECISION** | recorded as "dropped by decision, not by oversight" | 2026-08-28 (Amd 6 §3) | earliest completion **2026-09-22**, ~16 trading days out; zero dollars, ~33 requests/day | REGISTRATION.md:1139-1153; DECISIONS.md:602-619; progress.md:592-599 | none other than calendar | "must be made from scratch" by any future flow hypothesis — DECISIONS.md:611 | **flag**: it is the MLCryptoEngine H11 question (REGISTRATION.md:1146-1147); if another repository measured whole-file-regeneration behaviour on *this* source (Farside), it would substitute |
+| **A.2 Task 1 — admissible-day census** | **COMPLETE (at the un-amended anchor)** | n/a | 2026-08-28T20:34:47Z | **336 rows, 11 admissible** (11 retro-archive, 0 forward-capture); excluded: 53 capture_too_late, 243 no_capture, 25 capture_served_no_value, 3 no_printed_value; 1 operational (HTTP 403), admissibility unknown | reports/stage_a2/census.json:1-3 and `exclusion_reasons`; report.md:258-276 | the entry anchor was never amended — REGISTRATION.md:178-181 | the registered anchor amendment (one-way, later only) — REGISTRATION.md:178-188; src/etf/anchor.py:70-82 | no |
+| **A.2 Task 3 — sealed outcome substrate** | **SEALED, UNREAD** | n/a | 2026-08-28 | 5,002 hourly rows + 11 funding pages; **142 of 333** OOS days covered at the 0.95/0.95 bars | report.md:288-294; DECISIONS.md:411-413; src/etf/config.py:189-190 | rolling 5,001-row `1h` window, sliding one hour per hour (n = 17 bisection probes) — reports/stage_a1/depth.json, candle_horizon_bisect.json | none; "The sealed outcome substrate stands untouched at 142 of 333 days covered" — report.md:494 | no |
+| **A.2 Task 4 — power gate** | **COMPLETE** | n/a | 2026-08-28T20:35:37Z (E1) / 20:40:00Z (E2 grid) | minimum N for E1: 237 / 845 / 3,776 at 0.18 / 0.09 / 0.045 (20,000 draws, 2,000 sims; bisection at 4,000 draws / 600 sims); E2 grid at 1,200 draws / 300 sims | reports/stage_a2/power.json:19-21, :117-118; reports/stage_a2/e2_minimum_n.json:4-18 | E2's 300 reads exactly 0.8000 from 300 simulations, SE 0.0231 — **unpinned** — REGISTRATION.md:1017-1025 | a reopening under (c) "must first pin the E2 minimum" — HYPOTHESES.md:84 | no |
+| **A.3 Task 2 — retro backfill** | **SKIPPED BY RULE** | n/a | 2026-08-28 | runs only on observability PASS; PASS is closed. Retro cohort = **8 trading days**, demoted to descriptive | REGISTRATION.md:934-936, :740-749; progress.md:427-431 | observability PASS is closed irreversibly — REGISTRATION.md:863-867 | observability PASS, which cannot be restored — REGISTRATION.md:865-867 | no |
+| **Stage B** | **NEVER OPENED; latch never spent** | n/a | — | trigger needs both co-primaries at 80 % power at **achieved** N (achieved = 11, E1 power 0.0815), the operator prior slot filled, and explicit operator instruction | REGISTRATION.md:390-408; reports/stage_a2/power.json:45,47; report.md:490-494 | operator prior slot empty (structural) — REGISTRATION.md:476-478 | all three Section 10 conditions — REGISTRATION.md:392-398 | no |
+| **Operator prior slot (Section 13)** | **EMPTY — and de-listed as an open item at closure** | n/a | 2026-08-28 (Amd 5 §6) | assistant prior 0.10 recorded 2026-08-27, never copied into the slot | REGISTRATION.md:469-478, :1088-1094; progress.md:558-561 | "an adopted prior corrupts the calibration ledger" (NPDExperiment Amendment 0 lesson) — REGISTRATION.md:463-467 | filled only by the operator, format `p ∈ [0,1]` + `(independent)`/`(adopted)` — REGISTRATION.md:474-475 | **flag**: NPDExperiment's Amendment 0 is the cited precedent; the calibration ledger itself lives outside this repository |
+
+---
+
+## 3. Routed-out sources and carried external blockers
+
+| item | status | basis | file:line | reopen / expiry | possibly met by another repo? |
+|---|---|---|---|---|---|
+| **TheBlock** | **OUT — stated prohibition** | `Disallow: /api/` under `User-agent: *`; the rendered page carries no server-rendered series; the endpoint was never requested | docs/ACCESS.md:53-72; reports/stage_a1/robots_and_terms.json:23-31 | a change to TheBlock's robots.txt; robots recorded verbatim 2026-08-28T08:12:24Z | **flag** — the HFExperiment Wealthsimple precedent is the governing rule (REGISTRATION.md:444-446) |
+| **Glassnode** | **OUT — disallowed and not keyless** | `Disallow: /api`; `api.glassnode.com/robots.txt` returns 401; `glassnode.com/charts` 404 | docs/ACCESS.md:74-86 | keyless access, or a licence — but Section 12 forbids paid tiers and credentials (REGISTRATION.md:425-426) | no |
+| **SoSoValue** | **RETAINED — cross-check only, never the signal** | `totalNetInflow` spans **all** US spot BTC ETFs, not the registered five; mean difference **47.42M USD** (median 27.20M, range −903.20M to +1,205.20M, n = 333) against a 100M threshold. Cross-check passes **315 of 333** within 2 % | docs/ACCESS.md:161-185; REGISTRATION.md:620-624 | a per-fund surface on the same publisher would make it a signal candidate; **its archive density was never measured** | no |
+| **IBKR cost band** | **CLOSED — no band exists** | API refuses fractional-sized orders, **error 10243**, carried from HFExperiment `reports/stage_a1b/a1b_report.md` line 52 | REGISTRATION.md:269-272, :562; DECISIONS.md:161-164 | none stated; `etf.costs.ibkr_band` returns `None`, pinned by test | **YES — flag for cross-repo pass.** This is a blocker carried from HFExperiment and never re-verified here. If HFExperiment later resolved or superseded error 10243, this closure is stale. Materially minor: IBKR is not the registered venue and moves no bar |
+| **Kraken spot fee tier** | **CARRIED, dated** | 0.25 % maker / 0.40 % taker per side (50/80 bp round trip), from MLCryptoEngine ADR-055, **verified live 2026-08-08** — 20 days before this registration | REGISTRATION.md:262-267, :560 | Section 6 states it "is re-verified before any verdict-bearing use with the correction recorded"; it is descriptive only and moves no bar here | **flag** — a dated external figure whose freshness is MLCryptoEngine's to maintain |
+| **Hyperliquid perp fees** | **CARRIED, undated** | 1.5 bp maker / 4.5 bp taker per side, "in-house figure" with **no verification date recorded** | REGISTRATION.md:253-255, :559 | none stated | **flag** — the only carried cost figure without a verification date, and it is the **verdict-bearing** band (9 bp central) |
+| **Source study figures (Lim, SSRN 6592830 / 6567058)** | **CARRIED, none measured here** | 313-day sample: next-day Newey-West **t 3.12** → ρ ≈ 0.18; 563-day sample: IV impact falls **0.41 → 0.20 %** per 100M | REGISTRATION.md:487-516 | none; every figure labelled `carried` | **flag** — the 0.09 registered assumption depends entirely on these; no repository in this program measured them |
+| **Citi note (2026-07-01)** | **RECORDED AS FAILED TO CONFIRM** | Citi cited the study rather than running its own regression; its own claim (45 % of **weekly** moves) is contemporaneous, not next-day predictive | REGISTRATION.md:518-533; DECISIONS.md:354-380 | none | no |
+
+---
+
+## 4. Registered figures that were never measured (open measurement debts)
+
+Section 14.7 names eleven measurement targets (REGISTRATION.md:575-587). Status at the anchor:
+
+| target | registered at | status | file:line |
+|---|---|---|---|
+| publication lag p50 / p90 / p95 | A.1 Task 3 | **NOT MEASURED** (2 captures vs 15 trading days) | progress.md:452-456 |
+| rate at which the largest fund reports late | A.1 Task 3 | **NOT MEASURED**; not visible in the settled table | docs/ACCESS.md:156-159 |
+| rate at which a dash appears where a number later stands | A.1 Task 3 | **NOT MEASURED** | progress.md:143, :472 |
+| days with no value before the provisional anchor | A.1 Task 3 | **NOT MEASURED** — this is the missing factor in the forward accrual rate | REGISTRATION.md:580; scripts/power_gate.py:69-80 |
+| forward revision / sign-flip / threshold-cross rate | A.1 Task 4 | **FORGONE BY DECISION** | REGISTRATION.md:1141-1153 |
+| archive capture density per US trading day | A.1 Task 4 | **MEASURED**: 11/333 = 0.0330 (n = 333) | REGISTRATION.md:728 |
+| retro revision rate | A.1 Task 4 | **MEASURED, n = 11 < 30, carries no verdict** | reports/stage_a1/retro_revision.json:3-8 |
+| admissible days per month and the trailing rate | A.2 Task 1 | **MEASURED for retro** (11 over 16 months, census.json `by_month`); **PROJECTED for forward** at 20.8/month from weekdays × 333/336, forward-admissible = 0 observed | reports/stage_a2/census.json:3; scripts/power_gate.py:71,78-80 |
+| signal distribution and trade count | A.2 Task 2 | **MEASURED**: admissible n = 11 (trade share 0.7273); live descriptive n = 333 (trade share 0.7568) | reports/stage_a2/census.json `signal_distribution_*` |
+| sealed candle and funding coverage | A.2 Task 3 | **MEASURED**: 142 of 333 days at 0.95/0.95 | report.md:288-294 |
+| per-endpoint rate ceilings and operating paces | A.1 Task 2 | **MEASURED, no ceiling found**: 96 requests over 6 endpoints, all HTTP 200; `venue.meta` and `archive.snapshot` **not probed** and keep their slower pre-measurement figures | reports/stage_a1/rate_ceilings.json; docs/ACCESS.md:333-342 |
+
+---
+
+## 5. Items to carry into the cross-repository pass
+
+1. **Reopen (a)** — a flow / on-chain source serving a **per-row publication timestamp**. Check MLCryptoEngine (H11's Coin Metrics surface, measured 75-day lag), NPLExperiment, AiTrader, MLCryptoEngine's fee/venue surfaces.
+2. **Reopen (b)** — an **archive or mirror** at ≥ 60 % pre-anchor capture density. Check whether any repository in the program used archive.today / archive.ph / Common Crawl, or measured a mirror's crawl rate.
+3. **The forward revision-integrity question on Farside specifically** — H1's dropped measurement. Any repository that has captured Farside over time would supply it.
+4. **IBKR error 10243** — a blocker carried from HFExperiment `reports/stage_a1b/a1b_report.md:52` and never re-verified here. If HFExperiment has since superseded it, ETFExperiment's `ibkr_band = None` closure is stale (minor: IBKR is not the registered venue).
+5. **Kraken 0.25/0.40 and Hyperliquid 1.5/4.5 bp** — carried fee figures; the Hyperliquid pair (verdict-bearing at 9 bp central) carries **no verification date** anywhere in this repository.
+6. **The operator prior / calibration ledger** — this repository closes "without a scored prediction" (REGISTRATION.md:1093-1094). Whether that is the right entry depends on the program-level calibration ledger, which lives outside it. The NPDExperiment Amendment 0 lesson is the cited governing precedent.
+7. **The `untestable-at-achievable-power` closure kind** — HYPOTHESES.md:48-54 attributes it to the NPDExperiment shape and to InsiderExperiment's pre-measurement BLOCKED (MDE 49.35 bp/month vs a 40 bp floor). Whether ETFExperiment's use of the kind matches those precedents — theirs turned on arithmetic, this one on a calendar — is a cross-repo consistency question.
