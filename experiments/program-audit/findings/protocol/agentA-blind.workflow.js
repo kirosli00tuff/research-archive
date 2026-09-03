@@ -249,10 +249,26 @@ Keep the json in sync with the md. Return the counts and the final list of IDs.`
 const ORDER = ['retail-power-limits','HFExperiment','InsiderExperiment','NPDExperiment','VRPExperiment','ETFExperiment','solclear','PMExperiment','solattn','NPLExperiment','MLCryptoEngine','ORBExperiment','AiTrader']
 const BATCH = 2
 const byName = Object.fromEntries(REPO_PARTS.map(rp => [rp.repo, rp]))
+// Disk-state driven skipping. The runtime's resume cache is positional (longest unchanged prefix
+// of agent() calls); with two chains interleaving and partial failures the order shifts and
+// completed agents re-run, overwriting verified output. tools/agent_state.py scans the output
+// directory and passes {done_repos, done_parts, leads} as args; every launch is fresh.
+const STATE = args || {}
+const DONE_REPOS = new Set(STATE.done_repos || [])
+const DONE_PARTS = STATE.done_parts || {}
+const DISK_LEADS = STATE.leads || []
 async function repoChain(rp) {
-  const drafts = await parallel(rp.parts.map(p => () =>
-    agent(readerPrompt(rp.repo, p.part, p.docs, rp.parts.length), { label: `A-read:${rp.repo}:${p.part}`, phase: 'Read' })))
-  const r = { repo: rp.repo, parts: rp.parts.map(p => p.part), drafts: drafts.filter(Boolean).length }
+  const parts = rp.parts.map(p => p.part)
+  if (DONE_REPOS.has(rp.repo)) {
+    log(`${rp.repo}: complete on disk, skipped`)
+    return { repo: rp.repo, parts, drafts: parts.length, consolidated: { n_findings: -1, cross_repo_leads: [] }, applied: 'on-disk', skipped: true }
+  }
+  const partsDone = new Set(DONE_PARTS[rp.repo] || [])
+  if (partsDone.size) log(`${rp.repo}: reader draft(s) on disk for ${[...partsDone].join(', ')}, skipped`)
+  const drafts = await parallel(rp.parts.map(p => () => partsDone.has(p.part)
+    ? Promise.resolve('on-disk')
+    : agent(readerPrompt(rp.repo, p.part, p.docs, rp.parts.length), { label: `A-read:${rp.repo}:${p.part}`, phase: 'Read' })))
+  const r = { repo: rp.repo, parts, drafts: drafts.filter(Boolean).length }
   if (r.drafts < rp.parts.length) { log(`${rp.repo}: ${r.drafts}/${rp.parts.length} readers completed; consolidation deferred to a resume`); return { ...r, consolidated: null, applied: null } }
   const c = await agent(consolidatorPrompt(r.repo, r.parts), { model: 'opus', label: `A-consolidate:${r.repo}`, phase: 'Consolidate', schema: CONSOLIDATOR_SCHEMA })
   if (!c) return { ...r, consolidated: null, applied: null }
@@ -279,7 +295,7 @@ phase('Cross-repo')
 const done = perRepo.filter(Boolean)
 const incomplete = ORDER.filter(n => !done.find(d => d.repo === n && d.consolidated && (d.consolidated.n_findings === 0 || d.applied)))
 if (incomplete.length) { log(`cross-repo pass deferred; incomplete: ${incomplete.join(', ')}`); return { repos: done, incomplete } }
-const leads = done.flatMap(r => (r.consolidated && r.consolidated.cross_repo_leads) ? r.consolidated.cross_repo_leads.map(l => `${r.repo}: ${l}`) : [])
+const leads = [...DISK_LEADS, ...done.flatMap(r => (r.consolidated && r.consolidated.cross_repo_leads) ? r.consolidated.cross_repo_leads.map(l => `${r.repo}: ${l}`) : [])]
 const cross = await agent(`First run: cat ${RULES_PATH}   and follow every rule in it.
 ${THESIS}
 You are Agent A's CROSS-REPOSITORY reader. All thirteen per-repository passes are complete. Read

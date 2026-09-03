@@ -88,3 +88,16 @@ re-executing the two cached readers (retail-power-limits, HFExperiment). Stopped
 either wrote a file (draft mtimes unchanged, see below). The old journal (114 rows, 11 results)
 was copied into the new session's workflow directory and the run resumed as 5b. The aborted
 journal is kept as journal.aborted-run5a.jsonl.bak. No finding was affected.
+
+## 2026-09-03 06:21Z — run 5b STOPPED after 3 minutes (positional resume cache re-ran completed agents)
+With the journal carried across, the resume still started the HFExperiment consolidator and both
+retail-power-limits verifiers, all three of which had cached results. Cause (workflow reference,
+"Resume"): the cache replays the longest UNCHANGED PREFIX of agent() calls; with two repository
+chains interleaving and partial failures, the call order shifts and everything after the first
+mismatch runs live. The same mechanism explains the HFExperiment reader's second execution in run
+4. Stopped at 06:24Z before any output file was touched (mtimes unchanged; git status clean).
+Remedy: tools/agent_state.py scans the agent's output directory (a repository is complete when
+its <repo>.json exists and <repo>.md carries "Citation check" lines, or the json is empty; a reader
+part is complete when its draft and ledger exist) and the result is passed as workflow `args`;
+the script skips completed chains and parts, and every launch is fresh (no resumeFromRunId).
+Disk state, not the runtime cache, is the ground truth from run 6 onward.
