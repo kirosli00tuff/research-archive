@@ -131,5 +131,7 @@ A/B scripts skip the consolidator and run only verify/apply (NPDExperiment: 4 fi
 
 ## 2026-09-03 06:59Z — Agent A blind pass, run 7 (fresh run, disk-state args)
 done_repos = [HFExperiment, retail-power-limits]; done_parts = {InsiderExperiment: [all],
-NPDExperiment: [all]}; consolidated = {NPDExperiment: 4}; 25 leads from the ledgers. Args recorded
-in provenance/launch-args/agentA-run7.args.json.
+NPDExperiment: [all]}; consolidated = {NPDExperiment: 4}; 29 cross-repo leads taken from the three consolidators'
+structured results in the journals (the ledger parser in the scanner returns line-wrapped fragments,
+so it is not used for the prompt hints). Args recorded in provenance/launch-args/agentA-run7.args.json.
+Task id wux6sep9q (wf_e8863b9a-427), launched 07:01Z.
