@@ -20,10 +20,10 @@
     "StopLimitOrder",
     "StopOrder"
   ],
-  "package_files_scanned": 16,
+  "package_files_scanned": 17,
   "preview_wrappers_requiring_literal": [
     "what_if_order"
   ],
-  "tools_files_scanned": 5,
+  "tools_files_scanned": 6,
   "verdict": "CLEAN"
 }

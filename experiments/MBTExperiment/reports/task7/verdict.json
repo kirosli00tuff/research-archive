@@ -1,0 +1,40 @@
+{
+  "blocking": [
+    "the known-answer test reproduces an independently checkable margin"
+  ],
+  "conditions": [
+    {
+      "condition": "the harness builds",
+      "detail": "no-transmit scan verdict 'CLEAN' over 17 package files, 0 findings",
+      "evidence": "reports/guards/no_transmit_scan.json",
+      "held": true
+    },
+    {
+      "condition": "all five guards fire under mutation",
+      "detail": "5 mutations applied to real source, 0 did not behave as registered",
+      "evidence": "reports/mutations/mutations.json",
+      "held": true
+    },
+    {
+      "condition": "the known-answer test reproduces an independently checkable margin",
+      "detail": "no known-answer artifact: the check did not run, so the code path has not been checked against a known answer and its MBT output is not trusted",
+      "evidence": "reports/task4/known_answer.json",
+      "held": false
+    },
+    {
+      "condition": "the census is armed with its projected completion date",
+      "detail": "armed: 5 collection days required, 0 of 20 windows collected. Armed is not collected, and this condition asks only that the projection exists.",
+      "evidence": "reports/task5/projection_if_started_today.json",
+      "held": true
+    }
+  ],
+  "conditions_held": 3,
+  "conditions_total": 4,
+  "decided_at": "2026-09-03T07:02:45.620Z",
+  "unreachable_here": [
+    "HARVESTABLE-CONFIRMED",
+    "VENUE_BLOCKED"
+  ],
+  "verdict": "HARNESS-BLOCKED",
+  "why_unreachable": "Both need the MARGIN gate, which needs a U-prefixed session. The paper-only clause forecloses one, so neither is registered as available to this stage."
+}

@@ -15,3 +15,6 @@ task5_end	2026-09-03T06:55:53Z	1788418553	census armed, 0 of 20 windows
 task6_start	2026-09-03T06:56:36Z	1788418596	fee leg
 task6_end	2026-09-03T06:57:37Z	1788418657	fee leg Absent(not_served), COST gate one-sided
 task7_start	2026-09-03T06:58:24Z	1788418704	fire gates, write verdict
+task7_end	2026-09-03T06:59:24Z	1788418764	HARNESS-BLOCKED, 2 of 4 conditions
+task8_start	2026-09-03T07:00:05Z	1788418805	five registered mutations
+task8_end	2026-09-03T07:02:45Z	1788418965	5 of 5 mutations behave as registered; guard hole found and closed

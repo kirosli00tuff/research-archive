@@ -206,13 +206,16 @@ def test_guard_one_run_time_refusal_backs_the_build_time_one(refusals: RefusalRe
 
 
 def test_guard_one_builder_emits_a_preview_order() -> None:
-    class _Order:
-        def __init__(self, **kwargs: object) -> None:
-            self.__dict__.update(kwargs)
-
-    order = build_short_option_order(_Order, quantity=1)
+    """Exercises the REAL ib_async Order, not a stub, so the flags are the real ones."""
+    order = build_short_option_order(quantity=1)
     assert order.whatIf is True
     assert order.transmit is False
+    assert order.action == "SELL"
+
+
+def test_guard_one_builder_refuses_a_non_positive_quantity() -> None:
+    with pytest.raises(ValueError, match="positive"):
+        build_short_option_order(quantity=0)
 
 
 # ===========================================================================
@@ -676,3 +679,24 @@ def test_summing_a_measured_leg_with_an_absent_one_raises(refusals: RefusalRecor
         expectation="raises; the all-in cost cannot be formed, so the gate falls back to a lower bound",
         exception=excinfo.value,
     )
+
+
+def test_guard_one_covers_a_call_whose_callee_is_not_a_known_constructor() -> None:
+    """The hole the mutation harness found: an INJECTED class name is not in the list.
+
+    Keying the rule on the whatIf ARGUMENT rather than on the callee name closes
+    it, so a constructor reached through a parameter, a factory or an alias is
+    held to the same literal requirement.
+    """
+    for source in (
+        "o = order_cls(action='SELL', whatIf=False, transmit=False)\n",
+        "o = factory.build(whatIf=bool(1))\n",
+        "o = make(whatIf=flag)\n",
+    ):
+        findings = scan_source(source, PACKAGE / "synthetic.py", full=True)
+        assert findings, f"an injected-constructor call site went unchecked: {source!r}"
+
+
+def test_guard_one_a_true_literal_on_an_unknown_callee_is_still_accepted() -> None:
+    source = "o = order_cls(action='SELL', whatIf=True, transmit=False)\n"
+    assert scan_source(source, PACKAGE / "synthetic.py", full=True) == []

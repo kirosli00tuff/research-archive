@@ -1,0 +1,150 @@
+{
+  "stage": "B",
+  "at": "2026-09-03T07:02:03Z",
+  "note": "Every refusal here is DEMONSTRATED as a produced artifact, never asserted. Python bytecode is purged before every run, because a same-byte-length restore once left mutated bytecode valid under CPython's mtime-and-size cache check and the harness reported a restore as still red.",
+  "what_this_shows": "reports/guards/refusals.json shows each guard REFUSING when exercised. This artifact shows each TEST DETECTING the guard being disabled. A guard can refuse correctly while its test asserts nothing, and only this catches that.",
+  "mutations": [
+    {
+      "name": "a whatIf literal is flipped to False",
+      "intent": "turn the only order construction in the package into a transmitting one",
+      "defect": "this repository transmits no order, ever. The flag that makes every broker interaction a preview is a single literal, and flipping it is the smallest possible edit that would change what the package does at a venue",
+      "path": "src/mbt/broker.py",
+      "old": "        whatIf=True,\n        transmit=False,",
+      "new": "        whatIf=False,\n        transmit=False,",
+      "check": "no_transmit_scan",
+      "check_kind": "build"
+    },
+    {
+      "name": "the whatIf flag is supplied from an expression rather than a literal",
+      "intent": "keep the run-time value True while removing the build-time guarantee",
+      "defect": "bool(1) evaluates to True, so the package still behaves correctly and every run-time check still passes. What is lost is the STATIC guarantee: a value that is not a literal cannot be verified at build time, and the next edit to whatever supplies it is unreviewed. This is the sharpest of the five, because nothing observable changes",
+      "path": "src/mbt/broker.py",
+      "old": "        whatIf=True,\n        transmit=False,",
+      "new": "        whatIf=bool(1),\n        transmit=False,",
+      "check": "no_transmit_scan",
+      "check_kind": "build"
+    },
+    {
+      "name": "a session trusts its declared environment instead of the connected account",
+      "intent": "let configuration state the environment rather than the connection",
+      "defect": "config states an INTENT and the connection states a FACT, and the fact wins. This mutation makes the declaration self-certifying, so a session declaring live while connected to a D-prefixed paper account would record its figures as live. Every downstream provenance tag would be a copy of a wish",
+      "path": "src/mbt/provenance.py",
+      "old": "        measured = environment_from_account(connected_account)",
+      "new": "        measured = declared",
+      "check": "tests/test_guards.py",
+      "check_kind": "test"
+    },
+    {
+      "name": "a paper margin becomes admissible to a gate",
+      "intent": "drop MARGIN from the kinds that require a live environment",
+      "defect": "a paper margin read is development evidence. Promoting one into a verdict is the single failure the paper-only clause exists to prevent, and after this edit the MARGIN gate would happily fire on a simulated account's number",
+      "path": "src/mbt/gates.py",
+      "old": "_LIVE_ONLY_KINDS = frozenset({ProvenanceKind.MARGIN, ProvenanceKind.COMMISSION_REPORT})",
+      "new": "_LIVE_ONLY_KINDS = frozenset({ProvenanceKind.COMMISSION_REPORT})",
+      "check": "tests/test_guards.py",
+      "check_kind": "test"
+    },
+    {
+      "name": "the deciding latch's spent check is inverted",
+      "intent": "invert the condition that makes one spend per registered figure",
+      "defect": "the latch exists so a deciding read happens once. An inverted condition is a classic single-token defect and it breaks the guard in both directions: the first spend raises when it should succeed, and a second would succeed when it should raise LatchAlreadySpentError",
+      "path": "src/mbt/latch.py",
+      "old": "        if path.exists():",
+      "new": "        if not path.exists():",
+      "check": "tests/test_guards.py",
+      "check_kind": "test"
+    }
+  ],
+  "results": [
+    {
+      "mutation": "a whatIf literal is flipped to False",
+      "intent": "turn the only order construction in the package into a transmitting one",
+      "defect_it_imitates": "this repository transmits no order, ever. The flag that makes every broker interaction a preview is a single literal, and flipping it is the smallest possible edit that would change what the package does at a venue",
+      "file": "src/mbt/broker.py",
+      "check": "no_transmit_scan",
+      "check_kind": "build",
+      "anchor_found": true,
+      "check_failed_when_mutated": true,
+      "check_green_when_restored": true,
+      "restore_was_byte_exact": true,
+      "mutated_summary": "NO-TRANSMIT SCAN FAILED: 1 finding(s)",
+      "checks_that_fired": [
+        "whatif_false_literal"
+      ],
+      "restored_summary": "no-transmit scan CLEAN: 17 package files and 6 tool files walked, 0 findings"
+    },
+    {
+      "mutation": "the whatIf flag is supplied from an expression rather than a literal",
+      "intent": "keep the run-time value True while removing the build-time guarantee",
+      "defect_it_imitates": "bool(1) evaluates to True, so the package still behaves correctly and every run-time check still passes. What is lost is the STATIC guarantee: a value that is not a literal cannot be verified at build time, and the next edit to whatever supplies it is unreviewed. This is the sharpest of the five, because nothing observable changes",
+      "file": "src/mbt/broker.py",
+      "check": "no_transmit_scan",
+      "check_kind": "build",
+      "anchor_found": true,
+      "check_failed_when_mutated": true,
+      "check_green_when_restored": true,
+      "restore_was_byte_exact": true,
+      "mutated_summary": "NO-TRANSMIT SCAN FAILED: 1 finding(s)",
+      "checks_that_fired": [
+        "whatif_not_a_literal"
+      ],
+      "restored_summary": "no-transmit scan CLEAN: 17 package files and 6 tool files walked, 0 findings"
+    },
+    {
+      "mutation": "a session trusts its declared environment instead of the connected account",
+      "intent": "let configuration state the environment rather than the connection",
+      "defect_it_imitates": "config states an INTENT and the connection states a FACT, and the fact wins. This mutation makes the declaration self-certifying, so a session declaring live while connected to a D-prefixed paper account would record its figures as live. Every downstream provenance tag would be a copy of a wish",
+      "file": "src/mbt/provenance.py",
+      "check": "tests/test_guards.py",
+      "check_kind": "test",
+      "anchor_found": true,
+      "check_failed_when_mutated": true,
+      "check_green_when_restored": true,
+      "restore_was_byte_exact": true,
+      "mutated_summary": "FAILED tests/test_guards.py::test_guard_two_refuses_a_live_declaration_on_a_paper_account",
+      "checks_that_fired": [
+        "tests/test_guards.py::test_guard_two_refuses_a_live_declaration_on_a_paper_account"
+      ],
+      "restored_summary": "....................................................................     [100%]"
+    },
+    {
+      "mutation": "a paper margin becomes admissible to a gate",
+      "intent": "drop MARGIN from the kinds that require a live environment",
+      "defect_it_imitates": "a paper margin read is development evidence. Promoting one into a verdict is the single failure the paper-only clause exists to prevent, and after this edit the MARGIN gate would happily fire on a simulated account's number",
+      "file": "src/mbt/gates.py",
+      "check": "tests/test_guards.py",
+      "check_kind": "test",
+      "anchor_found": true,
+      "check_failed_when_mutated": true,
+      "check_green_when_restored": true,
+      "restore_was_byte_exact": true,
+      "mutated_summary": "FAILED tests/test_guards.py::test_guard_three_a_paper_margin_reaching_a_gate_raises",
+      "checks_that_fired": [
+        "tests/test_guards.py::test_guard_three_a_paper_margin_reaching_a_gate_raises"
+      ],
+      "restored_summary": "....................................................................     [100%]"
+    },
+    {
+      "mutation": "the deciding latch's spent check is inverted",
+      "intent": "invert the condition that makes one spend per registered figure",
+      "defect_it_imitates": "the latch exists so a deciding read happens once. An inverted condition is a classic single-token defect and it breaks the guard in both directions: the first spend raises when it should succeed, and a second would succeed when it should raise LatchAlreadySpentError",
+      "file": "src/mbt/latch.py",
+      "check": "tests/test_guards.py",
+      "check_kind": "test",
+      "anchor_found": true,
+      "check_failed_when_mutated": true,
+      "check_green_when_restored": true,
+      "restore_was_byte_exact": true,
+      "mutated_summary": "FAILED tests/test_guards.py::test_guard_four_the_latch_file_is_durable_on_disk",
+      "checks_that_fired": [
+        "tests/test_guards.py::test_guard_four_a_second_spend_raises",
+        "tests/test_guards.py::test_guard_four_is_keyed_per_registered_figure",
+        "tests/test_guards.py::test_guard_four_records_module_hashes_and_detects_drift",
+        "tests/test_guards.py::test_guard_four_the_latch_file_is_durable_on_disk"
+      ],
+      "restored_summary": "....................................................................     [100%]"
+    }
+  ],
+  "whole_suite_after_restore": "...............                                                          [100%]",
+  "failures": 0
+}

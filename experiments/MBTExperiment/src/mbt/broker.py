@@ -27,10 +27,12 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any, Protocol, final
 
+from ib_async import Order
+
 from mbt.clock import iso_utc, utc_now
 
 if TYPE_CHECKING:  # pragma: no cover - typing only
-    from ib_async import Contract, Order, OrderState
+    from ib_async import Contract, OrderState
 
 
 class TransmitRefusedError(PermissionError):
@@ -143,17 +145,24 @@ def is_unset(field: str) -> bool:
     return not text or text.upper() == IBKR_UNSET_SENTINEL.upper()
 
 
-def build_short_option_order(order_cls: Any, *, quantity: int) -> Any:
+def build_short_option_order(*, quantity: int) -> Order:
     """Build the short-option order used for the margin preview.
 
     ``whatIf=True`` and ``transmit=False`` are both literals, and both are
     verified by the AST scan. Two flags rather than one because they fail
     differently: ``whatIf`` makes the request a preview, and ``transmit=False``
     means that even a hypothetically mis-routed order would sit unsent.
+
+    ``Order`` is constructed **directly** rather than through an injected class.
+    An earlier version took the class as a parameter for testability, which left
+    the callee spelled ``order_cls`` and outside the scan's constructor list, so
+    the flag on the package's only order construction went unchecked. The
+    mutation harness found that and this is the fix: the site is now covered by
+    name, and the scan separately covers any call carrying the keyword.
     """
     if quantity <= 0:
         raise ValueError(f"quantity must be positive, got {quantity}")
-    return order_cls(
+    return Order(
         action="SELL",
         orderType="MKT",
         totalQuantity=quantity,

@@ -1,5 +1,5 @@
 {
-  "at": "2026-09-03T06:58:43.070Z",
+  "at": "2026-09-03T07:02:45.740Z",
   "census": {
     "median_bps": {
       "absent": "true",
@@ -24,7 +24,7 @@
       "ceiling": 1000.0,
       "environment": "",
       "figure_name": "",
-      "fired_at": "2026-09-03T06:58:43.070Z",
+      "fired_at": "2026-09-03T07:02:45.739Z",
       "gate": "margin",
       "measured": null,
       "outcome": "absent",
@@ -36,7 +36,7 @@
       "ceiling": 34.6,
       "environment": "",
       "figure_name": "",
-      "fired_at": "2026-09-03T06:58:43.070Z",
+      "fired_at": "2026-09-03T07:02:45.739Z",
       "gate": "cost",
       "measured": null,
       "outcome": "absent",
@@ -53,21 +53,20 @@
   "registered_premium_basis": "recent_quarter_point",
   "stage_verdict": {
     "blocking": [
-      "all five guards fire under mutation",
       "the known-answer test reproduces an independently checkable margin"
     ],
     "conditions": [
       {
         "condition": "the harness builds",
-        "detail": "no-transmit scan verdict 'CLEAN' over 16 package files, 0 findings",
+        "detail": "no-transmit scan verdict 'CLEAN' over 17 package files, 0 findings",
         "evidence": "reports/guards/no_transmit_scan.json",
         "held": true
       },
       {
         "condition": "all five guards fire under mutation",
-        "detail": "the mutation artifact is absent, so no guard has been shown to fail",
+        "detail": "5 mutations applied to real source, 0 did not behave as registered",
         "evidence": "reports/mutations/mutations.json",
-        "held": false
+        "held": true
       },
       {
         "condition": "the known-answer test reproduces an independently checkable margin",
@@ -82,9 +81,9 @@
         "held": true
       }
     ],
-    "conditions_held": 2,
+    "conditions_held": 3,
     "conditions_total": 4,
-    "decided_at": "2026-09-03T06:58:43.070Z",
+    "decided_at": "2026-09-03T07:02:45.740Z",
     "unreachable_here": [
       "HARVESTABLE-CONFIRMED",
       "VENUE_BLOCKED"

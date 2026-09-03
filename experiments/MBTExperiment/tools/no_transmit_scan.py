@@ -232,6 +232,17 @@ def scan_source(source: str, path: Path, *, full: bool) -> list[Finding]:
             findings.extend(_check_literal_whatif(node, path, callee))
             continue
 
+        # Any OTHER call site that carries a whatIf keyword is held to the same
+        # rule. Matching only a list of known constructor names left a hole: the
+        # package's own order construction went through an INJECTED class, so the
+        # callee was a parameter name the list did not contain and the flag was
+        # unchecked. The mutation harness found that hole rather than a reviewer,
+        # which is the argument for having one. Keyed on the ARGUMENT rather than
+        # on the callee, this rule does not care what the constructor is called.
+        if any(keyword.arg == "whatIf" for keyword in node.keywords):
+            findings.extend(_check_literal_whatif(node, path, callee))
+            continue
+
         if callee in BANNED_DYNAMIC_EXECUTION and isinstance(node.func, ast.Name):
             findings.append(
                 Finding(
