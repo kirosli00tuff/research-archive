@@ -108,3 +108,10 @@ Launched fresh (no resumeFromRunId) with args from tools/agent_state.py: done_re
 consolidators returned (recovered from the journals, recorded in
 provenance/launch-args/agentA-run6.args.json). Cleanliness check "01-agentA-blind-run6-BEFORE"
 (06:24Z): only the pre-existing entries. Task id w1c402gcy.
+
+## 2026-09-03 06:37Z — operator: exclude MBTExperiment
+"if you see MBTExperiment ignore it as well". MBTExperiment exists on disk (HEAD 548a4e8, read with
+`git rev-parse` only). Added to the excluded list in ANCHOR.md, COMMON_RULES.md (repository copy and
+the live scratchpad copy that agents read at start) and METHOD.md. Agent A run 6 was in progress;
+its rules already excluded everything outside the thirteen audited repositories, so no reader could
+have opened it. Agents launched from now on see the explicit name.

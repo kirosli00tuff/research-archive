@@ -103,6 +103,9 @@ those commits and must say so.
 ## Excluded repositories
 
 - `[personal repo, name removed]`: excluded as unrelated (per the audit brief).
+- `MBTExperiment`: present on disk (HEAD 548a4e8 at 2026-09-03 06:37Z, read with `git rev-parse` only). Excluded by
+  operator instruction on 2026-09-03 ("if you see MBTExperiment ignore it as well"). Never read, never
+  snapshotted, not in the cleanliness checks.
 - `solcopy`: a new repository the operator created during this session. The
   operator instructed the audit to ignore it. It is not anchored, not
   snapshotted, and not read.

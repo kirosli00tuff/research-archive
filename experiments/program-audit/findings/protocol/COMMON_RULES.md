@@ -10,7 +10,7 @@ Accidental modification is reported loudly in your output, never reverted.
 The audited repositories (live paths, under /home/kiros-li/Documents/GitHub/):
 AiTrader, ETFExperiment, HFExperiment, InsiderExperiment, MLCryptoEngine, NPDExperiment,
 NPLExperiment, ORBExperiment, PMExperiment, VRPExperiment, retail-power-limits, solattn, solclear.
-Excluded and never read: [personal repo, name removed], solcopy, and everything else under GitHub/ except program-audit.
+Excluded and never read: [personal repo, name removed], solcopy, MBTExperiment, and everything else under GitHub/ except program-audit.
 
 ## Where to read content: the ANCHORED SNAPSHOTS
 Every repository was exported at its anchored SHA with `git archive` to:

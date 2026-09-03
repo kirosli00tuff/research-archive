@@ -8,8 +8,9 @@ completed immediately before the `findings-frozen` tag and not edited afterwards
 Thirteen repositories under `/home/kiros-li/Documents/GitHub/` were audited at the commits recorded
 in `findings/ANCHOR.md`: AiTrader, ETFExperiment, HFExperiment, InsiderExperiment, MLCryptoEngine,
 NPDExperiment, NPLExperiment, ORBExperiment, PMExperiment, VRPExperiment, retail-power-limits,
-solattn, solclear. Two repositories present on disk were excluded by operator instruction and never
-read: [personal repo, name removed] and solcopy.
+solattn, solclear. Three repositories present on disk were excluded by operator instruction and never
+read: [personal repo, name removed], solcopy and MBTExperiment (the last added on 2026-09-03 06:37Z, during Agent A
+run 6; the rules already excluded everything outside the thirteen, so no agent had read it).
 
 Every finding is a claim about the anchored state. Each carries the anchored SHA and a statement of
 whether later commits could invalidate it. PMExperiment was re-anchored once, before any agent read
