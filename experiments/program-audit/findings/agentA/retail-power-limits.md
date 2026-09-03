@@ -1,0 +1,239 @@
+# Agent A findings — retail-power-limits
+
+Repository: **retail-power-limits** @ `dda39b2f148569a6fe9be956a979471b2330611d` (main, 2026-08-29).
+Direction A: the program closed hypotheses too early or too hard.
+
+## Summary — the strongest case for the thesis in this repository
+
+This repository registers no hypothesis of its own; it is a secondary-source note that *carries*
+seven sibling closures and argues four of them were power closures and nothing more. The Direction-A
+case is therefore about the note's own reasoning, and it is real in three places. First, the note's
+reopen condition opens with "Not a better estimator on the same samples" (docs:363) and then lists,
+as its own third qualifying shape, an estimator change on the same sample that would have moved
+InsiderExperiment's MDE from 49.35 to 34.29 bp/month — below the BLOCKED floor of 40 (docs:386-391).
+Second, the "eight to eleven years" that makes HFExperiment a power case is a property of a *frozen
+confidence sequence* (SOURCES.md:142), whose implied boundary backs out at ≈3.05 SE; a fixed-horizon
+test on the identical series clears at ≈604–858 days, so roughly a factor of 3.4 of that horizon is
+procedure, not domain. Third, "the design could not have detected an effect anywhere in the range"
+(docs:85-86) describes an MDE of 0.0512 against a band top of 0.05 — a 2.4 % margin at which the
+design retained 48–78 % power depending on convention. The note itself supplies every number used
+against it; that is a credit to the note and the reason these findings exist at all.
+
+---
+
+### AUDIT-A-retail-power-limits-1
+- **Repository / SHA:** retail-power-limits / `dda39b2f148569a6fe9be956a979471b2330611d`
+- **Hypothesis or artifact:** The note's own reopen condition, section "What would change the conclusion".
+- **Direction:** A
+- **Class:** INTERNAL_INCONSISTENCY
+- **Severity:** S1
+- **Label:** READ
+- **Claim challenged (verbatim quote):** "Not a better estimator on the same samples. The four designs were not badly built; all four ran their pipelines against mutation-tested guards, and the arithmetic that closed them is the arithmetic that would close a better model just as fast." — retail-power-limits/docs/the-power-limit.md:363-366 (carried into the README as "a domain whose effects are large relative to achievable samples, not a better estimator on the same ones", retail-power-limits/README.md:48-49)
+- **Evidence:** The third of the three shapes the *same section* says would qualify is an estimator change on the same sample: "**A design whose dispersion is lower rather than whose mean is higher.** InsiderExperiment is the clearest instance: its verdict turned entirely on tracking error, and its own equal-weighted secondary on the identical names would have landed at 34.29 bp instead of 49.35. It was not promoted, and correctly so. But the general lesson is that the denominator is often the cheaper term to attack, and it is almost always the one nobody looks at." (docs/the-power-limit.md:386-391). Figures with n: MDE 49.35 bp/month value-weighted vs 34.29 bp/month equal-weighted on the **identical** book — n = 71.9 names behaving as 29.7 effective (SOURCES.md:78), N_eff 2,869.9 independent periods over 2,581 sessions at 99.5 % coverage, 4,585 qualifying events (SOURCES.md:74). 34.29/49.35 = 0.695, a 30.5 % reduction, and it crosses the registered BLOCKED floor of 40 bp (SOURCES.md:70): the same sample under a different weighting fires DEGRADED, not BLOCKED (docs:227-232). The exclusion is not confined to InsiderExperiment: on the note's own figures the same is true for HFExperiment (finding -2: a fixed-horizon test on the identical 2.55-year holdout series clears at ≈604–858 days against the confidence sequence's 2,061) and for NPDExperiment (finding -6: scoring the identical 404 stored evaluable days at a one-session horizon gives MDE ≈ 0.0285 against 0.0512). The reopen condition as written forecloses the route the note's own evidence calls "the cheaper term to attack".
+- **Recomputation (if any):** 34.29/49.35 = 0.6948. Implied equal-weight annualized tracking error, holding the note's own MDE convention `t·M·sd/√N_eff` with t = 2, M = 21 (reproduced in "What Agent A checked and found sound"): 34.29/(2·21)·√2,869.9·√252 = 6.94 % against the 9.993 % value-weighted figure (inputs SOURCES.md:74,78). All inputs are figures printed in this repository, so the label is READ.
+- **What would resolve it:** Reword the reopen condition to admit estimator/denominator changes on the same sample, or state why a 30 % MDE reduction that crosses the repository's own BLOCKED floor does not count. Cross-repo: InsiderExperiment DECISIONS.md ADR-011 ("reopening boundary", SOURCES.md:223) — its text is not carried here and may already say this.
+- **Confidence:** HIGH — both statements are verbatim in the same section of the same document, and the deciding ratio is the note's own pair of figures.
+- **Could later commits invalidate this?:** No. The repository has three commits, all on 2026-08-29 00:19–00:21 -07:00, and `dda39b2` is the anchored HEAD; nothing postdates it.
+- **Disclosed by authors?:** Partially — the counter-example at docs:386-391 is the note's own text and is stated plainly, so the *ingredient* is disclosed. The contradiction with docs:363 is not acknowledged anywhere in the repository, and the README carries only the narrow form. The finding is the contradiction, which is not disclosed.
+
+### AUDIT-A-retail-power-limits-2
+- **Repository / SHA:** retail-power-limits / `dda39b2f148569a6fe9be956a979471b2330611d`
+- **Hypothesis or artifact:** HFExperiment H-F (12-1 cross-sectional momentum, forward shadow series) as carried by the note; the "eight to eleven years" horizon that makes it a power case.
+- **Direction:** A
+- **Class:** STATISTICAL
+- **Severity:** S2
+- **Label:** READ
+- **Claim challenged (verbatim quote):** "Its own registration priced the forward version at 2,061 trading days to clear zero and 2,852 to clear the cost hurdle. Eight to eleven years." — retail-power-limits/docs/the-power-limit.md:114-116; the horizon is then attributed to the domain rather than the procedure at retail-power-limits/docs/the-power-limit.md:365-366 ("the arithmetic that closed them is the arithmetic that would close a better model just as fast").
+- **Evidence:** The 2,061/2,852-day figures are explicitly conditional on a *confidence sequence*: "Under the frozen confidence sequence, with the sample mean holding at 27.99 bp per day, the lower bound clears zero at day 2,061 and clears the measured 4.07 bp per day cost hurdle at day 2,852. Eight to eleven years." (retail-power-limits/SOURCES.md:142; identical text in rplimits/cases.py:269-273). The note's own inputs: excess 27.99 bp/day against "daily noise near 418 bp implied by 66.4 percent annualized tracking error" (SOURCES.md:130); one 2.55-year holdout with **zero** forward shadow observations (SOURCES.md:138); z 1.668 against a corrected bar of 2.50 on that holdout (SOURCES.md:134). Backing the boundary out of the two crossing figures: 27.99·√2,061/418.3 = 3.038 and (27.99−4.07)·√2,852/418.3 = 3.054 — the frozen sequence's boundary at N ≈ 2,000–2,900 is ≈3.05 standard errors wide, against 1.645 for a one-sided fixed-N 5 % test and 1.96 two-sided. Under the note's own "mean holds at 27.99" convention the identical series therefore clears zero at 604 trading days (2.40 y) one-sided or 858 (3.40 y) two-sided, and clears the 4.07 bp hurdle at 827 (3.28 y) or 1,175 (4.66 y). The confidence sequence costs a factor of 2,061/604 = 3.41 in sample against a one-sided fixed-N design. Even at 80 % power rather than "mean holds", a one-sided fixed-N design needs 1,381/1,891 days (5.5/7.5 y) — still short of 2,061/2,852. Separately, the 2.50 bar HFExperiment inherits is exactly the one-sided Bonferroni bar for eight hypotheses (Φ⁻¹(1−0.05/8) = 2.498); a single pre-registered forward hypothesis does not carry that correction, and z 1.668 already clears the uncorrected one-sided 5 % bar (p = 0.0477).
+- **Recomputation (if any):** Inputs, all quoted in this repository: mean 27.99 bp/day and TE 0.664 (SOURCES.md:130), hurdle 4.07 bp/day and crossings 2,061 / 2,852 (SOURCES.md:142). Daily sd = 0.664/√252 = 418.3 bp. Implied CS multiplier μ√N/sd = 3.038 / 3.054. Fixed-N N = (z·sd/μ)²: one-sided 5 % 604 / 827 d; two-sided 5 % 858 / 1,175 d; at the 2.50 bar 1,396 / 1,911 d; at 80 % power one-sided 1,381 / 1,891 d. Sanity check reproducing the note: z over the 2.55-y holdout (643 sessions) = 27.99·√643/418.3 = 1.697 ≈ the quoted 1.668. Script: scratchpad/work/agentA-rpl-consolidate/verify.py §1. Because every input is a figure printed in a document of this repository, the label is READ, not DERIVED.
+- **What would resolve it:** Cross-repo: HFExperiment REGISTRATION.md Section 11 (`hf-registration` @ `f13e1d3`, SOURCES.md:221) — the confidence-sequence family and α, and whether a fixed-horizon alternative was considered and rejected. If the sequence was chosen for anytime-validity, the note should attribute roughly two thirds of "eight to eleven years" to that choice rather than to the domain, and qualify docs:363-366 accordingly.
+- **Confidence:** MEDIUM — the fixed-N arithmetic reproduces the note's own z (1.697 vs 1.668) and the implied multiplier is backed out from two independent crossings that agree to 0.5 % (3.038 vs 3.054); but the sequence's exact parameters are not readable in this repository, and a different α or family would move the multiplier.
+- **Could later commits invalidate this?:** No for this repository (three commits, all 2026-08-29, `dda39b2` anchored). The *resolution* depends on HFExperiment @ `82e77a0`, which the note describes as closed and disarmed; a later HFExperiment commit publishing Section 11 would settle it rather than invalidate it.
+- **Disclosed by authors?:** No. The note discloses that the figures come from a confidence sequence (SOURCES.md:142, cases.py:269-273) but nowhere states that the procedure rather than the domain accounts for most of the horizon; docs:363-366 asserts the opposite.
+
+### AUDIT-A-retail-power-limits-3
+- **Repository / SHA:** retail-power-limits / `dda39b2f148569a6fe9be956a979471b2330611d`
+- **Hypothesis or artifact:** NPDExperiment (numeric-LLM cross-sectional ranking) as carried; the "could not have detected an effect anywhere in the range" / "above the whole band" reading of MDE 0.0512.
+- **Direction:** A
+- **Class:** STATISTICAL
+- **Severity:** S2
+- **Label:** READ
+- **Claim challenged (verbatim quote):** "found that the realized minimum detectable contrast was 0.0512 against a realistic effect band of 0.01 to 0.05. The design could not have detected an effect anywhere in the range the literature reports." — retail-power-limits/docs/the-power-limit.md:84-86. The same sentence is re-quoted from InsiderExperiment's Section 0.1 at retail-power-limits/docs/the-power-limit.md:186-188, and the headline table carries "realized MDE **0.0512** — above the whole band" at retail-power-limits/docs/the-power-limit.md:72 (SOURCES.md:38: "above the entire 0.01 to 0.05 band").
+- **Evidence:** A minimum detectable effect is the effect at which a test reaches its design power; it is not a detection cliff. The margin here is 0.0512 − 0.05 = 0.0012, i.e. 2.4 % of the band top. Inputs quoted in this repository: realized daily contrast sd 0.36339 against a registered assumption of at most 0.2626 (SOURCES.md:38); n = 415 stored daily rankings of 432 eligible window days, 404 evaluable, 125.6 independent-equivalent after the 3.4 variance inflation (SOURCES.md:42); accrual "about 21 trading days a month" (SOURCES.md:46). No standard convention reproduces 0.0512 exactly from (0.36339, 125.6) — the implied multiplier is 1.58 on N_eff = 125.6 and 2.83 on the un-inflated 404 — so the convention cannot be recovered here; but under **every** convention tried the design retained substantial power at the top of the band. At a true contrast of 0.05: 48 % (critical-value convention, two-sided), 68 % (80 %-power one-sided design, read two-sided) or 78 % (80 %-power two-sided). At 0.04: 33–59 %. At 0.03: 21–38 %. "Could not have detected an effect anywhere in the range" is not what the number says; "could not resolve the lower half of the band and was between a coin flip and 78 % at its top" is. Separately, (0.0512/0.05)² − 1 = 4.86 %, i.e. about 20 more evaluable days on the 404 — one month of the quoted accrual — would have put the realized MDE inside the band. The note's own reading three lines later is the correct one: "the honest reading beside it is an underpowered unresolved, not a tight null" (docs:87-88); the sentence at 85-86 and the pinned headline are stronger than both that reading and the arithmetic.
+- **Recomputation (if any):** Inputs: MDE 0.0512 and sd 0.36339 (SOURCES.md:38), band 0.01–0.05 (SOURCES.md:34), N 404 / N_eff 125.6 (SOURCES.md:42). Method: SE = MDE/m for m ∈ {1.96, 2.487, 2.802}; power = 1 − Φ(z_α − effect/SE), plus the lower tail for two-sided. Results as above; script scratchpad/work/agentA-rpl-consolidate/verify.py §2. Inputs are figures printed in this repository's documents, so the label is READ.
+- **What would resolve it:** Cross-repo: NPDExperiment REGISTRATION.md Section 9 (`npd-registration` @ `2d3d0ae`, SOURCES.md:232) for the MDE convention — power target, sidedness, which N — and progress.md Stage B.2 (SOURCES.md:231) for the realized point contrast and its interval. If the point estimate sits on the hypothesis side with a wide interval, the headline should be softened to the note's own docs:87-88 wording.
+- **Confidence:** MEDIUM — the power curve is convention-dependent and the convention is not recoverable here, but the conclusion (non-trivial power at the band top, and a ~5 % sample shortfall against the band edge) holds under all three conventions tried.
+- **Could later commits invalidate this?:** No for this repository. NPDExperiment is described as closed with its sealed store opened once (SOURCES.md:50), so the underlying figures are not expected to move.
+- **Disclosed by authors?:** Partially — docs:87-88 states the correct softer reading in the adjacent sentence. The limitation raised here (that a 2.4 % margin leaves 48–78 % power at the band top, so "anywhere in the range" is false) is not stated anywhere, and the pinned honesty test fixes the headline figures "0.0512" and "0.01 to 0.05" in both documents (tests/test_honesty.py:90-119, `FIGURES_PINNED`) rather than the softer reading.
+
+### AUDIT-A-retail-power-limits-4
+- **Repository / SHA:** retail-power-limits / `dda39b2f148569a6fe9be956a979471b2330611d`
+- **Hypothesis or artifact:** The README's headline claim that each of the four cases closed at one of three power labels.
+- **Direction:** A
+- **Class:** INTERNAL_INCONSISTENCY
+- **Severity:** S3 (capped: the authors disclose this in the note's body and in ADR-004)
+- **Label:** READ
+- **Claim challenged (verbatim quote):** "Each closed at *unresolved at achievable power*, at *untestable at achievable power*, or *BLOCKED* on a power gate — never on a measured null." — retail-power-limits/README.md:5-7 (the same sentence appears at retail-power-limits/docs/the-power-limit.md:15-16)
+- **Evidence:** n = 4 power cases (`tests/test_cases.py:30` asserts exactly four). The repository's own generated headline table carries **four** distinct closure labels, not three: the fourth is "| **HFExperiment** | ... | resolved on statistical power, not absent signal |" (docs/the-power-limit.md:75; README.md:23; rplimits/cases.py:243 records `closed="2026-08-26"`). The note's own correction 3 says why: "**HFExperiment did not fire a power gate.** It is a power case by inheritance. Its own Section 0 fired BLOCKED on the *broker* — IBKR refused fractional quantities through the API, errors 10243 and 10244 — and the repository then closed by operator decision on 2026-08-26 with the shadow series never started." (docs/the-power-limit.md:141-146; SOURCES.md:154). ADR-004 then states the requirement the README sentence breaks: "A reader must not come away thinking four power gates fired." (DECISIONS.md:140, in ADR-004 at DECISIONS.md:121-149). HFExperiment's actual closure — BLOCKED on the broker plus an operator decision — is none of the three labels the lead sentence enumerates, and the README carries no correction section at all.
+- **Recomputation (if any):** None. Count only: 4 cases, 4 distinct closure labels, 3 enumerated in the lead.
+- **What would resolve it:** Amend the README lead (and docs:15-16) to "three closed at ... and the fourth inherits its power resolution", which is what ADR-004 already requires of the case record and the caveat field.
+- **Confidence:** HIGH — a verbatim contradiction between README.md:5-7, the generated table at README.md:23 / docs:75, and DECISIONS.md:140, all inside this repository.
+- **Could later commits invalidate this?:** No — `dda39b2` is the anchored HEAD and nothing postdates 2026-08-29.
+- **Disclosed by authors?:** **Yes.** The authors disclose it plainly at docs/the-power-limit.md:141-146 and in ADR-004 (DECISIONS.md:121-149), and ADR-004 explicitly accepts the resulting weaker claim ("The claim is weaker than 'four independent power gates'. It is stated at the strength the evidence supports instead.", DECISIONS.md:142-143). Because the limitation is disclosed, this finding is READ and capped at S3; the residual defect is only that the disclosure is absent from the README sentence a first reader meets.
+
+### AUDIT-A-retail-power-limits-5
+- **Repository / SHA:** retail-power-limits / `dda39b2f148569a6fe9be956a979471b2330611d`
+- **Hypothesis or artifact:** ETFExperiment H1 (spot-BTC ETF flow prints → next-day BTC return) as carried; the unqualified "untestable at achievable power" label and the "no budget shortens it" reading.
+- **Direction:** A
+- **Class:** OVER_CLOSED
+- **Severity:** S3
+- **Label:** READ
+- **Claim challenged (verbatim quote):** "ETFExperiment could not buy history at any price, because the as-printed record was never archived — its binding constraint was calendar time, and no budget shortens it." — retail-power-limits/docs/the-power-limit.md:380-382; carried as the unqualified label "untestable at achievable power" at retail-power-limits/docs/the-power-limit.md:74 and retail-power-limits/README.md:22.
+- **Evidence:** The note's own Amendment-6 figures: "roughly 302 admissible days by 2027-10-31, which clears the governing 300 at the *published* 0.18 magnitude by two days and clears nothing at the *registered* 0.09 assumption, where E1 needs 845 and E2 needs above 1,200." (docs/the-power-limit.md:134-137; SOURCES.md:122). Forward accrual is 20.8 admissible days per month from n = 11 admissible at closure out of a 336-row census (SOURCES.md:106), at "Zero dollars, no capital and no credential at any point" (SOURCES.md:114). The calendar path to the governing N at the *published* magnitude was therefore known, finite (≈13.9 months from the 2026-08-28 closure) and free; the closure fired on the registered deadline of 2027-03-31 (163 projected against 300 governing) and the collector was then switched off — "Disarm etf-snap; correct the reopen-path mislabel in Amendment 5 and ADR-019" (SOURCES.md:215; rplimits/sources.py:123-129). Disarming a zero-cost forward collector is what converts "not by the registered deadline" into "untestable at achievable power"; every disarmed month pushes the 300-day crossing back one-for-one. Under the *registered* 0.09 assumption the closure is sound on the note's own figures (845 → ≈40.1 months; above 1,200 → ≈57.2 months). The label carried into the README merges the two magnitudes and the README carries only the label.
+- **Recomputation (if any):** Inputs: 11 admissible days at closure 2026-08-28, accrual 20.8/month (SOURCES.md:106), N targets 237/300/845/above-1,200 (SOURCES.md:102). months = (N − 11)/20.8 → N=237: 10.87 mo (≈2027-07); N=300: 13.89 mo (≈2027-10-24); N=845: 40.10 mo (≈2029-12); N=1,200: 57.16 mo (≈2031-06). Reproduces the note: 11 + 20.8×7.06 = 157.8 ≈ 163 at the deadline; 11 + 20.8×14.09 = 304.1 ≈ the quoted 302. Sensitivity: at 20.5/month the 2027-10-31 figure is 299.8 and at 21.1/month it is 308.3, so the "by two days" margin sits inside the accrual-rate uncertainty. Script §4.
+- **What would resolve it:** Cross-repo: ETFExperiment REGISTRATION.md Amendments 5–6 and ADR-019 — the "reopen-path" the disarm commit says it corrected (SOURCES.md:215, `etf-registration` @ `4d11002`). Does the registration forbid extending the deadline, and what does the reopen path require? If it is "re-arm and wait", the honest label for the published-magnitude case is "parked until ≈2027-11", not "untestable".
+- **Confidence:** MEDIUM — the calendar arithmetic uses only the note's own figures and reproduces both its 163 and its 302, but whether a deadline extension was permissible is not readable in this repository.
+- **Could later commits invalidate this?:** No for this repository. A later ETFExperiment commit re-arming the collector would resolve rather than invalidate it; ETFExperiment is described as closed and disarmed at `4d11002` (2026-08-28).
+- **Disclosed by authors?:** Partially — the 302/300 figure and its date are disclosed, as correction 2 of a handed-over figure (docs:132-139; SOURCES.md:122; DECISIONS.md:101-104), and the note argues it "belongs to a different question than the closure". The limitation raised here — that the README-level label is magnitude-unqualified and that the free forward path was closed off by disarming the collector — is not addressed anywhere, and "no budget shortens it" is not reconciled with it.
+
+### AUDIT-A-retail-power-limits-6
+- **Repository / SHA:** retail-power-limits / `dda39b2f148569a6fe9be956a979471b2330611d`
+- **Hypothesis or artifact:** NPDExperiment — the better-powered shorter-horizon secondary named in ADR-007, and the zero-cost one-session rescoring of the already-collected rankings that was never run.
+- **Direction:** A
+- **Class:** OVER_CLOSED
+- **Severity:** S3 (capped: the authors disclose both decisions and endorse them)
+- **Label:** READ
+- **Claim challenged (verbatim quote):** "The registration said so, in writing, before a cent was spent, and chose not to repair it by promoting the better-powered secondary — because promoting a secondary after seeing a result is the move the repository existed to prevent." — retail-power-limits/docs/the-power-limit.md:165-168; and "When a post-hoc amendment proposed scoring the same data at two more horizons, the registration voided it: *scoring spent data against new horizons is a second look however it is labelled*." — retail-power-limits/docs/the-power-limit.md:250-252
+- **Evidence:** The note dates the non-promotion decision to before collection: ADR-007 "had registered the exact failure mode as a risk before collection began ... The registration said so, in writing, before a cent was spent" (docs:161-168). The stated reason for not promoting — that promotion "after seeing a result" is forbidden — cannot apply at the moment the note says the decision was taken, because no result had yet been seen. Figures with n: the primary sat at a five-session horizon in which consecutive days share four fifths of their window, inflating variance by 3.4 and cutting the effective day count from 427 to 125.6 (docs:163-165; SOURCES.md:42), while the effect band is stated as a **one-session** quantity — "Daily rank IC 0.01 to 0.05" (SOURCES.md:34; rplimits/cases.py:89-92). On the note's own figures, removing the overlap inflation on the *same* 404 evaluable days of the *same* 415 stored rankings gives 0.0512·√(125.6/404) = 0.0285 — inside the 0.01–0.05 band, resolving roughly its upper 45 %. Rescoring stored rankings costs nothing: the note prices only a *fresh* collection, at "about 7 USD" (docs:243). The closure "unresolved at achievable power" is correct for the registered primary; the repository-level closure leaves a named, zero-dollar variant on data already paid for untested.
+- **Recomputation (if any):** MDE at a one-session horizon ≈ 0.0512 × √(125.6/404) = 0.0285 (inputs SOURCES.md:38,42), assuming the one-session contrast sd equals the five-session sd, which under the null is approximately true for a rank IC. Script §2.
+- **What would resolve it:** Cross-repo: NPDExperiment REGISTRATION.md Section 9 and DECISIONS.md ADR-007/ADR-011 (`npd-registration`, `npd-decisions` @ `2d3d0ae`, SOURCES.md:230-232) — was the secondary's power registered, and does the registration permit a non-verdict-bearing exploratory scoring of the stored rankings at the one-session horizon, labelled as a second look? If it does, running it costs nothing and bounds the question the primary could not.
+- **Confidence:** MEDIUM — the timing inconsistency is inside the note's own sentence, but the 0.0285 rests on an equal-sd assumption and on the note's own characterisation of the secondary as "better-powered".
+- **Could later commits invalidate this?:** No for this repository. NPDExperiment's amendment log is described as sealed and its one permitted read as spent (docs:176-178; SOURCES.md:50).
+- **Disclosed by authors?:** **Yes.** The note discloses both decisions and endorses them — the secondary was not promoted (docs:165-168) and the post-hoc two-horizon amendment was voided (docs:250-253). Because the limitation is disclosed, this finding is READ and capped at S3. What the note does not address is that the non-promotion decision predates any result by its own account, and that the registered effect band is a one-session quantity while the primary was scored at five.
+
+### AUDIT-A-retail-power-limits-7
+- **Repository / SHA:** retail-power-limits / `dda39b2f148569a6fe9be956a979471b2330611d`
+- **Hypothesis or artifact:** solattn (contrast case) — the "measured what it set out to measure" characterisation, against a registered horizon this repository's own registry says was never analysed.
+- **Direction:** A
+- **Class:** INTERNAL_INCONSISTENCY
+- **Severity:** S3
+- **Label:** READ
+- **Claim challenged (verbatim quote):** "That is what a closure looks like when detectability is not the binding term: the design measured what it set out to measure, at full coverage, and the answer was no." — retail-power-limits/docs/the-power-limit.md:300-302
+- **Evidence:** This repository's own source registry describes the solattn registration citation as carrying "Amendment 7, which records the Stage B readout and the horizon never analysed" (retail-power-limits/SOURCES.md:234; rplimits/sources.py:186-192). The note's body never mentions that horizon. Its figures are scoped accordingly: the kill criterion fired "at 100.0 percent outcome coverage on every **analysed** cohort", and "all 120 computable cells carry a negative point lift" (docs:295-297; SOURCES.md:180) — n = 12,798 amm pools over three birth days, 2,107 measurable at the d0+2 anchor, Q5 cell n = 412 (SOURCES.md:184). A design with a registered horizon that was never analysed did not, in full, "measure what it set out to measure". The contrast case is load-bearing: solattn is the note's chief evidence that the operator's method is not itself the constraint ("the same operator, the same scaffold, produced a powered null at 100 percent coverage", docs:398-401). Whether the un-analysed horizon was dropped under a registered rule — e.g. kill criterion K1 firing first — is not stated anywhere in this repository.
+- **Recomputation (if any):** None.
+- **What would resolve it:** Cross-repo: solattn REGISTRATION.md Amendment 7 (`solattn-registration` @ `b3f5062`, SOURCES.md:234) — which horizon, why it was not analysed, and whether the registration made K1's firing sufficient to skip it. If it did, the note should say so beside the sentence at docs:300-302.
+- **Confidence:** LOW — the tension is between two sentences in this repository, and its weight depends entirely on what Amendment 7 says. solattn is public (SOURCES.md:265), so this is cheaply checkable in the cross-repo pass.
+- **Could later commits invalidate this?:** No for this repository; solattn is anchored at the same `b3f5062` the note cites, so a cross-repo read resolves it at the same state.
+- **Disclosed by authors?:** Partially — SOURCES.md:234 names the un-analysed horizon and docs:296 scopes the kill criterion to "every analysed cohort", so the scoping is visible to a careful reader. The body sentence at docs:300-302 is unqualified and the un-analysed horizon is never mentioned in the note itself.
+
+### AUDIT-A-retail-power-limits-8
+- **Repository / SHA:** retail-power-limits / `dda39b2f148569a6fe9be956a979471b2330611d`
+- **Hypothesis or artifact:** ETFExperiment H1 — the data-availability half of the closure (as-printed flow history).
+- **Direction:** A
+- **Class:** OVER_CLOSED
+- **Severity:** S3
+- **Label:** READ
+- **Claim challenged (verbatim quote):** "The as-printed flow history needed to test the design does not exist in any free archive: archive capture density measured 11 of 333 days, 3.30 percent, against a registered 60 percent bar." — retail-power-limits/docs/the-power-limit.md:101-103
+- **Evidence:** The measured unavailability is of *as-printed* captures only: n = 333 candidate days, 11 captured, 3.30 % (docs:102-103; SOURCES.md:106 gives the 336-row census breakdown — 53 capture-too-late, 243 no-capture, 25 capture-served-no-value, 3 no-printed-value, 1 archive-fetch-failed). The as-printed requirement exists to exclude revision look-ahead, but nothing in this repository states that the revision magnitude was ever measured, and the repository's own figures show the material for measuring it exists: the 11 captured as-printed days are paired observations against whatever the later-revised value became. If revisions are small relative to the flow's cross-day dispersion, a registered amendment using an as-revised history would supply the required sample at once, against a governing requirement of 300 admissible days at the published magnitude (SOURCES.md:102) — as against 11 at closure and 163 projected at the deadline (SOURCES.md:106). The closure as written rests on the untested premise that revisions are material enough to disqualify a revised history. The note's stronger phrasing "could not buy history at any price" (docs:380-381) is also broader than the measured claim, which is about *free archives* of the *as-printed* page.
+- **Recomputation (if any):** 11/333 = 3.30 % (confirmed against docs:102-103). No further recomputation; the finding is that a measurement the repository could bound was not made.
+- **What would resolve it:** Cross-repo: ETFExperiment REGISTRATION.md Section 0 / Section 9 and Amendments 3–6 (`etf-registration` @ `4d11002`, SOURCES.md:217) — was an as-revised source considered and rejected, and on what measured revision size? If the rejection was on principle rather than on a measurement, the 11 captured days bound it cheaply.
+- **Confidence:** LOW — the claim that a usable as-revised history exists is not established by anything in this repository, and the design may have rejected one for a registered reason not readable here. See "Dropped at consolidation" for what was removed from this finding's evidence.
+- **Could later commits invalidate this?:** No for this repository; ETFExperiment is described as closed and its collector disarmed.
+- **Disclosed by authors?:** No. The note states the as-printed requirement (docs:101-102) but not its cost, names no alternative source, and does not record any measurement of revision magnitude.
+
+### AUDIT-A-retail-power-limits-9
+- **Repository / SHA:** retail-power-limits / `dda39b2f148569a6fe9be956a979471b2330611d`
+- **Hypothesis or artifact:** progress.md build record — the test count.
+- **Direction:** A
+- **Class:** STALE_FIGURE
+- **Severity:** S4
+- **Label:** DERIVED
+- **Claim challenged (verbatim quote):** "`tests/`, 111 tests: source-registry integrity, case integrity, drift between prose and data, the honesty pins, and a credential scan." — retail-power-limits/progress.md:59-60; and "mypy strict clean over 11 source files, 111 tests passing." — retail-power-limits/progress.md:68
+- **Evidence:** Enumerated from the code at the anchor: `tests/test_sources.py` — three `@pytest.mark.parametrize("key", sorted(SOURCES))` cases (lines 14, 23, 31) over the 24 entries of `SOURCES` in `rplimits/sources.py:38`, plus 2 plain tests (lines 36, 41) = 74. `tests/test_cases.py` — 5 plain plus parametrisations over ALL_CASES (7), POWER_CASES (4) and CONTRAST_CASES (3) (lines 23, 41, 47) = 19. `tests/test_render.py` — 5 plain plus `CASES = [(document, name) for document in DOCUMENTS for name in blocks_in(document)]` (line 20) over 2 documents (`rplimits/docsync.py:77`) carrying 4 generated blocks (`rplimits/render.py:87-92`) = 9. `tests/test_honesty.py` — 8 test functions, two of them parametrised over 2-key dicts (lines 73, 122) = 10. Total **112**, not 111. The anchored commit's own message says so: `git -C <live> log -1 dda39b2` ends "make lint, typecheck and test green by exit status. **112 tests.**", and `git diff --stat 0974f96 dda39b2` shows the commit added `test_the_credential_scan_has_something_to_scan` to `tests/test_honesty.py` (7 test functions at `0974f96`, 8 at `dda39b2`) while `progress.md` kept 111 in both places. pytest is not installed in the audit venv, so the count is by enumeration of parametrisation sizes from code, not by collection.
+- **Recomputation (if any):** 74 + 19 + 9 + 10 = 112 at `dda39b2`; 111 at `0974f96` (one fewer plain test in `test_honesty.py`). Label is DERIVED: the inputs are the test and source modules themselves plus two git objects (the `dda39b2` commit message and the `0974f96..dda39b2` diff), not figures printed in a document.
+- **What would resolve it:** Update progress.md:59 and :68 to 112, or state that the count is as of `0974f96`.
+- **Confidence:** HIGH — code enumeration and the anchored commit message agree independently.
+- **Could later commits invalidate this?:** No — `dda39b2` is the anchored HEAD and the live repository has no commits after it.
+- **Disclosed by authors?:** No.
+
+### AUDIT-A-retail-power-limits-10
+- **Repository / SHA:** retail-power-limits / `dda39b2f148569a6fe9be956a979471b2330611d`
+- **Hypothesis or artifact:** The note's subtitle date range.
+- **Direction:** A
+- **Class:** INTERNAL_INCONSISTENCY
+- **Severity:** S4
+- **Label:** READ
+- **Claim challenged (verbatim quote):** "*A cross-experiment note. Four pre-registered experiments, closed between 2026-07-26 and 2026-08-28, that ended on detectability rather than on a measured null.*" — retail-power-limits/docs/the-power-limit.md:3-5
+- **Evidence:** n = 4 cases, and the repository records all four closure dates in code: NPD 2026-08-25 (`rplimits/cases.py:83`), Insider 2026-08-25 (`cases.py:133`), ETF 2026-08-28 (`cases.py:188`), HF 2026-08-26 (`cases.py:243`). The four closed inside a four-day window, 2026-08-25 to 2026-08-28 — not a five-week one. 2026-07-26 is the AiTrader cross-sectional round (`aitrader-round` @ `a0a9ef6`, SOURCES.md:213), which is not one of the four pre-registered experiments; HFExperiment's own README is dated 2026-08-23 and its registration 2026-08-25 (SOURCES.md:220-221), so HFExperiment did not exist on 2026-07-26.
+- **Recomputation (if any):** None. Date comparison only.
+- **What would resolve it:** Change the subtitle to "closed between 2026-08-25 and 2026-08-28", or to "resolved between 2026-07-26 and 2026-08-28" if the AiTrader round is deliberately included in the range.
+- **Confidence:** HIGH — every date is recorded in this repository, in code that the drift tests re-render into both documents.
+- **Could later commits invalidate this?:** No.
+- **Disclosed by authors?:** No.
+
+### AUDIT-A-retail-power-limits-11
+- **Repository / SHA:** retail-power-limits / `dda39b2f148569a6fe9be956a979471b2330611d`
+- **Hypothesis or artifact:** HFExperiment / AiTrader width table — the 5-name vs 50-name z comparison as carried.
+- **Direction:** A
+- **Class:** ARITHMETIC
+- **Severity:** S4
+- **Label:** READ
+- **Claim challenged (verbatim quote):** "Widening 5 names to 50 halves tracking error (66.4 to 31.7 percent) and cuts excess proportionally (27.99 to 10.04 bp per day), so z moves only 1.668 to 1.455 and neither width clears." — retail-power-limits/SOURCES.md:134 (identical text in rplimits/cases.py:259-261)
+- **Evidence:** The three quoted ratios are not mutually consistent under z = mean/(sd/√N) on a common holdout of n = one 2.55-year (≈643-session) window (SOURCES.md:138). Excess falls to 10.04/27.99 = 0.359 while tracking error falls to 31.7/66.4 = 0.477 — the cut is not "proportional" — so z should move to 1.668 × 0.359/0.477 = 1.253, not 1.455. For 1.455 to hold with excess 10.04 the 50-name tracking error would have to be ≈27.3 %; with tracking error 31.7 % the excess would have to be ≈11.66 bp/day. The conclusion the sentence draws ("neither width clears" the 2.50 bar) is unchanged under either repair, so this is hygiene rather than a wrong conclusion.
+- **Recomputation (if any):** 1.668 × (10.04/27.99)/(31.7/66.4) = 1.2532; implied TE for z = 1.455 = 66.4 × (10.04/27.99)/(1.455/1.668) = 27.3 %; implied excess for z = 1.455 at TE 31.7 % = 11.656 bp/day (inputs SOURCES.md:134). Script §5.
+- **What would resolve it:** Cross-repo: AiTrader RETURN.md @ `f819b68` (`aitrader-return`, SOURCES.md:212) — the width table's actual z for 50 names and how its standard error is computed. AiTrader is public (SOURCES.md:267), so this is cheaply checkable.
+- **Confidence:** MEDIUM — the inconsistency is arithmetic on the three figures as quoted; the source table may define z over a different N or a realised daily sd rather than the annualised tracking error, in which case the carried sentence is a lossy paraphrase rather than an error.
+- **Could later commits invalidate this?:** No for this repository. AiTrader is anchored at `705e0ed`; the cited `f819b68` is a fixed commit, so a cross-repo read resolves it.
+- **Disclosed by authors?:** No.
+
+---
+
+## What Agent A checked and found sound
+
+- **InsiderExperiment's 49.35 bp/month MDE reproduces exactly from the note's own primitives.** Tracking error 9.993 % (SOURCES.md:78) → daily sd 62.95 bp; N_eff 2,869.9 (SOURCES.md:74) → SE of the daily mean 1.1751 bp; × 21 sessions = 24.676 bp/month; 49.35/24.676 = 1.9999, i.e. MDE = 2·SE, which is Section 0's `t·M·sd/√N_eff` with t = 2 and M = 21 (the identity is quoted at docs:195-197). Under that convention the design's one-sided 5 % power is 49 % at the gross band top of 40 bp, 41 % at the net top of 34.7 and 33 % at 30. The BLOCKED floor of 40 fires exactly when power at the top of the band drops below one half — a defensible bar, and the note documents that it was committed in the repository's first commit `fbfc74e`, before the corpus existed (docs:218-225; SOURCES.md:226). Label matches evidence.
+- **The equal-weight secondary was correctly not promoted for the registered verdict.** 34.29 bp sits inside the gross band 30–40 and just under the net top of 34.7 (docs:227-232) — DEGRADED, not GO. The note records both the temptation and the disclosure a future equal-weight registration would owe. That is protocol, and finding -1 concerns the *reopen condition's* wording, not this decision.
+- **ETFExperiment's closure figures are internally consistent.** 11 + 20.8 × 7.06 = 157.8 ≈ 163; 11 + 20.8 × 14.09 = 304.1 ≈ 302; 300 − 163 = 137; 237 − 163 = 74; 11/333 = 3.30 % (SOURCES.md:102-110). Under the *registered* 0.09 assumption the closure is sound on these figures (≈40–57 months of accrual).
+- **HFExperiment's inherited figures are consistent with each other.** 0.664/√252 = 418.3 bp/day; 27.99 × 252 = 70.5 %/yr; 90.3 − 19.7 = 70.6; 2.50/1.668 = 1.50 ≈ 104.0/70.5 = 1.48 (compounding); z at 27.99 bp over 643 sessions = 1.697 ≈ the quoted 1.668; 2,061/252 = 8.18 y and 2,852/252 = 11.32 y, so "eight to eleven years" is a correct *reading* of the confidence-sequence figures (finding -2 is about attribution, not arithmetic). "Resolved on statistical power, not absent signal" (SOURCES.md:150) is the right label for a point estimate on the hypothesis side with interval −4.9 to +60.9 (SOURCES.md:134); the note nowhere calls the signal absent.
+- **NPDExperiment's derived and quoted figures check.** 22+34+68+52+194+41 = 411 minutes (SOURCES.md:294-298; ADR-006 at DECISIONS.md:177-193, which flags this as the repository's one derived figure); 427/3.4 = 125.59; 1 − 1/3.4 = 70.6 % ("lost 70 percent", docs:379); 404 × 4 = 1,616 ("near 1,700 trading days", SOURCES.md:46); the 13:26:58 → 18:34:56 gap is 5 h 08 m and → 23:24:15 is 9 h 57 m (docs:211-216).
+- **The refusal to promote NPD's secondary *after* the result is correct protocol.** The voided post-hoc two-horizon amendment (docs:250-253) is a second look and the registration was right to void it. Finding -6 concerns the pre-collection decision and an un-run zero-cost variant, not the post-hoc void.
+- **MLCryptoEngine contrast arithmetic.** 50/0.0291 = 1,718 ("roughly 1,700x"); 3/0.0291 = 103 ("roughly 100x"); correction 4 (docs:148-153; DECISIONS.md:108-110) is right, and the cost-bound / signal-absent split with its "what would reopen it" field is faithfully carried (docs:280-293; SOURCES.md:168-176).
+- **solclear's underpowered rule is a registered pre-commitment and honouring it is protocol.** For the record, the arithmetic runs the *other* way from the Direction-A thesis: 0 of 18 cleared pools ever above entry (SOURCES.md:196) gives P = 2⁻¹⁸ = 3.8 × 10⁻⁶ under p = 0.5 and an exact one-sided 95 % upper bound on p of 15.3 %. The n = 18 sample is decisive against the positive hypothesis, so "no significance claimed in either direction" understates a negative rather than closing a live hypothesis early. Not a Direction-A finding; recorded so the cross-repo pass does not re-derive it. 4,695,489/124,764 = 37.63 ✓.
+- **solattn's interval as carried.** [−3.3354, +0.0204] on n = 12,798 pools (SOURCES.md:184) does include zero; the note reports it verbatim and does not call it significant, and "powered null" is carried on the 120/120 negative cells and full outcome coverage. Sound as stated, subject to finding -7.
+- **The honesty tests do what they say.** `tests/test_honesty.py:53-159` pins the scope-limit sentence and the headline figures in both README.md and the note, forbids four overclaiming phrasings, and gives every detector a canary. The drift tests re-render all four generated blocks (`tests/test_render.py:19-37`) and the blocks in SOURCES.md and the note are current against `rplimits/cases.py` at the anchor.
+- **Source registry is complete and well-formed.** 24 sources in `rplimits/sources.py:38`, every `Figure` key resolving through `Figure.__post_init__`, every commit a 7-hex short hash, all seven repositories represented (`tests/test_sources.py`).
+- **Live-repository provenance.** Three commits, all 2026-08-29 00:19–00:21 -07:00; HEAD = `dda39b2` = the anchored SHA. Consistent with progress.md:113-116. No untracked files and a clean working tree before and after this audit.
+- **What Agent A would have expected to find if the thesis held strongly, and did not find:** a case where the note's own deciding number sits *inside* the effect band while the label says outside — none, since 0.0512 > 0.05, 49.35 > 40, 163 < 300 and 1.668 < 2.50 all hold exactly as stated; a blocker stated in an early file and lifted in a later dated entry of this repository — none, because the repository has a single day of entries; a reopen condition met by a later entry here — none, because nothing postdates 2026-08-29.
+
+## Dropped at consolidation
+
+- **The named alternative ETF flow sources (dropped from AUDIT-A-retail-power-limits-8).** The draft named Farside Investors, The Block, CoinGlass, SoSoValue and per-issuer daily fund pages as free as-revised sources, and added that point-in-time fund-flow fields exist on paid terminals. None of these is named in any file of this repository and none was verified in this audit; they came from the auditor's general knowledge. Asserting them as evidence would be inventing evidence, so they are removed. The finding is kept on its repo-internal core only: the measured unavailability is of the *as-printed* record (11 of 333 days, 3.30 %), and no measurement of revision magnitude is recorded anywhere, although the 11 captured days would bound it.
+- **The "≈660 trading days of as-revised history since 2024-01-11" figure (dropped from the same finding).** A calendar derivation with no source in this repository and no stated data path; it has no file:line and no n.
+- **The HF closure-date/commit-date sub-note (dropped from AUDIT-A-retail-power-limits-10).** The draft observed that HF's recorded closure date 2026-08-26 (`cases.py:243`) sits one day after its cited terminal-closure commit `f13e1d3` dated 2026-08-25 (SOURCES.md:218) and flagged it as "possibly a timezone artefact, not checked". The note itself explains the gap — the repository "closed by operator decision on 2026-08-26" (docs:144-145) after the 2026-08-25 terminal-closure commit — so there is nothing to challenge, and the draft did not check it. Dropped as not a finding.
+- **A README citation corrected rather than dropped.** The draft attributed the phrase "above the whole band" to README.md:20. README.md:20 does not contain it; the phrase is at docs/the-power-limit.md:72, and SOURCES.md:38 carries the equivalent "above the entire 0.01 to 0.05 band". The citation in AUDIT-A-retail-power-limits-3 has been corrected.
+- **A quote line-range corrected rather than dropped.** The draft cited the voided-amendment sentence as docs:249-252; it spans docs:250-252. Corrected in AUDIT-A-retail-power-limits-6.
+- **Two labels corrected rather than dropped.** Draft findings 1 and 2 (now -2 and -3) were labelled DERIVED. Their recomputations take every input from figures printed in this repository's documents (SOURCES.md, docs/the-power-limit.md), not from stored data, code or a git object, so both are relabelled READ. Only AUDIT-A-retail-power-limits-9 keeps DERIVED, its inputs being the test and source modules plus two git objects.
+- **No finding was dropped in full.** Every one of the eleven drafts carries a locatable verbatim quote, at least one figure, and an n; none was a duplicate of another (the two ETFExperiment findings, -5 and -8, attack the same closure on different grounds — calendar/collector versus data availability — and are kept separate).
+
+## Live-repo access log
+
+Live repository touched: `/home/kiros-li/Documents/GitHub/retail-power-limits`, read-only only. Commands used across the drafting and consolidation passes: `git status --porcelain`, `rev-parse`, `branch --format`, `remote -v`, `log`, `show`, `ls-files --others`, `diff`, `diff --stat`. No other live repository was opened. No file under any live repository was opened for writing. All content citations above are to SNAP/retail-power-limits at the anchored SHA.
+
+Drafting pass — before (UTC 2026-09-03T00:35:19Z), `git -C /home/kiros-li/Documents/GitHub/retail-power-limits status --porcelain`:
+```
+(empty)
+```
+Drafting pass — after (UTC 2026-09-03T00:48:29Z):
+```
+(empty)
+```
+Consolidation pass — before (UTC 2026-09-03T00:53:21Z):
+```
+(empty)
+```
+Consolidation pass — after (UTC 2026-09-03T00:56:36Z):
+```
+(empty)
+```
+All four outputs empty: no pre-existing dirt in this repository and nothing changed by this audit.
+
+Scratch computation for this pass: `scratchpad/work/agentA-rpl-consolidate/verify.py` (stdlib + scipy only; inputs are the figures cited above; outputs went to the scratchpad work directory).
