@@ -1,0 +1,30 @@
+# environment / secrets — anything credential-shaped or account-shaped stays out
+.env
+.env.*
+!.env.example
+*secret*
+*credential*
+*.pem
+*.key
+id_rsa*
+id_ed25519*
+
+# NOTE: account numbers are treated as credential-shaped here even though they
+# are identifiers rather than keys. tests/test_honesty.py scans every tracked
+# file for the IBKR account shapes (D-prefixed paper, U-prefixed live) as well
+# as for key-shaped strings, so a pasted account number breaks the build.
+
+# collected data: raw quote rows are machine-local. Committed digests live in
+# docs/digests/ instead (counts and sha256, never raw rows).
+data/quotes/
+data/whatif/
+data/state/
+var/
+
+# python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
