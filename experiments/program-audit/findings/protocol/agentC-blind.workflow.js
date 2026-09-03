@@ -229,15 +229,28 @@ corrected — <what changed>"; KEEP → append "- **Citation check:** verified (
 recomputation ...)". Keep json in sync. Return counts and final IDs.`
 }
 
+// Disk-state driven skipping (see agentA-blind.workflow.js): tools/agent_state.py <out> --agent C
+// passes {done_repos, stages:{repo:{inventory,verification,provenance,consolidated,n_findings}}}.
+const STATE = args || {}
+const DONE_REPOS = new Set(STATE.done_repos || [])
+const STAGES = STATE.stages || {}
 async function repoChain(repo) {
-  const inv = await agent(locatePrompt(repo), { model: 'opus', label: `C-locate:${repo}`, phase: 'Locate', schema: LOCATE_SCHEMA })
+  if (DONE_REPOS.has(repo)) { log(`${repo}: complete on disk, skipped`); return { repo, stage: 'done', consolidated: { n_findings: -1 }, applied: 'on-disk', skipped: true } }
+  const st = STAGES[repo] || {}
+  const inv = st.inventory
+    ? { on_disk: true, note: `inventory already written; read ${OUT}/verification/${repo}.inventory.md and .json` }
+    : await agent(locatePrompt(repo), { model: 'opus', label: `C-locate:${repo}`, phase: 'Locate', schema: LOCATE_SCHEMA })
+  if (st.inventory) log(`${repo}: inventory on disk, locate skipped`)
   if (!inv) return { repo, stage: 'locate-failed' }
   const [ver, prov] = await parallel([
-    () => agent(verifyPrompt(repo, inv), { label: `C-verify:${repo}`, phase: 'Verify' }),
-    () => agent(provenancePrompt(repo, inv), { label: `C-provenance:${repo}`, phase: 'Provenance' }),
+    () => st.verification ? Promise.resolve('on-disk') : agent(verifyPrompt(repo, inv), { label: `C-verify:${repo}`, phase: 'Verify' }),
+    () => st.provenance ? Promise.resolve('on-disk') : agent(provenancePrompt(repo, inv), { label: `C-provenance:${repo}`, phase: 'Provenance' }),
   ])
   if (!ver || !prov) return { repo, stage: 'verify-or-provenance-failed', ver: !!ver, prov: !!prov }
-  const c = await agent(consolidatorPrompt(repo), { model: 'opus', label: `C-consolidate:${repo}`, phase: 'Consolidate', schema: CONSOLIDATOR_SCHEMA })
+  const c = st.consolidated
+    ? { n_findings: st.n_findings, on_disk: true }
+    : await agent(consolidatorPrompt(repo), { model: 'opus', label: `C-consolidate:${repo}`, phase: 'Consolidate', schema: CONSOLIDATOR_SCHEMA })
+  if (st.consolidated) log(`${repo}: consolidated output on disk, consolidate skipped`)
   if (!c) return { repo, stage: 'consolidate-failed' }
   if (c.n_findings === 0) { log(`${repo}: no C findings to check`); return { repo, stage: 'done', consolidated: c, applied: null } }
   const v = await agent(verifierPrompt(repo), { model: 'opus', label: `C-check:${repo}`, phase: 'Check', schema: VERIFIER_SCHEMA })

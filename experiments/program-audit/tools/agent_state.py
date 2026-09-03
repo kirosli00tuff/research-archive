@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Scan an agent's output directory and print, as JSON, what is already complete on disk.
 
-Usage: tools/agent_state.py <outdir> --ledger reopen|positives
+Usage: tools/agent_state.py <outdir> --ledger reopen|positives   (agents A and B)
+       tools/agent_state.py <outdir> --agent C                  (agent C blind chain)
 
 Output: {"done_repos": [...], "done_parts": {repo: [part, ...]}, "leads": ["repo: lead", ...]}
 Passed verbatim as `args` to the agent's workflow script, which then skips completed work.
@@ -59,7 +60,39 @@ def leads_from_md(outdir, repo):
     return [f'{repo}: ' + ln.lstrip('-* ').strip() for ln in body.splitlines() if ln.strip().startswith(('-', '*'))]
 
 
+def c_state(outdir):
+    """Agent C: per-repository stage completion for the locate -> verify|provenance -> consolidate -> check/apply chain."""
+    vd, pd = os.path.join(outdir, 'verification'), os.path.join(outdir, 'provenance')
+    repos = set()
+    for d, suf in ((vd, '.inventory.json'), (pd, '.json')):
+        if os.path.isdir(d):
+            repos |= {f[:-len(suf)] for f in os.listdir(d) if f.endswith(suf)}
+    repos |= {f[:-5] for f in os.listdir(outdir) if f.endswith('.json') and not f.startswith('INDEX')}
+    state = {'done_repos': [], 'stages': {}}
+    for r in sorted(repos):
+        st = {
+            'inventory': os.path.isfile(os.path.join(vd, f'{r}.inventory.md')) and os.path.isfile(os.path.join(vd, f'{r}.inventory.json')),
+            'verification': os.path.isfile(os.path.join(vd, f'{r}.verification.md')) and os.path.isfile(os.path.join(vd, f'{r}.claims.json')),
+            'provenance': os.path.isfile(os.path.join(pd, f'{r}.md')) and os.path.isfile(os.path.join(pd, f'{r}.json')),
+            'consolidated': os.path.isfile(os.path.join(outdir, f'{r}.json')) and os.path.isfile(os.path.join(outdir, f'{r}.md')),
+            'n_findings': None,
+        }
+        if st['consolidated']:
+            try:
+                data = json.load(open(os.path.join(outdir, f'{r}.json')))
+                st['n_findings'] = len(data) if isinstance(data, list) else None
+            except Exception:
+                st['consolidated'] = False
+        if st['consolidated'] and (st['n_findings'] == 0 or 'Citation check' in open(os.path.join(outdir, f'{r}.md'), encoding='utf-8', errors='replace').read()):
+            state['done_repos'].append(r)
+        elif any(st.values()):
+            state['stages'][r] = st
+    return state
+
+
 def main():
+    if len(sys.argv) >= 4 and sys.argv[2] == '--agent' and sys.argv[3] == 'C':
+        print(json.dumps(c_state(sys.argv[1]), indent=1)); return
     if len(sys.argv) < 4 or sys.argv[2] != '--ledger' or sys.argv[3] not in ('reopen', 'positives'):
         sys.exit(__doc__)
     outdir, ledger = sys.argv[1], sys.argv[3]

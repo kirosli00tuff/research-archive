@@ -101,3 +101,10 @@ its <repo>.json exists and <repo>.md carries "Citation check" lines, or the json
 part is complete when its draft and ledger exist) and the result is passed as workflow `args`;
 the script skips completed chains and parts, and every launch is fresh (no resumeFromRunId).
 Disk state, not the runtime cache, is the ground truth from run 6 onward.
+
+## 2026-09-03 06:27Z — Agent A blind pass, run 6 (fresh run wf_d4536152-b3a, disk-state args)
+Launched fresh (no resumeFromRunId) with args from tools/agent_state.py: done_repos =
+[HFExperiment, retail-power-limits], done_parts = {}, plus the 20 cross-repo leads those two
+consolidators returned (recovered from the journals, recorded in
+provenance/launch-args/agentA-run6.args.json). Cleanliness check "01-agentA-blind-run6-BEFORE"
+(06:24Z): only the pre-existing entries. Task id w1c402gcy.
