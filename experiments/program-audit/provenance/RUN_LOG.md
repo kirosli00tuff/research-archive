@@ -66,3 +66,25 @@ only repair is to re-create the one symlink.
 ## 2026-09-03 04:48Z — Agent A blind pass, run 4 (resume of wf_e113872d-e9e)
 Resumed after the 04:40Z reset with the same scriptPath and resumeFromRunId. Cleanliness check
 "01-agentA-blind-run4-BEFORE" recorded immediately before launch.
+
+## 2026-09-03 04:48Z–05:43Z — Agent A blind pass, run 4 outcome (PARTIAL)
+Task wsse8izdx: agents_done=10, agents_error=21, 1.56M sub-agent tokens, 55 min. Completed and
+cached: the full retail-power-limits chain (verify1, verify2, apply: kept 4, corrected 7, dropped 0)
+and the full HFExperiment chain (reader, consolidate: 7 findings AUDIT-A-HFExperiment-1..7,
+verify1, verify2, apply: kept 3, corrected 4, dropped 0). Every batch-2+ reader failed with
+"You've hit your session limit · resets 2:40am (America/Vancouver)" (09:40Z). Cleanliness check
+"01-agentA-blind-run4-AFTER" (06:17Z): only the pre-existing entries.
+Provenance note: the HFExperiment reader executed TWICE. Its run-3 result (8 draft findings, the
+version committed at 8c8e789) was in the journal, yet the resume re-ran it under a different cache
+key (the reader prompt is unchanged in the script diff feb292c..e1dbcd5; cause not identified).
+The run-4 draft (7 findings) overwrote the run-3 draft on disk and is what the consolidator used.
+Both executions were blind Fable runs of the same prompt; the run-3 draft remains in git history.
+The operator reset the session limit manually at ~06:15Z ("/limit-reset"), which also started a
+new harness session (transcripts now under .../2c6a58bc-.../).
+
+## 2026-09-03 06:19Z — run 5a ABORTED after 2 minutes (journal not carried across sessions)
+The resume launched in the new session directory with an empty journal, so the runtime began
+re-executing the two cached readers (retail-power-limits, HFExperiment). Stopped at 06:21Z before
+either wrote a file (draft mtimes unchanged, see below). The old journal (114 rows, 11 results)
+was copied into the new session's workflow directory and the run resumed as 5b. The aborted
+journal is kept as journal.aborted-run5a.jsonl.bak. No finding was affected.
