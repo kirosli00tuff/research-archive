@@ -319,3 +319,4 @@ claims and provenance json; md untouched. Args (provenance/launch-args/agentC-ru
 HFExperiment consolidated awaiting check/apply; retail-power-limits inventory, verification and
 provenance done, consolidator to run; eleven repositories from inventory. BEFORE check:
 "03-agentC-blind-run1-AFTER" (04:51Z; nothing touched an audited repository since).
+Agent C run 2: task wsyhgs1dy (wf_5c7ad8a5-a74), launched 05:12Z.
