@@ -14,7 +14,7 @@ Excluded and never read: [personal repo, name removed], solcopy, MBTExperiment, 
 
 ## Where to read content: the ANCHORED SNAPSHOTS
 Every repository was exported at its anchored SHA with `git archive` to:
-  /tmp/claude-1000/-home-kiros-li-Documents-GitHub-program-audit/5ca157a0-1746-4eb9-a1b8-f3732ea42bf4/scratchpad/snap/<repo>/
+  /home/kiros-li/.cache/program-audit/scratchpad/snap/<repo>/
 Call this SNAP/<repo>. Read tracked files from SNAP. Paths and line numbers in SNAP are
 identical to `git -C <live repo> show <SHA>:<path>`. Cite files as <repo>/<path>:<line>.
 The snapshots are read-only; do not write into them.
@@ -51,9 +51,9 @@ any other entry loudly.
 
 ## Computation
 A Python with numpy/scipy/pandas/statsmodels/pyarrow is at
-  /tmp/claude-1000/-home-kiros-li-Documents-GitHub-program-audit/5ca157a0-1746-4eb9-a1b8-f3732ea42bf4/scratchpad/venv/bin/python
+  /home/kiros-li/.cache/program-audit/scratchpad/venv/bin/python
 Write scratch scripts and outputs ONLY under
-  /tmp/claude-1000/-home-kiros-li-Documents-GitHub-program-audit/5ca157a0-1746-4eb9-a1b8-f3732ea42bf4/scratchpad/work/<your-agent-label>/
+  /home/kiros-li/.cache/program-audit/scratchpad/work/<your-agent-label>/
 Never execute a repository's own scripts in place. If you must run one, copy it to your work dir
 and run it there with inputs read from SNAP or live data paths (read-only) and outputs to your
 work dir. Prefer writing your own short recomputation from stored primitives.

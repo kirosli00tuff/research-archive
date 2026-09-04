@@ -10,8 +10,8 @@ export const meta = {
   ],
 }
 
-const RULES_PATH = '/tmp/claude-1000/-home-kiros-li-Documents-GitHub-program-audit/5ca157a0-1746-4eb9-a1b8-f3732ea42bf4/scratchpad/COMMON_RULES.md'
-const SNAP = '/tmp/claude-1000/-home-kiros-li-Documents-GitHub-program-audit/5ca157a0-1746-4eb9-a1b8-f3732ea42bf4/scratchpad/snap'
+const RULES_PATH = '/home/kiros-li/.cache/program-audit/scratchpad/COMMON_RULES.md'
+const SNAP = '/home/kiros-li/.cache/program-audit/scratchpad/snap'
 const OUT = '/home/kiros-li/Documents/GitHub/program-audit/findings/agentC'
 const LIVE = '/home/kiros-li/Documents/GitHub'
 const REPOS = ['retail-power-limits','HFExperiment','InsiderExperiment','NPDExperiment','VRPExperiment','ETFExperiment','solclear','PMExperiment','solattn','NPLExperiment','MLCryptoEngine','ORBExperiment','AiTrader']

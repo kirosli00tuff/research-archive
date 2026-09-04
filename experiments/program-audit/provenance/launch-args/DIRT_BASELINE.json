@@ -1,0 +1,5 @@
+{
+ "_note": "Pre-existing working-tree dirt in the audited repositories, present before the audit started. tools/resume.py reports loudly on any porcelain entry not listed here.",
+ "AiTrader": [" M COLLECTION_LOG.md"],
+ "HFExperiment": ["?? Accept:", "?? GET", "?? Host:", "?? User-Agent:"]
+}

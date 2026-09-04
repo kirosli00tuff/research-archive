@@ -1,0 +1,7 @@
+# Claude Code session ids whose /tmp scratchpad path may still be referenced by older prompts or drafts.
+# tools/tmp_links.sh recreates /tmp/claude-1000/-home-kiros-li-Documents-GitHub-program-audit/<id>/scratchpad
+# as a symlink to the persistent scratchpad after every reboot. New ids may be appended freely.
+5ca157a0-1746-4eb9-a1b8-f3732ea42bf4
+2c6a58bc-6f69-48c9-a930-b20684f1e1e4
+b44aa438-a540-4775-8d5a-54348b0f0edf
+630ef413-e737-44d3-b03a-bad731bf48a9

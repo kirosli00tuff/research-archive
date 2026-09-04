@@ -368,3 +368,17 @@ Agent B run 3 args (agentB-run3.args.json): done_repos = [HFExperiment, retail-p
 {InsiderExperiment: [all], NPDExperiment: [all]}; consolidated = {}; leads via file (14 entries). BEFORE
 check "02-agentB-blind-run3-BEFORE".
 Agent B run 3: task w6njcsz94 (wf_bb83861e-ebb), launched 18:31Z. All three blind passes (A run 12, B run 3, C run 3) now run concurrently.
+
+## 2026-09-04 18:4xZ — Reboot-safety (operator: "make everything reboot-safe")
+The six workflow scripts and both copies of COMMON_RULES.md now point at the persistent scratchpad
+/home/kiros-li/.cache/program-audit/scratchpad (snap/, venv/, COMMON_RULES.md, work/) instead of the
+/tmp/claude-1000/.../5ca157a0.../scratchpad path that every reboot erased. Snapshot content is unchanged
+(13 repositories, 1,618 files; sha256 manifest written to provenance/snapshot-manifest.json and verified).
+The old /tmp path is still recreated as a symlink at login by the systemd user unit
+program-audit-tmp-links.service (tools/tmp_links.sh, session ids in provenance/launch-args/SESSIONS.txt) for
+prompts and drafts that quote it. tools/resume.py is the one-command resume (RESUME.md); it AFTER-checks the
+runs recorded in provenance/launch-args/ACTIVE.json by tools/mark_launched.py against
+DIRT_BASELINE.json, banks journal leads, writes next args and BEFORE checks, and prints the launches.
+work/ (agents' recomputation scripts and intermediate outputs, 2.2 MB, cited by DERIVED findings) is now
+committed as provenance; a secrets scan found nothing. Runs in flight (A 12, B 3, C 3) were launched with
+the old paths, which remain valid through the symlinks; the new paths apply from the next launch.

@@ -1,0 +1,9 @@
+[Unit]
+Description=Recreate the program-audit /tmp scratchpad symlinks after a reboot
+
+[Service]
+Type=oneshot
+ExecStart=/home/kiros-li/Documents/GitHub/program-audit/tools/tmp_links.sh
+
+[Install]
+WantedBy=default.target
