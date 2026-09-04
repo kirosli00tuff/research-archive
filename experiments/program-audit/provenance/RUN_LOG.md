@@ -298,3 +298,12 @@ exist so their scanners report HFExperiment as consolidated-but-unverified; A re
 Agent A run 11: args done_repos = [ETFExperiment, HFExperiment, InsiderExperiment, NPDExperiment,
 VRPExperiment, retail-power-limits]; done_parts = {PMExperiment: [p1-register, p2-progress],
 solclear: [p1-findings]}; leads via file. BEFORE check: "01-agentA-blind-run10-AFTER".
+Agent A run 11: task wy7aw6e69 (wf_d768adf5-f74), launched 04:55Z.
+
+## 2026-09-04 05:0xZ — Agent B run 2 launched (HFExperiment json transcribed)
+findings/agentB/HFExperiment.json written by the mechanical Opus agent: 18 findings (1 S1, 6 S2, 9 S3,
+2 S4), 22 contract keys, claim quotes verified verbatim against the md, md and positives ledger
+untouched. Args (provenance/launch-args/agentB-run2.args.json): consolidated = {retail-power-limits: 8,
+HFExperiment: 18} awaiting verify/apply; eleven repositories to read; leads via
+provenance/launch-args/agentB-leads.json. BEFORE check: "02-agentB-blind-run1-AFTER" (04:51Z; nothing
+touched an audited repository since).
