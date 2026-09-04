@@ -12,7 +12,7 @@
     "claim_quote": "One whole share of TE was ACCEPTED and queued for the 09:30 ET open, then cancelled. The channel works, Read-Only is off, and the fractional refusals are specific to fractional sizing.",
     "claim_file": "HFExperiment/reports/stage_a1b/a1b_report.md",
     "claim_line": 91,
-    "evidence_summary": "The committed stage script places exactly four orders and no control: decimal-mkt-MU, decimal-lmt-MU, decimal-mkt-TE, cashqty-mkt (HFExperiment/scripts/a1b_capability_test.py:278, 296, 310, 321, inside main() at :247-353). There is no whole-share order anywhere in the file. No revision of the script contains the word \"control\" at all. Checked every blob in the file's history (git -C <live> show <c>:scripts/a1b_capability_test.py | grep -in control for c = 669eb5c and 23b7791, the only two commits that touch it): no match in either. The single hit from git log -p --all -- scripts/a1b_capability_test.py is in the *commit message* of 669eb5c (\"while a whole-share control was accepted\"), not in code. 23b7791 (2026-08-25T03:09:55Z) is a lint rename. The evidence ledger records the control anyway: {\"account\":\"[paper account ID removed]\",\"action\":\"BUY\",\"kind\":\"order_request\",\"label\":\"control-whole-share\",\"order_number\":5,\"order_type\":\"MKT\",\"purpose\":\"control: a whole share must accept, proving the channel works and only fractional is refused\",\"route\":\"SMART\",\"symbol\":\"TE\",\"tif\":\"DAY\",\"total_quantity\":\"1\",\"utc\":\"2026-08-25T03:07:06.141398Z\"} — HFExperiment/reports/stage_a1b/evidence.jsonl:48. That record cannot have been written by the committed emitter. place() emits a fixed keyword set — label, symbol, order_type, action, total_quantity, cash_qty, lmt_price, outside_rth, tif, account, route, order_number (HFExperiment/scripts/a1b_capability_test.py:106-115) — with no extra. Record 48 carries a purpose field the emitter never writes and lacks cash_qty, lmt_price and outside_rth, which it always writes (compare evidence.jsonl:30, the decimal-mkt-MU request, which carries all three). The outcome record is likewise foreign: record_trade() always emits order_id, status, filled, remaining, avg_fill_price, log (HFExperiment/scripts/a1b_capability_test.py:129-137); evidence.jsonl:49 has order_id, status, filled and log only. Ordering: the committed script wrote {\"cap\":10,\"count\":4,\"kind\":\"orders_placed_total\",\"utc\":\"2026-08-25T03:06:14.859168Z\"} (evidence.jsonl:47) and a final_positions record at 03:06:14.850255Z (evidence.jsonl:46) from its finally: block (script :347-351), i.e. the committed run had already ended. The control request is stamped 03:07:06.141398Z, 51 s later. The control ran on a different connection: its warning is \"reqId 3\" and its order_id is 3 (evidence.jsonl:49), while the four committed orders used reqIds 25, 26, 29, 30 (evidence.jsonl:30, 33, 40, 43). n: 1 control order, 0 fills, produced by 0 lines of committed code, in a file of 51 records.",
+    "evidence_summary": "The committed stage script places exactly four orders and no control: decimal-mkt-MU, decimal-lmt-MU, decimal-mkt-TE, cashqty-mkt. There are four place() call sites (HFExperiment/scripts/a1b_capability_test.py:278, 296, 310, 321, all inside main() at :247-353) and they do not map one-to-one onto those labels: :278 sits in for symbol in (MOST_LIQUID, LEAST_LIQUID) at :262 and fires twice, as decimal-mkt-MU and decimal-mkt-TE; :296 is decimal-lmt-MU, gated on symbol == MOST_LIQUID at :291; :321 is cashqty-mkt; :310 is flatten-lmt-{symbol}, contingent on a fill that never came, so it never fired. There is no whole-share order anywhere in the file. No revision of the script contains the word \"control\" at all. Checked every blob in the file's history (git -C <live> show <c>:scripts/a1b_capability_test.py | grep -in control for c = 669eb5c and 23b7791, the only two commits that touch it): no match in either. The single hit from git log -p --all -- scripts/a1b_capability_test.py is in the *commit message* of 669eb5c (\"while a whole-share control was accepted\"), not in code. 23b7791 (2026-08-25T03:09:55Z) is a lint rename. The evidence ledger records the control anyway: {\"account\":\"[paper account ID removed]\",\"action\":\"BUY\",\"kind\":\"order_request\",\"label\":\"control-whole-share\",\"order_number\":5,\"order_type\":\"MKT\",\"purpose\":\"control: a whole share must accept, proving the channel works and only fractional is refused\",\"route\":\"SMART\",\"symbol\":\"TE\",\"tif\":\"DAY\",\"total_quantity\":\"1\",\"utc\":\"2026-08-25T03:07:06.141398Z\"} — HFExperiment/reports/stage_a1b/evidence.jsonl:48. That record cannot have been written by the committed emitter. place() emits a fixed keyword set — label, symbol, order_type, action, total_quantity, cash_qty, lmt_price, outside_rth, tif, account, route, order_number (HFExperiment/scripts/a1b_capability_test.py:106-115) — with no extra. Record 48 carries a purpose field the emitter never writes and lacks cash_qty, lmt_price and outside_rth, which it always writes (compare evidence.jsonl:28, the decimal-mkt-MU order_request, which carries all three; :30 is that order's api_error record, not its request). The outcome record is likewise foreign: record_trade() always emits order_id, status, filled, remaining, avg_fill_price, log (HFExperiment/scripts/a1b_capability_test.py:129-137); evidence.jsonl:49 has order_id, status, filled and log only. Ordering: the committed script wrote {\"cap\":10,\"count\":4,\"kind\":\"orders_placed_total\",\"utc\":\"2026-08-25T03:06:14.859168Z\"} (evidence.jsonl:47) and a final_positions record at 03:06:14.850255Z (evidence.jsonl:46) from its finally: block (script :347-351), i.e. the committed run had already ended. The control request is stamped 03:07:06.141398Z, 51 s later. The control ran on a different connection: its warning is \"reqId 3\" and its order_id is 3 (evidence.jsonl:49), while the four committed orders used reqIds 25, 26, 29, 30 (evidence.jsonl:30, 33, 40, 43). n: 1 control order, 0 fills, produced by 0 lines of committed code, in a file of 51 records.",
     "evidence_refs": [
       "HFExperiment/reports/stage_a1b/a1b_report.md:91",
       "HFExperiment/reports/stage_a1b/a1b_report.md:7",
@@ -20,6 +20,7 @@
       "HFExperiment/scripts/a1b_capability_test.py:278",
       "HFExperiment/reports/stage_a1b/evidence.jsonl:48",
       "HFExperiment/scripts/a1b_capability_test.py:106",
+      "HFExperiment/reports/stage_a1b/evidence.jsonl:28",
       "HFExperiment/reports/stage_a1b/evidence.jsonl:30",
       "HFExperiment/scripts/a1b_capability_test.py:129",
       "HFExperiment/reports/stage_a1b/evidence.jsonl:49",
@@ -35,7 +36,8 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": "82e77a0 is the tip and touched only DECISIONS.md, docs/ACCESS.md and progress.md (--numstat: 60/0, 47/19, 48/0).",
     "disclosed_by_authors": false,
-    "disclosure_ref": null
+    "disclosure_ref": null,
+    "citation_check": "corrected — the four place() call sites (scripts/a1b_capability_test.py:278, 296, 310, 321) no longer read as a one-to-one map onto the four labels: :278 sits in the two-symbol loop and fires twice, :310 is the fill-contingent flatten-lmt that never fired. The decimal-mkt-MU field comparison moved from evidence.jsonl:30 to :28 (:30 is that order's api_error; the :30 in the reqId list is correct and stays). Both verifiers found the claim quotes EXACT at the cited lines, both re-ran the git-object check (grep -ic control = 0 at 669eb5c and 23b7791), and both confirmed the two field-set asymmetries. Neither slip touches the basis; S1 and DERIVED unchanged."
   },
   {
     "id": "AUDIT-B-HFExperiment-2",
@@ -70,14 +72,15 @@
       "HFExperiment/src/hfexperiment/costmodel.py:213",
       "HFExperiment/docs/ACCESS.md:197"
     ],
-    "recomputation": "inputs — spread 13.075182298214278 bp (reports/stage_a2/book_spreads.json:37, median of the five width-5 names' per-name medians), notional 180 USD (900/5, REGISTRATION.md:133), churn 2.0 names/month (src/hfexperiment/registered.py:85, from reports/stage_a1/formations.md:11-16 → (4+3+1+1+2+1)/6 = 2.0), regulatory 0.0137 USD (docs/ACCESS.md:139), 21 trading days/month (src/hfexperiment/costmodel.py:213). Method: costmodel.daily_cost_hurdle_bp reimplemented. Results: 4.0731 bp/day; whole-Tiered variant 1.0026; whole-Fixed variant 2.3817.",
+    "recomputation": "inputs — spread 13.075182298214278 bp (reports/stage_a2/book_spreads.json:37, which is BE's own median_bp and is also the median of the five width-5 names' per-name medians), notional 180 USD (900/5, REGISTRATION.md:133), churn 2.0 names/month (src/hfexperiment/registered.py:85, from reports/stage_a1/formations.md:11-16 → (4+3+1+1+2+1)/6 = 2.0), regulatory 0.0137 USD (docs/ACCESS.md:139), 21 trading days/month (src/hfexperiment/costmodel.py:213). Method: costmodel.daily_cost_hurdle_bp reimplemented. Results: 4.0731 bp/day; whole-Tiered variant 1.0026; whole-Fixed variant 2.3817.",
     "would_resolve": "re-labelling the bar as a projection rather than a measurement, or an amendment recomputing it under the whole-share Tiered regime that A.1b left standing (\"Whole-share through the API stays open; only slicing is closed\", docs/ACCESS.md:197).",
     "confidence": "HIGH",
     "confidence_why": "the arithmetic reproduces exactly from stored artifacts and code, and the regime falsification is the repository's own recorded verdict.",
     "invalidated_by_later_commits": false,
     "invalidation_note": "the tip commit changed no figure and touched no code.",
     "disclosed_by_authors": true,
-    "disclosure_ref": "That the hurdle uses the worst-case fractional regime is disclosed in the quoted sentence itself and at registered.py:71-78, and the unmeasured TAF floor at docs/ACCESS.md:98. What is not disclosed anywhere is that after 2026-08-25 the regime is known unavailable, that the bar was deliberately left unchanged, and that the word \"measured\" covers 6 % of the figure. Severity is not capped, because the undisclosed part is the finding."
+    "disclosure_ref": "partially, and more of it than the draft of this finding allowed. Four component facts are each disclosed somewhere: that the hurdle uses the worst-case fractional regime (the quoted sentence itself, and registered.py:71-78); that no commission was ever observed (\"No order filled, so no commission was observed\", a1b_report.md:96-98; \"The table above is read off IBKR's published tiers\", DECISIONS.md:463-465); that the TAF floor is unverified (\"CONFIRMED NOWHERE\", docs/ACCESS.md:98; \"TAF holds the worst-case one cent floor, UNMEASURED\", reports/stage_a2/cost_table.md:3; REGISTRATION.md:179-180); and that the fractional regime was refused while the parameters were deliberately left alone — both recorded side by side in the same amendment, \"error 10243 on decimal totalQuantity ... error 10244 on cashQty\" followed by \"No parameter changes.\" (REGISTRATION.md:299-304). What is not disclosed is the framing. The success-bar sentence (REGISTRATION.md:249-251), the code constant (registered.py:78) and the shipped monitor (verdict.txt:8, 17, 26) all still call 4.07 \"the measured cost hurdle\" and cross-reference none of those notes; no document states the 93.5 / 0.4 / 6.1 decomposition; and nothing connects the 2026-08-25 refusal to the standing bar it invalidates. Severity is therefore not capped at S3: the finding is the framing, and the disclosures sit in documents the framing never points at.",
+    "citation_check": "corrected — the report header's \"four days later\" became \"two days later\" (Sections 1-12 registered 2026-08-23 and accepted 2026-08-24; A.1b measured 2026-08-25); book_spreads.json:37 is now named as BE's own median_bp, which is also the five-name median; and the Disclosed by authors? field was rewritten. The verifiers split on that field: verifier 1 accepted it, verifier 2 showed it contradicted this finding's own evidence bullet, which already quotes REGISTRATION.md:304 \"No parameter changes.\" from the same amendment that records the refusals. I read REGISTRATION.md:296-304, a1b_report.md:96-98, cost_table.md:3 and DECISIONS.md:463-465 and followed verifier 2: the components are disclosed, the framing is not, and S2 stands on that ground. Quote EXACT, figures YES; every figure was reproduced independently by both verifiers."
   },
   {
     "id": "AUDIT-B-HFExperiment-3",
@@ -92,7 +95,7 @@
     "claim_quote": "Run 2026-08-25, 02:57 to 03:07 UTC, Monday 22:57 to 23:07 ET, market closed. Gateway 127.0.0.1:4002, server version 187, account [paper account ID removed], declared mode paper.",
     "claim_file": "HFExperiment/reports/stage_a1b/a1b_report.md",
     "claim_line": 3,
-    "evidence_summary": "The A.1b evidence ledger's own connection record says 178, not 187: {\"kind\":\"connected\",\"managed\":[\"[paper account ID removed]\"],\"server_version\":178,\"utc\":\"2026-08-25T03:05:16.497779Z\"} — HFExperiment/reports/stage_a1b/evidence.jsonl:2. The value is written straight from the client: server_version=self.ib.client.serverVersion() (HFExperiment/scripts/a1b_capability_test.py:157-159). Four further narrative sites repeat 187 for this run: HFExperiment/docs/ACCESS.md:178, HFExperiment/DECISIONS.md:408 (ADR-022), HFExperiment/DECISIONS.md:439 (ADR-026), HFExperiment/progress.md:235. (progress.md:80 also says 187 but describes the C.1 probe, where it is correct; it is not counted.) 187 is the number the C.1 probe reported 25 minutes earlier on the same Gateway: \"server_version\": 187 (HFExperiment/reports/stage_c1/refusals.md:332, server_time_epoch 1787625630). The probe's own handshake string caps at 187: _HANDSHAKE_VERSIONS = b\"v100..187\" (HFExperiment/src/hfexperiment/ibkrprobe.py:43). n: 2 connections to one Gateway, 25 minutes apart, 2 different reported versions; 5 documents quote the one that is not in the A.1b ledger.",
+    "evidence_summary": "The A.1b evidence ledger's own connection record says 178, not 187: {\"kind\":\"connected\",\"managed\":[\"[paper account ID removed]\"],\"server_version\":178,\"utc\":\"2026-08-25T03:05:16.497779Z\"} — HFExperiment/reports/stage_a1b/evidence.jsonl:2. The value is written straight from the client: server_version=self.ib.client.serverVersion() (HFExperiment/scripts/a1b_capability_test.py:157-159). Four further narrative sites repeat 187 for this run: HFExperiment/docs/ACCESS.md:178, HFExperiment/DECISIONS.md:408 (ADR-022), HFExperiment/DECISIONS.md:439 (ADR-026), HFExperiment/progress.md:235. (progress.md:80 also says 187 but describes the C.1 probe, where it is correct; it is not counted.) 187 is the number the C.1 probe reported 25 minutes earlier on the same Gateway: \"server_version\": 187 (HFExperiment/reports/stage_c1/refusals.md:332, server_time_epoch 1787625630). The probe's own handshake string caps at 187: _HANDSHAKE_VERSIONS = b\"v100..187\" (HFExperiment/src/hfexperiment/ibkrprobe.py:43). n: 2 connections to one Gateway, 25 minutes apart, 2 different reported versions; 5 sites in 4 documents quote the one that is not in the A.1b ledger (DECISIONS.md carries two of the five, at :408 and :439).",
     "evidence_refs": [
       "HFExperiment/reports/stage_a1b/a1b_report.md:3",
       "HFExperiment/reports/stage_a1b/evidence.jsonl:2",
@@ -104,7 +107,7 @@
       "HFExperiment/progress.md:80",
       "HFExperiment/reports/stage_c1/refusals.md:332",
       "HFExperiment/src/hfexperiment/ibkrprobe.py:43",
-      "HFExperiment/DECISIONS.md:405"
+      "HFExperiment/DECISIONS.md:410"
     ],
     "recomputation": "epoch 1787625630 → 2026-08-25T02:40:30Z, confirming the probe preceded A.1b (03:05:16Z) by ~25 min.",
     "would_resolve": "correcting a1b_report.md and the four derived sites to 178, or recording explicitly that 187 is the C.1 probe's negotiated version and that A.1b negotiated 178 with a different client library.",
@@ -113,7 +116,8 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": "ADR-026 (the tip commit) repeats 187 at DECISIONS.md:439 while citing this same evidence file.",
     "disclosed_by_authors": false,
-    "disclosure_ref": null
+    "disclosure_ref": "no. ADR-022 prints \"Gateway server version 187\" at DECISIONS.md:408, two sentences above its own \"Observed, verbatim in reports/stage_a1b/evidence.jsonl\" block, which begins at :410 — so the figure is adjacent to, not inside, the enumeration of observations, and the ADR cites the very file that contradicts the number it has just stated.",
+    "citation_check": "corrected — \"5 documents\" became \"5 sites in 4 documents\" in the finding's n line and in the report header, since DECISIONS.md carries two of the five (:408 and :439); both verifiers found the same miscount. The disclosure line was also softened: verifier 1 showed the 187 sits at DECISIONS.md:408, two sentences above the \"Observed, verbatim in reports/stage_a1b/evidence.jsonl\" block that begins at :410, while verifier 2 read it as inside that block. I read DECISIONS.md:401-415 and followed verifier 1 — the Observed block enumerates the 10243/10244 refusals, not the session identity — which weakens the wording without touching the contradiction. Quote EXACT, figures YES."
   },
   {
     "id": "AUDIT-B-HFExperiment-4",
@@ -128,12 +132,13 @@
     "claim_quote": "Decided. ACCESS.md Task 3 is re-headed SUPERSEDED, the false sentence is struck rather than deleted, and the sub-test table is re-statused against the A.1b evidence: four RESOLVED, two MOOT, one RUNNABLE. ADR-003 keeps its original text with a superseded note beneath it. Nothing is rewritten to look as though it was always right.",
     "claim_file": "HFExperiment/DECISIONS.md",
     "claim_line": 450,
-    "evidence_summary": "git -C <live> show --numstat 82e77a0 -- docs/ACCESS.md gives 47 insertions, 19 deletions. The diff shows three things the sentence above does not describe. 1. A seventh, already-passing row was added. The registered table at 82e77a0^ has exactly six sub-test rows, all BLOCKED-ON-OPERATOR (decimal totalQuantity, cashQty, routing comparison, MinSize/SizeIncrement, billing plan on a paper fill, mixed-order billing — git show 82e77a0^:docs/ACCESS.md, lines 180-187). The corrected table has seven: a new row \"| whole-share control order | RESOLVED — ACCEPTED | ...\" (HFExperiment/docs/ACCESS.md:197) that exists in no earlier revision. The advertised score \"four RESOLVED, two MOOT, one RUNNABLE\" (DECISIONS.md:452, repeated at progress.md:248-252) is therefore 4/7 against a registered set of 6, and the fourth RESOLVED is a test added at correction time, after it had passed. It carries no marker distinguishing it from the original rows. 2. The precondition column was deleted, not struck. The original third column was headed \"what must be true to run\" and every one of the six rows carried \"live account exists, Trade in Fractions enabled, paper gateway reachable\" (or \"same\"). The diff removes all six cells and re-heads the column \"evidence or precondition\" (docs/ACCESS.md:192). Nothing anywhere records that the Trade in Fractions permission was ever confirmed. 3. A whole paragraph was rewritten in place, not struck. The deleted \"The documentation conflict stands unresolved on purpose ... Likely is not measured. The verdict waits for the test.\" is replaced by \"The documentation conflict, for the record, is now resolved rather than open ... The verdict no longer waits for the test.\" (HFExperiment/docs/ACCESS.md:217-223). Only one sentence in the whole edit is actually struck (docs/ACCESS.md:184-186, the ~~...~~ span). n: 6 registered sub-tests → 7 reported; 19 deleted lines against a claim of \"struck rather than deleted\"; 1 struck span.",
+    "evidence_summary": "git -C <live> show --numstat 82e77a0 -- docs/ACCESS.md gives 47 insertions, 19 deletions. The diff shows three things the sentence above does not describe. 1. A seventh, already-passing row was added. The registered table at 82e77a0^ has exactly six sub-test rows, all BLOCKED-ON-OPERATOR (decimal totalQuantity, cashQty, routing comparison, MinSize/SizeIncrement, billing plan on a paper fill, mixed-order billing — git show 82e77a0^:docs/ACCESS.md, lines 180-187). The corrected table has seven: a new row \"| whole-share control order | RESOLVED — ACCEPTED | ...\" (HFExperiment/docs/ACCESS.md:197) that exists in no earlier revision. The advertised score \"four RESOLVED, two MOOT, one RUNNABLE\" (DECISIONS.md:452, repeated at progress.md:247-252) is therefore 4/7 against a registered set of 6, and the fourth RESOLVED is a test added at correction time, after it had passed. It carries no marker distinguishing it from the original rows. 2. The precondition column was deleted, not struck. The original third column was headed \"what must be true to run\" and every one of the six rows carried \"live account exists, Trade in Fractions enabled, paper gateway reachable\" (or \"same\"). The diff removes all six cells and re-heads the column \"evidence or precondition\" (docs/ACCESS.md:192). Nothing anywhere records that the Trade in Fractions permission was ever confirmed. 3. A whole paragraph was rewritten in place, not struck. The deleted \"The documentation conflict stands unresolved on purpose ... Likely is not measured. The verdict waits for the test.\" is replaced by \"The documentation conflict, for the record, is now resolved rather than open ... The verdict no longer waits for the test.\" (HFExperiment/docs/ACCESS.md:217-223). Only one sentence in the whole edit is actually struck (docs/ACCESS.md:184-187, the ~~...~~ span; the file contains exactly two ~~ tokens, opening at :184 and closing at :187). ADR-026 is also internally inconsistent about the arithmetic: it records that ACCESS.md \"marked all six sub-tests BLOCKED-ON-OPERATOR\" (DECISIONS.md:435-436) and then scores the corrected table \"four RESOLVED, two MOOT, one RUNNABLE\" (:452), which is seven. n: 6 registered sub-tests → 7 reported; 1 struck span (docs/ACCESS.md:184-187) against 19 deleted lines - the six BLOCKED-ON-OPERATOR rows and their \"what must be true to run\" header, the seven-line paragraph, and the Task 3 heading. The false sentence is genuinely struck, so points 1-3 falsify not that clause but the ADR's broader method statement, \"Nothing is rewritten to look as though it was always right\".",
     "evidence_refs": [
       "HFExperiment/DECISIONS.md:450",
       "HFExperiment/docs/ACCESS.md:197",
       "HFExperiment/DECISIONS.md:452",
-      "HFExperiment/progress.md:248",
+      "HFExperiment/DECISIONS.md:435",
+      "HFExperiment/progress.md:247",
       "HFExperiment/docs/ACCESS.md:192",
       "HFExperiment/docs/ACCESS.md:217",
       "HFExperiment/docs/ACCESS.md:184"
@@ -145,7 +150,8 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": "this is the tip commit.",
     "disclosed_by_authors": false,
-    "disclosure_ref": null
+    "disclosure_ref": null,
+    "citation_check": "corrected — the struck span is docs/ACCESS.md:184-187, not :184-186 (the closing ~~ is on :187, and the file holds exactly two ~~ tokens); the progress.md echo is :247-252, not :248-252; the n line was re-hung on the ADR's method statement \"Nothing is rewritten to look as though it was always right\", because verifier 2 correctly showed the false *sentence* is genuinely struck, so the 19 deletions falsify the broader clause rather than that one; and ADR-026's own six-versus-seven inconsistency (DECISIONS.md:435-436 against :452) was added on verifier 2's suggestion. Both verifiers reproduced the 47/19 numstat and the six-row parent table. Quote EXACT, figures YES."
   },
   {
     "id": "AUDIT-B-HFExperiment-5",
@@ -177,7 +183,8 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": null,
     "disclosed_by_authors": false,
-    "disclosure_ref": null
+    "disclosure_ref": null,
+    "citation_check": "verified (quote EXACT, figures YES) — both verifiers independently recomputed the width-5 and width-20 baskets from formations.json and reproduced 3,554.82 / 7,890.47 / 48.25 / 2,273.73 / 302.70 / 143.895 to the cent, and both confirmed PL is rank 6 and that \"1595\" appears only at REGISTRATION.md:154 and book_spreads.json. One wording fix applied from verifier 1: the multiples now name their denominators (2.74× the quoted 2,880 at width 20; 3.95× the 900 stake and 4.94× the quoted 720 at width 5)."
   },
   {
     "id": "AUDIT-B-HFExperiment-6",
@@ -203,16 +210,17 @@
       "HFExperiment/scripts/daily_run.py:120",
       "HFExperiment/scripts/daily_run.py:121",
       "HFExperiment/scripts/daily_run.py:107",
-      "HFExperiment/progress.md:19"
+      "HFExperiment/progress.md:18"
     ],
     "recomputation": null,
     "would_resolve": "a recorded probe of GET https://api.alpaca.markets/v2/calendar with the paper keys. If it 401s, the trace is false and the shadow series would have failed from its first scheduled run, not from 2026-09-01.",
     "confidence": "HIGH",
     "confidence_why": "that the claim is unsupported by the repository; MEDIUM that it is factually false, because Alpaca could in principle serve one endpoint and not the other and I could not test it read-only.",
     "invalidated_by_later_commits": false,
-    "invalidation_note": "git log -- scripts/daily_run.py src/hfexperiment/alpaca_source.py returns one commit only, 6ac61d2 (2026-08-24), so nothing after it touched either file.",
+    "invalidation_note": "git log -- scripts/daily_run.py src/hfexperiment/alpaca_source.py returns one commit only, 6ac61d2 (2026-08-25T00:36:21Z; author-local 2026-08-24T17:36:21-07:00), so nothing after it touched either file.",
     "disclosed_by_authors": false,
-    "disclosure_ref": null
+    "disclosure_ref": null,
+    "citation_check": "corrected — the closure quote is progress.md:18-19, not :19-20, and 6ac61d2 is 2026-08-25T00:36:21Z in UTC (the draft's 2026-08-24 was the author-local date, and this finding uses UTC elsewhere). The verifiers split on procedure, not fact: verifier 1 called both points trivia needing no correction, verifier 2 asked for both. I checked progress.md:14-24 in SNAP and re-ran git log -1 --date=iso-strict 6ac61d2 and TZ=UTC ... format-local, found verifier 2 right on both, and applied them. The substance — calendar() called unconditionally at daily_run.py:120 on the same TRADE_BASE and credentials — was confirmed independently by both. Quote EXACT, figures YES."
   },
   {
     "id": "AUDIT-B-HFExperiment-7",
@@ -243,7 +251,8 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": "f13e1d3 and 82e77a0 are both in the anchored ancestry, and the tip introduced the second instance.",
     "disclosed_by_authors": false,
-    "disclosure_ref": null
+    "disclosure_ref": null,
+    "citation_check": "verified (quote EXACT, figures YES) — both verifiers read f13e1d3 as a git object (2026-08-25T07:45:29Z, REGISTRATION.md 11/0 and progress.md 18/0) against the 2026-08-26 entry it introduces, both ran the +14:00 check, and both confirmed 82e77a0's 56-minute forward stamp against progress.md:226. No corrections."
   },
   {
     "id": "AUDIT-B-HFExperiment-8",
@@ -261,7 +270,7 @@
     "evidence_summary": "The ledger is destroyed at the start of every run: if EVIDENCE.exists(): EVIDENCE.unlink() — HFExperiment/scripts/a1b_capability_test.py:63-66. Only the last run survives; an earlier attempt, including any earlier order, leaves no trace. This is the one stage in the repository authorised to send orders to a broker (\"The only stage authorized to place paper orders\", a1b_capability_test.py:4), and its order-count rail is per-process (self.orders_placed, a1b_capability_test.py:89, 95-98), so the \"ten-order cap\" is a per-run cap that the truncated ledger cannot audit across runs. The report nonetheless states a single budget: \"Five orders of the ten-order cap used\" (HFExperiment/reports/stage_a1b/a1b_report.md:5). The contrast with the repository's stated discipline elsewhere is explicit: \"nothing is ever updated or deleted in place\" (HFExperiment/src/hfexperiment/barstore.py:4-6), \"Append-only\" ledgers throughout (ADR-016, HFExperiment/DECISIONS.md:258-274), and the spend ledger is \"Append-only, fsynced, one record per event\" (reports/stage_c1/refusals.md:339). Combined with AUDIT-B-HFExperiment-1, the consequence is concrete: the file we have contains records the committed script cannot write, and the committed script would have erased any earlier file, so the ledger cannot establish what else was sent to [paper account ID removed] that evening. n: 1 evidence file, 51 records, unknown number of runs.",
     "evidence_refs": [
       "HFExperiment/scripts/a1b_capability_test.py:10",
-      "HFExperiment/scripts/a1b_capability_test.py:63",
+      "HFExperiment/scripts/a1b_capability_test.py:64",
       "HFExperiment/scripts/a1b_capability_test.py:4",
       "HFExperiment/scripts/a1b_capability_test.py:89",
       "HFExperiment/reports/stage_a1b/a1b_report.md:5",
@@ -276,7 +285,8 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": "the script was touched only by 669eb5c and 23b7791, both before the anchor.",
     "disclosed_by_authors": false,
-    "disclosure_ref": null
+    "disclosure_ref": null,
+    "citation_check": "verified (quote EXACT, figures YES) — one wording fix from verifier 2, checked against SNAP: the unlink is two lines (a1b_capability_test.py:64-65), not three. Verifier 1 found no corrections and accepted the :63-66 range citation as a superset of the unlink. Both confirmed the per-process rail at :89 and :95-98, the 51-record file, and all three append-only contrast quotes."
   },
   {
     "id": "AUDIT-B-HFExperiment-9",
@@ -291,18 +301,19 @@
     "claim_quote": "Spreads are MEASURED on the real book, not assumed from a band. All 20 names of the 2026-07-01 width-20 book were measured on the consolidated tape over sessions 2026-08-19 to 2026-08-21: median 12.77 bp, p75 17.2, p90 20.7, max 27.4. The inherited 15.8 to 50 bp band predicted the wide end and measured wrong in the favourable direction, because the book's names currently trade at large dollar volume. The measured distribution replaces the band.",
     "claim_file": "HFExperiment/REGISTRATION.md",
     "claim_line": 170,
-    "evidence_summary": "The open and the closing auction are excluded by construction. WINDOWS = ((14, 0), (16, 30), (19, 30)) # UTC (HFExperiment/scripts/measure_book_spreads.py:55) with WINDOW_SPAN_S = 300 (:56) — i.e. 10:00, 12:30 and 15:30 ET, described in the docstring as \"after the open, mid, near the close\". The first 30 minutes of the session, where quoted spreads on a book like this are widest, and the closing cross, contribute nothing. A monthly-rebalanced book that must trade on formation day pays exactly the part not sampled. Neither REGISTRATION.md Section 7 nor reports/stage_a2/cost_table.md mentions the windows. Each \"cell\" is not a 5-minute sample. fetch_quotes requests &limit={QUOTES_PER_CELL} = 50 (measure_book_spreads.py:57, 92-110) over the 300-second window with no sort parameter and no pagination. The 50 quotes returned are the earliest in the window; for a name like MU (median mid 957.51) that is a fraction of a second of tape, not five minutes. The hurdle-setting figure rests on n=5 names. The registered width-5 spread is \"13.08 bp at median mid 201.91 USD\" (reports/stage_a2/cost_table.md:36). Recomputed from reports/stage_a2/book_spreads.json, the five width-5 names' per-name medians are WOLF 19.604, AXTI 16.764, SNDK 7.450, BE 13.075, LITE 12.471 → median 13.075; mids 26.355/73.05/1595.19/201.91/863.91 → median 201.9075. So the number that sets the registered success bar is the median of five per-name medians, each of which is the median of nine near-instantaneous cells. Timing and universe. The book measured is the 2026-07-01 formation, measured 2026-08-19 to 21 — seven weeks after formation, on a book the repository's own reconciliation says had fallen 28.2 % at the median in the interim (HFExperiment/reports/stage_b1/price_reconciliation.md:10-11). The names actually traded in any future month are different names. Percentile estimator is a floor index: return sorted_vals[int(p * (len(sorted_vals) - 1))] (measure_book_spreads.py:153-154); at n=20 the reported p75 is the 15th of 20 and p90 the 18th of 20, both biased low. (Small; recorded for completeness.) n: 20 names × 9 cells × ≤50 consecutive quotes, 3 consecutive sessions, 3 fixed intraday instants; the width-5 figure is n=5.",
+    "evidence_summary": "The open and the closing auction are excluded by construction. WINDOWS = ((14, 0), (16, 30), (19, 30)) # UTC (HFExperiment/scripts/measure_book_spreads.py:55) with WINDOW_SPAN_S = 300 (:56) — i.e. 10:00, 12:30 and 15:30 ET, described in the docstring as \"after the open, mid, near the close\". The first 30 minutes of the session, where quoted spreads on a book like this are widest, and the closing cross, contribute nothing. A monthly-rebalanced book that must trade on formation day pays exactly the part not sampled. Neither REGISTRATION.md Section 7 nor reports/stage_a2/cost_table.md mentions the windows. Each \"cell\" is not a 5-minute sample. fetch_quotes requests &limit={QUOTES_PER_CELL} = 50 (measure_book_spreads.py:57, 92-110) over the 300-second window with no sort parameter and no pagination. The 50 quotes returned are the earliest in the window; for a name like MU (median mid 957.51) that is a fraction of a second of tape, not five minutes. The hurdle-setting figure rests on n=5 names. The registered width-5 spread is \"13.08 bp at median mid 201.91 USD\" (reports/stage_a2/cost_table.md:36). Recomputed from reports/stage_a2/book_spreads.json, the five width-5 names' per-name medians are WOLF 19.604, AXTI 16.764, SNDK 7.450, BE 13.075, LITE 12.471 → median 13.075; mids 26.355/73.05/1595.19/201.91/863.91 → median 201.9075. So the number that sets the registered success bar is the median of five per-name medians, each of which is the median of nine near-instantaneous cells. Timing and universe. The book measured is the 2026-07-01 formation, measured 2026-08-19 to 21 — seven weeks after formation, on a book the repository's own reconciliation says puts 28.2 % below its formation median in the interim - \"The ratio of medians is 0.7176, a 28.2 percent gap\" (HFExperiment/reports/stage_b1/price_reconciliation.md:10-11), which that report then resolves as a real drawdown rather than an adjustment artifact: \"it drew down 28 percent at the median between formation and the A.2 measurement\" (:69-70). The names actually traded in any future month are different names. Percentile estimator is a floor index: return sorted_vals[int(p * (len(sorted_vals) - 1))] (measure_book_spreads.py:153-154); at n=20 the reported p75 is the 15th of 20 and p90 the 18th of 20, both biased low. (Small; recorded for completeness.) n: 20 names × 9 cells × ≤50 consecutive quotes, 3 consecutive sessions, 3 fixed intraday instants; the width-5 figure is n=5.",
     "evidence_refs": [
       "HFExperiment/REGISTRATION.md:170",
       "HFExperiment/scripts/measure_book_spreads.py:55",
       "HFExperiment/scripts/measure_book_spreads.py:57",
       "HFExperiment/reports/stage_a2/cost_table.md:36",
       "HFExperiment/reports/stage_b1/price_reconciliation.md:10",
+      "HFExperiment/reports/stage_b1/price_reconciliation.md:69",
       "HFExperiment/scripts/measure_book_spreads.py:153",
       "HFExperiment/reports/stage_a2/book_spreads.json:17",
       "HFExperiment/reports/stage_a2/cost_table.md:3",
       "HFExperiment/DECISIONS.md:207",
-      "HFExperiment/scripts/measure_book_spreads.py:8"
+      "HFExperiment/scripts/measure_book_spreads.py:7"
     ],
     "recomputation": "inputs reports/stage_a2/book_spreads.json:17-136; method: median of the five width-5 names' median_bp and median_mid; results 13.075182298214278 bp and 201.9075 USD, reproducing the registered 13.08 and 201.91 exactly. Median of all 20 median_mid = 103.2525, reproducing cost_table.md:3's 103.25.",
     "would_resolve": "a re-measurement including the opening 30 minutes and the closing auction, paginated across the full window, and a statement of the width-5 figure's n.",
@@ -311,7 +322,8 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": "measure_book_spreads.py and book_spreads.json are unchanged since a8f4b0d.",
     "disclosed_by_authors": true,
-    "disclosure_ref": "and severity is capped at S3 for it. ADR-013 discloses the route, the sessions and that \"Re-measuring near each future formation would change it\" (HFExperiment/DECISIONS.md:207-215), and the script docstring names the windows (measure_book_spreads.py:8-9). The exclusion of the open and close, the un-paginated 50-quote cells, and the n=5 basis of the hurdle input appear nowhere in REGISTRATION.md, cost_table.md or progress.md."
+    "disclosure_ref": "partially, and severity is capped at S3 for it. ADR-013 discloses the route, the sessions and that \"Re-measuring near each future formation would change it\" (HFExperiment/DECISIONS.md:207-215), and the script docstring names both the windows and the cell cap — \"three windows per session (after the open, mid, near the close), five minute spans, up to 50 quotes per cell\" (measure_book_spreads.py:7-10). What remains undisclosed is that those 50 quotes are un-paginated and so cover a fraction of the 300-second window for a high-quote name, that the open and the closing cross are excluded by construction, and that the hurdle input rests on n=5 — none of which appears in REGISTRATION.md, cost_table.md or progress.md.",
+    "citation_check": "corrected — two citation repairs. The disclosure line now credits the docstring's cell cap as well as its windows, since measure_book_spreads.py:7-10 discloses \"up to 50 quotes per cell\" (verifier 2's point, confirmed in SNAP). On the second, the verifiers split: verifier 2 read price_reconciliation.md:8-13 alone and judged the 28.2 % an over-read; I read the report end to end and found it does conclude \"it drew down 28 percent at the median between formation and the A.2 measurement\" (:69-70) and \"The gap RECONCILES as market movement\" (:74), so I followed verifier 1 on substance and merely widened the citation from :10-11 to :10-11 plus :69-70, quoting rather than paraphrasing. Both verifiers reproduced 13.075182298214278, 201.9075 and 103.2525 independently."
   },
   {
     "id": "AUDIT-B-HFExperiment-10",
@@ -343,7 +355,8 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": "the tip touched no code and no report.",
     "disclosed_by_authors": true,
-    "disclosure_ref": "and capped at S3 for it — the line does say \"at the recorded width-5 mean 27.99 bp/day\", so an attentive reader can see the substitution. It is nonetheless labelled \"registered projection\" inside a block headed by a different width, and no width-20 or width-50 projection exists anywhere in the repository."
+    "disclosure_ref": "and capped at S3 for it — the line does say \"at the recorded width-5 mean 27.99 bp/day\", so an attentive reader can see the substitution. It is nonetheless labelled \"registered projection\" inside a block headed by a different width, and no width-20 or width-50 projection exists anywhere in the repository.",
+    "citation_check": "verified (quote EXACT, figures YES) — both verifiers reimplemented acs_radius and first_crossing_day from verdict.py:26-34 and :119-133 and independently reproduced 3,429 / 6,645 at width 20 and 4,352 / 13,178 at width 50 against the shipped 2,061 / 2,852, together with the 418 sanity check and all four ratios. No corrections; the S3 cap for the self-labelling line was accepted by both."
   },
   {
     "id": "AUDIT-B-HFExperiment-11",
@@ -358,13 +371,13 @@
     "claim_quote": "Widths 20 and 50 are pre-registered secondaries. The primary spends alpha 0.05 one-sided. The secondaries spend 0.025 each, Bonferroni, so the family never outspends the primary.",
     "claim_file": "HFExperiment/REGISTRATION.md",
     "claim_line": 97,
-    "evidence_summary": "Three registered one-sided success tests run simultaneously and time-uniformly: alpha_for_width returns 0.05 at width 5 and 0.025 at widths 20 and 50 (HFExperiment/src/hfexperiment/verdict.py:104-116), and recompute_and_append produces a verdict record for every width on every accrual (HFExperiment/src/hfexperiment/verdictengine.py:114-123). All three are rendered side by side as verdict-bearing blocks in the shipped monitor (HFExperiment/reports/monitor/verdict.txt:4-29). The union bound over the three success tests is 0.05 + 0.025 + 0.025 = 0.10, twice the level the primary is described as spending. The sentence's \"the family\" silently excludes the primary from the family it is compared against; the *secondary* family spends 0.05, equal to the primary, and the experiment-wise budget is 0.10. The same narrower reading is registered in the code comment: \"The primary spends alpha 0.05. The secondaries split 0.05 between them, Bonferroni, so the family never spends more than the primary.\" (verdict.py:108-110). No experiment-wise figure appears anywhere in the repository. n: 3 registered widths, 1 primary + 2 secondaries.",
+    "evidence_summary": "Three registered one-sided success tests run simultaneously and time-uniformly: alpha_for_width returns 0.05 at width 5 and 0.025 at widths 20 and 50 (HFExperiment/src/hfexperiment/verdict.py:104-116), and recompute_and_append produces a verdict record for every width on every accrual (HFExperiment/src/hfexperiment/verdictengine.py:114-123). All three are rendered side by side as verdict-bearing blocks in the shipped monitor (HFExperiment/reports/monitor/verdict.txt:4-29). The union bound over the three success tests is 0.05 + 0.025 + 0.025 = 0.10, twice the level the primary is described as spending. The sentence's \"the family\" silently excludes the primary from the family it is compared against; the *secondary* family spends 0.05, equal to the primary, and the experiment-wise budget is 0.10. The same narrower reading is registered in the code comment: \"The primary spends alpha 0.05. The secondaries split 0.05 between them, Bonferroni, so the family never spends more than the primary.\" (verdict.py:109-110). No experiment-wise figure appears anywhere in the repository. n: 3 registered widths, 1 primary + 2 secondaries.",
     "evidence_refs": [
       "HFExperiment/REGISTRATION.md:97",
       "HFExperiment/src/hfexperiment/verdict.py:104",
       "HFExperiment/src/hfexperiment/verdictengine.py:114",
       "HFExperiment/reports/monitor/verdict.txt:4",
-      "HFExperiment/src/hfexperiment/verdict.py:108"
+      "HFExperiment/src/hfexperiment/verdict.py:109"
     ],
     "recomputation": "union bound only: 0.05 + 0.025 + 0.025 = 0.10.",
     "would_resolve": "stating the experiment-wise level as 0.10, or splitting 0.05 across all three (e.g. 0.025 / 0.0125 / 0.0125).",
@@ -373,7 +386,8 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": null,
     "disclosed_by_authors": false,
-    "disclosure_ref": null
+    "disclosure_ref": null,
+    "citation_check": "verified (quote EXACT, figures YES) — one line fix both verifiers flagged and I confirmed in SNAP: the code comment is verdict.py:109-110, not :108-110 (:108 is a blank line inside the docstring). Verifier 2 additionally grepped the whole snapshot for \"Bonferroni\", \"family\", \"experiment-wise\" and \"familywise\" and confirmed no experiment-wise level is stated anywhere; both accepted the READ label and the S3 severity."
   },
   {
     "id": "AUDIT-B-HFExperiment-12",
@@ -388,10 +402,11 @@
     "claim_quote": "The registered consequence of a DEGRADED Task 3 result is therefore NO live sleeve at this stake, not a reduced one.",
     "claim_file": "HFExperiment/REGISTRATION.md",
     "claim_line": 156,
-    "evidence_summary": "What Section 0 actually registered, before measurement: \"Consequence, registered now: per-name notional rises to whole-share size. Book width falls to what 900 USD supports at that size.\" (HFExperiment/REGISTRATION.md:25-27) — a *reduced* sleeve, explicitly. Section 0 is the part committed early: c4e98177334d31758c4c3796a216de6d620f6e89, 2026-08-23T22:23:16Z, \"docs: register broker outcome map before any measurement\", --numstat REGISTRATION.md 49/0 and nothing else. The deciding input landed in the very next commit, 0a0d214b, 2026-08-23T22:42:34Z, which contains reports/stage_a1/formations.md (70/0) and formations.json (3279/0) with the median share prices. The re-specified consequence landed in a8f4b0d1, 2026-08-24T04:40:25Z — six hours after the measurement existed — as part of the Sections 1-12 append (REGISTRATION.md 235/0). So the sentence quoted describes a rule written after its own deciding measurement, while calling it \"the registered consequence\". The re-specification is a one-way ratchet: \"A collapse in book share prices does not reopen it, because the branch decision must not track the thing it sizes.\" (HFExperiment/DECISIONS.md:202-203). The measured input the branch closed on is itself unstable in the repository's own record — the width-20 median ran 36.47 (2026-03-02) and 40.59 (2026-04-01) before 143.80 and 143.89 (reports/stage_a1/formations.md:22-28) — and at 36.47 a 20-name whole-share basket is affordable at the 900 USD stake. High prices close the branch permanently; low prices may not reopen it. n: 7 recorded formations of median book price; 2 used to close the branch (\"144 USD at the last two formations\", REGISTRATION.md:150).",
+    "evidence_summary": "What Section 0 actually registered, before measurement: \"Consequence, registered now: per-name notional rises to whole-share size. Book width falls to what 900 USD supports at that size.\" (HFExperiment/REGISTRATION.md:25-26) — a *reduced* sleeve, explicitly. Section 0 is the part committed early: c4e98177334d31758c4c3796a216de6d620f6e89, 2026-08-23T22:23:16Z, \"docs: register broker outcome map before any measurement\", --numstat REGISTRATION.md 49/0 and nothing else. The deciding input landed in the very next commit, 0a0d214b, 2026-08-23T22:42:34Z, which contains reports/stage_a1/formations.md (70/0) and formations.json (3279/0) with the median share prices. The re-specified consequence landed in a8f4b0d1, 2026-08-24T04:40:25Z — six hours after the measurement existed — as part of the Sections 1-12 append (REGISTRATION.md 235/0). So the sentence quoted describes a rule written after its own deciding measurement, while calling it \"the registered consequence\". The re-specification is a one-way ratchet: \"A collapse in book share prices does not reopen it, because the branch decision must not track the thing it sizes.\" (HFExperiment/DECISIONS.md:202-203). The measured input the branch closed on is itself unstable in the repository's own record — the width-20 median ran 36.47 (2026-03-02) and 40.59 (2026-04-01) before 143.80 and 143.89 (reports/stage_a1/formations.md:22-28) — and at 36.47 a 20-name whole-share basket is affordable at the 900 USD stake. High prices close the branch permanently; low prices may not reopen it. n: 7 recorded formations of median book price; 2 used to close the branch (\"144 USD at the last two formations\", REGISTRATION.md:150).",
     "evidence_refs": [
       "HFExperiment/REGISTRATION.md:156",
       "HFExperiment/REGISTRATION.md:25",
+      "HFExperiment/DECISIONS.md:194",
       "HFExperiment/DECISIONS.md:202",
       "HFExperiment/reports/stage_a1/formations.md:22",
       "HFExperiment/REGISTRATION.md:150",
@@ -405,7 +420,8 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": null,
     "disclosed_by_authors": true,
-    "disclosure_ref": "and capped at S3 for it — Section 6 openly says \"Section 0 left DEGRADED open pending the median share price of the book. A.1 measured it\" (REGISTRATION.md:149-150). What is not said is that Section 0's own registered consequence was different, and the word \"registered\" in the quoted sentence obscures it."
+    "disclosure_ref": "yes in substance, and capped at S3 for it. Section 6 openly says \"Section 0 left DEGRADED open pending the median share price of the book. A.1 measured it\" (REGISTRATION.md:149-150), and ADR-012 states the change of consequence in terms: \"Section 0 left DEGRADED open as reduced whole-share sizing ... The registered consequence of a DEGRADED Task 3 result is no live sleeve at this stake.\" (HFExperiment/DECISIONS.md:194-199). So the substitution of no sleeve for a reduced one is disclosed, and the draft of this finding was wrong to say it was not. What remains undisclosed is the timing and the filing: that the re-specification was written roughly six hours after its own deciding measurement, and that it was appended as Section 6 body text calling itself \"the registered consequence\" rather than as a dated amendment recording what data existed, which is the discipline REGISTRATION.md:271-272 imposes.",
+    "citation_check": "corrected — the Section 0 quote spans REGISTRATION.md:25-26, not :25-27, and the Disclosed by authors? field was rewritten. The verifiers split: verifier 1 recommended KEEP with only the line nit, verifier 2 showed the field understated the disclosure. I read DECISIONS.md:192-203 and confirmed verifier 2 — ADR-012 says \"Section 0 left DEGRADED open as reduced whole-share sizing\" at :194 and states the replacement consequence at :198-199, so the change from a reduced sleeve to none *is* disclosed. The finding now rests only on the timing and the filing, and the S3 cap it already carried is correct for that. Every commit interval was reproduced by both verifiers."
   },
   {
     "id": "AUDIT-B-HFExperiment-13",
@@ -435,7 +451,8 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": null,
     "disclosed_by_authors": false,
-    "disclosure_ref": null
+    "disclosure_ref": null,
+    "citation_check": "verified (quote EXACT, figures YES) — both verifiers independently recomputed 2Φ(−k) for all three candidate floors and reproduced 1.045σ/29.6 %, 1.306σ/19.2 % and 1.567σ/11.7 %, matching ADR-011's own 1.04/30, 1.31/19, 1.57/12; both confirmed registered.py:53-55 carries the correct 500/1.31/19 triple with no \"400 USD loss\", and both accepted the READ label and the deliberate S3 rather than S2. No corrections."
   },
   {
     "id": "AUDIT-B-HFExperiment-14",
@@ -468,7 +485,8 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": "README.md is untouched at the anchor.",
     "disclosed_by_authors": true,
-    "disclosure_ref": "elsewhere — the closure is disclosed at REGISTRATION.md:306-315 and progress.md:5-21. The finding is that it is absent from the artifact most likely to be read first and quoted onward. Capped at S3 accordingly."
+    "disclosure_ref": "elsewhere — the closure is disclosed at REGISTRATION.md:306-315 and progress.md:5-21. The finding is that it is absent from the artifact most likely to be read first and quoted onward. Capped at S3 accordingly.",
+    "citation_check": "verified (quote EXACT, figures YES) — both verifiers confirmed README.md:7-16 verbatim, that the file is 27 lines, and that git log -- README.md returns 0a0d214 alone (2026-08-23T22:42:34Z), predating the BLOCKED verdict and the closure; both re-read the closure text at REGISTRATION.md:306-315 and independently reproduced the empty data/bars.db and data/ledger/ read-only. Verifier 2 records this finding's disclosure handling as the model case in the set. No corrections."
   },
   {
     "id": "AUDIT-B-HFExperiment-15",
@@ -501,7 +519,8 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": "82e77a0 is the tip and touched no code (--numstat: DECISIONS.md 60/0, docs/ACCESS.md 47/19, progress.md 48/0), which is itself the point: ADR-026 describes itself as \"A record-hygiene amendment ... touching two documents and no code\" (progress.md:228-229).",
     "disclosed_by_authors": false,
-    "disclosure_ref": null
+    "disclosure_ref": null,
+    "citation_check": "verified (quote EXACT, figures YES) — both verifiers grepped the snapshot and confirmed registered.py:119-120 is the sole surviving site of the phrase, both confirmed the two staleness legs at docs/ACCESS.md:187-189 and :196 with the 20 contract_details records at evidence.jsonl:3-22, and both re-ran the tip numstat (DECISIONS.md 60/0, docs/ACCESS.md 47/19, progress.md 48/0, no code). No corrections."
   },
   {
     "id": "AUDIT-B-HFExperiment-16",
@@ -516,14 +535,14 @@
     "claim_quote": "the effect, measured at 27.99 bp per day on the already-spent holdout, exceeds the 4.07 bp per day that round-trip costs consume at the measured 40 percent monthly churn, so a fee-paying participant keeps most of it.",
     "claim_file": "HFExperiment/REGISTRATION.md",
     "claim_line": 53,
-    "evidence_summary": "The reproduction gate never checked a book. \"The recorded formation books at widths 5 and 50 are not stored in the permitted database, so the disagreement gate ran against the recorded universe membership instead\" (HFExperiment/DECISIONS.md:106-108). The stored artifact confirms it: every row of reports/stage_a1/universe_check.json is a 500-row *universe* comparison at 10 dates, with no book, momentum or rank comparison anywhere; reports/stage_a1/reproduce_log.txt:4-20 shows universe ...: exact_match=True for 10 dates and formation ...: N ranked — formed, never compared. The ranking itself was re-implemented from prose: \"The recorded round's formation code is outside the two permitted read paths, so the 12-1 ranking is implemented from its registered description\" (DECISIONS.md:99-101), with five conventions \"fixed here\" (anchor placement, close selection, a 20-session gap rule, one listing segment — DECISIONS.md:102-105). The benchmark was likewise assumed, not verified: benchmark.py asserts its construction is \"the benchmark the recorded cross-sectional round of 2026-07-26 ran and the one that produced the recorded 27.99 bp per day at width 5\" (HFExperiment/src/hfexperiment/benchmark.py:6-8) and fixes it as a daily-rebalanced arithmetic mean over the 500 members (benchmark.py:8-13). Nothing in the repository verifies that the recorded round rebalanced daily rather than holding equal weights from formation; the choice is material to the level of daily excess return. The primary width was selected on the maximum of the same spent holdout — \"Width 5 is the PRIMARY width for the verdict. It carries the highest recorded information ratio, 1.062\" (REGISTRATION.md:92-93) — and the 27.99 that carries the power projection is that maximum, with no shrinkage for having been selected over the recorded widths. Widths 10 and 20 in the same table are a two-point power-law fit, i.e. two parameters through two points, zero residual degrees of freedom and no uncertainty: TE exponent −0.321 and excess exponent −0.445 (REGISTRATION.md:110-118). Recomputed from the two recorded rows: −0.3211 and −0.4453, exact. The kill floor's sigma and touch probabilities are then derived from the *interpolated* width-20 TE of 42.54 (DECISIONS.md:172-179). n: 124 formation dates for the universe; 10 dates × 500 rows compared; 0 recorded books compared; 2 recorded width points behind a 4-row width table.",
+    "evidence_summary": "The reproduction gate never checked a book. \"The recorded formation books at widths 5 and 50 are not stored in the permitted database, so the disagreement gate ran against the recorded universe membership instead\" (HFExperiment/DECISIONS.md:106-108). The stored artifact confirms it: every row of reports/stage_a1/universe_check.json is a 500-row *universe* comparison at 10 dates, with no book, momentum or rank comparison anywhere; reports/stage_a1/reproduce_log.txt:4-20 shows universe ...: exact_match=True for 10 dates and formation ...: N ranked — formed, never compared. The ranking itself was re-implemented from prose: \"The recorded round's formation code is outside the two permitted read paths, so the 12-1 ranking is implemented from its registered description\" (DECISIONS.md:99-101), with five conventions \"fixed here\" (anchor placement, close selection, a 20-session gap rule, one listing segment — \"Conventions fixed here\" at DECISIONS.md:101, the five running :101-105). The benchmark was likewise assumed, not verified: benchmark.py asserts its construction is \"the benchmark the recorded cross-sectional round of 2026-07-26 ran and the one that produced the recorded 27.99 bp per day at width 5\" (HFExperiment/src/hfexperiment/benchmark.py:6-8) and fixes it as a daily-rebalanced arithmetic mean over the 500 members (benchmark.py:8-13). Nothing in the repository verifies that the recorded round rebalanced daily rather than holding equal weights from formation; the choice is material to the level of daily excess return. The primary width was selected on the maximum of the same spent holdout — \"Width 5 is the PRIMARY width for the verdict. It carries the highest recorded information ratio, 1.062\" (REGISTRATION.md:92-93) — and the 27.99 that carries the power projection is that maximum, with no shrinkage for having been selected over the recorded widths. Widths 10 and 20 in the same table are a two-point power-law fit, i.e. two parameters through two points, zero residual degrees of freedom and no uncertainty: TE exponent −0.321 and excess exponent −0.445 (REGISTRATION.md:110-118). Recomputed from the two recorded rows: −0.3211 and −0.4453, exact. The kill floor's sigma and touch probabilities are then derived from the *interpolated* width-20 TE of 42.54 (DECISIONS.md:172-179). n: 124 formation dates for the universe; 10 dates × 500 rows compared; 0 recorded books compared; 2 recorded width points behind a 4-row width table.",
     "evidence_refs": [
       "HFExperiment/REGISTRATION.md:53",
       "HFExperiment/REGISTRATION.md:78",
       "HFExperiment/DECISIONS.md:106",
       "HFExperiment/reports/stage_a1/reproduce_log.txt:4",
       "HFExperiment/DECISIONS.md:99",
-      "HFExperiment/DECISIONS.md:102",
+      "HFExperiment/DECISIONS.md:101",
       "HFExperiment/src/hfexperiment/benchmark.py:6",
       "HFExperiment/src/hfexperiment/benchmark.py:8",
       "HFExperiment/REGISTRATION.md:92",
@@ -539,7 +558,8 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": null,
     "disclosed_by_authors": true,
-    "disclosure_ref": "in part and plainly — ADR-006 (DECISIONS.md:97-114) discloses both the unavailable formation code and the substitution of universe membership for books, and REGISTRATION.md:53 and :92-95 label the holdout \"already-spent\". Reported as READ and capped at S3 for that reason. What is *not* disclosed is that the benchmark convention is an assumption about the recorded round, and that the width-5 selection maximum is used un-shrunk as the power input."
+    "disclosure_ref": "in part and plainly — ADR-006 (DECISIONS.md:97-114) discloses both the unavailable formation code and the substitution of universe membership for books, and REGISTRATION.md:53 and :92-95 label the holdout \"already-spent\". Reported as READ and capped at S3 for that reason. What is *not* disclosed is that the benchmark convention is an assumption about the recorded round, and that the width-5 selection maximum is used un-shrunk as the power input.",
+    "citation_check": "verified (quote EXACT, figures YES) — one line fix from verifier 1, confirmed in SNAP: \"Conventions fixed here\" sits at DECISIONS.md:101 and the five conventions run :101-105, not :102-105. Both verifiers checked universe_check.json is ten 500-row universe comparisons with no book, momentum or rank comparison, both read reproduce_log.txt:4-20 the same way, and both reproduced the −0.32111 / −0.44527 exponents, IR 1.0623 / 0.7981 and the 1.4112 ratio. Both endorsed the READ label and the S3 cap for ADR-006's disclosure."
   },
   {
     "id": "AUDIT-B-HFExperiment-17",
@@ -568,7 +588,8 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": "both were introduced by the tip commit's edits or left standing by it.",
     "disclosed_by_authors": false,
-    "disclosure_ref": null
+    "disclosure_ref": null,
+    "citation_check": "verified (quote EXACT, figures YES) — both verifiers independently grepped ADR-0[0-9][0-9] across the snapshot and found exactly 23 identifiers, ADR-001 to ADR-022 plus ADR-026, with no ADR-023/024/025 defined or referenced and no gap note between the headings at DECISIONS.md:401 and :432; both confirmed the seven ##  entries in progress.md and the newest at :226 below the 2026-08-23 entry at :187. No corrections; both endorsed S4 and the HIGH-confidence caveat."
   },
   {
     "id": "AUDIT-B-HFExperiment-18",
@@ -583,7 +604,7 @@
     "claim_quote": "The cap-below-minimum branch is the load-bearing one: below the crossover notional the cap is less than the minimum and the cap is assessed. Removing that branch must fail tests/test_commission.py.",
     "claim_file": "HFExperiment/src/hfexperiment/commission.py",
     "claim_line": 67,
-    "evidence_summary": "commission() implements if cap < plan.min_per_order_usd: return cap; if calculated < plan.min_per_order_usd: return minimum; return calculated (HFExperiment/src/hfexperiment/commission.py:73-79). The final branch returns the per-share amount uncapped. IBKR's rule as quoted in the repository's own source is a cap on every order (\"the maximum per order as 1 pct of trade value for both plans\", HFExperiment/docs/ACCESS.md:60-64), i.e. min(max(calculated, minimum), cap). The omitted branch binds when calculated > cap ≥ min, i.e. when shares/value > cap_pct/per_share = 0.005/0.0035 = 1.4286 for Tiered, that is at share prices below 0.70 USD (Fixed: 0.01/0.005 = 2.0, below 0.50 USD). Immaterial for this repository because the universe rule floors the median close at 5 USD: MIN_MEDIAN_CLOSE = 5.0 # USD. Penny-stock floor, measured IN the window (HFExperiment/src/hfexperiment/universe.py:42), enforced at universe.py:182-183. The minimum last_close across all 7 recorded formations at any width is 4.68 (OPEN, 2026-04-01; reports/stage_a1/formations.json), still 6.7× the trigger. n: 15 published table rows across docs/ACCESS.md:127-141 and reports/stage_a2/cost_table.md:7-21, none of which touches the missing branch.",
+    "evidence_summary": "commission() implements if cap < plan.min_per_order_usd: return cap; if calculated < plan.min_per_order_usd: return minimum; return calculated (HFExperiment/src/hfexperiment/commission.py:73-79). The final branch returns the per-share amount uncapped. IBKR's rule as quoted in the repository's own source is a cap on every order (\"the maximum per order as 1 pct of trade value for both plans\", HFExperiment/docs/ACCESS.md:60-61, narrowed for Tiered to 0.5 pct at :63, which is the figure the code uses), i.e. min(max(calculated, minimum), cap). The omitted branch binds when calculated > cap ≥ min, i.e. when shares/value > cap_pct/per_share = 0.005/0.0035 = 1.4286 for Tiered, that is at share prices below 0.70 USD (Fixed: 0.01/0.005 = 2.0, below 0.50 USD). Immaterial for this repository because the universe rule floors the median close at 5 USD: MIN_MEDIAN_CLOSE = 5.0 # USD. Penny-stock floor, measured IN the window (HFExperiment/src/hfexperiment/universe.py:42), enforced at universe.py:182-183. The minimum last_close across all 7 recorded formations at any width is 4.68 (OPEN, 2026-04-01; reports/stage_a1/formations.json), still 6.7× the trigger. n: 15 rows in each of two published tables - docs/ACCESS.md:127-141 and reports/stage_a2/cost_table.md:7-21, the same 15 notional x regime combinations rendered twice, 30 published rows in all, none of which touches the missing branch.",
     "evidence_refs": [
       "HFExperiment/src/hfexperiment/commission.py:67",
       "HFExperiment/src/hfexperiment/commission.py:73",
@@ -600,6 +621,7 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": null,
     "disclosed_by_authors": false,
-    "disclosure_ref": null
+    "disclosure_ref": null,
+    "citation_check": "corrected — the n line now reads 15 rows in each of the two published tables, 30 in all, rather than 15 across both; and the cap citation was tightened to docs/ACCESS.md:60-61 with the 0.5 pct Tiered narrowing at :63 named, since that is the figure the code uses. The verifiers split on the n line: verifier 1 counted both tables and called it a figure to correct, verifier 2 read it as already correct. I counted the rows in SNAP (docs/ACCESS.md:127-141 = 15 rows; cost_table.md:7-21 = 15 rows) and followed verifier 1, because the line as written read as 15 in total. Both reproduced the 0.70 / 0.50 USD crossovers and the 4.68 USD minimum last_close, and both endorsed S4 and the finding's own immateriality statement."
   }
 ]

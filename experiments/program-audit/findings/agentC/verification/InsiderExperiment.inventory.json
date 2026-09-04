@@ -1,0 +1,1037 @@
+{
+  "repository": "InsiderExperiment",
+  "anchored_sha": "12d9fd36cf055cb10ea67a3fc737e404217bc95a",
+  "prepared_utc": "2026-09-04",
+  "live_untracked_read_window_utc": "2026-09-04T05:29:24Z..2026-09-04T05:33:28Z",
+  "artifacts": [
+    {
+      "path": "InsiderExperiment/src/insider/section0.py",
+      "holds": "fire_power_gate and fire_corpus_gate; the GO/DEGRADED/BLOCKED and CORPUS-GO/CORPUS-BLOCKED branches; boundaries inclusive at the lower edge",
+      "backs": "the BLOCKED verdict and the rationale string reproduced verbatim in power.json",
+      "tracked": true,
+      "kind": "code"
+    },
+    {
+      "path": "InsiderExperiment/src/insider/config.py",
+      "holds": "every registered parameter frozen in a dataclass: mde_go_ceiling_bp 20.0, mde_degraded_ceiling_bp 40.0, corpus_event_floor 1000, corpus_coverage_floor 0.80, t_critical 2.0, sessions_per_month 21, newey_west_lags 21, grid (5,21,63,126), decayed_gross_band_bp (30,40), round_trip 32/100, spread 15.8/50.0, primary_hold_sessions 126, primary_weighting value_weighted, routine_consecutive_years 3, assistant_prior 0.12",
+      "backs": "every bar and constant in REGISTRATION Sections 0, 3, 6, 7, 8, 10",
+      "tracked": true,
+      "kind": "code"
+    },
+    {
+      "path": "InsiderExperiment/src/insider/power/dispersion.py",
+      "holds": "sample_sd ddof 1, autocorrelation, Bartlett variance_inflation, summarize; annualized TE = sd*sqrt(21*12); effective_periods = n/vif",
+      "backs": "62.95 bp daily SD, VIF 0.899, N_eff 2869.9, TE 9.993 percent",
+      "tracked": true,
+      "kind": "code"
+    },
+    {
+      "path": "InsiderExperiment/src/insider/power/mde.py",
+      "holds": "standard_error_monthly = 21*sd/sqrt(N_eff); mde = t_critical*se*1e4; band_position",
+      "backs": "49.35 bp per month, 24.68 bp monthly SE",
+      "tracked": true,
+      "kind": "code"
+    },
+    {
+      "path": "InsiderExperiment/src/insider/power/report.py",
+      "holds": "runs the four series and the NW grid, fires the gate, writes power.json, records to the evidence ledger",
+      "backs": "REGISTRATION 15.5 table and the lag-sensitivity line",
+      "tracked": true,
+      "kind": "code"
+    },
+    {
+      "path": "InsiderExperiment/src/insider/cost.py",
+      "holds": "monthly_cost_drag and net_band_bp_per_month (gross_low - pessimistic, gross_high - optimistic)",
+      "backs": "5.33 and 16.67 bp/month drag; the 13.3 to 34.7 bp net band",
+      "tracked": true,
+      "kind": "code"
+    },
+    {
+      "path": "InsiderExperiment/src/insider/portfolio/returns.py",
+      "holds": "book construction, weights, inverse-Herfindahl effective names, top-1/top-5 shares, the split write to the sealed and dispersion stores; dispersion book_width = len(priced)",
+      "backs": "29.7 and 66.9 effective names, 14.9/33.8 and 1.9/8.5 percent, corr 0.904/0.953, the 13,750 not_priced drop",
+      "tracked": true,
+      "kind": "code"
+    },
+    {
+      "path": "InsiderExperiment/src/insider/portfolio/membership.py",
+      "holds": "mean_width() averages len(book) over non-empty sessions before the not-priced drop; coverage() = non-empty sessions / all sessions",
+      "backs": "71.9 mean book width; 99.5 percent session coverage",
+      "tracked": true,
+      "kind": "code"
+    },
+    {
+      "path": "InsiderExperiment/src/insider/portfolio/build.py",
+      "holds": "writes portfolio.json; book_width_mean here is series.mean_width(), the pre-drop width",
+      "backs": "the 71.9 figure wherever it appears",
+      "tracked": true,
+      "kind": "code"
+    },
+    {
+      "path": "InsiderExperiment/src/insider/corpus/build.py",
+      "holds": "the funnel, the eight call states, the sub-reasons, the by-year and lag tallies, the corpus gate call",
+      "backs": "4,585; the attrition and sub-reason tables; 773/209 clusters; the lag distribution",
+      "tracked": true,
+      "kind": "code"
+    },
+    {
+      "path": "InsiderExperiment/src/insider/corpus/classify.py",
+      "holds": "role, code and 10b5-1 filters and the routine/opportunistic ordering corrected by ADR-008",
+      "backs": "filtered_role, filtered_code, filtered_routine counts",
+      "tracked": true,
+      "kind": "code"
+    },
+    {
+      "path": "InsiderExperiment/src/insider/corpus/cluster.py",
+      "holds": "three-or-more distinct filers in a rolling five-day window, and the Johnsen modal date-price rejection at 0.80",
+      "backs": "773 clusters found, 209 rejected",
+      "tracked": true,
+      "kind": "code"
+    },
+    {
+      "path": "InsiderExperiment/src/insider/corpus/routine.py",
+      "holds": "the Cohen-Malloy-Pomorski same-calendar-month rule with three consecutive prior years, look-back codes P and S",
+      "backs": "routine 156 / insufficient_history 2,057",
+      "tracked": true,
+      "kind": "code"
+    },
+    {
+      "path": "InsiderExperiment/src/insider/corpus/store.py",
+      "holds": "the event store; surrogate key after ADR-013, and the offered-vs-stored divergence check",
+      "backs": "the 4,585 vs 4,542 correction",
+      "tracked": true,
+      "kind": "code"
+    },
+    {
+      "path": "InsiderExperiment/src/insider/corpus/validate.py",
+      "holds": "the three-route validation: index-vs-datasets ratio, 25-document XML field check, 25-issuer submissions check",
+      "backs": "validation.json",
+      "tracked": true,
+      "kind": "code"
+    },
+    {
+      "path": "InsiderExperiment/src/insider/market/universe.py",
+      "holds": "the ported U-LIQ-500-stk-w60-m40-p5 membership rule",
+      "backs": "the universe used at every formation date",
+      "tracked": true,
+      "kind": "code"
+    },
+    {
+      "path": "InsiderExperiment/src/insider/market/source.py",
+      "holds": "the immutable read-only SQLite URI onto AiTrader and the before/after hashing",
+      "backs": "the two SHA-256 boundary digests in port.json",
+      "tracked": true,
+      "kind": "code"
+    },
+    {
+      "path": "InsiderExperiment/src/insider/market/port_check.py",
+      "holds": "reproduces the source universe membership at chosen formation dates",
+      "backs": "ADR-004's 500 of 500 at three formation dates",
+      "tracked": true,
+      "kind": "code"
+    },
+    {
+      "path": "InsiderExperiment/src/insider/market/build.py + store.py",
+      "holds": "copies bars across the boundary into var/insider_market.db",
+      "backs": "port.json sessions 2615, formations 124, bars 2,713,496",
+      "tracked": true,
+      "kind": "code"
+    },
+    {
+      "path": "InsiderExperiment/src/insider/edgar/{throttle,client,bulk,fullindex,submissions,xml_form4}.py",
+      "holds": "the 8 req/s throttle, retry status set, DERA zips, full-index route, per-filing XML",
+      "backs": "214 wire requests, zero non-200",
+      "tracked": true,
+      "kind": "code"
+    },
+    {
+      "path": "InsiderExperiment/src/insider/ledger/{append_only,fetch,evidence}.py",
+      "holds": "fsynced append-only JSONL ledgers that report a truncated final line rather than repairing it",
+      "backs": "ledgers/fetch.jsonl and ledgers/evidence.jsonl",
+      "tracked": true,
+      "kind": "code"
+    },
+    {
+      "path": "InsiderExperiment/src/insider/{absence,callstate,paths,registration_check}.py, eval/evaluator.py",
+      "holds": "the absence type, the eight call states, the path table, the operator-prior gate, the sole permitted sealed-store reader",
+      "backs": "Sections 12 and 13; ADR-006",
+      "tracked": true,
+      "kind": "code"
+    },
+    {
+      "path": "InsiderExperiment/scripts/mutations.py",
+      "holds": "the five registered mutations, the bytecode purge, guard invocation and restore check",
+      "backs": "mutations.json; ADR-012",
+      "tracked": true,
+      "kind": "code"
+    },
+    {
+      "path": "InsiderExperiment/tests/ (11 files)",
+      "holds": "105 collected cases by AST count (96 functions; test_section0 parametrized x8, test_universe_port x3); test_guards.py holds 23",
+      "backs": "the '106 tests green' claim",
+      "tracked": true,
+      "kind": "code"
+    },
+    {
+      "path": "InsiderExperiment/reports/stage_a1/power.json",
+      "holds": "four series rows (N, VIF, N_eff, sd_bp, TE, SE, MDE, autocorrs, book widths), the four-point NW grid, dropped_primary, the bands, verdict BLOCKED, stage_b_authorized false",
+      "backs": "REGISTRATION 15.5, 17.1, 17.3; progress 'The numbers'; ADR-010",
+      "tracked": true,
+      "kind": "artifact",
+      "size_bytes": 3904
+    },
+    {
+      "path": "InsiderExperiment/reports/stage_a1/portfolio.json",
+      "holds": "per-series sessions_with_a_return, membership_coverage, book_width_mean, dropped, and the diagnostics block",
+      "backs": "71.9 / 29.7 / 66.9 / 14.9 / 33.8 / 1.9 / 8.5 / 0.904 / 0.953",
+      "tracked": true,
+      "kind": "artifact",
+      "size_bytes": 3170
+    },
+    {
+      "path": "InsiderExperiment/reports/stage_a1/corpus.json",
+      "holds": "qualifying_events 4585, events_per_year (sums to 4585), 30-key attrition map, prefunnel, routine_labels, unclassifiable_by_year, 88-bin lag distribution, flag_absent_events 3350, clusters 773/209, session_coverage 0.9954110898661568, mean_book_width 71.90895121014215, verdict CORPUS-GO",
+      "backs": "REGISTRATION 15.1 to 15.4 and 17.2",
+      "tracked": true,
+      "kind": "artifact",
+      "size_bytes": 3738
+    },
+    {
+      "path": "InsiderExperiment/reports/stage_a1/validation.json",
+      "holds": "53 quarter rows (index rows vs dataset documents, ratio 2.043 to 2.140), 25 XML field checks all agreeing, xml_tally, 25 submissions ticker checks with 21 present",
+      "backs": "ADR-002 and ADR-007",
+      "tracked": true,
+      "kind": "artifact",
+      "size_bytes": 15084
+    },
+    {
+      "path": "InsiderExperiment/reports/stage_a1/port.json",
+      "holds": "sessions 2615, formations 124, distinct_symbols 1218, bars_copied 2713496, both AiTrader SHA-256 values before and after, bars_size_bytes 7320629248, unchanged true",
+      "backs": "the read-only boundary claim; ADR-004",
+      "tracked": true,
+      "kind": "artifact",
+      "size_bytes": 525
+    },
+    {
+      "path": "InsiderExperiment/reports/stage_a1/mutations.json",
+      "holds": "five mutation records, each guard_failed_when_mutated true and guard_green_when_restored true; final_suite is a pytest progress line (33 dots, [100%]), not a pass count",
+      "backs": "ADR-012 and the progress 'two guards that did not fire' section",
+      "tracked": true,
+      "kind": "artifact",
+      "size_bytes": 2749
+    },
+    {
+      "path": "InsiderExperiment/reports/stage_a1/refusals.md",
+      "holds": "two serialized Johnsen cluster rejections (DRI 2020-04-23/27, sizes 12 and 11, modal fraction 1.0 against 0.80) and two insufficient_history refusals",
+      "backs": "REGISTRATION 15.4; standing guard 4",
+      "tracked": true,
+      "kind": "artifact",
+      "size_bytes": 5563
+    },
+    {
+      "path": "InsiderExperiment/REGISTRATION.md",
+      "holds": "896 lines: Sections 0 to 17 including the gates, the classification rule, the verdict table, the results and the closure",
+      "backs": "every bar, every result figure and the closure verdict",
+      "tracked": true,
+      "kind": "document"
+    },
+    {
+      "path": "InsiderExperiment/DECISIONS.md",
+      "holds": "416 lines: ADR-001 to ADR-013",
+      "backs": "the closure rationale, the reopening boundary, the three mutation defects, the silent-merge defect",
+      "tracked": true,
+      "kind": "document"
+    },
+    {
+      "path": "InsiderExperiment/progress.md",
+      "holds": "315 lines: Stage Z.1 closure, the Z.1 prompt logged verbatim, and the Stage A.1 entry with the ETA table",
+      "backs": "the closure language, the cost figures, the family record",
+      "tracked": true,
+      "kind": "document"
+    },
+    {
+      "path": "InsiderExperiment/CLAUDE.md",
+      "holds": "the load-bearing rule, standing guards, boundaries, layout",
+      "backs": "the seal design and the read-only boundary",
+      "tracked": true,
+      "kind": "document"
+    },
+    {
+      "path": "/home/kiros-li/Documents/GitHub/InsiderExperiment/var/insider_dispersion.db",
+      "holds": "centered_excess (date, centered, book_width) for the four series and the dropped table; the four series sum to ~1e-16",
+      "backs": "THE deciding number: 49.3543 recomputes exactly from it",
+      "tracked": false,
+      "kind": "data",
+      "size_bytes": 913408,
+      "mtime_local": "2026-08-25 19:05:40",
+      "read_at": "2026-09-04T05:29:24Z..2026-09-04T05:33:28Z"
+    },
+    {
+      "path": "/home/kiros-li/Documents/GitHub/InsiderExperiment/var/insider_sealed.db",
+      "holds": "raw daily portfolio excess returns; its mean is the realized alpha",
+      "backs": "the seal claim. NOT OPENED by this audit; existence and size only",
+      "tracked": false,
+      "kind": "data",
+      "size_bytes": 884736,
+      "mtime_local": "2026-08-25 19:05:40",
+      "read_at": "not opened"
+    },
+    {
+      "path": "/home/kiros-li/Documents/GitHub/InsiderExperiment/var/insider_corpus.db",
+      "holds": "event 4585 rows (surrogate key), attrition 30, lag 88, cluster 773, refusal 10, meta 5",
+      "backs": "4,585; the by-year counts; 209 of 773; 3,350 flag-absent",
+      "tracked": false,
+      "kind": "data",
+      "size_bytes": 643072,
+      "mtime_local": "2026-08-25 19:05:33",
+      "read_at": "2026-09-04T05:29:24Z..2026-09-04T05:33:28Z"
+    },
+    {
+      "path": "/home/kiros-li/Documents/GitHub/InsiderExperiment/var/insider_market.db",
+      "holds": "session 2615, membership 62000 (124 x 500), bar 2713496",
+      "backs": "port.json and ADR-004's 500 of 500",
+      "tracked": false,
+      "kind": "data",
+      "size_bytes": 234700800,
+      "mtime_local": "2026-08-25 18:36:05",
+      "read_at": "2026-09-04T05:29:24Z..2026-09-04T05:33:28Z"
+    },
+    {
+      "path": "/home/kiros-li/Documents/GitHub/InsiderExperiment/ledgers/fetch.jsonl",
+      "holds": "684 records: 214 served_from wire, 470 cache, every status 200; wire bytes sum to exactly 2,783,280,665",
+      "backs": "the 214 wire requests / 2.78 GB / zero non-200 claim",
+      "tracked": false,
+      "kind": "data",
+      "size_bytes": 144800,
+      "mtime_local": "2026-08-25 19:06:24",
+      "read_at": "2026-09-04T05:29:24Z..2026-09-04T05:33:28Z"
+    },
+    {
+      "path": "/home/kiros-li/Documents/GitHub/InsiderExperiment/ledgers/evidence.jsonl",
+      "holds": "14 records: 1 market_port, 4 corpus_gate, 3 portfolio_build, 3 power_gate, 2 corpus_validation, 01:36:26Z to 02:06:24Z; every power_gate records 49.3543 BLOCKED",
+      "backs": "the run timeline and the stability of the verdict across three runs",
+      "tracked": false,
+      "kind": "data",
+      "size_bytes": 28878,
+      "mtime_local": "2026-08-25 19:06:24",
+      "read_at": "2026-09-04T05:29:24Z..2026-09-04T05:33:28Z"
+    },
+    {
+      "path": "/home/kiros-li/Documents/GitHub/InsiderExperiment/cache/edgar/",
+      "holds": "214 cached SEC responses in 147 directories; du -sb reports exactly 2,783,280,665 bytes. Contents not opened",
+      "backs": "the 'cache equals the wire total byte for byte' claim",
+      "tracked": false,
+      "kind": "data",
+      "size_bytes": 2783280665,
+      "mtime_local": "2026-08-25 19:06:23",
+      "read_at": "2026-09-04T05:29:24Z..2026-09-04T05:33:28Z"
+    },
+    {
+      "path": "/home/kiros-li/Documents/GitHub/InsiderExperiment/docs/",
+      "holds": "empty directory",
+      "backs": "nothing",
+      "tracked": false,
+      "kind": "data",
+      "size_bytes": 0,
+      "mtime_local": "2026-08-25 18:24",
+      "read_at": "2026-09-04T05:29:24Z..2026-09-04T05:33:28Z"
+    },
+    {
+      "path": "/home/kiros-li/Documents/GitHub/InsiderExperiment/_CLOSED_DO_NOT_RUN_HERE",
+      "holds": "an operator marker excluded via .git/info/exclude:7, written 2026-09-02 after a session was opened in the closed repo by mistake. Not an experiment artifact",
+      "backs": "nothing in the experiment; reported for the record",
+      "tracked": false,
+      "kind": "other",
+      "size_bytes": 747,
+      "mtime_local": "2026-09-02 22:38",
+      "read_at": "2026-09-04T05:29:24Z..2026-09-04T05:33:28Z"
+    },
+    {
+      "path": "/home/kiros-li/Documents/GitHub/InsiderExperiment/.env",
+      "holds": "holds SEC_USER_AGENT per .env.example",
+      "backs": "nothing. NOT READ",
+      "tracked": false,
+      "kind": "secret",
+      "size_bytes": 64,
+      "mtime_local": "2026-08-25 18:35",
+      "read_at": "not opened"
+    },
+    {
+      "path": "/home/kiros-li/Documents/GitHub/AiTrader/analysis_bars.db",
+      "holds": "the external read-only source. Today 7,323,656,192 bytes, mtime 2026-09-03, against port.json's recorded 7,320,629,248",
+      "backs": "the boundary hash claim, which is no longer reproducible because the AiTrader collector has written since",
+      "tracked": false,
+      "kind": "external",
+      "size_bytes": 7323656192,
+      "mtime_local": "2026-09-03 15:32",
+      "read_at": "ls -la only"
+    },
+    {
+      "path": "/home/kiros-li/Documents/GitHub/AiTrader/backtest/universe.py",
+      "holds": "the ported universe rule source; 13,634 bytes, mtime 2026-07-26, unchanged since before the A.1 session",
+      "backs": "the second boundary hash claim",
+      "tracked": false,
+      "kind": "external",
+      "size_bytes": 13634,
+      "mtime_local": "2026-07-26 19:55",
+      "read_at": "ls -la only"
+    }
+  ],
+  "claims": [
+    {
+      "id": "IC-01",
+      "rank": 1,
+      "must_verify": true,
+      "claim": "The registered primary design cannot resolve the effect at achievable power. The minimum detectable effect is 49.35 bp per month against a registered BLOCKED floor of 40 and against a decayed literature band of 30 to 40 bp per month gross and 13 to 35 bp per month net at the six-month hold. Stage B is never written. The repo closes on the finding.",
+      "file": "InsiderExperiment/REGISTRATION.md",
+      "line": "812-816",
+      "figures": [
+        "49.35 bp per month (stored 49.3543)",
+        "BLOCKED floor 40 bp",
+        "gross band 30 to 40",
+        "net band 13 to 35"
+      ],
+      "n": "2,581 sessions; N_eff 2,869.9",
+      "produced_by": "src/insider/power/mde.py:38-67 and power/dispersion.py:151-192 over var/insider_dispersion.db; fired by section0.py:46-87; serialized to reports/stage_a1/power.json",
+      "notes": "Same language verbatim at progress.md:14-18, progress.md:174-179, DECISIONS.md:288-292, and REGISTRATION.md:708-719. Recomputed from the stored centered series at read time: 49.3543 to four decimals; the series sums to -1.4e-16."
+    },
+    {
+      "id": "IC-02",
+      "rank": 2,
+      "must_verify": true,
+      "claim": "CORPUS-GO. 4,585 qualifying events against a registered floor of 1,000, with 99.5 percent of in-span sessions carrying a non-empty book against a floor of 80 percent. Mean book width 71.9 names at the six-month hold.",
+      "file": "InsiderExperiment/REGISTRATION.md",
+      "line": "594-596",
+      "figures": [
+        "4,585",
+        "floor 1,000",
+        "99.5 percent",
+        "floor 80 percent",
+        "71.9 names"
+      ],
+      "n": "4,585 events over 2,615 sessions",
+      "produced_by": "corpus/build.py:448,465-466 -> reports/stage_a1/corpus.json; the by-year table printed at REGISTRATION.md:601-608",
+      "notes": "The by-year table immediately below the claim (262/406/524/457/717/297/502/505/410/363/99) sums to 4,542, not 4,585. corpus.json's events_per_year (263/409/531/462/728/298/504/508/418/365/99) sums to 4,585 and matches the live event table. git diff ccc9b13 cb17046 -- reports/stage_a1/corpus.json shows the printed values are the superseded pre-surrogate-key numbers; the gap is exactly the 43 rows ADR-013 describes. DECISIONS.md:148-149 and REGISTRATION.md:702-704 carry the same superseded values."
+    },
+    {
+      "id": "IC-03",
+      "rank": 3,
+      "must_verify": true,
+      "claim": "Annualized tracking error came in at 9.993 percent across 2,869.9 effective independent periods from 2,581 sessions, and that tracking error is the whole of the 49.35.",
+      "file": "InsiderExperiment/REGISTRATION.md",
+      "line": "844-846",
+      "figures": [
+        "9.9933 percent",
+        "2,869.9",
+        "2,581",
+        "VIF 0.8993",
+        "sd 62.9519 bp"
+      ],
+      "n": "2,581",
+      "produced_by": "power/dispersion.py:151-192; power.json series[0]",
+      "notes": "Same at progress.md:35-38 and DECISIONS.md:294-298."
+    },
+    {
+      "id": "IC-04",
+      "rank": 4,
+      "must_verify": true,
+      "claim": "The value-weighted book holds a mean of 71.9 names and behaves like 29.7 effective names, because the heaviest name carries 14.9 percent of the book and the heaviest five carry 33.8 percent.",
+      "file": "InsiderExperiment/REGISTRATION.md",
+      "line": "839-842",
+      "figures": [
+        "71.909",
+        "29.731",
+        "0.149323",
+        "0.337911"
+      ],
+      "n": "2,581 sessions",
+      "produced_by": "portfolio/build.py:59 (series.mean_width()) and portfolio/returns.py:118-124,217,231 -> reports/stage_a1/portfolio.json",
+      "notes": "The two figures are computed on different books. mean_width() (membership.py:46-54) counts every name in the book on non-empty sessions, before the 13,750 not_priced name-sessions are dropped; effective names and the weight shares are computed on the surviving priced book. The dispersion store's own book_width column (returns.py:210, len(priced)) gives book_width_mean 66.93 for the same series, in power.json series[0] and reproduced from var/insider_dispersion.db."
+    },
+    {
+      "id": "IC-05",
+      "rank": 5,
+      "must_verify": true,
+      "claim": "53 quarterly SEC structured Form 345 data sets covering 2013q1 to 2026q1, retrieved in 214 wire requests totalling 2.78 GB with zero non-200 responses under an 8 per second throttle against the SEC's stated 10 per second ceiling. Zero dollars were spent. No paid API was used.",
+      "file": "InsiderExperiment/REGISTRATION.md",
+      "line": "827-833",
+      "figures": [
+        "214",
+        "2,783,280,665 bytes",
+        "0 non-200",
+        "53 quarters"
+      ],
+      "n": "684 ledger records",
+      "produced_by": "ledger/fetch.py and edgar/client.py -> ledgers/fetch.jsonl (untracked)",
+      "notes": "Verified at read time: 214 wire and 470 cache records, all 684 status 200, wire bytes summing to exactly 2,783,280,665, and du -sb cache/ returning exactly 2,783,280,665 across exactly 214 files. Wire breakdown 53 DERA zips, 53 full-index, 82 per-filing, 25 submissions, 1 other."
+    },
+    {
+      "id": "IC-06",
+      "rank": 6,
+      "must_verify": true,
+      "claim": "Cost, measured rather than asserted. The commit record puts Stage A.1 at about 51 minutes of session wall clock, 18:20 to 19:11, and Stage Z.1 at about 20 minutes. The Z.1 brief records five hours. The commit record cannot confirm that figure.",
+      "file": "InsiderExperiment/progress.md",
+      "line": "115-119",
+      "figures": [
+        "51 minutes",
+        "20 minutes",
+        "five hours"
+      ],
+      "n": "7 commits",
+      "produced_by": "the git commit record: 18:34:56, 18:38:50, 18:47:16, 19:11:45, 19:11:45, 19:11:55, 23:24:15 local",
+      "notes": "The ETA table at progress.md:196-205 lists actuals of 5, 10, 4, 4, 14, 20, 32 and 22 minutes, summing to 111 minutes against the stated 51. Its header (progress.md:192-193) says boundaries are taken from commit timestamps where one exists, but tasks 5, 6 and 7 share two commit timestamps ten seconds apart. The gap from the last A.1 commit to the Z.1 commit is 4 h 12 min, not 20 minutes."
+    },
+    {
+      "id": "IC-07",
+      "rank": 7,
+      "must_verify": true,
+      "claim": "On the identical names, the equal-weighted book holds 71.9 and behaves like 66.9, with tracking error of 6.86 percent and an MDE of 34.29 bp per month, which would have fired DEGRADED.",
+      "file": "InsiderExperiment/REGISTRATION.md",
+      "line": "852-854",
+      "figures": [
+        "34.2897",
+        "6.8556 percent",
+        "66.925",
+        "N_eff 2,798.1"
+      ],
+      "n": "2,581",
+      "produced_by": "power.json series[3]; portfolio.json[3]",
+      "notes": "34.29 sits inside (20, 40], so the DEGRADED statement is checkable against section0.py:62. Restated at progress.md:42-46, DECISIONS.md:318-321, REGISTRATION.md:764-767."
+    },
+    {
+      "id": "IC-08",
+      "rank": 8,
+      "must_verify": false,
+      "claim": "Against the decayed gross band of 30 to 40 bp per month, the net band at the six-month hold is 13.3 to 34.7 bp per month. insider.cost computes this rather than asserting it.",
+      "file": "InsiderExperiment/REGISTRATION.md",
+      "line": "420-422",
+      "figures": [
+        "13.3333",
+        "34.6667",
+        "drag 5.3333 and 16.6667"
+      ],
+      "n": "n/a",
+      "produced_by": "cost.py:48-57; power.json net_band_bp_per_month",
+      "notes": "The band's low end pairs the pessimistic 100 bp round trip with the weak gross and its high end pairs the optimistic 32 bp with the strong gross; cost.py:50-54 discloses exactly this. Section 8 (REGISTRATION.md:409-411) names the pessimistic bar as primary, under which the net band would be 13.3 to 23.3."
+    },
+    {
+      "id": "IC-09",
+      "rank": 9,
+      "must_verify": false,
+      "claim": "Intake, non-derivative transactions on original Form 4 filings in span | 2,876,095 | 100.00% ... parsed, qualifying | 4,585 | 0.16%",
+      "file": "InsiderExperiment/REGISTRATION.md",
+      "line": "620-628",
+      "figures": [
+        "2,876,095",
+        "8,613",
+        "2,578,217",
+        "131,222",
+        "148,883",
+        "2,362",
+        "2,213",
+        "0",
+        "4,585"
+      ],
+      "n": "2,876,095",
+      "produced_by": "corpus/build.py -> corpus.json attrition; sub-reasons at REGISTRATION.md:632-644",
+      "notes": "The eight funnel rows sum to exactly 2,876,095 and every sub-reason group sums to its parent; the percentage column reproduces to two decimals."
+    },
+    {
+      "id": "IC-10",
+      "rank": 10,
+      "must_verify": false,
+      "claim": "Only 5.8 percent of qualifying-shaped insider purchases happen at a liquid-500 name. The narrowing removes sixteen of every seventeen candidates, and it removes exactly the band the literature says carries the signal.",
+      "file": "InsiderExperiment/REGISTRATION.md",
+      "line": "656-660",
+      "figures": [
+        "148,883",
+        "9,160",
+        "5.8 percent",
+        "94.2 percent"
+      ],
+      "n": "158,043",
+      "produced_by": "corpus.json attrition; 9,160 = 4,585 + 2,362 + 2,213",
+      "notes": "Restated at REGISTRATION.md:778-779, REGISTRATION.md:893-894 and DECISIONS.md:120-125."
+    },
+    {
+      "id": "IC-11",
+      "rank": 11,
+      "must_verify": false,
+      "claim": "The 10b5-1 box is absent for 3,350 of the 4,585 qualifying events, 73.1 percent, because the checkbox became a Form 4 cover-page field only in 2023.",
+      "file": "InsiderExperiment/REGISTRATION.md",
+      "line": "662-663",
+      "figures": [
+        "3,350",
+        "4,585",
+        "73.1 percent"
+      ],
+      "n": "4,585",
+      "produced_by": "corpus.json flag_absent_events; the live event table splits flag_reported 3,350 / 1,235",
+      "notes": ""
+    },
+    {
+      "id": "IC-12",
+      "rank": 12,
+      "must_verify": false,
+      "claim": "73.0 percent file within two calendar days and 95.9 percent within four, which is the two-business-day rule showing through the weekend. A tail of 91 events files more than ten days late, and one at 1,988 days.",
+      "file": "InsiderExperiment/REGISTRATION.md",
+      "line": "683-685",
+      "figures": [
+        "p25 1",
+        "p50 1",
+        "p75 3",
+        "p90 4",
+        "p95 4",
+        "p99 230",
+        "max 1,988",
+        "mean 9.52",
+        "73.0 percent",
+        "95.9 percent",
+        "91 events"
+      ],
+      "n": "4,585",
+      "produced_by": "corpus.json lag_distribution (88 bins summing to 4,585); the corpus store's lag table",
+      "notes": "Companion claim in ADR-003 at DECISIONS.md:97-99: 51.3 percent file within one calendar day."
+    },
+    {
+      "id": "IC-13",
+      "rank": 13,
+      "must_verify": false,
+      "claim": "The floor is set at 1,000 qualifying events, which is a book of about 50 names.",
+      "file": "InsiderExperiment/REGISTRATION.md",
+      "line": "125",
+      "figures": [
+        "19.52 bp / 3.10 percent",
+        "39.04 bp / 6.20 percent",
+        "23.4 and 93.7 names",
+        "468 / 1,000 / 1,875 events",
+        "4.24 percent",
+        "about 27 bp",
+        "11.8 percent"
+      ],
+      "n": "planning N 2,520, VIF 1.5, N_eff 1,680",
+      "produced_by": "hand arithmetic in REGISTRATION.md:82-146; the same inversion identity is implemented in power/mde.py:38-50",
+      "notes": ""
+    },
+    {
+      "id": "IC-14",
+      "rank": 14,
+      "must_verify": false,
+      "claim": "The Johnsen filter rejected 209 of 773 clusters. ... 2,057 transactions carry that state. The front truncation it causes is visible in the by-year counts: 449 unclassifiable in 2016, 257 in 2017, 257 in 2018, falling to 84 by 2023 as the look-back window fills.",
+      "file": "InsiderExperiment/REGISTRATION.md",
+      "line": "693,699-704",
+      "figures": [
+        "209",
+        "773",
+        "2,057",
+        "449",
+        "257",
+        "257",
+        "84"
+      ],
+      "n": "4,585 events; 773 clusters",
+      "produced_by": "corpus.json (clusters_found, clusters_rejected, unclassifiable_by_year); reports/stage_a1/refusals.md; the live cluster table (773 rows, 209 rejected)",
+      "notes": "corpus.json unclassifiable_by_year sums to 2,057 and gives 2018 = 256, not 257; 2022 is 296, so the series does not fall monotonically to 84."
+    },
+    {
+      "id": "IC-15",
+      "rank": 15,
+      "must_verify": false,
+      "claim": "This removed 13,750 name-sessions from the primary series, about 7.4 percent of held name-sessions.",
+      "file": "InsiderExperiment/DECISIONS.md",
+      "line": "264-265",
+      "figures": [
+        "13,750",
+        "7.4 percent"
+      ],
+      "n": "2,581 sessions",
+      "produced_by": "returns.py:190 not_priced; the dispersion store's dropped table; power.json dropped_primary; portfolio.json[0].dropped",
+      "notes": "13,750 / (71.909 x 2,581) = 7.41 percent, so the denominator is the pre-drop held name-sessions."
+    },
+    {
+      "id": "IC-16",
+      "rank": 16,
+      "must_verify": false,
+      "claim": "The power module. Structurally incapable of emitting a mean, enforced by four guards and exercised by two of the five mutations.",
+      "file": "InsiderExperiment/progress.md",
+      "line": "228-229",
+      "figures": [
+        "5 mutations",
+        "4 guards"
+      ],
+      "n": "5 mutations",
+      "produced_by": "scripts/mutations.py -> reports/stage_a1/mutations.json (five records, all guard_failed_when_mutated true and guard_green_when_restored true)",
+      "notes": "mutations.json's final_suite field records a pytest progress line (33 dots plus [100%]), not a pass count, because summary_line() (scripts/mutations.py:118-122) fell through to its last-line fallback. The artifact therefore does not itself evidence that the full suite passed; the harness's exit-code check at scripts/mutations.py:178-179 does."
+    },
+    {
+      "id": "IC-17",
+      "rank": 17,
+      "must_verify": false,
+      "claim": "Scaffold. uv, ruff, mypy strict, pytest, pre-commit, Makefile. 56 source files. make all runs clean: ruff, ruff format, mypy strict on 56 files, 106 tests.",
+      "file": "InsiderExperiment/progress.md",
+      "line": "216-218",
+      "figures": [
+        "56 source files",
+        "56 files",
+        "106 tests"
+      ],
+      "n": "n/a",
+      "produced_by": "pyproject.toml:56 mypy files = src/insider, tests, scripts; the tests tree",
+      "notes": "The mypy file set is 43 + 11 + 3 = 57 .py files. An AST count of the tests tree gives 105 collected cases (96 functions; test_section0 parametrized x8, test_universe_port x3), and mutations.json's final progress line carries 33 dots on an 80-column second row, i.e. 72 + 33 = 105. Commit 672b343's subject also says '106 tests green'."
+    },
+    {
+      "id": "IC-18",
+      "rank": 18,
+      "must_verify": false,
+      "claim": "A correction to the brief: it describes this as 2.78 GB on a 14 GB machine. The 2.78 GB is right. The host is not: /home sits on a 466 GB filesystem with 328 GB available, 26 percent used.",
+      "file": "InsiderExperiment/progress.md",
+      "line": "146-149",
+      "figures": [
+        "2,783,280,665 bytes",
+        "466 GB",
+        "328 GB",
+        "26 percent"
+      ],
+      "n": "n/a",
+      "produced_by": "df on the host at closure",
+      "notes": "df -h /home at read time returns 466G size, 324G available, 27 percent used. Consistent within a week of drift."
+    },
+    {
+      "id": "IC-19",
+      "rank": 19,
+      "must_verify": false,
+      "claim": "Both AiTrader hashes re-verified unchanged at closure: analysis_bars.db d599ccf0b8d70a5b2b8c7fca2461f0d6e0e09f0e8c990405f7c25e3fa767e924 ... backtest/universe.py 8188eea0aef8a4d737e220095b9081071e26e4b4d30cceafb5082d7bfe525529",
+      "file": "InsiderExperiment/progress.md",
+      "line": "135-138",
+      "figures": [
+        "two SHA-256 digests",
+        "bars_size_bytes 7,320,629,248"
+      ],
+      "n": "2 files",
+      "produced_by": "market/source.py hashing; reports/stage_a1/port.json before and after with unchanged true",
+      "notes": "The AiTrader bars file is now 7,323,656,192 bytes with mtime 2026-09-03, so the digest is no longer reproducible; universe.py has mtime 2026-07-26 and is unchanged. A failure to re-verify today would not be evidence against this repository."
+    },
+    {
+      "id": "IC-20",
+      "rank": 20,
+      "must_verify": false,
+      "claim": "Eight price-based and signal-based hypothesis families have now been tested across AiTrader, HFExperiment, NPDExperiment and InsiderExperiment. Zero have produced a positive result that survived its own registered bar.",
+      "file": "InsiderExperiment/progress.md",
+      "line": "103-106",
+      "figures": [
+        "eight families",
+        "zero positives"
+      ],
+      "n": "4 repositories",
+      "produced_by": "no artifact in this repository",
+      "notes": "Cross-repository. Not verifiable inside InsiderExperiment. The same section carries NPD's 0.0512 / 415 days / 6.9378 USD (REGISTRATION.md:21-25, CLAUDE.md:4-8, DECISIONS.md:12-16, progress.md:111-112), NPD's 427 evaluable days cut to 125.6 (REGISTRATION.md:345-347, 727-729, DECISIONS.md:152-155), H-F z 1.668 against a 2.50 bar (progress.md:107-108), H-F 42 to 66 percent tracking error (REGISTRATION.md:389-391, 760-761, 861-862), and P26's 19,648 trades at minus 1.97 bp (REGISTRATION.md:424-425, cost.py:3-5)."
+    },
+    {
+      "id": "IC-21",
+      "rank": 21,
+      "must_verify": false,
+      "claim": "Cohen, Malloy and Pomorski report 82 bp per month value-weighted on opportunistic purchases over 1989 to 2007. That replicates at roughly 30 to 40 bp per month on 2008 to 2024 data, a 60 to 70 percent decay.",
+      "file": "InsiderExperiment/REGISTRATION.md",
+      "line": "49-51",
+      "figures": [
+        "82 bp",
+        "30 to 40 bp",
+        "60 to 70 percent decay",
+        "70 to 80 percent dissipation",
+        "sigma 30 percent"
+      ],
+      "n": "n/a",
+      "produced_by": "external literature; no artifact in this repository",
+      "notes": "The 30-to-40 decayed band is the number the 40 bp BLOCKED bar was placed against (REGISTRATION.md:57-59), so it is load-bearing but not derivable here. Ozlen and Batumoglu, SSRN 5966834, at REGISTRATION.md:51-55 and 183-186. The 30 percent idiosyncratic volatility assumption is at REGISTRATION.md:107-108."
+    },
+    {
+      "id": "IC-22",
+      "rank": 22,
+      "must_verify": false,
+      "claim": "The ratio of index rows to data set documents is 2.04 to 2.14 and stable across all 53 quarters, so no quarter is short. ... Per-filing XML. Field-by-field validation on a 25-document sample spread across the whole corpus by entry session. 25 agree, 0 disagree.",
+      "file": "InsiderExperiment/DECISIONS.md",
+      "line": "60-65",
+      "figures": [
+        "2.043 to 2.140",
+        "53 quarters",
+        "25 agree, 0 disagree",
+        "21 of 25 tickers"
+      ],
+      "n": "53 quarters; 25 documents; 25 issuers",
+      "produced_by": "corpus/validate.py -> reports/stage_a1/validation.json",
+      "notes": "validation.json gives min ratio 2.043, max 2.140 across 53 quarters, 5,077,629 index rows against 2,440,873 dataset documents, 25 of 25 XML checks agreeing, 21 of 25 tickers present (the last quoted at DECISIONS.md:209-210)."
+    },
+    {
+      "id": "IC-23",
+      "rank": 23,
+      "must_verify": false,
+      "claim": "The universe issuers file on the order of two million Form 4 documents across the 2013 to 2026 span, and at the registered 8 requests per second that is above 69 hours of wall clock.",
+      "file": "InsiderExperiment/REGISTRATION.md",
+      "line": "558-560",
+      "figures": [
+        "two million documents",
+        "8 req/s",
+        "69 hours",
+        "53 files, about 750 MB"
+      ],
+      "n": "53 quarters",
+      "produced_by": "ADR-002 at DECISIONS.md:48-58; validation.json dataset_form4_documents",
+      "notes": "validation.json gives 2,440,873 Form 4 documents across ALL issuers, not universe issuers. DECISIONS.md:58 puts the 53 data sets at about 750 MB against the 2.78 GB total cache reported elsewhere; the cache also holds 53 full-index files, 82 per-filing XML documents and 25 submissions responses."
+    },
+    {
+      "id": "IC-24",
+      "rank": 24,
+      "must_verify": false,
+      "claim": "ported by copy from AiTrader/backtest/universe.py and verified against the source's own stored membership at three formation dates spanning the corpus, 500 of 500 members reproduced exactly at each.",
+      "file": "InsiderExperiment/DECISIONS.md",
+      "line": "109-112",
+      "figures": [
+        "500 of 500",
+        "three formation dates",
+        "124 formations"
+      ],
+      "n": "3 formation dates",
+      "produced_by": "src/insider/market/port_check.py; tests/test_universe_port.py:87 parametrized over 2016-04-01, 2021-04-01, 2026-07-01",
+      "notes": "The live var/insider_market.db holds 62,000 membership rows = 124 formations x 500."
+    }
+  ],
+  "intervals": [],
+  "tests": [
+    {
+      "quantity": "Critical value",
+      "value": "t = 2.0, two-sided",
+      "file": "InsiderExperiment/REGISTRATION.md",
+      "line": "478-480",
+      "stated_estimator_or_test": "Registered, not estimated. Applied identically to the A.1 power computation and to the (never run) Stage B inference. Also src/insider/config.py:147.",
+      "n": "n/a",
+      "data_structure": "scalar constant"
+    },
+    {
+      "quantity": "Monthly standard error, primary series",
+      "value": "24.68 bp (stored 24.6771)",
+      "file": "InsiderExperiment/REGISTRATION.md",
+      "line": "717-719",
+      "stated_estimator_or_test": "21 * sd_daily / sqrt(N_eff), src/insider/power/mde.py:38-50",
+      "n": "N_eff 2,869.9 from 2,581 sessions",
+      "data_structure": "centered daily excess-return series in var/insider_dispersion.db"
+    },
+    {
+      "quantity": "Daily excess-return standard deviation",
+      "value": "62.95 bp (stored 62.9519)",
+      "file": "InsiderExperiment/REGISTRATION.md",
+      "line": "717",
+      "stated_estimator_or_test": "Sample SD with ddof 1 on an already-centered series, src/insider/power/dispersion.py:151-160",
+      "n": "2,581",
+      "data_structure": "same"
+    },
+    {
+      "quantity": "Annualized tracking error",
+      "value": "9.993 percent primary; 6.856 EW; 15.703 at 21 sessions; 11.827 at 63",
+      "file": "InsiderExperiment/REGISTRATION.md",
+      "line": "712-715",
+      "stated_estimator_or_test": "sd * sqrt(21*12), src/insider/power/dispersion.py:179",
+      "n": "2,581 / 2,581 / 2,513 / 2,563",
+      "data_structure": "same"
+    },
+    {
+      "quantity": "Newey-West variance inflation",
+      "value": "0.8993 primary; 0.9667, 0.8606, 0.9224",
+      "file": "InsiderExperiment/REGISTRATION.md",
+      "line": "712-715",
+      "stated_estimator_or_test": "Bartlett kernel 1 + 2*sum_k (1 - k/(L+1)) * rho_k at the registered lag 21, src/insider/power/dispersion.py:104-120",
+      "n": "as above",
+      "data_structure": "same"
+    },
+    {
+      "quantity": "Newey-West lag sensitivity on the primary series",
+      "value": "MDE 50.19 / 49.35 / 49.11 / 49.53 at lags 5 / 21 / 63 / 126",
+      "file": "InsiderExperiment/REGISTRATION.md",
+      "line": "721-723",
+      "stated_estimator_or_test": "Same estimator over the registered grid (5,21,63,126), src/insider/power/report.py:88-104",
+      "n": "2,581",
+      "data_structure": "same"
+    },
+    {
+      "quantity": "Autocorrelations, primary series",
+      "value": "lag 1 0.00645, lag 5 -0.03824, lag 21 0.01029",
+      "file": "InsiderExperiment/reports/stage_a1/power.json",
+      "line": "series[0]",
+      "stated_estimator_or_test": "rho_k on the centered series, src/insider/power/dispersion.py:92-101; summarized in prose at REGISTRATION.md:725-727",
+      "n": "2,581",
+      "data_structure": "same"
+    },
+    {
+      "quantity": "Portfolio-benchmark correlation",
+      "value": "0.904 value-weighted, 0.953 equal-weighted",
+      "file": "InsiderExperiment/REGISTRATION.md",
+      "line": "749-750",
+      "stated_estimator_or_test": "np.corrcoef on the two daily return series, src/insider/portfolio/returns.py:224-226",
+      "n": "2,581",
+      "data_structure": "portfolio.json diagnostics"
+    },
+    {
+      "quantity": "Effective names (inverse Herfindahl)",
+      "value": "29.7 value-weighted, 66.9 equal-weighted",
+      "file": "InsiderExperiment/REGISTRATION.md",
+      "line": "749-752",
+      "stated_estimator_or_test": "1 / sum(p_i^2) on the daily weight vector, averaged over sessions, src/insider/portfolio/returns.py:118-124",
+      "n": "2,581",
+      "data_structure": "portfolio.json diagnostics"
+    },
+    {
+      "quantity": "Planned Stage B inference, never run",
+      "value": "day-clustered standard errors, Newey-West Bartlett at lag 21, grid 5/21/63/126, a single pre-registered contrast, no family correction",
+      "file": "InsiderExperiment/REGISTRATION.md",
+      "line": "452-480",
+      "stated_estimator_or_test": "Registered before measurement; Stage B was never written",
+      "n": "planned N 2,520",
+      "data_structure": "none"
+    },
+    {
+      "quantity": "Cross-repository test statistic (READ only)",
+      "value": "H-F at z 1.668 against a 2.50 bar",
+      "file": "InsiderExperiment/progress.md",
+      "line": "107-108",
+      "stated_estimator_or_test": "Not produced in this repository; belongs to HFExperiment",
+      "n": "not stated",
+      "data_structure": "not present here"
+    }
+  ],
+  "provenance_claims": [
+    {
+      "id": "IP-01",
+      "claim": "Registered 2026-08-25, Stage A.1. Every parameter in this document is fixed before any measurement runs. Section 0 is committed before Task 4 computes anything, so the answer cannot be read against a threshold its own measurement could see. Changing a registered value after that commit requires a numbered amendment in Section 17 carrying its own evidence.",
+      "file": "InsiderExperiment/REGISTRATION.md",
+      "line": "5-9",
+      "commit_named": "none named explicitly; progress.md:223-224 names the time 18:34",
+      "what_would_have_to_be_true": "REGISTRATION.md lines 1-157 unchanged from fbfc74e to HEAD, and fbfc74e earlier than every measurement artifact",
+      "notes": "git diff fbfc74e HEAD -- REGISTRATION.md is a single purely additive hunk @@ -157,3 +157,740 @@. Section 0 and everything before it is byte-identical at the anchor."
+    },
+    {
+      "id": "IP-02",
+      "claim": "REGISTRATION.md. Section 0 committed at 18:34, before Task 4 computed anything. Sections 1 to 16 committed at 18:38. Every parameter frozen first.",
+      "file": "InsiderExperiment/progress.md",
+      "line": "223-224",
+      "commit_named": "fbfc74e 2026-08-25T18:34:56-07:00 and 398755b 18:38:50",
+      "what_would_have_to_be_true": "no measurement preceded 18:34:56, and no registered parameter changed after it",
+      "notes": "src/insider/config.py at fbfc74e is byte-identical to HEAD once two lines are removed (md5 of the non-benchmark_id lines matches HEAD exactly). The first SEC wire request is timestamped 18:35:18 local, 22 seconds after fbfc74e. reports/stage_a1/port.json was committed in 398755b but the market port that produced it is recorded in the evidence ledger at 18:36:26, i.e. between the two commits: the market data was copied before Sections 1 to 16 were committed, though every enforced parameter it used was already frozen at 18:34:56."
+    },
+    {
+      "id": "IP-03",
+      "claim": "Section 15. Results. Filled by Task 4 and Task 5. Empty at the time Section 0 was committed at 18:34 on 2026-08-25.",
+      "file": "InsiderExperiment/REGISTRATION.md",
+      "line": "589-590",
+      "commit_named": "fbfc74e (by time)",
+      "what_would_have_to_be_true": "Section 15 absent from fbfc74e",
+      "notes": "Confirmed by the additive diff in IP-01; Section 15 first appears in d8b81f1 at 19:11:55."
+    },
+    {
+      "id": "IP-04",
+      "claim": "Section 7 chose value-weighted to get a wide book rather than a concentrated one ... the registration named value-weighted as primary before any number was visible.",
+      "file": "InsiderExperiment/progress.md",
+      "line": "47-48 (and REGISTRATION.md:761-762, 856-858)",
+      "commit_named": "fbfc74e / 398755b (by time)",
+      "what_would_have_to_be_true": "primary_weighting='value_weighted' present at fbfc74e and no tracking-error or MDE figure computed before it",
+      "notes": "config.py at fbfc74e already carries primary_weighting='value_weighted' and secondary_weighting='equal_weighted'; the first power_gate evidence record is 18:51:14 local."
+    },
+    {
+      "id": "IP-05",
+      "claim": "It was registered as the secondary weighting in Section 7 and labelled non-verdict-bearing in Section 10, both before any number was visible. It is not promoted.",
+      "file": "InsiderExperiment/REGISTRATION.md",
+      "line": "856-858",
+      "commit_named": "398755b (by time, 18:38:50)",
+      "what_would_have_to_be_true": "Sections 7 and 10 committed at 398755b and unchanged since; the equal-weighted MDE first computed after that",
+      "notes": "Sections 1 to 16 arrive in 398755b. git show --stat d8b81f1 reports 211 insertions and 2 deletions in REGISTRATION.md; the two deletions need locating before this is fully settled."
+    },
+    {
+      "id": "IP-06",
+      "claim": "Section 16. Amendments. None in force. Section 0 fired BLOCKED, so no amendment can authorize Stage B.",
+      "file": "InsiderExperiment/REGISTRATION.md",
+      "line": "798-800",
+      "commit_named": "none",
+      "what_would_have_to_be_true": "no registered value changed after fbfc74e, given REGISTRATION.md:8-9 requires a numbered amendment for any such change",
+      "notes": "One registered field did change. git diff fbfc74e 672b343 -- src/insider/config.py removes two lines, the declaration 'benchmark_id: str' and the value 'benchmark_id=\"U-LIQ-500-VW\"', at 19:11:45, i.e. after the corpus was built (18:47), after the power gate fired (18:51), and with no numbered amendment. Section 5's benchmark (REGISTRATION.md:351-357) is prose only after that commit. The likely cause is the config-enforcement guard, which fails on any field with no enforcement site (config.py:3-6)."
+    },
+    {
+      "id": "IP-07",
+      "claim": "insider.power is structurally incapable of emitting a mean. It reads var/insider_dispersion.db, which holds daily portfolio excess returns already centered on their own mean, and the mean itself is never written there. The raw series lives in var/insider_sealed.db and insider.eval.evaluator is its only permitted reader. tests/test_guards.py fails when any other module names it.",
+      "file": "InsiderExperiment/CLAUDE.md",
+      "line": "20-24 (and REGISTRATION.md:155-159, 490-493; DECISIONS.md:165-193)",
+      "commit_named": "none",
+      "what_would_have_to_be_true": "the stored dispersion series sums to zero; no module outside the permitted set names SEALED_DB; DispersionStats and MdeResult carry no first-moment field",
+      "notes": "The four stored series sum to -1.4e-16, 1.7e-16, -2.9e-16 and -7.5e-17 at read time. mutations.json records two mutations aimed at exactly this property, both caught. The sealed store was not opened by this audit."
+    },
+    {
+      "id": "IP-08",
+      "claim": "The verdict stands on the registered primary. The equal-weighted 34.29 bp would have fired DEGRADED. It is a labelled non-verdict-bearing secondary, registered as such before measurement, and it is not promoted.",
+      "file": "InsiderExperiment/progress.md",
+      "line": "261-263 (ADR-011 at DECISIONS.md:314-338)",
+      "commit_named": "none",
+      "what_would_have_to_be_true": "the primary/secondary labels predate the numbers (see IP-04, IP-05) and no document reports the verdict on the secondary",
+      "notes": ""
+    },
+    {
+      "id": "IP-09",
+      "claim": "No systemd unit was ever installed by this repository. Stage A.1 was a one-shot batch, not a scheduled collector, so there was nothing to disable or stop. Verified against ~/.config/systemd/user, /etc/systemd/system, systemctl --user list-units --all, systemctl --user list-timers --all, and crontab -l. None matched. Nothing remains scheduled.",
+      "file": "InsiderExperiment/progress.md",
+      "line": "127-131 (ADR-010 at DECISIONS.md:303-306)",
+      "commit_named": "none",
+      "what_would_have_to_be_true": "no unit or timer naming this repository exists on the host",
+      "notes": "Checkable, but only as of today, not as of 2026-08-25."
+    },
+    {
+      "id": "IP-10",
+      "claim": "Both AiTrader hashes re-verified unchanged at closure: analysis_bars.db d599ccf0b8d70a5b2b8c7fca2461f0d6e0e09f0e8c990405f7c25e3fa767e924 ... backtest/universe.py 8188eea0aef8a4d737e220095b9081071e26e4b4d30cceafb5082d7bfe525529",
+      "file": "InsiderExperiment/progress.md",
+      "line": "135-138",
+      "commit_named": "none; port.json carries the same digests before and after with unchanged true",
+      "what_would_have_to_be_true": "the two files carried those digests on 2026-08-25, nothing under AiTrader other than these two paths was read, and news_experiment.db was never opened",
+      "notes": "analysis_bars.db is now 7,323,656,192 bytes with mtime 2026-09-03 against port.json's recorded 7,320,629,248, so the digest is no longer reproducible; universe.py has mtime 2026-07-26 and is unchanged. paths.py:36-40 restricts the source paths to exactly these two and names no other AiTrader file."
+    },
+    {
+      "id": "IP-11",
+      "claim": "Section 12. The operator prior, reserved ... [ EMPTY. The operator writes a number here himself, before Stage B runs. ] ... This slot blocks Stage B while it is empty. insider.registration_check.require_operator_prior raises OperatorPriorMissing rather than warning. ... The assistant's prior, recorded beside it and never inside it: 0.12.",
+      "file": "InsiderExperiment/REGISTRATION.md",
+      "line": "497-513 (closure at 876-885; progress.md:93-99)",
+      "commit_named": "none",
+      "what_would_have_to_be_true": "the marker is still present and unfilled at the anchor, and the assistant's 0.12 lives outside the slot",
+      "notes": "Checkable in REGISTRATION.md and src/insider/registration_check.py; config.py:153 carries assistant_prior=0.12."
+    },
+    {
+      "id": "IP-12",
+      "claim": "Impact on the corpus. One transaction moved from insufficient_history to routine. The qualifying set is unchanged at 4,585 ... and the minimum detectable effect is unchanged at 49.35 bp per month. The defect was in the reported composition, not the sample.",
+      "file": "InsiderExperiment/DECISIONS.md",
+      "line": "245-249",
+      "commit_named": "ADR-008; the change lands in cb17046/672b343 at 19:11:45",
+      "what_would_have_to_be_true": "exactly one label moved and neither 4,585 nor 49.35 changed",
+      "notes": "git diff ccc9b13 cb17046 -- reports/stage_a1/corpus.json moves filtered_routine/insufficient_history 2058 -> 2057 and filtered_routine/routine 155 -> 156, and routine_labels 2472 -> 2471 and 159 -> 160: one transaction, as claimed. The same commit also rewrites all eleven events_per_year cells (see IC-02), which ADR-008 does not mention; ADR-013 at DECISIONS.md:400-416 covers that separately."
+    },
+    {
+      "id": "IP-13",
+      "claim": "Records only. No statistic computed, no alpha read, no sealed store opened, no request sent, no result changed. The A.1 power verdict stands exactly as fired.",
+      "file": "InsiderExperiment/progress.md",
+      "line": "9-10 (also REGISTRATION.md:806-808 and the Z.1 brief at progress.md:163-165)",
+      "commit_named": "12d9fd3 2026-08-25T23:24:15-07:00",
+      "what_would_have_to_be_true": "12d9fd3 touches only DECISIONS.md, REGISTRATION.md and progress.md, and no artifact mtime falls inside the Z.1 window",
+      "notes": "git show --stat 12d9fd3 lists exactly those three files, 408 insertions and 0 deletions. Every file under var/, ledgers/, cache/ and reports/ has an mtime of 2026-08-25 19:10 or earlier."
+    },
+    {
+      "id": "IP-14",
+      "claim": "the assistant's 0.12 sitting beside it is not that number ... the calibration ledger still holds zero independently formed entries.",
+      "file": "InsiderExperiment/progress.md",
+      "line": "305-306 (also REGISTRATION.md:882-885)",
+      "commit_named": "none",
+      "what_would_have_to_be_true": "a claim about the program's calibration ledger, which lives outside this repository",
+      "notes": "Not verifiable here."
+    },
+    {
+      "id": "IP-15",
+      "claim": "The Z.1 brief records five hours. The commit record cannot confirm that figure.",
+      "file": "InsiderExperiment/progress.md",
+      "line": "117-118",
+      "commit_named": "d8b81f1 19:11:55 and 12d9fd3 23:24:15",
+      "what_would_have_to_be_true": "the commit record carries no boundary that pins the Z.1 duration",
+      "notes": "The observable gap between the last A.1 commit and the Z.1 commit is 4 h 12 min, which is nearer the brief's five hours than the 20 minutes claimed in the same sentence at progress.md:116-117."
+    }
+  ]
+}

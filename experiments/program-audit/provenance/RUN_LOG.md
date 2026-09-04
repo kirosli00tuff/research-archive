@@ -320,3 +320,38 @@ HFExperiment consolidated awaiting check/apply; retail-power-limits inventory, v
 provenance done, consolidator to run; eleven repositories from inventory. BEFORE check:
 "03-agentC-blind-run1-AFTER" (04:51Z; nothing touched an audited repository since).
 Agent C run 2: task wsyhgs1dy (wf_5c7ad8a5-a74), launched 05:12Z.
+
+## 2026-09-04 18:2xZ — Runs A11 / B2 / C2 ended on the session limit (reset 09:50Z); reboot 11:06Z; bookkeeping
+Agent A run 11 (wy7aw6e69, wf_d768adf5-f74): 6 agents done, 15 failed. PMExperiment consolidated (12
+findings: S2×5 S3×6 S4×1), verified by two verifiers and applied (kept 7, corrected 5) → DONE. solclear p2
+reader and consolidator done (10 findings: S1×2 S2×3 S3×4 S4×1); the solclear verifiers failed before
+returning; readers for solattn, NPLExperiment, MLCryptoEngine, ORBExperiment and AiTrader failed before
+writing. 13 PMExperiment + 9 solclear cross-repo leads appended to agentA-leads.json (56 → 78). AFTER
+check "01-agentA-blind-run11-AFTER" (18:18Z): only the pre-existing dirt (AiTrader COLLECTION_LOG.md,
+HFExperiment four stray untracked names).
+Agent B run 2 (wll806z2p, wf_0a1e70b2-b89): 6 done, 21 failed. retail-power-limits verified and applied
+(kept 4, corrected 4) and HFExperiment verified and applied (kept 10, corrected 8) → both DONE. The
+InsiderExperiment reader (14 draft findings: S2×2 S3×10 S4×2) and the NPDExperiment reader (20 draft
+findings: S1×3 S2×5 S3×9 S4×3) wrote complete all.md drafts (closing "found sound" and live-access-log
+sections present; both logs show a clean tree before and after) but were killed before writing their
+all.positives.md ledgers; the other nine readers failed before writing anything. Recovery: two follow-up
+Opus agents write the two ledgers from the drafts plus the snapshots, with no live-repo access; the drafts
+are not modified. Each ledger ends with a note saying so. AFTER check "02-agentB-blind-run2-AFTER" (18:18Z):
+pre-existing dirt only.
+Agent C run 2 (wsyhgs1dy, wf_5c7ad8a5-a74): 7 done, 11 failed. retail-power-limits consolidated (8
+findings) and applied (kept 7, corrected 1) → DONE; HFExperiment applied (kept 6, corrected 3) → DONE.
+InsiderExperiment and NPDExperiment inventories written; their verification and provenance stages failed
+before writing; the nine other locates failed. AFTER check "03-agentC-blind-run2-AFTER" (18:18Z):
+pre-existing dirt only.
+Reboot: /tmp cleared again; scratchpad symlinks re-created (four session ids); snapshots intact (13 dirs,
+file counts unchanged: 413/109/98/73/292/75/147/157/32/47/21/99/55).
+
+## 2026-09-04 18:21Z — A run 12 and C run 3 launched in parallel; B run 3 waits for the two ledgers
+Agent A run 12 args (agentA-run12.args.json): done_repos = [ETFExperiment, HFExperiment, InsiderExperiment,
+NPDExperiment, PMExperiment, VRPExperiment, retail-power-limits]; done_parts = {solclear: [p1-findings,
+p2-progress]}; consolidated = {solclear: 10}; leads via file (78 entries). BEFORE check
+"01-agentA-blind-run12-BEFORE" (18:20Z). Task wp3z70q72 (wf_f3fc900f-431).
+Agent C run 3 args (agentC-run3.args.json): done_repos = [HFExperiment, retail-power-limits];
+InsiderExperiment and NPDExperiment inventory done, verification/provenance/consolidate to run; nine
+repositories from inventory. BEFORE check "03-agentC-blind-run3-BEFORE" (18:20Z). Task w9ku6yk69
+(wf_ac411b13-975).

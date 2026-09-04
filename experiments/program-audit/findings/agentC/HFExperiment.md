@@ -7,6 +7,10 @@ Sources consolidated: `findings/agentC/verification/HFExperiment.inventory.md` /
 `findings/agentC/provenance/HFExperiment.md` / `.json`.
 Every quote and every figure in this file was re-checked against
 SNAP/HFExperiment before publication. Prepared 2026-09-04 UTC.
+An independent citation-check pass then re-located every quote, figure and git object for itself
+(2026-09-04, apply pass): 6 findings were confirmed unchanged, 3 carried a citation or last-digit
+correction, none was dropped, and no substantive conclusion moved. Each finding records the outcome
+in its **Citation check** bullet, mirrored in `citation_check` in the JSON.
 
 ## Summary
 
@@ -144,7 +148,7 @@ thesis, and none of these findings supports one.
 - **Class:** ARITHMETIC
 - **Severity:** S2 — a stated figure contradicts the artifact the same paragraph cites
 - **Label:** DERIVED
-- **Claim challenged (verbatim):** "A.1 measured it: 144 USD at the last two formations, up from 36 in March and April. At 144, whole-share sizing on 900 USD cannot fill a 20-name book at all, because 20 names at one share each already cost about 2,880 USD. A 5-name book gets one share per name, 720 of 900 deployed, with equal weighting destroyed by per-name prices from 22 to 1,595 USD." — HFExperiment/REGISTRATION.md:149-154 (restated at HFExperiment/DECISIONS.md:194-199, ADR-012)
+- **Claim challenged (verbatim):** "A.1 measured it: 144 USD at the last two formations, up from 36 in March and April. At 144, whole-share sizing on 900 USD cannot fill a 20-name book at all, because 20 names at one share each already cost about 2,880 USD. A 5-name book gets one share per name, 720 of 900 deployed, with equal weighting destroyed by per-name prices from 22 to 1,595 USD." — HFExperiment/REGISTRATION.md:150-154 (restated at HFExperiment/DECISIONS.md:194-199, ADR-012)
 - **Evidence:**
   - The stored 2026-07-01 width-20 book, n = 20, `last_close` in HFExperiment/reports/stage_a1/formations.json (`formations` → `2026-07-01` → `20`): one share of each costs **7,890.47 USD**, not "about 2,880 USD". 2,880 is 20 × the median (143.89), which is not the cost of the book.
   - The stored 2026-07-01 width-5 book, n = 5 (WOLF 48.25, AXTI 72.08, SNDK 2,273.73, BE 302.70, LITE 858.06), same file: one share of each costs **3,554.82 USD**, not "720 of 900 deployed". **SNDK alone at 2,273.73 exceeds the entire 900 USD deployed**, so "one share per name" is not purchasable at this stake at all. The width-5 book's own median close is 302.70 (`median_price` → `2026-07-01` → `5`), not the 144 the sentence applies to it.
@@ -156,6 +160,7 @@ thesis, and none of these findings supports one.
 - **Confidence:** HIGH — the contradicting values are the stored per-name closes in the very file Section 6's measurement is drawn from, and the arithmetic is a sum.
 - **Invalidated by later commits?:** no — the repository is closed and terminal (REGISTRATION.md:306-315), HEAD is the anchored SHA, and formations.json has not been touched since `0a0d214`/`91a1dcb`.
 - **Disclosed by authors?:** no. Section 6 and ADR-012 both present the 2,880 / 720 arithmetic as measurement. The one adjacent disclosure is the same sentence's "equal weighting destroyed by per-name prices", which acknowledges dispersion without correcting the figures beside it.
+- **Citation check:** corrected — the quoted sentence is HFExperiment/REGISTRATION.md:**150-154**, not 149-154; line 149 ("Section 0 left DEGRADED open pending the median share price of the book.") is not part of the quote (`grep -n 'A.1 measured it'` → 150, `grep -n 'equal weighting destroyed'` → 154). The claim line is corrected here and in the JSON. Everything else re-verified independently at apply: quote EXACT, figures exact, recomputation reproduced from SNAP (Σ width-20 2026-07-01 = 7,890.47, Σ width-5 = 3,554.82, medians 143.895 and 302.70, min close 8.24, max 2,273.73, March 36.47 / April 40.59 at formations.md:24-25), and all five `book_spreads.json` line refs (:33, :51, :75, :111, :129) land exactly, with ONDS 8.745 confirmed the minimum of all 20 `median_mid` values. Two things the re-check adds: the finding is **robust to which of the last two formations is used** — the 2026-06-01 books cost 7,018.11 (width 20) and 3,096.51 (width 5), still 2.4× and 4.3× the stated 2,880 and 720 — and 22.305 and 1,595.19 are exactly the minimum and maximum of the **first six** names of the A.2 width-20 book (WOLF 26.355, AXTI 73.05, SNDK 1,595.19, BE 201.91, LITE 863.91, PL 22.305), the most likely provenance of the "22 to 1,595" range.
 
 ---
 
@@ -174,6 +179,7 @@ thesis, and none of these findings supports one.
 - **Confidence:** HIGH — the commit's author and committer dates agree and the introducing commit is unambiguous.
 - **Invalidated by later commits?:** no — `82e77a0` is the anchor and the live HEAD, and it left the text unchanged. A future commit could add a correcting amendment.
 - **Disclosed by authors?:** no — nothing in REGISTRATION.md, progress.md or DECISIONS.md mentions the gap between the entry's date and the commit that carries it.
+- **Citation check:** verified (quote EXACT at REGISTRATION.md:308 and progress.md:7-8, headings at :306 and :5; figures exact; recomputation reproduced). Re-run at apply against the live object store: `git log -S"2026-08-26: Closure" -- progress.md REGISTRATION.md` returns `f13e1d3` alone, whose author and committer dates are both 2026-08-25T00:45:29−07:00 = **2026-08-25T07:45:29Z**, i.e. 16 h 14 m 31 s before the earliest instant of 2026-08-26 UTC, and UTC+14 still lands on 2026-08-25. One corroboration the finding could add: HFExperiment/tests/test_spendledger.py:42 reads `ledger.record_spend(5.0, "2026-08-26", "future, not yet", "r1")` — the repository's own fixture treating 2026-08-26 as a date that has not arrived.
 
 ---
 
@@ -185,7 +191,7 @@ thesis, and none of these findings supports one.
 - **Class:** PROVENANCE
 - **Severity:** S3
 - **Label:** DERIVED
-- **Claim challenged (verbatim):** "Run 2026-08-25, 02:57 to 03:07 UTC, Monday 22:57 to 23:07 ET, market closed. Gateway 127.0.0.1:4002, server version 187, account [paper account ID removed], declared mode paper." — HFExperiment/reports/stage_a1b/a1b_report.md:3-4. The server-version figure is repeated at HFExperiment/DECISIONS.md:408 (ADR-022, "A.1b resolved it by behaviour on 2026-08-25, paper account [paper account ID removed], Gateway server version 187."), HFExperiment/DECISIONS.md:441 (ADR-026), HFExperiment/docs/ACCESS.md:178 and HFExperiment/progress.md:235
+- **Claim challenged (verbatim):** "Run 2026-08-25, 02:57 to 03:07 UTC, Monday 22:57 to 23:07 ET, market closed. Gateway 127.0.0.1:4002, server version 187, account [paper account ID removed], declared mode paper." — HFExperiment/reports/stage_a1b/a1b_report.md:3-4. The server-version figure is repeated at HFExperiment/DECISIONS.md:408 (ADR-022, "A.1b resolved it by behaviour on 2026-08-25, paper account [paper account ID removed], Gateway server version 187."), HFExperiment/DECISIONS.md:439 (ADR-026), HFExperiment/docs/ACCESS.md:178 and HFExperiment/progress.md:235
 - **Evidence:**
   - The A.1b session's own primary record, row 2 of HFExperiment/reports/stage_a1b/evidence.jsonl, verbatim: `{"kind":"connected","managed":["[paper account ID removed]"],"server_version":178,"utc":"2026-08-25T03:05:16.497779Z"}` — **178, not 187**. n = 1 connection record, and it is the only one in the file; I parsed all 51 rows (1 `stage_start`, 1 `connected`, 20 `contract_details`, 10 `api_error`, 2 `quote_snapshot`, 2 `quantity_computed`, 5 `order_request`, 5 `order_outcome`, 1 `fills`, 2 `final_positions`, 1 `orders_placed_total`, 1 `cancel`) and no record anywhere in the file contains 187.
   - The value is machine-captured: `HFExperiment/scripts/a1b_capability_test.py:158` writes `server_version=self.ib.client.serverVersion()`, and that script writes only the `.jsonl`; the `.md` report is hand-written prose. ADR-022 introduces 187 in the sentence immediately before it says "Observed, verbatim in reports/stage_a1b/evidence.jsonl" (DECISIONS.md:410).
@@ -196,6 +202,7 @@ thesis, and none of these findings supports one.
 - **Confidence:** HIGH — the ledger field is unambiguous and singular, and the divergent 187 is traceable to a different, timestamped record.
 - **Invalidated by later commits?:** no — evidence.jsonl landed at `669eb5c` and the last prose repetition landed at the anchor `82e77a0`, which re-propagated the figure rather than correcting it; the repository is closed.
 - **Disclosed by authors?:** no. ADR-026 (DECISIONS.md:432-454) is precisely a self-reported record-hygiene correction about A.1b's provenance, and it repeats "server version 187" at :439 without noticing the ledger says 178.
+- **Citation check:** corrected — ADR-026 repeats "server version 187" at HFExperiment/DECISIONS.md:**439**, not :441 (:441 reads "reports/stage_a1b record in full. Neither document was amended, so the"); `grep -n '187' DECISIONS.md` returns exactly two sites, :408 and :439. The citation is corrected here and in the merge note, and the stale `:441` entry is removed from the JSON `evidence_refs` (which already carried the correct `:439`), so the JSON now agrees with this finding's own disclosure line. Substance re-verified independently at apply: the quote is EXACT at a1b_report.md:3-4; the `connected` row reads `{"kind":"connected","managed":["[paper account ID removed]"],"server_version":178,"utc":"2026-08-25T03:05:16.497779Z"}`; the 51-row census reproduces exactly and the string 187 appears in **no** row of the file; the four other prose sites (DECISIONS.md:408, docs/ACCESS.md:178, progress.md:235, a1b_report.md:4) and refusals.md:332 land on their exact lines, and `server_time_epoch` 1787625630 decodes to 2026-08-25T02:40:30Z. One nuance worth adding to "what would resolve it": `src/hfexperiment/ibkrprobe.py:43` sets `_HANDSHAKE_VERSIONS = b"v100..187"`, so the raw-socket C.1 probe negotiates up to 187 while the ib_insync client in A.1b reports 178 — both may be genuine for their respective clients, which is the most likely benign explanation and does not weaken the finding, since the prose still attributes a version to a session whose own ledger says otherwise.
 
 ---
 
@@ -216,6 +223,7 @@ thesis, and none of these findings supports one.
 - **Confidence:** HIGH for the count (arithmetic on the commit's own diff and on the anchored table); MEDIUM for the window (a stage may begin before its ledger's first write, though "connected on … 02:57 to 03:07 UTC" is specifically a connection claim).
 - **Invalidated by later commits?:** no — `82e77a0` is the anchor and the live HEAD.
 - **Disclosed by authors?:** partly. ADR-026's own status breakdown at HFExperiment/DECISIONS.md:452 sums to seven, which discloses that the table grew; no document reconciles that with "four of the six", and nothing discloses the window discrepancy. Held at S4.
+- **Citation check:** verified (quote EXACT at docs/ACCESS.md:177-180; figures exact; recomputation reproduced). Re-run at apply: the 51 `utc` fields span 2026-08-25T03:05:15.955248Z to 03:07:17.172526Z, **121.217 s**, the sole `connected` record is at 03:05:16.497779Z and nothing precedes 03:05:15.955Z; the `82e77a0` diff of docs/ACCESS.md removes a table of **six** BLOCKED-ON-OPERATOR rows and adds **seven**, the new one being `whole-share control order | RESOLVED — ACCEPTED`, and the original six carry 3 RESOLVED / 2 MOOT / 1 RUNNABLE exactly as stated. Added positive: `grep -rn '02:57'` over the anchored tree returns only the two claim sites (a1b_report.md:3 and docs/ACCESS.md:177) plus an unrelated wheel upload-time substring at uv.lock:393 — **no artifact anywhere supports 02:57**. Flag sync: the JSON's `disclosed_by_authors` is set to **false** to match this entry's "partly", since what ADR-026 discloses is the seven-way status breakdown, not the defect raised (a count that includes a row the correction itself created, and the window); the partial disclosure remains recorded above. Severity S4 and label DERIVED unchanged.
 
 ---
 
@@ -229,7 +237,7 @@ thesis, and none of these findings supports one.
 - **Label:** DERIVED
 - **Claim challenged (verbatim):** "The floor is 500 USD of total account equity, a 400 USD loss on 900 deployed after the 100 buffer, 1.31 sigma of the width-20 tracking error, driftless touch probability near 19 percent in year one." — HFExperiment/REGISTRATION.md:216-218
 - **Evidence:**
-  - σ used throughout Section 9 and ADR-011 is 900 USD × TE(20). TE(20) = 42.544 %/yr from the two-point power law (REGISTRATION.md:117; exponent reproduced as −0.32113 from the recorded widths 5 and 50), giving σ = **382.90 USD** (900 × the rounded 42.54 % gives 382.86; the difference is immaterial to every figure below).
+  - σ used throughout Section 9 and ADR-011 is 900 USD × TE(20). TE(20) = 42.544 %/yr from the two-point power law (REGISTRATION.md:117; exponent reproduced as −0.32111 from the recorded widths 5 and 50), giving σ = **382.90 USD** (900 × the rounded 42.54 % gives 382.86; the difference is immaterial to every figure below).
   - A **400 USD** loss is 400/382.90 = **1.045 σ**, touch 2Φ(−1.045) = **29.6 %** — not 1.31 σ and not 19 %.
   - The stated 1.31 σ and 19 % require a **500 USD** loss: 500/382.90 = **1.306 σ**, 2Φ(−1.306) = **19.16 %**. That is exactly (1000 total equity − 500 floor), the basis ADR-011 uses for all three of its numbers.
   - ADR-011 is internally consistent on that basis and never states a loss figure: "600 is 1.04 sigma … near 30 percent … 500 is 1.31 sigma, near 19 percent. 400 is 1.57 sigma, near 12 percent" (HFExperiment/DECISIONS.md:173-179). I reproduce 1.045 σ / 29.6 %, 1.306 σ / 19.16 %, 1.567 σ / 11.71 %, and the "7 more points" of REGISTRATION.md:220-221 as 19.16 − 11.71 = 7.4. n = 0 observations; these are design projections.
@@ -239,6 +247,7 @@ thesis, and none of these findings supports one.
 - **Confidence:** HIGH on the arithmetic — the three figures cannot be simultaneously true under either reading. MEDIUM on materiality: this most likely reads as "down to 400" rather than "a 400 loss", and the operative registered number (500) and its justification are correct.
 - **Invalidated by later commits?:** no — closed repository, HEAD is the anchored SHA, and REGISTRATION.md is append-only with the Section 9 text landed at `a8f4b0d` and never edited.
 - **Disclosed by authors?:** no for the arithmetic. The authors *do* disclose the surrounding modelling limits at REGISTRATION.md:222-224 ("The figures ignore market beta, which the high-beta book makes optimistic, and ignore positive drift"), and ADR-011 offers "a measured book beta would refine the touch probabilities" (DECISIONS.md:188) — neither touches the loss figure.
+- **Citation check:** corrected — the TE exponent reproduces as **−0.32111**, not −0.32113 (ln(31.70/66.40)/ln 10 = −0.3211088), and the paired excess exponent recorded in the "Sound" section as −0.44528 is **−0.44527** (ln(10.04/27.99)/ln 10 = −0.4452692); both digits are fixed here and in the JSON. The change is immaterial to every conclusion — REGISTRATION.md:111 states only −0.321 and −0.445, and TE(20) = 42.5443 %/yr under either. Substance re-verified independently at apply with the audit venv and scipy: quote EXACT at REGISTRATION.md:216-218; σ = 900 × TE(20) = **382.8986 USD**; a 400 loss is 1.0447 σ, touch 29.618 %; 500 is 1.3058 σ, 19.161 %; 600 is 1.5670 σ, 11.712 %; and 19.161 − 11.712 = 7.45, matching the "7 more points" at REGISTRATION.md:220-221. ADR-011's 1.04 / 1.31 / 1.57 are exactly (1000 − floor)/σ, confirming the reconstruction of the basis.
 
 ---
 
@@ -269,6 +278,7 @@ thesis, and none of these findings supports one.
 - **Confidence:** MEDIUM — the deletion is certain; whether it amounts to "rewritten to look as though it was always right" is a judgement, and the replacement text does date the resolution honestly to 2026-08-25.
 - **Invalidated by later commits?:** no — `82e77a0` is the anchor and the live HEAD.
 - **Disclosed by authors?:** partly — ADR-026 discloses that the table was "re-statused" (DECISIONS.md:450-452), but no document records that a paragraph containing a falsified prediction was deleted rather than struck. Held at S4.
+- **Citation check:** verified (quote EXACT at DECISIONS.md:450-454; figures exact; recomputation n/a). Re-run at apply: `git show --numstat 82e77a0` gives DECISIONS.md +60/−0, docs/ACCESS.md +47/−19, progress.md +48/−0; the deleted paragraph appears verbatim in the diff, including "the quote-first-divide-then-submit path handles. Likely is not measured. The verdict waits for the test."; and `grep -rn` over the anchored tree for its four distinctive phrases returns **0 hits**, so the falsified prediction survives only in the object store. One mitigation added for fairness, so no reader over-reads this: the replacing paragraph does record the refutation — "Behaviour on 2026-08-25 sided with IBKR staff on cashQty and refuted the decimal-share path as well. Both routes refuse. The verdict no longer waits for the test." (docs/ACCESS.md:221-223) — so the outcome is not concealed, only the original wording is unrecoverable from the tree; this supports the MEDIUM confidence and the S4 holding. Flag sync: the JSON's `disclosed_by_authors` is set to **false** to match this entry's "partly", since what is disclosed is the re-statusing, not the undisclosed deletion the finding raises.
 
 ---
 
@@ -289,6 +299,7 @@ thesis, and none of these findings supports one.
 - **Confidence:** HIGH — both are direct reads of the file and the commit object.
 - **Invalidated by later commits?:** no — the repository is closed and `82e77a0` is HEAD.
 - **Disclosed by authors?:** no — progress.md:228 calls the entry "Not a stage", which explains why it is not a stage entry but not why it sits below older entries under a "newest at top" rule, and says nothing about the timestamp.
+- **Citation check:** verified (quote EXACT at progress.md:3; figures exact; recomputation reproduced). Re-run at apply: `grep -n '^## '` reproduces the heading census exactly — :5 2026-08-26, :23 2026-08-25, :56 2026-08-25, :102 2026-08-24, :152 2026-08-23, :187 2026-08-23, descending, then "## 2026-08-28T22:10Z — ADR-026: the stale no-account blocker, corrected" at :226, the newest entry, last; `git log -S"ADR-026" -- progress.md` returns `82e77a0` alone, whose author and committer dates are both 2026-08-28T14:14:08−07:00 = 21:14:08Z, so the stated 22:10Z is 55 m 52 s after the commit that carries it.
 
 ---
 
@@ -307,6 +318,7 @@ thesis, and none of these findings supports one.
 - **Confidence:** HIGH — exhaustive over all refs and over the anchored tree.
 - **Invalidated by later commits?:** no — `82e77a0` is HEAD; a later commit could add the script, which would not change its absence at the anchor.
 - **Disclosed by authors?:** no.
+- **Citation check:** verified (quote EXACT at systemd/hfexperiment-bars.timer:4; figures exact; recomputation n/a). Re-run at apply: `git ls-tree -r --name-only 82e77a0 -- scripts/` returns the eight `.py` files listed and nothing else; `git log --all -- 'scripts/install_timer.sh' '*install_timer*'` returns 0 commits; a census of every file ever added across all refs (`git log --all --diff-filter=A --name-only`) contains **zero** `.sh` paths, and `find` over the snapshot returns 0 `.sh` files — the exhaustiveness claim holds as stated.
 
 ---
 
@@ -325,6 +337,7 @@ thesis, and none of these findings supports one.
 - **Confidence:** HIGH — a single-character mismatch, exhaustively enumerated.
 - **Invalidated by later commits?:** no — ACCESS.md:212-215 landed at HEAD `82e77a0` and the repository is closed.
 - **Disclosed by authors?:** no.
+- **Citation check:** verified (quote EXACT, spanning docs/ACCESS.md:212-214 with the six-nine string on :213; figures exact; recomputation n/a). Re-run at apply: `grep -rn 'DU999999'` over the anchored snapshot returns exactly 8 hits — the seven canonical seven-nine sites as cited (refusals.md:197 and :203, demo_ledger.jsonl:49, demo_c1.py:310, test_gatewire.py:117, test_brokerconfig.py:61 and :64) against docs/ACCESS.md:213, which is the only six-nine occurrence in the tree. n = 7 against 1, as stated.
 
 ---
 
@@ -337,7 +350,7 @@ thesis, and none of these findings supports one.
 - **Merge 1 (2 → 1):** verification DRAFT-V-3 and provenance DRAFT-P-2 are the same finding — the
   Gateway server version 187 in prose against 178 in `reports/stage_a1b/evidence.jsonl`. DRAFT-P-2
   flagged the overlap itself. They are consolidated as **AUDIT-C-HFExperiment-3**, taking the union
-  of their cited sites (a1b_report.md:3-4, DECISIONS.md:408, DECISIONS.md:441, ACCESS.md:178,
+  of their cited sites (a1b_report.md:3-4, DECISIONS.md:408, DECISIONS.md:439, ACCESS.md:178,
   progress.md:235) and the union of their evidence (the 51-record parse, the producing script line,
   and the C.1 probe as the traceable source of 187). Severity S3 (the higher of the two drafts).
 - **Partial overlap, deliberately kept separate:** DRAFT-P-3 quotes a sentence
@@ -375,7 +388,7 @@ What verified cleanly, from stored primitives, with nothing taken on the documen
 - **The A.1 series.** All 21 median-share-price cells reproduce from stored `last_close` with 0
   mismatches; the churn means 5.1667 → 5.2 and 2.0; 200/10.4 = 19.23 months against 200/4.0 = 50;
   the reproduction log's 124/124 identical and the 10 × 500-row universe check exact.
-- **The two-point power law and its interpolation.** Exponents −0.32113 and −0.44528; TE(10) 53.15,
+- **The two-point power law and its interpolation.** Exponents −0.32111 and −0.44527; TE(10) 53.15,
   TE(20) 42.54; excess(10) 20.56, excess(20) 15.10; IR 0.975 and 0.894; (IR₅/IR₂₀)² = 1.4109 — and
   the endpoints' mutual consistency (IR = excess × 252/(TE × 100), TE 66.4 %/yr → 418.28 bp/day) is
   exact, though the 252-day annualisation it requires is stated in no document.
@@ -463,9 +476,11 @@ Merged from the two upstream passes. Both accessed
 `/home/kiros-li/Documents/GitHub/HFExperiment/` read-only, for git history/provenance and (in the
 provenance pass) for untracked working-tree data that exists nowhere else. **No file under any
 audited repository was opened for writing, no repository script was executed, `.env` was not read,
-and no credential, token or session file was opened.** This consolidation step performed **no live
+and no credential, token or session file was opened.** The consolidation step performed **no live
 repository access at all**: it read only SNAP/HFExperiment and the two upstream output files, and
-wrote only under `findings/agentC/`.
+wrote only under `findings/agentC/`. The later **citation-check apply pass** (2026-09-04, below) did
+read the live repository, read-only, to re-confirm the git-object claims in findings 2, 4, 6, 7 and 8
+for itself.
 
 **Provenance pass — `git -C /home/kiros-li/Documents/GitHub/HFExperiment status --porcelain`, BEFORE first access, 2026-09-04T00:11:16Z:**
 
@@ -503,10 +518,37 @@ wrote only under `findings/agentC/`.
 ?? User-Agent:
 ```
 
-All four readings are identical and are exactly the four stray files COMMON_RULES records as
+**Citation-check apply pass — `git -C /home/kiros-li/Documents/GitHub/HFExperiment status --porcelain`, BEFORE first access, 2026-09-04T05:12:36Z:**
+
+```
+?? Accept:
+?? GET
+?? Host:
+?? User-Agent:
+```
+
+**Citation-check apply pass — same command, AFTER last access, 2026-09-04T05:13:07Z:**
+
+```
+?? Accept:
+?? GET
+?? Host:
+?? User-Agent:
+```
+
+Between those two readings the apply pass ran only `git rev-parse HEAD` (confirmed
+`82e77a021256d917c665ff6d4304c25b08f35451`), `git log -1 --format` on `f13e1d3` and `82e77a0`,
+`git log --oneline -S"2026-08-26: Closure"` and `-S"ADR-026"`, `git show --numstat 82e77a0`,
+`git show 82e77a0 -- docs/ACCESS.md`, `git ls-tree -r --name-only 82e77a0 -- scripts/`,
+`git log --all -- '*install_timer*'` and `git log --all --diff-filter=A --name-only`. No working-tree
+file was opened, no script was run, nothing was written inside the audited repository, and the two
+status readings are identical.
+
+All six readings are identical and are exactly the four stray files COMMON_RULES records as
 pre-existing owner dirt (`?? Accept:`, `?? GET`, `?? Host:`, `?? User-Agent:`). Nothing else
-appeared at any point; the verification pass's window sits inside the provenance pass's window and
-the two agree. **No accidental modification occurred in HFExperiment.**
+appeared at any point; the verification pass's window sits inside the provenance pass's window, the
+apply pass's window (05:12:36–05:13:07Z) sits about five hours after both, and all three agree.
+**No accidental modification occurred in HFExperiment.**
 
 Secondary repository, read once for the universe-copy check (P11):
 `git -C /home/kiros-li/Documents/GitHub/AiTrader status --porcelain` returned ` M COLLECTION_LOG.md`
@@ -535,6 +577,11 @@ only.
 | 00:20:51 | verify | `git status --porcelain` | post-access baseline |
 | 00:2x:xx | prov | `git rev-parse HEAD`, `git branch -a`, `TZ=UTC git log --date=iso-strict-local` | anchor confirmation, UTC dating |
 | 00:26:52 | prov | `git status --porcelain` (HFExperiment and AiTrader) | post-access baseline |
+| 05:12:36 | apply | `git status --porcelain` | pre-access baseline, citation-check apply pass |
+| 05:12:3x | apply | `git rev-parse HEAD`, `git log -1 --format` on `f13e1d3` / `82e77a0`, `git log -S"2026-08-26: Closure"`, `git log -S"ADR-026" -- progress.md` | findings 2 and 7, re-confirmed first-hand |
+| 05:12:5x | apply | `git show --numstat 82e77a0`, `git show 82e77a0 -- docs/ACCESS.md` | findings 4 and 6 — row census and the deleted paragraph |
+| 05:13:0x | apply | `git ls-tree -r --name-only 82e77a0 -- scripts/`, `git log --all -- '*install_timer*'`, `git log --all --diff-filter=A --name-only` | finding 8 |
+| 05:13:07 | apply | `git status --porcelain` | post-access baseline |
 
 All computation was performed with the audit venv at
 `/tmp/claude-1000/-home-kiros-li-Documents-GitHub-program-audit/5ca157a0-1746-4eb9-a1b8-f3732ea42bf4/scratchpad/venv/bin/python`,
