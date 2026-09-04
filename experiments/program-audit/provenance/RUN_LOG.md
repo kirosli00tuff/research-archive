@@ -391,3 +391,13 @@ AFTER checks: pre-existing dirt only
 prepared A run 13 (provenance/launch-args/agentA-run13.args.json)
 prepared B run 4 (provenance/launch-args/agentB-run4.args.json)
 prepared C run 4 (provenance/launch-args/agentC-run4.args.json)
+Outcomes of the runs closed above (all cut by the 5-hour session limit at ~19:00Z, reset 23:00Z):
+- A run 12 (wf_f3fc900f-431): solclear verified and applied (12 → kept 3, corrected 7); readers for
+  solattn, NPLExperiment, MLCryptoEngine, ORBExperiment and AiTrader never started. A now 8/13.
+- B run 3 (wf_bb83861e-ebb): InsiderExperiment consolidated (14 findings: S2×2 S3×10 S4×2) and
+  NPDExperiment consolidated (19 findings); both verify/apply stages and all remaining readers failed.
+  12 cross-repo leads banked from the two consolidators (B leads now 26). B stays 2/13.
+- C run 3 (wf_ac411b13-975): InsiderExperiment verification, provenance and consolidation (10 findings)
+  done; NPDExperiment verification and provenance done, consolidation pending; nine locates failed.
+  C stays 2/13. Snapshot manifest re-verified on resume (13 repos, 1618 files).
+Next: A run 13, B run 4, C run 4 launched in parallel from the prepared args.
