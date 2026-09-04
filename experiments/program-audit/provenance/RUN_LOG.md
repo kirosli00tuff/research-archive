@@ -307,3 +307,15 @@ untouched. Args (provenance/launch-args/agentB-run2.args.json): consolidated = {
 HFExperiment: 18} awaiting verify/apply; eleven repositories to read; leads via
 provenance/launch-args/agentB-leads.json. BEFORE check: "02-agentB-blind-run1-AFTER" (04:51Z; nothing
 touched an audited repository since).
+Agent B run 2: task wll806z2p (wf_0a1e70b2-b89), launched 05:02Z.
+
+## 2026-09-04 05:1xZ — Agent C run 2 launched (HFExperiment json and scoreboard transcribed)
+findings/agentC/HFExperiment.json (9 findings: 1 S2, 2 S3, 6 S4; directions neutral ×6, A ×1, B ×2;
+22 contract keys, claim quotes verified verbatim) and HFExperiment.scoreboard.json (claims 20 verified /
+7 contradicted / 3 unverifiable on the 30 granular rows; intervals 14 audited, 2 independence doubtful,
+8 recomputed, 0 conclusion moved; tests 6 audited, 0 issues; provenance 30 supported / 2 not supported /
+4 partial / 1 unverifiable) written by the mechanical Opus agent from the consolidator md and the on-disk
+claims and provenance json; md untouched. Args (provenance/launch-args/agentC-run2.args.json):
+HFExperiment consolidated awaiting check/apply; retail-power-limits inventory, verification and
+provenance done, consolidator to run; eleven repositories from inventory. BEFORE check:
+"03-agentC-blind-run1-AFTER" (04:51Z; nothing touched an audited repository since).

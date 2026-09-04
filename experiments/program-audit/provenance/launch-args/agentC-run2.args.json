@@ -1,0 +1,19 @@
+{
+ "done_repos": [],
+ "stages": {
+  "HFExperiment": {
+   "inventory": true,
+   "verification": true,
+   "provenance": true,
+   "consolidated": true,
+   "n_findings": 9
+  },
+  "retail-power-limits": {
+   "inventory": true,
+   "verification": true,
+   "provenance": true,
+   "consolidated": false,
+   "n_findings": null
+  }
+ }
+}
