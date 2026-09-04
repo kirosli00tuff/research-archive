@@ -1,0 +1,16 @@
+{
+ "done_repos": [
+  "HFExperiment",
+  "retail-power-limits"
+ ],
+ "done_parts": {
+  "InsiderExperiment": [
+   "all"
+  ],
+  "NPDExperiment": [
+   "all"
+  ]
+ },
+ "consolidated": {},
+ "leads": []
+}

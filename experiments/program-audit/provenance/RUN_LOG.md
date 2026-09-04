@@ -355,3 +355,15 @@ Agent C run 3 args (agentC-run3.args.json): done_repos = [HFExperiment, retail-p
 InsiderExperiment and NPDExperiment inventory done, verification/provenance/consolidate to run; nine
 repositories from inventory. BEFORE check "03-agentC-blind-run3-BEFORE" (18:20Z). Task w9ku6yk69
 (wf_ac411b13-975).
+
+## 2026-09-04 18:5xZ — B positives ledgers recovered; B run 3 launched
+findings/agentB/_drafts/InsiderExperiment/all.positives.md (57,990 bytes) and
+findings/agentB/_drafts/NPDExperiment/all.positives.md (51,197 bytes; 35 numbered entries: 14 positive,
+4 qualified positive, 9 shipped, 4 open, 4 thresholded negative, plus open-items and thresholded-negatives
+tables) written by two follow-up Opus agents from the drafts and the snapshots. Neither draft changed
+(git diff empty). Neither agent touched the live repositories; the NPDExperiment agent reported one
+read-only `git status --porcelain` inside program-audit itself (not an audited repository), nothing
+staged or changed. Both ledgers carry the recovery note at the end.
+Agent B run 3 args (agentB-run3.args.json): done_repos = [HFExperiment, retail-power-limits]; done_parts =
+{InsiderExperiment: [all], NPDExperiment: [all]}; consolidated = {}; leads via file (14 entries). BEFORE
+check "02-agentB-blind-run3-BEFORE".
