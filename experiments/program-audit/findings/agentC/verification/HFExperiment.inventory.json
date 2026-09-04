@@ -1,0 +1,1091 @@
+{
+ "repository": "HFExperiment",
+ "anchored_sha": "82e77a021256d917c665ff6d4304c25b08f35451",
+ "anchor_branch_date": "main, 2026-08-28",
+ "agent": "C",
+ "task": "LOCATE",
+ "prepared_utc": "2026-09-04T00:05Z",
+ "closed_project": true,
+ "closure_note": "Terminal operator closure dated 2026-08-26 (REGISTRATION.md:306-315, progress.md:5-21). Live track never funded, shadow series disarmed before its first accrual, verdict never computed. Zero shadow observations, so no realized confidence interval, test statistic or p-value exists anywhere in the repository.",
+ "documents_absent": [
+  "report.md",
+  "FINDINGS.md",
+  "HYPOTHESES.md",
+  "registrations/"
+ ],
+ "documents_present": [
+  "REGISTRATION.md",
+  "DECISIONS.md",
+  "progress.md",
+  "README.md",
+  "docs/ACCESS.md",
+  "reports/stage_a1/*",
+  "reports/stage_a1b/*",
+  "reports/stage_a2/*",
+  "reports/stage_b1/*",
+  "reports/stage_c1/*",
+  "reports/monitor/*"
+ ],
+ "counts": {
+  "artifacts": 50,
+  "claims": 24,
+  "must_verify": 7,
+  "intervals": 10,
+  "tests": 7,
+  "provenance_claims": 22
+ },
+ "live_repo_access_log": {
+  "git_status_porcelain_before": [
+   "?? Accept:",
+   "?? GET",
+   "?? Host:",
+   "?? User-Agent:"
+  ],
+  "git_status_porcelain_before_utc": "2026-09-03T23:57:15Z",
+  "git_status_porcelain_after": [
+   "?? Accept:",
+   "?? GET",
+   "?? Host:",
+   "?? User-Agent:"
+  ],
+  "git_status_porcelain_after_utc": "2026-09-04T00:01:25Z",
+  "identical": true,
+  "matches_expected_preexisting_dirt": true,
+  "accidental_modification": false,
+  "env_read": false,
+  "repo_scripts_executed": false,
+  "sqlite_mode": "file:...?immutable=1 (cannot create -wal/-shm); data/ ls -la unchanged after reads"
+ },
+ "artifacts": [
+  {
+   "path": "HFExperiment/src/hfexperiment/registered.py",
+   "holds": "Every registered numeric threshold as code: restart_floor_usd 500.0 (:56), spend_cap_usd_per_year 100.0 (:59), primary_width 5 / traded_width 20 / secondary_widths (20,50) (:62-64), alpha 0.05 / 0.025 (:67-68), crossing_target_days 1600 (:69), futility_bp_per_day 10.0 (:70), cost_hurdle_bp_per_day 4.07 (:78), CHURN_NAMES_PER_MONTH {5:2.0,20:5.2} (:85), RHO_FROZEN 0.071641 (:91), SHADOW_SERIES_START 2026-09-01 (:97), PROJECTION_MEAN_BP 27.99 / SIGMA 418.0 / CLEAR_ZERO_DAY 2061 / CLEAR_HURDLE_DAY 2852 (:104-107), three DeferredParameter objects (:110-133)",
+   "backs": "REGISTRATION.md Sections 4,5,8,9,11,12; reports/monitor/verdict.txt",
+   "tracked": true,
+   "anchored": true,
+   "kind": "code"
+  },
+  {
+   "path": "HFExperiment/src/hfexperiment/commission.py",
+   "holds": "IBKR Pro Tiered (0.0035/sh, min 0.35, cap 0.5%) and Fixed (0.005/sh, min 1.00, cap 1%); SEC 31 rate 0.0000206; FINRA TAF 0.000195 with worst-case 0.01 floor and 9.79 cap; fractional max(1%,0.01); crossover_notional_usd",
+   "backs": "docs/ACCESS.md:50-67, :89-106, :118-153",
+   "tracked": true,
+   "anchored": true,
+   "kind": "code"
+  },
+  {
+   "path": "HFExperiment/src/hfexperiment/costmodel.py",
+   "holds": "round_trip, annual_commission_drag, daily_cost_hurdle_bp (:209-223); inherited spread band (15.8,50.0) with UNMEASURED carry 50.0",
+   "backs": "reports/stage_a2/cost_table.md; the 4.07 hurdle; the 28.76/56.84 annual drag",
+   "tracked": true,
+   "anchored": true,
+   "kind": "code"
+  },
+  {
+   "path": "HFExperiment/src/hfexperiment/verdict.py",
+   "holds": "acs_radius, tuned_rho (golden-section on log10 rho), confidence_bounds, classify_verdict, alpha_for_width, first_crossing_day",
+   "backs": "REGISTRATION.md Section 11; rho 0.071641; days 2061/2852",
+   "tracked": true,
+   "anchored": true,
+   "kind": "code"
+  },
+  {
+   "path": "HFExperiment/src/hfexperiment/verdictengine.py",
+   "holds": "Wires the confidence sequence over the shadow series; embeds the registered projection in every appended record",
+   "backs": "reports/monitor/verdict.txt",
+   "tracked": true,
+   "anchored": true,
+   "kind": "code"
+  },
+  {
+   "path": "HFExperiment/src/hfexperiment/monitor.py",
+   "holds": "The two structurally separated views; verdict view validates every emitted line against a regex allowlist (:142 pins the 2061/2852 line)",
+   "backs": "reports/monitor/health.txt, reports/monitor/verdict.txt",
+   "tracked": true,
+   "anchored": true,
+   "kind": "code"
+  },
+  {
+   "path": "HFExperiment/src/hfexperiment/universe.py",
+   "holds": "Universe rule U-LIQ-500-stk-w60-m40-p5; header states COPIED 2026-08-23 from AiTrader backtest/universe.py",
+   "backs": "REGISTRATION.md:78; ADR-006; reproduce_log.txt",
+   "tracked": true,
+   "anchored": true,
+   "kind": "code"
+  },
+  {
+   "path": "HFExperiment/src/hfexperiment/formation.py",
+   "holds": "12-1 momentum with skip month; ADR-006 anchor conventions; MAX_ANCHOR_GAP_SESSIONS disqualification",
+   "backs": "REGISTRATION.md:80-88; reports/stage_a1/formations.json",
+   "tracked": true,
+   "anchored": true,
+   "kind": "code"
+  },
+  {
+   "path": "HFExperiment/src/hfexperiment/{shadow,accrual,states,benchmark,barstore,alpaca_source,formationrun}.py",
+   "holds": "The shadow-series machinery: five accrual states, book/panel arithmetic, append-only bar store, adjustment=all source, fresh-full-window formation runs. Never executed against real data.",
+   "backs": "progress.md:121-139; ADR-016, ADR-017",
+   "tracked": true,
+   "anchored": true,
+   "kind": "code"
+  },
+  {
+   "path": "HFExperiment/src/hfexperiment/{gate,gatewire,brokerconfig,intents,kill,ledger,spendledger,ibkrprobe,mockbroker,envfile,config,dbaccess}.py",
+   "holds": "Order gate with eight refusals, account pin, kill restart-vs-termination, append-only ledger primitive, read-only minimal-v100 TWS probe, mock broker with no submit method",
+   "backs": "REGISTRATION.md Sections 8,9; reports/stage_c1/refusals.md; ADR-018/019/020",
+   "tracked": true,
+   "anchored": true,
+   "kind": "code"
+  },
+  {
+   "path": "HFExperiment/scripts/cost_table_a2.py",
+   "holds": "Generator for reports/stage_a2/cost_table.md; carries the holdout literals PRIMARY_EXCESS_BP_PER_DAY 27.99 and PRIMARY_SIGMA_BP_PER_DAY 418.0 (:33-34) and WIDTH5_NAMES (:36)",
+   "backs": "reports/stage_a2/cost_table.md in full; the 4.07 hurdle",
+   "tracked": true,
+   "anchored": true,
+   "kind": "code"
+  },
+  {
+   "path": "HFExperiment/scripts/cost_table.py",
+   "holds": "Generator for the docs/ACCESS.md commission arithmetic table",
+   "backs": "docs/ACCESS.md:125-141",
+   "tracked": true,
+   "anchored": true,
+   "kind": "code"
+  },
+  {
+   "path": "HFExperiment/scripts/reproduce_formation.py",
+   "holds": "Stage A.1 reproduction driver; reads AiTrader analysis_bars.db read-only via dbaccess.open_readonly",
+   "backs": "universe_check.json, formations.json, formations.md, reproduce_log.txt",
+   "tracked": true,
+   "anchored": true,
+   "kind": "code"
+  },
+  {
+   "path": "HFExperiment/scripts/measure_book_spreads.py",
+   "holds": "A.2 spread measurement: Alpaca historical SIP quotes, 3 sessions x 3 windows x up to 50 quotes, discard taxonomy crossed/locked/zero/no_size",
+   "backs": "reports/stage_a2/book_spreads.json",
+   "tracked": true,
+   "anchored": true,
+   "kind": "code"
+  },
+  {
+   "path": "HFExperiment/scripts/a1b_capability_test.py",
+   "holds": "The only order-placing script: 10-order cap, pinned account, SmartRouted, tif DAY, ends flat",
+   "backs": "reports/stage_a1b/evidence.jsonl and a1b_report.md; the Section 0 BLOCKED verdict",
+   "tracked": true,
+   "anchored": true,
+   "kind": "code"
+  },
+  {
+   "path": "HFExperiment/scripts/demo_c1.py",
+   "holds": "Produces every registered refusal against the real 2026-08-03 width-20 book",
+   "backs": "reports/stage_c1/refusals.md and the demo ledgers",
+   "tracked": true,
+   "anchored": true,
+   "kind": "code"
+  },
+  {
+   "path": "HFExperiment/scripts/fetch_c1_formation.py",
+   "holds": "Computes the 2026-08-03 formation fresh into data/c1_formation.db",
+   "backs": "reports/stage_c1/formation_2026-08-03.json",
+   "tracked": true,
+   "anchored": true,
+   "kind": "code"
+  },
+  {
+   "path": "HFExperiment/scripts/daily_run.py",
+   "holds": "The 23:30 UTC daily entry point the systemd timer fires; --render-only path",
+   "backs": "reports/monitor/health.txt, reports/monitor/verdict.txt",
+   "tracked": true,
+   "anchored": true,
+   "kind": "code"
+  },
+  {
+   "path": "HFExperiment/tests/ (27 files, 158 def test_ functions)",
+   "holds": "Pins the hurdle re-derivation (test_registered.py:52-69), rho and 2061/2852 (test_verdict.py:68-74; test_verdictengine.py:24-40), the monitor allowlist, the structural guard, the commission branches",
+   "backs": "progress.md test counts 27/76/123/158",
+   "tracked": true,
+   "anchored": true,
+   "kind": "code"
+  },
+  {
+   "path": "HFExperiment/reports/stage_a1/formations.json",
+   "holds": "3278 lines. Keys rule, widths, formations (7 dates x widths 5/20/50, rows rank/symbol/momentum/last_close), churn block, median_price block",
+   "backs": "formations.md; the 144 USD DEGRADED closure; churn 5.2 and 2.0",
+   "tracked": true,
+   "anchored": true,
+   "kind": "data",
+   "n": "7 formations; 5+20+50 rows each"
+  },
+  {
+   "path": "HFExperiment/reports/stage_a1/formations.md",
+   "holds": "Churn table (6 months x 3 widths), median share price table (7 x 3), full book name lists",
+   "backs": "REGISTRATION.md:149-154; ADR-004; ADR-012",
+   "tracked": true,
+   "anchored": true,
+   "kind": "data",
+   "n": "7 formations"
+  },
+  {
+   "path": "HFExperiment/reports/stage_a1/universe_check.json",
+   "holds": "10 formation dates, each recorded_rows 500 / reproduced_rows 500, empty missing/extra/rank/value mismatch arrays, exact_match true",
+   "backs": "Universe exact at all 10 checked dates, all 500 rows each",
+   "tracked": true,
+   "anchored": true,
+   "kind": "data",
+   "n": "10 dates x 500 rows"
+  },
+  {
+   "path": "HFExperiment/reports/stage_a1/reproduce_log.txt",
+   "holds": "reproduced 124, recorded 124, identical=True; segments for 19744 symbols; per-formation ranked counts 493-496 and no_far_anchor_bar exclusions 4-7",
+   "backs": "REGISTRATION.md:79; progress.md:207",
+   "tracked": true,
+   "anchored": true,
+   "kind": "data",
+   "n": "124 formation dates"
+  },
+  {
+   "path": "HFExperiment/reports/stage_a1/db_hash_before.txt, db_hash_after.txt",
+   "holds": "Identical sha256 c30d3f4486e975a0... of /home/kiros-li/Documents/GitHub/AiTrader/analysis_bars.db",
+   "backs": "progress.md:211-212 database hash unchanged",
+   "tracked": true,
+   "anchored": true,
+   "kind": "data",
+   "n": "1 file, 2 hashes"
+  },
+  {
+   "path": "HFExperiment/reports/stage_a1/mutation_tests.txt",
+   "holds": "3 mutations CAUGHT with the failing test named; restored line carries 27 pytest progress dots",
+   "backs": "progress.md:218-220",
+   "tracked": true,
+   "anchored": true,
+   "kind": "data",
+   "n": "3 mutations / 27 tests"
+  },
+  {
+   "path": "HFExperiment/reports/stage_a2/book_spreads.json",
+   "holds": "Per-name n_cells/median_bp/median_ticks/median_mid for 20 names; unmeasured []; distribution min 2.1413, p25 6.3674, median 12.7732, p75 17.2325, p90 20.7306, max 27.4324; discarded crossed 6 locked 88; measured_utc 2026-08-24T04:23:29Z; feed sip",
+   "backs": "REGISTRATION.md:170-177; cost_table.md; ADR-013; the 4.07 hurdle",
+   "tracked": true,
+   "anchored": true,
+   "kind": "data",
+   "n": "20 names x 9 cells = 180 cells"
+  },
+  {
+   "path": "HFExperiment/reports/stage_a2/cost_table.md",
+   "holds": "15-row round-trip table, 6-row annual drag table, hurdle derivation line (:36), verdict arithmetic line (:40)",
+   "backs": "REGISTRATION.md Sections 7 and 11",
+   "tracked": true,
+   "anchored": true,
+   "kind": "data"
+  },
+  {
+   "path": "HFExperiment/reports/stage_a2/mutation_tests.txt",
+   "holds": "2 mutations CAUGHT with 5 and 2 named failing tests; 76 passed after restore",
+   "backs": "progress.md:179-181",
+   "tracked": true,
+   "anchored": true,
+   "kind": "data",
+   "n": "2 mutations / 76 tests"
+  },
+  {
+   "path": "HFExperiment/reports/stage_a1b/evidence.jsonl",
+   "holds": "51 rows: stage_start; connected with server_version 178 and managed [[paper account ID removed]]; 20 contract_details all MinSize/SizeIncrement 0.0001; 10 api_error; 2 quote_snapshot; 2 quantity_computed; 5 order_request and 5 order_outcome; fills []; 2 final_positions both []; orders_placed_total {count 4, cap 10}; 1 cancel. Run 03:05:15Z to 03:07:17Z",
+   "backs": "The Section 0 BLOCKED verdict; ADR-022; docs/ACCESS.md Task 3 re-status",
+   "tracked": true,
+   "anchored": true,
+   "kind": "data",
+   "n": "5 orders, 20 contracts"
+  },
+  {
+   "path": "HFExperiment/reports/stage_a1b/a1b_report.md",
+   "holds": "Rendered A.1b report; states server version 187 at :4; verbatim 10243 and 10244 status logs; the accepted whole-share control; flat positions twice",
+   "backs": "REGISTRATION.md:297-304 amendment; progress.md:23-54",
+   "tracked": true,
+   "anchored": true,
+   "kind": "data",
+   "n": "5 orders"
+  },
+  {
+   "path": "HFExperiment/reports/stage_b1/price_reconciliation.md",
+   "holds": "143.89 vs 103.25, ratio 0.7176 / 28.2 pct; zero splits and zero in-window ex-dates; MU 0.15 ex 2026-07-06, WDC 0.60 ex 2026-09-08, STX 2.96 ex 2026-09-24; MXL 0.518 and WOLF 0.546 confirmed real declines; third median 97.45 at 2026-08-24",
+   "backs": "ADR-016; progress.md:111-119",
+   "tracked": true,
+   "anchored": true,
+   "kind": "data",
+   "n": "20 names, one public source"
+  },
+  {
+   "path": "HFExperiment/reports/stage_b1/mutation_tests.txt",
+   "holds": "3 mutations CAUGHT with pytest excerpts; 123 passed; progress dots 72+51 = 123, consistent",
+   "backs": "progress.md:141-145",
+   "tracked": true,
+   "anchored": true,
+   "kind": "data",
+   "n": "3 mutations / 123 tests"
+  },
+  {
+   "path": "HFExperiment/reports/stage_c1/refusals.md",
+   "holds": "All 8 refusals with named arithmetic; the 4-way account pin; the construction wall; the priced-and-ready intent; the reconciliation stub; the probe result with server_version 187; ledger counts {intent 20, refusal 34, would_submit 1}",
+   "backs": "progress.md:70-83; ADR-018/020/021",
+   "tracked": true,
+   "anchored": true,
+   "kind": "data",
+   "n": "20 intents"
+  },
+  {
+   "path": "HFExperiment/reports/stage_c1/demo_ledger.jsonl",
+   "holds": "55 demonstration ledger records",
+   "backs": "refusals.md:339 count line",
+   "tracked": true,
+   "anchored": true,
+   "kind": "data",
+   "n": "55 rows"
+  },
+  {
+   "path": "HFExperiment/reports/stage_c1/demo_spend_ledger.jsonl",
+   "holds": "3 seeded rolling-year spend records: 60.00, 40.01, 25.00",
+   "backs": "refusals.md:133-139 spend cap demonstration",
+   "tracked": true,
+   "anchored": true,
+   "kind": "data",
+   "n": "3 rows"
+  },
+  {
+   "path": "HFExperiment/reports/stage_c1/formation_2026-08-03.json",
+   "holds": "n_members 500, n_measurable 494, books at widths 5 and 20, per-name closes, source fresh Alpaca query adjustment=all",
+   "backs": "refusals.md:7; ADR-021",
+   "tracked": true,
+   "anchored": true,
+   "kind": "data",
+   "n": "500 members"
+  },
+  {
+   "path": "HFExperiment/reports/stage_c1/mutation_tests.txt",
+   "holds": "4 mutations CAUGHT with pytest excerpts; 158 passed; progress dots shown 72+14 = 86, one wrapped 72-dot line missing from the paste (72+72+14 = 158 and 144/158 = 91 pct is consistent)",
+   "backs": "progress.md:92-96",
+   "tracked": true,
+   "anchored": true,
+   "kind": "data",
+   "n": "4 mutations / 158 tests"
+  },
+  {
+   "path": "HFExperiment/reports/monitor/health.txt",
+   "holds": "Pre-start health render generated 2026-08-25T00:34:28Z: credentials BLOCKED-ON-OPERATOR, timer enabled and active, last run never, all counts none",
+   "backs": "progress.md:134-139",
+   "tracked": true,
+   "anchored": true,
+   "kind": "data",
+   "n": "0 observations"
+  },
+  {
+   "path": "HFExperiment/reports/monitor/verdict.txt",
+   "holds": "Pre-start verdict render for 3 widths: observations 0, bounds none, verdict CONTINUE, success bar 4.07, futility bar 10.0, projection 2061/2852",
+   "backs": "REGISTRATION.md Sections 11 and 12",
+   "tracked": true,
+   "anchored": true,
+   "kind": "data",
+   "n": "0 observations"
+  },
+  {
+   "path": "HFExperiment/docs/ACCESS.md",
+   "holds": "Broker table with 8 numbered web sources and retrieval dates; the IBKR cap-rule and API-routing quotes; regulatory rate table; 15-row cost table; the Task 3 SUPERSEDED block with the 7-row sub-test status table",
+   "backs": "ADR-003, ADR-007, ADR-022, ADR-026",
+   "tracked": true,
+   "anchored": true,
+   "kind": "document",
+   "n": "4 brokers, 7 sub-tests"
+  },
+  {
+   "path": "HFExperiment/systemd/hfexperiment-bars.timer, .service",
+   "holds": "OnCalendar Mon..Fri 23:30:00 UTC, Persistent=true, MemoryMax=2G, oneshot service running scripts/daily_run.py",
+   "backs": "progress.md:134-137",
+   "tracked": true,
+   "anchored": true,
+   "kind": "config"
+  },
+  {
+   "path": "/home/kiros-li/Documents/GitHub/HFExperiment/data/bars.db",
+   "holds": "The B.1 shadow store. Tables assets, bars, fetch_log, formations, sessions, universe - every one 0 rows. Size 40960 B, mtime 2026-08-24 17:34. Read read-only (immutable=1) 2026-09-03T23:58:33Z.",
+   "backs": "Corroborates zero shadow observations (REGISTRATION.md:313-315, progress.md:12-15)",
+   "tracked": false,
+   "anchored": false,
+   "kind": "untracked_data",
+   "n": "0 rows in all 6 tables"
+  },
+  {
+   "path": "/home/kiros-li/Documents/GitHub/HFExperiment/data/c1_formation.db",
+   "holds": "C.1's own store: assets 14260, bars 894420, formations 75, sessions 682, universe 500, fetch_log 0. Size 105005056 B, mtime 2026-08-24 19:31. Row counts only; read-only (immutable=1) 2026-09-03T23:58:42Z; no bulk read.",
+   "backs": "reports/stage_c1/formation_2026-08-03.json; ADR-021",
+   "tracked": false,
+   "anchored": false,
+   "kind": "untracked_data",
+   "n": "894420 bars, 500 universe rows"
+  },
+  {
+   "path": "/home/kiros-li/Documents/GitHub/HFExperiment/data/ledger/",
+   "holds": "Empty directory, mtime 2026-08-24 17:34. No spend.jsonl exists.",
+   "backs": "ADR-021's claim that the real spend ledger stays untouched until D.1",
+   "tracked": false,
+   "anchored": false,
+   "kind": "untracked_data",
+   "n": "0 files"
+  },
+  {
+   "path": "/home/kiros-li/Documents/GitHub/HFExperiment/_CLOSED_DO_NOT_RUN_HERE",
+   "holds": "747-byte closure marker written 2026-09-02, excluded locally via .git/info/exclude. Post-anchor artifact, not part of the audited SHA.",
+   "backs": "The 2026-08-26 closure discipline; not cited by any document at the anchor",
+   "tracked": false,
+   "anchored": false,
+   "kind": "untracked_data",
+   "n": "1 file"
+  },
+  {
+   "path": "/home/kiros-li/Documents/GitHub/HFExperiment/.env",
+   "holds": "200 B, mtime 2026-08-24 17:52. NOT READ - credentials.",
+   "backs": "progress.md:99-100 (Alpaca keys are in .env); health.txt:3 records its absence at the earlier 2026-08-25T00:34Z render",
+   "tracked": false,
+   "anchored": false,
+   "kind": "untracked_data",
+   "n": null
+  },
+  {
+   "path": "/home/kiros-li/Documents/GitHub/HFExperiment/{Accept:,GET,Host:,User-Agent:}",
+   "holds": "Four 0-byte stray files, mtime 2026-08-24 17:41. The pre-existing owner dirt COMMON_RULES records for this repository.",
+   "backs": "nothing",
+   "tracked": false,
+   "anchored": false,
+   "kind": "untracked_data",
+   "n": "4 files, 0 bytes each"
+  },
+  {
+   "path": "/home/kiros-li/.config/systemd/user/hfexperiment-bars.timer, .service",
+   "holds": "426 / 395 B, mtime 2026-08-24 17:34, byte-identical to the tracked units (diff clean). systemctl --user is-enabled = disabled, is-active = inactive, absent from list-timers --all (queried 2026-09-03T23:59Z).",
+   "backs": "REGISTRATION.md:310-313 and progress.md:12-15, the disarm claim - VERIFIES",
+   "tracked": false,
+   "anchored": false,
+   "kind": "system_state",
+   "n": null
+  },
+  {
+   "path": "/home/kiros-li/Documents/GitHub/AiTrader/analysis_bars.db",
+   "holds": "EXTERNAL. Referenced at src/hfexperiment/dbaccess.py:13. Sole source for the A.1 reproduction (124 dates), the 10 universe checks, momentum ranking, churn and median share price. Not opened by this task.",
+   "backs": "C8, C11, C12, C17, C19 all cross this boundary",
+   "tracked": false,
+   "anchored": false,
+   "kind": "external",
+   "n": null
+  },
+  {
+   "path": "(no artifact) the already-spent holdout width figures",
+   "holds": "27.99 bp/day, 66.40 pct/yr, IR 1.062 at width 5 and 10.04 bp/day, 31.70 pct/yr, IR 0.798 at width 50. No artifact anywhere in HFExperiment holds them. They enter only as literals at scripts/cost_table_a2.py:31-34 (comment: recorded in the A.2 stage prompt), src/hfexperiment/registered.py:104-105, and table rows REGISTRATION.md:115,118. Attributed to the AiTrader cross-sectional round of 2026-07-26 (README.md:3-5, benchmark.py:5-9).",
+   "backs": "The hypothesis (Section 1), the primary-width choice (Section 4), the power-law fit (ADR-009), the 2061/2852 projection (Section 11) - i.e. nearly everything",
+   "tracked": false,
+   "anchored": false,
+   "kind": "missing_artifact",
+   "n": "not stated anywhere"
+  }
+ ],
+ "claims": [
+  {
+   "id": "C1",
+   "rank": 1,
+   "must_verify": true,
+   "claim_verbatim": "BLOCKED. The IBKR TWS API refused fractional quantities however phrased on paper account [paper account ID removed], error 10243 on decimal totalQuantity across two book names and two order types, error 10244 on cashQty, while a whole-share control order was accepted, evidence in reports/stage_a1b.",
+   "file_line": "HFExperiment/REGISTRATION.md:299-304 (also reports/stage_a1b/a1b_report.md:107-116; progress.md:39-46; DECISIONS.md:401-429)",
+   "figures": "3 decimal orders (MU market, MU limit, TE market) + 1 cashQty order + 1 whole-share control = 5 orders against a cap of 10; 2 symbols; 2 order types; 20 contracts at MinSize/SizeIncrement 0.0001",
+   "n": "5 orders; 20 contracts; 51 evidence rows",
+   "believed_producer": "scripts/a1b_capability_test.py -> reports/stage_a1b/evidence.jsonl",
+   "note": "The deciding number of the whole live track: phases C and D stop on it."
+  },
+  {
+   "id": "C2",
+   "rank": 2,
+   "must_verify": true,
+   "claim_verbatim": "Success when the lower bound clears the measured cost hurdle of 4.07 bp per day, computed at the primary width under the worst-case fractional regime with the measured width-5 spread.",
+   "file_line": "HFExperiment/REGISTRATION.md:249-251 (also src/hfexperiment/registered.py:78; reports/stage_a2/cost_table.md:36; reports/monitor/verdict.txt:8,17,26)",
+   "figures": "width 5; churn 2.0 names/mo; notional 180 USD; width-5 spread 13.08 bp at median mid 201.91 USD; round trip 213.84 bp; 21 trading days/mo",
+   "n": "5 names (WOLF, AXTI, SNDK, BE, LITE) x 9 spread cells",
+   "believed_producer": "scripts/cost_table_a2.py:96-115 over costmodel.round_trip and daily_cost_hurdle_bp, reading reports/stage_a2/book_spreads.json; pinned by tests/test_registered.py:52-69",
+   "note": "The success bar the verdict would have been read against."
+  },
+  {
+   "id": "C3",
+   "rank": 3,
+   "must_verify": true,
+   "claim_verbatim": "the effect, measured at 27.99 bp per day on the already-spent holdout, exceeds the 4.07 bp per day that round-trip costs consume at the measured 40 percent monthly churn, so a fee-paying participant keeps most of it",
+   "file_line": "HFExperiment/REGISTRATION.md:52-56 (also :92-93 IR 1.062; table :113-118)",
+   "figures": "width 5: TE 66.40 pct/yr, excess 27.99 bp/day, IR 1.062 (labelled recorded); width 50: 31.70, 10.04, 0.798 (recorded); widths 10 and 20 labelled INTERPOLATED",
+   "n": "not stated anywhere in this repository",
+   "believed_producer": "none in-repo; literals at scripts/cost_table_a2.py:31-34 and src/hfexperiment/registered.py:104-105; origin declared as the AiTrader cross-sectional round of 2026-07-26",
+   "note": "The largest single dependency in the repository and the one with the weakest in-repo anchor."
+  },
+  {
+   "id": "C4",
+   "rank": 4,
+   "must_verify": true,
+   "claim_verbatim": "A.1 measured it: 144 USD at the last two formations, up from 36 in March and April. At 144, whole-share sizing on 900 USD cannot fill a 20-name book at all, because 20 names at one share each already cost about 2,880 USD. A 5-name book gets one share per name, 720 of 900 deployed, with equal weighting destroyed by per-name prices from 22 to 1,595 USD.",
+   "file_line": "HFExperiment/REGISTRATION.md:149-154 (also DECISIONS.md:194-199, ADR-012)",
+   "figures": "median width-20 book share price 143.80 (2026-06-01) and 143.89 (2026-07-01); March 36.47; April 40.59; 20 x 144 = 2880; 5 x 144 = 720",
+   "n": "7 formations; 20 names in the width-20 book",
+   "believed_producer": "reports/stage_a1/formations.json median_price block and per-name last_close values; medians reproduce exactly from the stored rows",
+   "note": "2880 and 720 are median-times-count, not the actual one-share cost: summed one-share cost from stored closes is 7890.47 USD (width 20) and 3554.82 USD (width 5), so 720 of 900 is not obtainable from the book it names and is in tension with the same sentence's 22-to-1595 range. Stored April median is 40.59, not 36. Direction of the conclusion is a fortiori unaffected."
+  },
+  {
+   "id": "C5",
+   "rank": 5,
+   "must_verify": true,
+   "claim_verbatim": "The floor is 500 USD of total account equity, a 400 USD loss on 900 deployed after the 100 buffer, 1.31 sigma of the width-20 tracking error, driftless touch probability near 19 percent in year one.",
+   "file_line": "HFExperiment/REGISTRATION.md:216-218 (also DECISIONS.md:171-179 ADR-011; src/hfexperiment/registered.py:53-56)",
+   "figures": "TE(20) 42.54 pct/yr interpolated; deployed 900 USD; sigma 382.86 USD; 500 -> 1.31 sigma -> ~19 pct; 600 -> 1.04 -> ~30 pct; 400 -> 1.57 -> ~12 pct; 7 points of difference",
+   "n": "0 observations; a design calculation",
+   "believed_producer": "no script; hand arithmetic in the document",
+   "note": "All four sigma multiples and all three touch probabilities reproduce only if the loss is 1000 minus the floor, i.e. 500 USD. The stated 400 USD loss and the stated 1.31 sigma cannot both be right."
+  },
+  {
+   "id": "C6",
+   "rank": 6,
+   "must_verify": true,
+   "claim_verbatim": "Run 2026-08-25, 02:57 to 03:07 UTC ... Gateway 127.0.0.1:4002, server version 187, account [paper account ID removed], declared mode paper.",
+   "file_line": "HFExperiment/reports/stage_a1b/a1b_report.md:3-4 (repeated at DECISIONS.md:408 and :441; docs/ACCESS.md:178; progress.md:236; reports/stage_c1/refusals.md:332)",
+   "figures": "server version 187 in every prose retelling; the primary evidence ledger's connected record carries server_version 178",
+   "n": "one connection record in reports/stage_a1b/evidence.jsonl",
+   "believed_producer": "scripts/a1b_capability_test.py wrote the ledger; the report text is the rendered retelling",
+   "note": "The C.1 probe, a separate later connection, does record 187 - so the two are not necessarily the same session, which is exactly what needs settling."
+  },
+  {
+   "id": "C7",
+   "rank": 7,
+   "must_verify": true,
+   "claim_verbatim": "All 20 names of the 2026-07-01 width-20 book were measured on the consolidated tape over sessions 2026-08-19 to 2026-08-21: median 12.77 bp, p75 17.2, p90 20.7, max 27.4. The inherited 15.8 to 50 bp band predicted the wide end and measured wrong in the favourable direction",
+   "file_line": "HFExperiment/REGISTRATION.md:170-176 (also reports/stage_a2/cost_table.md:3; DECISIONS.md:207-215 ADR-013)",
+   "figures": "median 12.7732, p75 17.2325, p90 20.7306, max 27.4324, min 2.1413, p25 6.3674; discarded crossed 6, locked 88; unmeasured names none",
+   "n": "20 names x 9 cells = 180 cells",
+   "believed_producer": "scripts/measure_book_spreads.py -> reports/stage_a2/book_spreads.json",
+   "note": "Feeds C2 and is the one measurement that displaced a settled assumption."
+  },
+  {
+   "id": "C8",
+   "rank": 8,
+   "must_verify": false,
+   "claim_verbatim": "Reproduced. All 124 recorded formation dates identical. Universe exact at all 10 checked dates, all 500 rows each.",
+   "file_line": "HFExperiment/progress.md:207-208 (also REGISTRATION.md:78-80; reports/stage_a1/reproduce_log.txt:1,21; universe_check.json)",
+   "figures": "124 formation dates; 10 universe dates x 500 rows; 19744 symbols segmented; per-formation ranked 493-496; no_far_anchor_bar exclusions 4-7",
+   "n": "124 dates; 10 x 500 rows",
+   "believed_producer": "scripts/reproduce_formation.py against AiTrader analysis_bars.db (cross-repo)",
+   "note": "ADR-006:106-110 discloses that recorded books at widths 5 and 50 are not in the permitted database, so the disagreement gate ran against universe membership, not against books."
+  },
+  {
+   "id": "C9",
+   "rank": 9,
+   "must_verify": false,
+   "claim_verbatim": "tuning parameter rho set by minimizing the boundary at a crossing time of 1,600 trading days, frozen at 0.071641 ... with the sample mean holding at 27.99, the lower bound clears zero at day 2,061 and clears the hurdle at day 2,852",
+   "file_line": "HFExperiment/REGISTRATION.md:246-262 (also reports/stage_a2/cost_table.md:40; registered.py:91,104-107; reports/monitor/verdict.txt:4,10-11)",
+   "figures": "rho 0.071641; sigma 418 bp/day; days 2061 and 2852; alpha 0.05 one-sided; t* 1600",
+   "n": "0 observations (projection only)",
+   "believed_producer": "src/hfexperiment/verdict.tuned_rho and verdict.first_crossing_day; pinned by tests/test_verdict.py:68-74",
+   "note": "Reproduced exactly from the stated formula in an independent recomputation."
+  },
+  {
+   "id": "C10",
+   "rank": 10,
+   "must_verify": false,
+   "claim_verbatim": "Annual deterministic drag at the traded width and measured churn: 28.76 USD per year under whole-share Tiered, 56.84 under fractional.",
+   "file_line": "HFExperiment/REGISTRATION.md:184-186 (also reports/stage_a2/cost_table.md:27-32; echoed as roughly 30 to 60 USD a year at :279-280)",
+   "figures": "width 20; churn 5.2/mo; 10.4 fills/mo; share price 103.25; 28.08 + 0.68 = 28.76; 56.16 + 0.68 = 56.84",
+   "n": "6 formations of churn; 20 names of price",
+   "believed_producer": "costmodel.annual_commission_drag via scripts/cost_table_a2.py:78-93",
+   "note": "Reproduced exactly."
+  },
+  {
+   "id": "C11",
+   "rank": 11,
+   "must_verify": false,
+   "claim_verbatim": "Width 20 is the TRADED width, chosen for fill rate: 10.4 fills per month against 4.0 at width 5, which reaches the roughly 200 fills the execution measurement needs in about 19 months instead of 50.",
+   "file_line": "HFExperiment/REGISTRATION.md:101-104 (also DECISIONS.md:79-81 ADR-004 and :165-166 ADR-010; registered.py:85)",
+   "figures": "churn 5.2 and 2.0 names/mo; fills 10.4 and 4.0; 200/10.4 = 19.2; 200/4.0 = 50",
+   "n": "6 formations (2026-02-02 to 2026-07-01)",
+   "believed_producer": "reports/stage_a1/formations.json churn block",
+   "note": "Width-20 mean 31/6 = 5.167 -> 5.2 and width-5 mean 12/6 = 2.0 reproduce from the stored block."
+  },
+  {
+   "id": "C12",
+   "rank": 12,
+   "must_verify": false,
+   "claim_verbatim": "Fitting a power law to the two recorded widths gives TE exponent -0.321 and excess exponent -0.445 ... Width 20 carries IR 0.894 against width 5's 1.062, and time to verdict scales as one over IR squared, giving 1.41.",
+   "file_line": "HFExperiment/DECISIONS.md:141-149 (ADR-009; table at REGISTRATION.md:110-118)",
+   "figures": "exponents -0.3211 and -0.4453; TE(10) 53.15, TE(20) 42.54; excess(10) 20.56, excess(20) 15.10; IR 0.975 and 0.894; ratio 1.4112",
+   "n": "two points, disclosed",
+   "believed_producer": "hand fit; no script in the repository emits these",
+   "note": "Every cell reproduces. Zero residual degrees of freedom by construction; no uncertainty reported, which the documents disclose by labelling widths 10 and 20 INTERPOLATED. The IR figures require annualising by 252, which no document states."
+  },
+  {
+   "id": "C13",
+   "rank": 13,
+   "must_verify": false,
+   "claim_verbatim": "The ratio of medians is 0.7176, a 28.2 percent gap ... No name in the book split in 2026. No name went ex-dividend between 2026-07-24 and 2026-08-24.",
+   "file_line": "HFExperiment/reports/stage_b1/price_reconciliation.md:11-13,27-34 (also DECISIONS.md:259-265 ADR-016; progress.md:111-119)",
+   "figures": "143.89 vs 103.25; ratio 0.7176; MXL 0.518, WOLF 0.546; third median 97.45 at 2026-08-24 on 19 names plus MU at its 2026-08-21 mid; MU 0.15 ex 2026-07-06, WDC 0.60 ex 2026-09-08, STX 2.96 ex 2026-09-24",
+   "n": "20 names, one public source (stockanalysis.com, retrieved 2026-08-24)",
+   "believed_producer": "manual per-name check; no script",
+   "note": "Disclosed limitation at :81-82: a corporate action the public source missed would change the verdict."
+  },
+  {
+   "id": "C14",
+   "rank": 14,
+   "must_verify": false,
+   "claim_verbatim": "Cumulative spend at or above the registered cap of 100 USD per rolling 365 days, about 1.75 times the worst-case fractional projection.",
+   "file_line": "HFExperiment/REGISTRATION.md:196-198 (also DECISIONS.md:217-219 ADR-013; registered.py:59)",
+   "figures": "100/56.84 = 1.759; demonstration rolling-year spend 100.01 from 60.00 + 40.01 with a 25.00 record at 2025-08-10 correctly excluded",
+   "n": "3 seeded ledger records",
+   "believed_producer": "src/hfexperiment/spendledger.py; demonstrated at reports/stage_c1/refusals.md:131-151",
+   "note": ""
+  },
+  {
+   "id": "C15",
+   "rank": 15,
+   "must_verify": false,
+   "claim_verbatim": "Confirmed: Tiered cap 0.5 pct, min 0.35. Fixed cap 1 pct, min 1.00. Derived crossovers confirmed: cap equals minimum at 70 USD Tiered and 100 USD Fixed.",
+   "file_line": "HFExperiment/docs/ACCESS.md:65-67 (IBKR text quoted at :54-58 and :63; code at commission.py:43-54,116-121)",
+   "figures": "0.0035/sh min 0.35 cap 0.5 pct; 0.005/sh min 1.00 cap 1 pct; crossovers 70 and 100 USD",
+   "n": "2 published schedules, retrieved 2026-08-23, URLs cited",
+   "believed_producer": "scripts/cost_table.py over commission.py",
+   "note": "External figure: a live re-check would be against IBKR's current page, which may have moved since 2026-08-23."
+  },
+  {
+   "id": "C16",
+   "rank": 16,
+   "must_verify": false,
+   "claim_verbatim": "SEC Section 31 at 20.60 per million effective 2026-04-04. FINRA TAF at 0.000195 effective 2026-01-01. The assumed one cent TAF floor is confirmed nowhere and is held as a worst-case bound.",
+   "file_line": "HFExperiment/progress.md:202-205 (also docs/ACCESS.md:91-106; commission.py:18-27)",
+   "figures": "0.0000206 per dollar; 0.000195 per share; max 9.79; worst-case floor 0.01; stated gap 0 to 2.2 bp at 45 USD",
+   "n": "2 fee schedules with regulator sources",
+   "believed_producer": "commission.sell_leg_regulatory",
+   "note": "The TAF floor is explicitly disclosed as unmeasured; ACCESS.md:104-106 also records FINRA rulebook lag."
+  },
+  {
+   "id": "C17",
+   "rank": 17,
+   "must_verify": false,
+   "claim_verbatim": "Median book share price at width 20 ranged 36 to 144 USD over the last 6 months.",
+   "file_line": "HFExperiment/progress.md:209-211 (table at reports/stage_a1/formations.md:20-28)",
+   "figures": "77.73, 71.25, 36.47, 40.59, 130.69, 143.80, 143.89 across 2026-01-02 to 2026-07-01",
+   "n": "7 formations x 20 names",
+   "believed_producer": "reports/stage_a1/formations.json median_price block",
+   "note": "Every cell of the median-price table reproduces from the stored per-name last_close values."
+  },
+  {
+   "id": "C18",
+   "rank": 18,
+   "must_verify": false,
+   "claim_verbatim": "The eligibility layer advertises 0.0001 increments on all 20 book names, so the instruments are fractionable and the refusal is the API channel itself, which matches the error text's own words.",
+   "file_line": "HFExperiment/DECISIONS.md:423-425 (table at reports/stage_a1b/a1b_report.md:14-35)",
+   "figures": "20 names, MinSize 0.0001 and SizeIncrement 0.0001 each",
+   "n": "20 contract_details rows in evidence.jsonl",
+   "believed_producer": "scripts/a1b_capability_test.py reqContractDetails",
+   "note": ""
+  },
+  {
+   "id": "C19",
+   "rank": 19,
+   "must_verify": false,
+   "claim_verbatim": "The database carries daily bars past the recorded round's pull end of 2026-07-24 for exactly 1,535 symbols, a partial refresh.",
+   "file_line": "HFExperiment/DECISIONS.md:88-90 (ADR-005)",
+   "figures": "1535 symbols; pull end 2026-07-24",
+   "n": "1535 symbols",
+   "believed_producer": "none - no artifact in this repository records the count",
+   "note": "Verifiable only against AiTrader's analysis_bars.db."
+  },
+  {
+   "id": "C20",
+   "rank": 20,
+   "must_verify": false,
+   "claim_verbatim": "{'intent': 20, 'refusal': 34, 'would_submit': 1} in demo_ledger.jsonl, plus 3 spend records in demo_spend_ledger.jsonl.",
+   "file_line": "HFExperiment/reports/stage_c1/refusals.md:339",
+   "figures": "20 + 34 + 1 = 55; demo_ledger.jsonl has 55 lines; demo_spend_ledger.jsonl has 3",
+   "n": "55 and 3 records",
+   "believed_producer": "scripts/demo_c1.py",
+   "note": "Line counts agree; per-kind counts not yet tallied."
+  },
+  {
+   "id": "C21",
+   "rank": 21,
+   "must_verify": false,
+   "claim_verbatim": "Tested. 158 tests green under mypy strict and ruff, the B.1 monitor guard among them. All four required mutations applied to real source, each caught, restored green",
+   "file_line": "HFExperiment/progress.md:92-96 (also :141 for 123, :179 for 76, :218 for 27)",
+   "figures": "158 def test_ functions at HEAD; 12 mutations total across four stages (3+2+3+4)",
+   "n": "158 tests; 12 mutations",
+   "believed_producer": "reports/*/mutation_tests.txt",
+   "note": "158 matches the HEAD count exactly. The C.1 excerpt shows only 86 of the 158 progress dots; one wrapped 72-dot line was dropped from the paste, and 144/158 = 91 pct is consistent with the shown percentage."
+  },
+  {
+   "id": "C22",
+   "rank": 22,
+   "must_verify": false,
+   "claim_verbatim": "this session drafts the operator's probability that the sleeve ever clears its verdict at 0.15, and the operator confirms or replaces that number at acceptance, before the shadow series starts",
+   "file_line": "HFExperiment/REGISTRATION.md:276-278 (confirmed at :289; ADR-014 DECISIONS.md:230-240)",
+   "figures": "prior 0.15",
+   "n": "n/a - a stated prior",
+   "believed_producer": "none; a drafted judgement",
+   "note": "Confirmation rests on ADR-014's statement that running the B.1 stage prompt was the acceptance."
+  },
+  {
+   "id": "C23",
+   "rank": 23,
+   "must_verify": false,
+   "claim_verbatim": "The live track was never funded and zero capital was deployed. The shadow series was disarmed before its first accrual: hfexperiment-bars.timer stopped and disabled via systemctl --user, verified that no HFExperiment unit remains scheduled. The verdict was never computed.",
+   "file_line": "HFExperiment/REGISTRATION.md:308-313 (also progress.md:5-21)",
+   "figures": "0 capital; 0 shadow observations; 0 verdict computations",
+   "n": "0",
+   "believed_producer": "operator action; systemd state",
+   "note": "Corroborated live: data/bars.db all six tables 0 rows; data/ledger/ empty; systemctl --user is-enabled = disabled, is-active = inactive, unit absent from list-timers --all. UNANCHORED, read 2026-09-03T23:58 to 23:59Z."
+  },
+  {
+   "id": "C24",
+   "rank": 24,
+   "must_verify": false,
+   "claim_verbatim": "the account_not_pinned refusal is demonstrated against DU999999 in reports/stage_c1/refusals.md",
+   "file_line": "HFExperiment/docs/ACCESS.md:213",
+   "figures": "DU999999 (6 nines) here against DU9999999 (7 nines) at reports/stage_c1/refusals.md:197, scripts/demo_c1.py:310 and tests/test_gatewire.py:117",
+   "n": "1 demonstration",
+   "believed_producer": "scripts/demo_c1.py",
+   "note": "Hygiene only; the demonstration itself exists."
+  }
+ ],
+ "intervals": [
+  {
+   "id": "I1",
+   "item": "Studentized asymptotic confidence sequence, one-sided, on daily shadow excess return",
+   "file_line": "HFExperiment/REGISTRATION.md:246-248; formula at src/hfexperiment/verdict.py:10-12,26-34",
+   "estimator": "ACS radius sigma_t*sqrt(2(t rho^2+1)/(t^2 rho^2)*ln(sqrt(t rho^2+1)/alpha)), sigma_t the running sample standard deviation",
+   "n": 0,
+   "data_structure": "would be a daily series of book-minus-benchmark excess returns; the store data/bars.db is empty",
+   "realized": false
+  },
+  {
+   "id": "I2",
+   "item": "Primary one-sided level alpha = 0.05 at width 5",
+   "file_line": "HFExperiment/REGISTRATION.md:97-99; registered.py:67; verdict.alpha_for_width:104-116",
+   "estimator": "Bonferroni family: 0.05 primary, 0.025 each secondary",
+   "n": 0,
+   "data_structure": "3 widths (5,20,50)",
+   "realized": false
+  },
+  {
+   "id": "I3",
+   "item": "Secondary one-sided levels alpha = 0.025 at widths 20 and 50",
+   "file_line": "HFExperiment/REGISTRATION.md:97-99; reports/monitor/verdict.txt:13,22",
+   "estimator": "as I2",
+   "n": 0,
+   "data_structure": "2 secondary widths",
+   "realized": false
+  },
+  {
+   "id": "I4",
+   "item": "Tuning parameter rho frozen at 0.071641, minimizing the radius at t* = 1600",
+   "file_line": "HFExperiment/REGISTRATION.md:248; registered.py:91; verdict.tuned_rho:37-66",
+   "estimator": "golden-section search on log10 rho, 200 iterations",
+   "n": null,
+   "data_structure": "deterministic",
+   "realized": true
+  },
+  {
+   "id": "I5",
+   "item": "Success rule: lower bound above 4.07 bp/day",
+   "file_line": "HFExperiment/REGISTRATION.md:249-251; verdict.classify_verdict:97-98",
+   "estimator": "one-sided lower bound of I1 against a fixed hurdle",
+   "n": 0,
+   "data_structure": "-",
+   "realized": false
+  },
+  {
+   "id": "I6",
+   "item": "Futility rule: upper bound below 10 bp/day",
+   "file_line": "HFExperiment/REGISTRATION.md:251-252; registered.py:70",
+   "estimator": "one-sided upper bound of I1",
+   "n": 0,
+   "data_structure": "-",
+   "realized": false
+  },
+  {
+   "id": "I7",
+   "item": "Rendered bounds for all three widths",
+   "file_line": "HFExperiment/reports/monitor/verdict.txt:5-6,14-15,23-24",
+   "estimator": "literally 'observations: 0' and 'bounds: none, the series has not started', verdict CONTINUE",
+   "n": 0,
+   "data_structure": "-",
+   "realized": false
+  },
+  {
+   "id": "I8",
+   "item": "Planning projection: lower bound clears zero at day 2061 and clears 4.07 at day 2852",
+   "file_line": "HFExperiment/REGISTRATION.md:260-262; reports/stage_a2/cost_table.md:40; registered.py:106-107",
+   "estimator": "verdict.first_crossing_day assuming the sample mean holds at 27.99 with sigma 418 forever; labelled planning arithmetic only at verdict.py:126-128",
+   "n": 0,
+   "data_structure": "counterfactual",
+   "realized": false
+  },
+  {
+   "id": "I9",
+   "item": "Pointwise sanity check, about 600 days",
+   "file_line": "HFExperiment/REGISTRATION.md:255-258",
+   "estimator": "pointwise normal arithmetic at 27.99 against 418 bp",
+   "n": 0,
+   "data_structure": "-",
+   "realized": false
+  },
+  {
+   "id": "I10",
+   "item": "Driftless first-passage touch probabilities: ~19 pct at floor 500, ~30 pct at 600, ~12 pct at 400",
+   "file_line": "HFExperiment/REGISTRATION.md:218-222; DECISIONS.md:174-178",
+   "estimator": "reflection-principle tail 2*Phi(-k) on annual sigma = 900 * 42.54 pct",
+   "n": 0,
+   "data_structure": "-",
+   "realized": true
+  }
+ ],
+ "tests": [
+  {
+   "id": "T0",
+   "item": "No hypothesis test on data exists anywhere in this repository",
+   "file_line": "HFExperiment/reports/monitor/verdict.txt:5,14,23 ('observations: 0'); REGISTRATION.md:313-315",
+   "statistic": null,
+   "p_value": null,
+   "n": 0,
+   "data_structure": "the shadow series never produced an observation, so no test statistic and no p-value was ever computed"
+  },
+  {
+   "id": "T1",
+   "item": "A.1 reproduction check (universe)",
+   "file_line": "HFExperiment/reports/stage_a1/universe_check.json; reproduce_log.txt:4-21",
+   "statistic": "exact set/rank/value equality, exact_match boolean - not a statistical test, no tolerance, no statistic",
+   "p_value": null,
+   "n": "10 dates x 500 rows",
+   "data_structure": "recorded vs reproduced universe membership tables"
+  },
+  {
+   "id": "T2",
+   "item": "A.1 reproduction check (formation dates)",
+   "file_line": "HFExperiment/reports/stage_a1/reproduce_log.txt:1",
+   "statistic": "exact equality, 'reproduced 124, recorded 124, identical=True'",
+   "p_value": null,
+   "n": 124,
+   "data_structure": "list of formation dates"
+  },
+  {
+   "id": "T3",
+   "item": "C.1 formation-hash reproduction check",
+   "file_line": "HFExperiment/reports/stage_c1/refusals.md:9",
+   "statistic": "exact hash equality 0b28a5cfda7516fa == 0b28a5cfda7516fa",
+   "p_value": null,
+   "n": 1,
+   "data_structure": "one formation"
+  },
+  {
+   "id": "T4",
+   "item": "Spread distribution summary",
+   "file_line": "HFExperiment/reports/stage_a2/book_spreads.json:139-147",
+   "statistic": "order statistics min/p25/median/p75/p90/max; no interval, no test",
+   "p_value": null,
+   "n": "20 names x 9 cells",
+   "data_structure": "per-name median quoted spread in bp"
+  },
+  {
+   "id": "T5",
+   "item": "Mutation tests (source mutations caught by the suite)",
+   "file_line": "HFExperiment/reports/stage_a1/mutation_tests.txt; stage_a2/mutation_tests.txt; stage_b1/mutation_tests.txt; stage_c1/mutation_tests.txt",
+   "statistic": "12 mutations (3+2+3+4), each recorded CAUGHT with named failing pytest cases; suite counts 27/76/123/158",
+   "p_value": null,
+   "n": 12,
+   "data_structure": "pytest output excerpts"
+  },
+  {
+   "id": "T6",
+   "item": "Two-point power-law fit",
+   "file_line": "HFExperiment/DECISIONS.md:141-149; REGISTRATION.md:110-118",
+   "statistic": "exponents -0.321 (TE) and -0.445 (excess) from two points; zero residual degrees of freedom; no standard error, no confidence interval",
+   "p_value": null,
+   "n": 2,
+   "data_structure": "two (width, TE, excess) triples from the already-spent holdout"
+  }
+ ],
+ "provenance_claims": [
+  {
+   "id": "P1",
+   "claim_verbatim": "Registered 2026-08-23, before any broker measurement was taken. The three outcomes below are fixed now so the broker answer cannot be read against a bar its own measurement could see.",
+   "file_line": "HFExperiment/REGISTRATION.md:8-11",
+   "commit_named": null,
+   "what_would_have_to_be_true": "Section 0's text must exist in a commit preceding any artifact of the broker measurement.",
+   "observed_in_git_or_live": "See P2."
+  },
+  {
+   "id": "P2",
+   "claim_verbatim": "REGISTRATION.md Section 0 committed at c4e9817 before any broker measurement.",
+   "file_line": "HFExperiment/progress.md:192-193",
+   "commit_named": "c4e9817",
+   "what_would_have_to_be_true": "c4e9817 must contain Section 0 and nothing measured.",
+   "observed_in_git_or_live": "c4e9817 is the root commit (no parents), 2026-08-23T15:23:16-07:00, touching only REGISTRATION.md, +49 lines. docs/ACCESS.md first appears at 0a0d214, 15:42:34 the same day, 19 minutes later."
+  },
+  {
+   "id": "P3",
+   "claim_verbatim": "Sections beyond Section 0 land in Stage A.2. Amendments append. Nothing edits in place.",
+   "file_line": "HFExperiment/REGISTRATION.md:4",
+   "commit_named": null,
+   "what_would_have_to_be_true": "Every later commit to REGISTRATION.md must add lines only.",
+   "observed_in_git_or_live": "c4e9817 +49/-0; a8f4b0d +235/-0; 8c4c3bc +12/-1; 669eb5c +9/-0; f13e1d3 +11/-0. The single deletion at 8c4c3bc replaced 'Append-only. No entries yet.' with 'Append-only.' when the first amendment landed."
+  },
+  {
+   "id": "P4",
+   "claim_verbatim": "Sections 1 through 12 registered 2026-08-23. Binding once the operator accepts them.",
+   "file_line": "HFExperiment/REGISTRATION.md:58-59",
+   "commit_named": null,
+   "what_would_have_to_be_true": "Sections 1-12 must land in a 2026-08-23 commit.",
+   "observed_in_git_or_live": "a8f4b0d, 2026-08-23T21:40:25-07:00, +235 lines to REGISTRATION.md."
+  },
+  {
+   "id": "P5",
+   "claim_verbatim": "Width 5 is the PRIMARY width for the verdict. It carries the highest recorded information ratio, 1.062, and it is chosen now, before any forward data exists, on the already-spent holdout rather than on anything the shadow series will produce.",
+   "file_line": "HFExperiment/REGISTRATION.md:92-95 (restated DECISIONS.md:162-163)",
+   "commit_named": null,
+   "what_would_have_to_be_true": "No shadow observation may exist at a8f4b0d, and none may ever have existed.",
+   "observed_in_git_or_live": "data/bars.db holds 0 rows in every table (live, read 2026-09-03T23:58:33Z). Series authorised to start 2026-09-01; disarmed 2026-08-26."
+  },
+  {
+   "id": "P6",
+   "claim_verbatim": "The shadow series starts at the registration date and is never backfilled before it, because backfilling spends a holdout already spent.",
+   "file_line": "HFExperiment/REGISTRATION.md:71-74",
+   "commit_named": null,
+   "what_would_have_to_be_true": "SHADOW_SERIES_START = 2026-09-01 (registered.py:97) must gate every accrual and no pre-start row may exist.",
+   "observed_in_git_or_live": "Moot in fact: no row exists at all."
+  },
+  {
+   "id": "P7",
+   "claim_verbatim": "tuning parameter rho set by minimizing the boundary at a crossing time of 1,600 trading days, frozen at 0.071641.",
+   "file_line": "HFExperiment/REGISTRATION.md:248",
+   "commit_named": null,
+   "what_would_have_to_be_true": "rho must be a consumed constant, never re-tuned, and must reproduce from the stated procedure.",
+   "observed_in_git_or_live": "registered.py:87-91 states the engine consumes the constant and never re-tunes; tests/test_verdictengine.py:24-26 pins both. Independent recomputation of the stated golden-section procedure returns 0.071641."
+  },
+  {
+   "id": "P8",
+   "claim_verbatim": "Amendments are dated, numbered, appended, and each records what data existed when it was made. No amendment may respond to an observed shadow outcome.",
+   "file_line": "HFExperiment/REGISTRATION.md:271-274",
+   "commit_named": null,
+   "what_would_have_to_be_true": "Each amendment-log entry must state the data extant.",
+   "observed_in_git_or_live": "All three entries do: :290-295, :299-304, :313-315."
+  },
+  {
+   "id": "P9",
+   "claim_verbatim": "Data existing at this entry: the A.1 reproduction against the recorded round through the 2026-07-24 pull, the A.2 spread measurement over sessions 2026-08-19 to 2026-08-21, and zero shadow observations, because the series has not started.",
+   "file_line": "HFExperiment/REGISTRATION.md:290-295 (ADR-014 DECISIONS.md:234-238)",
+   "commit_named": null,
+   "what_would_have_to_be_true": "Acceptance (8c4c3bc, 2026-08-24) must precede any shadow row.",
+   "observed_in_git_or_live": "Corroborated as in P5."
+  },
+  {
+   "id": "P10",
+   "claim_verbatim": "Data existing at this entry: everything recorded above, and zero shadow observations, because the series never started.",
+   "file_line": "HFExperiment/REGISTRATION.md:313-315",
+   "commit_named": null,
+   "what_would_have_to_be_true": "No shadow row; and the timer disarmed.",
+   "observed_in_git_or_live": "systemctl --user is-enabled = disabled, is-active = inactive, unit absent from list-timers --all; unit files still present and byte-identical to the tracked copies. Queried 2026-09-03T23:59Z. VERIFIES."
+  },
+  {
+   "id": "P11",
+   "claim_verbatim": "Universe rule U-LIQ-500-stk-w60-m40-p5, copied verbatim from the recorded round; and: COPIED 2026-08-23 from AiTrader backtest/universe.py, read-only source. Do not edit the logic.",
+   "file_line": "HFExperiment/REGISTRATION.md:78-79; src/hfexperiment/universe.py:1-6",
+   "commit_named": null,
+   "what_would_have_to_be_true": "universe.py must be textually the AiTrader module.",
+   "observed_in_git_or_live": "Verifiable only across the AiTrader boundary; not checked by this task."
+  },
+  {
+   "id": "P12",
+   "claim_verbatim": "The recorded round's formation code is outside the two permitted read paths, so the 12-1 ranking is implemented from its registered description.",
+   "file_line": "HFExperiment/DECISIONS.md:99-101 (ADR-006)",
+   "commit_named": null,
+   "what_would_have_to_be_true": "The formation ranking is a re-implementation, not a copy, so C8's 'identical' applies to universe membership and formation dates, not to recorded books.",
+   "observed_in_git_or_live": "ADR-006:106-110 says so explicitly: recorded books at widths 5 and 50 are not in the permitted database, so the disagreement gate ran against recorded universe membership instead. Disclosed by the authors."
+  },
+  {
+   "id": "P13",
+   "claim_verbatim": "Database hash unchanged: c30d3f4486e975a0 before and after.",
+   "file_line": "HFExperiment/progress.md:211-212; reports/stage_a1/db_hash_before.txt and db_hash_after.txt",
+   "commit_named": null,
+   "what_would_have_to_be_true": "The two recorded sha256 values must be equal and must be of AiTrader's analysis_bars.db.",
+   "observed_in_git_or_live": "The two files are byte-identical. A re-hash today will differ because AiTrader keeps collecting; the claim is scoped to the A.1 window."
+  },
+  {
+   "id": "P14",
+   "claim_verbatim": "Numbered ADRs, append-only.",
+   "file_line": "HFExperiment/DECISIONS.md:3",
+   "commit_named": null,
+   "what_would_have_to_be_true": "Every commit to DECISIONS.md must be additions only.",
+   "observed_in_git_or_live": "91a1dcb +114/-0; 23d9ffa +104/-0; 8c4c3bc +86/-0; b4a7a23 +85/-0; 669eb5c +30/-0; 82e77a0 +60/-0. Zero deletions across the whole history. Numbering jumps ADR-022 -> ADR-026 (DECISIONS.md:401, :432); ADR-023/024/025 do not exist."
+  },
+  {
+   "id": "P15",
+   "claim_verbatim": "Both were written during A.1 and were true then ... Neither document was amended, so the repository advertised a blocker that no longer existed and an UNDECIDED verdict that A.1b had already resolved to BLOCKED.",
+   "file_line": "HFExperiment/DECISIONS.md:432-443 (ADR-026); progress.md:226-253",
+   "commit_named": "82e77a0",
+   "what_would_have_to_be_true": "The stale text must have survived from 0a0d214/91a1dcb (2026-08-23) through 669eb5c (2026-08-24) to 82e77a0 (2026-08-28).",
+   "observed_in_git_or_live": "docs/ACCESS.md and ADR-003 were untouched between those commits; the git history supports the self-reported three-day gap."
+  },
+  {
+   "id": "P16",
+   "claim_verbatim": "ADR-003 keeps its original text with a superseded note beneath it. Nothing is rewritten to look as though it was always right.",
+   "file_line": "HFExperiment/DECISIONS.md:452-454 (note at :47-55; struck sentence at docs/ACCESS.md:184-189)",
+   "commit_named": "82e77a0",
+   "what_would_have_to_be_true": "82e77a0 must add rather than replace.",
+   "observed_in_git_or_live": "+60/-0 on DECISIONS.md. docs/ACCESS.md in the same commit does modify the Task 3 section, but by re-heading and strikethrough rather than deletion."
+  },
+  {
+   "id": "P17",
+   "claim_verbatim": "The operator accepted Sections 1 through 12 by delegation on 2026-08-24 ... The act of running the B.1 stage prompt was the acceptance",
+   "file_line": "HFExperiment/DECISIONS.md:230-235 (ADR-014)",
+   "commit_named": null,
+   "what_would_have_to_be_true": "Acceptance rests on an act, not a signature.",
+   "observed_in_git_or_live": "The only record is the amendment-log entry the same session wrote (REGISTRATION.md:286-295) plus commit 8c4c3bc. No operator-authored artifact exists."
+  },
+  {
+   "id": "P18",
+   "claim_verbatim": "The operator holds a funded live IBKR account and a paper account, [paper account ID removed], reachable through a running Gateway on port 4002 (operator statement, 2026-08-28, consistent with the A.1b session log).",
+   "file_line": "HFExperiment/docs/ACCESS.md:187-189",
+   "commit_named": "82e77a0",
+   "what_would_have_to_be_true": "An operator statement, disclosed as such.",
+   "observed_in_git_or_live": "Corroborated by the A.1b connected record, managed accounts [[paper account ID removed]]."
+  },
+  {
+   "id": "P19",
+   "claim_verbatim": "Registered numeric thresholds live in src/hfexperiment/registered.py and the structural guard test fails if any lacks an enforcement site.",
+   "file_line": "HFExperiment/REGISTRATION.md:59-61; registered.py:3-6",
+   "commit_named": null,
+   "what_would_have_to_be_true": "tests/test_structural_guard.py must enumerate the fields of RegisteredThresholds and StageAConfig and require a consumption site outside the defining module.",
+   "observed_in_git_or_live": "2 tests present in tests/test_structural_guard.py; contents not yet audited."
+  },
+  {
+   "id": "P20",
+   "claim_verbatim": "Demo constants: notional 45.00 and broker minimum 1.00, labelled DEMO everywhere, resolving nothing registered.",
+   "file_line": "HFExperiment/DECISIONS.md:392-394 (ADR-021); demonstrated at reports/stage_c1/refusals.md:5",
+   "commit_named": null,
+   "what_would_have_to_be_true": "PER_NAME_NOTIONAL_USD must remain a DeferredParameter at HEAD and every DEMO use must be labelled.",
+   "observed_in_git_or_live": "registered.py:110-115 still defines it as a DeferredParameter."
+  },
+  {
+   "id": "P21",
+   "claim_verbatim": "Append-only. One dated entry per stage, newest at top.",
+   "file_line": "HFExperiment/progress.md:3",
+   "commit_named": null,
+   "what_would_have_to_be_true": "Entries must descend by date.",
+   "observed_in_git_or_live": "They do from :5 (2026-08-26) down to :187 (2026-08-23 A.1), but the ADR-026 entry dated 2026-08-28T22:10Z sits at the bottom, progress.md:226, below the 2026-08-23 A.1 entry. Ordering-discipline hygiene only."
+  },
+  {
+   "id": "P22",
+   "claim_verbatim": "Installed to ~/.config/systemd/user/ by scripts/install_timer.sh.",
+   "file_line": "HFExperiment/systemd/hfexperiment-bars.timer:4",
+   "commit_named": null,
+   "what_would_have_to_be_true": "scripts/install_timer.sh must exist.",
+   "observed_in_git_or_live": "It does not. scripts/ holds eight .py files and nothing else at the anchored SHA. The installed units are nonetheless byte-identical to the tracked ones."
+  }
+ ]
+}

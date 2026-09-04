@@ -12,13 +12,14 @@ This repository is exemplary on process: the pre-registration was committed befo
 call, six amendments were appended without rewriting, a figure of its own was falsified by its own
 measurement and recorded as falsified, and no outcome value was ever read. Nothing below disputes
 any of that. The case is narrower and it is about the **closure**, taken at Amendments 5 and 6 on
-2026-08-28 roughly fifteen hours after registration. The registered decision function, fired on the
-measured inputs, returns DEGRADED with `collectors_armed=True`; the repository ended in the BLOCKED
+2026-08-28 roughly fifteen hours after registration. The registered decision function makes the
+DEGRADED/BLOCKED distinction operational — DEGRADED arms collectors, BLOCKED does not — and the leg
+that selects between the two was never measured; the repository nonetheless ended in the BLOCKED
 collection state on the argument that the two "differ in label and not in operational consequence",
-which is the one thing the registered function makes operational (F1). The closure is typed
+which is the one thing the registered function does make operational (F1). The closure is typed
 `untestable-at-achievable-power`, a kind defined against a "registered deadline" that Sections 0–14
 never register — the BLOCKED power floor was measured at 0.6105 against 0.50 and did not fire (F3).
-The deciding input, a forward accrual "measured" in eight places, is a calendar constant times one
+The deciding input, a forward accrual "measured" in eleven places, is a calendar constant times one
 measured ratio with the admissibility factor set to 1.0 unmeasured, while observed forward
 admissible days were 0 (F4). And the finding kept as what "outlives the hypothesis" — that the
 as-printed history "does not exist in any free archive" — rests on n = 1 archive and n = 2 URLs (F5).
@@ -52,12 +53,20 @@ as-printed history "does not exist in any free archive" — rests on n = 1 archi
     observability FAIL → BLOCKED (ETFExperiment/tests/test_section0.py:75).
   - The unmeasured leg is precisely what selects between them: PARTIAL → DEGRADED, FAIL → BLOCKED
     (ETFExperiment/REGISTRATION.md:876-881).
-  - The measured inputs put the case squarely in the registered DEGRADED residual band. E1 at the
-    published magnitude at the achievable count is **0.6105 (n = 163)** against a 0.50 BLOCKED floor
-    (ETFExperiment/reports/stage_a2/power.json:62, :64; ETFExperiment/REGISTRATION.md:851). The
-    unstable-as-printed share is **0 of 11** (ETFExperiment/reports/stage_a1/retro_revision.json:3
-    `comparable_days: 11`, :9 `revised_days: 0`), far under the 0.50 majority trigger
-    (ETFExperiment/src/etf/section0.py:25 `MAJORITY = 0.50`, :113).
+  - Neither measured input fires a BLOCKED trigger. E1 at the published magnitude at the achievable
+    count is **0.6105 (n = 163)** against the registered 0.50 BLOCKED floor
+    (ETFExperiment/reports/stage_a2/power.json:62, :64; the floor at
+    ETFExperiment/REGISTRATION.md:47-48, the measured value at :851). The unstable-as-printed share
+    is **0 of 11** (ETFExperiment/reports/stage_a1/retro_revision.json:3 `comparable_days: 11`, :9
+    `revised_days: 0`), far under the 0.50 majority trigger
+    (ETFExperiment/src/etf/section0.py:25 `MAJORITY = 0.50`, :113). The third BLOCKED trigger,
+    observability FAIL, turns on the one leg that was never measured, and the registration says so:
+    "**The remaining choice between DEGRADED and BLOCKED turns on exactly one unmeasured input**"
+    (ETFExperiment/REGISTRATION.md:873-874) and "**That measurement does not exist and is not
+    synthesized.**" (:883). So the claim here is not that the function returns DEGRADED — it cannot
+    be fired at all — but that the two branches carry different operational consequences whichever
+    way the unmeasured leg would have gone, while the repository adopted the BLOCKED collection
+    state with no BLOCKED trigger fired.
   - The test fixture for the residual band, written at A.0, uses
     `e1_reg=0.20, e2_reg=0.15, e1_pub=0.62, e2_pub=0.40`
     (ETFExperiment/tests/test_section0.py:87) against the measured 0.2015 / 0.1700 / 0.6105 / 0.5225
@@ -72,13 +81,17 @@ as-printed history "does not exist in any free archive" — rests on n = 1 archi
   the repository's 0.6105 (2,000 sims, SE ≈ 0.011) — same side of the 0.50 floor by a wide margin.
   E1 at n = 163, rho = 0.09: **0.209** vs the repository's 0.2015. E1 at n = 152: **0.602** vs
   0.6000. Script: `SCRATCH/work/agentA-ETF/power_recompute.py`.
-- **What would resolve it:** Either (a) an amendment stating that the operator closure deliberately
-  took the BLOCKED collection consequence without the BLOCKED trigger, and why that is not the
-  "fitting the rule to the sample" the registration exists to prevent; or (b) reinstating the
-  DEGRADED consequence the registered fire function returns on the measured inputs. Running
-  `fire_section0` on the measured inputs and recording its output — the function is never called by
-  any script or test other than `tests/test_section0.py` (grep across `src/` and `scripts/` returns
-  no caller) — would settle it in one line.
+- **What would resolve it:** An amendment stating that the operator closure deliberately took the
+  BLOCKED collection consequence without the BLOCKED trigger firing, and why that is not the
+  "fitting the rule to the sample" the registration exists to prevent. It cannot be settled by
+  simply firing the registered function: the selecting leg was never measured, and the registered
+  observability function raises `ValueError` on `revision_days = 0` — "a share over zero days is an
+  absence, not a number" (ETFExperiment/src/etf/observability.py:49-55, called at :66-67) — while
+  the only substitute, the retro n = 11, is barred from promotion by the registration itself
+  ("**It is not promoted.**", ETFExperiment/REGISTRATION.md:889-895; :1151-1153). That
+  `fire_section0` is never called by any script or test other than `tests/test_section0.py` (grep
+  across `src/` and `scripts/` returns no caller) is therefore a fact about the record, not a
+  one-line fix available to it.
 - **Confidence:** HIGH — the distinction the amendment calls non-operational is a boolean field in
   the registered decision function, set differently on the two branches, and asserted differently by
   two tests committed before any data existed.
@@ -86,7 +99,29 @@ as-printed history "does not exist in any free archive" — rests on n = 1 archi
   carries an untracked `_CLOSED_DO_NOT_RUN_HERE` marker dated 2026-09-02 declaring it closed.
 - **Disclosed by authors?:** **no** — the amendment asserts the opposite. Amendment 5 §2
   (ETFExperiment/REGISTRATION.md:1034-1041) argues mootness from the deadline alone and never
-  mentions `collectors_armed`.
+  mentions `collectors_armed`; the identifier occurs **zero times in every `.md` in the snapshot**
+  (grep over REGISTRATION.md, DECISIONS.md, HYPOTHESES.md, progress.md, report.md, README.md,
+  CLAUDE.md and docs/). The closest adjacent rationale the record does carry, cited so the reader
+  has it, is Amendment 6 §2 (ETFExperiment/REGISTRATION.md:1121-1137, "**That does not justify a
+  live process attached to a closed hypothesis.**") and its ADR-020 twin
+  (ETFExperiment/DECISIONS.md:594-600): independent stated grounds for the disarm that never
+  acknowledge that the DEGRADED branch of the registered function arms collectors.
+- **Citation check:** corrected — quote EXACT, every code and data citation verified exact by both
+  verifiers (including, independently, that `fire_section0` has no caller outside
+  `tests/test_section0.py`). **The verifiers disagreed and I followed verifier 2**, having checked
+  the source myself: SNAP/ETFExperiment/src/etf/observability.py:49-55 raises `ValueError` on a
+  zero-day denominator ("a share over zero days is an absence, not a number") and it is called at
+  :66-67, so `fire_section0` **cannot** be fired on the measured inputs — the registration says the
+  same at REGISTRATION.md:873-874 ("turns on exactly one unmeasured input") and :883 ("That
+  measurement does not exist and is not synthesized."). The Summary, the fifth evidence bullet and
+  "What would resolve it" no longer claim that the function returns DEGRADED on the measured inputs
+  or that running it "would settle it in one line"; the finding now rests on the form its own
+  evidence already supports and that survives intact — DEGRADED arms collectors and BLOCKED does
+  not, so the branches differ in operational consequence whichever way the unmeasured leg would have
+  gone, while the repository adopted the BLOCKED collection state with no BLOCKED trigger fired.
+  Verifier 1's pointer fix is also applied: the 0.50 BLOCKED floor is at
+  ETFExperiment/REGISTRATION.md:47-48, not :851 (which carries the measured 0.6105). Severity S1 and
+  label DERIVED stand after the correction, per both verifiers.
 
 ---
 
@@ -121,10 +156,14 @@ as-printed history "does not exist in any free archive" — rests on n = 1 archi
     answer, not a failure of process.**" (ETFExperiment/REGISTRATION.md:82-85).
   - So the extension was declined because it would deliver exactly the deliverable the registration
     registered in advance as what this design was expected to produce. The registered rationale for
-    the 0.09 assumption (ETFExperiment/REGISTRATION.md:347-356) is a rationale for *reporting* power
-    at 0.09 beside 0.18, not for treating a 0.18-scope answer as worthless: Section 0's GO clause is
-    the only place 0.09 is a bar, and GO had already been eliminated on the archive-density leg
-    (ETFExperiment/REGISTRATION.md:863-867).
+    the 0.09 assumption (ETFExperiment/REGISTRATION.md:347-356) is **not** disputed here: :355-356
+    gives a substantive reason to distrust the undecayed figure — "**Registering at the undecayed
+    figure would register an assumption the pre-existing evidence already contradicts.**" — and that
+    is the ground ADR-019 leans on. The unreconciled point is narrower and survives it: Section 0
+    registered the published-magnitude scope as this design's expected and acceptable deliverable
+    before any data existed, and GO — the only place the 0.09 figure is a *bar* — had already been
+    eliminated on the archive-density leg (ETFExperiment/REGISTRATION.md:863-867), so what ADR-019
+    declines is the registration's own pre-registered outcome.
   - Cost of the declined option, on the repository's own numbers: zero dollars, roughly 33 requests
     per day (ETFExperiment/REGISTRATION.md:1084-1085), against a registered flow cap of 200/day
     (ETFExperiment/src/etf/config.py:136) and a lifetime total of 220 charged requests
@@ -133,7 +172,8 @@ as-printed history "does not exist in any free archive" — rests on n = 1 archi
   (`scripts/power_gate.py:71,78-80`: forward days = weekdays × printed_day_rate 333/336, added to
   achieved 11), I reproduced its published scenarios exactly — 88 by 2026-12-31, 152 forward-only
   and **163** all-cohorts by 2027-03-31 (matching
-  ETFExperiment/reports/stage_a2/power.json:114-116) — and extended them: **N = 237 (E1's minimum,
+  ETFExperiment/reports/stage_a2/power.json:116 for 163, :117 for 152 and :118 for 88) — and
+  extended them: **N = 237 (E1's minimum,
   the figure the closure is explicitly stated against, ETFExperiment/REGISTRATION.md:1015) is
   reached 2027-07-14**, and N = 300 on 2027-10-12. A 2027-12-31 extension therefore clears E1's
   minimum with 5.5 months to spare and the governing 300 with 2.5. Script:
@@ -150,6 +190,17 @@ as-printed history "does not exist in any free archive" — rests on n = 1 archi
   (ETFExperiment/DECISIONS.md:551-553). It does not disclose that what it purchases is the
   registration's own pre-registered expected outcome. The undisclosed half is what the finding
   rests on, so the S3 disclosure cap does not apply.
+- **Citation check:** corrected — quote EXACT, figures YES after two fixes, both checked in SNAP.
+  (1) Verifier 1: the published scenarios are at ETFExperiment/reports/stage_a2/power.json:116
+  (163), :117 (152) and :118 (88), not the cited :114-116 — the Recomputation citation is
+  corrected. (2) Verifier 2: the finding's gloss on ETFExperiment/REGISTRATION.md:347-356
+  overstated, because :355-356 does give a substantive reason to distrust the 0.18 assumption
+  ("Registering at the undecayed figure would register an assumption the pre-existing evidence
+  already contradicts"), which is the ground ADR-019 leans on. That clause is now conceded and the
+  finding rests on the narrower, undisturbed point: Section 0 registered DEGRADED as the expected
+  outcome and pre-committed to accepting the published-magnitude scope before any data existed,
+  and ADR-019 declines the extension on the ground that it delivers only that scope, without
+  reconciling the two. Severity S1 and label READ unchanged (both verifiers).
 
 ---
 
@@ -215,6 +266,13 @@ as-printed history "does not exist in any free archive" — rests on n = 1 archi
   (ETFExperiment/DECISIONS.md:551), which presupposes a registered deadline exists, and
   report.md:369-370 discloses that the BLOCKED floor is cleared. The record never notes that
   Sections 0–14 contain no deadline at all; that is the undisclosed part.
+- **Citation check:** verified (quote EXACT, figures YES) — both verifiers recommended KEEP and both
+  reproduced the two exhaustive greps on the snapshot independently: `awk 'NR<=595 && /deadline/'`
+  over ETFExperiment/REGISTRATION.md returns nothing (the word's first occurrence in the file is
+  line 905, inside the amendment log) and 2027-03-31 occurs exactly three times before the
+  amendments, at :36, :48 and :78. Severity S2 and label DERIVED endorsed by both; verifier 1 noted
+  only that F2 labels a comparable document-based argument READ, which is why the DERIVED label here
+  rests on the code and the MDE recomputation carrying part of the weight.
 
 ---
 
@@ -231,11 +289,14 @@ as-printed history "does not exist in any free archive" — rests on n = 1 archi
 - **Claim challenged (verbatim):** "**Projected achieved N at the registered 2027-03-31 deadline:
   163**, at a measured forward accrual of **20.8 admissible days per month**." —
   ETFExperiment/HYPOTHESES.md:70 (the same "measured" label at ETFExperiment/HYPOTHESES.md:82, :84;
-  ETFExperiment/report.md:360, :447, :506; ETFExperiment/REGISTRATION.md:982, :1010, :1129)
+  ETFExperiment/report.md:360, :447, :506; ETFExperiment/REGISTRATION.md:982 — the word itself on
+  :981 — :1010, where "measured" is the column header on :1008; :1129; and
+  ETFExperiment/progress.md:493, :533 — eleven places in all)
 - **Evidence:**
   - The accrual is a calendar count times one measured ratio, with the admissibility factor assumed
-    rather than measured. `scripts/power_gate.py:71` sets `printed_rate = 333 / 336`; `:78-80` sets
-    every forward scenario to `achieved_forward + round(weekdays × printed_rate)`. The comment above
+    rather than measured. `scripts/power_gate.py:71` sets `printed_rate = 333 / 336`; `:78-79` set
+    the two forward scenarios to `achieved_forward + round(weekdays × printed_rate)`, and `:80` adds
+    the same forward term to the achieved total. The comment above
     it says what was measured: "the census measured 333 printed days in 336 weekday rows over the
     window" (ETFExperiment/scripts/power_gate.py:69-70). What is *not* measured is the probability
     that this repository's own capture serves that day's value strictly before the anchor — the only
@@ -264,7 +325,8 @@ as-printed history "does not exist in any free archive" — rests on n = 1 archi
   (ETFExperiment/reports/stage_a2/power.json:121), `printed_day_rate = 0.9910714285714286` (:112),
   achieved 11 (ETFExperiment/reports/stage_a2/census.json:2). I re-ran the same arithmetic
   independently: weekdays from 2026-08-28 to 2027-03-31 = **153**, forward = round(153 × 0.99107) =
-  **152**, all cohorts = **163** — exact matches to power.json:114-116, confirming the code. The
+  **152**, all cohorts = **163** — exact matches to power.json:117 (152) and :116 (163), confirming
+  the code (:114 carries `achieved_forward_only: 0`). The
   prose figure 20.8/month is not emitted by the code; it reconstructs as 21 weekdays/month ×
   0.99107 = **20.81**, i.e. a round calendar constant times the one measured ratio. (My own
   calendar-months division of the same 152 days gives 21.5/month, so 20.8 is the conservative
@@ -282,8 +344,17 @@ as-printed history "does not exist in any free archive" — rests on n = 1 archi
   as weekdays less the measured holiday rate" — and then asserts "The projection uses the MEASURED
   printed-day rate rather than a calendar assumption." That is a disclosure about the **calendar**
   factor. The **admissibility** factor, the one set to 1.0, is not mentioned there or anywhere else,
-  and the word "measured" attached to the accrual rate in eight places is never reconciled with the
+  and the word "measured" attached to the accrual rate in eleven places is never reconciled with the
   Section 14.7 rule at ETFExperiment/REGISTRATION.md:571-572.
+- **Citation check:** verified (quote EXACT, figures YES) — both verifiers recommended KEEP, and
+  both independently re-ran the 153 × 0.99107 → 152 → 163 arithmetic. Three cosmetic pointer slops
+  they flagged, each re-checked in SNAP, are fixed in place and none touches the claim: `:78-80` is
+  now stated as `:78-79` for the two forward scenarios plus `:80` for the all-cohorts total (line 80
+  adds to `achieved`, not `achieved_forward`); "eight places" is corrected to **eleven** — the count
+  understated the finding's own case, the extra instances being ETFExperiment/progress.md:493 and
+  :533, with the caveat that at ETFExperiment/REGISTRATION.md:982 the word "measured" sits on :981
+  and at :1010 it is the table's column header on :1008; and the recomputation's "power.json:114-116"
+  is now :116 (163) and :117 (152), since :114 carries `achieved_forward_only: 0`.
 
 ---
 
@@ -341,8 +412,12 @@ as-printed history "does not exist in any free archive" — rests on n = 1 archi
   out-of-sample date rows, **333** with a complete five-fund print, **451** union mementos, **37**
   timemap-admissible days at the 08:00 anchor (share 0.1111), **53** capture-too-late,
   unbounded-window ceiling **112/333 = 0.3363**, out-of-sample crawl rate **0.316 mementos/day**
-  (153 mementos over 484.3 calendar days) — matching
-  ETFExperiment/reports/stage_a1/archive_density.json:118-125. Script:
+  (153 mementos over 484.3 calendar days). These match the repository exactly, at
+  ETFExperiment/reports/stage_a1/archive_density.json:5-6 (336 out-of-sample date rows, 333 with a
+  printed signal) and :120-125 (37 admissible days, share 0.1111, 53 capture-too-late, 333 trading
+  days, 243 no-capture, 451 mementos), and — for the two figures that live only there — at
+  ETFExperiment/report.md:190-194 ("the archive crawls the page **0.316 times per calendar day**",
+  "reaches only **112 of 333 (33.63 percent)**"). Script:
   `SCRATCH/work/agentA-ETF/anchor_sensitivity.py`. The measurement is sound; the generalisation from
   it is what is not.
 - **What would resolve it:** One timemap request per candidate archive per flow URL — four requests
@@ -353,10 +428,26 @@ as-printed history "does not exist in any free archive" — rests on n = 1 archi
   archive would change the number, since a crawl rate of 0.316/day on a mid-sized publisher is not
   obviously atypical and the bar is 0.60.
 - **Invalidated by later commits?:** no — 4d11002 is final and no later measurement exists.
-- **Disclosed by authors?:** **no** — the record repeatedly attaches "any free archive"
-  (ETFExperiment/REGISTRATION.md:1057, ETFExperiment/report.md:477) and "path (b) turns on someone
-  else's archive existing" (ETFExperiment/DECISIONS.md:585-586) to a measurement whose n over
-  archives is 1, without stating that n.
+- **Disclosed by authors?:** **no, for the claim raised — though the scope of the measurement is
+  named elsewhere** — the record does say plainly that its archive is the Wayback Machine
+  (ETFExperiment/docs/ACCESS.md:276 heads the section "## 4. The archive — Wayback";
+  ETFExperiment/REGISTRATION.md:701 records "37 archived captures of the flow source fetched from
+  the Wayback Machine"; the two endpoints are named `wayback_availability_url` and
+  `wayback_timemap_url`, ETFExperiment/src/etf/config.py:126-127), so a reader can discover the
+  operator. What is nowhere disclosed is that the closing sentence generalises beyond it: "any free
+  archive" (ETFExperiment/REGISTRATION.md:1057, ETFExperiment/report.md:477) and "path (b) turns on
+  someone else's archive existing" (ETFExperiment/DECISIONS.md:585-586) are attached to a
+  measurement whose n over archives is 1, and that n is never stated.
+- **Citation check:** corrected — quote EXACT, figures PARTIAL→fixed. Both verifiers found the same
+  error and I confirmed it in SNAP: the Recomputation cited
+  `archive_density.json:118-125` wholesale, but two of its figures are not in that file at all —
+  the unbounded-window ceiling 112/333 = 0.3363 and the 0.316 mementos/day crawl rate are at
+  ETFExperiment/report.md:190-194 — and the 336/333 row counts are at `archive_density.json:5-6`,
+  not inside `:118-125`. The citation is now split three ways. Verifier 2's second correction is
+  also applied: the disclosure field now records that the record names its archive as Wayback, so
+  the finding is about the unstated generalisation rather than a hidden scope, and the JSON
+  `disclosure_ref` is populated with those three refs. Severity S2 and label DERIVED unchanged (both
+  verifiers).
 
 ---
 
@@ -367,7 +458,8 @@ as-printed history "does not exist in any free archive" — rests on n = 1 archi
 - **Hypothesis or artifact:** H1 — reopen path (a), and the measurement dropped at Amendment 6
 - **Direction:** A
 - **Class:** INTERNAL_INCONSISTENCY
-- **Severity:** S2
+- **Severity:** S3 — **capped at S3 because the authors disclose the substance of the dependency;
+  see the disclosure field.**
 - **Label:** READ
 - **Claim challenged (verbatim):** "**(a)** A flow source serving a **per-row publication
   timestamp**. Measured: **0 of 2** surviving sources serve one, and none documents a publication
@@ -386,9 +478,10 @@ as-printed history "does not exist in any free archive" — rests on n = 1 archi
     threshold intact.
   - That revision rate is the measurement Amendment 6 dropped: "**The forward revision-integrity leg
     will never complete.**" (ETFExperiment/REGISTRATION.md:1141) … "**It is dropped by decision, not
-    by oversight.**" (:1149) — and the same amendment forbids using the only substitute: "must
-    measure it from scratch** and may not cite the n = 11 figure as evidence of anything."
-    (ETFExperiment/REGISTRATION.md:1152-1153; identically ETFExperiment/DECISIONS.md:608-611).
+    by oversight.**" (:1149) — and the same amendment forbids using the only substitute: "Any future
+    flow hypothesis in this house **must measure it from scratch** and may not cite the n = 11
+    figure as evidence of anything." (ETFExperiment/REGISTRATION.md:1151-1153; in the same terms at
+    ETFExperiment/DECISIONS.md:607-611).
   - So reopen path (a), described as clearing "every minimum on the record at once", cannot in fact
     be exercised without redoing, from scratch, the 15-trading-day measurement the closure declined
     to finish — and the closure's own §2 valuation table records path (a) as "**Does not need
@@ -409,8 +502,26 @@ as-printed history "does not exist in any free archive" — rests on n = 1 archi
   value history would satisfy (a) as written; but no such source is named, and the two surviving
   sources serve neither (ETFExperiment/docs/ACCESS.md:104, :169).
 - **Invalidated by later commits?:** no — Amendment 6 is the final amendment.
-- **Disclosed by authors?:** **no** — the register presents (a) as a self-sufficient threshold that
-  "clear[s] every minimum on the record at once".
+- **Disclosed by authors?:** **partly — the substance of the dependency is disclosed, which caps
+  this finding at S3** — the very lines this finding cites as its evidence are the authors stating
+  that any future flow hypothesis owes the revision-integrity measurement from scratch and may not
+  lean on n = 11: ETFExperiment/REGISTRATION.md:1151-1153 and ETFExperiment/DECISIONS.md:607-611,
+  with the refusal to promote the retro figure at ETFExperiment/REGISTRATION.md:889-895. What is
+  **not** disclosed, and is all this finding now claims, is narrower: reopen (a) is presented at
+  ETFExperiment/HYPOTHESES.md:84 as "clearing every minimum on the record at once" and the
+  from-scratch requirement is never carried across to it, so the two statements are never joined.
+- **Citation check:** corrected — quote EXACT, figures YES; **the verifiers disagreed and I
+  followed verifier 2**. Verifier 1 recommended KEEP with one wording fix; verifier 2 found a
+  disclosure error. I checked SNAP/ETFExperiment/REGISTRATION.md:1149-1153 and
+  SNAP/ETFExperiment/DECISIONS.md:607-611 directly: both passages do disclose the substance of the
+  dependency (the measurement must be made from scratch; n = 11 may not be cited), so under the
+  audit's own disclosure rule the finding is at most S3 and must say the authors disclosed it.
+  Severity therefore drops **S2 → S3**, `disclosed_by_authors` is set **true (partly)**, the
+  disclosure ref is populated, and the claim is narrowed to the unjoined statement. Verifier 1's
+  wording fix is also applied: "identically ETFExperiment/DECISIONS.md:608-611" becomes "in the
+  same terms at :607-611", since the DECISIONS wording differs; and the quote now opens at "Any
+  future flow hypothesis in this house" (ETFExperiment/REGISTRATION.md:1151-1153) so it no longer
+  begins mid-bold-marker.
 
 ---
 
@@ -426,23 +537,29 @@ as-printed history "does not exist in any free archive" — rests on n = 1 archi
 - **Claim challenged (verbatim):** "If the measured **95th percentile first-print time falls later
   than 07:00 UTC**, the anchor moves to **the next whole hour after that percentile**, recorded by
   amendment **before any outcome read and before any admissibility count is final**." —
-  ETFExperiment/REGISTRATION.md:178-181 (identically ADR-001, ETFExperiment/DECISIONS.md:22-27)
+  ETFExperiment/REGISTRATION.md:178-181 (the same rule, in different words, at ADR-001,
+  ETFExperiment/DECISIONS.md:22-27)
 - **Evidence:**
   - The measurement that may move the anchor never existed: "**Not quoted.** The registration
     requires **15 US trading days** of forward capture before any lag figure is; **2 captures
     exist**" (ETFExperiment/progress.md:452-453).
+  - The registered ordering is explicit in the governing prompt as well: "Fire the Section 3 anchor
+    amendment from the measured 95th percentile if the rule requires it. **This is the only
+    permitted anchor movement and it happens here, before any admissibility count is final.**"
+    (ETFExperiment/progress.md:144).
   - The admissibility count was nevertheless produced, treated as final, and used to close: census
-    336 rows / 11 admissible (ETFExperiment/reports/stage_a2/census.json:1-2), carried into the
-    power gate as achieved N (ETFExperiment/scripts/power_gate.py:65), into Amendment 3's power
+    336 rows (ETFExperiment/reports/stage_a2/census.json:83) and 11 admissible (:2), carried into
+    the power gate as achieved N (ETFExperiment/scripts/power_gate.py:65), into Amendment 3's power
     table (ETFExperiment/REGISTRATION.md:848-851) and into the closing figures
     (ETFExperiment/REGISTRATION.md:1010-1015).
   - The rule moves the anchor in one direction only — later
     (ETFExperiment/src/etf/anchor.py:70-82) — and a later anchor can only admit captures an earlier
     one excluded. **53** out-of-sample days are excluded as `capture_too_late` at the provisional
-    anchor (ETFExperiment/reports/stage_a2/census.json `exclusion_reasons`;
-    ETFExperiment/reports/stage_a1/archive_density.json:120).
-  - The repository's own retro evidence puts the print between +04:05 and +08:00 on D+1, with
-    served-value captures (n = 11) at +07:11, +07:12, +07:16 ×3 and +07:59:43
+    anchor (ETFExperiment/reports/stage_a2/census.json:76 under `exclusion_reasons`;
+    ETFExperiment/reports/stage_a1/archive_density.json:122).
+  - The repository's own retro evidence puts the print between +04:05 and +08:00 on D+1. The five
+    latest of the eleven served-value captures sit at +07:11, +07:12, +07:16 ×3 and +08:00 (that
+    last being 07:59:43 rounded); the earliest is +04:05
     (ETFExperiment/docs/ACCESS.md:413-414; capture times in
     ETFExperiment/reports/stage_a1/retro_revision.json rows) — a distribution whose 95th percentile
     plausibly sits past the 07:00 trigger.
@@ -475,11 +592,27 @@ as-printed history "does not exist in any free archive" — rests on n = 1 archi
 - **Confidence:** HIGH that the registered ordering was not followed; HIGH that the magnitude is
   small, which is why this is S3 and not higher.
 - **Invalidated by later commits?:** no — 4d11002 is final.
-- **Disclosed by authors?:** **partly** — ADR-001's Consequences discloses that the print lands
-  "between roughly 04:00 and 08:00 UTC (Amendment 2 §4) and therefore that the anchor may well move.
-  **It has not moved and will not move on that evidence**" (ETFExperiment/DECISIONS.md:39-42). The
-  record does not state that a final admissibility count was nonetheless produced and used to close,
-  nor give any sensitivity to the anchor.
+- **Disclosed by authors?:** **partly, and in three places, which is more than this finding first
+  credited** — ADR-001's Consequences discloses that the print lands "between roughly 04:00 and
+  08:00 UTC (Amendment 2 §4) and therefore that the anchor may well move. **It has not moved and
+  will not move on that evidence**", with the methodological reason (archived capture times are
+  censored by a crawl schedule this project did not choose) (ETFExperiment/DECISIONS.md:39-42); the
+  same statement is made at ETFExperiment/progress.md:452-456 and :462 ("The anchor has not moved
+  and will not move on it.") and at ETFExperiment/docs/ACCESS.md:420 ("This is not the registered
+  measurement and the anchor will not move on it."). What is **not** disclosed is that a final
+  admissibility count was nonetheless produced and used to close, and that no sensitivity to the
+  anchor is stated anywhere. The finding is already at S3, so the disclosure cap is satisfied.
+- **Citation check:** corrected — quote EXACT, figures YES. Four citation fixes from verifier 1,
+  each re-checked against SNAP: census 336 rows is `census.json:83`, not `:1-2` (`admissible: 11` is
+  at `:2`); `capture_too_late: 53` is `census.json:76` and `archive_density.json:122` (`:120` is
+  `admissible_days: 37`); "identically ADR-001" softened to "the same rule, in different words",
+  since ETFExperiment/DECISIONS.md:22-27 restates rather than repeats
+  ETFExperiment/REGISTRATION.md:178-181; and the served-value capture list is now labelled as the
+  five latest of the eleven at ETFExperiment/docs/ACCESS.md:413-414, whose earliest is +04:05 and
+  whose last entry reads "+08:00" (07:59:43 rounded). Verifier 2's two corrections applied: the
+  disclosure field is upgraded to **partly, three places** with `disclosed_by_authors: true` in the
+  JSON, and the governing prompt at ETFExperiment/progress.md:144 — the strongest support for the
+  ordering claim — is added to the evidence.
 
 ---
 
@@ -498,7 +631,8 @@ as-printed history "does not exist in any free archive" — rests on n = 1 archi
   then disarming.* Bounded, dated, and it produces a reusable artifact rather than an option, which
   makes it the stronger of the two live options. Declined in favour of a clean halt matching
   NPDExperiment, HFExperiment and InsiderExperiment. A closed repository with a running process
-  invites the reading that the experiment is live" — ETFExperiment/DECISIONS.md:613-618
+  invites the reading that the experiment is live, and the measurement is recoverable by any future
+  hypothesis that actually needs it." — ETFExperiment/DECISIONS.md:613-619
 - **Evidence:**
   - The measurement declined is the one the repository names as its whole point, in three places
     written before it: "The measurement that decides this repo is not the return. It is the
@@ -516,9 +650,12 @@ as-printed history "does not exist in any free archive" — rests on n = 1 archi
     15 US trading days** (`lag_min_trading_days=15`, ETFExperiment/src/etf/config.py:183; the 15th
     US trading day is 2026-09-21 and its print lands 2026-09-22,
     ETFExperiment/progress.md:455-456). Forward captures at the anchor: **2**.
-  - The ADR's own stated ground for declining is legibility, not evidence: "A closed repository with
-    a running process invites the reading that the experiment is live"
-    (ETFExperiment/DECISIONS.md:617-618).
+  - The ADR gives two grounds for declining, and neither is evidential. The first is legibility:
+    "A closed repository with a running process invites the reading that the experiment is live"
+    (ETFExperiment/DECISIONS.md:617-618). The second is recoverability: "and the measurement is
+    recoverable by any future hypothesis that actually needs it" (:618-619) — which the same ADR
+    answers three paragraphs earlier, since what is recoverable is the *right to measure*, not the
+    measurement: "That measurement must be made from scratch." (:611).
   - The debt is transferred, not discharged: "That measurement must be made from scratch."
     (ETFExperiment/DECISIONS.md:611) — so the 15 trading days are still owed by whoever runs the
     next flow hypothesis in this house, and the retro n = 11 substitute is explicitly barred
@@ -538,6 +675,14 @@ as-printed history "does not exist in any free archive" — rests on n = 1 archi
   recorded here only because it is the instrument-side view of the same closure that
   AUDIT-A-ETFExperiment-1 and -2 attack on undisclosed grounds. Presenting it as a discovery would
   itself be a process failure.
+- **Citation check:** corrected — quote EXACT, figures YES (both verifiers; the git timestamps were
+  independently re-derived read-only by verifier 1). Verifier 2's correction applied: the quote was
+  truncated mid-sentence at "the experiment is live" and is now carried to its full stop at
+  ETFExperiment/DECISIONS.md:619, which adds a second stated ground — "and the measurement is
+  recoverable by any future hypothesis that actually needs it" — and the evidence bullet now names
+  both grounds and answers the second from ETFExperiment/DECISIONS.md:611. Verified against
+  SNAP/ETFExperiment/DECISIONS.md:613-619. No change to severity (S3, disclosure-capped), label
+  (READ) or disclosure field, which both verifiers endorsed as written.
 
 ---
 
@@ -549,8 +694,9 @@ Things I expected to find if the "closed too early" thesis held everywhere, and 
    foreclosed.** Reproduced end to end from the raw untracked timemaps: 336 out-of-sample date rows,
    333 with a complete five-fund print, 451 union mementos, 37 timemap-admissible at the 08:00
    anchor, 53 too-late, unbounded-window ceiling **112/333 = 0.3363**, crawl rate **0.316/day** —
-   every figure matching ETFExperiment/reports/stage_a1/archive_density.json:118-125 and
-   ETFExperiment/report.md:187-195. No window the registered rule could choose reaches 0.60. GO's
+   every figure matching ETFExperiment/reports/stage_a1/archive_density.json:5-6 and :120-125 and
+   ETFExperiment/report.md:187-195 (the ceiling and the crawl rate live only in the latter, at
+   :190-194). No window the registered rule could choose reaches 0.60. GO's
    elimination (ETFExperiment/REGISTRATION.md:863-867) is robust.
 2. **The Amendment 1 → Amendment 2 correction is exemplary.** 0.1111 from the timemap alone was
    falsified at 0.0330 by fetching all 37 captures, recorded as falsified rather than corrected in
@@ -644,8 +790,12 @@ not raised it as a finding of mine.
   registration-to-implementation mismatch, but its direction makes the closure's shortfall *larger*,
   so it is direction-B material and is recorded under "checked and found sound" instead.
 - **Nothing was dropped for the disclosure cap;** F8 was retained at S3 with the disclosure stated
-  in its own severity field, and F2, F3, F4 and F7 record partial disclosure with the undisclosed
-  component identified.
+  in its own severity field, and F2, F3, F4, F6 and F7 record partial disclosure with the
+  undisclosed component identified. **Amended at the verification pass:** F6 was found to be
+  disclosed in substance by the authors (ETFExperiment/REGISTRATION.md:1151-1153;
+  ETFExperiment/DECISIONS.md:607-611) and was recapped from S2 to S3 accordingly, and F7's
+  disclosure was found to run to three places rather than one. See each finding's **Citation
+  check** line.
 
 ---
 

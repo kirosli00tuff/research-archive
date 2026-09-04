@@ -264,3 +264,37 @@ idle gaps and with fewer orchestrator turns (the orchestrator is Fable and is be
 Result: kept 2 (findings 1, 4), corrected 5 (2, 3, 5, 6, 7), dropped 0; AUDIT-A-VRPExperiment-7 S4→S2;
 23 keys with citation_check on every finding; claim quotes verified character-for-character against the md;
 md untouched. VRPExperiment is complete for Agent A.
+
+## 2026-09-03 23:56Z–2026-09-04 ~00:40Z — outcomes of the three parallel runs (account session limit, resets 04:50Z)
+All three workflows ended with "You've hit your session limit · resets 9:50pm (America/Vancouver)".
+Several agents wrote their output files before the limit killed them and are banked from disk (the
+harness reports them as failed because their structured return never arrived); each was checked for
+its closing sections before being counted.
+- Agent A run 10 (w8drvu029, wf_c46820bd-e14): agents_done 4, error 16. ETFExperiment verified and
+  applied (kept 2, corrected 6, dropped 0; IDs -1..-8) — ETFExperiment complete, six of thirteen done.
+  PMExperiment p2-progress reader returned; PMExperiment p1-register and solclear p1-findings readers
+  wrote complete drafts and reopen ledgers before failing. Fourteen reader parts never started.
+- Agent B run 1 (wf2sax6x7, wf_58f35560-86a): agents_done 3, error 24. retail-power-limits reader and
+  consolidator (8 findings AUDIT-B-retail-power-limits-1..8: three S2, five S3; 14 cross-repo leads →
+  provenance/launch-args/agentB-leads.json) and the HFExperiment reader returned. The HFExperiment
+  consolidator wrote HFExperiment.md (18 findings, all closing sections) and HFExperiment.positives.md
+  (with its leads section) before failing, without the json. Verifiers for retail-power-limits and
+  all other readers failed.
+- Agent C run 1 (wv1y3i6h0, wf_17777430-12f): agents_done 6, error 13. retail-power-limits and
+  HFExperiment: inventory (C-locate), numeric verification (C-verify) and provenance (C-provenance)
+  returned. The HFExperiment consolidator wrote HFExperiment.md (9 findings, closing sections) before
+  failing, without HFExperiment.json and HFExperiment.scoreboard.json; the retail-power-limits
+  consolidator wrote nothing. Eleven inventories never started.
+Cleanliness checks "01-agentA-blind-run10-AFTER", "02-agentB-blind-run1-AFTER",
+"03-agentC-blind-run1-AFTER" (04:51Z): only the pre-existing entries.
+
+## 2026-09-04 04:5xZ — HFExperiment json files for B and C by mechanical transcription; A run 11 launched
+As for InsiderExperiment (A, run 7): the complete consolidator mds are the consolidations of record;
+one mechanical Opus agent each transcribes findings/agentB/HFExperiment.json (18 findings, contract
+from consolidatorPrompt in agentB-blind.workflow.js) and findings/agentC/HFExperiment.json plus
+HFExperiment.scoreboard.json (9 findings, contract items 5-6 in agentC-blind.workflow.js, counts from
+the on-disk claims and provenance json), forbidden to touch the mds. B and C relaunch after those files
+exist so their scanners report HFExperiment as consolidated-but-unverified; A relaunches now.
+Agent A run 11: args done_repos = [ETFExperiment, HFExperiment, InsiderExperiment, NPDExperiment,
+VRPExperiment, retail-power-limits]; done_parts = {PMExperiment: [p1-register, p2-progress],
+solclear: [p1-findings]}; leads via file. BEFORE check: "01-agentA-blind-run10-AFTER".
