@@ -382,3 +382,12 @@ DIRT_BASELINE.json, banks journal leads, writes next args and BEFORE checks, and
 work/ (agents' recomputation scripts and intermediate outputs, 2.2 MB, cited by DERIVED findings) is now
 committed as provenance; a secrets scan found nothing. Runs in flight (A 12, B 3, C 3) were launched with
 the old paths, which remain valid through the symlinks; the new paths apply from the next launch.
+
+## 2026-09-04T23:02Z — tools/resume.py
+agent A: 8/13 done
+agent B: 2/13 done
+agent C: 2/13 done
+AFTER checks: pre-existing dirt only
+prepared A run 13 (provenance/launch-args/agentA-run13.args.json)
+prepared B run 4 (provenance/launch-args/agentB-run4.args.json)
+prepared C run 4 (provenance/launch-args/agentC-run4.args.json)

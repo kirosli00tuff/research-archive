@@ -1,0 +1,29 @@
+[
+ {
+  "agent": "A",
+  "run": 12,
+  "label": "01-agentA-blind-run12",
+  "task": "wp3z70q72",
+  "wf": "wf_f3fc900f-431",
+  "launched": "2026-09-04T18:21Z",
+  "after": "2026-09-04T23:02Z"
+ },
+ {
+  "agent": "B",
+  "run": 3,
+  "label": "02-agentB-blind-run3",
+  "task": "w6njcsz94",
+  "wf": "wf_bb83861e-ebb",
+  "launched": "2026-09-04T18:31Z",
+  "after": "2026-09-04T23:02Z"
+ },
+ {
+  "agent": "C",
+  "run": 3,
+  "label": "03-agentC-blind-run3",
+  "task": "w9ku6yk69",
+  "wf": "wf_ac411b13-975",
+  "launched": "2026-09-04T18:21Z",
+  "after": "2026-09-04T23:02Z"
+ }
+]
