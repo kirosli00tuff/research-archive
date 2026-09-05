@@ -413,3 +413,16 @@ AFTER checks: pre-existing dirt only
 prepared A run 14 (provenance/launch-args/agentA-run14.args.json)
 prepared B run 5 (provenance/launch-args/agentB-run5.args.json)
 prepared C run 5 (provenance/launch-args/agentC-run5.args.json)
+Agent A run 14: task wvffhfqmx (wf_990e6ca4-939), launched 03:42Z.
+Agent B run 5: task wc77dsx68 (wf_77c4a710-2b4), launched 03:42Z.
+Agent C run 5: task w9pltaes5 (wf_5eccab36-37a), launched 03:42Z.
+Outcomes of A run 13 / B run 4 / C run 4 (launched 23:02Z, cut by the session limit; reset 03:40Z 2026-09-05):
+- A run 13 (wf_7d192f1f-1c2): solattn and NPLExperiment readers done; both consolidators wrote their
+  outputs (solattn 11 findings, NPLExperiment 12) before dying, so their cross-repo leads never returned
+  (recovered below if present in the reopen notes). MLCryptoEngine, ORBExperiment, AiTrader readers failed.
+- B run 4 (wf_971efc5d-8a6): InsiderExperiment verified and applied (14: kept 8, corrected 6);
+  NPDExperiment verified and applied (19: kept 8, corrected 11). All nine remaining readers failed. B now 4/13.
+- C run 4 (wf_3c3f08c2-582): InsiderExperiment applied (10: kept 9, corrected 1); NPDExperiment
+  consolidated (9 findings; 20 claims verified, 6 contradicted, 4 unverifiable) and applied (kept 4,
+  corrected 5). All nine locates failed (VRPExperiment inventory file written, treated as not started). C now 4/13.
+Next: A run 14, B run 5, C run 5 launched in parallel at 03:41Z.
