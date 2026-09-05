@@ -488,3 +488,19 @@ AFTER checks: pre-existing dirt only
 prepared A run 18 (provenance/launch-args/agentA-run18.args.json)
 prepared B run 9 (provenance/launch-args/agentB-run9.args.json)
 prepared C run 9 (provenance/launch-args/agentC-run9.args.json)
+Agent A run 17: task wivgbczsc (wf_6001ea88-d6d), launched 23:01Z.
+Agent C run 8: task ww760g9m3 (wf_72e77c78-e86), launched 23:01Z.
+Outcomes of A run 16 / B run 7 / C run 7 (launched 18:02Z, cut by the session limit; reset 23:00Z 2026-09-05):
+- A run 16 (wf_29ed3211-19d): ORBExperiment consolidated, verified and applied (17 findings; the applier wrote
+  its outputs before dying). MLCryptoEngine consolidated (17 findings); verify and apply failed. AiTrader readers
+  failed again. 26 cross-repo leads banked (A leads 123). A now 11/13.
+- B run 7 (wf_1aaac622-79e): VRPExperiment verified and applied (13: kept 5, corrected 8); ETFExperiment verified
+  and applied (9: kept 6, corrected 3). PMExperiment readers p1-register and p2-progress wrote drafts and ledgers;
+  solclear p1-findings wrote its draft (54,822 bytes, closing sections present) but no positives ledger; all other
+  readers failed. B now 6/13.
+- C run 7 (wf_fbabed09-3b3): VRPExperiment applied (6: kept 4, corrected 2). ETFExperiment consolidated
+  (8 findings; 30 claims verified, 6 contradicted, 2 unverifiable; provenance 20 supported, 5 not supported,
+  9 partial); apply failed. Seven locates failed. C now 5/13.
+Next: A run 17 and C run 8 launched at 23:01Z. B run 8 waits for a recovery agent (Opus, snapshot only, no
+live-repo access, draft not modified) to write the solclear p1-findings positives ledger, then launches with
+solclear/p1-findings marked done so the reader is not re-run.
