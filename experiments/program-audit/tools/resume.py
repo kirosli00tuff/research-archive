@@ -127,6 +127,10 @@ def bank_leads():
     say(f"leads: A {len(cur['A'])} (+{added['A']} new), B {len(cur['B'])} (+{added['B']} new)")
 
 
+def known_repos():
+    return set(jload(os.path.join(ROOT, 'provenance', 'snapshot-manifest.json'), {}).get('repos', {}).keys())
+
+
 def reopen_note_leads(bank):
     """Agent A consolidators write <repo>.reopen.md with a 'Leads for the cross-repository pass' table.
     When a consolidator dies before returning, its leads exist only there; bank them in the journal format."""
@@ -145,9 +149,10 @@ def reopen_note_leads(bank):
                 continue
             what, cond, where = cells[0], cells[1], cells[-1]
             first = re.split(r'[\s,;(]', where.replace('`', ''), maxsplit=1)[0]
-            s = f"{repo}: L{m.group(1)} ({first}): {what} - {cond} [where: {where}]"
-            key = f"{repo}: L{m.group(1)} "
-            if not any(b.startswith(key) for b in bank):
+            tag = f" ({first})" if first in known_repos() else ''
+            s = f"{repo}: L{m.group(1)}{tag}: {what} - {cond} [where: {where}]"
+            key = re.compile(rf"{re.escape(repo)}: L{m.group(1)}(\D|$)")
+            if not any(key.match(b) for b in bank):
                 bank.append(s)
                 n += 1
     return n
