@@ -11,6 +11,9 @@
   "PMExperiment": [
    "p1-register",
    "p2-progress"
+  ],
+  "solclear": [
+   "p1-findings"
   ]
  },
  "consolidated": {},

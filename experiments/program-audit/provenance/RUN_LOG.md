@@ -521,3 +521,9 @@ AFTER checks "01-agentA-blind-run18-AFTER-aborted" and "03-agentC-blind-run9-AFT
 pre-existing dirt. The first session was told by cross-session message and remains the sole orchestrator;
 A run 17 and C run 8 stay in ACTIVE.json. Rule added to RESUME.md: check ListAgents for a busy peer
 program-audit session before running resume.py --runs-dead or launching anything.
+Agent B run 8: task wy3jvvj7i (wf_5e8f4f9a-b30), launched 23:12Z.
+solclear p1-findings positives ledger recovered (Opus recovery agent, snapshot only, no live-repo access; 47 entries:
+shipped 7, positive 11, qualified positive 7, thresholded negative 13, open 9; draft byte-for-byte unchanged).
+B run 8 args amended to mark solclear/p1-findings done (provenance/launch-args/agentB-run8.args.json), then launched.
+A peer session (5fb0ac) briefly duplicated A run 17 and C run 8 at 23:02-23:05Z before stopping them (see its
+entry above, commit 606440e); it reported only scratch writes under work/, nothing under findings/.
