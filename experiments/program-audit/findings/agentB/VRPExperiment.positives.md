@@ -1,0 +1,214 @@
+# POSITIVES LEDGER — VRPExperiment
+
+**Repository / SHA:** VRPExperiment / `d37cf6d190dfdaef8e613daf099a507fe1a77dcf` (main, 2026-08-30)
+**Status:** CLOSED 2026-08-30, verdict **VENUE_BLOCKED, qualified** (VRPExperiment/README.md:6-8)
+**This ledger is factual, not advocacy.** Where a figure I recomputed differs from or extends a
+published one, it is marked *[audit]* and the published figure is given first. Cross-references of the
+form "see AUDIT-B-VRPExperiment-n" point at `findings/agentB/VRPExperiment.md`.
+
+## Registration and amendment timeline (the "bar registration date" column below refers to this)
+
+| event | commit | UTC | what it fixed |
+|---|---|---|---|
+| repo init | `eda2d65` | 2026-08-30T04:22:18Z | — |
+| prompt logged verbatim | `31c9345` | 2026-08-30T04:33:00Z | governing prompt |
+| TASK 0 duplication screen | `7df214c` | 2026-08-30T04:37:16Z | — |
+| TASK 1 scaffold + 5 guards + latch | `8bcc5bf` | 2026-08-30T04:43:31Z | Guard 1 `Absent`, Guard 4 five venue states |
+| **TASK 2 — REGISTRATION.md** | **`7827592`** | **2026-08-30T04:47:08Z** | **every bar below unless stated** |
+| TASK 3 venue reachability (first network measurement) | `3ad6098` | 2026-08-30T06:22:23Z | introduced the sixth venue state "capital status UNRESOLVED" with no amendment |
+| TASK 4 access | `0c873f5` | 2026-08-30T06:30:32Z | — |
+| TASK 5 cost | `c51b4f7` | 2026-08-30T06:49:19Z | — |
+| TASK 6 machinery (pre-latch) | `adac707` | 2026-08-30T06:55:29Z | fixed `non_overlapping = premium[::30]` phase 0 |
+| **Amendment 1** | **`ef07f19`** | **2026-08-30T06:58:00Z** | resolution literal `3600`→`60`, attempt numbering. **Touched no bar.** |
+| TASK 6+7 sealed read and verdict | `ba50596` | 2026-08-30T07:02:58Z | — |
+| TASK 8 artifact, README, ADRs | `d37cf6d` | 2026-08-30T07:08:02Z | — |
+
+**Amendments touching a bar: none.** Amendment 1 (VRPExperiment/REGISTRATION.md:535-589) is the only
+amendment. Data existing when it was written: attempt 1 had received DVOL rows (row counts and HTTP
+codes only) and had failed on its first underlying-leg request; no estimator ran, `real_result.json`
+does not exist, `data/raw/task6/` was empty (VRPExperiment/REGISTRATION.md:560-570). I verified the diff
+— `git show ef07f19 -- tools/task6_sealed_run.py` — and it is exactly what the amendment says it is: one
+resolution literal, a comment, a `latch_path()` helper, an `--attempt` argument and an output filename
+suffix. No estimator, window, tenor, sign convention or inference rule changed, and no file under
+`src/vrp/` was touched.
+
+**One bar changed after data existed without an amendment:** the venue-state set. Five states were
+registered (VRPExperiment/REGISTRATION.md:184-204) and enumerated in code
+(VRPExperiment/src/vrp/callstate.py:39-58) at `8bcc5bf`/`7827592`, before any network call. A sixth,
+"PERMITTED, capital status UNRESOLVED", first appears at `3ad6098`
+(VRPExperiment/reports/task3/venue_table.md:24), after the MBT margin was found to be
+`Absent(not_served)`. No amendment records it. See AUDIT-B-VRPExperiment-6.
+
+---
+
+## Summary table
+
+| # | claim | kind | deciding figures (n) | file:line | bar + registration date | amendment touching the bar | corrections applied | framing in README / report / register |
+|---|---|---|---|---|---|---|---|---|
+| P1 | BTC variance risk premium is positive and material | **positive** | mean 0.086607 dec. vol = 198.111 bps; HAC(30) SE 0.014709; t 5.888; one-sided p 2.297e-09; CI lower 142.740 bps; positive share 0.7386; **n = 1,955** | HYPOTHESES.md:19; README.md:36-40; docs/ARTIFACT.md:67-77; reports/task6/real_attempt2_result.json:12-24 | one-sided t-test at α = 0.05, H₀ mean(VRP) ≤ 0, Newey–West HAC bandwidth 30; min depth 730 obs, floor 60 — REGISTRATION.md:360-375, 145-150, registered **2026-08-30T04:47:08Z** | none | HAC bandwidth 30 for overlapping windows (registered pre-data); non-overlapping robustness; quarterly stability; **no multiplicity correction, by the Berger IUT argument** (REGISTRATION.md:381-393); no cost, fill, survivorship or clustering correction is applicable to the premium leg | "A large, significant variance risk premium exists in BTC" (README.md:20-22); "The premium is real and large in bitcoin" (docs/ARTIFACT.md:25) |
+| P2 | ETH variance risk premium is positive and material — **the binding conjunct of H1** | **qualified positive** | mean 0.052045 dec. vol = 119.052 bps; SE 0.021528; t 2.418; p 7.859e-03; CI lower 38.012 bps; positive share 0.6455; **n = 1,955** | HYPOTHESES.md:19; README.md:41-45; docs/ARTIFACT.md:67-77; reports/task6/real_attempt2_result.json:135-147 | same as P1 | none | same as P1. *[audit]* On the **registered 730-observation depth** (REGISTRATION.md:145-146), 2024-07-31→2026-07-30: mean 26.813 bps, t 0.435, **p 0.332, n = 730** — not significant. On the second half (n = 978): 19.590 bps, p 0.356. See AUDIT-B-VRPExperiment-2 | "a smaller, unstable one in ETH (119.05 bps, n = 1,955, p = 7.9 × 10⁻³)" (README.md:21-23); "smaller and unreliable in ether" (docs/ARTIFACT.md:25-26); "**Do not rely on the ETH premium**" (docs/HANDOVER.md:80) |
+| P3 | BTC non-overlapping robustness agrees | **positive** | 0.096558 dec. vol = 220.872 bps; IID SE 0.021138; t 4.568; p 1.128e-05; CI lower 140.188 bps; **n = 66 windows** | HYPOTHESES.md:20; docs/ARTIFACT.md:79-83; reports/task6/real_attempt2_result.json:57-69 | "the same test on non-overlapping 30-day windows … **If they disagree in sign or significance, the disagreement is the finding**" — REGISTRATION.md:372-375, **2026-08-30T04:47:08Z** | none | *[audit]* 30/30 stride phases significant (p 0.0000–0.00016). Robust | "Both agree with the headline in sign and in significance" (docs/ARTIFACT.md:82-83) |
+| P4 | ETH non-overlapping robustness agrees | **qualified positive** | 0.058053 dec. vol = 132.793 bps; IID SE 0.027798; t 2.088; **p 0.0203**; CI lower 26.688 bps; **n = 66 windows** | HYPOTHESES.md:20; docs/ARTIFACT.md:79-83; reports/task6/real_attempt2_result.json:180-192 | same as P3 | none | Implementation fixes one of 30 stride phases (`premium[::30]`, src/vrp/sealed_read.py:304-306), pre-read at `adac707`. *[audit]* **26/30 phases significant; phases 19–22 give p 0.0502–0.0634 and CI lower −7.30 to −0.13, n = 65 each.** See AUDIT-B-VRPExperiment-5 | "Both agree with the primary in **sign and in significance**, so the registered clause … is not triggered" (HYPOTHESES.md:20) |
+| P5a | BTC Q1 premium significant | **positive** | +284.530 bps, t 3.498, p 2.556e-04, **n = 488**; CI lower *[audit]* 150.493 bps | reports/task6/real_attempt2_result.json:70-81; docs/ARTIFACT.md:91 | α = 0.05, HAC 30 (same estimator, default bandwidth) — REGISTRATION.md:360-371 | none | no multiplicity correction applied across the 8 quarterly tests; disclosed as a stability report, not as endpoints | "BTC is significant in every quarter but decaying monotonically" (docs/ARTIFACT.md:96) |
+| P5b | BTC Q2 premium significant | **positive** | +250.587 bps, t 3.845, p 6.821e-05, **n = 488**; CI lower *[audit]* 143.191 | same | same | none | same | same |
+| P5c | BTC Q3 premium significant | **positive** | +145.132 bps, t 2.619, p 4.552e-03, **n = 488**; CI lower *[audit]* 53.796 | same | same | none | same | same |
+| P5d | BTC Q4 premium significant | **positive** | +112.719 bps, t 2.098, **p 0.0182**, **n = 491**; CI lower *[audit]* **24.172** | same | same | none | same | "A reader planning around this should assume the decay continues rather than that the average persists" (docs/ARTIFACT.md:97-98) |
+| P6 | ETH Q2 premium significant (the only significant ETH quarter) | **positive** | +291.212 bps, t 4.037, p 3.143e-05, **n = 488**; CI lower *[audit]* 172.334 | reports/task6/real_attempt2_result.json:205-215; docs/ARTIFACT.md:92 | same | none | same | "The full-sample ether result rests heavily on the 2022–2023 window" (docs/ARTIFACT.md:101-102) |
+| P7 | A British Columbia resident **can** lawfully reach a crypto option product — IBKR Canada Inc. (CIRO member) → CME MBT/MET options | **positive** (contradicts the registered prior) | 1 product page, HTTP 200, 123,443 bytes, retrieved 2026-08-30T05:15Z; **n = 1** published specification page per product | reports/task3/venue_table.md:23-24, 31-48; docs/ARTIFACT.md:29-32 | PERMITTED requires published text verbatim with URL and date, an option product listed, and no proxy/VPN/misrepresentation — REGISTRATION.md:184-193, **2026-08-30T04:47:08Z** | none | verbatim page title, footer, call to action and risk statement recorded; futures-only page checked to rule out a shared template | "That was the surprise; the expectation going in was that no reachable venue would offer the product" (docs/ARTIFACT.md:31-32); "the registered expectation is contradicted" (progress.md:357) |
+| P8 | MET is **not** capital-blocked at the $1,000 sleeve | **positive** | notional $245.62 (0.10 × ETH $2,456.205); sleeve ÷ notional **4.07×**; supported iff IM ≤ 407.1% of notional; **n = 2** spot sources agreeing to 3.24 bps | reports/task3/venue_table.md:79; docs/ARTIFACT.md:142 | CAPITAL_BLOCKED iff "a $1,000 sleeve supports fewer than one position at the venue's own contract size **and margin**" — REGISTRATION.md:195-197 | none | spot re-measured live from two independent public endpoints; carried MLCryptoEngine notional ($191, 2026-07-15) rejected in favour of the measurement (+28.6% drift) | "The MET row is the finding that moves the experiment" (reports/task3/venue_table.md:84) |
+| P9 | **MBT clears the registered 2.0× margin on commission alone, by 3.28×** | **qualified positive — the one open route** | BTC CI lower 142.740 bps (n = 1,955) vs 2 × 21.760 = 43.520 bps; rebalance p90 = 16 over **n = 1,955 paths** | HYPOTHESES.md:21, 62; docs/ARTIFACT.md:221-224; progress.md:786, 794-799 | `premium_CI_lower_bps ≥ 2.0 × cost_pessimistic_bps`, pessimistic = p90 spread + p90 rebalance count — REGISTRATION.md:312-316, 271-274, **2026-08-30T04:47:08Z** | none | Cost is **commission only**: option bid-ask, hedge bid-ask and CME exchange fee are `Absent(not_served)`, so the cost side is a strict lower bound and the margin is not actually met on a measured pessimistic cost. *[audit]* Using the repository's own quarterly split, headroom is 3.46× / 3.29× / **1.24×** / **0.56× (fails)** for Q1–Q4 (n = 488/488/488/491), and 1.30× on the registered 730-obs depth. See AUDIT-B-VRPExperiment-4 | "⚠ **OPEN — the one route not closed**" (HYPOTHESES.md:62); "Micro Bitcoin **would clear the hurdle comfortably**" (docs/ARTIFACT.md:42) |
+| P10 | Deribit public data is fully served without an account | **positive / shipped** | 9 of 9 valid endpoints HTTP 200, **n = 11 probes**; 1,026 BTC / 876 ETH option instruments, n = 1 enumeration each; depth 1,992 days, **n = 22 probes per asset**; page size 1,000 rows with a verified contiguous continuation, n = 2 pages | README.md:85-93; docs/ACCESS.md:31-112 | "Registered minimum depth: 730 daily observations per asset" — REGISTRATION.md:145-146 | none | *[audit]* the 1,992-day / 2021-03-17 depth figure overstates the DVOL series by 7 days; the probe's own row at 1,992 days back is dated **2021-03-24**, and the sealed read served 1,985 days. See AUDIT-B-VRPExperiment-11 | "**1,992 days is 2.73× the registered minimum depth**" (docs/ACCESS.md:98); README.md:87 |
+| P11 | No rate refusal was drawn | **positive, correctly bounded** | no non-200 at or below **126.76 req/s**; **n = 126 requests per endpoint**, concurrency escalated 2→64 | README.md:89; docs/ACCESS.md:114-140 | escalation ceiling registered at 64 concurrent | none | first pass discarded as measuring latency, not the limit; recorded as "an **upper bound that was not reached**, not a measured ceiling" | correctly framed as an upper bound in README.md:89 and docs/ACCESS.md:135-137 |
+| P12 | Deribit does not revise published DVOL rows | **positive / shipped** | 6 windows × 169 rows, all data-only SHA-256 identical; claimed gap "≈ 70 minutes" | README.md:91; docs/ARTIFACT.md:278-281; DECISIONS.md:189-190; reports/task4/revision_recheck.json | the prompt made the revision question mandatory (progress.md:77); no numeric bar registered | none | whole-response digest false positive diagnosed and discarded (ADR-009). *[audit]* the stored timestamps give **37 min 14 s**, not ≈ 70 min. See AUDIT-B-VRPExperiment-7 | "all six fixed windows byte-identical after ≈ 70 minutes" (README.md:91); the analogous CDD test **is** labelled "a **weak** test" (progress.md:825-827), the Deribit one is not |
+| P13 | The Deribit reference straddle spread is tick-bound and stable | **positive / shipped, reference only** | BTC 22.50 bps, ETH 25.00 bps round trip at the medians; **n = 24 windows per leg, 96 observations, 0 unquoted** | README.md:67; docs/COSTS.md:218-254; docs/ARTIFACT.md:195-200; reports/task5/reference_spreads_deribit.json | §4.1's "at least 20 distinct observation windows" — REGISTRATION.md:253-256 (formally binds only on PERMITTED venues; Deribit is PROHIBITED) | none | labelled REFERENCE ONLY and excluded from every verdict (ADR-008). *[audit]* all 96 observations fall in one **8-minute** burst, 06:33:34Z–06:41:34Z, one strike, one expiry (26.06 days, not 30), ETH strike 1.74% off the index, BTC 0.23%. See AUDIT-B-VRPExperiment-8 | "measured across **24 observation windows per leg, 96 observations, zero unquoted**" (docs/ARTIFACT.md:196-198); supports "the venue where this trade is cheap is the one a BC resident may not use" (docs/COSTS.md:263-266) |
+| P14 | Both legs of the trade sit on one venue, one account, one commission schedule | **positive, structural** | 2 legs, 1 schedule; contrasted with MLCryptoEngine ADR-034's 40 bps / 1.5 bps two-credential structure (27× asymmetry) | docs/COSTS.md:174-182; progress.md:631-637 | none registered | none | none needed | "a genuine structural advantage of this route and it did not have to be true" (docs/COSTS.md:181-182) |
+| P15 | Prior calibration: assistant 0.76 on VENUE_BLOCKED **resolved in favour** | **qualified positive** | 0.12 / 0.76 / 0.12 over HARVESTABLE / VENUE_BLOCKED / SIGNAL_ABSENT, recorded pre-measurement; operator slot empty | HYPOTHESES.md:89-117; REGISTRATION.md:475-497 | prior recorded before any network call — REGISTRATION.md:471-497, **2026-08-30T04:47:08Z** | none | self-scored down: "the branch was right for a **partly wrong reason**"; "a prior which gets the branch right through a wrong mechanism should not be scored as a clean hit" (docs/HANDOVER.md:56-57) | "**VENUE_BLOCKED — resolved in favour**" in the calibration table (HYPOTHESES.md:91), immediately qualified at HYPOTHESES.md:94-117 |
+| O1 | **The MBT route is open on exactly two figures** | **open** | IM must be ≤ **12.80%** of $7,812.46 (= $1,000/contract); absent cost legs must total ≤ **49.61 bps** at the pessimistic end | HYPOTHESES.md:26, 62; docs/ARTIFACT.md:224-234; docs/HANDOVER.md:14-31 | derived from the registered 2.0× margin and the $1,000 sleeve — REGISTRATION.md:195-197, 312-316 | none | both thresholds recomputed and confirmed *[audit]*: 1000/7812.4575 = 12.800%; (142.7401 − 43.520)/2 = 49.610 | "the one route that would clear the hurdle cannot be settled without a brokerage account this repository does not have and will not open" (README.md:24-26) |
+| N1 | **MET is COST-EXCEEDED — established** | **thresholded negative** | commission-only 122.140 bps central / 162.853 pessimistic (k = 11 / 16 over n = 1,955 paths) vs ETH CI lower 38.012 bps (n = 1,955); required 325.706; **fails by 8.57×**. Secondary: point estimate 119.052 < central cost 122.140 | HYPOTHESES.md:21, 56; docs/ARTIFACT.md:211-217; progress.md:786-792 | 2.0× margin against the pessimistic end — REGISTRATION.md:312-316; hedging rule ±0.10 daily, swept at ±0.05/±0.20 — REGISTRATION.md:289-297; both **2026-08-30T04:47:08Z** | none | cost declared a **strict lower bound** because 3 of 5 legs are `Absent`. *[audit]* the sweep is never propagated into cost: at the registered **±0.20** band central cost is **73.284 bps < 119.052** and the secondary claim reverses (AUDIT-B-VRPExperiment-3); under a self-consistent contract-granularity model the cost is 41.5–73.3 bps and it reverses again (AUDIT-B-VRPExperiment-1). The 2.0× margin test still fails under every variant | "**decided, and not by a close margin**" (docs/ARTIFACT.md:211); "**The commission is larger than the premium**" (docs/ARTIFACT.md:38-39); README.md:23-24 |
+| N2 | **SIGNAL_ABSENT does not fire** | **thresholded negative** | BTC p 2.297e-09, ETH p 7.859e-03, both n = 1,955, one-sided α = 0.05 | HYPOTHESES.md:37-40; progress.md:764-766 | one-sided α = 0.05, IUT with no multiplicity correction — REGISTRATION.md:360-393; precedence rule REGISTRATION.md:52-53 | none | Berger (1982) IUT argument applied and correctly stated. *[audit]* on the registered 730-obs depth the ETH component does not reject (p 0.332, n = 730), so the conjunction fails and the precedence rule would fire SIGNAL_ABSENT (AUDIT-B-VRPExperiment-2) | "**SIGNAL_ABSENT does not fire.** Both assets reject H₀" (HYPOTHESES.md:37-38) |
+| N3 | **HARVESTABLE cannot fire, structurally** | **negative on an absence, not a threshold** | pessimistic cost `Absent(not_served)` on both permitted routes (3 of 5 legs absent) | HYPOTHESES.md:42-49; progress.md:768-773 | "A branch conditioned on a measured cost cannot fire on an absent one", enforced by Guard 1 — REGISTRATION.md:299-304, src/vrp/absence.py | none | Guard 1 verified: `Absent` refuses `float()`, `int()`, `__index__`, arithmetic, ordering, `bool()`, `len()`, iteration, indexing | "and Guard 1 enforces this **structurally rather than by discipline**" (HYPOTHESES.md:48-49) |
+| N4 | CME full-size BTC options CAPITAL_BLOCKED | **thresholded negative** | notional $390,622.88 = **390.6×** the $1,000 sleeve; blocked at any IM > 0.26% of notional; n = 2 spot sources | reports/task3/venue_table.md:25, 81; docs/ARTIFACT.md:116 | "fewer than one position at the venue's own contract size and margin" — REGISTRATION.md:195-197 | none | spot measured live, two sources, 1.16 bps disagreement | "CAPITAL-BLOCKED (390.6× the sleeve)" (docs/ARTIFACT.md:116) |
+| N5 | CME full-size ETH options CAPITAL_BLOCKED | **thresholded negative** | notional $122,810.25 = **122.8×** the sleeve; blocked above 0.81% IM | reports/task3/venue_table.md:26, 82 | same | none | same | "CAPITAL-BLOCKED (122.8× the sleeve)" (docs/ARTIFACT.md:117) |
+| N6 | Deribit PROHIBITED for Canadian residents | **negative on policy text, not a threshold** | 1 page, verbatim, stamped `2026-03-19T16:49:36Z`, retrieved 2026-08-30T05:13Z, HTTP 200, 63,433 bytes, SHA-256 recorded; "Canada" listed bare against **5** other entries carrying narrowing qualifiers | reports/task3/deribit_restricted_jurisdictions_verbatim.md:1-75; docs/ARTIFACT.md:122-130 | PROHIBITED iff published policy excludes Canadian residents; "a measured finding and is never worked around" — REGISTRATION.md:192-193 | none | the registered carried claim ("policy dated 2026-03-19") was re-verified and confirmed exactly, with the time of day added | "It is an unconditional whole-country prohibition" (docs/ARTIFACT.md:130) |
+| N7 | Hyperliquid NO_PRODUCT | **thresholded negative** | universe **n = 232** perpetuals enumerated, **zero** names matching a call/put/strike pattern; 3 options-endpoint probes each HTTP 422 | reports/task3/venue_table.md:27; docs/ARTIFACT.md:132-134 | NO_PRODUCT iff reachable but lists no option product — REGISTRATION.md:204 | none | carried MLCryptoEngine ADR-034 claim re-verified live; its *implication* recorded as now false for options | "Measured, not assumed" (docs/ARTIFACT.md:132) |
+| N8 | Canadian covered-call crypto ETFs are NOT AN OPTION PRODUCT | **negative on a registered criterion** | BTCY MER 1.28%; ETHY mgmt fee 1.10%, MER 1.29%, capped 1.48%; **n = 2–3 funds** | reports/task3/venue_table.md:28; docs/ARTIFACT.md:119 | criterion 3.1(2), "The venue lists an **option product** on BTC or ETH" — REGISTRATION.md:189 | none | fees measured and reported anyway, "because it is the honest comparison a reader will want" (progress.md:471-473) | "the resident buys a fund unit, not an option" (reports/task3/venue_table.md:28) |
+| N9 | CIRO-registered crypto venues NO_PRODUCT | **thresholded negative** | Webull Canada Crypto Ltd., CIRO approval 2026-06-30, **spot only** (BTC/ETH/SOL/XRP/ADA/LTC) | reports/task3/venue_table.md:29 | REGISTRATION.md:204 | none | notes that the CIRO route to crypto options **is** row 2/3 itself | "No CIRO-registered venue was found offering crypto **options** directly" |
+| N10 | The §2.2 option-level fallback is **NOT USED** | **thresholded negative** | served depth 1,992 days ≥ registered minimum 730; OKX/Bybit/Binance serve option-level IV but **snapshot only**, n = 3 sources | docs/ACCESS.md:238-253, 268-270; progress.md:574 | "if and only if the index is not served with the depth registered in Section 2.5" — REGISTRATION.md:95-100 | none | recorded as used-or-not, never blended, exactly as registered | "**No fallback … is required.** It is recorded as **NOT USED**" (docs/ACCESS.md:268-270) |
+| N11 | The fixture's non-overlapping robustness estimator returned `Absent(insufficient_sample)` | **thresholded negative (unremarked)** | 29 observations (900-day fixture) and 9 (300-day fixture) against the registered floor of **60** | reports/task6/fixture_result.json (`robustness_non_overlapping_iid`), both pre- and post-amendment versions | "Registered minimum for any reported figure: **60 observations**" — REGISTRATION.md:149-150 | none | correct behaviour of the floor — but a consequence is that the registered robustness estimator was **never exercised against a planted premium** before the sealed read; the only test of it checks its length (tests/test_estimators.py:234-238) | not mentioned in README.md, docs/ARTIFACT.md, HYPOTHESES.md or progress.md; visible only in the stored fixture result |
+
+---
+
+## Shipped artifacts (things a reader outside the programme could pick up and use)
+
+| # | artifact | what it asserts | support | framing |
+|---|---|---|---|---|
+| S1 | **`docs/ARTIFACT.md`** (284 lines) | the citable deliverable: premium, venue table, cost, conclusion | everything in P1–P15, N1–N10 above | "Self-contained: nothing else in this repository needs to be read to use it" (docs/ARTIFACT.md:3-4); "**Read [`docs/ARTIFACT.md`]. It is the deliverable**" (README.md:13-14) |
+| S2 | **`docs/VENUE_TABLE_UPDATE.md`** — three corrections offered to MLCryptoEngine | (1) US single-name equity intraday ≈ 153 bps round trip is the programme's most expensive venue; (2) MBT $6,505→$7,812.46 and MET $191→$245.62, so the CME bps rows move; (3) the BC-reachable options route is IBKR Canada → CME, "a 7.5× spread on the same schedule, **purely from notional**" | ORB half-spread 0.076572 USD/share, p90 0.333662, **n = 550 minutes served, 0 refused**, re-verified from ORBExperiment's own files; spot n = 2 sources | carries its own two qualifications on the equity row (spread ≠ fee; bps is price-dependent) and insists the commission-only rows "**should not silently replace the existing rows**" (docs/VENUE_TABLE_UPDATE.md:103-107). *[audit]* Correction 3's "purely from notional" is arithmetically wrong — see AUDIT-B-VRPExperiment-9 |
+| S3 | **`reports/task5/commission_bps.json`** + the bps table | MET 8.143 bps/side, MBT 1.088 bps/side, straddle round trips 32.571 / 4.352 bps | 1 published schedule, retrieved 2026-08-30T06:20Z, HTTP 200, 489,783 bytes | "MEASURED live, `n = 1` published schedule" (progress.md:584); every figure reproduces *[audit]* |
+| S4 | **`reports/task5/reference_spreads_deribit.json`** | Deribit ATM straddle quoted spread, 4 legs × 24 windows, full distributions | see P13 | "REFERENCE ONLY, not a cost input" (DECISIONS.md:166); *[audit]* 8-minute span — AUDIT-B-VRPExperiment-8 |
+| S5 | **`reports/task4/deribit_probe.json`** (47 KB) | endpoint status, history depth bisection, rate escalation, revision baselines | n = 11 endpoint probes, 22 depth probes/asset, 126 rate requests/endpoint, 6 revision windows | "the honest statement is 'no rate refusal at or below 126.76 req/s' — an upper bound that was **not reached**" (docs/ACCESS.md:135-137); *[audit]* the depth field is a window start, not a served row — AUDIT-B-VRPExperiment-11 |
+| S6 | **`reports/task6/real_attempt2_result.json`** + both latches | the sealed read, with module SHA-256s | n = 1,955 per asset; latch written 2026-08-30T06:58:05.858Z | "**The TASK 6 latch is spent and is not re-runnable**" (README.md:124); both latches committed, the aborted one kept (ADR-007) |
+| S7 | **`src/vrp/`** — five structural guards plus the latch | recorded absence; timezone guard; append-only fsynced ledger; call-state separation; blindness pin over 38 blind fields | 50 tests green, mypy strict clean, ruff clean; both AST guards carry canaries that fire | "`make all` is green: 50 tests" (README.md:122) — verified: 22 + 28 test functions |
+| S8 | the registered conversion **1 volatility point = 22.875 bps of notional** | makes premium and cost comparable | `√(2/π)·√(30/365)·10⁴ = 2287.464`; registered pre-data | three limitations registered rather than discovered: continuous hedging, ATM-straddle-only, first-order (REGISTRATION.md:168-173). *[audit]* README.md:36 and HYPOTHESES.md:19 mislabel the decimal as "vol points", so the repository's own conversion applied to its own headline gives 1.98 bps — AUDIT-B-VRPExperiment-13 |
+| S9 | **`reports/task3/venue_table.md`** | 8-row venue classification with verbatim evidence, contract specs, sleeve arithmetic | n = 1 spec page per product; n = 2 spot sources | *[audit]* records "minimum **price** increment" where §3.2 registered "minimum **order** increment" — AUDIT-B-VRPExperiment-1; introduces the unregistered sixth venue state — AUDIT-B-VRPExperiment-6 |
+| S10 | **`docs/HANDOVER.md`** operator thresholds | IM ≤ 12.80% of $7,812.46; absent cost legs ≤ 49.61 bps | derived from P9/O1 | "**the only item that changes a verdict**" (docs/HANDOVER.md:14); *[audit]* both thresholds rest on the full-sample BTC CI lower bound, which the repository's own last quarter does not support — AUDIT-B-VRPExperiment-4 |
+
+---
+
+## Corrections applied across the repository
+
+**Applied:** HAC (Newey–West, bandwidth 30) for overlap-induced serial correlation, registered pre-data
+(REGISTRATION.md:366-371); a non-overlapping robustness check (REGISTRATION.md:372-375); a four-way
+stability split; a strict-lower-bound discipline on cost with `Absent` enforced by Guard 1; live
+re-verification of every carried figure with "the measurement wins" (ADR-055 pattern), which overturned
+two carried notionals; a central/pessimistic statistic assignment fixed before anything downstream; a
+rebalance-band sweep at ±0.05/±0.20; and an explicit refusal to carry any spread across instruments or
+venues.
+
+**Not applied, and named here because the cross-repository pass will want them:** no multiplicity
+correction (justified by the Berger IUT argument, which is correct for the conjunction endpoint but does
+not cover the eight quarterly tests, which are reported as stability rather than as endpoints); **no fill
+model** (declared, REGISTRATION.md:456-457); **no market impact or queue-position adjustment** (declared,
+REGISTRATION.md:324-329); **no tail** (declared and emphasised, REGISTRATION.md:460-464); **no
+survivorship or clustering correction** (not applicable — two assets, one venue, no cross-section); **no
+correction for the sample-window choice** (the ETH result and the MBT headroom both depend on it —
+AUDIT-B-VRPExperiment-2, -4); **no propagation of the registered rebalance-band sweep into any cost
+figure** (AUDIT-B-VRPExperiment-3); and **no contract-granularity term in the hedge cost**
+(AUDIT-B-VRPExperiment-1).
+
+---
+
+## Leads for the cross-repository pass
+
+### A. Artifacts and figures this repository exports, that another repository relies on or must absorb
+
+1. **`docs/VENUE_TABLE_UPDATE.md` is an outbound patch to MLCryptoEngine's venue table** — three
+   corrections offered explicitly, with the instruction that they "should not silently replace the
+   existing rows" (VRPExperiment/docs/VENUE_TABLE_UPDATE.md:103-107). **Comparison repo: MLCryptoEngine.**
+   Check whether MLCryptoEngine has absorbed them and, if so, whether Correction 3's "purely from
+   notional" wording (arithmetically wrong — AUDIT-B-VRPExperiment-9) travelled with it.
+2. **The carried CME notionals both came from MLCryptoEngine and both were overturned by measurement**:
+   MBT $6,505 → $7,812.46 (+20.1%) and MET $191 → $245.62 (+28.6%), the MET figure dated 2026-07-15
+   (VRPExperiment/reports/task3/venue_table.md:93-98). **Comparison repo: MLCryptoEngine**, plus any
+   repository carrying an MLCryptoEngine CME notional — those are stale by the same margins.
+3. **The ORB half-spread figures are re-verified here from ORBExperiment's own files**: 0.076572 USD/share
+   median, p90 0.333662, **n = 550 minutes served, 0 refused** (VRPExperiment/docs/VENUE_TABLE_UPDATE.md);
+   and the "11.27×" lesson, measured 0.467065 USD/share against a carried 0.041455
+   (VRPExperiment/REGISTRATION.md:276-279, 517). **Comparison repo: ORBExperiment.** These are the cleanest
+   independent restatements of ORB's numbers anywhere in the programme; if ORBExperiment's own files give
+   different values, one of the two is wrong.
+4. **The "sibling study" cited in the deliverable is ORBExperiment**: "a sibling study in this programme
+   carried a slippage band from an index ETF onto single stocks … **five of six legs were understated and
+   the resulting adjustment was 11.27× larger**" (VRPExperiment/docs/ARTIFACT.md:189-193). The index ETF is
+   QQQ (VRPExperiment/REGISTRATION.md:517). **Comparison repos: ORBExperiment** (the carrier) **and
+   ETFExperiment** (plausible origin of the index-ETF band). Worth confirming which repository the band
+   was carried *from*.
+5. **MLCryptoEngine ADR-023, ADR-034, ADR-055 and ADR-012 are cited here as binding house norms** —
+   ADR-034 for band sweeping and for the 40 bps / 1.5 bps two-credential structure
+   (VRPExperiment/REGISTRATION.md, VRPExperiment/docs/COSTS.md:174-182), ADR-023 for "notional decides
+   everything on CME" (VRPExperiment/DECISIONS.md:222, HYPOTHESES.md:109), ADR-055/ADR-012 for
+   carried-figure re-verification (VRPExperiment/REGISTRATION.md:228, 466). **Comparison repo:
+   MLCryptoEngine.** Every one of these should be checked against MLCryptoEngine's own text — VRPExperiment
+   is quoting them from memory of another repository, not from a copy in this one.
+6. **The Hyperliquid re-verification records an MLCryptoEngine claim's implication as now false for
+   options** (VRPExperiment/reports/task3/venue_table.md:27) — an outbound correction MLCryptoEngine has not
+   necessarily absorbed. **Comparison repo: MLCryptoEngine.**
+7. **The TASK 0 duplication screen clears eight sibling repositories by name**
+   (VRPExperiment/docs/DUPLICATION.md:1-171): solattn, solclear, ORBExperiment, NPDExperiment,
+   ETFExperiment, NPLExperiment, InsiderExperiment, AiTrader, HFExperiment, PMExperiment,
+   retail-power-limits. The solattn clearance rests on a specific count — **4,154 `VRP` substring hits, zero
+   word-boundary hits**, attributed to Bluesky DID artifacts. **Comparison repo: solattn** — the count is
+   checkable and is the kind of screen that either holds exactly or not at all.
+
+### B. Standards applied here that look stricter than the house norm
+
+8. **`Absent` enforced structurally rather than by convention.** `src/vrp/absence.py` refuses `float()`,
+   `int()`, `__index__`, arithmetic in both directions, ordering, `bool()`, `len()`, iteration and
+   indexing, and `CallStateTally.combined_total()` raises rather than merging counts
+   (VRPExperiment/src/vrp/callstate.py:111-118). If a sibling repository declares absence by naming
+   convention or by `None`, this is the comparison to draw. **Best guess of comparison repos:
+   MLCryptoEngine and ORBExperiment** (the two most cited here), then any repo with a cost table
+   containing missing legs.
+9. **A spent, non-re-runnable sealed-read latch, with the aborted attempt's latch kept and committed**
+   (ADR-007; VRPExperiment/README.md:124). Both latches are in the repository, including the one from the
+   failed attempt. **Comparison: any programme repository that re-ran a sealed analysis** — this is the
+   strictest instance of the pattern I have seen and it makes a useful ceiling.
+10. **Carried-figure re-verification where the measurement is allowed to win, applied without exception
+    and against the repository's own interest** — it overturned two carried notionals and made the ETH
+    route *more* expensive in bps, i.e. worse for the repository's preferred outcome
+    (VRPExperiment/reports/task3/venue_table.md:90-98). **Comparison repo: MLCryptoEngine (ADR-055's
+    home).** Whether ADR-055 is applied this strictly at home is worth checking.
+11. **Self-scoring a correct prior down for a wrong mechanism** — "right for a partly wrong reason … should
+    not be scored as a clean hit" (VRPExperiment/docs/HANDOVER.md:56-57). **Comparison: any repository with
+    a calibration table.** Most score branch-correct as a hit.
+
+### C. Standards applied here that look laxer than the house norm
+
+12. **A "reference" spread presented as "24 observation windows / 96 observations" when all 96 fall inside
+    an 8-minute burst on one strike at one time of day** (AUDIT-B-VRPExperiment-8), against a registration
+    that requires "at least 20 **distinct** observation windows". **Comparison repos: ORBExperiment**
+    (which served 550 distinct minutes for its spread measurement, an order of magnitude stricter) **and
+    ETFExperiment** if it measures spreads. ORB's own discipline is the direct rebuttal, and it is cited
+    approvingly in this very repository.
+13. **A registered sensitivity sweep reported as counts and never propagated into the figure it was
+    registered to stress** (AUDIT-B-VRPExperiment-3). The sweep requirement comes from **MLCryptoEngine
+    ADR-034** ("swept and reported, never chosen"). **Comparison repo: MLCryptoEngine** — check whether
+    ADR-034's sweeps are propagated into costs there, which would make this a local lapse rather than a
+    house norm.
+14. **No multiplicity correction across eight quarterly tests.** Justified by the Berger IUT argument,
+    which is correct for the conjunction endpoint but does not cover the quarterlies; the repository
+    protects itself by reporting them as stability rather than as endpoints. **Comparison repos:
+    ETFExperiment, NPLExperiment or any repository with a quarterly/sub-period split** — if a sibling
+    applies a correction to an equivalent split, this is a real asymmetry; if none does, it is the house
+    norm and should be recorded as such.
+15. **A registered field silently replaced by a near-homonym**: §3.2 required "minimum **order**
+    increment" and the venue table records "minimum **price** increment"
+    (VRPExperiment/reports/task3/venue_table.md:62). This is the substitution that lets
+    AUDIT-B-VRPExperiment-1's granularity error through unnoticed. **Comparison: any repository with a
+    registered field list** — worth a mechanical check that each registered field name is answered by a
+    field of that name.
+16. **A headline figure whose units contradict the repository's own registered conversion by a factor of
+    100** (AUDIT-B-VRPExperiment-13), correct in the deliverable and wrong in the README and HYPOTHESES.
+    **Comparison: any repository shipping a "vol points" or similar unit-carrying headline** — a
+    programme-wide grep for the same decimal-versus-points confusion is cheap and likely to hit more than
+    one repository.

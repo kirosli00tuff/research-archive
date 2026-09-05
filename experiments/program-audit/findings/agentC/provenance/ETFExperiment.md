@@ -6,7 +6,7 @@
 - **Git objects read from:** the live repository, read-only, `git log|show|diff|blame|rev-parse|cat-file|ls-tree|reflog|for-each-ref|grep`
 - **Unanchored working-tree data read:** `data/ledgers/requests.jsonl` and `data/*/` listings (gitignored, live only) — read 2026-09-05T04:00Z to 04:12Z; may have changed after the anchor (its mtime is 2026-08-29T02:40:42Z, so it has not)
 - **Recomputation:** `/home/kiros-li/.cache/program-audit/scratchpad/work/agentC-etf-prov/` (copies of `src/etf/power.py` and `src/etf/config.py` from SNAP, driven by my own scripts; nothing executed inside the audited repository)
-- **Generated:** 2026-09-05T04:20Z
+- **Generated:** 2026-09-05T04:20Z; **re-verified end to end 2026-09-05T05:48Z-06:05Z** (every git fact re-run, every recomputation re-run from a fresh copy of the source; two items improved, marked * below)
 
 The referee has no thesis here. Sixteen of the nineteen provenance claims verify, several of
 them to the second, and that is reported as plainly as the five that do not.
@@ -73,7 +73,7 @@ Status: SUPPORTED / PARTIAL / NOT_SUPPORTED / UNVERIFIABLE.
 | P12 | `etf-snap` and `etf-daily` disarmed; no armed collector, no running process — REGISTRATION.md:1157-1159 | `4d11002` | yes, 2026-08-29T02:43:48Z | — | **SUPPORTED** — `systemctl --user` at 2026-09-05T04:06Z: both `disabled` + `inactive`, neither in `list-timers --all` | — |
 | P13 | "The **220 charged requests** stand as the total lifetime network cost" — REGISTRATION.md:1160-1161 | `4d11002` | yes, 2026-08-29T02:43:48Z | — | **NOT_SUPPORTED** — the ledger held **238** charges at that commit; charge #238 is stamped 02:40:32Z, 3 m 16 s earlier | **DRAFT-P-5** |
 | P14 | All six mutations applied to real source, each caught, source restored green — report.md:405-407 | `a881956` | yes, 20:41:54Z | — | **SUPPORTED** — `reports/stage_a4/mutations.log` at that commit reads `caught=True restored_green=True` on all six; all six anchor strings verified present in the anchored source; the earlier run's one SKIP and one `restored_green=False` are **disclosed by the authors** at report.md:417-421 | — |
-| P15 | Nothing pushed; no remote exists; four pre-existing timers untouched — progress.md:520-524 | none | — | — | **SUPPORTED at the anchor** — `refs/remotes/origin/master` reflog shows a single entry, `update by push` at **2026-08-29T18:45:06Z**, ~16 h *after* the last commit and after the claim was written; no `FETCH_HEAD`, no `ORIG_HEAD`. `npl-watch` (60 min), `news-collect` (22:31Z), `npl-daily` (01:40Z) all present with the stated schedules; `solattn-daily` is not present now (see §4) | — |
+| P15 | Nothing pushed; no remote exists; four pre-existing timers untouched — progress.md:520-524 | none | — | — | **SUPPORTED at the anchor** — `refs/remotes/origin/master` reflog shows a single entry, `update by push` at **2026-08-29T18:45:06Z**, ~16 h *after* the last commit and 22 h after the claim was written, and it points at `4d11002`, so the push carried nothing the anchor does not contain. ***All four* named timers exist with exactly the stated schedules** (`systemctl --user show`, 06:02Z): `npl-watch` `OnCalendar=*-*-* *:05:00 UTC` (hourly = 60 min), `news-collect` `Mon..Fri *-*-* 22:30:00 UTC`, `solattn-daily` `*-*-* 00:40:00 UTC`, `npl-daily` `*-*-* 01:40:00 UTC` | — |
 | P16 | The DEGRADED expectation was stated before the census existed — REGISTRATION.md:72-86 | `44567f6` / `e33b03c` | yes, 08:07:59Z | 08:12:19Z | **SUPPORTED** — `git show 44567f6:REGISTRATION.md` is 86 lines and is **byte-identical** to lines 1-86 of the anchored file | — |
 | P17 | No accrual, coverage, lag, retention, revision or capture-density figure is registered before it is measured — REGISTRATION.md:571-573 | `38b9397` | yes, 08:11:17Z (pre-data) | 08:12:19Z | **NOT_SUPPORTED in one instance** — Section 9's "rough anchors" are correctly labelled expectations (REGISTRATION.md:386-388); the archive-density, revision, coverage and pacing figures were all measured before use. The **20.8 admissible-days-per-month accrual figure** is not: it is labelled "measured", the census measured `admissible_forward_capture = 0`, and no stored artifact holds it | **DRAFT-P-4** |
 | P18 | Stage B opens the sealed store exactly once behind a latch; `verdict.py` built dark, imported by nothing — REGISTRATION.md:400-408 | `e33b03c` | yes, 08:09:26Z | — | **SUPPORTED** — `data/state/` absent from the live tree at 2026-09-05T04:07Z; `grep` for `import verdict` across `src`, `scripts`, `tests` returns only `tests/test_verdict.py`, which itself asserts no Stage A module imports it | — |
@@ -119,8 +119,10 @@ Confirmed unchanged from the pre-data commit `815f888` (08:05:56Z) to the anchor
 `revision_intact_pass_share=0.90`, `min_outcome_coverage_candles/funding=0.95`,
 `retro_revision_sample_min=30`, and the per-source caps 200 / 2,000 / 5,000 per day.
 
-**C08 is the only parameter deviation after data existed that carries no dated amendment.**
-C07 carries one, one amendment late.
+**C08 is the only deviation from a registered figure after data existed that carries no dated
+amendment.** C07 carries one, one amendment late. C04 also carries no amendment line, but it
+adds two new one-shot endpoints at a conservative 5.0 s pace rather than departing from any
+registered figure, so it is S4 at most and is not counted as a deviation.
 
 ---
 
@@ -133,7 +135,7 @@ C07 carries one, one amendment late.
 - **Class:** PROVENANCE
 - **Severity:** S2
 - **Label:** DERIVED (git objects + exact reproduction from the repository's own code)
-- **Claim challenged (verbatim quote):** "Simulation budget stated: E1 at 20,000 permutation draws / and 2,000 simulations; E2 at 1,500 draws and 400 simulations, whose simulation / error near a power of one half is about 0.025 — both registered floors sit far / from these values." — ETFExperiment/REGISTRATION.md:856-859 (repeated verbatim at ETFExperiment/report.md:329-332)
+- **Claim challenged (verbatim quote):** "Simulation budget stated: E1 at 20,000 permutation draws / and 2,000 simulations; E2 at 1,500 draws and 400 simulations, whose simulation / error near a power of one half is about 0.025 — both registered floors sit far / from these values." — ETFExperiment/REGISTRATION.md:856-859 (the same statement in near-identical wording at ETFExperiment/report.md:329-332, "Simulation budgets are stated rather than implied: E1 at 20,000 permutation draws and 2,000 simulations; E2 at 1,500 draws and 400 simulations", sitting under the same two tables)
 - **Evidence:**
   - The sentence sits directly beneath **two** tables in Amendment 3 §1: the minimum-N table at ETFExperiment/REGISTRATION.md:834-838 (237 / 845 / 3,776) and the power table at ETFExperiment/REGISTRATION.md:846-851.
   - `src/etf/power.py:225-234` — `minimum_n(rho_true, target, *, lo=20, hi=4000, alpha=CONFIG.alpha_adj, draws=4_000, simulations=600, seed=20260828)`. ETFExperiment/src/etf/power.py:232-233.
@@ -244,7 +246,7 @@ C07 carries one, one amendment late.
 
 1. **Whether any network request was made before 2026-08-28T08:12:19Z.** The pre-registration ordering claim rests on the ledger's own first row plus `reports/stage_a1/robots_and_terms.json`. Both are written by the same code path (`etf.ledger.requests`). A request sent outside that path would leave no trace I can read. `data/` is gitignored, so I cannot use the tree at `44567f6` to prove the ledger did not exist — only that no data artifact was tracked. The claim is supported by everything available and cannot be closed beyond that.
 2. **When Amendment 2 was "written" as opposed to committed.** See DRAFT-P-3. Git records commit instants only. No shell history, editor state or session log is in the repository.
-3. **Whether `solattn-daily` existed on 2026-08-28** (progress.md:522). It is not in `systemctl --user list-timers --all` at 2026-09-05T04:06Z. `solattn` is a separate audited repository and its timer state is outside this repository's evidence. The other three named timers (`npl-watch` 60 min, `news-collect` 22:31Z, `npl-daily` 01:40Z) are all present with the stated schedules. **UNVERIFIABLE, not contradicted.**
+3. ***Resolved on re-verification.*** The LOCATE pass and this report's first pass could not find `solattn-daily` (progress.md:522) because it is **disabled**, and `systemctl --user list-timers --all` lists only enabled units. `systemctl --user list-unit-files 'solattn*'` shows `solattn-daily.timer` present (`disabled`, `inactive`), and `systemctl --user show solattn-daily.timer -p TimersCalendar` returns `OnCalendar=*-*-* 00:40:00 UTC` — **exactly the schedule progress.md:522 claims**. All four named timers therefore exist with the stated schedules. What remains unverifiable is only "untouched *throughout*", which is a retrospective claim about 2026-08-28 that no current system state can settle, for any of the four.
 4. **Whether the A.1 Task 1 probe code that ran at 08:12Z is the code committed at 20:04:41Z.** The probes ran twelve hours before their commit; `meta.robots` is the first ledger endpoint and was only added to the pacing map in that commit. The working tree at run time therefore held uncommitted code. This does not touch the pre-registration ordering (the registration commits all precede 08:12:19Z) but it means the *probe* code cannot be pinned to a commit that predates its own run.
 5. **Whether the sealed outcome store was ever opened outside the repository's own code paths.** I verified the structural guards, the absence of `data/state/`, and that `verdict.py` is imported by nothing. An out-of-band read (a REPL, a notebook) would leave no trace. Stated as a limit, not as a doubt.
 6. **The E2 minimum-N grid was not independently recomputed.** `e2_power` at n = 300 with 1,200 draws and 300 simulations is order 10^8 inner operations in pure Python; the budget claim for that grid was verified by reading `scripts/e2_minimum.py:42` and matching it against `e2_minimum_n.json`, not by re-running it.
@@ -337,3 +339,59 @@ All computation ran from copies under
 `/home/kiros-li/.cache/program-audit/scratchpad/work/agentC-etf-prov/`. No script belonging to
 the audited repository was executed in place, and nothing was written inside
 `/home/kiros-li/Documents/GitHub/ETFExperiment` or into `SNAP/`.
+
+---
+
+### Second access window — the end-to-end re-verification pass, 2026-09-05T05:48Z to 06:06Z
+
+The whole report was re-derived in a second session rather than carried forward: every git fact
+was re-run against the live repository, and every recomputation was re-run from a fresh copy of
+`src/etf/power.py` and `src/etf/config.py` taken from `SNAP` (sha256
+`0fed794c…46bd268`, verified equal to `git show 4d11002:src/etf/power.py`).
+
+**Before first access — 2026-09-05T05:48:20Z**
+
+```
+$ git -C /home/kiros-li/Documents/GitHub/ETFExperiment status --porcelain
+(no output — clean)
+$ git -C /home/kiros-li/Documents/GitHub/ETFExperiment rev-parse HEAD
+4d110027674e7b4cd2861cf4e0e74f975111daf1
+```
+
+**After last access — 2026-09-05T06:06:02Z**
+
+```
+$ git -C /home/kiros-li/Documents/GitHub/ETFExperiment status --porcelain
+(no output — clean)
+$ git -C /home/kiros-li/Documents/GitHub/ETFExperiment rev-parse HEAD
+4d110027674e7b4cd2861cf4e0e74f975111daf1
+```
+
+Clean before and after, HEAD unmoved and equal to the anchored SHA. Nothing was modified. The
+untracked `_CLOSED_DO_NOT_RUN_HERE` marker (excluded via `.git/info/exclude`, owner-written,
+dated 2026-09-02) still does not appear in `status`; it is not mine and I did not open it.
+
+| time (UTC) | operation | purpose |
+|---|---|---|
+| 05:48:20 | `git status --porcelain`, `git rev-parse HEAD` | pre-access record |
+| 05:49 | `TZ=UTC git log --reverse --date=iso-local` (all 27 commits) | rebuild the timeline in true UTC |
+| 05:50 | `git ls-tree -r --name-only 44567f6` | P01/P03 — 44 paths, no data artifact |
+| 05:50 | `TZ=UTC git log --date=iso-local -- REGISTRATION.md`; `git diff --numstat` + `git diff -U0 … \| grep '^@@'` on **all nine** commits touching it | P04 — append-only, extended to the pre-data commits |
+| 05:51 | `git log --follow -- src/etf/config.py`; `git diff --numstat 815f888 4d11002 -- src/etf/config.py`; full diff body; `git show 4d11002:src/etf/config.py` | P09, C01, C12 |
+| 05:52 | `git show 41351a9 --stat`; `git diff 41351a9^ 41351a9 -- scripts/power_gate.py` | P06/C07, DRAFT-P-3 |
+| 05:52 | `git show fe60a22:reports/stage_a2/power.json`; `git log --diff-filter=A -- reports/stage_a2/power.json` | P06 — `computed_at` is not a later overwrite |
+| 05:53–05:59 | reproductions from `SNAP` copies in my work dir: `minimum_n` at 4,000/600 and at 20,000/2,000; `e2_power` at 1,500/400 and 2,000/400 against every stored cell with n ≤ 100; `e1_power` at CONFIG defaults | DRAFT-P-1, DRAFT-P-2, DRAFT-P-3, P20, P22 |
+| 05:55 | `ls -la data/`; read of `data/ledgers/requests.jsonl` (476 rows), counts and bisection by amendment instant; `TZ=UTC stat` on the file | P05, P07, P13, P18 — UNANCHORED, mtime 2026-08-29T02:40:42Z |
+| 05:57 | `git show 44567f6:REGISTRATION.md` vs `head -86` of SNAP; `git show <c>:REGISTRATION.md` for all nine commits, written to my work dir, `_FILL` regex re-run against each | P16, P11 |
+| 05:58 | `git show a881956 --stat`; `git show a881956:reports/stage_a4/mutations.log` | P14 |
+| 05:59 | `git log --follow -- src/etf/pacing.py`; `git diff` on `97da329` and `294eab7`; `git diff 66a0c81^ 66a0c81 -- src/etf/census.py`; `git diff c9e8c9d^ c9e8c9d -- src/etf/recorder.py` | C02, C03, C04, C05, C11 |
+| 06:00 | `git log -S "20.8 admissible"`, `-S "220 charged"`, `-S "draws=1500"`, `-S "draws: int = 4_000"` | first-commit dating of each figure |
+| 06:00 | `git rev-parse --verify refs/remotes/origin/master`; `TZ=UTC git log -g` on that ref and on HEAD | P15 — push dating |
+| 06:01–06:02 | `systemctl --user is-enabled/is-active/list-timers --all/list-unit-files/show` (not a repository access) | P12, P15 |
+| 06:03 | weekday and accrual arithmetic recomputed in my work dir from `census.json` and `power.json` | DRAFT-P-4 |
+| 06:06:02 | `git status --porcelain`, `git rev-parse HEAD` | post-access record |
+
+Second-pass scratch under
+`/home/kiros-li/.cache/program-audit/scratchpad/work/agentC-etf-prov/run2/`. Every conclusion in
+this report was reproduced; two items improved on the first pass (the `solattn-daily` timer,
+§4 item 3, and the report.md wording note in DRAFT-P-1) and nothing was overturned.

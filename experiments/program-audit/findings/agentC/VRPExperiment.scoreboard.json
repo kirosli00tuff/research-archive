@@ -1,0 +1,60 @@
+{
+  "repo": "VRPExperiment",
+  "claims": {
+    "verified": 25,
+    "contradicted": 3,
+    "unverifiable": 4,
+    "must_verify": [
+      {
+        "claim": "MV1 - 'The ether premium's point estimate is **119.05 bps**. The **central, commission-only, lower-bound cost is 122.14 bps**. **The premium does not cover the commission.**' (docs/ARTIFACT.md:212-214)",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "MV2 - 'Required for HARVESTABLE: **2.0 x 162.853 = 325.706 bps. FAILS BY 8.57x.**' (HYPOTHESES.md:21)",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "MV3 - BTC 'mean 0.086607 ... 198.111 bps, n = 1,955, HAC bw 30, SE 0.014709, t = 5.888, p = 2.297e-9, CI lower 142.740 bps, positive 73.86%' (HYPOTHESES.md:19)",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "MV4 - ETH 'mean 0.052045 = 119.052 bps, n = 1,955, SE 0.021528, t = 2.418, p = 7.859e-3, CI lower 38.012 bps, positive 64.55%' (HYPOTHESES.md:19)",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "MV5 - 'rebalances, registered +/-0.10 band ... **median 11, p90 16** (BTC max 20, ETH max 22) ... 1,955 paths per asset' (README.md:61)",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "MV6 - 'MET option $245.62 $0.20 **8.143** **16.285**'; 'MET 4 x $0.20 = $0.80 **32.571**'; 'MBT 4 x $0.85 **4.352**' (docs/COSTS.md:78, 88-89)",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "MV7 - 'Micro Ether option **$245.62** **4.07x** **407.1%** ... Micro Bitcoin option **$7,812.46** **0.128x** **12.80%**' (docs/ARTIFACT.md:142-143)",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "MV8 - 'clears the registered 2x hurdle by **3.28x**, and would still clear it at the maximum possible **29** rebalances ... must total **<= 49.61 bps**' (docs/ARTIFACT.md:222-231)",
+        "status": "VERIFIED"
+      }
+    ]
+  },
+  "intervals": {
+    "audited": 4,
+    "independence_doubtful": 0,
+    "recomputed": 4,
+    "conclusion_moved": 0
+  },
+  "tests": {
+    "audited": 26,
+    "tail_mismatch": 0,
+    "dof_issue": 2,
+    "correction_mismatch": 0
+  },
+  "provenance": {
+    "supported": 26,
+    "not_supported": 1,
+    "partial": 5,
+    "unverifiable": 0
+  }
+}
