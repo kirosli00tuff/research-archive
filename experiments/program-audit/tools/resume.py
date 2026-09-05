@@ -121,9 +121,35 @@ def bank_leads():
                 if s not in cur[agent]:
                     cur[agent].append(s)
                     added[agent] += 1
+    added['A'] += reopen_note_leads(cur['A'])
     for a in files:
         json.dump(cur[a], open(files[a], 'w'), indent=1, ensure_ascii=False)
     say(f"leads: A {len(cur['A'])} (+{added['A']} new), B {len(cur['B'])} (+{added['B']} new)")
+
+
+def reopen_note_leads(bank):
+    """Agent A consolidators write <repo>.reopen.md with a 'Leads for the cross-repository pass' table.
+    When a consolidator dies before returning, its leads exist only there; bank them in the journal format."""
+    n = 0
+    for path in sorted(glob.glob(os.path.join(ROOT, AGENTS['A']['outdir'], '*.reopen.md'))):
+        repo = os.path.basename(path)[:-len('.reopen.md')]
+        parts = open(path, encoding='utf-8').read().split('Leads for the cross-repository pass', 1)
+        if len(parts) < 2:
+            continue
+        for line in parts[1].splitlines():
+            m = re.match(r'\|\s*\*\*L(\d+)\*\*\s*\|(.*)\|\s*$', line)
+            if not m:
+                continue
+            cells = [c.strip().replace('**', '') for c in m.group(2).split('|')]
+            if len(cells) < 3:
+                continue
+            what, cond, where = cells[0], cells[1], cells[-1]
+            first = re.split(r'[\s,;(]', where.replace('`', ''), maxsplit=1)[0]
+            s = f"{repo}: L{m.group(1)} ({first}): {what} - {cond} [where: {where}]"
+            if s not in bank:
+                bank.append(s)
+                n += 1
+    return n
 
 
 # ---------- 4. state + recovery ----------
