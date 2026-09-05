@@ -426,3 +426,12 @@ Outcomes of A run 13 / B run 4 / C run 4 (launched 23:02Z, cut by the session li
   consolidated (9 findings; 20 claims verified, 6 contradicted, 4 unverifiable) and applied (kept 4,
   corrected 5). All nine locates failed (VRPExperiment inventory file written, treated as not started). C now 4/13.
 Next: A run 14, B run 5, C run 5 launched in parallel at 03:41Z.
+
+## 2026-09-05T05:47Z — tools/resume.py
+agent A: 10/13 done
+agent B: 4/13 done
+agent C: 4/13 done
+AFTER checks: pre-existing dirt only
+prepared A run 15 (provenance/launch-args/agentA-run15.args.json)
+prepared B run 6 (provenance/launch-args/agentB-run6.args.json)
+prepared C run 6 (provenance/launch-args/agentC-run6.args.json)
