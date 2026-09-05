@@ -133,5 +133,25 @@
   "wf": "wf_fbabed09-3b3",
   "launched": "2026-09-05T18:02Z",
   "after": "2026-09-05T23:01Z"
+ },
+ {
+  "agent": "A",
+  "run": 18,
+  "label": "01-agentA-blind-run18",
+  "task": "wphdud8k7",
+  "wf": "wf_be393c81-acf",
+  "launched": "2026-09-05T23:02Z",
+  "after": "2026-09-05T23:05Z",
+  "note": "stopped by TaskStop at 2026-09-05T23:05Z: duplicate of run launched one minute earlier by the peer session (A run 17 / C run 8); no result banked"
+ },
+ {
+  "agent": "C",
+  "run": 9,
+  "label": "03-agentC-blind-run9",
+  "task": "wp3qbdri6",
+  "wf": "wf_7d7a8dc6-ffe",
+  "launched": "2026-09-05T23:02Z",
+  "after": "2026-09-05T23:05Z",
+  "note": "stopped by TaskStop at 2026-09-05T23:05Z: duplicate of run launched one minute earlier by the peer session (A run 17 / C run 8); no result banked"
  }
 ]

@@ -504,3 +504,20 @@ Outcomes of A run 16 / B run 7 / C run 7 (launched 18:02Z, cut by the session li
 Next: A run 17 and C run 8 launched at 23:01Z. B run 8 waits for a recovery agent (Opus, snapshot only, no
 live-repo access, draft not modified) to write the solclear p1-findings positives ledger, then launches with
 solclear/p1-findings marked done so the reader is not re-run.
+Agent A run 18: task wphdud8k7 (wf_be393c81-acf), launched 23:02Z.
+Agent C run 9: task wp3qbdri6 (wf_7d7a8dc6-ffe), launched 23:02Z.
+
+## 2026-09-05T23:07Z — second session stood down (duplicate launches aborted)
+A second orchestrator session was opened by the operator after the limit message while the first session
+(auto-retrying in tmux) was still alive and had already launched A run 17 (wf_6001ea88-d6d), C run 8
+(wf_72e77c78-e86) and a solclear p1-findings ledger recovery agent at 23:01Z. Before noticing this, the
+second session ran resume.py a second time (prepared run 18/9/9 args, commit f3b2138; superseded, never
+used), launched A run 18 (task wphdud8k7, wf_be393c81-acf) and C run 9 (task wp3qbdri6, wf_7d7a8dc6-ffe)
+at 23:02Z, and a second ledger recovery agent at 23:03Z. All three were stopped with TaskStop at ~23:05Z,
+about two to three minutes in. Their agents wrote only scratch files under work/agentC-etf-citecheck3/ and
+work/agentB-solclear-p1-ledger/ (nothing under findings/); the A run 18 verifier and applier for
+MLCryptoEngine wrote nothing. Runs 18 and 9 moved from ACTIVE.json to HISTORY.json marked aborted-duplicate;
+AFTER checks "01-agentA-blind-run18-AFTER-aborted" and "03-agentC-blind-run9-AFTER-aborted": only the
+pre-existing dirt. The first session was told by cross-session message and remains the sole orchestrator;
+A run 17 and C run 8 stay in ACTIVE.json. Rule added to RESUME.md: check ListAgents for a busy peer
+program-audit session before running resume.py --runs-dead or launching anything.

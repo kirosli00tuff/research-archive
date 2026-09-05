@@ -48,3 +48,6 @@ Opus agent (see RUN_LOG, 2026-09-04 18:5xZ) instead of rerunning the reader.
 - `findings/independent/` is reserved: never create, read or write anything under it.
 - [personal repo, name removed], solcopy and MBTExperiment are out of scope and are never read.
 - Model policy: `findings/protocol/MODEL_POLICY.md` (Opus everywhere except the three inheriting agents).
+
+**Before anything else: check for a live peer session.** Run ListAgents; if another "Program-audit four-agent neutral review" session is listed as busy, it is still orchestrating (its workflows and agents are alive). Do NOT run `resume.py --runs-dead` and do NOT launch anything; stand down and let it finish. `--runs-dead` treats every ACTIVE.json entry as dead, and a second launch duplicates the peer's agents on the same output files (this happened 2026-09-05T23:02Z).
+
