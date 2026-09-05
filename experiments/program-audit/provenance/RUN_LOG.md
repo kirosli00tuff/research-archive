@@ -479,3 +479,12 @@ AFTER checks: pre-existing dirt only
 prepared A run 17 (provenance/launch-args/agentA-run17.args.json)
 prepared B run 8 (provenance/launch-args/agentB-run8.args.json)
 prepared C run 8 (provenance/launch-args/agentC-run8.args.json)
+
+## 2026-09-05T23:01Z — tools/resume.py
+agent A: 11/13 done
+agent B: 6/13 done
+agent C: 5/13 done
+AFTER checks: pre-existing dirt only
+prepared A run 18 (provenance/launch-args/agentA-run18.args.json)
+prepared B run 9 (provenance/launch-args/agentB-run9.args.json)
+prepared C run 9 (provenance/launch-args/agentC-run9.args.json)
