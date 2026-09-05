@@ -17,6 +17,15 @@ consolidation. Live git objects and the untracked `data/` tree were re-read read
 Each finding carries a **Consolidation check** bullet recording what that re-check found. Eight
 draft findings entered consolidation, **two pairs merged, none dropped, six leave it**.
 
+**Independent citation check, 2026-09-05.** Every one of the six was then re-checked by a separate
+checker that re-located each verbatim quote in `SNAP/VRPExperiment/`, re-ran every load-bearing
+figure from the primitives with its own implementation, and re-derived the git and mtime evidence
+first-hand. Each finding carries a **Citation check** bullet recording the outcome. **Four verified
+with no correction (-2, -3, -5, -6); two carry citation corrections (-1, -4); none was dropped.**
+Every correction was re-confirmed against the snapshot by the applier before being written, and one
+proposed correction was declined on the evidence and is recorded as declined under **-1**. No
+finding's substance, class, severity, label or direction changed.
+
 **Anchoring caveat that governs the raw-data figures.** `data/` is gitignored. The four raw series
 (`data/raw/task6/{dvol,underlying}_{BTC,ETH}_daily.json`), every TASK 3 page capture and every
 `data/raw/` mtime quoted here exist only in the working tree and are **UNANCHORED** — read
@@ -37,8 +46,10 @@ one-sided p-values to eleven significant figures, the CI lower bounds, the rebal
 the commission arithmetic and the two capital thresholds — and the registered decision rule fires as
 written. The registration is genuinely pre-data: the first fetched byte on disk postdates the
 registration commit by 16 seconds, `REGISTRATION.md` lines 1–528 are byte-identical from that commit
-to the anchor, and the estimator file was written 9.5 minutes before the first byte of TASK 6 data
-existed and never altered. Six findings survive consolidation and **none of them moves the verdict**.
+to the anchor, and the estimator file was written before the first byte of TASK 6 data existed —
+9.6 minutes before it from its first commit (`c51b4f7`, 06:49:19Z) and 8.3 minutes before it from
+its last write (mtime 06:50:39.475Z, against the first TASK 6 byte at 06:58:57.705Z) — and never
+altered. Six findings survive consolidation and **none of them moves the verdict**.
 One is S2: the artifact's flat assertion that the ether premium "does not cover the commission" rests
 on a 3.09 bps gap that is **0.06 of one standard error** — the repository's own estimator cannot
 separate that comparison from a tie, and at a rebalance count of 10 instead of the registered median
@@ -197,7 +208,9 @@ and the priors are all fixed pre-data and were never edited in place. `progress.
 append-only across all nine commits that touch it (re-verified in this pass: additions
 49/116/120/101/130/98/55/80/112, **deletions 0 in every one**). `src/vrp/sealed_read.py` was extended
 exactly once and the diff is a pure append at `@@ -304,3 +304,102 @@`; not one line of the estimator
-was altered after it was written, 9.5 minutes before the first byte of TASK 6 data existed. The
+was altered after it was written — **9.6 minutes** before the first byte of TASK 6 data existed
+measured from its first commit (`c51b4f7`, 06:49:19Z) and **8.3 minutes** measured from its last
+write (mtime 06:50:39.475Z), against that first byte at 06:58:57.705Z. The
 `src/vrp` tree hash is **identical** at `adac707`, `ef07f19` and the anchor.
 
 The single NOT_SUPPORTED item is P5, the TASK 3 venue table's stated measurement window — finding
@@ -250,6 +263,15 @@ finding depends on them.
 Six. Ordered by descending severity. **None of them changes the registered verdict**, and each says
 so explicitly.
 
+**Schema note on `Direction`.** COMMON_RULES enumerates two directions, A (closed too early) and B
+(claimed too much). Findings **-3**, **-4**, **-5** and **-6** are recorded as `neutral`, which is
+outside that enumeration. This is a deliberate deviation and is flagged as such: each of the four is
+a hygiene or provenance defect whose corrected reading moves the repository's position in *neither*
+direction — in **-4** the undisclosed change actually weakened the authors' own evidence — and
+forcing one of A or B on them would assert a direction the evidence does not support. Where a
+direction does apply it is given: **-1** is A with B recorded as an equally fair reading, and **-2**
+is B.
+
 ### AUDIT-C-VRPExperiment-1
 - **Repository / SHA:** VRPExperiment / `d37cf6d190dfdaef8e613daf099a507fe1a77dcf`
 - **Hypothesis or artifact:** H1 closure, the MET (Micro Ether) route — the margin-free leg of the
@@ -270,8 +292,9 @@ so explicitly.
   - **The arithmetic is right and is not what is challenged.** ETH `mean_bps` = 119.0521, n = 1,955
     (VRPExperiment/reports/task6/real_attempt2_result.json, `assets/ETH/primary_overlapping_hac`,
     line 141); central cost = 0.80/245.62 × 10⁴ + 11 × 0.20/245.62 × 10⁴ = **122.139891 bps** from
-    VRPExperiment/reports/task5/commission_bps.json:53 and :5 with the registered median rebalance
-    count 11 at real_attempt2_result.json:163. The gap is **3.0878 bps**, 2.53 % of the cost.
+    VRPExperiment/reports/task5/commission_bps.json:51-53 and :5 with the registered median
+    rebalance count 11 at real_attempt2_result.json:164. The gap is **3.0878 bps**, 2.53 % of the
+    cost.
   - **The gap is 0.06 of one standard error.** The repository's own HAC standard error on that mean
     is 0.021528 in decimal volatility (VRPExperiment/HYPOTHESES.md:19;
     real_attempt2_result.json:139), which at the registered conversion of 2,287.4639 bps per unit
@@ -299,10 +322,15 @@ so explicitly.
   rule to get the full count distribution. Result — gap 3.0878 bps; SE 49.2445 bps; 0.0627 SE;
   two-sided p 0.9500; 53.4 % of ETH paths at ≤ 11 rebalances; cost at 10 rebalances 113.99723 bps.
   Tolerance ±0.001 bps.
-- **What would resolve it:** one sentence in `docs/ARTIFACT.md` and `HYPOTHESES.md` recording that
-  the point-estimate comparison is within 0.06 standard errors and is therefore illustrative rather
-  than decisive, leaving the decisive statement where it belongs — the registered
-  CI-lower-against-2×-pessimistic test, which fails by 8.57×.
+- **What would resolve it:** one sentence recording that the point-estimate comparison is within
+  0.06 standard errors and is therefore illustrative rather than decisive, leaving the decisive
+  statement where it belongs — the registered CI-lower-against-2×-pessimistic test, which fails by
+  8.57×. The challenged sentence occurs in **five** places, not two, and the remedial sentence is
+  needed beside each: `docs/ARTIFACT.md:211-214`, `HYPOTHESES.md:21`, `README.md:23-24` ("charges
+  **more in commission alone (122.14 bps) than the ETH premium is worth**"), `HYPOTHESES.md:56`
+  ("The point estimate (119.052 bps) does not cover the central commission (122.140 bps).") and
+  `progress.md:788-790` ("The ETH premium's **point estimate, 119.052 bps, is below the central
+  commission-only cost of 122.140 bps.**").
 - **Confidence:** MEDIUM — the arithmetic verifies exactly and two *disclosed* asymmetries push the
   comparison the repository's way (three of five cost legs are `Absent(not_served)` and non-negative,
   so the true cost exceeds 122.14 bps — HYPOTHESES.md:24; and REGISTRATION.md:333-336 registers that
@@ -328,6 +356,23 @@ so explicitly.
   consistent with the draft's 44.8 %/53.4 % split. ETH `t` and `ci_lower` were re-derived from the
   stored mean and SE at dof 1954 and reproduce the stored 2.4175 and 0.016618 exactly. Kept
   unchanged.
+- **Citation check:** corrected — an independent checker re-ran the quote, the figures and the
+  recomputation (quote EXACT at `docs/ARTIFACT.md:211-214` and `HYPOTHESES.md:21`; every figure
+  reproduced from the raw series with a separate numpy/scipy implementation to full stored
+  precision; recomputation reproduced). Three changes applied, each re-confirmed in SNAP by this
+  applier: (i) the median rebalance count 11 is at `real_attempt2_result.json:164`, **not :163** —
+  line 163 carries `"mean": 10.9913`; (ii) the commission inputs USD 0.80 and notional 245.62 are at
+  `commission_bps.json:51` and `:52`, with the derived `"bps": 32.5706` at `:53`, so the citation is
+  now **`commission_bps.json:51-53` and `:5`**; (iii) "what would resolve it" now names all **five**
+  occurrences of the challenged sentence — `README.md:23-24`, `HYPOTHESES.md:56` and
+  `progress.md:788-790` were missing, and all three were located in SNAP in this pass. One
+  suggestion was **not** applied: the checker proposed aligning the MV1 scoreboard row from
+  `docs/ARTIFACT.md:212-214` to 211-214, but MV1 quotes only the three sentences that begin on line
+  212 and does not include the bolded heading on 211, so **:212-214 is the correct span for that
+  quote** and is left as it stands; 211-214 is correct for this finding, which does quote the
+  heading. Substance, severity S2, label DERIVED and direction unchanged; the checker independently
+  confirmed the closure does not move (registered rule fails by 8.5684×, growing to 23.43× at
+  bandwidth 180 and 8.83× at dof 65).
 
 ### AUDIT-C-VRPExperiment-2
 - **Repository / SHA:** VRPExperiment / `d37cf6d190dfdaef8e613daf099a507fe1a77dcf`
@@ -381,6 +426,19 @@ so explicitly.
   Re-differenced all six window pairs at consolidation: 37.2295–37.2433 min, and all six data digests
   and row counts re-confirmed identical. 70/37.23 = 1.880. Merged from DRAFT-V-2 (S4) and DRAFT-P-1
   (S3); severity resolved to S3 and class to INTERNAL_INCONSISTENCY, substance unchanged.
+- **Citation check:** verified (quote EXACT at `README.md:91`; figures verified — all four
+  repetitions re-located at `docs/ARTIFACT.md:280`, `DECISIONS.md:190`, `progress.md:820` and
+  `revision_recheck.json:3`, and a whole-snapshot grep returns exactly five occurrences of
+  "70 minutes", no more and no fewer; recomputation reproduced — all six window pairs re-differenced
+  independently to 37.2295, 37.2433, 37.2405, 37.2371, 37.2343 and 37.2309 minutes, 70/37.2295 =
+  1.8802×, `retrieved_at` 2026-08-30T06:25:49.532Z confirmed, all six `data_only_sha256` equal their
+  recheck digests at 169 → 169 rows, and the live git objects confirm `revision_recheck.json` has
+  exactly one commit, `d37cf6d` at 07:08:02Z, so `progress.md:819`'s "~07:15Z" does postdate the
+  commit that introduces the file). No correction required. The checker recorded, and this applier
+  agrees, that under a strict reading of the severity definitions the defect is arguably **S2** (the
+  contradicting machine stamps sit inside the same tracked JSON as the claim) rather than S3; **S3
+  is retained** because it understates rather than overstates, which is the conservative direction
+  for a referee.
 
 ### AUDIT-C-VRPExperiment-3
 - **Repository / SHA:** VRPExperiment / `d37cf6d190dfdaef8e613daf099a507fe1a77dcf`
@@ -452,6 +510,20 @@ so explicitly.
   `git log -- reports/task3/venue_table.md` returns exactly one commit. Merged from DRAFT-V-3 and
   DRAFT-P-2, which found the same defect from the same evidence; substance, class and severity
   unchanged.
+- **Citation check:** verified (quote EXACT at `reports/task3/venue_table.md:3`, and the only
+  occurrence of "04:32Z" or "05:35Z" in the snapshot; figures verified — every commit time
+  re-derived first-hand from the live git objects and every `data/raw/` mtime re-listed, all
+  matching to the second: repo init 04:22:18Z, 04:33:00Z, TASK 0 04:37:16Z, TASK 1 04:43:31Z,
+  registration `7827592` 04:47:08Z, TASK 3 `3ad6098` 06:22:23Z, TASK 4 `0c873f5` 06:30:32Z, TASK 5
+  `c51b4f7` 06:49:19Z, `adac707` 06:55:29Z, `ef07f19` 06:58:00Z, `ba50596` 07:02:58Z, anchor
+  `d37cf6d` 07:08:02Z; first network artifact 04:47:24.306Z = 16.3 s after the registration commit;
+  exactly fourteen TASK 3 captures spanning 06:13:57.084Z–06:17:54.479Z; recomputation reproduced —
+  both capture digests re-hash byte for byte to 63,433 B / `ec5a39b737030785…` and 602 B /
+  `eecde3fafbde4090…`, and the machine-clock controls hold to the second). No correction required.
+  Two report-level notes raised by the checker are applied outside this finding: the "9.5 minutes"
+  figure in §Summary and §Provenance is refined to ~9.6 min from `sealed_read.py`'s first commit and
+  8.3 min from its last write, and the non-schema `Direction: neutral` is acknowledged in the
+  Findings preamble.
 
 ### AUDIT-C-VRPExperiment-4
 - **Repository / SHA:** VRPExperiment / `d37cf6d190dfdaef8e613daf099a507fe1a77dcf`
@@ -466,7 +538,7 @@ so explicitly.
   between attempt 1 and attempt 2 is a **single string literal** in a request
   parameter — `"3600"` to `"60"` — plus the attempt-numbering that keeps the first
   latch. No estimator, no window, no estimator parameter, no tenor, no sign
-  convention and no inference rule was touched." — VRPExperiment/REGISTRATION.md:579-584
+  convention and no inference rule was touched." — VRPExperiment/REGISTRATION.md:579-583
 - **Evidence:**
   - `git show ef07f19 --name-only` lists **four** files: `REGISTRATION.md`,
     `tools/task6_sealed_run.py`, `reports/task6/task6.latch.json` and
@@ -500,14 +572,29 @@ so explicitly.
 - **Disclosed by the authors?:** not in words; but the diff is in git and the amendment explicitly
   invites the reader to it ("The diff is auditable in the commit that precedes attempt 2",
   `REGISTRATION.md:583-584`), which is why this is S3 and not higher.
-- **Consolidation check:** verified. Quote EXACT at `REGISTRATION.md:579-584` in SNAP; the draft
+- **Consolidation check:** verified. Quote EXACT at `REGISTRATION.md:579-583` in SNAP; the draft
   cited 578-582, and the span is corrected here — the quoted text begins at the end of line 579 and
-  the estimator sentence beside it continues to 584, so the whole claim is quoted.
+  ends at "was touched." in the first half of line 583.
   Re-ran at consolidation: `ef07f19` touches exactly the four named files; the fixture diff shows
   900 → 300 and n 870 → 270 as stated; the `src/vrp` tree hash is byte-identical at all three
   commits; and the latch check gives 11/11 matches for `task6.latch.2.json` against the anchored
   snapshot and 10/11 for `task6.latch.json` with the single mismatch on
-  `tools/task6_sealed_run.py`. Substance unchanged; quote span extended.
+  `tools/task6_sealed_run.py`. Substance unchanged; quote span corrected.
+- **Citation check:** corrected — an independent checker re-ran the quote, the figures and the
+  diffs (quote EXACT in `REGISTRATION.md`; `git show --name-only ef07f19` lists exactly the four
+  files; the fixture diff reproduces 900 → 300 days, n 870 → 270 per asset, `started_at`/
+  `finished_at` 06:55:02Z → 06:57:32Z and the added `"attempt": 1`, with the planted premium
+  unchanged at 0.08; the discarded run is confirmed the stronger one, BTC t 9.5682 → 4.2725 and ETH
+  t 13.0943 → 7.4162; the `src/vrp` tree hash `0e6c8711a291a714…` is identical at `adac707`,
+  `ef07f19`, `ba50596` and the anchor; the latch check reproduces 11/11 and 10/11 with the single
+  mismatch on `tools/task6_sealed_run.py`). **One correction applied**, re-confirmed in SNAP by this
+  applier at `REGISTRATION.md:572-590`: the quoted claim ends at "was touched." in the first half of
+  **line 583**, not 584 — lines 583-584 carry the separate sentence "The diff is auditable in the
+  commit that precedes attempt 2." The claim span is corrected from 579-584 to **579-583** in both
+  the report and the JSON, and the consolidation note that said "the estimator sentence beside it
+  continues to 584" is corrected with it. The disclosure bullet's citation of
+  `REGISTRATION.md:583-584` for that separate sentence is correct as it stands and is unchanged.
+  Substance, severity S3, label DERIVED and direction unchanged.
 
 ### AUDIT-C-VRPExperiment-5
 - **Repository / SHA:** VRPExperiment / `d37cf6d190dfdaef8e613daf099a507fe1a77dcf`
@@ -563,6 +650,17 @@ so explicitly.
   55, 80, 112 and **zero deletions in every one** — the provenance draft's eight-value list
   ("+68/-0, +43/-0, …") is not reproduced and is corrected here. The append-only conclusion those
   numbers supported is confirmed. Finding otherwise unchanged.
+- **Citation check:** verified (quotes EXACT at `progress.md:814`, `:249` and `:758`; figures
+  verified — the checker re-derived **all ten** rows independently with `git log -S` against the raw
+  commit objects, not the five re-done at consolidation, and every row matches to the second:
+  −57 s, +44 s, +8 min 29 s, +16 min 52 s, −42 min 23 s, −18 min 32 s, +10 min 41 s, +2 min 2 s,
+  +9 min 2 s, +26 min 58 s; `progress.md:816`'s "ETA 45 min · actual ~23 min" against `d37cf6d`
+  falling 5 min 4 s after `ba50596` confirmed; recomputation reproduced — `git log --numstat --
+  progress.md` independently returns **nine** commits with additions 49, 116, 120, 101, 130, 98, 55,
+  80, 112 and zero deletions in every one, so the consolidation was right to replace the provenance
+  draft's eight-value list, and the stated consequence at `progress.md:249` — 05:04Z read alone
+  places the registration 16 min 36 s after the first fetched byte at 04:47:24.306Z, while the git
+  objects place the commit 16 s before it — reproduces exactly). No correction required.
 
 ### AUDIT-C-VRPExperiment-6
 - **Repository / SHA:** VRPExperiment / `d37cf6d190dfdaef8e613daf099a507fe1a77dcf`
@@ -610,6 +708,18 @@ so explicitly.
   `HYPOTHESES.md:19`, `progress.md:725` and `:729`, and the correct statement re-located at
   `docs/ARTIFACT.md:71-72`. Label kept **READ** rather than upgraded to DERIVED: the contradiction
   stands on the document alone, and READ is the honest floor. Substance unchanged.
+- **Citation check:** verified (quotes EXACT at `README.md:36` and `README.md:50`; figures verified
+  — 0.086607 × 22.875 = 1.98114 against the printed 198.111, a factor of 100; 0.086607 ×
+  2287.4639406411516 = 198.1104; 8.6607 × 22.8746 = 198.1104; the stored field is confirmed decimal
+  at `real_attempt2_result.json:19` and the conversion factor was recomputed independently as
+  2287.4639406411516 from √(2/π) · √(30/365) · 10⁴ at `sealed_read.py:43-51`; all four repetitions
+  re-located at `README.md:41`, `HYPOTHESES.md:19`, `progress.md:725` and `:729`, and the correct
+  statement at `docs/ARTIFACT.md:71-72`; recomputation reproduced — an independent reimplementation
+  of the estimator chain reproduces **every** stored bps figure for both assets to full stored
+  precision, so the "no computed figure is affected" claim holds and the defect really is labelling
+  only). No correction required. The checker judged DERIVED equally defensible; **READ is retained**
+  as the honest floor, since the contradiction stands on `README.md:36` against `README.md:50`
+  alone.
 
 ---
 
@@ -719,7 +829,8 @@ latch 2 was written, and `src/vrp` is unchanged across the abort.
 
 ## Live-repo access log
 
-Merged from the verification pass, the provenance pass and this consolidation. Every access to
+Merged from the verification pass, the provenance pass, this consolidation and the
+citation-check applier pass. Every access to
 `/home/kiros-li/Documents/GitHub/VRPExperiment/` in all three was **read-only**:
 `git status --porcelain`, `git rev-parse`, `git log`, `git show`, `git diff`, `git cat-file -p`,
 `git ls-tree`, `git grep <commit>`, plus `ls`, `stat`, `find -printf`, `sha256sum`, `wc -l` and
@@ -739,6 +850,9 @@ Unanchored reads (untracked / gitignored working-tree data), with UTC read times
   **05:52:03Z** (consolidation)
 * `data/raw/task3/*.html`, `cme_refusal.json`, `hl_meta.json`, `data/raw/task5/commissions-futures.html`
   — sizes and SHA-256 only, plus the 602-byte CME refusal body in full, **04:05Z**
+* `data/raw/task6/` mtimes and `src/vrp/sealed_read.py` mtime (`stat`/`find -printf`, `TZ=UTC`) —
+  **2026-09-05T18:14Z** (applier pass, to re-derive the 9.6 min / 8.3 min figures in §Summary and
+  §Provenance)
 
 These paths are not in git and may have changed since the 2026-08-30 anchor.
 
@@ -757,13 +871,20 @@ These paths are not in git and may have changed since the 2026-08-30 anchor.
 
 (empty — exit 0, working tree clean; `HEAD` = `d37cf6d190dfdaef8e613daf099a507fe1a77dcf`)
 
+**BEFORE first access in the citation-check applier pass — 2026-09-05T18:13:55Z:**
+
+```
+```
+
+(empty — exit 0, working tree clean; `HEAD` = `d37cf6d190dfdaef8e613daf099a507fe1a77dcf`)
+
 **AFTER last access — 2026-09-05T04:08:51Z (verification), 2026-09-05T04:10:21Z (provenance),
-2026-09-05T05:53:21Z (this consolidation):**
+2026-09-05T05:53:21Z (consolidation), 2026-09-05T18:18:12Z (citation-check applier):**
 
 ```
 ```
 
-(empty in all three — exit 0, working tree clean; `HEAD` = `d37cf6d190dfdaef8e613daf099a507fe1a77dcf`
-at every check)
+(empty in all four — exit 0, working tree clean; `HEAD` =
+`d37cf6d190dfdaef8e613daf099a507fe1a77dcf` at every check)
 
 **No modification was made to the audited repository and none is reported.**

@@ -1,0 +1,18 @@
+{
+ "done_repos": [
+  "HFExperiment",
+  "InsiderExperiment",
+  "NPDExperiment",
+  "VRPExperiment",
+  "retail-power-limits"
+ ],
+ "stages": {
+  "ETFExperiment": {
+   "inventory": true,
+   "verification": true,
+   "provenance": true,
+   "consolidated": true,
+   "n_findings": 8
+  }
+ }
+}

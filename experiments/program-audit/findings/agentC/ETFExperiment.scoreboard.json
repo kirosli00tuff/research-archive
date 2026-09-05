@@ -1,0 +1,60 @@
+{
+  "repo": "ETFExperiment",
+  "claims": {
+    "verified": 30,
+    "contradicted": 6,
+    "unverifiable": 2,
+    "must_verify": [
+      {
+        "claim": "C01 - 'Its archive-capture-density leg is measured at 11 of 333 = 0.0330 against the registered 0.60 bar (Amendment 2), short by a factor of 18. No subsequent measurement can restore it ... GO is closed.' (REGISTRATION.md:863-867)",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "C02 - 'At the measured forward accrual rate of 20.8 admissible days per month: projected achieved N at the registered deadline of 2027-03-31: 163; achieved N = 300 arrives around 2027-10-26' (REGISTRATION.md:981-986)",
+        "status": "CONTRADICTED"
+      },
+      {
+        "claim": "C03 - 'The governing minimum N is therefore 300, not 237' with E1 minimum N 237 and E2 minimum N 300 (REGISTRATION.md:974-978)",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "C04 - 'BLOCKED does not fire on power. Its power trigger is E1 under 0.50 ... Measured: 0.6105. The trigger is not met.' (REGISTRATION.md:869-871)",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "C05 - '0 of 11 revised / sign flips / threshold crosses; 11 of 11 intact ... below the registered minimum sample of 30' (REGISTRATION.md:756-769)",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "C06 - 'Census: 336 rows, 11 admissible' with exclusions 53 / 243 / 25 / 3 and 1 operational (report.md:260-269)",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "C07 - 'The archive crawls the flow pages 0.316 times per calendar day (n = 153 ... over 484 calendar days). 48.37 percent ... an unbounded window ... would reach only 112 of 333 (33.63 percent)' (docs/ACCESS.md:380-385)",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "C15 - 'the registered five-fund aggregate differs from the all-fund total by a mean of 47.42M USD (median 27.20M, range -903.20M to +1,205.20M, n = 333)'; '315 of 333 out-of-sample days agree within 2 percent' (docs/ACCESS.md:172-181)",
+        "status": "CONTRADICTED"
+      }
+    ]
+  },
+  "intervals": {
+    "audited": 6,
+    "independence_doubtful": 0,
+    "recomputed": 6,
+    "conclusion_moved": 1
+  },
+  "tests": {
+    "audited": 9,
+    "tail_mismatch": 0,
+    "dof_issue": 0,
+    "correction_mismatch": 1
+  },
+  "provenance": {
+    "supported": 20,
+    "not_supported": 5,
+    "partial": 9,
+    "unverifiable": 0
+  }
+}
