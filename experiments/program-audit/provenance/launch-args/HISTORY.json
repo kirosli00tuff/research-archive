@@ -25,5 +25,32 @@
   "wf": "wf_ac411b13-975",
   "launched": "2026-09-04T18:21Z",
   "after": "2026-09-04T23:02Z"
+ },
+ {
+  "agent": "A",
+  "run": 13,
+  "label": "01-agentA-blind-run13",
+  "task": "wftt3hir9",
+  "wf": "wf_7d192f1f-1c2",
+  "launched": "2026-09-04T23:02Z",
+  "after": "2026-09-05T03:41Z"
+ },
+ {
+  "agent": "B",
+  "run": 4,
+  "label": "02-agentB-blind-run4",
+  "task": "wvgkzos5s",
+  "wf": "wf_971efc5d-8a6",
+  "launched": "2026-09-04T23:02Z",
+  "after": "2026-09-05T03:41Z"
+ },
+ {
+  "agent": "C",
+  "run": 4,
+  "label": "03-agentC-blind-run4",
+  "task": "w4n9tddim",
+  "wf": "wf_3c3f08c2-582",
+  "launched": "2026-09-04T23:02Z",
+  "after": "2026-09-05T03:41Z"
  }
 ]

@@ -1,0 +1,1416 @@
+{
+  "repository": "VRPExperiment",
+  "anchored_sha": "d37cf6d190dfdaef8e613daf099a507fe1a77dcf",
+  "anchor_branch": "main",
+  "snapshot": "/home/kiros-li/.cache/program-audit/scratchpad/snap/VRPExperiment/",
+  "live_repo": "/home/kiros-li/Documents/GitHub/VRPExperiment/",
+  "task": "LOCATE (inventory only; no verification performed beyond what is needed to locate evidence)",
+  "produced_at_utc": "2026-09-04T23:5xZ",
+  "artifacts": [
+    {
+      "path": "VRPExperiment/reports/task6/real_attempt2_result.json",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 8547,
+      "holds": "The whole sealed read: per asset n, spans, primary overlapping HAC result (mean vol points/bps, HAC SE, t, one-sided p, CI lower, positive share), non-overlapping robustness (n=66), four stability quarters, three rebalance-band distributions, bps_per_volatility_point=22.874639, and the embedded latch record (module SHA-256s, written_at 2026-08-30T06:58:05.858Z).",
+      "backs": "Every premium figure in README.md:36-50, HYPOTHESES.md:19-23, docs/ARTIFACT.md:67-94, progress.md:718-754; and the rebalance counts that drive the cost totals.",
+      "notes": "THE primary evidence file. Contains NO cost figure: the 122.140/162.853/16.320/21.760 bps totals appear only in prose (progress.md:775-786, docs/ARTIFACT.md:165-172)."
+    },
+    {
+      "path": "VRPExperiment/reports/task6/task6.latch.json",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 1697,
+      "holds": "Attempt-1 latch: SHA-256 of ten src/vrp modules + tools/task6_sealed_run.py, written_at 2026-08-30T06:55:35.492Z, note 'TASK 6 single sealed read of Deribit DVOL'.",
+      "backs": "ADR-007 (DECISIONS.md:133-155), REGISTRATION.md Amendment 1 (535-589), HYPOTHESES.md:25.",
+      "notes": "Checked here: all ten src/vrp hashes are IDENTICAL to latch 2 and to the anchored snapshot files; only tools/task6_sealed_run.py differs between the two latches."
+    },
+    {
+      "path": "VRPExperiment/reports/task6/task6.latch.2.json",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 1804,
+      "holds": "Attempt-2 latch, written_at 2026-08-30T06:58:05.858Z, same ten module hashes, tool hash equal to the anchored tools/task6_sealed_run.py.",
+      "backs": "HYPOTHESES.md:25, REGISTRATION.md:573-576, docs/HANDOVER.md:69-72.",
+      "notes": "Its tool hash matches the snapshot file exactly, so the tool has not changed since the read."
+    },
+    {
+      "path": "VRPExperiment/reports/task6/fixture_result.json",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 6036,
+      "holds": "Fixture run of the identical pipeline: planted premium 0.08 vol points, n=270 per asset, recovered BTC mean 0.094653 (216.51 bps, t=4.2725, p=1.34e-5), ETH 0.094101 (215.25 bps, t=7.4162, p=7.88e-13).",
+      "backs": "README.md:124-125, docs/HANDOVER.md:116-119, progress.md:687-694 ('the three registered fixtures behave as registered').",
+      "notes": "Recovered mean is ~18% above the planted 0.08 on BOTH assets; within sampling error for ~9 independent windows, but this is the only end-to-end validation of the estimator machinery and is worth a recomputation."
+    },
+    {
+      "path": "VRPExperiment/reports/task5/commission_bps.json",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 1469,
+      "holds": "Per-contract commission, notional, one-side bps and round-trip bps for MET/MBT option and future, BRR, full ETH, MES/MNQ/MGC; plus 'MET straddle round trip, commission only' 32.5706 bps ($0.80) and 'MBT ... ' 4.352 bps ($3.40).",
+      "backs": "docs/COSTS.md:76-89, docs/ARTIFACT.md:160-171, README.md:59-60, progress.md:779.",
+      "notes": "Contains NO delta-hedge leg and NO total. The 89.569/130.282/11.968/17.408 bps hedge legs and the 122.140/162.853/16.320/21.760 totals exist only as prose arithmetic."
+    },
+    {
+      "path": "VRPExperiment/reports/task5/ibkr_ca_commissions.json",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 2590,
+      "holds": "Parsed IBKR Canada futures/futures-options commission bands (<=1,000 /mo, 1,001-10,000, >20,000) for MBT, MET, BRR, full ETH, MES/MNQ/MGC/M2K, tiered and fixed.",
+      "backs": "docs/COSTS.md:39-45, docs/ARTIFACT.md:149-158, README.md:56-58.",
+      "notes": "Rows are duplicated per product group (each block carries two sub-blocks); the MET '>20,000 fixed_usd: 5.0' entry looks like a parse artifact and should be checked against data/raw/task5/commissions-futures.html."
+    },
+    {
+      "path": "VRPExperiment/reports/task5/reference_spreads_deribit.json",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 40476,
+      "holds": "96 half-spread observations (4 legs x 24 windows, 20 s apart) on BTC-25SEP26-78000-C/P and ETH-25SEP26-2500-C/P, with per-leg median/p90/min/max/mean, full sorted distribution, windows quoted/unquoted, expiry metadata (26.06 days, 13 expiries, 65/64 strikes, index 78,178.25 / 2,457.21).",
+      "backs": "docs/COSTS.md:204-227 and 251-254, docs/ARTIFACT.md:195-205, README.md:67.",
+      "notes": "Labelled REFERENCE ONLY in the file's own 'status' field. Medians confirm 6.25/5.00/5.00/7.50 bps -> BTC 22.50, ETH 25.00 bps round trip."
+    },
+    {
+      "path": "VRPExperiment/reports/task4/deribit_probe.json",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 47372,
+      "holds": "11 endpoint probes with status/bytes/rows/sha256; history-depth bisection (22 probes per asset, deepest_served_days_back 1992, first_empty 1993, approx_earliest_served_utc 2021-03-17T06:23:58Z); pass-1 rate ceiling 3.64 req/s; first (whole-response) revision check.",
+      "backs": "docs/ACCESS.md:33-45, 84-99, 101-112, 114-121; README.md:86-91.",
+      "notes": "Load-bearing detail found here: the deepest non-empty probe (days_back=1992) returns ONE row stamped 2021-03-24T00:00:00Z, and 'approx_earliest_served_utc' is the probe window's start, not a served datum. This contradicts 'DVOL history depth ... 1,992 days (~2021-03-17)' as a statement about served DVOL data."
+    },
+    {
+      "path": "VRPExperiment/reports/task4/rate_and_revision_baseline.json",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 8541,
+      "holds": "Concurrent rate escalation on two endpoints (2->64 concurrency, max 126.76 req/s, all 200) and six data-only revision baselines (BTC/ETH at 45/365/900 days, 169 rows each, data-only SHA-256).",
+      "backs": "docs/ACCESS.md:126-140 and 163-174, README.md:89.",
+      "notes": "The 'no refusal at or below 126.76 req/s' upper bound and the revision baselines both live here."
+    },
+    {
+      "path": "VRPExperiment/reports/task4/revision_recheck.json",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 4400,
+      "holds": "The TASK 8 re-check of the six windows after ~70 minutes: all_identical true, per-window data_identical true with the same data-only digests.",
+      "backs": "README.md:91, docs/ARTIFACT.md:278-284, progress.md:818-828.",
+      "notes": "Directly comparable to rate_and_revision_baseline.json digest by digest."
+    },
+    {
+      "path": "VRPExperiment/reports/env_report.json",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 526,
+      "holds": "git_head ba5059660423c20e6cb7ddb8d92418d7f8845fcd, a porcelain status snapshot, Python 3.13.14, ruff 0.16.5, mypy 2.3.1, pytest 9.1.1.",
+      "backs": "README.md:122, docs/HANDOVER.md:112-114, progress.md:835-836.",
+      "notes": "git_head is the TASK 6/7 commit, i.e. the report was written before the final TASK 8 commit d37cf6d; its recorded status lists DECISIONS.md, docs/ARTIFACT.md etc. as untracked at that moment."
+    },
+    {
+      "path": "VRPExperiment/reports/task3/venue_table.md",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 13009,
+      "holds": "Spot from two sources (78,124.575 / 2,456.205; 1.16 / 3.24 bps disagreement), the eight-row venue table, contract specs, the $1,000 sleeve determinations (4.07x / 0.128x / 407.1% / 12.80% / 0.26% / 0.81%), re-verification of four carried figures, the CME-margin absences.",
+      "backs": "docs/ARTIFACT.md:111-143, README.md:73-80, HYPOTHESES.md:51-62, progress.md:371-452.",
+      "notes": "Prose/markdown, not machine-readable: the notionals and multiples are not stored in any JSON."
+    },
+    {
+      "path": "VRPExperiment/reports/task3/robots_and_terms.md",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 3986,
+      "holds": "robots.txt records for eight domains and the CME Group HTTP 403 Data Terms of Use refusal, verbatim.",
+      "backs": "ADR-003 (DECISIONS.md:50-68), docs/COSTS.md:60-63, docs/ARTIFACT.md:182.",
+      "notes": "The refusal text is the whole basis for every Absent(not_served) on the exchange-fee leg."
+    },
+    {
+      "path": "VRPExperiment/reports/task3/deribit_restricted_jurisdictions_verbatim.md",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 3248,
+      "holds": "Deribit's restricted-jurisdictions text verbatim with the 2026-03-19T16:49:36Z stamp and the qualifier-bearing entries.",
+      "backs": "docs/ARTIFACT.md:122-130, HYPOTHESES.md:55, README.md:77.",
+      "notes": "The only evidence for the PROHIBITED classification that decides the Deribit route."
+    },
+    {
+      "path": "VRPExperiment/src/vrp/sealed_read.py",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 13786,
+      "holds": "Every estimator: realized_volatility (ddof=1, sqrt(365)), build_premium_series (IV-RV), newey_west_se (Bartlett, bandwidth 30, divides autocovariance by n), incomplete beta / Student-t sf and critical value, estimate_premium (t, one-sided p, CI lower, bps scaling), non_overlapping (stride 30), straddle_delta, count_rebalances (max 29 evaluations).",
+      "backs": "Every figure in reports/task6/real_attempt2_result.json and therefore every premium claim in the documents.",
+      "notes": "Recomputable end-to-end from the untracked raw series; the 22.874639 scale comes from bps_per_volatility_point() at line 43-51."
+    },
+    {
+      "path": "VRPExperiment/tools/task6_sealed_run.py",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 16955,
+      "holds": "The driver: hourly chunking, 08:00 UTC filter, pairing with a 31-close forward window, latch write, stability(4 parts), rebalance_distribution (median = ordered[n//2], p90 = ordered[round(0.9*(n-1))]), fixture synthetic source (planted 0.08).",
+      "backs": "n=1,955 and its construction, the quarter boundaries, the rebalance medians and p90s.",
+      "notes": "The only file whose hash differs between latch 1 and latch 2."
+    },
+    {
+      "path": "VRPExperiment/tools/measure_spreads.py",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 8472,
+      "holds": "The Deribit reference-spread sampler; emits differences only (spread, half-spread, half-spread/notional), never a mid or mark.",
+      "backs": "reports/task5/reference_spreads_deribit.json and docs/COSTS.md:194-227.",
+      "notes": "ADR-001's blindness consequence is implemented here."
+    },
+    {
+      "path": "VRPExperiment/tools/probe_deribit.py",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 13296,
+      "holds": "TASK 4 probe: endpoint status, history bisection, page size, first-pass rate and revision checks.",
+      "backs": "reports/task4/deribit_probe.json, docs/ACCESS.md.",
+      "notes": "Where the 'approx earliest served' field is computed - check how."
+    },
+    {
+      "path": "VRPExperiment/tools/probe_rate_and_revision.py",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 8910,
+      "holds": "Corrected rate escalation and data-only revision digests.",
+      "backs": "reports/task4/rate_and_revision_baseline.json, ADR-009.",
+      "notes": ""
+    },
+    {
+      "path": "VRPExperiment/tools/env_report.py",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 1800,
+      "holds": "Toolchain provenance writer.",
+      "backs": "reports/env_report.json.",
+      "notes": ""
+    },
+    {
+      "path": "VRPExperiment/src/vrp/absence.py",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 5532,
+      "holds": "Guard 1: Absent refuses float/int/index/arithmetic/ordering/bool/len/iteration; 10 absence reasons.",
+      "backs": "Every 'Absent(not_served)' claim and the 'HARVESTABLE cannot fire structurally' argument (HYPOTHESES.md:42-49).",
+      "notes": ""
+    },
+    {
+      "path": "VRPExperiment/src/vrp/latch.py",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 5533,
+      "holds": "Latch write/verify, LatchAlreadySpentError, module SHA-256 recording.",
+      "backs": "README.md:124, docs/HANDOVER.md:69-72, ADR-007.",
+      "notes": ""
+    },
+    {
+      "path": "VRPExperiment/src/vrp/fields.py",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 4207,
+      "holds": "38 BLIND_FIELDS and 40 READABLE_FIELDS, asserted disjoint at import.",
+      "backs": "ADR-001 (DECISIONS.md:8-28), progress.md:215 and 224-229.",
+      "notes": "The '38 names' / '40 covering' counts are checkable by reading the two sets."
+    },
+    {
+      "path": "VRPExperiment/src/vrp/seal.py",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 4084,
+      "holds": "Guard 5 part two: sealed writers store bytes and parse nothing.",
+      "backs": "ADR-001, progress.md:215.",
+      "notes": ""
+    },
+    {
+      "path": "VRPExperiment/src/vrp/callstate.py",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 4463,
+      "holds": "Guard 4: five operational health states and five venue states, combined_total() raises.",
+      "backs": "ADR-004 (DECISIONS.md:72-90).",
+      "notes": ""
+    },
+    {
+      "path": "VRPExperiment/src/vrp/ledger.py",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 4303,
+      "holds": "Guard 3: O_APPEND + fsync ledger, TruncatedLedgerLine.",
+      "backs": "ADR-002 (the open() guard fired on ledger.py:74).",
+      "notes": "ADR-002 cites 'vrp/ledger.py:74' - the os.open call; checkable."
+    },
+    {
+      "path": "VRPExperiment/src/vrp/tzguard.py",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 4249,
+      "holds": "Guard 2: refuses naive and non-UTC datetimes; ExchangeExpiry requires a verbatim settlement rule.",
+      "backs": "ADR-005, docs/ACCESS.md:295-300.",
+      "notes": ""
+    },
+    {
+      "path": "VRPExperiment/src/vrp/redact.py",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 2582,
+      "holds": "Credential redaction for ledger rows.",
+      "backs": "progress.md:213.",
+      "notes": ""
+    },
+    {
+      "path": "VRPExperiment/src/vrp/__init__.py",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 472,
+      "holds": "Package docstring.",
+      "backs": "-",
+      "notes": ""
+    },
+    {
+      "path": "VRPExperiment/tests/test_estimators.py",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 12578,
+      "holds": "22 estimator tests: planted/zero/negative fixtures, the IID-vs-HAC width assertion, the 'no parameter distinguishes fixture from real' assertion.",
+      "backs": "progress.md:685-694, README.md:122 ('50 tests').",
+      "notes": "22 + 28 = 50 test functions: the '50 tests' claim verifies at the source level."
+    },
+    {
+      "path": "VRPExperiment/tests/test_guards.py",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 20539,
+      "holds": "28 guard tests incl. the AST blindness walk and the open()-guard canary.",
+      "backs": "progress.md:238-243, README.md:122.",
+      "notes": ""
+    },
+    {
+      "path": "VRPExperiment/pyproject.toml",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 1025,
+      "holds": "Python >=3.13, zero runtime dependencies, ruff/mypy strict/pytest config.",
+      "backs": "'mypy strict clean', 'no third-party dependency' (sealed_read.py:192).",
+      "notes": "dependencies = [] supports the claim that the Student-t is self-contained."
+    },
+    {
+      "path": "VRPExperiment/Makefile",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 648,
+      "holds": "install/lint/typecheck/test/all/guards targets.",
+      "backs": "README.md:114-122.",
+      "notes": ""
+    },
+    {
+      "path": "VRPExperiment/REGISTRATION.md",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 29337,
+      "holds": "Sections 0-9 (outcome map, measured quantity, venue criterion, cost model, 2.0x margin, inference, power, epistemic boundary, priors) plus Amendment 1.",
+      "backs": "Every 'registered before any data' claim.",
+      "notes": "589 lines at HEAD; 533 at the registration commit 7827592; git diff 7827592..d37cf6d = +58/-2 and the two deleted lines are only 'No amendments.'"
+    },
+    {
+      "path": "VRPExperiment/HYPOTHESES.md",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 11828,
+      "holds": "H1, the fired verdict, the deciding cost comparison, the route table, prior calibration.",
+      "backs": "The closure itself.",
+      "notes": ""
+    },
+    {
+      "path": "VRPExperiment/README.md",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 6587,
+      "holds": "The what-is-measured tables: premium, cost, venue reachability, data access, each figure with its n.",
+      "backs": "-",
+      "notes": "The densest single index of numeric claims in the repository."
+    },
+    {
+      "path": "VRPExperiment/DECISIONS.md",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 10938,
+      "holds": "ADR-001..011.",
+      "backs": "The design claims and several cross-repo comparisons.",
+      "notes": "11 ADRs - matches progress.md:832."
+    },
+    {
+      "path": "VRPExperiment/docs/ARTIFACT.md",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 15525,
+      "holds": "The deliverable: premium table, stability table, venue table, sleeve arithmetic, cost table, absent legs, the conclusion and the two open thresholds.",
+      "backs": "-",
+      "notes": "284 lines - matches progress.md:830."
+    },
+    {
+      "path": "VRPExperiment/docs/COSTS.md",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 15941,
+      "holds": "TASK 5 in full: commission schedule, bps conversion, the three Absent legs, the Deribit reference spread distribution, the Section 4.2 fill table.",
+      "backs": "-",
+      "notes": "Contains the per-leg spread distributions that reference_spreads_deribit.json stores."
+    },
+    {
+      "path": "VRPExperiment/docs/ACCESS.md",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 15534,
+      "holds": "TASK 4 in full: endpoint table, refusal payloads, history depth, page size, rate ceiling, revision behaviour, eight alternative sources, the 08:00 UTC instant.",
+      "backs": "-",
+      "notes": ""
+    },
+    {
+      "path": "VRPExperiment/docs/DUPLICATION.md",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 14364,
+      "holds": "Three-pass duplication screen over 14 repositories x 9 terms and the reasoning against three named closures (MLCryptoEngine H5/H8, NPLExperiment H5, MLCryptoEngine H2).",
+      "backs": "progress.md:126-177.",
+      "notes": "Its per-repo counts are re-runnable, and its cross-repo figures are checkable against those repositories' own snapshots."
+    },
+    {
+      "path": "VRPExperiment/docs/HANDOVER.md",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 6333,
+      "holds": "The two open MBT figures with their thresholds and the arithmetic behind 49.61 bps; the do-not list.",
+      "backs": "-",
+      "notes": ""
+    },
+    {
+      "path": "VRPExperiment/docs/VENUE_TABLE_UPDATE.md",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 8656,
+      "holds": "Three corrections for MLCryptoEngine's venue table, with ORBExperiment and MLCryptoEngine file:line provenance.",
+      "backs": "-",
+      "notes": "Every cross-repo figure here is verifiable against the other repositories' anchored snapshots."
+    },
+    {
+      "path": "VRPExperiment/progress.md",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 58859,
+      "holds": "Append-only ledger, one entry per task, plus the verbatim governing prompt (lines 12-110) and the TASK 7 deciding-arithmetic table (775-786) and ETA ledger (840-859).",
+      "backs": "-",
+      "notes": "progress.md:775-799 is the ONLY place the full cost decomposition (straddle + hedge legs -> totals) is written down."
+    },
+    {
+      "path": "/home/kiros-li/Documents/GitHub/VRPExperiment/data/raw/task6/dvol_BTC_daily.json",
+      "tracked": false,
+      "anchored": false,
+      "size_bytes": 41526,
+      "holds": "1,985 daily DVOL closes (percentage points) keyed by date, 2021-03-24 -> 2026-08-29. sha256 6ca78c427519619f...",
+      "backs": "The BTC implied leg of every premium figure.",
+      "notes": "UNANCHORED. Read-only, 2026-09-04T23:40Z; mtime 2026-08-29 23:58:57 local (2026-08-30T06:58:57Z), i.e. 51 s after latch 2. Makes the whole BTC premium independently recomputable."
+    },
+    {
+      "path": "/home/kiros-li/Documents/GitHub/VRPExperiment/data/raw/task6/underlying_BTC_daily.json",
+      "tracked": false,
+      "anchored": false,
+      "size_bytes": 46030,
+      "holds": "1,992 daily BTC-PERPETUAL closes, 2021-03-17 -> 2026-08-29. sha256 d284b0286b80d23c...",
+      "backs": "The BTC realized leg and the rebalance paths.",
+      "notes": "UNANCHORED; same read time and mtime as above."
+    },
+    {
+      "path": "/home/kiros-li/Documents/GitHub/VRPExperiment/data/raw/task6/dvol_ETH_daily.json",
+      "tracked": false,
+      "anchored": false,
+      "size_bytes": 41807,
+      "holds": "1,985 daily ETH DVOL closes, 2021-03-24 -> 2026-08-29. sha256 bff740b055680ce1...",
+      "backs": "The ETH implied leg - and therefore the deciding 119.052 bps figure.",
+      "notes": "UNANCHORED; mtime 2026-08-29 23:59:48 local (06:59:48Z), equal to the result file's finished_at."
+    },
+    {
+      "path": "/home/kiros-li/Documents/GitHub/VRPExperiment/data/raw/task6/underlying_ETH_daily.json",
+      "tracked": false,
+      "anchored": false,
+      "size_bytes": 44812,
+      "holds": "1,992 daily ETH-PERPETUAL closes, 2021-03-17 -> 2026-08-29. sha256 883edea59b98d151...",
+      "backs": "The ETH realized leg and rebalance paths.",
+      "notes": "UNANCHORED; same as above."
+    },
+    {
+      "path": "/home/kiros-li/Documents/GitHub/VRPExperiment/data/raw/task5/commissions-futures.html",
+      "tracked": false,
+      "anchored": false,
+      "size_bytes": 489783,
+      "holds": "The IBKR Canada futures commission page as retrieved 2026-08-30T06:20Z (the '489,783 bytes' cited in docs/COSTS.md:33).",
+      "backs": "MET $0.20 / MBT $0.85 / BRR $5.00 / ETH $3.00 / micros $0.25 and the 'exchange and regulatory fees are additional' quotes.",
+      "notes": "UNANCHORED, but its size matches the byte count the document cites. The single source for the entire measured cost side."
+    },
+    {
+      "path": "/home/kiros-li/Documents/GitHub/VRPExperiment/data/raw/task5/commissions-home.html",
+      "tracked": false,
+      "anchored": false,
+      "size_bytes": 160443,
+      "holds": "IBKR commissions landing page.",
+      "backs": "Context for the commission schedule.",
+      "notes": "UNANCHORED."
+    },
+    {
+      "path": "/home/kiros-li/Documents/GitHub/VRPExperiment/data/raw/task3/ (14 files, 1.4 MB)",
+      "tracked": false,
+      "anchored": false,
+      "size_bytes": 1425411,
+      "holds": "deribit_restricted_jurisdictions.html/.txt (63,433 / 17,048 B), ibkr_ca_mbt_met_options.html (123,443 B - the exact byte count cited at venue_table.md:38), ibkr_ca_micro_bitcoin.html (120,250), ibkr_us_mbt_met_options.html, ibkr_ca_spot_btc_etp.html, hl_meta.json (17,495 B - the Hyperliquid universe), margin*.html (275,624 B twice, 129,313, 12,630), cme_refusal.json (602 B).",
+      "backs": "Every venue classification: Deribit PROHIBITED, IBKR Canada permissioning, Hyperliquid 232 perps / 0 options, the CME 403 refusal, the 'margin pages serve a wizard' absence.",
+      "notes": "UNANCHORED, listed only (ls -la), not opened except by size. Byte counts match the documents' cited counts exactly for the three checked."
+    },
+    {
+      "path": "/home/kiros-li/Documents/GitHub/VRPExperiment/data/raw/task4/ (13 json files + alt/ 16 files, 214 MB)",
+      "tracked": false,
+      "anchored": false,
+      "size_bytes": 213800000,
+      "holds": "dvol_{btc,eth}_2d.json, revision_{BTC,ETH}_{a,b}.json and six revision_snapshot_* (169 rows each); alt/ holds the eight alternative-source captures incl. cdd_DeriBit_volatility_OHLC_{BTC,ETH}.csv (76,979 / 78,058 B - the exact sizes cited in docs/ACCESS.md:216-218), okx_opt_summary (868,306 B), bybit_tickers_opt (427,630 B), binance_eoptions (1,068,850 B), tardis_api (210,602,148 B), volmex/laevitas/amberdata refusal bodies.",
+      "backs": "docs/ACCESS.md sections 1.7 and 2, README.md:92-93.",
+      "notes": "UNANCHORED, ls -la only. tardis_api is 210 MB - not opened. The two CDD CSVs are the corroborating history-depth source (1,986 rows, 2021-03-24 -> 2026-08-30) and are directly readable."
+    },
+    {
+      "path": "/home/kiros-li/Documents/GitHub/VRPExperiment/data/raw/robots/ (8 files)",
+      "tracked": false,
+      "anchored": false,
+      "size_bytes": 55961,
+      "holds": "robots.txt for deribit.com (x2, 25,049 B), support.deribit.com, interactivebrokers.ca, hyperliquid, ciro.ca, 3iq.ca, purposeinvest.com.",
+      "backs": "docs/ACCESS.md:26-29, progress.md:354-355, reports/task3/robots_and_terms.md.",
+      "notes": "UNANCHORED. Earliest mtimes in the tree: 2026-08-29 21:47:24 local = 2026-08-30T04:47:24Z, 16 s AFTER the registration commit 7827592 (21:47:08 local). These are the earliest network artifacts on disk and are the check on 'before any network call'."
+    },
+    {
+      "path": "/home/kiros-li/Documents/GitHub/VRPExperiment/_CLOSED_DO_NOT_RUN_HERE",
+      "tracked": false,
+      "anchored": false,
+      "size_bytes": 747,
+      "holds": "A closure marker written 2026-09-02 after a session was opened in the repository by mistake; states it is excluded locally via .git/info/exclude.",
+      "backs": "Nothing numeric.",
+      "notes": "UNANCHORED and invisible to 'git status --porcelain' because of the local exclude - recorded here so the clean status is not over-read. Not authored by this audit."
+    }
+  ],
+  "claims": [
+    {
+      "rank": 1,
+      "must_verify": true,
+      "id": "VRP-C1",
+      "claim": "the ETH premium's point estimate, 119.052 bps, is below the central commission-only cost of 122.140 bps.** The premium does not cover the commission.",
+      "file": "VRPExperiment/HYPOTHESES.md",
+      "line": 21,
+      "also": [
+        "VRPExperiment/docs/ARTIFACT.md:211-217",
+        "VRPExperiment/README.md:23-24",
+        "VRPExperiment/progress.md:788-792"
+      ],
+      "figures": "119.052 bps vs 122.140 bps",
+      "n": "1,955 daily observations (premium); 1 published commission schedule; 1,955 paths (rebalance median 11)",
+      "produced_by": "reports/task6/real_attempt2_result.json (mean_bps 119.0521, rebalances median 11) + reports/task5/commission_bps.json (32.5706 bps straddle, 8.1426 bps/rebalance); the 122.140 total exists only as prose arithmetic in progress.md:782",
+      "why_it_matters": "This is the deciding number of the closure: it is what makes MET COST-EXCEEDED without reference to the registered 2.0x margin, and it is the sentence the README, the artifact and the verdict all lead with."
+    },
+    {
+      "rank": 2,
+      "must_verify": true,
+      "id": "VRP-C2",
+      "claim": "| **total, central** | **122.14 bps** | **16.32 bps** | / | **total, pessimistic** | **162.85 bps** | **21.76 bps** |",
+      "file": "VRPExperiment/docs/ARTIFACT.md",
+      "line": 170,
+      "also": [
+        "VRPExperiment/README.md:63-64",
+        "VRPExperiment/progress.md:779-783",
+        "VRPExperiment/HYPOTHESES.md:21"
+      ],
+      "figures": "MET 32.571 + 89.569 = 122.140 central; 32.571 + 130.282 = 162.853 pessimistic; MBT 4.352 + 11.968 = 16.320; 4.352 + 17.408 = 21.760",
+      "n": "commission n=1 schedule; rebalance counts n=1,955 paths per asset",
+      "produced_by": "Hand arithmetic over reports/task5/commission_bps.json and the rebalances block of reports/task6/real_attempt2_result.json. NO artifact stores the totals or the hedge legs.",
+      "why_it_matters": "Both the MET failure and the MBT pass are stated against these four numbers, and they are the one deciding quantity in the repository with no machine-readable provenance."
+    },
+    {
+      "rank": 3,
+      "must_verify": true,
+      "id": "VRP-C3",
+      "claim": "ETH: mean 0.052045 vol points = 119.052 bps, n = 1,955**, SE 0.021528, **t = 2.418, one-sided p = 7.859 x 10^-3**, CI lower **0.016618 vol points = 38.012 bps**, positive on **64.55%**.",
+      "file": "VRPExperiment/HYPOTHESES.md",
+      "line": 19,
+      "also": [
+        "VRPExperiment/README.md:41-45",
+        "VRPExperiment/docs/ARTIFACT.md:72-77"
+      ],
+      "figures": "mean 0.052045 vol pts / 119.0521 bps; NW HAC SE 0.021528 (bandwidth 30); t 2.4175; one-sided p 0.0078585; CI lower 38.0124 bps; positive share 0.645524",
+      "n": "1,955",
+      "produced_by": "src/vrp/sealed_read.py estimate_premium/newey_west_se over the untracked data/raw/task6/{dvol,underlying}_ETH_daily.json; stored in reports/task6/real_attempt2_result.json",
+      "why_it_matters": "The 38.012 bps CI lower bound is the premium side of the 'fails by 8.57x' verdict, and the p-value is half of why SIGNAL_ABSENT does not fire. Fully recomputable from the untracked raw series."
+    },
+    {
+      "rank": 4,
+      "must_verify": true,
+      "id": "VRP-C4",
+      "claim": "BTC: mean 0.086607 annualised volatility points = 198.111 bps of notional, n = 1,955 daily observations**, Newey-West HAC bandwidth 30, SE 0.014709, **t = 5.888, one-sided p = 2.297 x 10^-9**, one-sided 95% CI lower bound **0.062401 vol points = 142.740 bps**, positive on **73.86%**",
+      "file": "VRPExperiment/HYPOTHESES.md",
+      "line": 19,
+      "also": [
+        "VRPExperiment/README.md:36-40",
+        "VRPExperiment/docs/ARTIFACT.md:72-77",
+        "VRPExperiment/progress.md:725-730"
+      ],
+      "figures": "mean 0.086607 / 198.111 bps; SE 0.014709; t 5.8879; p 2.2966e-09; CI lower 142.7401 bps; positive share 0.738619",
+      "n": "1,955",
+      "produced_by": "Same estimator and same raw series (BTC); reports/task6/real_attempt2_result.json",
+      "why_it_matters": "142.740 bps is the premium side of the 'MBT passes the 2.0x margin by 3.28x' claim and of the 49.61 bps handover threshold; 198.111 is the headline of the artifact."
+    },
+    {
+      "rank": 5,
+      "must_verify": true,
+      "id": "VRP-C5",
+      "claim": "Required for HARVESTABLE: 2.0 x 162.853 = 325.706 bps. FAILS BY 8.57x.",
+      "file": "VRPExperiment/HYPOTHESES.md",
+      "line": 21,
+      "also": [
+        "VRPExperiment/docs/ARTIFACT.md:214-215",
+        "VRPExperiment/progress.md:784-786"
+      ],
+      "figures": "2.0 x 162.853 = 325.706; 325.706 / 38.012 = 8.568",
+      "n": "premium n=1,955; cost n=1 schedule + 1,955 paths",
+      "produced_by": "Prose arithmetic on C2 and C3 against REGISTRATION.md Section 5 (line 312-316)",
+      "why_it_matters": "It is the formal application of the registered margin, i.e. the sentence that fires VENUE_BLOCKED rather than HARVESTABLE on the only capital-feasible route."
+    },
+    {
+      "rank": 6,
+      "must_verify": true,
+      "id": "VRP-C6",
+      "claim": "initial margin ... must be **<= 12.80% of the $7,812.46 notional - that is, <= $1,000 per contract** ... 2. **The all-in bid-ask plus CME exchange and regulatory fees.** At the pessimistic end these must total **<= 49.61 bps of notional**",
+      "file": "VRPExperiment/docs/ARTIFACT.md",
+      "line": 226,
+      "also": [
+        "VRPExperiment/docs/HANDOVER.md:23-24",
+        "VRPExperiment/HYPOTHESES.md:26",
+        "VRPExperiment/reports/task3/venue_table.md:80"
+      ],
+      "figures": "12.80% = 1000/7812.46; 49.61 bps = 142.740/2 - 21.760",
+      "n": "notional from n=2 spot sources; premium CI lower n=1,955",
+      "produced_by": "Prose arithmetic on the measured spot (reports/task3/venue_table.md:11-12) and C4/C2",
+      "why_it_matters": "These two numbers are the entire qualification of the verdict and the whole content of the handover; the closure calls itself 'qualified' precisely on them."
+    },
+    {
+      "rank": 7,
+      "must_verify": true,
+      "id": "VRP-C7",
+      "claim": "rebalances, registered +/-0.10 band, 30-day tenor | **median 11, p90 16** (BTC max 20, ETH max 22) | **1,955 paths per asset**",
+      "file": "VRPExperiment/README.md",
+      "line": 61,
+      "also": [
+        "VRPExperiment/docs/ARTIFACT.md:162-164",
+        "VRPExperiment/progress.md:751-754"
+      ],
+      "figures": "band 0.10: BTC median 11, mean 10.8077, p90 16, min 2, max 20; ETH median 11, mean 10.9913, p90 16, min 2, max 22; band 0.05 medians 17 (p90 21/22); band 0.20 medians 5 (p90 9)",
+      "n": "1,955 paths per asset per band",
+      "produced_by": "src/vrp/sealed_read.py count_rebalances + tools/task6_sealed_run.py rebalance_distribution; stored in reports/task6/real_attempt2_result.json",
+      "why_it_matters": "The hedge leg is 73% of the MET central cost (89.569 of 122.140 bps); the median-11/p90-16 pair is what converts a commission into the deciding cost. Note the implementation measures drift from the delta at the last resize and uses a constant sigma = IV at t."
+    },
+    {
+      "rank": 8,
+      "must_verify": true,
+      "id": "VRP-C8",
+      "claim": "At `T = 30/365 = 0.082192`, `sqrt(T) = 0.286691` and `sqrt(2/pi) = 0.797885`, so **`edge_bps = 2,287.5 x (IV - RV)`** ... **One volatility point of premium is 22.875 bps of notional.**",
+      "file": "VRPExperiment/REGISTRATION.md",
+      "line": 164,
+      "also": [
+        "VRPExperiment/README.md:50",
+        "VRPExperiment/src/vrp/sealed_read.py:43-51",
+        "VRPExperiment/reports/task6/real_attempt2_result.json (bps_per_volatility_point 22.874639)"
+      ],
+      "figures": "22.875 bps per vol point (22.874639 as computed)",
+      "n": "-",
+      "produced_by": "src/vrp/sealed_read.py bps_per_volatility_point()",
+      "why_it_matters": "Every bps figure on both sides of the deciding comparison passes through this one constant, and it is claimed to be registered before any data existed."
+    },
+    {
+      "rank": 9,
+      "must_verify": false,
+      "id": "VRP-C9",
+      "claim": "47,696 hourly DVOL rows -> 1,985 daily observations per asset; 47,858 hourly perpetual rows -> 1,992.** Paired: **1,985 days**, of which **30 dropped for an incomplete 30-day forward window**, leaving **n = 1,955** spanning **2021-03-24 -> 2026-07-30**.",
+      "file": "VRPExperiment/HYPOTHESES.md",
+      "line": 22,
+      "also": [
+        "VRPExperiment/progress.md:720-724",
+        "VRPExperiment/reports/task6/real_attempt2_result.json"
+      ],
+      "figures": "47,696 / 1,985 / 47,858 / 1,992 / 30 dropped / n=1,955",
+      "n": "1,955",
+      "produced_by": "tools/task6_sealed_run.py build(); the two untracked raw series (1,985 and 1,992 keys - both confirmed by direct count on 2026-09-04)",
+      "why_it_matters": "Every figure carries this n; the hourly row counts are the only figures in the sample construction that no stored artifact records (the result JSON stores the daily counts, not the hourly ones)."
+    },
+    {
+      "rank": 10,
+      "must_verify": false,
+      "id": "VRP-C10",
+      "claim": "BTC n = 66 non-overlapping windows: 0.096558 vol points = 220.872 bps, t = 4.568, p = 1.128 x 10^-5, CI lower 140.188 bps. ETH n = 66: 0.058053 = 132.793 bps, t = 2.088, p = 0.0203, CI lower 26.688 bps.** Both agree with the primary in **sign and in significance**",
+      "file": "VRPExperiment/HYPOTHESES.md",
+      "line": 20,
+      "also": [
+        "VRPExperiment/docs/ARTIFACT.md:79-83",
+        "VRPExperiment/README.md:46-47"
+      ],
+      "figures": "BTC 220.872 bps t 4.5679 p 1.1279e-05 CI lower 140.1876; ETH 132.793 bps t 2.0883 p 0.0203 CI lower 26.6879",
+      "n": "66 windows per asset (premium[::30])",
+      "produced_by": "sealed_read.non_overlapping + estimate_premium(bandwidth=0); reports/task6/real_attempt2_result.json",
+      "why_it_matters": "REGISTRATION.md:372-375 says 'if they disagree in sign or significance, the disagreement is the finding'. Agreement is what keeps that clause unfired."
+    },
+    {
+      "rank": 11,
+      "must_verify": false,
+      "id": "VRP-C11",
+      "claim": "BTC is significant in all four but **decays monotonically**: **284.53 -> 250.59 -> 145.13 -> 112.72 bps**, a **60.4% fall** ... ETH ... Q3 ... **-18.56 bps, NEGATIVE, p = 0.597**",
+      "file": "VRPExperiment/HYPOTHESES.md",
+      "line": 23,
+      "also": [
+        "VRPExperiment/docs/ARTIFACT.md:89-102",
+        "VRPExperiment/progress.md:739-749"
+      ],
+      "figures": "BTC 284.53/250.587/145.132/112.719 bps with p 2.56e-4 / 6.82e-5 / 4.55e-3 / 0.0182; ETH 146.27 (p 0.1458) / 291.212 (p 3.14e-5) / -18.556 (p 0.597) / 57.659 (p 0.2111); 60.4% = 1 - 112.72/284.53",
+      "n": "488 / 488 / 488 / 491 per quarter",
+      "produced_by": "tools/task6_sealed_run.py stability(); reports/task6/real_attempt2_result.json",
+      "why_it_matters": "The stated limitations of the artifact ('do not rely on the ETH premium', 'do not read BTC as stationary') rest entirely on these eight tests."
+    },
+    {
+      "rank": 12,
+      "must_verify": false,
+      "id": "VRP-C12",
+      "claim": "**MET** | 4 x $0.20 = **$0.80** | **32.571 bps** / **MBT** | 4 x $0.85 = **$3.40** | **4.352 bps**",
+      "file": "VRPExperiment/docs/COSTS.md",
+      "line": 88,
+      "also": [
+        "VRPExperiment/reports/task5/commission_bps.json",
+        "VRPExperiment/README.md:59-60"
+      ],
+      "figures": "0.80/245.62 = 32.5706 bps; 3.40/7812.46 = 4.352 bps; per-rebalance 8.1426 / 1.088 bps",
+      "n": "1 published schedule, retrieved 2026-08-30T06:20Z",
+      "produced_by": "reports/task5/commission_bps.json from data/raw/task5/commissions-futures.html (untracked)",
+      "why_it_matters": "The measured half of the cost model, and the source of the '7.48x' and 'commission exceeds the whole Deribit spread' claims."
+    },
+    {
+      "rank": 13,
+      "must_verify": false,
+      "id": "VRP-C13",
+      "claim": "**Micro Ether option** | **$245.62** | **4.07x** | **407.1% of notional** ... **Micro Bitcoin option** | **$7,812.46** | **0.128x** | **12.80% of notional**",
+      "file": "VRPExperiment/docs/ARTIFACT.md",
+      "line": 142,
+      "also": [
+        "VRPExperiment/reports/task3/venue_table.md:79-82",
+        "VRPExperiment/README.md:74-76"
+      ],
+      "figures": "spot BTC 78,124.575 / ETH 2,456.205; notionals 245.62 / 7,812.46 / 390,622.88 / 122,810.25; multiples 4.07x, 0.128x, 390.6x, 122.8x; 31.8x size ratio; 7.48x cost ratio",
+      "n": "2 independent spot sources per asset (Coinbase, Kraken; 1.16 / 3.24 bps apart)",
+      "produced_by": "reports/task3/venue_table.md prose; no JSON stores the spot or the notionals except commission_bps.json's notional_usd fields",
+      "why_it_matters": "ADR-011 makes notional 'the binding constraint of this experiment'; every capital and cost classification is a division by one of these four numbers."
+    },
+    {
+      "rank": 14,
+      "must_verify": false,
+      "id": "VRP-C14",
+      "claim": "**BTC 22.50 bps, ETH 25.00 bps** at the medians ... measured across **24 observation windows per leg, 96 observations, zero unquoted**",
+      "file": "VRPExperiment/docs/ARTIFACT.md",
+      "line": 198,
+      "also": [
+        "VRPExperiment/docs/COSTS.md:222-227 and 251-254",
+        "VRPExperiment/README.md:67"
+      ],
+      "figures": "per-leg medians 6.25 / 5.00 / 5.00 / 7.50 bps; p90 7.5/7.5/7.5/10.0; round trips 22.50 and 25.00 bps",
+      "n": "24 windows per leg, 4 legs, 96 observations, 0 unquoted",
+      "produced_by": "reports/task5/reference_spreads_deribit.json (summary block)",
+      "why_it_matters": "It is labelled REFERENCE ONLY and enters no verdict, but it carries the artifact's rhetorical comparison ('commission alone exceeds the whole quoted spread on the prohibited venue')."
+    },
+    {
+      "rank": 15,
+      "must_verify": false,
+      "id": "VRP-C15",
+      "claim": "DVOL history depth, **bisected** | **1,992 days** (~ 2021-03-17) | 22 probes/asset",
+      "file": "VRPExperiment/README.md",
+      "line": 87,
+      "also": [
+        "VRPExperiment/docs/ACCESS.md:89-99",
+        "VRPExperiment/docs/ARTIFACT.md:272",
+        "VRPExperiment/docs/ACCESS.md:261-262"
+      ],
+      "figures": "1,992 days back served, 1,993 empty; 'approximate earliest served' 2021-03-17T06:23:58Z (BTC) / 06:24:06Z (ETH); 2.73x the registered 730-day minimum",
+      "n": "22 probes per asset",
+      "produced_by": "reports/task4/deribit_probe.json history_depth",
+      "why_it_matters": "Flagged as a probable mis-description: in the stored probe the days_back=1992 window returns ONE row stamped 2021-03-24T00:00:00Z, and the served DVOL series in data/raw/task6 begins 2021-03-24, not 2021-03-17 - which is also what HYPOTHESES.md:22 says ('Implied history begins 2021-03-24, the first date Deribit serves DVOL'). Nothing in the verdict depends on it; the depth claim (>= 730) holds either way."
+    },
+    {
+      "rank": 16,
+      "must_verify": false,
+      "id": "VRP-C16",
+      "claim": "rate refusal | **none drawn at or below 126.76 req/s** - an upper bound *not reached* | 126 requests/endpoint",
+      "file": "VRPExperiment/README.md",
+      "line": 89,
+      "also": [
+        "VRPExperiment/docs/ACCESS.md:126-140"
+      ],
+      "figures": "concurrency 2->64; peak 126.76 req/s (get_index_price) and 120.45 (get_volatility_index_data); zero non-200",
+      "n": "126 requests per endpoint",
+      "produced_by": "reports/task4/rate_and_revision_baseline.json rate_light / rate_heavy",
+      "why_it_matters": "Stated carefully as a bound not reached; worth confirming the request counts sum to 126 and that no non-200 appears in the stored attempts."
+    },
+    {
+      "rank": 17,
+      "must_verify": false,
+      "id": "VRP-C17",
+      "claim": "**revision** | **all six fixed windows byte-identical after ~ 70 minutes** | 6 windows x 169 rows",
+      "file": "VRPExperiment/README.md",
+      "line": 91,
+      "also": [
+        "VRPExperiment/docs/ACCESS.md:163-177",
+        "VRPExperiment/docs/ARTIFACT.md:278-284",
+        "VRPExperiment/progress.md:818-828"
+      ],
+      "figures": "6 windows, 169 rows each, data-only SHA-256 identical; gap ~70 minutes",
+      "n": "6 windows (BTC/ETH x 45/365/900 days back)",
+      "produced_by": "reports/task4/rate_and_revision_baseline.json vs reports/task4/revision_recheck.json - digest-for-digest comparable",
+      "why_it_matters": "A revised implied series would rewrite the whole measurement; this is the only defence against it, and it is disclosed as a weak test for the CDD mirror."
+    },
+    {
+      "rank": 18,
+      "must_verify": false,
+      "id": "VRP-C18",
+      "claim": "Hyperliquid options | **zero**, alongside 232 perpetuals | 232 instruments enumerated",
+      "file": "VRPExperiment/README.md",
+      "line": 78,
+      "also": [
+        "VRPExperiment/reports/task3/venue_table.md:27",
+        "VRPExperiment/docs/ARTIFACT.md:132-134"
+      ],
+      "figures": "universe n=232, zero option-shaped names, three probes HTTP 422",
+      "n": "232 instruments, 3 probes",
+      "produced_by": "data/raw/task3/hl_meta.json (untracked, 17,495 B - the exact byte count the document cites)",
+      "why_it_matters": "Closes the NO_PRODUCT route and is one of the three legs of the recorded prior."
+    },
+    {
+      "rank": 19,
+      "must_verify": false,
+      "id": "VRP-C19",
+      "claim": "Deribit public endpoints served without an account | **9 of 9 valid, HTTP 200** | 11 probes ... live option instruments | **1,026 BTC, 876 ETH**",
+      "file": "VRPExperiment/README.md",
+      "line": 86,
+      "also": [
+        "VRPExperiment/docs/ACCESS.md:33-49"
+      ],
+      "figures": "9/9 valid endpoints 200; 2 invalid probes 400; 1,026 / 876 instruments",
+      "n": "11 probes; 1 enumeration each",
+      "produced_by": "reports/task4/deribit_probe.json endpoints",
+      "why_it_matters": "Supports 'no account, no registration, no order' and the choice of Deribit as the registered primary."
+    },
+    {
+      "rank": 20,
+      "must_verify": false,
+      "id": "VRP-C20",
+      "claim": "passes the margin by 3.28x on commission alone, **at any rebalance count up to the daily maximum of 29**",
+      "file": "VRPExperiment/HYPOTHESES.md",
+      "line": 62,
+      "also": [
+        "VRPExperiment/docs/ARTIFACT.md:222-224",
+        "VRPExperiment/progress.md:794-797"
+      ],
+      "figures": "142.740 / (2 x 21.760) = 3.2799; worst case at 29 rebalances 35.904 bps, 2x = 71.81 bps vs 142.740",
+      "n": "premium n=1,955",
+      "produced_by": "Prose arithmetic; the '29' follows from count_rebalances iterating day 1..29 (sealed_read.py:382-384)",
+      "why_it_matters": "It is the claim that the MBT route's cost side cannot be broken by the hedge count, which narrows the open question to exactly the two handover figures."
+    },
+    {
+      "rank": 21,
+      "must_verify": false,
+      "id": "VRP-C21",
+      "claim": "Canadian covered-call crypto ETF fees | BTCY MER **1.28%**, ETHY MER **1.29%**",
+      "file": "VRPExperiment/README.md",
+      "line": 79,
+      "also": [
+        "VRPExperiment/reports/task3/venue_table.md:28",
+        "VRPExperiment/progress.md:468-469"
+      ],
+      "figures": "BTCY MER 1.28%; ETHY management fee 1.10%, MER 1.29%, MER capped 1.48%",
+      "n": "2 funds (3 named incl. BCCL)",
+      "produced_by": "TASK 3 prose; no stored artifact under reports/ holds these",
+      "why_it_matters": "Supports the NOT AN OPTION PRODUCT classification; nothing in the verdict rests on the exact MER."
+    },
+    {
+      "rank": 22,
+      "must_verify": false,
+      "id": "VRP-C22",
+      "claim": "A **strategy-Sharpe endpoint of 1.32 annualised** would need **roughly 119 weekly observations to reach t = 2** ... **At the halved 0.66 it would need roughly 478**",
+      "file": "VRPExperiment/REGISTRATION.md",
+      "line": 412,
+      "also": [
+        "VRPExperiment/DECISIONS.md:203-214",
+        "VRPExperiment/progress.md:321-329"
+      ],
+      "figures": "(2/1.32)^2 = 2.296 yr x 52 = 119.4 wk; (2/0.66)^2 = 9.183 yr x 52 = 477.5 wk; 6.19/d^2; 730/30 ~ 24 effective; d ~ 0.508; halved d ~ 1.016 at n ~ 6",
+      "n": "registered design depth 730 daily observations",
+      "produced_by": "REGISTRATION.md Section 7 arithmetic only",
+      "why_it_matters": "This is the power figure that justifies the choice of endpoint, and it is a pre-registered claim about the design rather than about the data."
+    },
+    {
+      "rank": 23,
+      "must_verify": false,
+      "id": "VRP-C23",
+      "claim": "MBT micro bitcoin notional **$6,505** ... re-measured **$7,812.46** ... **+20.1%** / MET **$191** -> **$245.62** ... **+28.6%**",
+      "file": "VRPExperiment/reports/task3/venue_table.md",
+      "line": 95,
+      "also": [
+        "VRPExperiment/docs/VENUE_TABLE_UPDATE.md:71-74",
+        "VRPExperiment/progress.md:420-427"
+      ],
+      "figures": "+20.1% and +28.6% drift against MLCryptoEngine report.md:1164-1165 dated 2026-07-15",
+      "n": "n=2 spot sources",
+      "produced_by": "Cross-repo: MLCryptoEngine/report.md:1164-1165 (checkable in that repository's anchored snapshot)",
+      "why_it_matters": "It is the repository's showcase example of 'the measurement wins over the carried figure', and it is a cross-repo claim with an exact file:line."
+    },
+    {
+      "rank": 24,
+      "must_verify": false,
+      "id": "VRP-C24",
+      "claim": "the closure came from a measured entry half-spread of **0.076572 USD per share (n = 550 minutes served, 0 refused, p90 0.333662)** ... against a band carried from QQQ that understated five of six legs and produced a shift **11.27 times** too small",
+      "file": "VRPExperiment/REGISTRATION.md",
+      "line": 515,
+      "also": [
+        "VRPExperiment/docs/VENUE_TABLE_UPDATE.md:22-29",
+        "VRPExperiment/DECISIONS.md:168-175",
+        "VRPExperiment/docs/ARTIFACT.md:190-193"
+      ],
+      "figures": "0.076572 USD/share median, 0.333662 p90, n=550, 11.27x, 0.467065 vs 0.041455, 0.033529 vs 0.040",
+      "n": "550 minutes served",
+      "produced_by": "Cross-repo: ORBExperiment/reports/stage_a3rescue/task2_slippage_band.json:74, ORBExperiment/README.md:300, ORBExperiment/docs/HANDOVER.md:59",
+      "why_it_matters": "The 11.27x figure is cited five times as the justification for the 2.0x margin, for ADR-008 and for refusing to substitute a spread; it is entirely a carried cross-repo figure."
+    },
+    {
+      "rank": 25,
+      "must_verify": false,
+      "id": "VRP-C25",
+      "claim": "MLCryptoEngine H2 ... **AUC 0.501** at every horizon, **0.22 bps** gross capture against **5.33 bps** cost, best net EV **-5.11 bps**, on **224,425,675 events**",
+      "file": "VRPExperiment/docs/DUPLICATION.md",
+      "line": 176,
+      "also": [
+        "VRPExperiment/docs/DUPLICATION.md:93-101 (H5/H8: 8.07%/8.00%, 30.61%->1.94%, 27,761 rows, +43.68%/-42.91%/+0.11%, 4,411,046 observations, 231 perps)",
+        "VRPExperiment/docs/DUPLICATION.md:141-143 (NPL H5: 4.14 bp, n=188, IQR 0.71-9.15, 9.57%, 1.60%)",
+        "VRPExperiment/REGISTRATION.md:326-329 (H3: 28 instruments, +0.06 to +0.68 bps)"
+      ],
+      "figures": "as quoted",
+      "n": "as quoted",
+      "produced_by": "Cross-repo: MLCryptoEngine and NPLExperiment records",
+      "why_it_matters": "The duplication screen's CLEAR verdict is argued from these; each figure is checkable against the other repositories' anchored snapshots."
+    },
+    {
+      "rank": 26,
+      "must_verify": false,
+      "id": "VRP-C26",
+      "claim": "**`make all` is green: 50 tests, mypy strict clean, ruff clean.**",
+      "file": "VRPExperiment/README.md",
+      "line": 122,
+      "also": [
+        "VRPExperiment/progress.md:835-836",
+        "VRPExperiment/docs/HANDOVER.md:112-114"
+      ],
+      "figures": "50 tests (22 in test_estimators.py + 28 in test_guards.py, counted here), 17 source files, 11 ADRs, ARTIFACT.md 284 lines, REGISTRATION.md 533 lines at registration",
+      "n": "-",
+      "produced_by": "tests/ and reports/env_report.json",
+      "why_it_matters": "Hygiene only, but all five counts are exactly checkable and all five matched on inspection (50 test functions, 17 .py files across src/tests/tools, 11 '## ADR-' headings, 284 lines, 533 lines at commit 7827592)."
+    },
+    {
+      "rank": 27,
+      "must_verify": false,
+      "id": "VRP-C27",
+      "claim": "`--mode fixture` runs the identical pipeline against synthetic data with a known planted premium",
+      "file": "VRPExperiment/README.md",
+      "line": 125,
+      "also": [
+        "VRPExperiment/progress.md:687-694",
+        "VRPExperiment/reports/task6/fixture_result.json"
+      ],
+      "figures": "planted 0.08 vol points; recovered BTC 0.094653 (t 4.2725), ETH 0.094101 (t 7.4162), n=270 each",
+      "n": "270 per asset",
+      "produced_by": "tools/task6_sealed_run.py synthetic_source + the same estimators",
+      "why_it_matters": "The fixture is the only end-to-end check that the pipeline recovers a known answer; the recovery overshoots the plant by ~18% on both assets, which is within sampling error for ~9 independent windows but is worth confirming rather than assuming."
+    },
+    {
+      "rank": 28,
+      "must_verify": false,
+      "id": "VRP-C28",
+      "claim": "Deribit reference straddle spread ... BTC **22.50 bps**, ETH **25.00 bps** ... Spreads were tick-bound - every observed value an exact multiple of the 0.0005-coin tick",
+      "file": "VRPExperiment/docs/ARTIFACT.md",
+      "line": 199,
+      "also": [
+        "VRPExperiment/docs/COSTS.md:231-234"
+      ],
+      "figures": "raw spreads only 0.0010/0.0015/0.0020/0.0025 coin; depth BTC call bid 1.5-32.1, ask 0.2-16.7; ETH put bid 18-395, ask 18-764",
+      "n": "96 observations",
+      "produced_by": "reports/task5/reference_spreads_deribit.json observations block (per-observation half_spread_coin and sizes)",
+      "why_it_matters": "Supports the claim that a 24-window sample is a good estimate of a stable quantity; fully checkable from the stored observations."
+    },
+    {
+      "rank": 29,
+      "must_verify": false,
+      "id": "VRP-C29",
+      "claim": "the same 30-day ATM straddle's quoted round-trip spread was measured ... The registered tenor is 30 days and the nearest listed expiry is **26.06 days**.",
+      "file": "VRPExperiment/docs/COSTS.md",
+      "line": 214,
+      "also": [
+        "VRPExperiment/reports/task5/reference_spreads_deribit.json (days_to_expiry 26.06, strike 78000 vs index 78178.25; 2500 vs 2457.21)"
+      ],
+      "figures": "26.06 days to expiry; ATM strikes 78,000 (index 78,178.25) and 2,500 (index 2,457.21); 13 expiries, 65/64 strikes",
+      "n": "1 expiry selection per asset",
+      "produced_by": "reports/task5/reference_spreads_deribit.json series block",
+      "why_it_matters": "The reference figure is at 26.06 days and a 1.7% off-ATM ETH strike, disclosed in the document; it bounds how far the 'reference' comparison can be pushed."
+    },
+    {
+      "rank": 30,
+      "must_verify": false,
+      "id": "VRP-C30",
+      "claim": "a 5.4-year sample",
+      "file": "VRPExperiment/docs/ARTIFACT.md",
+      "line": 252,
+      "also": [
+        "VRPExperiment/HYPOTHESES.md:23"
+      ],
+      "figures": "2021-03-24 -> 2026-07-30 = 5.35 years",
+      "n": "1,955",
+      "produced_by": "reports/task6/real_attempt2_result.json window",
+      "why_it_matters": "Minor; it is the span the tail argument is stated against."
+    }
+  ],
+  "intervals": [
+    {
+      "file": "VRPExperiment/reports/task6/real_attempt2_result.json",
+      "line": 13,
+      "document_cite": "VRPExperiment/README.md:39",
+      "quantity": "BTC premium, one-sided 95% CI lower bound",
+      "estimator": "mean minus t_crit(df=n-1, alpha=0.05) x Newey-West HAC SE, Bartlett kernel, bandwidth 30",
+      "value": "0.062401 vol points = 142.7401 bps",
+      "n": 1955,
+      "data_structure": "overlapping 30-day forward windows on daily sampling (serial correlation by construction)"
+    },
+    {
+      "file": "VRPExperiment/reports/task6/real_attempt2_result.json",
+      "line": 136,
+      "document_cite": "VRPExperiment/README.md:44",
+      "quantity": "ETH premium, one-sided 95% CI lower bound",
+      "estimator": "same",
+      "value": "0.016618 vol points = 38.0124 bps",
+      "n": 1955,
+      "data_structure": "overlapping 30-day forward windows on daily sampling"
+    },
+    {
+      "file": "VRPExperiment/reports/task6/real_attempt2_result.json",
+      "line": 58,
+      "document_cite": "VRPExperiment/HYPOTHESES.md:20",
+      "quantity": "BTC non-overlapping robustness, CI lower",
+      "estimator": "same formula with bandwidth 0 (IID SE 0.021138)",
+      "value": "0.061285 vol points = 140.1876 bps",
+      "n": 66,
+      "data_structure": "premium[::30] - every 30th daily observation, IID by construction"
+    },
+    {
+      "file": "VRPExperiment/reports/task6/real_attempt2_result.json",
+      "line": 181,
+      "document_cite": "VRPExperiment/HYPOTHESES.md:20",
+      "quantity": "ETH non-overlapping robustness, CI lower",
+      "estimator": "same, bandwidth 0 (IID SE 0.027798)",
+      "value": "0.011667 vol points = 26.6879 bps",
+      "n": 66,
+      "data_structure": "premium[::30]"
+    },
+    {
+      "file": "VRPExperiment/docs/COSTS.md",
+      "line": 222,
+      "document_cite": "VRPExperiment/docs/COSTS.md:222-227",
+      "quantity": "Deribit half-spread per leg: median and 90th percentile (NOT a confidence interval)",
+      "estimator": "order statistics of 24 observations per leg",
+      "value": "BTC call 6.25 / p90 7.50; BTC put 5.00 / 7.50; ETH call 5.00 / 7.50; ETH put 7.50 / 10.00 bps",
+      "n": 24,
+      "data_structure": "24 windows per leg spaced 20 s apart, tick-bound values"
+    },
+    {
+      "file": "VRPExperiment/reports/task6/real_attempt2_result.json",
+      "line": 25,
+      "document_cite": "VRPExperiment/README.md:61",
+      "quantity": "Rebalance count: median, mean, p90, min, max (NOT a confidence interval)",
+      "estimator": "order statistics; median = ordered[n//2], p90 = ordered[round(0.90*(n-1))] (tools/task6_sealed_run.py:258-267)",
+      "value": "band 0.10: BTC 2/11/16/20, ETH 2/11/16/22",
+      "n": 1955,
+      "data_structure": "one count per observation date with a complete 31-close forward window"
+    },
+    {
+      "file": "VRPExperiment/REGISTRATION.md",
+      "line": 312,
+      "document_cite": "VRPExperiment/REGISTRATION.md:312-316",
+      "quantity": "The decision rule that consumes the interval",
+      "estimator": "premium_CI_lower_bps >= 2.0 x cost_pessimistic_bps",
+      "value": "registered margin 2.0 against the pessimistic end",
+      "n": null,
+      "data_structure": "applies the one-sided 95% lower bound above"
+    },
+    {
+      "file": "VRPExperiment/docs/COSTS.md",
+      "line": 280,
+      "document_cite": "VRPExperiment/docs/COSTS.md:273-281",
+      "quantity": "All-in round-trip cost, central and pessimistic",
+      "estimator": "Absent(not_served) - three of five legs missing",
+      "value": "Absent; only a commission-only strict lower bound exists",
+      "n": null,
+      "data_structure": "NO interval is reported anywhere for the cost side; the 'central/pessimistic' pair is a median/p90 rebalance count, not a sampling interval"
+    }
+  ],
+  "tests": [
+    {
+      "file": "VRPExperiment/reports/task6/real_attempt2_result.json",
+      "line": 21,
+      "document_cite": "VRPExperiment/README.md:38",
+      "test": "one-sided t-test, H0: mean(VRP) <= 0, alpha=0.05, Student-t with df = n-1, self-contained incomplete-beta implementation",
+      "statistic": "t = 5.8879",
+      "p": "2.2965959114251576e-09",
+      "n": 1955,
+      "data_structure": "BTC daily premium, overlapping 30-day forward windows, NW HAC bandwidth 30"
+    },
+    {
+      "file": "VRPExperiment/reports/task6/real_attempt2_result.json",
+      "line": 144,
+      "document_cite": "VRPExperiment/README.md:43",
+      "test": "same",
+      "statistic": "t = 2.4175",
+      "p": "0.007858540106723278",
+      "n": 1955,
+      "data_structure": "ETH daily premium, overlapping windows, NW HAC bandwidth 30"
+    },
+    {
+      "file": "VRPExperiment/reports/task6/real_attempt2_result.json",
+      "line": 66,
+      "document_cite": "VRPExperiment/HYPOTHESES.md:20",
+      "test": "same test, IID SE (bandwidth 0)",
+      "statistic": "t = 4.5679",
+      "p": "1.1279134941095236e-05",
+      "n": 66,
+      "data_structure": "BTC non-overlapping thinned series"
+    },
+    {
+      "file": "VRPExperiment/reports/task6/real_attempt2_result.json",
+      "line": 189,
+      "document_cite": "VRPExperiment/HYPOTHESES.md:20",
+      "test": "same, IID SE",
+      "statistic": "t = 2.0883",
+      "p": "0.020344672900974938",
+      "n": 66,
+      "data_structure": "ETH non-overlapping thinned series"
+    },
+    {
+      "file": "VRPExperiment/reports/task6/real_attempt2_result.json",
+      "line": 76,
+      "document_cite": "VRPExperiment/docs/ARTIFACT.md:91",
+      "test": "quarterly stability, same one-sided t-test with HAC bandwidth 30 inside each quarter",
+      "statistic": "BTC Q1 t = 3.498",
+      "p": "0.00025559579409758164",
+      "n": 488,
+      "data_structure": "first quarter of the BTC daily premium series"
+    },
+    {
+      "file": "VRPExperiment/reports/task6/real_attempt2_result.json",
+      "line": 87,
+      "document_cite": "VRPExperiment/docs/ARTIFACT.md:92",
+      "test": "quarterly stability",
+      "statistic": "BTC Q2 t = 3.845",
+      "p": "6.820919294091758e-05",
+      "n": 488,
+      "data_structure": "second quarter, BTC"
+    },
+    {
+      "file": "VRPExperiment/reports/task6/real_attempt2_result.json",
+      "line": 98,
+      "document_cite": "VRPExperiment/docs/ARTIFACT.md:93",
+      "test": "quarterly stability",
+      "statistic": "BTC Q3 t = 2.619",
+      "p": "0.004551794102350646",
+      "n": 488,
+      "data_structure": "third quarter, BTC"
+    },
+    {
+      "file": "VRPExperiment/reports/task6/real_attempt2_result.json",
+      "line": 109,
+      "document_cite": "VRPExperiment/docs/ARTIFACT.md:94",
+      "test": "quarterly stability",
+      "statistic": "BTC Q4 t = 2.098",
+      "p": "0.018215417684982346",
+      "n": 491,
+      "data_structure": "fourth quarter, BTC (remainder chunk)"
+    },
+    {
+      "file": "VRPExperiment/reports/task6/real_attempt2_result.json",
+      "line": 199,
+      "document_cite": "VRPExperiment/docs/ARTIFACT.md:91",
+      "test": "quarterly stability",
+      "statistic": "ETH Q1 t = 1.056",
+      "p": "0.14582879107593305",
+      "n": 488,
+      "data_structure": "first quarter, ETH - not significant"
+    },
+    {
+      "file": "VRPExperiment/reports/task6/real_attempt2_result.json",
+      "line": 210,
+      "document_cite": "VRPExperiment/docs/ARTIFACT.md:92",
+      "test": "quarterly stability",
+      "statistic": "ETH Q2 t = 4.037",
+      "p": "3.1428446071868534e-05",
+      "n": 488,
+      "data_structure": "second quarter, ETH - the only significant one"
+    },
+    {
+      "file": "VRPExperiment/reports/task6/real_attempt2_result.json",
+      "line": 221,
+      "document_cite": "VRPExperiment/docs/ARTIFACT.md:93",
+      "test": "quarterly stability",
+      "statistic": "ETH Q3 t = -0.246",
+      "p": "0.5969522476880395",
+      "n": 488,
+      "data_structure": "third quarter, ETH - NEGATIVE mean -18.556 bps"
+    },
+    {
+      "file": "VRPExperiment/reports/task6/real_attempt2_result.json",
+      "line": 232,
+      "document_cite": "VRPExperiment/docs/ARTIFACT.md:94",
+      "test": "quarterly stability",
+      "statistic": "ETH Q4 t = 0.803",
+      "p": "0.21108500630319577",
+      "n": 491,
+      "data_structure": "fourth quarter, ETH - not significant"
+    },
+    {
+      "file": "VRPExperiment/reports/task6/fixture_result.json",
+      "line": null,
+      "document_cite": "VRPExperiment/progress.md:687-694",
+      "test": "fixture canary, same estimator on synthetic data with a planted 0.08 premium",
+      "statistic": "BTC t = 4.2725 / ETH t = 7.4162",
+      "p": "1.34e-05 / 7.88e-13",
+      "n": 270,
+      "data_structure": "synthetic GBM closes at 0.47 vol with a constant 0.55 implied; recovered means 0.094653 / 0.094101 against a plant of 0.08"
+    },
+    {
+      "file": "VRPExperiment/REGISTRATION.md",
+      "line": 360,
+      "document_cite": "VRPExperiment/REGISTRATION.md:358-393",
+      "test": "the registered inference: one one-sided t-test at alpha = 0.05 per asset, NW HAC bandwidth 30, non-overlapping robustness, Berger (1982) intersection-union note refusing any multiplicity correction",
+      "statistic": null,
+      "p": null,
+      "n": null,
+      "data_structure": "registered before any data; no Bonferroni/BH applied, and the reason is recorded"
+    }
+  ],
+  "provenance_claims": [
+    {
+      "id": "VRP-P1",
+      "claim": "**Registered 2026-08-30, before any network call.** Commit `8bcc5bf` is the last commit before this file; no probe, fetch or measurement precedes it.",
+      "file": "VRPExperiment/REGISTRATION.md",
+      "line": 3,
+      "commit": "8bcc5bf (TASK 1); REGISTRATION.md itself lands in 7827592",
+      "what_would_have_to_be_true": "No fetched artifact may pre-date commit 7827592. Checkable: 7827592 is dated 2026-08-29T21:47:08-07:00 = 2026-08-30T04:47:08Z, and the earliest network artifact in the untracked tree (data/raw/robots/*.txt) has mtime 2026-08-29 21:47:24 local = 04:47:24Z - 16 seconds later. No data/ file pre-dates the commit.",
+      "status": "checkable; the mtime evidence is consistent with the claim, with only a 16-second margin"
+    },
+    {
+      "id": "VRP-P2",
+      "claim": "Registration | `REGISTRATION.md`, commit `7827592`, **before any network call**. Amendment 1 records an aborted first sealed-read attempt.",
+      "file": "VRPExperiment/HYPOTHESES.md",
+      "line": 18,
+      "commit": "7827592",
+      "what_would_have_to_be_true": "7827592 exists, contains REGISTRATION.md, and Sections 0-9 have not been altered since. Checkable: git diff 7827592..d37cf6d -- REGISTRATION.md is +58/-2, the 58 additions are Amendment 1, and the 2 deletions are only the words 'No amendments.' in the amendment-log preamble.",
+      "status": "checkable; verified at the git level during this inventory"
+    },
+    {
+      "id": "VRP-P3",
+      "claim": "Any amendment is appended here with its date, its reason, and the commit that introduced it. **No section above is edited in place.**",
+      "file": "VRPExperiment/REGISTRATION.md",
+      "line": 532,
+      "commit": "7827592 -> d37cf6d",
+      "what_would_have_to_be_true": "Every line of Sections 0-9 identical between the registration commit and HEAD. The only diff outside the Amendment block is the removal of 'No amendments.' from the preamble of the amendment log itself.",
+      "status": "checkable; consistent"
+    },
+    {
+      "id": "VRP-P4",
+      "claim": "At 2026-08-30T06:55:35.492Z the TASK 6 latch was written ... recording the SHA-256 of all ten `src/vrp` modules and of the run tool, at commit `adac707` ... the only change between attempt 1 and attempt 2 is a **single string literal** in a request parameter - `\"3600\"` to `\"60\"` - plus the attempt-numbering that keeps the first latch. No estimator, no window, no estimator parameter, no tenor, no sign convention and no inference rule was touched. The diff is auditable in the commit that precedes attempt 2.",
+      "file": "VRPExperiment/REGISTRATION.md",
+      "line": 578,
+      "commit": "adac707 (attempt 1 machinery) -> ef07f19 (the fix + Amendment 1)",
+      "what_would_have_to_be_true": "The two latch files must agree on all ten src/vrp hashes and differ only on the tool; and the git diff adac707..ef07f19 must touch no estimator. Checkable: the ten src/vrp hashes ARE identical in both latches and identical to the anchored snapshot files; the diff touches only REGISTRATION.md, reports/task6/fixture_result.json, reports/task6/task6.latch.json and tools/task6_sealed_run.py (+50/-8), with src/vrp untouched. Whether the +50/-8 on the tool is 'a single string literal plus attempt-numbering' still needs the diff read line by line.",
+      "status": "checkable; strongly supported by the hashes, the tool diff not yet read line by line"
+    },
+    {
+      "id": "VRP-P5",
+      "claim": "`reports/task6/task6.latch.json` is **kept permanently** as the record that a read was begun and aborted. Attempt 2 writes a separately named latch.",
+      "file": "VRPExperiment/DECISIONS.md",
+      "line": 144,
+      "commit": "ef07f19 (adds the latch file), ba50596 (attempt 2)",
+      "what_would_have_to_be_true": "Both latch files present at the anchor and never rewritten. Checkable: both are tracked at d37cf6d; latch 1 written_at 06:55:35.492Z, latch 2 at 06:58:05.858Z; the Amendment-1 commit ef07f19 is dated 2026-08-30T06:58:00Z, i.e. 5.9 s before latch 2 was written - consistent with 'the diff is auditable in the commit that precedes attempt 2'.",
+      "status": "checkable; consistent"
+    },
+    {
+      "id": "VRP-P6",
+      "claim": "1. **No estimator ran.** `reports/task6/real_result.json` does not exist. ... 2. **No data was written.** `data/raw/task6/` was empty after the abort.",
+      "file": "VRPExperiment/REGISTRATION.md",
+      "line": 559,
+      "commit": "ef07f19",
+      "what_would_have_to_be_true": "No real_result.json anywhere in history or the working tree, and the four data/raw/task6 files must post-date latch 2. Checkable: reports/task6/ holds only fixture_result.json, real_attempt2_result.json and the two latches; the four raw series have mtimes 06:58:57Z and 06:59:48Z, both after latch 2 at 06:58:05.858Z. The emptiness of data/raw/task6 at the moment of the abort is not independently observable now.",
+      "status": "partly checkable; the negative (no real_result.json) is verifiable, the 'was empty' is not"
+    },
+    {
+      "id": "VRP-P7",
+      "claim": "Every element below is fixed **before any data is read**. Changing one after TASK 6 voids the hypothesis. (Section 2: tenor 30 days, DVOL as the implied estimator with a named fallback, close-to-close ddof=1 sqrt(365) forward-looking realized leg, VRP = IV - RV, 730-observation minimum depth, 60-observation floor)",
+      "file": "VRPExperiment/REGISTRATION.md",
+      "line": 76,
+      "commit": "7827592",
+      "what_would_have_to_be_true": "Section 2 unchanged since 7827592 (see P3) and the code must implement exactly it: TRADING_DAYS_PER_YEAR=365, TENOR_DAYS=30, MIN_OBSERVATIONS=60, ddof=1, forward window. Checkable in src/vrp/sealed_read.py:30-37 and 54-74.",
+      "status": "checkable"
+    },
+    {
+      "id": "VRP-P8",
+      "claim": "### 2.6 The conversion to basis points, registered before any number exists ... stated here so it cannot be chosen later",
+      "file": "VRPExperiment/REGISTRATION.md",
+      "line": 152,
+      "commit": "7827592",
+      "what_would_have_to_be_true": "The 22.875 constant present in the registration commit and implemented unchanged. Every bps figure in the repository depends on it.",
+      "status": "checkable"
+    },
+    {
+      "id": "VRP-P9",
+      "claim": "> **POPULATED BY TASK 5. NOT BEFORE.** > **No carried figure is registered in this section. None.**",
+      "file": "VRPExperiment/REGISTRATION.md",
+      "line": 246,
+      "commit": "7827592",
+      "what_would_have_to_be_true": "Section 4 at 7827592 contains no cost number. Checkable by reading git show 7827592:REGISTRATION.md.",
+      "status": "checkable"
+    },
+    {
+      "id": "VRP-P10",
+      "claim": "the **statistic assigned to each end registered here, before anything downstream is computed** (central = median half-spread and median rebalance count; pessimistic = 90th percentile of each)",
+      "file": "VRPExperiment/REGISTRATION.md",
+      "line": 267,
+      "commit": "7827592",
+      "what_would_have_to_be_true": "The central/pessimistic assignment predates the measurement. It is the rule that turns rebalance counts 11 and 16 into 122.140 and 162.853 bps.",
+      "status": "checkable"
+    },
+    {
+      "id": "VRP-P11",
+      "claim": "Registered before any data so the rebalance count is not a free parameter ... The +/-0.10 band and the daily evaluation are both **registered choices, not optima** ... the count is additionally reported at **+/-0.05 and +/-0.20** as a sensitivity",
+      "file": "VRPExperiment/REGISTRATION.md",
+      "line": 287,
+      "commit": "7827592",
+      "what_would_have_to_be_true": "Band and sweep fixed at 7827592, and the sweep actually reported (it is: three bands in the result JSON).",
+      "status": "checkable"
+    },
+    {
+      "id": "VRP-P12",
+      "claim": "**For HARVESTABLE, the lower bound of the premium's one-sided 95% confidence interval must exceed the PESSIMISTIC end of the all-in round-trip cost by a factor of 2.0.** ... Registered before any number exists, and justified here rather than after.",
+      "file": "VRPExperiment/REGISTRATION.md",
+      "line": 310,
+      "commit": "7827592",
+      "what_would_have_to_be_true": "Section 5 present and unaltered at 7827592. The 2.0 is the bar the MET route fails by 8.57x and the MBT route passes by 3.28x.",
+      "status": "checkable"
+    },
+    {
+      "id": "VRP-P13",
+      "claim": "**Standard errors:** **Newey-West HAC with bandwidth 30** ... **Registered before any data, not after an audit.**",
+      "file": "VRPExperiment/REGISTRATION.md",
+      "line": 367,
+      "commit": "7827592",
+      "what_would_have_to_be_true": "Bandwidth 30 present at 7827592 and implemented as such (sealed_read.py:113-149, default bandwidth = TENOR_DAYS = 30).",
+      "status": "checkable"
+    },
+    {
+      "id": "VRP-P14",
+      "claim": "**Robustness, registered now:** the same test on **non-overlapping** 30-day windows ... **If they disagree in sign or significance, the disagreement is the finding and neither is suppressed.**",
+      "file": "VRPExperiment/REGISTRATION.md",
+      "line": 372,
+      "commit": "7827592",
+      "what_would_have_to_be_true": "Registered pre-data, and the reported agreement must be genuine (both robustness tests significant at 0.05 one-sided: p = 1.13e-5 and 0.0203).",
+      "status": "checkable"
+    },
+    {
+      "id": "VRP-P15",
+      "claim": "Recorded before any measurement. (Assistant prior HARVESTABLE 0.12 / VENUE_BLOCKED 0.76 / SIGNAL_ABSENT 0.12) ... 9.2 Operator prior > **RESERVED - EMPTY.**",
+      "file": "VRPExperiment/REGISTRATION.md",
+      "line": 473,
+      "commit": "7827592",
+      "what_would_have_to_be_true": "The prior triple present at 7827592 and never edited. HYPOTHESES.md:17 restates it as 'recorded 2026-08-30 before any network call'.",
+      "status": "checkable"
+    },
+    {
+      "id": "VRP-P16",
+      "claim": "Section 2.5 registered 'one observation per calendar day, at a **fixed UTC instant**. The instant is fixed at the first read and never moved.' **The instant is fixed here, before the TASK 6 latch, at 08:00 UTC**",
+      "file": "VRPExperiment/docs/ACCESS.md",
+      "line": 277,
+      "commit": "0c873f5 (TASK 4) precedes adac707 and ba50596",
+      "what_would_have_to_be_true": "The 08:00 UTC choice must be recorded before the latch. Checkable: docs/ACCESS.md is committed in the TASK 4 commit 0c873f5 (2026-08-30T06:30:32Z), before latch 1 at 06:55:35.492Z; and the misalignment evidence (401 rows each stamped 00:00 vs 08:00) is in that document.",
+      "status": "checkable"
+    },
+    {
+      "id": "VRP-P17",
+      "claim": "**Fallback, registered now so it is not chosen later** ... The fallback is recorded as used or not used; it is never blended with the primary. -> **No fallback to Section 2.2's option-level construction is required.** It is recorded as **not used**.",
+      "file": "VRPExperiment/REGISTRATION.md",
+      "line": 95,
+      "commit": "7827592 (registration) / 0c873f5 (the 'not used' record at docs/ACCESS.md:268-270)",
+      "what_would_have_to_be_true": "The fallback registered pre-data and explicitly recorded unused.",
+      "status": "checkable"
+    },
+    {
+      "id": "VRP-P18",
+      "claim": "Two figures enter this section as **dated measurements from another repository** and are **re-verified live in TASK 3 before use** ... If re-verification disagrees, **the measurement wins** and the disagreement is recorded.",
+      "file": "VRPExperiment/REGISTRATION.md",
+      "line": 227,
+      "commit": "7827592",
+      "what_would_have_to_be_true": "The carried claims registered as claims, and both re-verifications recorded (they are: reports/task3/venue_table.md:93-98, with two disagreements recorded and used).",
+      "status": "checkable, including against MLCryptoEngine's own anchored snapshot"
+    },
+    {
+      "id": "VRP-P19",
+      "claim": "Restricted-jurisdictions policy stamped `2026-03-19T16:49:36Z` ... **the registered 2026-03-19 date is confirmed exactly**, with the time of day added, and the policy is still current at retrieval.",
+      "file": "VRPExperiment/progress.md",
+      "line": 390,
+      "commit": "3ad6098 (TASK 3)",
+      "what_would_have_to_be_true": "The stamp must appear in the retrieved page. Checkable against the untracked data/raw/task3/deribit_restricted_jurisdictions.html/.txt and the tracked verbatim extract.",
+      "status": "checkable"
+    },
+    {
+      "id": "VRP-P20",
+      "claim": "All fetching of `cmegroup.com` stopped on receipt. No user-agent rotation, no proxy, no retry loop, no third-party mirror substituted.",
+      "file": "VRPExperiment/DECISIONS.md",
+      "line": 57,
+      "commit": "3ad6098",
+      "what_would_have_to_be_true": "No further cmegroup request artifacts after the 403, and no CME-sourced figure anywhere. Checkable against data/raw/task3/cme_refusal.json (602 B) and by grepping the tools for cmegroup.",
+      "status": "checkable"
+    },
+    {
+      "id": "VRP-P21",
+      "claim": "**The TASK 6 latch is spent and is not re-runnable.** `--mode real` raises `LatchAlreadySpentError`.",
+      "file": "VRPExperiment/README.md",
+      "line": 124,
+      "commit": "d37cf6d",
+      "what_would_have_to_be_true": "src/vrp/latch.py must refuse a second write to an existing latch path, and tools/task6_sealed_run.py must route --mode real through it. Checkable by reading the two files; must NOT be tested by running anything in the audited repository.",
+      "status": "checkable by reading only"
+    },
+    {
+      "id": "VRP-P22",
+      "claim": "**Remote: `https://github.com/kirosli00tuff/VRPExperiment` (private). Created and pushed successfully. `gh` authentication did not fail.** ... local HEAD `31c9345` equals `origin/main`.",
+      "file": "VRPExperiment/docs/HANDOVER.md",
+      "line": 6,
+      "commit": "31c9345 at the time of the claim",
+      "what_would_have_to_be_true": "A remote exists and 31c9345 is in history (it is). The push state at HEAD is not verifiable offline.",
+      "status": "partly checkable offline"
+    },
+    {
+      "id": "VRP-P23",
+      "claim": "**`make all` green: ruff clean, mypy strict clean on 17 source files, 50 tests passed.** Toolchain provenance refreshed to `reports/env_report.json`.",
+      "file": "VRPExperiment/progress.md",
+      "line": 835,
+      "commit": "d37cf6d",
+      "what_would_have_to_be_true": "17 .py files and 50 test functions (both confirmed by counting the snapshot). env_report.json records git_head ba50596, one commit before the anchor - so the recorded provenance is of the TASK 6/7 tree, not of the final one.",
+      "status": "checkable; the git_head mismatch with the anchor is disclosed by the file itself"
+    }
+  ]
+}

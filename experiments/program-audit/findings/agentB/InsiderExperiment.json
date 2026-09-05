@@ -24,7 +24,9 @@
       "InsiderExperiment/src/insider/config.py:152",
       "InsiderExperiment/src/insider/power/mde.py:70",
       "InsiderExperiment/reports/stage_a1/power.json:120",
-      "InsiderExperiment/reports/stage_a1/power.json:6"
+      "InsiderExperiment/reports/stage_a1/power.json:6",
+      "InsiderExperiment/REGISTRATION.md:515",
+      "InsiderExperiment/REGISTRATION.md:187"
     ],
     "recomputation": "Inputs: band (30.0, 40.0) from REGISTRATION.md:50-51 and src/insider/config.py:152; dissipation 70-80 % from REGISTRATION.md:51-53; amortized round-trip drags 16.6667 / 5.3333 bp per month from power.json:128-131. Method: apply the repository's own dissipation range to its own registered band, then subtract its own amortized round trip. Result: reachable gross band 30 x 0.20 = 6.0 to 40 x 0.30 = 12.0 bp per month; net at the registered primary 100 bp round trip -10.67 to -4.67 bp per month; net at the registered optimistic 32 bp round trip +0.67 to +6.67 bp per month. The registered GO ceiling of 20 bp is 1.67x the top of the reachable gross band and 3.0x the top of the reachable net band.",
     "would_resolve": "Either a registered statement that the 30-40 bp band is already measured from a filing-date / next-close entry - in which case the Ozlen-Batumoglu haircut is not additive and the registration should say so, since it currently presents both as applying to the same design - or a re-derivation of the GO and DEGRADED bars against the post-entry reachable band.",
@@ -33,7 +35,8 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": "no - the repository is closed, 12d9fd3 is its last commit, and _CLOSED_DO_NOT_RUN_HERE sits in the live tree forbidding further work.",
     "disclosed_by_authors": false,
-    "disclosure_ref": "Both inputs are stated (REGISTRATION.md:51-55, REGISTRATION.md:379-381, DECISIONS.md:99-101) but the bar derivation at REGISTRATION.md:57-59 is nowhere reconciled with them, and the closure language at REGISTRATION.md:812-816 presents 30-40 bp gross as the relevant target without qualification. Direction: this makes the BLOCKED verdict that fired MORE secure; the defect is in the GO and DEGRADED branches of a gate shipped as reusable."
+    "disclosure_ref": "Partly, and in a different section - not where the bars are set. The assistant's prior at REGISTRATION.md:515-520 is formed from the 60-70 % decay, the Ozlen-Batumoglu 70-80 % dissipation and the 16.67 bp cost drag together, explicitly against 'a decayed gross band whose bottom is 30 bp per month', and Section 1 at REGISTRATION.md:187-188 concludes that the tradable residual is 'marginal at best'. What is nowhere disclosed - and it is the limitation this finding raises - is that the GO and DEGRADED bars at REGISTRATION.md:41-42 and their derivation at :57-59 carry no such haircut; both inputs are stated (REGISTRATION.md:51-55, :379-381, DECISIONS.md:99-101) and :379-380 even says 'most of the alpha is already gone by this point', but the bar derivation is nowhere reconciled with it and the closure language at REGISTRATION.md:812-816 presents 30-40 bp gross as the relevant target without qualification. The compounding is acknowledged where the prior is formed, not where the bars are set, so the S3 disclosure cap does not apply and S2/DERIVED stand. Direction: this makes the BLOCKED verdict that fired MORE secure; the defect is in the GO and DEGRADED branches of a gate shipped as reusable.",
+    "citation_check": "corrected - the disclosure field. Verifier 1 recommended KEEP (quote EXACT, figures YES); Verifier 2 recommended CORRECT because the flat 'no' was too strong. Checked in SNAP: REGISTRATION.md:515-520 forms the assistant's prior from the decay, the dissipation and the cost drag together against a 30 bp band bottom, and :187-188 calls the tradable residual 'marginal at best'. Followed Verifier 2. Quote EXACT, figures YES; S2/DERIVED unchanged because the limitation raised - bars carrying no haircut - is disclosed nowhere, so the S3 cap does not bite."
   },
   {
     "id": "AUDIT-B-InsiderExperiment-2",
@@ -61,14 +64,15 @@
       "InsiderExperiment/reports/stage_a1/refusals.md:113",
       "InsiderExperiment/reports/stage_a1/corpus.json:34"
     ],
-    "recomputation": "Inputs: var/insider_corpus.db table cluster (773 rows, UNANCHORED, read 2026-09-04T05:39Z); attrition row filtered_programmatic/johnsen_same_date_price = 274 (corpus.json:34-36, REGISTRATION.md:641). Method: (i) group rejected rows by symbol and merge overlapping [window_start, window_end] intervals; (ii) independently count rejected rows of size 3, which under this nesting equals the number of distinct rejected events. Results: 36 distinct rejected cluster events against 209 reported, out of 201 distinct cluster events against 773 reported; the size-3 count gives 34, agreeing within two. Implied member buys under the nesting model 209 + 2 x 34 = 277 against 274 actually charged, so roughly 3 buys inside a rejected window were admitted because they also fell inside a surviving one (the interval-merge count implies up to 7). The admission leak is small; the count inflation is 3.7x on the rejections and 3.8x on the denominator.",
+    "recomputation": "Inputs: var/insider_corpus.db table cluster (773 rows, UNANCHORED, read 2026-09-04T05:39Z); attrition row filtered_programmatic/johnsen_same_date_price = 274 (corpus.json:34-36, REGISTRATION.md:641). Method: (i) group rejected rows by symbol and merge overlapping [window_start, window_end] intervals; (ii) independently count rejected rows of size 3, which under this nesting equals the number of distinct rejected events. Results: 36 distinct rejected cluster events against 209 reported, out of 201 distinct cluster events against 773 reported; the size-3 count gives 34, agreeing within two. Implied member buys under the nesting model 209 + 2 x 34 = 277 against 274 actually charged, so roughly 3 buys inside a rejected window were admitted because they also fell inside a surviving one (the interval-merge count implies up to 7). The admission leak is small; the count inflation is 5.8x on the rejections (209 anchored rows against 36 merged events; 6.1x against the size-3 estimate of 34) and 3.8x on the denominator (773 against 201). 3.7x as originally written was 773/209, the found-to-rejected ratio, not an inflation.",
     "would_resolve": "Reporting distinct cluster events rather than anchored windows (36 of 201, at 10 issuers of 106), or restating the sentence as '209 of 773 anchored five-day windows'; and either amending the Section 3.6 rule to describe the surviving-window escape or removing it.",
     "confidence": "HIGH",
     "confidence_why": "The mechanism is twelve lines of the repository's own source, the counts are in its own shipped artifact (corpus.json:171-172), and the duplication is visible in the refusal file it publishes as evidence.",
     "invalidated_by_later_commits": false,
     "invalidation_note": "no - the repository is closed, 12d9fd3 is its last commit, and _CLOSED_DO_NOT_RUN_HERE sits in the live tree forbidding further work. The live store has not been rewritten since 2026-08-25 19:05 local.",
     "disclosed_by_authors": false,
-    "disclosure_ref": "Neither REGISTRATION.md Section 15.4 nor DECISIONS.md says the cluster count is per anchor, and nothing records that 74 % of the rejections (155 of 209) come from a single issuer."
+    "disclosure_ref": "Neither REGISTRATION.md Section 15.4 nor DECISIONS.md says the cluster count is per anchor, and nothing records that 74 % of the rejections (155 of 209) come from a single issuer.",
+    "citation_check": "corrected - the rejection-inflation figure. Both verifiers reproduced 209 anchored rows against 36 interval-merged rejected events and both showed '3.7x' was 773/209, the found-to-rejected ratio. Confirmed inside the finding's own recomputation: 209/36 = 5.81, 773/201 = 3.85. Changed to 5.8x on the rejections (6.1x against the size-3 estimate of 34) and 3.8x on the denominator. Quote EXACT, other figures YES."
   },
   {
     "id": "AUDIT-B-InsiderExperiment-3",
@@ -102,7 +106,8 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": "no - the repository is closed, 12d9fd3 is its last commit, and _CLOSED_DO_NOT_RUN_HERE sits in the live tree forbidding further work.",
     "disclosed_by_authors": false,
-    "disclosure_ref": "The repository registers the critical value but never a power level, and the gap between mde.py's accurate docstring and the prose derived from it is nowhere noted. Direction: this makes the BLOCKED verdict MORE secure (69.14 bp against a 40 bp bar) and the DEGRADED-secondary narrative LESS supported."
+    "disclosure_ref": "The repository registers the critical value but never a power level, and the gap between mde.py's accurate docstring and the prose derived from it is nowhere noted. Direction: this makes the BLOCKED verdict MORE secure (69.14 bp against a 40 bp bar) and the DEGRADED-secondary narrative LESS supported.",
+    "citation_check": "verified (quote EXACT, figures YES). Both verifiers re-ran the zero-hit power-language grep and reproduced the 1.4008 conversion and its four outputs (69.14 / 48.03 / 28.02 / 56.03)."
   },
   {
     "id": "AUDIT-B-InsiderExperiment-4",
@@ -142,7 +147,8 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": "no - the repository is closed, 12d9fd3 is its last commit, and _CLOSED_DO_NOT_RUN_HERE sits in the live tree forbidding further work.",
     "disclosed_by_authors": true,
-    "disclosure_ref": "Partly, in both directions, so severity is capped at S3. (i) REGISTRATION.md:128-131 discloses the distinct-issuer failure in advance and says 'The margin absorbs that' - but the registered margin was 1,000/468 = 2.14x against a realized 3.43x shortfall, and nothing records that. (ii) REGISTRATION.md:754-757 discloses the independence failure after the fact and qualitatively; it is not quantified, the 3.43x book-width over-prediction is not mentioned, and Section 17.2 ('### 17.2 The corpus did not fail', REGISTRATION.md:818, followed by 'A later reader will see BLOCKED and assume the data was thin. It was not.', :820) presents CORPUS-GO as a clean pass."
+    "disclosure_ref": "Partly, in both directions, so severity is capped at S3. (i) REGISTRATION.md:128-131 discloses the distinct-issuer failure in advance and says 'The margin absorbs that' - but the registered margin was 1,000/468 = 2.14x against a realized 3.43x shortfall, and nothing records that. (ii) REGISTRATION.md:754-757 discloses the independence failure after the fact and qualitatively; it is not quantified, the 3.43x book-width over-prediction is not mentioned, and Section 17.2 ('### 17.2 The corpus did not fail', REGISTRATION.md:818, followed by 'A later reader will see BLOCKED and assume the data was thin. It was not.', :820) presents CORPUS-GO as a clean pass.",
+    "citation_check": "verified (quote EXACT, figures YES). Both verifiers reproduced every figure, including 4,585/2,520 x 126 = 229.25 against 66.93 (3.43x) and 66.93/4,585 x 1,000 = 14.6 names against 23.4; Verifier 2 records the disclosure handling as a model of the rule."
   },
   {
     "id": "AUDIT-B-InsiderExperiment-5",
@@ -157,7 +163,7 @@
     "claim_quote": "Changing a registered value after that commit requires a numbered\namendment in Section 17 carrying its own evidence.",
     "claim_file": "InsiderExperiment/REGISTRATION.md",
     "claim_line": 8,
-    "evidence_summary": "Two registered items changed after data existed, neither by numbered amendment; n = 2 changes across 7 commits. (a) git show fbfc74e:src/insider/config.py carries benchmark_id: str and benchmark_id='U-LIQ-500-VW'; git diff cb17046 672b343 -- src/insider/config.py shows both lines removed at 672b343 (2026-08-25T19:11:45-07:00), after the corpus was built and CORPUS-GO fired at ccc9b13 (18:47:16-07:00) and after the power gate ran. (b) git diff cb17046 672b343 -- src/insider/corpus/routine.py shows classify reordered so the routine pattern is tested before the history gate, in the same post-corpus commit; REGISTRATION.md:258-260 still reads 'Three years of trading history is required to classify at all. An insider whose first observed trade falls less than three years before the candidate transaction is insufficient_history', which the shipped code contradicts - the routine branch returns RoutineClass.ROUTINE at routine.py:74-79 before first_trade is consulted at :81-83. Section 16 was written after both changes, at d8b81f1 (19:11:55-07:00), and says 'None in force.' (REGISTRATION.md:800). The rule is also stated in the code itself at src/insider/config.py:8-9.",
+    "evidence_summary": "Two registered items changed after data existed, neither by numbered amendment; n = 2 changes across 7 commits. (a) git show fbfc74e:src/insider/config.py carries benchmark_id: str and benchmark_id='U-LIQ-500-VW'; git diff cb17046 672b343 -- src/insider/config.py shows both lines removed at 672b343 (2026-08-25T19:11:45-07:00), after the corpus was built and CORPUS-GO fired at ccc9b13 (18:47:16-07:00) and after the power gate ran. (b) git diff cb17046 672b343 -- src/insider/corpus/routine.py shows classify reordered so the routine pattern is tested before the history gate, in the same post-corpus commit; REGISTRATION.md:258-260 still reads 'Three years of trading history is required to classify at all. An insider whose first observed trade falls less than three years before the candidate transaction is insufficient_history', which the shipped code contradicts - the routine branch returns RoutineClass.ROUTINE at routine.py:74-79 before first_trade is consulted at :81-83. Section 16 already said 'None in force.' before either change - git show 398755b:REGISTRATION.md carries it at that commit's line 593, written 18:38:50-07:00, before the corpus was built - and d8b81f1 (19:11:55-07:00), ten seconds after both changes, edited the sentence only to append 'Section 0 fired BLOCKED, so no amendment can authorize Stage B.' (REGISTRATION.md:800), so the amendments section was revisited after both changes and still records none. Section 5 still registers the benchmark in prose at REGISTRATION.md:351-353, inside the Benchmark paragraph at :351-357 ('Benchmark. The value-weighted return of the full universe at the same weighting basis as the portfolio.'), so a registered design element survives with no frozen-config field behind it; the deleted value U-LIQ-500-VW appears in no document at all (the universe is named U-LIQ-500-stk-w60-m40-p5 at REGISTRATION.md:303 and DECISIONS.md:109). The rule is also stated in the code itself at src/insider/config.py:8-9.",
     "evidence_refs": [
       "InsiderExperiment/REGISTRATION.md:8",
       "InsiderExperiment/REGISTRATION.md:800",
@@ -166,16 +172,19 @@
       "InsiderExperiment/src/insider/corpus/routine.py:74",
       "InsiderExperiment/src/insider/corpus/routine.py:81",
       "InsiderExperiment/DECISIONS.md:226",
-      "InsiderExperiment/DECISIONS.md:356"
+      "InsiderExperiment/DECISIONS.md:356",
+      "InsiderExperiment/REGISTRATION.md:351",
+      "InsiderExperiment/REGISTRATION.md:303"
     ],
-    "recomputation": "Git objects only, read-only against the live repository: git log --format='%H|%ad|%cd|%s' --date=iso-strict, git show --stat <sha>, git show <sha>:<path>, git diff <a> <b> -- <path>. Commit ordering, all 2026-08-25 at UTC-07:00: fbfc74e 18:34:56 -> 398755b 18:38:50 -> ccc9b13 18:47:16 (corpus built, CORPUS-GO fired) -> cb17046 19:11:45 -> 672b343 19:11:45 (both changes) -> d8b81f1 19:11:55 (Sections 15-16 written) -> 12d9fd3 23:24:15 (closure).",
+    "recomputation": "Git objects only, read-only against the live repository: git log --format='%H|%ad|%cd|%s' --date=iso-strict, git show --stat <sha>, git show <sha>:<path>, git diff <a> <b> -- <path>. Commit ordering, all 2026-08-25 at UTC-07:00: fbfc74e 18:34:56 -> 398755b 18:38:50 -> ccc9b13 18:47:16 (corpus built, CORPUS-GO fired) -> cb17046 19:11:45 -> 672b343 19:11:45 (both changes) -> d8b81f1 19:11:55 (Section 15 written; Section 16's sentence extended, no amendment added) -> 12d9fd3 23:24:15 (closure).",
     "would_resolve": "A Section 17 amendment recording the benchmark_id removal and the Section 3.4 reordering, or a correction of Section 3.4's text to match the shipped rule.",
     "confidence": "HIGH",
     "confidence_why": "Both changes are in the git record with timestamps against the corpus build, and the surviving contradiction between REGISTRATION.md:258-260 and routine.py:74-83 is readable in the snapshot alone.",
     "invalidated_by_later_commits": false,
     "invalidation_note": "no - the repository is closed, 12d9fd3 is its last commit, and _CLOSED_DO_NOT_RUN_HERE sits in the live tree forbidding further work. 12d9fd3 added Section 17 without an amendment entry.",
     "disclosed_by_authors": true,
-    "disclosure_ref": "Partly, so severity is capped at S3. ADR-008 (DECISIONS.md:226-255) records the ordering change and its one-transaction impact and ADR-012 (DECISIONS.md:356-374) records how it was found; neither says the registered Section 3.4 text was left describing the superseded rule, and nothing anywhere records the benchmark_id deletion. Impact on results: nil."
+    "disclosure_ref": "Partly, so severity is capped at S3. ADR-008 (DECISIONS.md:226-255) records the ordering change and its one-transaction impact and ADR-012 (DECISIONS.md:356-374) records how it was found; neither says the registered Section 3.4 text was left describing the superseded rule, and nothing anywhere records the benchmark_id deletion. Impact on results: nil.",
+    "citation_check": "corrected - two evidence citations, both verifiers agreeing. (a) 'Section 5's universe benchmark, REGISTRATION.md:335-336' was wrong; :335-336 is the calendar-time portfolio sentence and the universe benchmark is registered in the 'Benchmark.' paragraph at :351-357. Verifier 1 gave :353-354 and Verifier 2 :351-354; followed Verifier 2's start line because that paragraph opens at :351, and cite :351-353 for the sentences actually quoted. Also confirmed U-LIQ-500-VW appears in no document. (b) 'Section 16 was written after both changes' was wrong: git show 398755b:REGISTRATION.md (read-only, 2026-09-04T23:16Z) carries Section 16 with 'None in force.' at its line 593, written 18:38:50-07:00 before the corpus was built; d8b81f1 edited it ten seconds after the changes only to append the BLOCKED clause. Verifier 2 raised it and I re-ran the check across all seven commits. Substance survives both corrections. Quote EXACT, other figures YES."
   },
   {
     "id": "AUDIT-B-InsiderExperiment-6",
@@ -207,7 +216,8 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": "no - the repository is closed, 12d9fd3 is its last commit, and _CLOSED_DO_NOT_RUN_HERE sits in the live tree forbidding further work. 12d9fd3 did not touch Section 15.",
     "disclosed_by_authors": false,
-    "disclosure_ref": "ADR-013 (DECISIONS.md:400-416) records the defect and states it was corrected, but nothing says the registration's own results table still carries the uncorrected breakdown next to the corrected headline."
+    "disclosure_ref": "ADR-013 (DECISIONS.md:400-416) records the defect and states it was corrected, but nothing says the registration's own results table still carries the uncorrected breakdown next to the corrected headline.",
+    "citation_check": "verified (quote EXACT, figures YES). Both verifiers re-summed 4,542 against 4,585 (difference 43) and re-ran the git diff ccc9b13 cb17046 dating. Verifier 2 notes the ADR-013 citation ':404-407' starts one line before the quoted sentence but is locatable and needs no correction."
   },
   {
     "id": "AUDIT-B-InsiderExperiment-7",
@@ -243,7 +253,8 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": "no - the repository is closed, 12d9fd3 is its last commit, and _CLOSED_DO_NOT_RUN_HERE sits in the live tree forbidding further work.",
     "disclosed_by_authors": false,
-    "disclosure_ref": "ADR-009 (DECISIONS.md:258-280) discloses the 7.4 % drop and its direction, but nothing says the 71.9 in the verdict narrative is the pre-drop figure while the dispersion behind 49.35 bp used 66.93."
+    "disclosure_ref": "ADR-009 (DECISIONS.md:258-280) discloses the 7.4 % drop and its direction, but nothing says the 71.9 in the verdict narrative is the pre-drop figure while the dispersion behind 49.35 bp used 66.93.",
+    "citation_check": "verified (quote EXACT, figures YES). Both verifiers reproduced the 66.925 mean and the 13,750 / 7.4 % cross-check. Verifier 2 observed the cited range ':839-842' ran one line past the quoted sentence; confirmed against SNAP that the quote ends at :841 and tightened the range in the md."
   },
   {
     "id": "AUDIT-B-InsiderExperiment-8",
@@ -267,14 +278,15 @@
       "InsiderExperiment/reports/stage_a1/power.json:120",
       "InsiderExperiment/REGISTRATION.md:58"
     ],
-    "recomputation": "Inputs: 82 bp (REGISTRATION.md:49-50) and decay 60-70 % (REGISTRATION.md:51), both printed in the document. Method: 82 x (1 - d), and the inverse. Result: 24.60 to 32.80 bp per month, not 30 to 40. Inverting, a band of 30 bp implies a 63.41 % decay and 40 bp implies a 51.22 % decay, so the stated range 60-70 % is wrong at both ends and the stated band is 22 % (low end) to 52 % (high end) above what the stated decay produces.",
+    "recomputation": "Inputs: 82 bp (REGISTRATION.md:49-50) and decay 60-70 % (REGISTRATION.md:51), both printed in the document. Method: 82 x (1 - d), and the inverse. Result: 24.60 to 32.80 bp per month, not 30 to 40. Inverting, a band of 30 bp implies a 63.41 % decay, which lies INSIDE the stated 60-70 % range, while 40 bp implies a 51.22 % decay, which does not: only the top of the band is inconsistent with the stated decay and the two halves overlap only on 30 to 32.8 bp. Measured against what the stated decay produces, the stated band is uniformly 22.0 % high at both ends (30/24.60 = 1.2195 and 40/32.80 = 1.2195).",
     "would_resolve": "A citation for the 30-40 bp replication, or a correction of one of the two halves of the sentence. If the band were the arithmetically implied 24.6-32.8 bp, the BLOCKED bar placed 'at the top of it' (REGISTRATION.md:58) would be about 33 bp rather than 40 bp.",
     "confidence": "HIGH",
     "confidence_why": "Pure arithmetic on two figures in one sentence of the shipped registration.",
     "invalidated_by_later_commits": false,
     "invalidation_note": "no - REGISTRATION.md lines 1-157 are byte-identical to the first commit fbfc74ed9c8b0b2b237da5a8cd0a2b4730ba456d (git diff fbfc74e 12d9fd3 -- REGISTRATION.md shows only additions after line 157), and the repository is closed.",
     "disclosed_by_authors": false,
-    "disclosure_ref": "The sentence is presented as a derivation. Direction is conservative for the verdict that fired: a lower band would have set a lower BLOCKED bar and fired BLOCKED a fortiori (49.35 > 33)."
+    "disclosure_ref": "The sentence is presented as a derivation. Direction is conservative for the verdict that fired: a lower band would have set a lower BLOCKED bar and fired BLOCKED a fortiori (49.35 > 33).",
+    "citation_check": "corrected - two derived statements. (i) 'the stated range 60-70 % is wrong at both ends' is false: 1 - 30/82 = 63.41 % is inside 60-70; only the top end (51.22 %) falls outside, so the halves overlap on 30-32.8 bp. (ii) '22 % (low end) to 52 % (high end)' does not reproduce: 30/24.60 = 40/32.80 = 1.2195, uniformly 22.0 % high at both ends. Verifier 2 raised both, Verifier 1 the second; re-ran both on the document's printed figures. The core contradiction is untouched. Quote EXACT, other figures YES; READ label confirmed by both."
   },
   {
     "id": "AUDIT-B-InsiderExperiment-9",
@@ -286,10 +298,10 @@
     "class": "STALE_FIGURE",
     "severity": "S3",
     "label": "DERIVED",
-    "claim_quote": "53 quarterly SEC structured Form 345 data sets covering 2013q1 to 2026q1,\nretrieved in **214 wire requests** totalling **2.78 GB** with **zero non-200\nresponses** under an 8 per second throttle against the SEC's stated 10 per second\nceiling.",
-    "claim_file": "InsiderExperiment/REGISTRATION.md",
-    "claim_line": 827,
-    "evidence_summary": "The claims that hold: the fetch ledger (ledgers/fetch.jsonl, untracked, 684 rows, UNANCHORED, read 2026-09-04T05:39Z) shows 214 wire requests and 470 cache hits, all status 200, wire bytes 2,783,280,665 - exactly the claimed 2.78 GB and exactly the du -sb cache/ figure, so REGISTRATION.md:832-833's byte-equality claim holds. The attribution does not: by URL family the 214 wire requests are 53 *_form345.zip, 53 full-index files, 41 per-filing XML, 41 filing index.json, 25 data.sec.gov/submissions and 1 company_tickers.json, and the bytes are 570,492,991 for the 53 data sets (20.5 %), 2,207,515,405 for the full-index archives (79.3 %), 4,018,868 for submissions, 818,524 for the index.json lookups and 434,877 for the XML. The full-index archives are the cross-check ADR-002 calls 'An independent per-quarter Form 4 count' (DECISIONS.md:61), so four fifths of the '2.78 GB corpus cache' that Section 17.2 and progress.md:144-149 discuss pruning is not the corpus. Separately, ADR-002's 'in 53 files totalling about 750 MB' (DECISIONS.md:57-58) is a 32 % overstatement against the 570,492,991 bytes measured for the same 53 files. n = 684 ledger rows, 214 wire rows.",
+    "claim_quote": "They are the SEC's parse of the same XML documents, published free, in\n53 files totalling about 750 MB.",
+    "claim_file": "InsiderExperiment/DECISIONS.md",
+    "claim_line": 57,
+    "evidence_summary": "The claims that hold: the fetch ledger (ledgers/fetch.jsonl, untracked, 684 rows, UNANCHORED, read 2026-09-04T05:39Z) shows 214 wire requests and 470 cache hits, all status 200, wire bytes 2,783,280,665 - exactly the claimed 2.78 GB and exactly the du -sb cache/ figure, so REGISTRATION.md:832-833's byte-equality claim holds. The attribution does not: by URL family the 214 wire requests are 53 *_form345.zip, 53 full-index files, 41 per-filing XML, 41 filing index.json, 25 data.sec.gov/submissions and 1 company_tickers.json, and the bytes are 570,492,991 for the 53 data sets (20.5 %), 2,207,515,405 for the full-index archives (79.3 %), 4,018,868 for submissions, 794,966 for the single company_tickers.json, 23,558 for the 41 filing index.json lookups and 434,877 for the XML - six buckets summing to the 2,783,280,665 wire total exactly. The full-index archives are the cross-check ADR-002 calls 'An independent per-quarter Form 4 count' (DECISIONS.md:61), so four fifths of the '2.78 GB corpus cache' that Section 17.2 and progress.md:144-149 discuss pruning is not the corpus. Separately, ADR-002's 'in 53 files totalling about 750 MB' (DECISIONS.md:57-58) is a 32 % overstatement against the 570,492,991 bytes measured for the same 53 files. n = 684 ledger rows, 214 wire rows.",
     "evidence_refs": [
       "InsiderExperiment/REGISTRATION.md:827",
       "InsiderExperiment/REGISTRATION.md:832",
@@ -306,7 +318,12 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": "no - the repository is closed, 12d9fd3 is its last commit, and _CLOSED_DO_NOT_RUN_HERE sits in the live tree forbidding further work. The ledger has not been appended to since 2026-08-25 19:06 local.",
     "disclosed_by_authors": false,
-    "disclosure_ref": null
+    "disclosure_ref": null,
+    "secondary_claim_quote": "53 quarterly SEC structured Form 345 data sets covering 2013q1 to 2026q1,\nretrieved in **214 wire requests** totalling **2.78 GB** with **zero non-200\nresponses** under an 8 per second throttle against the SEC's stated 10 per second\nceiling.",
+    "secondary_claim_file": "InsiderExperiment/REGISTRATION.md",
+    "secondary_claim_line": 827,
+    "secondary_claim_note": "Challenged for framing, not for figure: every figure in this sentence verifies exactly (214 wire requests, 2,783,280,665 bytes, zero non-200), but it attaches them to '53 quarterly SEC structured Form 345 data sets' when four fifths of both belong to the full-index archives.",
+    "citation_check": "corrected - the byte attribution, and the challenged claim repointed. Both verifiers found '818,524 for the index.json lookups' merged two families; re-read ledgers/fetch.jsonl read-only (684 rows, 2026-09-04T23:17Z) and confirmed 23,558 for the 41 filing index.json requests and 794,966 for company_tickers.json. Verifier 1 additionally observed that every figure in REGISTRATION.md:827-830 verifies, so the falsified claim is DECISIONS.md:57-58; Verifier 2 did not address the choice of claim. Followed Verifier 1 and repointed the primary claim, keeping REGISTRATION.md:827-830 as the framing claim. Class left at STALE_FIGURE: Verifier 2 preferred INTERNAL_INCONSISTENCY but recorded S3 as right either way and required no change. Quotes EXACT, other figures YES."
   },
   {
     "id": "AUDIT-B-InsiderExperiment-10",
@@ -326,6 +343,7 @@
       "InsiderExperiment/DECISIONS.md:68",
       "InsiderExperiment/DECISIONS.md:64",
       "InsiderExperiment/DECISIONS.md:61",
+      "InsiderExperiment/src/insider/corpus/validate.py:111",
       "InsiderExperiment/src/insider/corpus/validate.py:115",
       "InsiderExperiment/src/insider/corpus/validate.py:122",
       "InsiderExperiment/src/insider/corpus/validate.py:68",
@@ -343,7 +361,8 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": "no - the repository is closed, 12d9fd3 is its last commit, and _CLOSED_DO_NOT_RUN_HERE sits in the live tree forbidding further work.",
     "disclosed_by_authors": true,
-    "disclosure_ref": "Partly, so severity is capped at S3: DECISIONS.md:69-70 says 'it is a sample, not a census', which discloses the sampling but not the selection on survival, and puts no bound on the residual rate."
+    "disclosure_ref": "Partly, and only for the sampling, so severity is capped at S3. DECISIONS.md:69-70 says 'it is a sample, not a census', which discloses that the check is a sample and puts no bound on the residual rate. The selection on survival - the limitation this finding actually raises - is disclosed nowhere, and the sampler's own docstring gives the opposite impression: 'The sample is taken by ordering on entry session and stepping through it, so it spans the whole corpus rather than one quarter of it, and it is chosen without reference to any outcome.' (src/insider/corpus/validate.py:111-113) - true of the stepping, not of the frame, which is the surviving event table. S3 is in any case where the finding sits on its own merits, since no stated conclusion turns on it.",
+    "citation_check": "corrected - the disclosure field, against the finding. Verifier 1 recommended KEEP; Verifier 2 recommended CORRECT because 'partly' understated the finding's own case. Followed Verifier 2 after reading SNAP: validate.py:111-113 states the sample is 'chosen without reference to any outcome', true of the stepping and false of the frame, and the selection on survival is disclosed nowhere. Severity, label and every figure unchanged; both verifiers reproduced 11.29 % and 0.55 %. Quote EXACT, figures YES."
   },
   {
     "id": "AUDIT-B-InsiderExperiment-11",
@@ -373,7 +392,8 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": "no - the repository is closed, 12d9fd3 is its last commit, and _CLOSED_DO_NOT_RUN_HERE sits in the live tree forbidding further work.",
     "disclosed_by_authors": false,
-    "disclosure_ref": null
+    "disclosure_ref": null,
+    "citation_check": "verified (quote EXACT, figures YES). Both verifiers re-summed the fifteen unclassifiable_by_year cells to 2,057, confirmed the 2018 257->256 change in git diff ccc9b13 cb17046, and confirmed the monotonicity claim."
   },
   {
     "id": "AUDIT-B-InsiderExperiment-12",
@@ -409,7 +429,8 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": "no - the repository is closed, 12d9fd3 is its last commit, and _CLOSED_DO_NOT_RUN_HERE sits in the live tree forbidding further work.",
     "disclosed_by_authors": true,
-    "disclosure_ref": "Yes. The authors disclose the upward bias plainly and give a defensible reason for not measuring it, at REGISTRATION.md:578-583 and :790-796, and again at DECISIONS.md:29-32. This finding is not a discovery of the limitation; it is the narrower point that the verdict sentence fixed against softening, and repeated in four documents, omits a limitation the registration itself calls 'the only one large enough to matter'. Under the disclosure rule the finding is READ and capped at S3."
+    "disclosure_ref": "Yes. The authors disclose the upward bias plainly and give a defensible reason for not measuring it, at REGISTRATION.md:578-583 and :790-796, and again at DECISIONS.md:29-32. This finding is not a discovery of the limitation; it is the narrower point that the verdict sentence fixed against softening, and repeated in four documents, omits a limitation the registration itself calls 'the only one large enough to matter'. Under the disclosure rule the finding is READ and capped at S3.",
+    "citation_check": "verified (quote EXACT, figures YES). Both verifiers reproduced the 47.15 bp bound (residual sd 60.1381 bp, R^2 34.31 %, market channel 8.74 %, further residual share 28.02 %) and the 23.4 % margin, and record the disclosure handling and the READ label with the S3 cap as correct."
   },
   {
     "id": "AUDIT-B-InsiderExperiment-13",
@@ -438,7 +459,8 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": "no - the repository is closed, 12d9fd3 is its last commit, and _CLOSED_DO_NOT_RUN_HERE sits in the live tree forbidding further work.",
     "disclosed_by_authors": false,
-    "disclosure_ref": null
+    "disclosure_ref": null,
+    "citation_check": "verified (quote EXACT, figures YES). Both verifiers confirmed programmatically that mutations.json:49 is a 79-character string with 33 dots and no pass count, and reproduced the static count (10 modules, 96 def test_ definitions, ~105 after parametrize expansion)."
   },
   {
     "id": "AUDIT-B-InsiderExperiment-14",
@@ -467,6 +489,7 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": "no - the repository is closed, 12d9fd3 is its last commit, and _CLOSED_DO_NOT_RUN_HERE sits in the live tree forbidding further work.",
     "disclosed_by_authors": false,
-    "disclosure_ref": "Immaterial to every result; recorded because the progress entry presents the commit record as the auditable cost measurement (progress.md:115)."
+    "disclosure_ref": "Immaterial to every result; recorded because the progress entry presents the commit record as the auditable cost measurement (progress.md:115).",
+    "citation_check": "verified (quote EXACT, figures YES). Both verifiers confirmed the seven commit timestamps at UTC-07:00 against the ledger's first recorded_at of 2026-08-26T01:35:18+00:00, and Verifier 2 confirmed by grep that nothing in the tree corrects the 'UTC' label."
   }
 ]

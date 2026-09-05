@@ -11,6 +11,12 @@ Inputs merged: `findings/agentC/verification/InsiderExperiment.inventory.md` and
 Snapshot re-read for this pass: `SNAP/InsiderExperiment/` (tracked, anchored). Live git objects and
 untracked ledgers re-read read-only on 2026-09-04 18:45 UTC for the load-bearing checks; see §Live-repo
 access log.
+An independent citation-check pass then re-located every quote at its cited line, re-confirmed every
+cited figure and re-ran the recomputations; its result is recorded as a **Citation check** bullet on
+each finding. Ten findings entered that pass and ten leave it: **nine verified unchanged, one
+corrected** (AUDIT-C-InsiderExperiment-2, whose "nine of the eleven cells" becomes ten), **none
+dropped**. One error outside the findings was caught by the same pass and repaired in §Sound: the
+dropped name-session share is 7.35 %, not 7.41 %.
 
 ---
 
@@ -212,6 +218,7 @@ Drops for want of a locatable quote or figure: **0**.
   or its removal, and Section 16 asserts the opposite. ADR-012 (DECISIONS.md:356-374) discloses that the
   config-enforcement guard was strengthened during the mutation exercise — the mechanism — but not the
   consequence. The routine-order instance cited above is separately disclosed at DECISIONS.md:226-256.
+- **Citation check:** verified (quote EXACT at `REGISTRATION.md:800`; figures exact; recomputation reproduced). Every git object was re-run first-hand at apply against the live repository, read-only, 2026-09-04 23:18Z, with `git status --porcelain` empty and exit 0 both before and after: `git diff fbfc74e 672b343 -- src/insider/config.py` is exactly the two quoted deletions (`benchmark_id: str` at `config.py:24` and `benchmark_id="U-LIQ-500-VW"` at `:90` of the `fbfc74e` file); `git log -S benchmark_id -- src/insider/config.py` returns exactly `fbfc74e` (18:34:56 −07:00) and `672b343` (19:11:45 −07:00); `git grep -n benchmark_id fbfc74e -- src tests scripts` returns only those two declaration lines, so the field had no enforcement site; and `git grep -e benchmark_id -e U-LIQ-500-VW HEAD` returns nothing. The ordering reproduces from `ledgers/evidence.jsonl` (UNANCHORED, 14 records, read 23:18Z): four `corpus_gate` records (01:42:24Z, 01:45:27Z, 01:51:05Z, 02:05:33Z, all CORPUS-GO at 4,585) and three `power_gate` records (01:51:14Z, 01:52:49Z, 02:05:40Z, all 49.3543 / BLOCKED) all precede the 02:11:45Z deletion commit, so "four times" and "three times" hold exactly. Non-disclosure confirmed mechanically: no `.md` file in the anchored tree contains `benchmark_id` or `U-LIQ-500-VW`. Severity note: S2 ("a label contradicts its own evidence") is arguable, since "None in force." is contradicted by the repository's own git record; S3 is left as written because whether removing an unenforced decorative field counts as "changing a registered value" is genuinely open, which the finding itself concedes. Kept unchanged.
 
 ### AUDIT-C-InsiderExperiment-2
 - **Repository / SHA:** InsiderExperiment / `12d9fd36cf055cb10ea67a3fc737e404217bc95a`
@@ -233,7 +240,8 @@ Drops for want of a locatable quote or figure: **0**.
     InsiderExperiment/REGISTRATION.md:594. n = 11 year cells.
   - `reports/stage_a1/corpus.json` `events_per_year` at the anchor reads 263 / 409 / 531 / 462 / 728 / 298 /
     504 / 508 / 418 / 365 / 99 and sums to **4,585** (re-read from `SNAP/InsiderExperiment/reports/stage_a1/corpus.json`
-    2026-09-04). Nine of the eleven cells differ from the printed table and none matches downward.
+    2026-09-04). **Ten** of the eleven cells differ from the printed table — only 2026 (99) agrees — and
+    none matches downward.
   - `git show ccc9b13:reports/stage_a1/corpus.json` carries exactly the printed cells (262 / 406 / 524 / …,
     sum 4,542). The correction landed in `cb17046` (2026-08-25T19:11:45−07:00); Section 15 was first written
     in `d8b81f1` (19:11:55), ten seconds later, and the corrected `corpus.json` had been on disk since
@@ -256,7 +264,10 @@ Drops for want of a locatable quote or figure: **0**.
   (InsiderExperiment/DECISIONS.md:400-407) discloses the merge defect and names the very figure: "The build
   reported 4,585 qualifying events while the table held 4,542." What is **not** disclosed anywhere is that
   the published Section 15.1 table still carries the pre-fix cells; ADR-013 presents the defect as corrected,
-  and in the store it was.
+  and in the store it was. The same disclosure is repeated twice more, at InsiderExperiment/progress.md:86-89
+  and :294-298 ("the build reported 4,585 while the table held 4,542. The store now uses a surrogate key"),
+  and neither of those mentions the published table either.
+- **Citation check:** corrected — the evidence bullet read "**Nine** of the eleven cells differ from the printed table"; it is **ten**. Cell by cell, printed against stored: 262/263, 406/409, 524/531, 457/462, 717/728, 297/298, 502/504, 505/508, 410/418 and 363/365 all differ, and only 2026 (99/99) agrees. The count is fixed here and in the JSON; the shortfall of 43 and everything else about the finding are unaffected. The disclosure line now also names the two `progress.md` restatements of ADR-013 (`:86-89` and `:294-298`), neither of which discloses that the published table still carries the pre-fix cells. Everything else re-verified independently at apply: the quote is EXACT at `REGISTRATION.md:603-608` and the headline "4,585 qualifying events" EXACT at `:594`; the printed cells sum to 4,542 and the stored `events_per_year` (263/409/531/462/728/298/504/508/418/365/99) to 4,585; `git show ccc9b13:reports/stage_a1/corpus.json` is dict-equal to the printed table (sum 4,542) and `git show cb17046:reports/stage_a1/corpus.json` carries the corrected cells (sum 4,585), both re-run live and read-only at 23:18Z; and the commit clock confirms `cb17046` 19:11:45 −07:00 against `d8b81f1` 19:11:55, ten seconds apart. Class STALE_FIGURE, severity S3 and label DERIVED all unchanged.
 
 ### AUDIT-C-InsiderExperiment-3
 - **Repository / SHA:** InsiderExperiment / `12d9fd36cf055cb10ea67a3fc737e404217bc95a`
@@ -304,6 +315,7 @@ Drops for want of a locatable quote or figure: **0**.
   name-sessions, and Section 15.1 correctly labels 71.9 as the corpus-side mean book width. Nothing states that
   the width and the effective-names figure are computed on different books, and Section 17.3 presents them as
   one sentence about one book.
+- **Citation check:** verified (quote EXACT at `REGISTRATION.md:839-841`; figures exact at their cited locations; recomputation reproduced). Re-read at apply from SNAP: `portfolio.json[0]` carries `book_width_mean` 71.909, `book_effective_names` 29.731282, `book_weight_top1_share` 0.149323, `book_weight_top5_share` 0.337911, `sessions_with_a_return` 2,581 and `not_priced` 13,750, and `power.json` series[0] carries `book_width_mean` 66.93; the ratios 71.909/29.7313 = 2.4187 and 66.9252/29.7313 = 2.2510 both reproduce, and the citation-check pass re-ran the dispersion-store mean independently at 66.92522278186749 over n = 2,581. **One precision added:** the two books differ in session count as well as in membership — 71.909 averages over the **2,603** non-empty membership sessions (2,615 × 0.9954110898661568 = 2,603 exactly) while 29.73, 14.9 %, 33.8 % and 66.93 are over the **2,581** priced sessions (2,615 − 12 `empty_book` − 22 `no_finite_member_return`). **A consequence was caught in this file's own §Sound and corrected there:** "13,750 dropped name-sessions at 7.41 %" divided by 71.909 × 2,581, which is the very conflation this finding raises; the held-name-session base is 71.90895121014215 × 2,603 = **187,179** exactly, giving **7.35 %**, and ADR-009's "about 7.4 percent of held name-sessions" (`DECISIONS.md:265`) verifies either way. The finding itself is kept unchanged.
 
 ### AUDIT-C-InsiderExperiment-4
 - **Repository / SHA:** InsiderExperiment / `12d9fd36cf055cb10ea67a3fc737e404217bc95a`
@@ -344,6 +356,7 @@ Drops for want of a locatable quote or figure: **0**.
 - **Confidence:** HIGH — the identity is forced by the code and confirmed numerically to six decimals.
 - **Invalidated by later commits?:** no — closed repository.
 - **Disclosed by the authors?:** no.
+- **Citation check:** verified (quote EXACT at `REGISTRATION.md:852-854`; figures exact; recomputation reproduced). Re-read at apply from SNAP: `portfolio.json[3].diagnostics.book_effective_names` = 66.925223 and `power.json` series[3] `book_width_mean` = 66.93, while both 126-session `portfolio.json` rows carry `book_width_mean` 71.909 and byte-identical `dropped` maps (`empty_book` 12, `no_finite_member_return` 22, `no_benchmark` 0, `not_priced` 13,750) — so the membership half of the claim does hold, as the finding says. The identity is forced by the two cited code lines (`raw = np.ones(len(names))` at `returns.py:101` and the inverse Herfindahl at `:118-124`), and the citation-check pass reproduced the equal-weighted dispersion mean at 66.92522278186749 over n = 2,581 — agreement to 1e-6, as claimed — together with the parenthetical figures the finding concedes (sd 43.1862 bp, TE 6.8556 %, Bartlett VIF 0.9224 at lag 21, N_eff 2,798.1, SE 17.1449 bp, MDE 34.2897) and the DEGRADED branch at `section0.py:62` against the 40.0 ceiling at `config.py:144`. Kept unchanged.
 
 ### AUDIT-C-InsiderExperiment-5
 - **Repository / SHA:** InsiderExperiment / `12d9fd36cf055cb10ea67a3fc737e404217bc95a`
@@ -399,6 +412,7 @@ Drops for want of a locatable quote or figure: **0**.
   (progress.md:119). What is not disclosed is that the 20-minute figure is equally unsupported by the record it
   is attributed to, nor that the document's own ETA table contradicts its own 51-minute figure by more than a
   factor of two.
+- **Citation check:** verified (quote EXACT at `progress.md:115-119`; figures exact; recomputation reproduced). Re-run first-hand at apply: the eight Actual cells at `progress.md:198-205` read 5, 10, 4, 4, 14, 20, 32 and 22 and sum to 111 (n = 8); the header is EXACT at `:193-194`; and the live commit record (7 commits, `git log --date=iso-strict`, 23:18Z) matches every timestamp in the finding to the second — `fbfc74e` 18:34:56, `398755b` 18:38:50, `ccc9b13` 18:47:16, `cb17046` 19:11:45, `672b343` 19:11:45, `d8b81f1` 19:11:55, `12d9fd3` 23:24:15, all −07:00. Every derived interval reproduces: 18:20:00 → 19:11:55 = 51 min 55 s; `398755b` → `ccc9b13` = 8 min 26 s against Task 4's 14 min; `ccc9b13` → `d8b81f1` = 24 min 39 s against Tasks 5+6+7 = 74 min; `cb17046` and `672b343` share a timestamp to the second and `d8b81f1` is 10 s later; `d8b81f1` → `12d9fd3` = 4 h 12 min 20 s; and exactly one commit belongs to Stage Z.1, so the record supplies no Z.1 interior interval. The artifact mtimes were re-read at apply: the maximum under `reports/`, `var/` and `ledgers/` is `reports/stage_a1/mutations.json` at 2026-08-25 19:10:28.58 −07:00 and the last ledger append is 19:06:24.09, so nothing was written in the Z.1 window. Kept unchanged.
 
 ### AUDIT-C-InsiderExperiment-6
 - **Repository / SHA:** InsiderExperiment / `12d9fd36cf055cb10ea67a3fc737e404217bc95a`
@@ -429,6 +443,7 @@ Drops for want of a locatable quote or figure: **0**.
 - **Invalidated by later commits?:** no — closed repository, and the `filtered_role/*` counts are identical in
   the pre-fix `ccc9b13` artifact, so this is not a staleness artifact.
 - **Disclosed by the authors?:** no.
+- **Citation check:** verified (quote EXACT at `REGISTRATION.md:652-654`; figures exact; recomputation reproduced). Re-read at apply: the four `filtered_role/*` keys of `corpus.json` are 46,958 / **46,706** / 32,536 / 5,022, total 131,222, matching the printed funnel row at `REGISTRATION.md:623`; the ratios recompute to 35.5931 %, 49.8655 % and 10.1867, and the base a 51 % reading would need is 91,580.4, which matches no quantity in any artifact. Staleness independently excluded again at apply: the four keys are identical in `git show ccc9b13:reports/stage_a1/corpus.json` and at the anchor. Severity note: a 15-percentage-point error inside a sentence headed "Three facts this table settles" is arguably S3, but nothing depends on the figure, so the conservative S4 is left as written. Kept unchanged.
 
 ### AUDIT-C-InsiderExperiment-7
 - **Repository / SHA:** InsiderExperiment / `12d9fd36cf055cb10ea67a3fc737e404217bc95a`
@@ -462,6 +477,7 @@ Drops for want of a locatable quote or figure: **0**.
 - **Disclosed by the authors?:** partly. ADR-008 (InsiderExperiment/DECISIONS.md:245-249) discloses that one
   transaction moved label and asserts the qualifying set and the MDE are unchanged — both of which verify — but
   it does not say which year cell moved, and nothing anywhere discloses the 2022 rebound.
+- **Citation check:** verified (quote EXACT at `REGISTRATION.md:701-704`; figures exact; recomputation reproduced). Re-read at apply: all fifteen `unclassifiable_by_year` cells match the finding one for one (2008 1, 2012 1, 2014 1, 2015 11, 2016 449, 2017 257, 2018 **256**, 2019 188, 2020 174, 2021 110, 2022 **296**, 2023 84, 2024 95, 2025 96, 2026 38) and sum to 2,057, matching the prose's own total at `:701`. The staleness half reproduces from git at 23:18Z: `ccc9b13` carries 2018 = 257 with `filtered_routine/insufficient_history` 2,058 and `routine` 155, `cb17046` carries 2018 = 256 with 2,057 and 156 — one transaction, in the 2018 cell. The 2022 = 296 value is identical in both revisions, confirming that half as a mischaracterization rather than a staleness artifact. Class note: STALE_FIGURE covers the 257/256 half while the 2022 half is really INTERNAL_INCONSISTENCY; the finding says so in its own evidence and the severity is unaffected, so the class is left as written. Kept unchanged.
 
 ### AUDIT-C-InsiderExperiment-8
 - **Repository / SHA:** InsiderExperiment / `12d9fd36cf055cb10ea67a3fc737e404217bc95a`
@@ -505,6 +521,7 @@ Drops for want of a locatable quote or figure: **0**.
   either way — it captured a progress line rather than pytest's summary because `summary_line()`
   (InsiderExperiment/scripts/mutations.py:118-122) fell through to its last-line fallback; the harness's own
   exit-code check (scripts/mutations.py:178-179) is what established that the suite was green.
+- **Citation check:** verified (quote EXACT; figures exact; recomputation reproduced). The quoted sentence sits on `progress.md:217-218` and the cited `:216-218` starts one line early to carry the "56 source files" context — deliberate, not a mis-citation — and `672b343`'s commit subject is verbatim "test: 106 tests green, and five registered mutations that fail the right guard", re-read from the live log at 23:18Z. The AST pass was re-run first-hand at apply over `SNAP/InsiderExperiment/tests/`: **96** functions named `test_*` with exactly the per-file counts stated (absence 7, cluster 10, cost 6, edgar 7, guards 23, ledger 5, membership 9, power 12, section0 7, universe_port 10), **zero** `ClassDef` nodes anywhere in `tests/`, and exactly two `parametrize` decorators — 8 cases at `tests/test_section0.py:16` and 3 at `tests/test_universe_port.py:87` — giving 96 + 7 + 2 = **105**. `git diff --stat 672b343 12d9fd3 -- tests/ src/ scripts/` is empty at apply, so the claim and the count refer to the same tree. One precision for the disclosure line: `summary_line()` did not merely prefer the last line — no line of the captured output contained "passed", "failed" or "error" at all, which is why the fallback returned the progress line, whose `[100%]` suffix nevertheless shows the run completed. MEDIUM confidence left as written, since pytest still was not executed. Kept unchanged.
 
 ### AUDIT-C-InsiderExperiment-9
 - **Repository / SHA:** InsiderExperiment / `12d9fd36cf055cb10ea67a3fc737e404217bc95a`
@@ -535,6 +552,7 @@ Drops for want of a locatable quote or figure: **0**.
 - **Invalidated by later commits?:** no — closed repository. The ledger is untracked and therefore UNANCHORED;
   its mtime (2026-08-25 19:06:24) falls inside the A.1 session window.
 - **Disclosed by the authors?:** no.
+- **Citation check:** verified (quote EXACT at `DECISIONS.md:57-58`; figures exact; recomputation reproduced). The ledger was re-read first-hand at apply (UNANCHORED, live working tree, 2026-09-04 23:18Z): 684 records, all parseable, **all** status 200, 214 served from `wire` and 470 from cache; the 53 wire records whose URL contains `form345` sum to **570,492,991** bytes = 570.5 MB (544 MiB), and the wire total is still 2,783,280,665 bytes across exactly 214 records. Class note: ARITHMETIC is a loose fit — no arithmetic is performed wrongly, a stated size is simply unsupported by the only record of the download — and STALE_FIGURE or INTERNAL_INCONSISTENCY would fit better; the class is left as written since neither the severity nor the substance turns on it, and MEDIUM confidence is right because the ledger cannot exclude an uncompressed-size reading. Kept unchanged.
 
 ### AUDIT-C-InsiderExperiment-10
 - **Repository / SHA:** InsiderExperiment / `12d9fd36cf055cb10ea67a3fc737e404217bc95a`
@@ -566,6 +584,7 @@ Drops for want of a locatable quote or figure: **0**.
 - **Confidence:** HIGH — both clocks are read directly and their offset is exact.
 - **Invalidated by later commits?:** no — there is no commit after the anchor.
 - **Disclosed by the authors?:** no. The sentence asserts the zone rather than qualifying it.
+- **Citation check:** verified (quote EXACT at `progress.md:193-194`; figures exact; recomputation reproduced). Both clocks re-read first-hand at apply: all seven commits carry −07:00 (`fbfc74e` 2026-08-25T18:34:56−07:00 through `12d9fd3` 23:24:15−07:00, `git log --date=iso-strict`, 23:18Z), while `ledgers/fetch.jsonl` line 1 reads `"recorded_at":"2026-08-26T01:35:18+00:00"` over 684 records and `ledgers/evidence.jsonl` record 1 `"recorded_at":"2026-08-26T01:36:26+00:00"` over 14 records. 18:35:18 −07:00 = 2026-08-26T01:35:18Z, so the two clocks differ by exactly 7 h and the "18:20 UTC" label is PDT; in true UTC the session began 2026-08-26T01:20Z. By-product, since it rests on the same conversion: the first wire request is 22 seconds after `fbfc74e`, which is the §Sound timing claim. Class PROVENANCE and severity S4 both confirmed, and the finding is careful to say the internal arithmetic is untouched. Kept unchanged.
 
 ---
 
@@ -594,8 +613,12 @@ result as a contradicted one, and this repository's closure is supported by its 
 - **The descriptive corpus statistics.** 5.7959 % / 94.2041 % liquid-500 pass rate; 3,350 of 4,585 with the
   10b5-1 box absent (73.064 %); the whole 88-bin lag distribution (p99 230, max 1,988, mean 9.5154, ≤1 day
   51.320 %, ≤2 days 72.999 %, ≤4 days 95.856 %, tail of 91); 209 of 773 clusters rejected by the Johnsen filter,
-  confirmed in both the JSON and the store; 2,057 unclassifiable; 13,750 dropped name-sessions at 7.41 %;
-  "roughly ten times the surviving corpus" at 10.19.
+  confirmed in both the JSON and the store; 2,057 unclassifiable; 13,750 dropped name-sessions, **7.35 %** of
+  the 187,179 held name-sessions (71.90895121014215 × 2,603 non-empty sessions, exact), which is ADR-009's
+  "about 7.4 percent of held name-sessions" (InsiderExperiment/DECISIONS.md:265); "roughly ten times the
+  surviving corpus" at 10.19.
+  (The 7.41 % this line carried before the citation-check pass divided by 71.909 × 2,581 — the membership
+  width over the priced session count, the same conflation finding -3 raises. Corrected here.)
 - **The cost band.** 32/6 = 5.3333 and 100/6 = 16.6667 drags, net band 13.3333 to 34.6667 bp/month — computed by
   `insider.cost`, not asserted, and reproducing exactly.
 - **The Section 0.4 floor derivation, in full.** 19.519/39.038 bp, 3.098/6.197 %, 23.44/93.77 names,
@@ -717,6 +740,10 @@ audit venv. Outside this repository and read-only, for the boundary claim only: 
 `AiTrader/analysis_bars.db`; `news_experiment.db` was not opened and no other AiTrader path was touched. Host
 checks for the systemd claim (`systemctl --user list-units/list-timers --all`, `crontab -l`,
 `ls ~/.config/systemd/user`, `grep -ril insider /etc/systemd/system`) ran outside every audited repository.
+The citation-check apply pass on 2026-09-04 23:18Z repeated only the same two permitted kinds: `git log`,
+`git diff`, `git show <rev>:<path>` and `git grep <rev>` at named revisions, and read-only reads of
+`ledgers/fetch.jsonl`, `ledgers/evidence.jsonl` and mtimes under `reports/`, `var/` and `ledgers/`. Nothing
+was opened for writing and no repository script was run.
 
 `git -C /home/kiros-li/Documents/GitHub/InsiderExperiment status --porcelain`, recorded verbatim at each pass
 boundary:
@@ -725,14 +752,16 @@ boundary:
 |---|---|---|
 | VERIFY | 2026-09-04T18:20:55Z — empty output, exit 0 | 2026-09-04T18:30:48Z — empty output, exit 0 |
 | PROVENANCE | 2026-09-04T18:21:00Z — empty output, exit 0 | 2026-09-04T18:29:24Z — empty output, exit 0 |
-| CONSOLIDATE (this pass) | 2026-09-04T18:45:06Z — empty output, exit 0 | 2026-09-04T18:45:19Z — empty output, exit 0 |
+| CONSOLIDATE | 2026-09-04T18:45:06Z — empty output, exit 0 | 2026-09-04T18:45:19Z — empty output, exit 0 |
+| CITATION-CHECK APPLY (this pass) | 2026-09-04T23:18:23Z — empty output, exit 0 | 2026-09-04T23:18:43Z — empty output, exit 0 |
 
 ```
 ```
-(Every one of the six reads produced empty output with exit 0 — a clean working tree, unchanged throughout.
+(Every one of the eight reads produced empty output with exit 0 — a clean working tree, unchanged throughout.
 **Nothing was modified.**)
 
-Untracked-but-ignored entries present at every read (`git status --ignored --porcelain`): `.env`, `.mypy_cache/`,
+Untracked-but-ignored entries present at every read of the VERIFY, PROVENANCE and CONSOLIDATE passes
+(`git status --ignored --porcelain`): `.env`, `.mypy_cache/`,
 `.pytest_cache/`, `.ruff_cache/`, `.venv/`, `_CLOSED_DO_NOT_RUN_HERE`, `cache/`, `ledgers/`, `var/`, and eight
 `__pycache__/` directories — an identical set at all three passes. **`_CLOSED_DO_NOT_RUN_HERE` is reported
 loudly for the record:** it is excluded via `.git/info/exclude`, is dated **2026-09-02, after the anchor**, records

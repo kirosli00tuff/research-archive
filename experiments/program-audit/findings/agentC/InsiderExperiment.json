@@ -35,7 +35,9 @@
     "invalidated_by_later_commits": "no",
     "invalidation_note": "12d9fd3 is both the anchor and the live HEAD; there is no commit after it and the repository carries a _CLOSED_DO_NOT_RUN_HERE marker.",
     "disclosed_by_authors": "no",
-    "disclosure_ref": "No ADR, progress entry or registration section mentions benchmark_id or its removal; Section 16 (REGISTRATION.md:800) asserts the opposite. ADR-012 (InsiderExperiment/DECISIONS.md:356-374) discloses that the config-enforcement guard was strengthened during the mutation exercise - the mechanism - but not the consequence. The routine-order instance cited for shape is separately disclosed at InsiderExperiment/DECISIONS.md:226-256."
+    "disclosure_ref": "No ADR, progress entry or registration section mentions benchmark_id or its removal; Section 16 (REGISTRATION.md:800) asserts the opposite. ADR-012 (InsiderExperiment/DECISIONS.md:356-374) discloses that the config-enforcement guard was strengthened during the mutation exercise - the mechanism - but not the consequence. The routine-order instance cited for shape is separately disclosed at InsiderExperiment/DECISIONS.md:226-256.",
+    "citation_check": "verified (quote EXACT at REGISTRATION.md:800; figures exact; recomputation reproduced). Every git object was re-run first-hand at apply against the live repository, read-only, 2026-09-04 23:18Z, with git status --porcelain empty and exit 0 both before and after: git diff fbfc74e 672b343 -- src/insider/config.py is exactly the two quoted deletions (benchmark_id: str at config.py:24 and benchmark_id=\"U-LIQ-500-VW\" at :90 of the fbfc74e file); git log -S benchmark_id -- src/insider/config.py returns exactly fbfc74e (18:34:56 -07:00) and 672b343 (19:11:45 -07:00); git grep -n benchmark_id fbfc74e -- src tests scripts returns only those two declaration lines, so the field had no enforcement site; and git grep -e benchmark_id -e U-LIQ-500-VW HEAD returns nothing. The ordering reproduces from ledgers/evidence.jsonl (UNANCHORED, 14 records, read 23:18Z): four corpus_gate records (01:42:24Z, 01:45:27Z, 01:51:05Z, 02:05:33Z, all CORPUS-GO at 4,585) and three power_gate records (01:51:14Z, 01:52:49Z, 02:05:40Z, all 49.3543 / BLOCKED) all precede the 02:11:45Z deletion commit, so \"four times\" and \"three times\" hold exactly. Non-disclosure confirmed mechanically: no .md file in the anchored tree contains benchmark_id or U-LIQ-500-VW. Severity note: S2 (\"a label contradicts its own evidence\") is arguable, since \"None in force.\" is contradicted by the repository's own git record; S3 is left as written because whether removing an unenforced decorative field counts as \"changing a registered value\" is genuinely open, which the finding itself concedes. Kept unchanged.",
+    "citation_check_verdict": "KEEP"
   },
   {
     "id": "AUDIT-C-InsiderExperiment-2",
@@ -50,7 +52,7 @@
     "claim_quote": "| 2016 | 262 | 2022 | 502 |\n| 2017 | 406 | 2023 | 505 |\n| 2018 | 524 | 2024 | 410 |\n| 2019 | 457 | 2025 | 363 |\n| 2020 | 717 | 2026 | 99 |\n| 2021 | 297 | | |",
     "claim_file": "InsiderExperiment/REGISTRATION.md",
     "claim_line": "603-608",
-    "evidence_summary": "The printed table sums to 4,542 against the '4,585 qualifying events' stated nine lines above at REGISTRATION.md:594 (n = 11 year cells). reports/stage_a1/corpus.json events_per_year at the anchor reads 263/409/531/462/728/298/504/508/418/365/99 and sums to 4,585; nine of the eleven cells differ from the printed table and none matches downward. git show ccc9b13:reports/stage_a1/corpus.json carries exactly the printed cells (262/406/524/..., sum 4,542): the correction landed in cb17046 (2026-08-25T19:11:45-07:00), Section 15 was first written in d8b81f1 (19:11:55) ten seconds later, and the corrected corpus.json had been on disk since 19:05:33 - the document transcribes a console output the run had already superseded. Independent rebuild: expanding the 4,585 rows of var/insider_corpus.db.event by entry_session reproduces the JSON cells exactly. The stale cells propagate to DECISIONS.md:148-149 ('717 qualifying events in 2020 against 297 in 2021'), where the artifact says 728 and 298. The shortfall of 43 is exactly the count ADR-013 attributes to the composite-natural-key merge.",
+    "evidence_summary": "The printed table sums to 4,542 against the '4,585 qualifying events' stated nine lines above at REGISTRATION.md:594 (n = 11 year cells). reports/stage_a1/corpus.json events_per_year at the anchor reads 263/409/531/462/728/298/504/508/418/365/99 and sums to 4,585; ten of the eleven cells differ from the printed table (only 2026, 99/99, agrees) and none matches downward. git show ccc9b13:reports/stage_a1/corpus.json carries exactly the printed cells (262/406/524/..., sum 4,542): the correction landed in cb17046 (2026-08-25T19:11:45-07:00), Section 15 was first written in d8b81f1 (19:11:55) ten seconds later, and the corrected corpus.json had been on disk since 19:05:33 - the document transcribes a console output the run had already superseded. Independent rebuild: expanding the 4,585 rows of var/insider_corpus.db.event by entry_session reproduces the JSON cells exactly. The stale cells propagate to DECISIONS.md:148-149 ('717 qualifying events in 2020 against 297 in 2021'), where the artifact says 728 and 298. The shortfall of 43 is exactly the count ADR-013 attributes to the composite-natural-key merge.",
     "evidence_refs": [
       "InsiderExperiment/REGISTRATION.md:594",
       "InsiderExperiment/REGISTRATION.md:603-608",
@@ -59,7 +61,9 @@
       "InsiderExperiment/DECISIONS.md:400-407",
       "git show ccc9b13:reports/stage_a1/corpus.json",
       "git show cb17046 (2026-08-25T19:11:45-07:00)",
-      "InsiderExperiment/var/insider_corpus.db event.entry_session (UNANCHORED, read 2026-09-04T18:27Z)"
+      "InsiderExperiment/var/insider_corpus.db event.entry_session (UNANCHORED, read 2026-09-04T18:27Z)",
+      "InsiderExperiment/progress.md:86-89",
+      "InsiderExperiment/progress.md:294-298"
     ],
     "recomputation": "Inputs: reports/stage_a1/corpus.json events_per_year (11 cells) and var/insider_corpus.db.event.entry_session (4,585 rows). Method: sum the eleven printed cells; group the event rows by year of entry_session and sum. Results: printed 4,542 against stored 4,585, a shortfall of exactly 43; the rebuilt cells equal the JSON cells. Tolerance: exact.",
     "would_resolve": "Replacing the eleven cells at REGISTRATION.md:603-608 and the two figures at DECISIONS.md:148-149 with the post-fix values, or a note beside the table stating that it is the pre-fix composition and pointing at ADR-013.",
@@ -68,7 +72,9 @@
     "invalidated_by_later_commits": "no",
     "invalidation_note": "Closed repository; 12d9fd3 is the tip and nothing after the anchor touches these files.",
     "disclosed_by_authors": "partial",
-    "disclosure_ref": "ADR-013 (InsiderExperiment/DECISIONS.md:400-407) discloses the merge defect and names the figure: 'The build reported 4,585 qualifying events while the table held 4,542.' What is NOT disclosed anywhere is that the published Section 15.1 table still carries the pre-fix cells; ADR-013 presents the defect as corrected, and in the store it was."
+    "disclosure_ref": "ADR-013 (InsiderExperiment/DECISIONS.md:400-407) discloses the merge defect and names the figure: 'The build reported 4,585 qualifying events while the table held 4,542.' What is NOT disclosed anywhere is that the published Section 15.1 table still carries the pre-fix cells; ADR-013 presents the defect as corrected, and in the store it was. The same disclosure is repeated twice more at InsiderExperiment/progress.md:86-89 and :294-298 ('the build reported 4,585 while the table held 4,542. The store now uses a surrogate key'), and neither of those mentions the published table either.",
+    "citation_check": "corrected - the evidence bullet read \"Nine of the eleven cells differ from the printed table\"; it is ten. Cell by cell, printed against stored: 262/263, 406/409, 524/531, 457/462, 717/728, 297/298, 502/504, 505/508, 410/418 and 363/365 all differ, and only 2026 (99/99) agrees. The count is fixed here and in the JSON; the shortfall of 43 and everything else about the finding are unaffected. The disclosure line now also names the two progress.md restatements of ADR-013 (:86-89 and :294-298), neither of which discloses that the published table still carries the pre-fix cells. Everything else re-verified independently at apply: the quote is EXACT at REGISTRATION.md:603-608 and the headline \"4,585 qualifying events\" EXACT at :594; the printed cells sum to 4,542 and the stored events_per_year (263/409/531/462/728/298/504/508/418/365/99) to 4,585; git show ccc9b13:reports/stage_a1/corpus.json is dict-equal to the printed table (sum 4,542) and git show cb17046:reports/stage_a1/corpus.json carries the corrected cells (sum 4,585), both re-run live and read-only at 23:18Z; and the commit clock confirms cb17046 19:11:45 -07:00 against d8b81f1 19:11:55, ten seconds apart. Class STALE_FIGURE, severity S3 and label DERIVED all unchanged.",
+    "citation_check_verdict": "CORRECT"
   },
   {
     "id": "AUDIT-C-InsiderExperiment-3",
@@ -106,7 +112,9 @@
     "invalidated_by_later_commits": "no",
     "invalidation_note": "Closed repository; 12d9fd3 is the tip.",
     "disclosed_by_authors": "no",
-    "disclosure_ref": "ADR-009 (InsiderExperiment/DECISIONS.md:258-280) discloses the mid-hold drop and its 13,750 name-sessions, and Section 15.1 correctly labels 71.9 as the corpus-side mean book width, but nothing states that the width and the effective-names figure are computed on different books, and Section 17.3 presents them as one sentence about one book."
+    "disclosure_ref": "ADR-009 (InsiderExperiment/DECISIONS.md:258-280) discloses the mid-hold drop and its 13,750 name-sessions, and Section 15.1 correctly labels 71.9 as the corpus-side mean book width, but nothing states that the width and the effective-names figure are computed on different books, and Section 17.3 presents them as one sentence about one book.",
+    "citation_check": "verified (quote EXACT at REGISTRATION.md:839-841; figures exact at their cited locations; recomputation reproduced). Re-read at apply from SNAP: portfolio.json[0] carries book_width_mean 71.909, book_effective_names 29.731282, book_weight_top1_share 0.149323, book_weight_top5_share 0.337911, sessions_with_a_return 2,581 and not_priced 13,750, and power.json series[0] carries book_width_mean 66.93; the ratios 71.909/29.7313 = 2.4187 and 66.9252/29.7313 = 2.2510 both reproduce, and the citation-check pass re-ran the dispersion-store mean independently at 66.92522278186749 over n = 2,581. One precision added: the two books differ in session count as well as in membership - 71.909 averages over the 2,603 non-empty membership sessions (2,615 x 0.9954110898661568 = 2,603 exactly) while 29.73, 14.9 %, 33.8 % and 66.93 are over the 2,581 priced sessions (2,615 - 12 empty_book - 22 no_finite_member_return). A consequence was caught in this file's own Section Sound and corrected there: \"13,750 dropped name-sessions at 7.41 %\" divided by 71.909 x 2,581, which is the very conflation this finding raises; the held-name-session base is 71.90895121014215 x 2,603 = 187,179 exactly, giving 7.35 %, and ADR-009's \"about 7.4 percent of held name-sessions\" (DECISIONS.md:265) verifies either way. The finding itself is kept unchanged.",
+    "citation_check_verdict": "KEEP"
   },
   {
     "id": "AUDIT-C-InsiderExperiment-4",
@@ -142,7 +150,9 @@
     "invalidated_by_later_commits": "no",
     "invalidation_note": "Closed repository; 12d9fd3 is the tip.",
     "disclosed_by_authors": "no",
-    "disclosure_ref": ""
+    "disclosure_ref": "",
+    "citation_check": "verified (quote EXACT at REGISTRATION.md:852-854; figures exact; recomputation reproduced). Re-read at apply from SNAP: portfolio.json[3].diagnostics.book_effective_names = 66.925223 and power.json series[3] book_width_mean = 66.93, while both 126-session portfolio.json rows carry book_width_mean 71.909 and byte-identical dropped maps (empty_book 12, no_finite_member_return 22, no_benchmark 0, not_priced 13,750) - so the membership half of the claim does hold, as the finding says. The identity is forced by the two cited code lines (raw = np.ones(len(names)) at returns.py:101 and the inverse Herfindahl at :118-124), and the citation-check pass reproduced the equal-weighted dispersion mean at 66.92522278186749 over n = 2,581 - agreement to 1e-6, as claimed - together with the parenthetical figures the finding concedes (sd 43.1862 bp, TE 6.8556 %, Bartlett VIF 0.9224 at lag 21, N_eff 2,798.1, SE 17.1449 bp, MDE 34.2897) and the DEGRADED branch at section0.py:62 against the 40.0 ceiling at config.py:144. Kept unchanged.",
+    "citation_check_verdict": "KEEP"
   },
   {
     "id": "AUDIT-C-InsiderExperiment-5",
@@ -174,7 +184,9 @@
     "invalidated_by_later_commits": "no",
     "invalidation_note": "Closed repository; a later commit could only add Z.1 boundaries that did not exist when the sentence was written.",
     "disclosed_by_authors": "partial",
-    "disclosure_ref": "The same passage discloses the other half: 'The commit record cannot confirm that figure' of the five-hour brief figure (InsiderExperiment/progress.md:117-118), closing 'Both are recorded rather than one being picked' (progress.md:119). What is not disclosed is that the 20-minute figure is equally unsupported by the record it is attributed to, nor that the document's own ETA table contradicts its own 51-minute figure by more than a factor of two."
+    "disclosure_ref": "The same passage discloses the other half: 'The commit record cannot confirm that figure' of the five-hour brief figure (InsiderExperiment/progress.md:117-118), closing 'Both are recorded rather than one being picked' (progress.md:119). What is not disclosed is that the 20-minute figure is equally unsupported by the record it is attributed to, nor that the document's own ETA table contradicts its own 51-minute figure by more than a factor of two.",
+    "citation_check": "verified (quote EXACT at progress.md:115-119; figures exact; recomputation reproduced). Re-run first-hand at apply: the eight Actual cells at progress.md:198-205 read 5, 10, 4, 4, 14, 20, 32 and 22 and sum to 111 (n = 8); the header is EXACT at :193-194; and the live commit record (7 commits, git log --date=iso-strict, 23:18Z) matches every timestamp in the finding to the second - fbfc74e 18:34:56, 398755b 18:38:50, ccc9b13 18:47:16, cb17046 19:11:45, 672b343 19:11:45, d8b81f1 19:11:55, 12d9fd3 23:24:15, all -07:00. Every derived interval reproduces: 18:20:00 -> 19:11:55 = 51 min 55 s; 398755b -> ccc9b13 = 8 min 26 s against Task 4's 14 min; ccc9b13 -> d8b81f1 = 24 min 39 s against Tasks 5+6+7 = 74 min; cb17046 and 672b343 share a timestamp to the second and d8b81f1 is 10 s later; d8b81f1 -> 12d9fd3 = 4 h 12 min 20 s; and exactly one commit belongs to Stage Z.1, so the record supplies no Z.1 interior interval. The artifact mtimes were re-read at apply: the maximum under reports/, var/ and ledgers/ is reports/stage_a1/mutations.json at 2026-08-25 19:10:28.58 -07:00 and the last ledger append is 19:06:24.09, so nothing was written in the Z.1 window. Kept unchanged.",
+    "citation_check_verdict": "KEEP"
   },
   {
     "id": "AUDIT-C-InsiderExperiment-6",
@@ -202,7 +214,9 @@
     "invalidated_by_later_commits": "no",
     "invalidation_note": "Closed repository, and the filtered_role/* counts are identical in the pre-fix ccc9b13 artifact, so this is not a staleness artifact.",
     "disclosed_by_authors": "no",
-    "disclosure_ref": ""
+    "disclosure_ref": "",
+    "citation_check": "verified (quote EXACT at REGISTRATION.md:652-654; figures exact; recomputation reproduced). Re-read at apply: the four filtered_role/* keys of corpus.json are 46,958 / 46,706 / 32,536 / 5,022, total 131,222, matching the printed funnel row at REGISTRATION.md:623; the ratios recompute to 35.5931 %, 49.8655 % and 10.1867, and the base a 51 % reading would need is 91,580.4, which matches no quantity in any artifact. Staleness independently excluded again at apply: the four keys are identical in git show ccc9b13:reports/stage_a1/corpus.json and at the anchor. Severity note: a 15-percentage-point error inside a sentence headed \"Three facts this table settles\" is arguably S3, but nothing depends on the figure, so the conservative S4 is left as written. Kept unchanged.",
+    "citation_check_verdict": "KEEP"
   },
   {
     "id": "AUDIT-C-InsiderExperiment-7",
@@ -232,7 +246,9 @@
     "invalidated_by_later_commits": "no",
     "invalidation_note": "Closed repository; the anchor is the tip.",
     "disclosed_by_authors": "partial",
-    "disclosure_ref": "ADR-008 (InsiderExperiment/DECISIONS.md:245-249) discloses that one transaction moved label and asserts the qualifying set and the MDE are unchanged - both of which verify - but it does not say which year cell moved, and nothing anywhere discloses the 2022 rebound."
+    "disclosure_ref": "ADR-008 (InsiderExperiment/DECISIONS.md:245-249) discloses that one transaction moved label and asserts the qualifying set and the MDE are unchanged - both of which verify - but it does not say which year cell moved, and nothing anywhere discloses the 2022 rebound.",
+    "citation_check": "verified (quote EXACT at REGISTRATION.md:701-704; figures exact; recomputation reproduced). Re-read at apply: all fifteen unclassifiable_by_year cells match the finding one for one (2008 1, 2012 1, 2014 1, 2015 11, 2016 449, 2017 257, 2018 256, 2019 188, 2020 174, 2021 110, 2022 296, 2023 84, 2024 95, 2025 96, 2026 38) and sum to 2,057, matching the prose's own total at :701. The staleness half reproduces from git at 23:18Z: ccc9b13 carries 2018 = 257 with filtered_routine/insufficient_history 2,058 and routine 155, cb17046 carries 2018 = 256 with 2,057 and 156 - one transaction, in the 2018 cell. The 2022 = 296 value is identical in both revisions, confirming that half as a mischaracterization rather than a staleness artifact. Class note: STALE_FIGURE covers the 257/256 half while the 2022 half is really INTERNAL_INCONSISTENCY; the finding says so in its own evidence and the severity is unaffected, so the class is left as written. Kept unchanged.",
+    "citation_check_verdict": "KEEP"
   },
   {
     "id": "AUDIT-C-InsiderExperiment-8",
@@ -266,7 +282,9 @@
     "invalidated_by_later_commits": "no",
     "invalidation_note": "Closed repository, and the test tree is byte-identical from the commit that made the claim to the anchor.",
     "disclosed_by_authors": "no",
-    "disclosure_ref": "reports/stage_a1/mutations.json final_suite evidences no pass count either way - it captured a progress line rather than pytest's summary because summary_line() (InsiderExperiment/scripts/mutations.py:118-122) fell through to its last-line fallback; the harness's own exit-code check (scripts/mutations.py:178-179) is what established that the suite was green."
+    "disclosure_ref": "reports/stage_a1/mutations.json final_suite evidences no pass count either way - it captured a progress line rather than pytest's summary because summary_line() (InsiderExperiment/scripts/mutations.py:118-122) fell through to its last-line fallback; the harness's own exit-code check (scripts/mutations.py:178-179) is what established that the suite was green.",
+    "citation_check": "verified (quote EXACT; figures exact; recomputation reproduced). The quoted sentence sits on progress.md:217-218 and the cited :216-218 starts one line early to carry the \"56 source files\" context - deliberate, not a mis-citation - and 672b343's commit subject is verbatim \"test: 106 tests green, and five registered mutations that fail the right guard\", re-read from the live log at 23:18Z. The AST pass was re-run first-hand at apply over SNAP/InsiderExperiment/tests/: 96 functions named test_* with exactly the per-file counts stated (absence 7, cluster 10, cost 6, edgar 7, guards 23, ledger 5, membership 9, power 12, section0 7, universe_port 10), zero ClassDef nodes anywhere in tests/, and exactly two parametrize decorators - 8 cases at tests/test_section0.py:16 and 3 at tests/test_universe_port.py:87 - giving 96 + 7 + 2 = 105. git diff --stat 672b343 12d9fd3 -- tests/ src/ scripts/ is empty at apply, so the claim and the count refer to the same tree. One precision for the disclosure line: summary_line() did not merely prefer the last line - no line of the captured output contained \"passed\", \"failed\" or \"error\" at all, which is why the fallback returned the progress line, whose [100%] suffix nevertheless shows the run completed. MEDIUM confidence left as written, since pytest still was not executed. Kept unchanged.",
+    "citation_check_verdict": "KEEP"
   },
   {
     "id": "AUDIT-C-InsiderExperiment-9",
@@ -295,7 +313,9 @@
     "invalidated_by_later_commits": "no",
     "invalidation_note": "Closed repository. The ledger is untracked and therefore UNANCHORED; its mtime (2026-08-25 19:06:24) falls inside the A.1 session window.",
     "disclosed_by_authors": "no",
-    "disclosure_ref": ""
+    "disclosure_ref": "",
+    "citation_check": "verified (quote EXACT at DECISIONS.md:57-58; figures exact; recomputation reproduced). The ledger was re-read first-hand at apply (UNANCHORED, live working tree, 2026-09-04 23:18Z): 684 records, all parseable, all status 200, 214 served from wire and 470 from cache; the 53 wire records whose URL contains form345 sum to 570,492,991 bytes = 570.5 MB (544 MiB), and the wire total is still 2,783,280,665 bytes across exactly 214 records. Class note: ARITHMETIC is a loose fit - no arithmetic is performed wrongly, a stated size is simply unsupported by the only record of the download - and STALE_FIGURE or INTERNAL_INCONSISTENCY would fit better; the class is left as written since neither the severity nor the substance turns on it, and MEDIUM confidence is right because the ledger cannot exclude an uncompressed-size reading. Kept unchanged.",
+    "citation_check_verdict": "KEEP"
   },
   {
     "id": "AUDIT-C-InsiderExperiment-10",
@@ -326,6 +346,8 @@
     "invalidated_by_later_commits": "no",
     "invalidation_note": "There is no commit after the anchor; the repository is closed.",
     "disclosed_by_authors": "no",
-    "disclosure_ref": "The sentence asserts the zone rather than qualifying it."
+    "disclosure_ref": "The sentence asserts the zone rather than qualifying it.",
+    "citation_check": "verified (quote EXACT at progress.md:193-194; figures exact; recomputation reproduced). Both clocks re-read first-hand at apply: all seven commits carry -07:00 (fbfc74e 2026-08-25T18:34:56-07:00 through 12d9fd3 23:24:15-07:00, git log --date=iso-strict, 23:18Z), while ledgers/fetch.jsonl line 1 reads \"recorded_at\":\"2026-08-26T01:35:18+00:00\" over 684 records and ledgers/evidence.jsonl record 1 \"recorded_at\":\"2026-08-26T01:36:26+00:00\" over 14 records. 18:35:18 -07:00 = 2026-08-26T01:35:18Z, so the two clocks differ by exactly 7 h and the \"18:20 UTC\" label is PDT; in true UTC the session began 2026-08-26T01:20Z. By-product, since it rests on the same conversion: the first wire request is 22 seconds after fbfc74e, which is the Section Sound timing claim. Class PROVENANCE and severity S4 both confirmed, and the finding is careful to say the internal arithmetic is untouched. Kept unchanged.",
+    "citation_check_verdict": "KEEP"
   }
 ]
