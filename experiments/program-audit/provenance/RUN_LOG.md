@@ -444,3 +444,6 @@ Outcomes of A run 14 / B run 5 / C run 5 (launched 03:42Z, cut by the session li
 - C run 5 (wf_5eccab36-37a): VRPExperiment verification and provenance done, consolidation failed;
   ETFExperiment inventory done, verification failed; seven locates failed. C stays 4/13; run 6 resumes both by stage.
 Next: A run 15, B run 6, C run 6 launched in parallel from the prepared args.
+Agent A run 15: task ws4kof4qk (wf_2e43f915-89e), launched 05:48Z.
+Agent B run 6: task wm5vvibkp (wf_c8c88fdf-277), launched 05:48Z.
+Agent C run 6: task wo23ohmlr (wf_f3402ad6-0a6), launched 05:48Z.
