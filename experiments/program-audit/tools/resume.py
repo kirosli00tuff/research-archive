@@ -146,7 +146,8 @@ def reopen_note_leads(bank):
             what, cond, where = cells[0], cells[1], cells[-1]
             first = re.split(r'[\s,;(]', where.replace('`', ''), maxsplit=1)[0]
             s = f"{repo}: L{m.group(1)} ({first}): {what} - {cond} [where: {where}]"
-            if s not in bank:
+            key = f"{repo}: L{m.group(1)} "
+            if not any(b.startswith(key) for b in bank):
                 bank.append(s)
                 n += 1
     return n
