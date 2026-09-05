@@ -456,3 +456,14 @@ AFTER checks: pre-existing dirt only
 prepared A run 16 (provenance/launch-args/agentA-run16.args.json)
 prepared B run 7 (provenance/launch-args/agentB-run7.args.json)
 prepared C run 7 (provenance/launch-args/agentC-run7.args.json)
+Outcomes of A run 15 / B run 6 / C run 6 (launched 05:48Z, cut by the session limit; reset 10:40Z 2026-09-05):
+- A run 15 (wf_2e43f915-89e): MLCryptoEngine readers p1-report, p2-register, p3-progress and ORBExperiment
+  readers p1-registration, p2-decisions, p3-progress all wrote their drafts (some died after writing, before
+  returning); no consolidation ran. AiTrader readers failed. A stays 10/13; run 16 consolidates both from drafts.
+- B run 6 (wf_c8c88fdf-277): VRPExperiment consolidated (13 findings) and ETFExperiment consolidated
+  (9 findings), with positives ledgers; both verify stages and the ETFExperiment apply failed; all nine remaining
+  readers failed. 28 cross-repo leads banked from the two consolidators (B leads now 54). B stays 4/13.
+- C run 6 (wf_f3402ad6-0a6): VRPExperiment consolidated (6 findings; 25 claims verified, 3 contradicted,
+  4 unverifiable; provenance 26 supported, 1 not supported, 5 partial), apply failed; ETFExperiment verification
+  and provenance done, consolidation pending; seven locates failed. C stays 4/13.
+Next: A run 16, B run 7, C run 7 launched in parallel from the prepared args.
