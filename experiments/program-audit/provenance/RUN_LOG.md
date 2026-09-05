@@ -435,3 +435,12 @@ AFTER checks: pre-existing dirt only
 prepared A run 15 (provenance/launch-args/agentA-run15.args.json)
 prepared B run 6 (provenance/launch-args/agentB-run6.args.json)
 prepared C run 6 (provenance/launch-args/agentC-run6.args.json)
+Outcomes of A run 14 / B run 5 / C run 5 (launched 03:42Z, cut by the session limit; reset 08:40Z 2026-09-05; laptop rebooted in between, scratchpad snapshots re-verified 13 repos / 1618 files):
+- A run 14 (wf_990e6ca4-939): solattn verified and applied (11: kept 4, corrected 7); NPLExperiment verified
+  and applied (12: kept 4, corrected 8). Readers for MLCryptoEngine, ORBExperiment, AiTrader failed. A now 10/13.
+  Cross-repo leads for solattn (L1-L8) and NPLExperiment (L1-L11) banked from the reopen notes (A leads 97).
+- B run 5 (wf_77c4a710-2b4): VRPExperiment and ETFExperiment readers done (one draft + positives ledger each);
+  both consolidators failed; all other readers failed. B stays 4/13; run 6 consolidates from the drafts.
+- C run 5 (wf_5eccab36-37a): VRPExperiment verification and provenance done, consolidation failed;
+  ETFExperiment inventory done, verification failed; seven locates failed. C stays 4/13; run 6 resumes both by stage.
+Next: A run 15, B run 6, C run 6 launched in parallel from the prepared args.
