@@ -467,3 +467,6 @@ Outcomes of A run 15 / B run 6 / C run 6 (launched 05:48Z, cut by the session li
   4 unverifiable; provenance 26 supported, 1 not supported, 5 partial), apply failed; ETFExperiment verification
   and provenance done, consolidation pending; seven locates failed. C stays 4/13.
 Next: A run 16, B run 7, C run 7 launched in parallel from the prepared args.
+Agent A run 16: task w3qlkf1yb (wf_29ed3211-19d), launched 18:02Z.
+Agent B run 7: task wuwdh1h0k (wf_1aaac622-79e), launched 18:02Z.
+Agent C run 7: task w250dtisj (wf_fbabed09-3b3), launched 18:02Z.
