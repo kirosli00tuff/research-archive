@@ -645,3 +645,48 @@ median, the 29 passes and the 2026-09-26 projection all stand as recorded.
 The same slip is corrected for the whole stage in `progress.md`, where
 several later ETA-against-actual figures were estimated in the same way and
 are restated against the git commit clock.
+
+
+### Amendment H5-3 — 2026-09-10 — the projected fire date, falsified by measured pass accrual
+
+**Data existing at write time:** pass counts, per-instrument row counts, and
+timestamps. No basis value was read. Outcome-blind, per rule 13.
+
+The Section 6 verdict record of 2026-08-28 projected the fire at
+**2026-09-26**, computed as 29 further passes at one census pass per day from
+2026-08-28. Thirteen UTC days of collection falsify the rate.
+
+| UTC day | rows |
+|---|---|
+| 08-28 → 09-02 | 274, 274, 275, 275, 276, 278 |
+| **09-03** | **4** — a pass that began and died after four instruments |
+| 09-04 | 280 |
+| **09-05** | **absent** |
+| **09-06** | **absent** |
+| 09-07 → 09-09 | 282, 283, 284 |
+
+Ten full passes in thirteen days, an accrual of **0.77 per day**, not 1.00.
+
+**Cause.** The machine sleeps. Both units carry `Persistent=true`, which
+recovers the *schedule* but not the missed day's *data*: one catch-up run
+follows an outage of any length, so two consecutive dark days yield one pass.
+H5 snapshots are point-in-time marks and depth, so a missed day is
+**permanently unrecoverable**, unlike funding and candles, which the daily
+pass backfills. ADR-032's network gate does not touch this and was never
+meant to.
+
+**Decided. No bar moves.** The gate stays exactly what Section 6 registered:
+at least twenty live instruments each carrying thirty days of coverage. Only
+the projection changes, from 2026-09-26 to approximately **2026-10-05** at
+the measured accrual, and it is restated as a figure recomputed at each pass
+rather than a scheduled event. Coverage is ragged rather than uniform, since
+09-03 gave four instruments a day the other 279 did not get, so the bar is
+met when the twentieth-best-covered instrument reaches thirty days, not when
+a calendar date arrives.
+
+**The parallel worth recording.** This is the second time in this register an
+assistant planning figure has been falsified by measurement, after main-dex
+accrual of 9.4 per month against a measured 0.5 closed entry H3. The lesson
+holds in the same shape: a registered figure gets measured before it is
+registered, and a projected figure gets labelled a projection and recomputed
+against the world rather than defended.

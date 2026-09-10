@@ -1554,3 +1554,37 @@ sighting time. The change buys two narrow things: a birth in the last hour
 of a UTC day can no longer have its inferred date shifted by a delayed
 sighting, and four benign markers no longer sit in the log where a real
 outage needs to be visible. The second is the better reason.
+
+
+## 2026-09-10T05:05Z — Amendment H5-3: the H5 fire date recomputed against measured accrual
+
+Not a stage. A projection correction found during a health check, touching one
+registration and this log. No code, no data, no bar. Written while the daily
+pass was mid-flight, so documentation only by deliberate choice.
+
+Found. H5 has collected on eleven of thirteen UTC days since 2026-08-28.
+09-05 and 09-06 produced no rows. 09-03 produced four rows against a normal
+275 to 284, a pass that started and died after four instruments. Ten full
+passes in thirteen days is an accrual of 0.77 per day against the 1.00 the
+2026-08-28 verdict record assumed when it projected the fire at 2026-09-26.
+
+Cause. The machine sleeps and `Persistent=true` recovers the schedule, not the
+data: one catch-up run follows an outage of any length. H5 snapshots are
+point-in-time marks and depth, so a missed day is permanently unrecoverable.
+Funding and candles are unaffected, since the daily pass backfills those.
+
+Decided. The registered gate is untouched, twenty live instruments at thirty
+days of coverage each. The projected fire date moves to approximately
+2026-10-05 and is restated as a recomputed figure rather than a scheduled
+event. Coverage is ragged after 09-03, so the bar is met by the
+twentieth-best-covered instrument rather than by a calendar date.
+
+Second falsified assistant planning figure in this register, after main-dex
+accrual at 9.4 per month against a measured 0.5 in H3. Recorded as the same
+lesson rather than as a new one.
+
+Health-check state at the time of writing: both timers active, daily pass
+running its post-resume catch-up, zero watcher errors since ADR-032 against
+four in the three days before it, H2 at 63 pairs with all three latches
+absent and its reader still dark, tree clean at origin parity, disk at 27
+percent.
