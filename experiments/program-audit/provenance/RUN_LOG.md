@@ -536,3 +536,16 @@ AFTER checks: pre-existing dirt only
 prepared A run 19 (provenance/launch-args/agentA-run19.args.json)
 prepared B run 10 (provenance/launch-args/agentB-run10.args.json)
 prepared C run 10 (provenance/launch-args/agentC-run10.args.json)
+Outcomes of A run 17 / C run 8 / B run 8 (launched 23:01Z and 23:12Z 2026-09-05 by the first session, cut by the
+session limit at ~23:49Z; that session was then closed by the operator's decision and this session took over;
+laptop off until 2026-09-11, snapshots re-verified 13 repos / 1618 files):
+- A run 17 (wf_6001ea88-d6d): MLCryptoEngine verified and applied (17 findings; kept/corrected per the journal
+  line above if present). AiTrader readers p1-experiment, p2-return, p3-progress all wrote their drafts; the
+  consolidator did not run. A now 12/13; run 19 consolidates AiTrader from the drafts.
+- C run 8 (wf_72e77c78-e86): ETFExperiment applied (8 findings). PMExperiment and solclear inventories written;
+  their verification stages and the five remaining locates failed. C now 6/13.
+- B run 8 (wf_5e8f4f9a-b30): PMExperiment consolidated (15 findings) with positives ledger; solclear p2-progress
+  reader wrote its draft and ledger (p1-findings ledger recovered earlier); solclear consolidator and PMExperiment
+  verify/apply failed; the other readers failed. 10 cross-repo leads banked (B leads now 64). B stays 6/13.
+Next: A run 19, B run 10, C run 10 launched in parallel from the prepared args (runs 18/9/9 were the aborted
+duplicates; their args files are unused).
