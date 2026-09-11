@@ -1,0 +1,25 @@
+{
+ "done_repos": [
+  "ETFExperiment",
+  "HFExperiment",
+  "InsiderExperiment",
+  "MLCryptoEngine",
+  "NPDExperiment",
+  "NPLExperiment",
+  "ORBExperiment",
+  "PMExperiment",
+  "VRPExperiment",
+  "retail-power-limits",
+  "solattn",
+  "solclear"
+ ],
+ "done_parts": {
+  "AiTrader": [
+   "p1-experiment",
+   "p2-return",
+   "p3-progress"
+  ]
+ },
+ "consolidated": {},
+ "leads": []
+}

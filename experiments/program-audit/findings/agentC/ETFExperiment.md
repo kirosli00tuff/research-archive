@@ -14,9 +14,21 @@ snapshot at the line cited**, and every load-bearing figure was recomputed first
 consolidation from a fresh copy of the anchored `src/etf` (sha256 of `power.py`
 `0fed794c…46bd268`, of `config.py` `78573ddc…f85c0814`). The live repository was re-read read-only
 on 2026-09-05T18:05–18:11Z for the two untracked primitives that two findings turn on and for the
-Amendment-2 commit objects; see §Live-repo access log. Each finding carries a **Consolidation
+Amendment-2 commit objects, and once more on 2026-09-05T23:17Z for the snapshot ledger during the
+citation check; see §Live-repo access log. Each finding carries a **Consolidation
 check** bullet recording what that re-check found. **Eleven draft findings entered consolidation,
 three merges collapsed them to eight, none was dropped.**
+
+All eight were then put through an **independent citation check**: a separate checker re-located
+every quote in `SNAP`, re-ran every load-bearing figure and every recomputation from its own copy of
+the anchored source, and returned a per-finding verdict. Each finding now carries a **Citation
+check** bullet recording that outcome. **Five verified with no correction, three were corrected,
+none was dropped and no finding's conclusion moved.** The three corrections are a mis-cited
+supporting reference and a 10-vs-12-day arithmetic slip in **-1**, a document count in **-2**, and a
+severity regrade (S3 → S2, the ladder clause named) plus a one-line citation fix in **-5**. Every
+correction was re-confirmed first-hand against `SNAP/ETFExperiment/` before it was applied, and the
+one that needed an untracked file was re-derived from a fresh read-only live read on
+2026-09-05T23:17Z (window 5 in §Live-repo access log).
 
 **Anchoring caveat that governs part of the record.** `.gitignore` line 2 excludes `data/` in full,
 so no raw primitive is in the snapshot. Every figure derived from `data/access/*`,
@@ -299,8 +311,10 @@ says so explicitly.
   - **Forward accrual was measured and it was zero.** `census.json` `admissible_forward_capture` =
     **0**; `power.json` `scenarios.achieved_forward_only` = **0**; ETFExperiment/report.md:264
     prints "**admissible** (all retro-archive; forward-capture 0) | **11**". The untracked snapshot
-    ledger `data/snapshots/flow_snapshots.jsonl` holds 20 captures over one trade date, every one
-    with `signal_usd: null`.
+    ledger `data/snapshots/flow_snapshots.jsonl` holds **20 captures of the same open trade date
+    2026-08-28, whose `signal_usd` is null in every one of the 20** (each capture also carries 14
+    completed retro dates back to 2026-08-10, all non-null) — the collector never observed a
+    completed forward print. Read read-only 2026-09-05T23:17Z (untracked, UNANCHORED).
   - **The registration forbids exactly this, in a pre-data commit.** "**Therefore: no accrual,
     coverage, lag, retention, revision, or capture-density figure in this repository is registered
     before it is measured.** Every such figure is named as an A.1 or A.2 **measurement target**,
@@ -309,9 +323,12 @@ says so explicitly.
     month and the trailing rate" named as an A.2 Task 1 target at ETFExperiment/REGISTRATION.md:584.
   - **20.8 does not even reproduce the 163 it is printed beside.** 7.064 months × 20.8 + 11 =
     **157.9**, against the stated 163, because 163 came from the weekday method and 20.8 from a
-    calendar-month convention. The two methods disagree by 5 days at the deadline and by 12 days at
-    Amendment 6's 2027-10-31 horizon (20.8 × 14.094 = 293.2 forward, against the weekday method's
-    303).
+    calendar-month convention. The two methods disagree by 5 days at the deadline (151.6 against
+    146.9) and by **about 10 days** at Amendment 6's 2027-10-31 horizon (20.8 × 14.094 = 293.2
+    forward against the weekday method's 306 × 333/336 = 303.3), or by 12 days against the
+    register's own printed forward figure of **291** — "Forward-only accrual at the measured **20.8
+    admissible days per month** reaches roughly **291** by 2027-10-31",
+    ETFExperiment/REGISTRATION.md:1129-1130.
   - **What turns on it:** "**BLOCKED does not fire on power.** Its power trigger is E1 under 0.50 at
     the published-magnitude assumption at the achievable count by 2027-03-31. Measured: **0.6105**.
     The trigger is not met." — ETFExperiment/REGISTRATION.md:869-871, enforced at
@@ -346,7 +363,9 @@ says so explicitly.
   is stated in a source comment — "The forward cohort accrues at the measured **printed-day** rate:
   the census measured 333 printed days in 336 weekday rows over the window",
   ETFExperiment/scripts/power_gate.py:69-71 — and the forward-capture count of 0 is printed at
-  ETFExperiment/report.md:264 and README.md:37. **No document anywhere qualifies the word
+  ETFExperiment/report.md:264 and stored in ETFExperiment/reports/stage_a2/census.json
+  (`admissible_forward_capture` = 0) and ETFExperiment/reports/stage_a2/power.json
+  (`scenarios.achieved_forward_only` = 0). **No document anywhere qualifies the word
   "measured"**, and it is attached to the figure in all 14 prose citations and in a table column
   headed `measured`. The disclosure covers the mechanism; it does not cover the label, which is what
   this finding challenges. The finding therefore stays DERIVED and S2 rather than being capped as a
@@ -357,6 +376,33 @@ says so explicitly.
   11 admissible over 16 months; `admissible_forward_capture` = 0; `grep -rn "20\.8"` over
   `reports/ src/ scripts/` returns nothing while returning 14 prose lines. One draft figure
   corrected: E1 power at N = 16 is **0.0955**, not the draft's "≈ 0.08". Kept otherwise unchanged.
+
+- **Citation check:** corrected — an independent checker re-ran the quote, the figures and the
+  recomputation, and every correction below was re-confirmed first-hand here against
+  `SNAP/ETFExperiment/` and (for the one untracked file) the live working tree. Quote EXACT at
+  `REGISTRATION.md:981-982`; table cell EXACT at `:1010` under the column header
+  `| figure | measured | its n |` at `:1008`; all fourteen prose citations, `power_gate.py:29-43`
+  and `:69-71`, `power.py:86-104`, `section0.py:125-136` and `REGISTRATION.md:571-573`, `:584`,
+  `:869-871` re-located at the exact lines given; `grep -rn "20\.8"` over `reports/ src/ scripts/`
+  still returns nothing. Recomputation reproduced exactly on the checker's own copy of the anchored
+  `src/etf`: `e1_power(163, 0.18)` = 0.6105, the whole n-scan 0.4475 / 0.4755 / 0.5110 / 0.5025 /
+  0.5275 / 0.5870, `e1_power(16, 0.18)` = 0.0955, 11 + round(153 × 333/336) = 163, 7.064 × 20.8 + 11
+  = 157.9. **Three corrections applied.** (1) **Mis-citation.** The forward-capture count of 0 is
+  *not* in `README.md` — `grep -n forward README.md` returns nothing and `README.md:37` is the census
+  row — so that reference is replaced in the evidence and the disclosure bullet by the two stored
+  artifacts that do carry it, `census.json` `admissible_forward_capture` = 0 and `power.json`
+  `scenarios.achieved_forward_only` = 0, both re-read here. `report.md:264` is EXACT and stands.
+  (2) **Arithmetic in a supporting sentence.** The two projection methods differ by **about 10**
+  days at 2027-10-31, not 12: recomputed here, 306 weekdays × 333/336 = 303.27 against
+  20.8 × 14.094 = 293.16, a gap of 10.1. The 12 is the gap against the register's *own* printed
+  forward figure of 291 (`REGISTRATION.md:1129-1130`; 303.27 − 291 = 12.27), and the sentence now
+  says so. The 5-day figure at the deadline (151.63 against 146.9) was right. (3) **Precision on
+  the snapshot ledger.** It is not empty of values: each of the 20 captures carries 15 day-rows over
+  2026-08-10..2026-08-28, of which 14 are completed retro dates with non-null `signal_usd`; what is
+  null in all 20 captures is the single **open** date 2026-08-28. Re-read read-only
+  2026-09-05T23:17Z, live `status --porcelain` clean before and after. The finding's point — no
+  completed forward print was ever observed — is unchanged and if anything strengthened. Severity
+  S2, class, direction, label and conclusion all stand.
 
 ### AUDIT-C-ETFExperiment-2
 - **Repository / SHA:** ETFExperiment / `4d110027674e7b4cd2861cf4e0e74f975111daf1`
@@ -372,7 +418,8 @@ says so explicitly.
   27.20M, range −903.20M to +1,205.20M, n = 333)** — large against the registered 100M USD
   threshold. The two are **not interchangeable**, and Section 2 names five funds because the source
   study does." — ETFExperiment/docs/ACCESS.md:172-177. Repeated
-  at ETFExperiment/REGISTRATION.md:620-623 and ETFExperiment/report.md:65.
+  at ETFExperiment/REGISTRATION.md:620-623, ETFExperiment/report.md:65 and
+  ETFExperiment/DECISIONS.md:349.
 - **Evidence:**
   - **The four printed numbers are the mean, median, minimum and maximum of the Farside all-fund
     `Total` column itself**, over the same 333 days: recomputed **47.42M / 27.20M / −903.20M /
@@ -416,8 +463,10 @@ says so explicitly.
   mtimes of 2026-08-28, before the anchor's documents were finalised. The figure could move if
   either publisher revised its history after 2026-08-28; that would change the difference statistics
   but could not convert a difference into a level.
-- **Disclosed by the authors?:** **no.** The figure is presented as measured, with its n, in three
-  documents, and nothing anywhere flags it as a level rather than a difference. It does **not**
+- **Disclosed by the authors?:** **no.** The figure is presented as measured, with its n, in **four**
+  documents — ETFExperiment/docs/ACCESS.md:172-177, ETFExperiment/REGISTRATION.md:620-623,
+  ETFExperiment/report.md:65 and ETFExperiment/DECISIONS.md:349 — and nothing anywhere flags it as a
+  level rather than a difference. It does **not**
   reopen the closure: SoSoValue serves no per-row publication timestamp either
   (ETFExperiment/docs/ACCESS.md:169), so reopen threshold (a) is untouched.
 - **Consolidation check:** verified and re-derived from scratch. Quote EXACT at
@@ -426,6 +475,24 @@ says so explicitly.
   mean 47.42M / median 27.20M / min −903.20M / max 1205.20M, difference mean −7.44M / median −3.00M
   / min −150.40M / max +363.00M, |diff| ≥ 100M on 6 of 333 — every figure in the draft reproduced.
   Kept unchanged.
+
+- **Citation check:** corrected — quote EXACT at `docs/ACCESS.md:172-177`, repeats EXACT at
+  `REGISTRATION.md:620-623` and `report.md:65`, and `config.py:141`
+  `flow_universe_tickers=("IBIT","FBTC","GBTC","ARKB","BITB")` EXACT. Figures re-derived from
+  scratch by the checker with an independent parser (676 rows → 336 on or after 2025-05-01 → 333
+  with all five funds and a `Total`; all-fund level mean 47.42M / median 27.20M / min −903.20M /
+  max +1,205.20M; true per-day difference mean −7.44M / median −3.00M / min −150.40M / max +363.00M;
+  |diff| ≥ 100M on 6 of 333; five-fund level 39.98M / 27.40M / −860.90M / +1,142.40M matching
+  `census.json` `signal_distribution_live_descriptive`) — every figure reproduced. The companion
+  315-of-333 figure reproduced under three of four natural tolerance conventions and gives 316 under
+  `max(|a|,|b|)`; the document states no convention, which is worth a clause if that figure is ever
+  quoted on its own. **One correction applied:** the figure appears in **four** documents, not
+  three. `grep -rn "47.42" --include=*.md` over the snapshot, re-run here, returns
+  `DECISIONS.md:349`, `REGISTRATION.md:622`, `docs/ACCESS.md:174` and `report.md:65`;
+  `DECISIONS.md:349` carries it verbatim — "the source's `Total` spans 12 funds against the
+  registered 5, differing by a mean of **47.42M USD** (median 27.20M, range −903.20M to
+  +1,205.20M, n = 333)" — and is now cited in both the claim and the disclosure bullet. Severity S2
+  stands.
 
 ### AUDIT-C-ETFExperiment-3
 - **Repository / SHA:** ETFExperiment / `4d110027674e7b4cd2861cf4e0e74f975111daf1`
@@ -511,6 +578,21 @@ says so explicitly.
   "power_simulations": 2000` beside `minimum_n_for_e1 = {0.18: 237, 0.09: 845, 0.045: 3776}`. Three
   drafts merged into one finding; no figure changed.
 
+- **Citation check:** verified (quotes EXACT at `REGISTRATION.md:856-859`, `:1011` and
+  `report.md:329-330`; figures verified — `power.py:225-234` is the `minimum_n` signature carrying
+  `draws=4_000, simulations=600, seed=20260828`, `power_gate.py:104-106` calls `minimum_n(rho,
+  TARGET)` with no override, `e2_minimum.py:42` reads `draws=1200, simulations=300`,
+  `power_gate.py:115-116` writes the budget fields unconditionally from `CONFIG`, and `power.json`
+  stores `permutation_draws` 20000 and `power_simulations` 2000 beside `minimum_n_for_e1`
+  {published_0.18: 237, registered_0.09: 845, quartered_0.045: 3776} — all re-read here;
+  recomputation reproduced exactly from a fresh `SNAP` copy — `minimum_n(0.18, 0.80)` = 237 at both
+  the as-run 4,000/600 and the stated 20,000/2,000, `minimum_n(0.09, 0.80)` = **845** at 4,000/600
+  but **1,016** at the stated budget, so the finding's 20.2 % difference (171/845) is exact, and
+  `minimum_n(0.045, 0.80)` = 3776). Two notes, neither a defect: `5fa460a 2026-08-28T20:27:29Z` is
+  the **author** date (the commit date is 20:28:06Z — both post-data, so the argument is
+  unaffected), and "the only post-data deviation from a registered figure in the repository with no
+  dated amendment" is an exhaustiveness claim the checker did not attempt to verify in this pass.
+
 ### AUDIT-C-ETFExperiment-4
 - **Repository / SHA:** ETFExperiment / `4d110027674e7b4cd2861cf4e0e74f975111daf1`
 - **Hypothesis or artifact:** Amendment 2's statement of what data existed when it was made — a
@@ -566,18 +648,37 @@ says so explicitly.
   re-run (an `e2_power` sweep is ~10^8 pure-Python operations); everything else re-verified. Kept
   unchanged.
 
+- **Citation check:** verified (quote EXACT at `REGISTRATION.md:708-709`, and Amendment 3's
+  contrasting list at `:821-824` EXACT; figures verified — the checker re-derived the git facts
+  read-only from the live repository with `status --porcelain` empty before and after and `HEAD` at
+  the anchor: `41351a9` commit date 2026-08-28T20:36:13Z, `66a0c81` 20:35:28Z, `power.json`
+  `computed_at` 2026-08-28T20:35:37Z (tracked, therefore anchored, not UNANCHORED), confirming both
+  the 45-second authoring window and the 9-second offset; `git diff 41351a9^ 41351a9 --
+  scripts/power_gate.py` shows exactly one hunk, the `draws=1500, simulations=400` override plus its
+  four-line cost comment, verbatim as quoted; `git log --diff-filter=A` puts the blob's first
+  appearance at `fe60a22` (20:39:00Z) already carrying that `computed_at`, so it is not a later
+  overwrite; recomputation reproduced — the three E2 cells this finding had carried were re-run from
+  the stored `economic_inputs` against the anchored `e2_power` and give 0.0600, 0.0375 and 0.3325 at
+  1,500/400, matching the stored values to the digit, and 0.0725 / 0.0475 / 0.3800 at 2,000 draws).
+  Severity S2 and confidence MEDIUM both stand — the artifact ordering is certain, the word
+  "written" is not.
+
 ### AUDIT-C-ETFExperiment-5
 - **Repository / SHA:** ETFExperiment / `4d110027674e7b4cd2861cf4e0e74f975111daf1`
 - **Hypothesis or artifact:** Section 8's inference frame — every power figure, both minimum Ns, and
   the shortfall magnitudes the closure is stated with
 - **Direction:** A (closed too early — the conservative α understates the power available)
 - **Class:** STATISTICAL
-- **Severity:** S3
+- **Severity:** S2 — the label "family-wise 0.05, Šidák" contradicts the conjunctive decision rule
+  written in the same sentence and enforced at ETFExperiment/src/etf/section0.py:139. Regraded from
+  the drafts' S3 at citation check: the ladder reserves S3 for a stale *blocker* or *external*
+  figure and nothing here is stale, the same reasoning already applied to **-6**. S1 is not reached
+  because the closure survives.
 - **Label:** DERIVED (rerun of the repository's own functions at the two levels)
 - **Claim challenged (verbatim):** "**Two co-primaries, distribution-free, one-sided, at
   `alpha_adj = 1 − 0.95^(1/2) = 0.0253205655` each. Both must pass for the Stage B GO row.**" —
   ETFExperiment/REGISTRATION.md:284-286; with the code comment "alpha_adj = 1 - 0.95 ** (1/2): two
-  co-primaries, family-wise 0.05, Sidak." — ETFExperiment/src/etf/config.py:25; and Section 10's
+  co-primaries, family-wise 0.05, Sidak." — ETFExperiment/src/etf/config.py:24; and Section 10's
   "**both co-primaries at or above 80 percent power at achieved admissible N**" —
   ETFExperiment/REGISTRATION.md:394.
 - **Evidence:**
@@ -632,6 +733,27 @@ says so explicitly.
   the verification pass and not re-run at consolidation (cost). Budget evidence that the
   verification draft had folded in here was moved out to finding **-3**, where it belongs.
 
+- **Citation check:** corrected — quotes EXACT at `REGISTRATION.md:284-286` and `:394`; the
+  conjunction confirmed in code at `src/etf/section0.py:139`
+  (`if observability is Observability.PASS and powers_registered.minimum() >= cfg.power_go_floor:`),
+  re-read here, so the intersection–union point stands; the only disjunctive Šidák use is the
+  four-cell threshold-sensitivity secondary at `REGISTRATION.md:315-316`, also re-read.
+  Recomputation reproduced exactly — `e1_power(163, 0.18)` 0.6105 → 0.7320,
+  `minimum_n(0.18, 0.80)` 237 → 207, `minimum_n(0.09, 0.80)` 845 → 748, empirical size
+  `e1_power(163, 0.0)` = 0.0265 and `e1_power(300, 0.0)` = 0.0220 — and the checker additionally
+  re-ran one E2 cell this pass had carried: `e2_power(200, 0.18, draws=1200, simulations=300)` =
+  0.676667 at `α_adj`, reproducing `e2_minimum_n.json`'s stored 0.6766666666666666 bit-for-bit, and
+  0.776667 at α = 0.05, matching the reported 0.6767 → 0.7767. Only the n = 250 and n = 300 E2 cells
+  remain un-rerun. **Two corrections applied.** (1) **Severity regraded S3 → S2**, with the ladder
+  clause named: nothing here is stale and neither a blocker nor an external figure is involved,
+  which is all the S3 clause covers — the same reasoning the merge record already applied to **-6**;
+  what is defective is a *label*, "family-wise 0.05, Šidák", contradicting the conjunctive rule
+  written in the same sentence and enforced at `section0.py:139`. S1 is not reached because the
+  closure survives, which the finding states and I re-confirmed. (2) **Line number.** The Šidák code
+  comment is at `src/etf/config.py:24`, not `:25` — line 25 is the `ALPHA_ADJ` assignment. Found
+  here while checking; the checker had passed the citation. Everything else — quotes, figures,
+  direction, DERIVED label, "closure survives" — stands.
+
 ### AUDIT-C-ETFExperiment-6
 - **Repository / SHA:** ETFExperiment / `4d110027674e7b4cd2861cf4e0e74f975111daf1`
 - **Hypothesis or artifact:** Amendment 6 §4, the closing network-cost record
@@ -682,6 +804,20 @@ says so explicitly.
   2026-08-29T02:40:42Z; `4d11002` dated 2026-08-29 02:43:48 +0000. Two drafts merged; severity
   reconciled down to S4.
 
+- **Citation check:** verified (quote EXACT at `REGISTRATION.md:1160-1161`, repeats EXACT at
+  `progress.md:514-516`, `:564-566` and `:602`, and Amendment 5's mechanism disclosure EXACT at
+  `REGISTRATION.md:1084` with the disarm line at `:1157`; figures independently recomputed by the
+  checker from `data/ledgers/requests.jsonl` read read-only, live `status --porcelain` empty before
+  and after — 476 lines, 238 charge and 238 settle rows, first charge 2026-08-28T08:12:19Z, last
+  2026-08-29T02:40:32Z, charge #220 stamped 2026-08-28T20:40:46Z with the prefix split flow 33 /
+  archive 79 / venue 108 against a lifetime split of flow 51 / archive 79 / venue 108, the 18 extra
+  charges all `flow.table` between 21:00:36Z and 02:40:32Z, mtime 2026-08-29T02:40:42.974Z; the
+  amendment-instant table 145 / 219 / 220 / 220 / 228 / 238 reproduced once the six amendment
+  commits are resolved; recomputation reproduced every figure to the integer). The S4 grade was
+  re-checked independently and holds: the only reference to the ledger anywhere in `src/etf` is the
+  path constant at `paths.py:11`, re-read here, and no request count enters any verdict, bar or
+  floor.
+
 ### AUDIT-C-ETFExperiment-7
 - **Repository / SHA:** ETFExperiment / `4d110027674e7b4cd2861cf4e0e74f975111daf1`
 - **Hypothesis or artifact:** Amendment 1's pre-period blindness statement
@@ -718,6 +854,17 @@ says so explicitly.
   `funding_2023_05` 500/0 and `funding_2025_05_page` 500/**500**. 72 + 500 = 572 across two pages,
   exactly as drafted. The provenance pass's P08 is the same defect found independently and is folded
   in here as corroboration.
+
+- **Citation check:** verified (quote EXACT — the sentence runs from the word "every" at the end of
+  `REGISTRATION.md:603` through `:606`, so both the body's `:604-606` and the consolidation note's
+  `:603-606` locate it unambiguously and no correction is needed; figures verified by walking every
+  probe object in the two anchored artifacts, re-run here — `reports/stage_a1/venue_and_archive.json`
+  gives `funding_pre_period` 72 rows / 0 gated / 72 readable and `funding_post_period` 72 / 72 / 0,
+  and `reports/stage_a1/depth.json` gives `funding_2024_01` 500 / 0, `funding_2023_05` 500 / 0 and
+  `funding_2025_05_page` 500 / 500, so 72 + 500 = **572 of 572 from exactly two pages** across five
+  funding probes, three of them wholly pre-boundary; recomputation reproduced exactly). S4 hygiene
+  is the right grade: the page count is wrong, the count of gated rows and the blindness guarantee
+  are not.
 
 ### AUDIT-C-ETFExperiment-8
 - **Repository / SHA:** ETFExperiment / `4d110027674e7b4cd2861cf4e0e74f975111daf1`
@@ -764,6 +911,18 @@ says so explicitly.
   consolidation across all six endpoints: 96 requests over 16 rungs, every rung all-200;
   archive.timemap 2 × fastest clean spacing = 2.00 s against half-the-rate = 5.64 s (operating 2.0);
   the other five agree at 10.00/9.86, 2.00/2.00, 2.00/2.00, 2.00/2.00 and 2.00/2.04. Kept unchanged.
+
+- **Citation check:** verified (quote EXACT at `report.md:150-151`, with the table it sits under at
+  `:141-148` printing `| archive.timemap | 21.28/min (n = 18) | 2.0 s |` as claimed; figures
+  verified across all six endpoints from `reports/stage_a1/rate_ceilings.json`, recomputed here — 16
+  rungs, 96 requests, every rung `all_200` true; `archive.timemap` rungs 5.0 s / 5.78 per min,
+  2.0 s / 21.28, 1.0 s / 12.29, `highest_verified_clean_rate_per_min` 21.28 and
+  `operating_min_spacing_s` 2.0, so twice the fastest verified-clean spacing = **2.00 s** against
+  half the highest verified-clean rate = **5.64 s**, a 2.8× divergence, with the non-monotonicity
+  exactly as described; the other five agree to rounding and reproduce the finding's list digit for
+  digit — `flow.table` 10.00 vs 9.86, `archive.availability` 2.00 vs 2.00, `venue.candleSnapshot`
+  2.00 vs 2.00, `venue.fundingHistory` 2.00 vs 2.00, `kraken.ohlc` 2.00 vs 2.04). Nothing to
+  correct; S4 stands and the finding says plainly that nothing scientific turns on it.
 
 ---
 
@@ -969,6 +1128,31 @@ $ git -C /home/kiros-li/Documents/GitHub/ETFExperiment rev-parse HEAD
 | 18:10 | read `data/ledgers/requests.jsonl` (476 lines); `TZ=UTC stat` on it | re-derive finding **-6** |
 | 18:10 | `TZ=UTC git log -1 --date=iso-local` on `4d11002`, `41351a9`, `66a0c81`; `git diff 41351a9^ 41351a9 -- scripts/power_gate.py` | findings **-4**, **-6** |
 | 18:10:55 | `git status --porcelain`, `git rev-parse HEAD` | post-access record |
+
+**Window 5 — citation check application, 2026-09-05T23:17:17Z to 23:17:32Z**
+
+```
+$ git -C /home/kiros-li/Documents/GitHub/ETFExperiment status --porcelain     # 23:17:17Z
+(no output — clean, exit 0)
+$ git -C /home/kiros-li/Documents/GitHub/ETFExperiment rev-parse HEAD
+4d110027674e7b4cd2861cf4e0e74f975111daf1
+```
+
+```
+$ git -C /home/kiros-li/Documents/GitHub/ETFExperiment status --porcelain     # 23:17:32Z
+(no output — clean, exit 0)
+$ git -C /home/kiros-li/Documents/GitHub/ETFExperiment rev-parse HEAD
+4d110027674e7b4cd2861cf4e0e74f975111daf1
+```
+
+| time (UTC) | operation | purpose |
+|---|---|---|
+| 23:17:17 | `git status --porcelain`, `git rev-parse HEAD` | pre-access record |
+| 23:17 | read `data/snapshots/flow_snapshots.jsonl` (20 lines) read-only — capture count, day-row count, date span and `signal_usd` nullity only | confirm citation-check correction (3) to finding **-1** |
+| 23:17:32 | `git status --porcelain`, `git rev-parse HEAD` | post-access record |
+
+That was the only live access in this pass; everything else the citation check touched was read from
+`SNAP/ETFExperiment/`. Nothing was modified.
 
 Everything else in this consolidation was computed from `SNAP/ETFExperiment/` and from copies of
 `src/etf` taken from `SNAP` into

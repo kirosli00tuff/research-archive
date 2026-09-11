@@ -527,3 +527,12 @@ shipped 7, positive 11, qualified positive 7, thresholded negative 13, open 9; d
 B run 8 args amended to mark solclear/p1-findings done (provenance/launch-args/agentB-run8.args.json), then launched.
 A peer session (5fb0ac) briefly duplicated A run 17 and C run 8 at 23:02-23:05Z before stopping them (see its
 entry above, commit 606440e); it reported only scratch writes under work/, nothing under findings/.
+
+## 2026-09-11T02:01Z — tools/resume.py
+agent A: 12/13 done
+agent B: 6/13 done
+agent C: 6/13 done
+AFTER checks: pre-existing dirt only
+prepared A run 19 (provenance/launch-args/agentA-run19.args.json)
+prepared B run 10 (provenance/launch-args/agentB-run10.args.json)
+prepared C run 10 (provenance/launch-args/agentC-run10.args.json)

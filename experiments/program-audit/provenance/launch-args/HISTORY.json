@@ -153,5 +153,32 @@
   "launched": "2026-09-05T23:02Z",
   "after": "2026-09-05T23:05Z",
   "note": "stopped by TaskStop at 2026-09-05T23:05Z: duplicate of run launched one minute earlier by the peer session (A run 17 / C run 8); no result banked"
+ },
+ {
+  "agent": "A",
+  "run": 17,
+  "label": "01-agentA-blind-run17",
+  "task": "wivgbczsc",
+  "wf": "wf_6001ea88-d6d",
+  "launched": "2026-09-05T23:01Z",
+  "after": "2026-09-11T02:01Z"
+ },
+ {
+  "agent": "C",
+  "run": 8,
+  "label": "03-agentC-blind-run8",
+  "task": "ww760g9m3",
+  "wf": "wf_72e77c78-e86",
+  "launched": "2026-09-05T23:01Z",
+  "after": "2026-09-11T02:01Z"
+ },
+ {
+  "agent": "B",
+  "run": 8,
+  "label": "02-agentB-blind-run8",
+  "task": "wy3jvvj7i",
+  "wf": "wf_5e8f4f9a-b30",
+  "launched": "2026-09-05T23:12Z",
+  "after": "2026-09-11T02:01Z"
  }
 ]
