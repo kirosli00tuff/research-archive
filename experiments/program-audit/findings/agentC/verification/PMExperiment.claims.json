@@ -1251,7 +1251,7 @@
   "decision_rule_type": "single",
   "correction_matches_rule": null,
   "unanchored": false,
-  "notes": "Two conventions worth recording, neither of which the registration misstates: (a) z alone, with no power term z_beta, makes this a ~50 %-power detectability threshold rather than the conventional (z_alpha/2 + z_beta)*SE - the registration inherits the form from InsiderExperiment and claims no power level anywhere; (b) independence across contracts would have been doubtful in this data structure (contracts within events), and Section 8 - which would have registered the clustering unit - was never filled. Neither affects any reported result because no cell was ever built."
+  "notes": "Two conventions worth recording, neither of which the registration misstates: (a) z alone, with no power term z_beta, makes this a ~50 %-power detectability threshold rather than the conventional (z_alpha/2 + z_beta)*SE - the registration inherits the form from InsiderExperiment and claims no power level anywhere; (b) independence across contracts would have been doubtful in this data structure (contracts within events), and Section 8 - which would have registered the clustering unit - was never filled. Neither affects any reported result because no cell was ever built. Recomputed from the stated inputs: at n_T = 475 and v-bar = 0.0475 the SE is 0.010000 exactly, so a true effect of 0.02 is detected with probability 0.500 against z = 2.0 (0.516 against 1.96). See DRAFT-V-6."
  },
  {
   "kind": "test",
@@ -1428,5 +1428,49 @@
   "correction_matches_rule": null,
   "unanchored": false,
   "notes": null
+ },
+ {
+  "kind": "derived",
+  "claim_text": "GO | MDE <= 0.02 | the design resolves the entire published band; Stage B is authorized for that universe against the registered target",
+  "file": "REGISTRATION.md",
+  "line": "110 (the GO row of the verdict map; bar at 128, planning inputs 120-129; restated report.md:31-35)",
+  "stated_value": "n_T >= 475 tail contracts buys a design that 'resolves the entire published band' (0.02 to 0.08)",
+  "source_of_truth": "pmexperiment/power.py:37-45 (the estimator as coded), REGISTRATION.md:99-106 and 120-129 (z, v-bar and the bar); power recomputed with scipy.stats.norm in work/agentC-PM-verify2/power_check.py",
+  "recomputed_value": "at n_T = 475 and v-bar = 0.0475, SE = sqrt(0.0475/475) = 0.010000 exactly; a true effect of 0.02 is two-sided significant with probability 0.5000 at z = 2.0 (0.5160 at z = 1.96). A bar that resolves 0.02 at the conventional 80 % power is n_T = 959 (z = 2.0) or 933 (z = 1.96) - 2.0x the registered bar; at 90 % power, 1,279 / 1,248.",
+  "tolerance": "power to 4 dp; n to 1 contract",
+  "status": "CONTRADICTED",
+  "reason": "MDE is defined as z*SE with no power term z_beta (pmexperiment/power.py:45, REGISTRATION.md:301), which is the smallest effect that would reach significance at exactly 50 % power, not the smallest effect the design would reliably detect. The GO row's stated consequence - that the design 'resolves the entire published band' - does not follow from its own bar: at 475 the design misses a real 0.02 effect half the time. Never fired: no cell was ever built, so no verdict in this repository depends on it. See DRAFT-V-6.",
+  "estimator": "MDE = z * sqrt(v-bar / n_T), normal approximation on a proportion",
+  "independence_assumed": true,
+  "data_structure": "tail-cell contracts, nested in events and series; never built",
+  "tail": "two-sided, z = 2.0 (a rounded 1.96)",
+  "dof": "normal approximation, no dof",
+  "correction_applied": "none",
+  "decision_rule_type": "single",
+  "correction_matches_rule": null,
+  "unanchored": false,
+  "notes": "The repository never states a power level anywhere (grep for 'power of', '80 %', 'z_beta', '1 - beta' returns nothing), so it does not misstate one; the defect is that the word 'resolves' claims what 50 % power does not deliver. The form is inherited from InsiderExperiment (REGISTRATION.md:44-49), so the same arithmetic may be worth checking there."
+ },
+ {
+  "kind": "derived",
+  "claim_text": "At the published two-thirds tail share, GO needs about 703 markets (475 / 0.676)",
+  "file": "REGISTRATION.md",
+  "line": "148-150",
+  "stated_value": "703 = 475 / 0.676",
+  "source_of_truth": "arithmetic over the premise stated in the same sentence and at REGISTRATION.md:132-134",
+  "recomputed_value": "475/0.676 = 702.66 -> 703 (the printed quotient is internally right); 475/(2/3) = 712.50; 475/0.667 = 712.14",
+  "tolerance": "+/- 1 market",
+  "status": "CONTRADICTED",
+  "reason": "The divisor is not the premise. Under the stated two-thirds share the bar is about 713 markets, not 703. 0.676 appears exactly once in the repository and is defined nowhere. See DRAFT-V-1.",
+  "estimator": null,
+  "independence_assumed": null,
+  "data_structure": null,
+  "tail": null,
+  "dof": null,
+  "correction_applied": null,
+  "decision_rule_type": "single",
+  "correction_matches_rule": null,
+  "unanchored": false,
+  "notes": "Duplicate view of claim row 8 as a derived quantity, kept because the brief asks every derived quantity to be recomputed from its stated primitives."
  }
 ]

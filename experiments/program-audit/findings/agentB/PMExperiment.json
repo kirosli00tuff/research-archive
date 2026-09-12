@@ -12,7 +12,7 @@
     "claim_quote": "**Entry prices 91–99c — the favourite half of the registered tail cell — held to resolution, on either side of the book (YES on a documented-underpriced favourite, or NO on a documented-overpriced longshot), requiring an edge above 5.85 points at the registered turnover k = 1: 5.73 points at 91c rising to 5.97 points at 99c.**",
     "claim_file": "PMExperiment/docs/BAND.md",
     "claim_line": 314,
-    "evidence_summary": "The edge is registered as a requirement on the true probability ('Break-even therefore requires the true probability to exceed the market price by', REGISTRATION.md:717-722; band.py:73), so at entry price p it cannot exceed 1 - p. That bound appears nowhere in the repository (grep -rnE 'cannot exceed|attainab|feasib' over all tracked *.md and *.py returns 0 hits). Feasibility needs 1 - p > 0.03 + 0.03p, i.e. p < 0.941748. Over the 9 integer cents of the fired region, 91c-94c are feasible and 95c, 96c, 97c, 98c, 99c are arithmetically empty. The region's registered representative price is one of the empty ones: bucket_midpoint((91,99)) = 0.950, at which the ceiling is 0.0500 against a stated requirement of 0.0585 — a shortfall of 0.0085, not a margin — and every headline figure in the repository is quoted there. The published 2.15-point margin (0.0800 - 0.0585) is measured against an effect that cannot exist at that price. The band top 0.08 itself is unattainable above 92c, leaving windows as narrow as 0.18 points at 94c; the round-trip route is infeasible from 93c up (crossover 0.922330).",
+    "evidence_summary": "The edge is registered as a requirement on the true probability ('Break-even therefore requires the true probability to exceed the market price by', REGISTRATION.md:717-722; band.py:73), so at entry price p it cannot exceed 1 - p. That bound appears nowhere in the repository (grep -rnE 'cannot exceed|attainab|feasib' over all tracked *.md and *.py returns 0 hits; n = 6,769 lines across the 15 tracked documents and modules outside tests/, 10 *.md and 5 *.py). Feasibility needs 1 - p > 0.03 + 0.03p, i.e. p < 0.941748. Over the 9 integer cents of the fired region, 91c-94c are feasible and 95c, 96c, 97c, 98c, 99c are arithmetically empty. The region's registered representative price is one of the empty ones: bucket_midpoint((91,99)) = 0.950, at which the ceiling is 0.0500 against a stated requirement of 0.0585 — a shortfall of 0.0085, not a margin — and every headline figure in the repository is quoted there. The published 2.15-point margin (0.0800 - 0.0585) is measured against an effect that cannot exist at that price. The band top 0.08 itself is unattainable above 92c, leaving windows as narrow as 0.18 points at 94c; the round-trip route is infeasible from 93c up (crossover 0.922330).",
     "evidence_refs": [
       "PMExperiment/docs/BAND.md:314",
       "PMExperiment/docs/BAND.md:210",
@@ -20,7 +20,6 @@
       "PMExperiment/docs/BAND.md:257",
       "PMExperiment/docs/BAND.md:330",
       "PMExperiment/REGISTRATION.md:717",
-      "PMExperiment/REGISTRATION.md:334",
       "PMExperiment/REGISTRATION.md:409",
       "PMExperiment/REGISTRATION.md:420",
       "PMExperiment/REGISTRATION.md:431",
@@ -35,7 +34,8 @@
       "PMExperiment/README.md:143",
       "PMExperiment/report.md:61",
       "PMExperiment/progress.md:362",
-      "PMExperiment/HYPOTHESES.md:130"
+      "PMExperiment/HYPOTHESES.md:130",
+      "PMExperiment/REGISTRATION.md:332"
     ],
     "recomputation": "R_H(p) = 0.02 + 0.01 + 0.03p from registry.py:53-57 and band.py:68-80, compared with the ceiling 1 - p at each integer cent 0.91..0.99: 91c 0.0573/0.0900 feasible; 92c 0.0576/0.0800 feasible; 93c 0.0579/0.0700 feasible; 94c 0.0582/0.0600 feasible; 95c 0.0585/0.0500 EMPTY; 96c 0.0588/0.0400 EMPTY; 97c 0.0591/0.0300 EMPTY; 98c 0.0594/0.0200 EMPTY; 99c 0.0597/0.0100 EMPTY. Crossover p = 0.97/1.03 = 0.9417476; round-trip crossover p = 0.95/1.03 = 0.9223301. The same script reproduces the repository's published Pass 1 table (docs/BAND.md:199-210) exactly at every cell before the bound is applied. Script: /home/kiros-li/.cache/program-audit/scratchpad/work/agentB-PM-consol/verify.py",
     "would_resolve": "Restate the surviving region as 91-94c held to resolution with the per-cent windows shown, and re-quote the headline requirement at a feasible price rather than at the 0.950 midpoint; or register an argument that the edge is not bounded by 1 - p at entry price p, which would contradict REGISTRATION.md:717-722 and Section 11.",
@@ -44,7 +44,11 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": "The anchor is the terminal commit of a closed project; Sections 0-14 of REGISTRATION.md are byte-identical from 9080186 to 03d16e7 (diff exit 0, 367 lines both sides), as are registry.py and band.py.",
     "disclosed_by_authors": false,
-    "disclosure_ref": null
+    "disclosure_ref": null,
+    "citation_check": {
+      "status": "corrected",
+      "note": "Three citations tightened: 'Registered in the same words at REGISTRATION.md:420-424' restated as near-identical wording ('at the binding k = 1' there vs 'at the registered turnover k = 1' in the challenged quote); the supporting cite REGISTRATION.md:334-335 (a blank line plus the formula) corrected to :332-335; and the grep's n restated as 15 tracked documents and modules, not 13 — the 6,769-line total is exact but spans 10 *.md and 5 *.py outside tests/. Quote EXACT, figures YES, 0-hit grep re-verified."
+    }
   },
   {
     "id": "AUDIT-B-PMExperiment-2",
@@ -89,7 +93,11 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": "power.py, registry.py and Sections 0.3, 0.4, 8 and 9 are unchanged to the anchor and the project is closed.",
     "disclosed_by_authors": false,
-    "disclosure_ref": null
+    "disclosure_ref": null,
+    "citation_check": {
+      "status": "verified",
+      "note": "Quote EXACT, figures YES. Both verifiers reproduced the power arithmetic to the digit (0.5160052 / 0.5000, z80 = 2.8015852, ratio 1.96222, 932.0545, 58.2534, MDE 0.1114782, m-bar 3.7315166, DEFF 1.273/1.683/2.366), confirmed registry.py:9, power.py:45 and the three pinned tests, and confirmed the power-vocabulary grep returns exactly one hit at progress.md:995. No change."
+    }
   },
   {
     "id": "AUDIT-B-PMExperiment-3",
@@ -129,7 +137,11 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": "band.py, registry.py and Section 3 are unchanged to the anchor and the project is closed.",
     "disclosed_by_authors": false,
-    "disclosure_ref": null
+    "disclosure_ref": null,
+    "citation_check": {
+      "status": "verified",
+      "note": "Quote EXACT, figures YES. Both verifiers confirmed the 10/10 and 2/2 recounts, the 1/2 after the direction correction, the 128-line separation between docs/BAND.md:197 and :325, and that surviving_buckets iterates BUCKET_EDGES_CENTS with TAIL_BUCKETS_CENTS defined one line below. Verifier 2's optional fifth restatement site (DECISIONS.md:298-300, ADR-010) was not added. No change."
+    }
   },
   {
     "id": "AUDIT-B-PMExperiment-4",
@@ -146,26 +158,26 @@
     "claim_line": 222,
     "evidence_summary": "The half-spread is registered as '1 cent half-spread, paid once at entry | assumption. A settlement exit crosses no spread.' (REGISTRATION.md:200), justified by a participant 'holding one side of one contract to settlement' (:193-195). Amendment 2 later added a route that is not a settlement exit ('exited before resolution | both sides, $0.04', :723) and the spread component was never amended: band.py:80 charges exactly one HALF_SPREAD_USD on both routes and tests/test_band.py:53 pins the omission (exited - held == FEE_PER_SIDE_USD). A non-settlement exit crosses the book a second time, so route X is understated by one half-spread = 0.0100 at every one of the 10 registered deciles — 5.1x the 0.00195 understatement the same document does quantify (docs/BAND.md:181-186) and does use to exclude the route (:261-263). With the exit half-spread charged, R_X(p) = 0.06 + 0.03p, R_X(0.95) = 0.0885 > 0.0800, and R_X crosses the band top at p = 0.6667, inside the tradeable range — falsifying 'There are no crossings inside the tradeable price range' (docs/BAND.md:214) and the quoted 'at every price' claim, which is repeated at REGISTRATION.md:452-454, progress.md:445-447 and report.md:97-99. Route X survival falls from 10/10 to 7/10 at k = 1. The fired verdict is not overturned (route X was excluded anyway) but the reason given for excluding it is wrong: the route fails by 0.0085 at 95c, not by a 0.0015-vs-0.00195 slack margin.",
     "evidence_refs": [
-      "PMExperiment/docs/BAND.md:222",
-      "PMExperiment/docs/BAND.md:214",
+      "PMExperiment/REGISTRATION.md:193",
+      "PMExperiment/REGISTRATION.md:200",
+      "PMExperiment/REGISTRATION.md:214",
+      "PMExperiment/REGISTRATION.md:452",
+      "PMExperiment/REGISTRATION.md:723",
       "PMExperiment/docs/BAND.md:181",
       "PMExperiment/docs/BAND.md:199",
+      "PMExperiment/docs/BAND.md:214",
+      "PMExperiment/docs/BAND.md:222",
       "PMExperiment/docs/BAND.md:261",
       "PMExperiment/docs/BAND.md:326",
       "PMExperiment/docs/BAND.md:75",
-      "PMExperiment/REGISTRATION.md:200",
-      "PMExperiment/REGISTRATION.md:193",
-      "PMExperiment/REGISTRATION.md:214",
-      "PMExperiment/REGISTRATION.md:723",
-      "PMExperiment/REGISTRATION.md:452",
-      "PMExperiment/pmexperiment/band.py:80",
       "PMExperiment/pmexperiment/band.py:27",
+      "PMExperiment/pmexperiment/band.py:80",
       "PMExperiment/pmexperiment/registry.py:53",
       "PMExperiment/pmexperiment/registry.py:55",
-      "PMExperiment/tests/test_band.py:44",
-      "PMExperiment/tests/test_band.py:53",
       "PMExperiment/progress.md:445",
-      "PMExperiment/report.md:97"
+      "PMExperiment/report.md:97",
+      "PMExperiment/tests/test_band.py:44",
+      "PMExperiment/tests/test_band.py:53"
     ],
     "recomputation": "Published R_X at k = 1 across the ten deciles recomputes as 0.0517/0.0547/0.0576/0.0607/0.0636/0.0667/0.0697/0.0727/0.0756/0.0785, identical to docs/BAND.md:199-210. With a second half-spread: 0.0616/0.0646/0.0677/0.0706/0.0736/0.0766/0.0796/0.0827/0.0857/0.0885. Band-top crossing at p = (0.08 - 0.06)/0.03 = 0.666667; survivors 7/10 at k = 1. Script: /home/kiros-li/.cache/program-audit/scratchpad/work/agentB-PM-consol/verify.py",
     "would_resolve": "A numbered amendment either charging a second half-spread on the exited-before-resolution route and restating the crossing-point and 'runs entirely inside the band' conclusions, or registering an explicit reason why an early exit crosses no spread.",
@@ -173,8 +185,12 @@
     "confidence_why": "The omission is visible in one line of code and one pinned assertion, and Section 2's own justification sentence names settlement as the reason the spread is charged once.",
     "invalidated_by_later_commits": false,
     "invalidation_note": "registry.py, band.py and Section 2 are unchanged from their introduction to the anchor; the project is closed.",
-    "disclosed_by_authors": false,
-    "disclosure_ref": null
+    "disclosed_by_authors": "partly",
+    "disclosure_ref": "Partly disclosed. The registered cost table's spread row (PMExperiment/REGISTRATION.md:200, quoted verbatim into PMExperiment/docs/BAND.md:75) states the premise this finding uses ('A settlement exit crosses no spread') and names the component's direction of bias ('likely understates the cost at the illiquid tails, i.e. toward H1 - carried as a named caveat wherever the cost floor is used'). That promise is not kept at PMExperiment/docs/BAND.md:214 or :222-224, where the conclusions are stated flatly, and the route-X mechanism (a non-settlement exit crosses the book twice), its 0.0100 magnitude and its effect on the crossing point are disclosed nowhere; the two registered simplifications at docs/BAND.md:181-187 total 0.00195 and do not include it. Caveat in the cost table, conclusion without it - not capped, S2 stands.",
+    "citation_check": {
+      "status": "corrected",
+      "note": "Disclosure field corrected. It previously read 'no - the exit half-spread is not mentioned anywhere in the snapshot', which is overstated: REGISTRATION.md:200 registers the settlement premise and names the component's bias toward H1, promising the caveat is carried wherever the cost floor is used (verified in the snapshot). Rewritten as 'partly', with the unkept promise quoted and the genuinely undisclosed part (the second crossing, its 0.0100 magnitude, the crossing point) named. Both quotes EXACT, all figures reproduce, severity S2 unchanged."
+    }
   },
   {
     "id": "AUDIT-B-PMExperiment-5",
@@ -184,30 +200,31 @@
     "direction": "B",
     "hypothesis_or_artifact": "The exclusion of BAND-NARROW — the alternative verdict that would have recorded a split finding rather than passing a region to the power gate",
     "class": "UNSUPPORTED_POSITIVE",
-    "severity": "S2",
+    "severity": "S3",
     "label": "READ",
     "claim_quote": "- **not BAND-NARROW** — its condition requires the surviving region to lie *only* outside the permitted categories or below usable volume; the category clause is contradicted by Krause's permitted-category attribution, and the volume clause cannot be evaluated because no floor was ever registered;",
     "claim_file": "PMExperiment/docs/BAND.md",
     "claim_line": 306,
     "evidence_summary": "Both legs are defective and both point toward the more permissive verdict. Leg 1: the register records the volume floor as 'never registered' and BAND-NARROW's clause as one that 'cannot be evaluated' (docs/BAND.md:113), then treats the unevaluable clause as unmet — synthesizing a value for an absent input, against standing rule 5 ('Absence is a recorded state, never a synthesized value', CLAUDE.md:27-28; README.md:227-228). Here the absence fails open. The floor was in fact registered the next stage as Amendment 5 (>= $1,000 per contract, progress.md:706-707; registry.py:50), committed f789079 2026-08-30T03:34:00Z after the band verdict 32dc10a 2026-08-29T19:24:06Z, and has never been exercised (n = 0 contracts enumerated, progress.md:714-715). Leg 2: the only category attribution in the registration belongs to Krause (REGISTRATION.md:236-238), whose exploitable entry price the same stage measured at 0.883, in the 81-90 decile, 'outside the cell the band is registered for' (docs/BAND.md:155, :209, :332-334) — so the attribution used to defeat BAND-NARROW at 91-99c belongs to a bucket the same verdict excludes. No magnitude cited at 91-99c carries any category attribution at all: the two cited there are Buergi's 0.020 and 0.030 (n = 313,972 prices), and Section 3 attributes no category to either. What turns on it: BAND-NARROW's registered consequence is a split finding (REGISTRATION.md:741); BAND-OPEN's is that the power gate proceeds against the region (:742).",
     "evidence_refs": [
-      "PMExperiment/docs/BAND.md:306",
+      "PMExperiment/CLAUDE.md:27",
+      "PMExperiment/README.md:227",
+      "PMExperiment/REGISTRATION.md:225",
+      "PMExperiment/REGISTRATION.md:236",
+      "PMExperiment/REGISTRATION.md:417",
+      "PMExperiment/REGISTRATION.md:433",
+      "PMExperiment/REGISTRATION.md:741",
       "PMExperiment/docs/BAND.md:113",
       "PMExperiment/docs/BAND.md:155",
       "PMExperiment/docs/BAND.md:209",
       "PMExperiment/docs/BAND.md:210",
       "PMExperiment/docs/BAND.md:287",
+      "PMExperiment/docs/BAND.md:306",
       "PMExperiment/docs/BAND.md:332",
-      "PMExperiment/REGISTRATION.md:417",
-      "PMExperiment/REGISTRATION.md:236",
-      "PMExperiment/REGISTRATION.md:225",
-      "PMExperiment/REGISTRATION.md:741",
-      "PMExperiment/CLAUDE.md:27",
-      "PMExperiment/README.md:227",
+      "PMExperiment/pmexperiment/registry.py:50",
       "PMExperiment/progress.md:479",
       "PMExperiment/progress.md:706",
-      "PMExperiment/progress.md:714",
-      "PMExperiment/pmexperiment/registry.py:50"
+      "PMExperiment/progress.md:714"
     ],
     "recomputation": null,
     "would_resolve": "A registered rule for how an unevaluable clause of a verdict condition is to be resolved (the register has none), or a category attribution for a magnitude cited at 91-99c.",
@@ -215,8 +232,12 @@
     "confidence_why": "Every fact is stated by the repository itself; what is contested is the inference, and the repository's own fail-closed rule points the other way.",
     "invalidated_by_later_commits": false,
     "invalidation_note": "Amendment 2's verdict definitions and Section 15.2 are unchanged to the anchor and the project is closed.",
-    "disclosed_by_authors": false,
-    "disclosure_ref": "Not disclosed for the limitation raised here. Adjacent facts are disclosed: PMExperiment/docs/BAND.md:113 records the volume floor as never registered and its clause as unevaluable, and :332-334 places Krause's exploitable price at 88.3c outside the fired cell. Nowhere is it disclosed that the exclusion of BAND-NARROW depends on resolving an absent input in the permissive direction and on importing a category attribution from a price bucket the verdict excludes."
+    "disclosed_by_authors": true,
+    "disclosure_ref": "Disclosed for both facts, in the verdict section itself. PMExperiment/REGISTRATION.md:417 - the BAND-NARROW row being challenged - states that 'the volume clause cannot be evaluated, because Section 1's volume floor was never registered (ADR-006, 2026-08-29)'. PMExperiment/REGISTRATION.md:433-439, the first of the three qualifications 'registered with the verdict and not separable from it', states that Krause's exploitable entry price is 88.3c, 'the 81-90 decile, outside the tail cell the band is registered for'. Both are restated at PMExperiment/docs/BAND.md:113 and :332-334. Severity therefore capped at S3 and the finding is not presented as a discovery; what it adds is only the inference the authors do not draw - that an unevaluable clause was resolved as an unmet clause, in the permissive direction, against standing rule 5's fail-closed reading.",
+    "citation_check": {
+      "status": "corrected",
+      "note": "Severity S2 -> S3 and the disclosure field rewritten from 'not disclosed for the limitation raised' to 'disclosed, in the verdict section itself'. The verifiers disagreed (verifier 1: not disclosed, severity fine; verifier 2: disclosed, cap to S3). I read REGISTRATION.md:414-446 in the snapshot: :417 states the volume clause 'cannot be evaluated' inside the very row that resolves it as not firing, and :433-439 states Krause's 88.3c placement as one of the three inseparable qualifications. Both facts are disclosed adjacent to the claim, not in a footnote, so the house cap applies and verifier 2 was followed. Quote EXACT, Label READ unchanged."
+    }
   },
   {
     "id": "AUDIT-B-PMExperiment-6",
@@ -233,16 +254,17 @@
     "claim_line": 20,
     "evidence_summary": "Amendment 7 binds: 'This prior may not be described anywhere as pre-registered, and no verdict in this repository may be read against it as though it had been. It is a stated prior, dated at closure.' (REGISTRATION.md:1027-1029). The prior did not exist during the project: Section 13 'has read that since Section 0 was committed on 2026-08-29 and it was never filled', the prior being 'supplied 2026-09-02, at closure, after two gates had already fired' (:1018-1022). Git confirms the interval over n = 3 gate firings: Section 0 committed 9080186 2026-08-29T07:37:33Z; the band gate fired 32dc10a 2026-08-29T19:24:06Z; the access gates fired 98ce2d4 2026-08-29T07:53:10Z and 1b3124e 2026-08-30T03:40:52Z; the prior first appears in fe7e6b9 2026-09-02T09:32:22Z. 'before any of this began' and 'from the beginning' are assertions about the ex-ante state of expectation; no document records any operator expectation before 2026-09-02 and a test pins Section 13 empty (tests/test_honesty.py:517-525). The framing was written to instruction (progress.md:1310 logs the Stage E prompt verbatim: 'State the registered prior and that a null was the modal expected outcome, so the closure reads as the method working rather than as a disappointment'); the repository corrected 'registered' to 'stated' (progress.md:1504-1505; pinned at tests/test_honesty.py:508-514) but kept the retrospective clause. The same sentence appears at report.md:443-445.",
     "evidence_refs": [
-      "PMExperiment/README.md:20",
       "PMExperiment/README.md:168",
-      "PMExperiment/report.md:443",
-      "PMExperiment/REGISTRATION.md:1027",
+      "PMExperiment/README.md:20",
       "PMExperiment/REGISTRATION.md:1018",
+      "PMExperiment/REGISTRATION.md:1027",
       "PMExperiment/REGISTRATION.md:1034",
-      "PMExperiment/tests/test_honesty.py:508",
-      "PMExperiment/tests/test_honesty.py:517",
       "PMExperiment/progress.md:1310",
-      "PMExperiment/progress.md:1504"
+      "PMExperiment/progress.md:1504",
+      "PMExperiment/report.md:434",
+      "PMExperiment/report.md:443",
+      "PMExperiment/tests/test_honesty.py:508",
+      "PMExperiment/tests/test_honesty.py:517"
     ],
     "recomputation": null,
     "would_resolve": "Either a dated record of an operator prior given before 2026-09-02, or a one-line edit dropping 'before any of this began' / 'from the beginning' so the prior is used only where Amendment 7 permits it — as the recorded input to the cost decision.",
@@ -251,7 +273,11 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": "The README block is the last README state (1ba50aa, 2026-09-02T09:36:29Z) and the repository is closed; a later commit could of course amend it.",
     "disclosed_by_authors": false,
-    "disclosure_ref": "Not disclosed for the limitation raised here. Adjacent facts are disclosed: PMExperiment/README.md:168-175 and REGISTRATION.md:1024-1034 state that the prior is post-hoc and stated rather than pre-registered. The breach itself — a retrospective claim about ex-ante expectation, in the README's opening block (README.md:20-23) and the report's closure (report.md:443-445) — is disclosed nowhere, and Amendment 7 makes only a milder version of the same move at REGISTRATION.md:1034."
+    "disclosure_ref": "Not disclosed where it matters. PMExperiment/report.md:434-441 discloses the post-hoc prior in the same subsection as the closure sentence ('arrives at closure, after the band gate and both access gates had fired', 'may never be described as pre-registered'), so the report.md instance is disclosed in place and is NOT challenged; the challenged quote is restricted to README.md:20-23. The README carries the claim in its opening block and the disclosure only at PMExperiment/README.md:168-175, 148 lines down, and Amendment 7 makes only a milder version of the same move at PMExperiment/REGISTRATION.md:1034. The honesty guard (tests/test_honesty.py:508-514) checks for the presence of that disclaimer rather than for the absence of the reading Amendment 7 forbids. S2 stands for the README instance.",
+    "citation_check": {
+      "status": "corrected",
+      "note": "The report.md instance was dropped from the challenged quote and moved into the evidence as the place where the same sentence IS disclosed; the disclosure field was rewritten accordingly and '150 lines further down' corrected to 148 (README.md:20 -> :168). Verified in the snapshot: report.md:434-441 is a subsection headed 'The prior arrives late, and the empty slot is left empty' sitting four lines above the challenged closure sentence. Verifier 1 recommended KEEP but did not test in-place disclosure; verifier 2 was followed on the evidence. Both quotes EXACT, all five commit timestamps verified, S2 unchanged for the surviving README instance."
+    }
   },
   {
     "id": "AUDIT-B-PMExperiment-7",
@@ -266,19 +292,22 @@
     "claim_quote": "4. **Measured beats documented.** Verify every external figure live. A documented rate limit is a claim, not a measurement.",
     "claim_file": "PMExperiment/CLAUDE.md",
     "claim_line": 25,
-    "evidence_summary": "No effect-band source was ever verified live and none carries a fetch record. docs/ACCESS.md and docs/LICENCES.md record fetch dates, byte counts and HTTP codes for the permission documents (11 'Fetched' stamps between them, 3 and 8) and none for Buergi, Krause or Page-Clemen; 'Krause' appears 0 times in either file. The deciding source carries no retrievable identifier: 'Krause, Market Efficiency and the Favorite-Longshot Bias in Unemployment Prediction Markets, 2026' (REGISTRATION.md:235-236) has no venue, DOI, SSRN number or page, while the companion study in the same bullet is given as 'SSRN 7087538, 95 contracts over 12 months' (:239-240); grep -rn 'Krause' over the snapshot returns 32 mentions and 0 with a DOI/SSRN/URL/arXiv/NBER identifier. The evidence procedure is scoped so it can never fire over this input: ADR-012 governs claims 'about what a venue's terms permit' (DECISIONS.md:367-370). Every negative was decided under it; the one positive-flavoured verdict was decided against literature figures to which neither ADR-012 nor standing rule 4 was applied. The asymmetry in figures: a dataset documenting all four gate inputs over 1,201,580,990 rows was recorded UNMEASURED because neither the card nor the CC BY 4.0 legal code prints any date (DECISIONS.md:462-463); the repository's own Stage A finding was convicted at two elements of three (Effective 0 occurrences, Last Updated 0, README.md:67-69); the Kalshi reply was recorded UNMEASURED for want of an effective date and a quotation (REGISTRATION.md:546-556). Against 3 candidate routes refused on the strict standard, 1 input was admitted on none.",
+    "evidence_summary": "No effect-band source was ever verified live and none carries a fetch record. docs/ACCESS.md and docs/LICENCES.md record fetch dates, byte counts and HTTP codes for the permission documents (six dated fetch records, at docs/ACCESS.md:26 and :50 and docs/LICENCES.md:143, :248, :329 and :550; a case-insensitive grep for 'fetched' returns 11 hits between the two files, 3 in ACCESS.md and 8 in LICENCES.md, of which these six are records and the rest prose - the literal capitalised token 'Fetched' occurs only twice, at LICENCES.md:143 and :550) and none for Buergi, Krause or Page-Clemen; 'Krause' appears 0 times in either file. The deciding source carries no retrievable identifier: 'Krause, Market Efficiency and the Favorite-Longshot Bias in Unemployment Prediction Markets, 2026' (REGISTRATION.md:235-236) has no venue, DOI, SSRN number or page, while the companion study in the same bullet is given as 'SSRN 7087538, 95 contracts over 12 months' (:239-240); grep -rn 'Krause' over the snapshot returns 32 mentions and 0 with a DOI/SSRN/URL/arXiv/NBER identifier. The evidence procedure is scoped so it can never fire over this input: ADR-012 governs claims 'about what a venue's terms permit' (DECISIONS.md:367-370). Every negative was decided under it; the one positive-flavoured verdict was decided against literature figures to which neither ADR-012 nor standing rule 4 was applied. The asymmetry in figures: a dataset documenting all four gate inputs over 1,201,580,990 rows (DECISIONS.md:458) was recorded UNMEASURED because neither the card nor the CC BY 4.0 legal code prints any date (DECISIONS.md:462-463); the repository's own Stage A finding met two of ADR-012's three elements, not three, and was self-convicted on the one it failed (Effective 0 occurrences, Last Updated 0, README.md:67-70); the Kalshi reply was recorded UNMEASURED for want of an effective date and a quotation (REGISTRATION.md:546-556). Against 3 candidate routes refused on the strict standard, 1 input was admitted on none.",
     "evidence_refs": [
       "PMExperiment/CLAUDE.md:25",
       "PMExperiment/CLAUDE.md:44",
+      "PMExperiment/DECISIONS.md:367",
+      "PMExperiment/DECISIONS.md:458",
+      "PMExperiment/DECISIONS.md:462",
       "PMExperiment/README.md:53",
       "PMExperiment/README.md:67",
+      "PMExperiment/REGISTRATION.md:13",
       "PMExperiment/REGISTRATION.md:235",
       "PMExperiment/REGISTRATION.md:239",
-      "PMExperiment/REGISTRATION.md:13",
       "PMExperiment/REGISTRATION.md:546",
-      "PMExperiment/DECISIONS.md:367",
-      "PMExperiment/DECISIONS.md:462",
+      "PMExperiment/docs/ACCESS.md:26",
       "PMExperiment/docs/ACCESS.md:73",
+      "PMExperiment/docs/LICENCES.md:143",
       "PMExperiment/docs/LICENCES.md:548"
     ],
     "recomputation": null,
@@ -288,7 +317,11 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": "Section 3, CLAUDE.md and DECISIONS.md's ADR-012 are unchanged to the anchor and the project is closed.",
     "disclosed_by_authors": false,
-    "disclosure_ref": null
+    "disclosure_ref": null,
+    "citation_check": {
+      "status": "corrected",
+      "note": "Three citation fixes, no change to the finding. (a) The '11 Fetched stamps' figure held only under a case-insensitive grep - the literal capitalised token occurs twice in the whole snapshot (docs/LICENCES.md:143, :550) and zero times in docs/ACCESS.md, and several of the 11 case-insensitive hits are prose; restated as six dated fetch records with their line numbers, with 11/3/8 given as grep counts. (b) 'convicted on two elements of three' inverted README.md:67-70's sense - the finding MET two of three and was convicted on the third; restated. (c) The 1,201,580,990-row figure is at DECISIONS.md:458, four lines above the quote at :462-463; the line number is added. Both quotes EXACT; the 32-mentions / 0-identifier and 0-in-ACCESS/LICENCES greps reproduce."
+    }
   },
   {
     "id": "AUDIT-B-PMExperiment-8",
@@ -334,7 +367,11 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": "Sections 0-14 are byte-identical from 9080186 to the anchor (diff exit 0, 367 lines both sides), Amendment 2 fixes the band as computed once (:744-745), and the project is closed.",
     "disclosed_by_authors": true,
-    "disclosure_ref": "Disclosed prominently and repeatedly: PMExperiment/REGISTRATION.md:433-443 (qualifications 1 and 2, 'registered with the verdict and not separable from it'); README.md:146-149; docs/BAND.md:330-336; DECISIONS.md:265-270; report.md:113-121. Severity is capped at S3 accordingly and this is not presented as a discovery; what it adds is only the counterfactual flip to BAND-EMPTY at 0/10. The undisclosed grounds (no retrievable identifier, no live verification, asymmetric standard) are recorded separately as AUDIT-B-PMExperiment-7."
+    "disclosure_ref": "Disclosed prominently and repeatedly: PMExperiment/REGISTRATION.md:433-443 (qualifications 1 and 2, 'registered with the verdict and not separable from it'); README.md:146-149; docs/BAND.md:330-336; DECISIONS.md:265-270; report.md:113-121. Severity is capped at S3 accordingly and this is not presented as a discovery; what it adds is only the counterfactual flip to BAND-EMPTY at 0/10. The undisclosed grounds (no retrievable identifier, no live verification, asymmetric standard) are recorded separately as AUDIT-B-PMExperiment-7.",
+    "citation_check": {
+      "status": "verified",
+      "note": "Quote EXACT, figures YES. Both verifiers reproduced the counterfactual exactly (top 0.080 -> 10/10 both routes at every k; 0.077 -> route X 9/10 at k=1; 0.030 -> 0/10 everywhere), confirmed every disclosure cite at its line, and both recorded the handling of a disclosed limitation as correct. No change."
+    }
   },
   {
     "id": "AUDIT-B-PMExperiment-9",
@@ -379,7 +416,11 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": "f686036 is an ancestor of the anchored SHA, the text is unchanged at the anchor, and the project is closed.",
     "disclosed_by_authors": false,
-    "disclosure_ref": null
+    "disclosure_ref": null,
+    "citation_check": {
+      "status": "verified",
+      "note": "Quote EXACT, figures YES. The verifiers disagreed on one cite: verifier 2 asked that the FX commit-ordering lag at DECISIONS.md:304-307 be restated as :306-309. I read DECISIONS.md:300-312 in the snapshot - the 'Recorded rather than tidied' paragraph runs :304 to :307 exactly as cited - so the existing citation is right and the correction was NOT applied. Everything else checks out under both verifiers: all six wrong stamps at their lines, git show f686036:REGISTRATION.md carrying 'Made 2026-08-30' at lines 430/470/514 of that revision, the 18:05:26Z -> 19:24:06Z ordering with its 70- and 79-minute gaps, and the Entry 10 timezone control case."
+    }
   },
   {
     "id": "AUDIT-B-PMExperiment-10",
@@ -396,21 +437,22 @@
     "claim_line": 431,
     "evidence_summary": "Amendment 2's registered BAND-EMPTY condition reads 'no price bucket where the registered effect band exceeds the required underpricing' (REGISTRATION.md:740). Read as 'the band (all of it) exceeds', the verdict is BAND-EMPTY; read existentially, BAND-OPEN. The repository knows this and reports both readings in the working documents only: docs/BAND.md:233-234 gives existential 10/10 -> not BAND-EMPTY and strict 0/10 -> BAND-EMPTY, corroborated at band.py:88-96 and :99-105, tests/test_band.py:99-108 and progress.md:455-458. It appears in none of the four conclusion-bearing documents: grep for 'quantifier|strict reading|existential|both readings' returns 0 hits in REGISTRATION.md Section 15.2, report.md, README.md and HYPOTHESES.md. The register's three 'not separable' qualifications (:433-446) are the missing magnitude, the missing n, and 'BAND-OPEN is not a finding that an edge exists'; the one qualification that flips the verdict is not among them. The register's own standard is 'The qualifier travels with it and is not separable' (docs/BAND.md:20) and standing rule 13 (CLAUDE.md:44); HYPOTHESES.md, whose stated job is to stop a settled question being retried because the closing number is buried (:5-9), carries the verdict at :119-160 with no trace of the alternative.",
     "evidence_refs": [
-      "PMExperiment/REGISTRATION.md:431",
+      "PMExperiment/CLAUDE.md:44",
+      "PMExperiment/HYPOTHESES.md:119",
+      "PMExperiment/HYPOTHESES.md:5",
       "PMExperiment/REGISTRATION.md:416",
-      "PMExperiment/REGISTRATION.md:740",
+      "PMExperiment/REGISTRATION.md:431",
       "PMExperiment/REGISTRATION.md:433",
-      "PMExperiment/docs/BAND.md:20",
+      "PMExperiment/REGISTRATION.md:740",
       "PMExperiment/docs/BAND.md:116",
+      "PMExperiment/docs/BAND.md:20",
       "PMExperiment/docs/BAND.md:229",
       "PMExperiment/docs/BAND.md:233",
       "PMExperiment/pmexperiment/band.py:88",
       "PMExperiment/pmexperiment/band.py:99",
-      "PMExperiment/tests/test_band.py:99",
       "PMExperiment/progress.md:455",
-      "PMExperiment/CLAUDE.md:44",
-      "PMExperiment/HYPOTHESES.md:5",
-      "PMExperiment/HYPOTHESES.md:119"
+      "PMExperiment/report.md:113",
+      "PMExperiment/tests/test_band.py:99"
     ],
     "recomputation": "The minimum R_H over the ten registered midpoints at k = 1 is 0.0316 at the 1-10c bucket, so the band bottom 0.02 is exceeded at every bucket on every route at every k — 0/10 under the strict reading, exactly as docs/BAND.md:234 reports. Script: /home/kiros-li/.cache/program-audit/scratchpad/work/agentB-PM-consol/verify.py",
     "would_resolve": "One sentence in Section 15.2 (and in the HYPOTHESES entry) recording that the same registered condition, read strictly, fires BAND-EMPTY at 10 of 10 buckets, with the reason the existential reading was taken.",
@@ -419,7 +461,11 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": "The project is closed and Amendment 2 fixes the band as computed once (REGISTRATION.md:744-745).",
     "disclosed_by_authors": true,
-    "disclosure_ref": "Disclosed in the working documents at PMExperiment/docs/BAND.md:116 and :229-237, pmexperiment/band.py:88-96 and progress.md:455-458; the amendment's pre-existing 'could survive' rationale genuinely predates the arithmetic (git show f686036:REGISTRATION.md line 475), so the existential reading was not chosen after the numbers existed. Severity capped at S3. The finding is only that the disclosure did not travel into Section 15.2, report.md, README.md or HYPOTHESES.md."
+    "disclosure_ref": "Disclosed in the working documents at PMExperiment/docs/BAND.md:116 ('ambiguous on its face ... Both readings are reported in Pass 1 anyway') and :229-237, pmexperiment/band.py:88-96 and progress.md:455-458, and partly at PMExperiment/report.md:113-114, which states the existential rationale without the alternative; the amendment's pre-existing 'could survive' rationale genuinely predates the arithmetic (git show f686036:REGISTRATION.md line 475), so the existential reading was not chosen after the numbers existed. Severity capped at S3. The finding is only that the disclosure did not travel into Section 15.2, report.md, README.md or HYPOTHESES.md.",
+    "citation_check": {
+      "status": "corrected",
+      "note": "Scope claim corrected. 'It appears in none of the four conclusion-bearing documents' was too strong for report.md: the four-term grep does return 0 hits there, but report.md:113-114 states the existential rationale in plain words ('It fires because Amendment 2's own rationale asks whether a documented effect could survive, and at the top of the registered band one could'). Verified in the snapshot and restated as 'the strict reading and its BAND-EMPTY consequence appear in none of the four', with report.md:113-114 added to the disclosure field and the register's single grep hit at :795 (Amendment 4, FX) named. Quote EXACT, the 0.03165 -> 0.0316 recomputation reproduces, Label READ and S3 unchanged."
+    }
   },
   {
     "id": "AUDIT-B-PMExperiment-11",
@@ -434,23 +480,24 @@
     "claim_quote": "**Dune Terms of Service**, label **`Last updated on: June 3rd, 2026`** — a *last-updated* label, and the substitution for an *effective* label is disclosed here rather than silently made.",
     "claim_file": "PMExperiment/docs/LICENCES.md",
     "claim_line": 548,
-    "evidence_summary": "ADR-012's element (2) is 'the document's effective date' (DECISIONS.md:368-369), enforced by _is_iso_date(claim.effective_date) with no substitute (admissibility.py:136-156); admit() returns UNMEASURED for a claim missing it 'including a claim that permission is absent, because an unevidenced refusal is no more measured than an unevidenced permission' (admissibility.py:159-174). A Dune claim carrying no effective date would return UNMEASURED; the record publishes PROHIBITED (docs/LICENCES.md:23-25; DECISIONS.md:503-505; progress.md:1021). The same page refuses precisely this substitution when it would help a different question: 'a schema.org dateModified exists in its metadata and a modification timestamp is not an effective date. ... The tier price is recorded UNMEASURED rather than filled in.' (docs/LICENCES.md:592-597). A 'Last updated on' label is a modification timestamp. Over n = 3 candidates the asymmetry runs toward convenience: candidate 2 — the only one whose verdict could have been PERMITTED, documenting all four gate inputs over 1,201,580,990 rows — was refused on exactly this element (docs/LICENCES.md:398-403), while candidate 3, whose PROHIBITED verdict is convenient for the terminal 'there is none', was admitted on a last-updated label over a 172,750-byte body. The repository's own rule forbids this (README.md:53-54). Materiality is limited: 'No candidate returns PERMITTED' (docs/LICENCES.md:19) stands either way; what changes is one leg of README.md:119 and of the closure's 'five documents, for four different reasons' (progress.md:1169-1170).",
+    "evidence_summary": "ADR-012's element (2) is 'the document's effective date' (DECISIONS.md:368-369), enforced by _is_iso_date(claim.effective_date) with no substitute (admissibility.py:136-156); admit() returns UNMEASURED for a claim missing it 'including a claim that permission is absent, because an unevidenced refusal is no more measured than an unevidenced permission' (admissibility.py:159-174). A Dune claim carrying no effective date would return UNMEASURED; the record publishes PROHIBITED (docs/LICENCES.md:23-25; DECISIONS.md:503-505; progress.md:1021). The same page refuses precisely this substitution when it would help a different question: 'a schema.org dateModified exists in its metadata and a modification timestamp is not an effective date. ... The tier price is recorded UNMEASURED rather than filled in.' (docs/LICENCES.md:592-597). A 'Last updated on' label is a modification timestamp. Over n = 3 candidates the asymmetry runs toward convenience: candidate 2 — the only one whose verdict could have been PERMITTED, documenting all four gate inputs over 1,201,580,990 rows — was refused on exactly this element (docs/LICENCES.md:398-403), while candidate 3, whose PROHIBITED verdict is convenient for the terminal 'there is none', was admitted on a last-updated label over a 172,750-byte body. The repository's own rule forbids this (README.md:53-54). Materiality is limited: 'No candidate returns PERMITTED' (docs/LICENCES.md:19) stands either way; what changes is one leg of README.md:119 and of the closure's 'five documents, for four different reasons' (progress.md:1168-1170).",
     "evidence_refs": [
-      "PMExperiment/docs/LICENCES.md:548",
-      "PMExperiment/docs/LICENCES.md:19",
-      "PMExperiment/docs/LICENCES.md:23",
-      "PMExperiment/docs/LICENCES.md:398",
-      "PMExperiment/docs/LICENCES.md:592",
-      "PMExperiment/docs/LICENCES.md:795",
       "PMExperiment/DECISIONS.md:368",
       "PMExperiment/DECISIONS.md:462",
       "PMExperiment/DECISIONS.md:503",
+      "PMExperiment/DECISIONS.md:507",
+      "PMExperiment/README.md:119",
+      "PMExperiment/README.md:53",
+      "PMExperiment/docs/LICENCES.md:19",
+      "PMExperiment/docs/LICENCES.md:23",
+      "PMExperiment/docs/LICENCES.md:398",
+      "PMExperiment/docs/LICENCES.md:548",
+      "PMExperiment/docs/LICENCES.md:592",
+      "PMExperiment/docs/LICENCES.md:795",
       "PMExperiment/pmexperiment/admissibility.py:136",
       "PMExperiment/pmexperiment/admissibility.py:159",
-      "PMExperiment/README.md:53",
-      "PMExperiment/README.md:119",
       "PMExperiment/progress.md:1021",
-      "PMExperiment/progress.md:1169"
+      "PMExperiment/progress.md:1168"
     ],
     "recomputation": null,
     "would_resolve": "Either record candidate 3 as UNMEASURED on element (2) alongside its quoted clauses, or a numbered amendment registering a last-updated label as satisfying element (2) — which would then also have to be applied to candidate 2's assessment.",
@@ -459,7 +506,11 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": "LICENCES.md's candidate sections are explicitly preserved as written ('This section is appended, not an edit', :795-797) and the project is closed.",
     "disclosed_by_authors": true,
-    "disclosure_ref": "The substitution itself is disclosed at PMExperiment/docs/LICENCES.md:549-550, which is why this is capped at S3; the inconsistency with the dateModified refusal 45 lines later and with candidate 2's treatment is not disclosed."
+    "disclosure_ref": "The substitution itself is disclosed at PMExperiment/docs/LICENCES.md:549-550 and twice more, at PMExperiment/DECISIONS.md:507-509 ('a last-updated label, and the substitution for an effective label is disclosed rather than smuggled') and PMExperiment/progress.md:1021 ('(a last-updated label, substitution disclosed)'), which is why this is capped at S3; the inconsistency with the dateModified refusal 45 lines later (docs/LICENCES.md:592-597) and with candidate 2's treatment is not disclosed.",
+    "citation_check": {
+      "status": "corrected",
+      "note": "One line number and two added disclosure references. The closure quote 'Two venues and three third-party routes now say the same thing...' begins at progress.md:1168, not :1169; cite widened to :1168-1170 (verifier 1, confirmed). Two further disclosures of the same substitution, DECISIONS.md:507-509 and progress.md:1021, added to the disclosure field (verifier 2, confirmed) - they strengthen the S3 cap. The verifiers disagreed on the dateModified cite: verifier 2 asked for :592-597 -> :591-596 and '45 lines' -> '42-43'. I read docs/LICENCES.md:586-600 - :591 is the byte-ratio sentence and :597 is part of the quoted passage - so :592-597 is right and 593-548 = 45 lines stands (verifier 1 independently reached 45); that correction was NOT applied. Quote EXACT including the 172,750-byte figure."
+    }
   },
   {
     "id": "AUDIT-B-PMExperiment-12",
@@ -494,7 +545,11 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": "Sections 0-14 are byte-identical from 9080186 to the anchor and the project is closed.",
     "disclosed_by_authors": true,
-    "disclosure_ref": "PMExperiment/REGISTRATION.md:131-132 discloses that 475 and 30 are planning figures and report.md:126 that the narrowed region's gate 'was not designed here'; neither discloses that 0.0475 is the point value at the cell's centre rather than the cell mean the register defines, nor names its direction of bias."
+    "disclosure_ref": "PMExperiment/REGISTRATION.md:131-132 discloses that 475 and 30 are planning figures and report.md:126 that the narrowed region's gate 'was not designed here'; neither discloses that 0.0475 is the point value at the cell's centre rather than the cell mean the register defines, nor names its direction of bias.",
+    "citation_check": {
+      "status": "verified",
+      "note": "Quote EXACT, figures YES. The verifiers disagreed on two cites: verifier 2 asked for REGISTRATION.md:70-71 -> :71-72 (tail-cell union) and :75-77 -> :76-77 (the v-bar definition). I read REGISTRATION.md:68-80 in the snapshot - line 69 begins 'The buckets.', :70-71 carries 'The tail cell T is the union of / 1-10 and 91-99' across the line break, line 74 is the blank one, and :75-77 carries the whole dispersion sentence including 'the mean of p_i(1-p_i)' - so both existing citations are right and neither correction was applied. Arithmetic reproduces to six places under both verifiers (0.051150 / 0.046833 / 0.049105; 491.05 vs 475; 30.69 vs 30)."
+    }
   },
   {
     "id": "AUDIT-B-PMExperiment-13",
@@ -511,9 +566,11 @@
     "claim_line": 139,
     "evidence_summary": "5.85 points is the requirement at the bucket midpoint 95c, not over the region. REGISTRATION.md:422-424 states the range correctly ('requiring an edge above 5.85 points at the binding k = 1 — 5.73 points at 91c rising to 5.97 at 99c') and docs/BAND.md:316-318 likewise; both carried-forward statements (README.md:139-141, HYPOTHESES.md:130-133) drop the range and state the midpoint value as the requirement for the whole region. Recomputed over n = 3 price points across the 9-cent region: R_H(0.91) = 0.0573, R_H(0.95) = 0.0585, R_H(0.99) = 0.0597. Stating 5.85 as the requirement over 91-99c understates it by up to 0.12 points at the top of the region, overstating the surviving margin there by 0.12 of the 2.15 points the register calls the surviving share (the true margin at 99c is 2.03 points). HYPOTHESES.md is the document whose stated job is to carry the closing figure with its n so a question is not re-asked without it (:5-9).",
     "evidence_refs": [
-      "PMExperiment/README.md:139",
       "PMExperiment/HYPOTHESES.md:130",
+      "PMExperiment/HYPOTHESES.md:141",
+      "PMExperiment/HYPOTHESES.md:296",
       "PMExperiment/HYPOTHESES.md:5",
+      "PMExperiment/README.md:139",
       "PMExperiment/REGISTRATION.md:422",
       "PMExperiment/REGISTRATION.md:799",
       "PMExperiment/docs/BAND.md:316",
@@ -526,7 +583,11 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": "README.md is unchanged after 1ba50aa at the anchor and the project is closed.",
     "disclosed_by_authors": true,
-    "disclosure_ref": "The range is stated in the register and the band document (PMExperiment/REGISTRATION.md:422-424, docs/BAND.md:316-318), which is why this is S4; the finding is only that it did not travel into the two documents that carry the verdict forward."
+    "disclosure_ref": "The range is stated in the register and the band document (PMExperiment/REGISTRATION.md:422-424, docs/BAND.md:316-318), and the 95c attribution is disclosed inside HYPOTHESES.md itself at :141 ('required underpricing at 95c, held to resolution, k = 1 | 0.0585') and :296-297, which is why this is S4. The finding is that the 91-99c range did not travel into either document that carries the verdict forward, and that README.md additionally states 5.85 with no price attached to it anywhere in the document (grep for '95c|0.95|5.85' over README.md returns only the two source rows at :86-87, the FX sentence at :91, and this claim at :140).",
+    "citation_check": {
+      "status": "corrected",
+      "note": "The two instances are ranked and the disclosure field extended. Verifier 2 found that HYPOTHESES.md supplies the 95c attribution twice inside the same entry (:141 and :296-297), confirmed in the snapshot, so the HYPOTHESES defect is the missing range only; README.md:139-141, which attributes 5.85 to no price anywhere (grep confirmed), is now the primary challenged quote. The HYPOTHESES cite is tightened from :130-133 to :131-133 with the heading noted at :130. Both quotes EXACT; R_H 0.0573 / 0.0585 / 0.0597 and the 0.12-point overstatement / 2.03-point true margin at 99c reproduce; Label DERIVED and S4 unchanged."
+    }
   },
   {
     "id": "AUDIT-B-PMExperiment-14",
@@ -556,7 +617,11 @@
     "invalidated_by_later_commits": true,
     "invalidation_note": "03d16e7 is the last commit at the anchor and a subsequent README edit would close this; nothing after 2026-09-02T09:50:29Z exists in the live repository as of my read at 2026-09-05T23:17Z.",
     "disclosed_by_authors": false,
-    "disclosure_ref": null
+    "disclosure_ref": null,
+    "citation_check": {
+      "status": "verified",
+      "note": "Quote EXACT, figures YES. Both verifiers confirmed the three-item README list, the fourth condition at REGISTRATION.md:1161-1165 and HYPOTHESES.md:352-358, and the git mechanism read-only (1ba50aa at 2026-09-02T09:36:29Z, 03d16e7 14 minutes later at 09:50:29Z, git show --stat 03d16e7 touching 5 files with README.md not among them); verifier 1 re-confirmed live HEAD is still 03d16e71dbf25a86c529884662d02136f8e82334 with nothing after it. Verifier 2 noted S4 sits slightly below the STALE_FIGURE definition's S3 but recommended leaving it; severity unchanged."
+    }
   },
   {
     "id": "AUDIT-B-PMExperiment-15",
@@ -588,6 +653,10 @@
     "invalidated_by_later_commits": false,
     "invalidation_note": "README.md is unchanged after 1ba50aa at the anchor and the project is closed.",
     "disclosed_by_authors": false,
-    "disclosure_ref": null
+    "disclosure_ref": null,
+    "citation_check": {
+      "status": "verified",
+      "note": "Quote EXACT, figures YES. Both verifiers reproduced the grep exactly - case-insensitive 'well-calibrated' returns three hits and only three, README.md:196 plus the Page and Clemen title at REGISTRATION.md:244 and docs/BAND.md:56 - and confirmed the registered doubt at HYPOTHESES.md:47-52, Section 3's attribution at REGISTRATION.md:236-238 and its use at :417, and the CPI companion's n = 95 at :239-243. MEDIUM confidence and S4 unchanged."
+    }
   }
 ]

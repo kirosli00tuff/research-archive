@@ -1,0 +1,60 @@
+{
+  "repo": "PMExperiment",
+  "claims": {
+    "verified": 34,
+    "contradicted": 7,
+    "unverifiable": 14,
+    "must_verify": [
+      {
+        "claim": "MV1 - 'BAND-OPEN - a surviving region exists that the permitted subset admits, at entry prices 91-99c held to resolution, requiring 5.85 points of underpricing at the registered FX turnover against a registered band whose top is 8.00 points.' (REGISTRATION.md:409-412; also README.md:139-141, docs/BAND.md:15-18, HYPOTHESES.md:130-133, report.md:61-68)",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "MV2 - 'fee and half-spread alone total 0.0300 on the held route before any FX at all, against a registered band bottom of 0.0200.' (REGISTRATION.md:456-459)",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "MV3 - 'There are no crossings inside the tradeable price range ... p = -0.3333 ... p = +1.6667 ... p = -1.0000 ... p = +1.0000' and 'the arithmetic confirms it to 0.0015' (docs/BAND.md:212-227; conclusion REGISTRATION.md:448-454)",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "MV4 - the Pass-1 band table: required underpricing to break even by registered decile, R_H and R_X at k = 1, k = 12 and k -> infinity, 60 cells at 4 dp (docs/BAND.md:199-210)",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "MV5 - 'route H clears by 4.84 points at 1-10c falling to 2.15 points at 91-99c; route X clears by 2.83 points falling to 0.15 points', slacks 0.00195 / 0.00135, 'larger by a factor of 16' (docs/BAND.md:255-265)",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "MV6 - the unit determination: '0.03 - 0.05 = -0.02 ... -40.0 % ... +0.03 ... +3.16 % ... 0.117 ... 0.043' (docs/BAND.md:128-137 and 151-155; also DECISIONS.md:221-231, 246-250)",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "MV7 - the power bars: '| GO, MDE <= 0.02 | >= 475 |', '| stay out of BLOCKED, MDE <= 0.08 | >= 30 |' at v-bar = 0.0475 with sqrt(v-bar) ~ 0.218 (REGISTRATION.md:120-137), and the market count derived from them, 'GO needs about 703 markets (475 / 0.676)' (REGISTRATION.md:148-150)",
+        "status": "SPLIT - bars VERIFIED (4*0.0475/0.0004 = 475.0 exactly; 4*0.0475/0.0064 = 29.6875 -> 30; sqrt(0.0475) = 0.21794; all five boundary verdicts reproduce); derived 703-market count CONTRADICTED (475/0.676 = 702.66 but the stated 'two-thirds' premise gives 712.5) - finding AUDIT-C-PMExperiment-4"
+      },
+      {
+        "claim": "MV8 - the registered cost floor in its two written forms: 'C(p) = 0.04 + 0.01 + 0.03*p ... the floor is 0.0785' (REGISTRATION.md:203-212) and 'C(p) = 0.05 + 0.03*p ... C(0.95) = 0.0785. C(0.05) = 0.0515.' (REGISTRATION.md:335-338)",
+        "status": "VERIFIED"
+      }
+    ]
+  },
+  "intervals": {
+    "audited": 3,
+    "independence_doubtful": 0,
+    "recomputed": 0,
+    "conclusion_moved": 0
+  },
+  "tests": {
+    "audited": 9,
+    "tail_mismatch": 0,
+    "dof_issue": 0,
+    "correction_mismatch": 0
+  },
+  "provenance": {
+    "supported": 20,
+    "not_supported": 2,
+    "partial": 9,
+    "unverifiable": 6
+  }
+}

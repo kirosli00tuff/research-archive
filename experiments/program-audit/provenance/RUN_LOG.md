@@ -572,3 +572,12 @@ Next: A run 20, B run 11, C run 11 launched in parallel from the prepared args.
 Agent A run 20: task w4q52keg5 (wf_6a93ce12-f98), launched 02:35Z.
 Agent B run 11: task wfdztn6yy (wf_2eda5146-765), launched 02:35Z.
 Agent C run 11: task wftis2chm (wf_501f50e3-299), launched 02:35Z.
+
+## 2026-09-12T07:31Z — tools/resume.py
+agent A: 13/13 done
+agent B: 7/13 done
+agent C: 6/13 done
+AFTER checks: pre-existing dirt only
+prepared A run 21 (provenance/launch-args/agentA-run21.args.json)
+prepared B run 12 (provenance/launch-args/agentB-run12.args.json)
+prepared C run 12 (provenance/launch-args/agentC-run12.args.json)
