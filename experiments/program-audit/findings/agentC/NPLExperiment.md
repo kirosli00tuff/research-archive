@@ -18,6 +18,18 @@ first-hand from the tracked artifacts. Live git objects were re-read read-only o
 re-check found. **Twelve draft findings entered consolidation, one pair merged, none dropped,
 eleven leave it.**
 
+All eleven were then put through an **independent citation check**: a separate checker re-located
+every quote in `SNAP`, re-derived every load-bearing figure and every recomputation from its own copy
+of the anchored sources, and returned a per-finding verdict. Each finding now carries a **Citation
+check** bullet recording that outcome. **Eleven in, eleven out: five verified with no change, six
+corrected, none dropped, and no finding's direction, class or conclusion moved.** One severity line
+gained an explicit scope (**-1**) and one records a rejected regrade (**-2**); the eleven severities
+themselves are unchanged. Every correction was re-confirmed first-hand at this applying pass against
+`SNAP/NPLExperiment/`, the live git objects read-only, and — for the two uncommitted census passes —
+a fresh read-only working-tree read on 2026-09-12T17:47Z (window 4 in **§ Live-repo access log**);
+one proposed correction was **rejected** on that re-check and the reason is recorded in **-7**.
+There is no "Dropped after verification" section because nothing was dropped.
+
 Agent C has read nothing under `findings/agentA` or `findings/agentB`.
 
 **One correction to my own earlier passes, recorded before anything else.** The verification pass
@@ -141,9 +153,12 @@ regression and no variance estimator in `src/npl`.
   `registrations/H5/REGISTRATION.md:572`) and on which it computes **no test statistic, no p-value
   and no confidence interval** — so the repeated-measure structure feeds no inference and is not
   counted as doubtful independence. The n = 188 IQR reproduces exactly; the stratum IQRs at
-  `docs/H5_ACCESS.md:193,195` do not (findings **-1**, **-2**), and they also use a
-  nearest-order-statistic convention rather than the repository's own linear-interpolated
-  `h5/stats.py:29-42`. **CONTRADICTED.**
+  `docs/H5_ACCESS.md:193,195` do not (findings **-1**, **-2**), and they also use a different
+  quantile convention from the repository's own linear-interpolated `h5/stats.py:29-42` — the
+  coincident `inverted_cdf`/`hazen`/`nearest` family for the two n = 94 rows and, for the
+  all-resolved q3 printed as 18.13, **no convention at all** (all thirteen `numpy.quantile` methods
+  return between 18.0738 and 18.1248; corrected at the citation check — see **-2**).
+  **CONTRADICTED.**
 
 "Recomputed" = 5 means all five were re-derived first-hand from the stored counts. **No interval
 was recomputed under an alternative dependence structure**, and the reason is stated rather than
@@ -278,7 +293,9 @@ Four reconciliations were required.
 ## Findings
 
 Eleven. Ordered by descending severity. **-1** is the only finding that touches a stated
-conclusion; the other ten say explicitly what they do not move.
+conclusion; the other ten say explicitly what they do not move. Each ends with a **Consolidation
+check** bullet (what the consolidation pass re-verified) and a **Citation check** bullet (what the
+independent checker found, and what this applying pass re-confirmed before changing anything).
 
 ### AUDIT-C-NPLExperiment-1
 - **Repository / SHA:** NPLExperiment / `8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c`
@@ -288,7 +305,13 @@ conclusion; the other ten say explicitly what they do not move.
   so the universe rule that removed the delisted stratum did not remove every over-bar observation
 - **Class:** INTERNAL_INCONSISTENCY
 - **Severity:** S1 — a stated conclusion ("every observation above the bar lived in dead markets")
-  is contradicted by the repository's own tracked artifact and by its own fired verdict
+  is contradicted by the repository's own tracked artifact and by its own fired verdict. **The S1
+  rests on the two *unscoped* universals** — `docs/H5_ACCESS.md:197-198` and `DECISIONS.md:498-499`
+  — which assert it without naming a snapshot. `HYPOTHESES.md:129` ("in the same snapshot") and
+  `registrations/H5/REGISTRATION.md:479-484` ("the contemporaneous absolute basis, in the one
+  `extended` snapshot") **do** carry a scope; they are cited below as the same figure in mitigated
+  form, not as further unqualified claims. That mitigation is stated plainly here because it bounds
+  what the S1 covers
 - **Label:** DERIVED (tracked JSON artifacts, the repository's own summarizer, and the request ledger)
 - **Claim challenged (verbatim):** "**Every observation above the 54 bp VIABLE bar lives in the
   delisted / stratum.**" — NPLExperiment/docs/H5_ACCESS.md:197-198; "| **live** | **94** | **3.72
@@ -317,18 +340,34 @@ conclusion; the other ten say explicitly what they do not move.
   - The second forward pass in the working tree (`data/h5/snapshots.jsonl`, snapshot
     `h5-census-2026-08-28T22:00:14Z`, UNANCHORED, read 2026-09-12T12:36Z) gives live median 4.1404
     bp, max **63.29 bp**, **2/94 = 2.128 %** over the bar.
-  - The printed table **does** reproduce, to the last printed digit, from a **third** census pass
-    that is in no git object: `h5-census-2026-08-28T21:44:11Z`, present only in the gitignored
-    `data/h5/census.jsonl`. That pass gives live n = 94, median **3.7227**, max **51.3919**, **8/94
+  - The printed table **does** reproduce, to the last printed digit, from the **first** of the two
+    census passes, which is in no git object: `h5-census-2026-08-28T21:44:11Z`, present only in the
+    gitignored `data/h5/census.jsonl`. (Naming, corrected: `21:44:11Z` is census pass 1, `21:51:54Z`
+    census pass 2 and the one the tracked artifact records, `22:00:14Z` the forward daily pass —
+    there is no third census.) That pass gives live n = 94, median **3.7227**, max **51.3919**, **8/94
     = 8.511 %** over 18 bp, **0/94 = 0.000 %** over 54 bp. The request ledger confirms it was a full
     323-request census pass (charge positions 2954–3276 on 2026-08-28, 21:44:11–21:47:56Z), eight
     minutes before the pass the tracked artifact records.
   - The **delisted** row of the same table (57 / 30.5174 / 0.0000–210.7909 / 2,480.97 / 54.386 % /
     45.614 %) reproduces **exactly** from both passes — a dead market's mark is frozen, so its basis
     does not move between passes. Only the live row moves, and it moves across the bar.
+  - **The document that carries the table does name a pass — and names the wrong one.**
+    `docs/H5_ACCESS.md:6-8`: "Both passes returned **identical** counts on every figure below; the
+    second is the one recorded (`h5-census-2026-08-28T21:51:54Z`, session tag `extended`)." The
+    count half is true, and was re-verified first-hand across both passes in `data/h5/census.jsonl`
+    (UNANCHORED, read 2026-09-12T17:47Z): 273 rows / **151** resolved / **94** live / **57**
+    delisted, `funding_history_state` 126 `stored` + 25 `no_data`, `l2_state` 94 / 57,
+    `reference_served` true on 151 — identical in both passes. What is **not** identical is
+    everything continuous: median, IQR, max and both exceedance shares all move between the passes,
+    and the cell that moves furthest is the one that crosses the bar. The seam is precisely that the
+    document generalises count-identity to statistics that are not identical.
   - Why it matters: the sentence is the whole stated justification for **Amendment H5-2**, which
     the program presents as its credibility exhibit ("**The amendment deleted this entry's only
     route to VIABLE**", `report.md:662-665`).
+  - **What this does not touch, recorded for the record:** Amendment H5-2's *substantive* rationale
+    survives on the committed artifact. The live/delisted contrast that justifies the exclusion —
+    30.5 bp with 45.6 % over the bar against 4.21 bp with 1.06 % — holds on `census.rows.json` as
+    well as on the uncommitted pass. What fails is the universal sentence, not the amendment.
 - **Recomputation:** inputs `reports/h5/census.rows.json` (273 rows) and `reports/h5/verdict.json`;
   method — the repository's own `src/npl/h5/stats.py:64-88` `summarize` re-implemented verbatim
   (median, linear-interpolated quartiles, `sum(m > bar)/n`) over `abs(basis_bp)`; scripts
@@ -347,9 +386,17 @@ conclusion; the other ten say explicitly what they do not move.
   `progress.md` and `registrations/H5/REGISTRATION.md` only; `docs/H5_ACCESS.md`, `report.md`,
   `HYPOTHESES.md`, `DECISIONS.md` and `reports/h5/*` are byte-identical at the anchor and at live
   `HEAD`.
-- **Disclosed by authors?:** **no.** `report.md:635-637` asserts the two census passes returned
-  "**identical** counts" — true of counts — and presents the stratum table immediately afterwards
-  without saying which pass produced it. No document in the repository names the `21:44:11Z` pass.
+- **Disclosed by authors?:** **partly — on the provenance half only, and not on the contradiction.**
+  `registrations/H5/REGISTRATION.md:461-465` **does** name the source pass by id ("completed:
+  **323 requests**, one pass, snapshot `h5-census-2026-08-28T21:44:11Z`"), and `:479-484` scopes the
+  printed stratum figures to "the one `extended` snapshot". An earlier draft of this finding said
+  "no document in the repository names the `21:44:11Z` pass at all"; that was **wrong** and is
+  struck. What is disclosed nowhere is the contradiction itself: the contradicting figure (**1.60 %**
+  over the bar, n = 188) is printed by the authors at `HYPOTHESES.md:126` and
+  `registrations/H5/REGISTRATION.md:574` and is never reconciled with the "0.0 %" cell three lines
+  below it. `report.md:635-637` presents the table without naming a pass; `docs/H5_ACCESS.md:6-8`
+  names one, and names the wrong one. Because the limitation this finding raises is not the one the
+  authors disclose, the finding remains DERIVED and remains at S1.
 - **Consolidation check:** re-verified first-hand from `SNAP`. All four quotes re-located at the
   lines cited (`docs/H5_ACCESS.md:193`, `:197-198`; `report.md:659`; `HYPOTHESES.md:129`;
   `DECISIONS.md:498-499`). Recomputed at consolidation: live n = 94, median 4.2137, q1 0.7412,
@@ -358,6 +405,36 @@ conclusion; the other ten say explicitly what they do not move.
   2480.9714 / 54.386 % / 45.614 %; all-resolved 151 / 4.6310 / 19.2452 / 25.166 % / 17.881 %;
   `verdict.json` `share_over_viable` = 0.015957446808510637 and `fired_at` 22:04:30Z; every row's
   `snapshot_id` is the single value `h5-census-2026-08-28T21:51:54Z`. **No correction.**
+- **Citation check:** corrected — an independent checker re-located every quote and re-derived every
+  figure from its own copy of the anchored artifacts, and **every correction below was re-confirmed
+  first-hand here** against `SNAP/NPLExperiment/`, the live git objects (read-only) and, for the two
+  uncommitted passes, a fresh read-only working-tree read at 2026-09-12T17:47Z, before it was
+  applied. Quotes EXACT at all four cited locations (`docs/H5_ACCESS.md:193`, `:197-198`;
+  `report.md:659`; `HYPOTHESES.md:129`; `DECISIONS.md:498-499`, the sentence opening on :497), the
+  only difference being an en-dash
+  normalised to a hyphen inside the quote string. Figures re-derived independently: all 273 rows of
+  `census.rows.json` stamped `h5-census-2026-08-28T21:51:54Z`; the 94 resolved+live rows give median
+  4.2137, q1/q3 0.7412/9.0865, max 55.6406, 7/94 over the floor and **1/94 over the bar**, the
+  over-bar row being `xyz:URNM` at −55.64056196967594 with `listing_status = live` and
+  `is_delisted = false`; `verdict.json` `share_over_viable` = 0.015957446808510637 = 3 of 188.
+  Recomputation reproduced exactly: pooling the 94 tracked live rows with the 94 live rows of the
+  22:00:14Z pass gives median 4.14463090419424, q1 0.70947242299609, q3 9.145925118703394,
+  `share_over_floor` 0.09574468085106383 and `share_over_viable` 0.015957446808510637 — every field
+  0.0 from `verdict.json`; and the 21:44:11Z pass reproduces the printed row to the last digit
+  (94 / 3.7227 / 0.7294–7.3111 under the coincident `inverted_cdf`=`hazen`=`nearest` family /
+  51.3919 / 8.511 % / 0.0 %). **Four corrections applied.** (1) The disclosure clause "no document in
+  the repository names the `21:44:11Z` pass at all" was **false** — `registrations/H5/REGISTRATION.md:462`
+  names it verbatim — and is struck. (2) The "without naming a pass" framing is replaced by the
+  stronger verified fact that `docs/H5_ACCESS.md:6-8` names a pass and names the **wrong** one; the
+  count-identity it asserts was confirmed first-hand (273 / 151 / 94 / 57, `funding_history_state`
+  126 + 25, `l2_state` 94 / 57, `reference_served` 151 — identical in both passes) and the continuous
+  figures shown not to be. (3) "a **third** census pass" was a mislabel: `21:44:11Z` is the **first**
+  of the two census passes, and the naming is corrected throughout. (4) `disclosed_by_authors` moves
+  `no` → **partial**, on the provenance half only, with the registration cited. **Severity S1
+  stands**, now stated as resting on the two unscoped universals, with the scoped forms at
+  `HYPOTHESES.md:129` and `registrations/H5/REGISTRATION.md:479-484` named as mitigation. Direction
+  A, class INTERNAL_INCONSISTENCY and label DERIVED unchanged, and Amendment H5-2's substantive
+  rationale is now recorded explicitly as untouched by this finding.
 
 ### AUDIT-C-NPLExperiment-2
 - **Repository / SHA:** NPLExperiment / `8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c`
@@ -367,7 +444,12 @@ conclusion; the other ten say explicitly what they do not move.
 - **Direction:** neutral — the corrected figures move the live stratum's dispersion in both
   directions at once (median down for touch spread, up for basis) and decide nothing
 - **Class:** PROVENANCE
-- **Severity:** S3 — the source of a published block of figures is not in the repository
+- **Severity:** S3 — the source of a published block of figures is not in the repository.
+  **An S2 reading is defensible, and is recorded rather than adopted:** `docs/H5_ACCESS.md:6-8`
+  labels its source pass, and the labelled artifact contradicts the figures printed beneath the
+  label — "a label contradicts its own evidence". S3 is kept because the block is descriptive and
+  nothing verdict-bearing rests on it; a reader who weighs the mis-attribution more heavily should
+  read this as S2
 - **Label:** DERIVED (tracked artifacts, the untracked census file, and a commit date)
 - **Claim challenged (verbatim):** "Two full census passes, 323 requests each, returning
   **identical** counts, / plus a 6-request reconnaissance probe. `docs/H5_ACCESS.md` carries the /
@@ -379,6 +461,13 @@ conclusion; the other ten say explicitly what they do not move.
     h5-census-2026-08-28T21:51:54Z`, and all 273 rows of `reports/h5/census.rows.json` carry that
     same id (a `set()` over the rows at consolidation returns one value). The `21:44:11Z` pass has
     **no tracked artifact**.
+  - **The defect is a mis-attribution, not an absence of attribution.** `docs/H5_ACCESS.md:6-8`
+    states which pass the document reports: "Both passes returned **identical** counts on every
+    figure below; the second is the one recorded (`h5-census-2026-08-28T21:51:54Z`, session tag
+    `extended`)." Count identity is true — re-verified first-hand across both passes in
+    `data/h5/census.jsonl` (UNANCHORED, read 2026-09-12T17:47Z): 273 rows, 151 resolved, 94 live,
+    57 delisted, `funding_history_state` 126 + 25, `l2_state` 94 / 57, `reference_served` 151 — but
+    every continuous figure printed beneath that label comes from the **other** pass.
   - Touch spread from the tracked artifact (94 present values, all on `resolved`+`live` rows):
     median **3.1586 bp**, IQR **1.2270 – 10.4125**. From the untracked `21:44:11Z` pass: median
     **4.1838**, and under a nearest-order-statistic convention q1/q3 = **1.3062 / 10.7832** — i.e.
@@ -389,11 +478,21 @@ conclusion; the other ten say explicitly what they do not move.
     25.828 % / 17.219 %.
   - The printed quartiles also use a different convention from the repository's own
     `src/npl/h5/stats.py:29-42`, documented there as "linear-interpolated … the numpy default,
-    written out". The printed 0.73 / 7.31 / 10.78 / 18.13 are nearest-order-statistic values; the
-    linear values on the same pass are 0.7576 / 7.3007 / 10.5706 / 18.0993.
+    written out". The printed **0.73 / 7.31** (live basis) and **1.31 / 10.78** (touch spread) are
+    the `inverted_cdf`/`hazen`/`nearest` family, which coincide at n = 94 — 0.7294 / 7.3111 and
+    1.3062 / 10.7832 — against linear values of 0.7576 / 7.3007 and 1.3108 / 10.5706 on the same
+    pass. **The all-resolved q3 printed as 18.13 matches no convention at all.** Over the n = 151
+    all-resolved sample of that pass all thirteen `numpy.quantile` methods fall between **18.0738**
+    (`nearest`, `lower`, `closest_observation`) and **18.1248** (`inverted_cdf`, `weibull`,
+    `higher`, `averaged_inverted_cdf`), with `linear`/`midpoint` 18.0993, `hazen` 18.1120,
+    `median_unbiased` 18.1163 and `normal_unbiased` 18.1152; the two order statistics bracketing the
+    75th percentile are 18.0738 and 18.1248. The closest any convention comes prints as **18.12**.
   - `docs/H5_ACCESS.md` was added in commit `13c6965` at 2026-08-28T21:59:42Z — after both census
     passes and before the 22:00:14Z forward pass — so which pass it summarizes was a choice
-    available to the author, not a timing accident.
+    available to the author, not a timing accident. `git show --name-status 13c6965` (live objects,
+    read-only, re-read 2026-09-12T17:49Z) shows `docs/H5_ACCESS.md` and
+    `reports/h5/census.rows.json` were **added in that same commit**: the pass of record was in the
+    author's hand as the block was written.
   - Nothing verdict-bearing rests on this block: the fired row's own figures (n = 188 median
     4.14463090419424, shares 0.09574 / 0.01596) reproduce exactly from the tracked artifact pooled
     with the forward snapshot.
@@ -410,13 +509,35 @@ conclusion; the other ten say explicitly what they do not move.
   reproduces them.
 - **Invalidated by later commits?:** no — `report.md` and `docs/H5_ACCESS.md` are unchanged from the
   anchor to live `HEAD`.
-- **Disclosed by authors?:** **no.** The nearest statement, `report.md:635-637`, says the two passes
-  returned "identical" counts and does not say which pass the figures come from.
+- **Disclosed by authors?:** **no — and the nearest statement is worse than silence.**
+  `docs/H5_ACCESS.md:6-8` attributes the document's figures to the wrong pass
+  (`h5-census-2026-08-28T21:51:54Z`); `report.md:635-637` repeats the "identical counts" claim
+  without naming a pass at all.
 - **Consolidation check:** re-verified first-hand. Both quotes re-located at `report.md:635-637` and
   `:643`. Recomputed at consolidation: touch-spread median 3.1586 / IQR 1.2270–10.4125 on the
   tracked artifact; all-resolved 4.6310 / 0.0000–19.2452 / 25.166 % / 17.881 %; one `snapshot_id`
   across all 273 rows; `census.json:snapshot_id` = `h5-census-2026-08-28T21:51:54Z`. **No
   correction.**
+- **Citation check:** corrected — quotes EXACT at `report.md:635-637` and `:643`;
+  `census.json:snapshot_id` and all 273 rows of `census.rows.json` re-read here as the single value
+  `h5-census-2026-08-28T21:51:54Z`. Figures **partially** confirmed: the tracked touch spread
+  (median 3.1586, IQR 1.2270–10.4125), the 21:44:11Z touch spread (median 4.1838, q1/q3
+  1.3062/10.7832 under the coincident `inverted_cdf`=`hazen`=`nearest` family) and both all-resolved
+  rows (tracked 4.6310 / 0.0000–19.2452 / 25.166 % / 17.881 %; 21:44:11Z 4.1402 / 0.0000–18.0993
+  linear / 25.828 % / 17.219 %) all reproduced first-hand — **one figure claim did not**. **Two
+  corrections applied.** (1) The parenthetical "the printed 0.73 / 7.31 / 10.78 / 18.13 are
+  nearest-order-statistic values" is wrong for 18.13: running all thirteen `numpy.quantile` methods
+  on the 21:44:11Z all-resolved sample (n = 151) here returns nothing above 18.1248 and nothing
+  below 18.0738 — the two bracketing order statistics — so no convention yields 18.13 and the
+  closest prints 18.12. The bullet now states the family for the two n = 94 rows and records that
+  18.13 matches no convention. (2) The finding is restated as a **mis-attribution** rather than an
+  absence of attribution: `docs/H5_ACCESS.md:6-8` names 21:51:54Z as the pass of record, and
+  `git show --name-status 13c6965` (re-read read-only here, 2026-09-12T17:49Z) shows
+  `docs/H5_ACCESS.md` and `reports/h5/census.rows.json` were added in the **same** commit, so the
+  pass of record was in hand as the block was written. Severity **S3 kept**, with the checker's S2
+  reading ("a label contradicts its own evidence") recorded in the severity line as defensible and
+  not adopted. Label DERIVED, direction neutral and the "nothing verdict-bearing rests on this"
+  clause verified unchanged.
 
 ### AUDIT-C-NPLExperiment-3
 - **Repository / SHA:** NPLExperiment / `8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c`
@@ -433,7 +554,7 @@ conclusion; the other ten say explicitly what they do not move.
   NPLExperiment/REGISTRATION.md:287
 - **Evidence:**
   - The assistant's own recorded prior is **0.40**: "- 0.40 that the Stage B bars clear on the
-    registered sample." — NPLExperiment/REGISTRATION.md:277; and `src/npl/config.py:205` carries
+    registered sample." — NPLExperiment/REGISTRATION.md:278; and `src/npl/config.py:205` carries
     `assistant_prior_stage_b=0.40` from the init commit onward. The slot was filled with that
     identical number.
   - The Stage A.0 operator prompt, **logged verbatim** under the repository's own standing rule 1:
@@ -445,10 +566,14 @@ conclusion; the other ten say explicitly what they do not move.
   - `git show --name-status 2d2edc1` (committer date 2026-08-27T12:30:34−07:00 = **2026-08-27T19:30:34Z**,
     subject "docs+tests: operator prior 0.40 (adopted), written by assistant on operator instruction
     2026-08-27") touches exactly two files: `M REGISTRATION.md` and `M tests/test_registration_check.py`.
-    It does **not** touch `progress.md`, and `progress.md` at the anchor has **no entry at all**
-    between `## 2026-08-27T09:20Z` (line 315) and `## 2026-08-28T02:31:22Z` (line 376) — so the
-    operator instruction said to authorise the fill is nowhere logged verbatim, which standing
-    rule 1 requires.
+    It does **not** touch `progress.md`, and `progress.md` at the anchor has **no dated entry**
+    between `## 2026-08-27T09:20Z` (line 315) and `## 2026-08-28T02:31:22Z` (line 376). The only
+    intervening block is the undated `## Stage A.4 record` heading at line 331, a sub-block of the
+    same 09:20Z close-out — and it runs **for** this finding: at line 368 it records "**Open
+    operator items: the Section 13 prior slot, and nothing else**", i.e. the slot was still empty
+    and still flagged as the operator's ten hours before `2d2edc1` filled it. So the operator
+    instruction said to authorise the fill is nowhere logged verbatim, which standing rule 1
+    requires.
   - No amendment records the departure. `REGISTRATION.md`'s amendment log runs 1, 2, 3, 4; none
     mentions the prior slot except Amendment 4 §5, which merely notes it is filled.
     `grep -c -i "prior" DECISIONS.md` returns **0** — there is no ADR on it.
@@ -478,9 +603,9 @@ conclusion; the other ten say explicitly what they do not move.
   (NPLExperiment/report.md:126-127). What is **not** disclosed anywhere is that this is the exact
   act `REGISTRATION.md:282-283` forbids, or that the authorizing instruction was never logged. The
   authors' own later practice reads as a correction: the H5 registration, written the next day,
-  strengthens the wording to "must not be copied into the slot below. **The assistant never fills
-  the slot.**" (NPLExperiment/registrations/H5/REGISTRATION.md:345-346) — a sentence absent from
-  H2's, H3's and H4's otherwise identical paragraphs.
+  strengthens the wording to "must not be copied into the slot below. The assistant never fills
+  the slot." (NPLExperiment/registrations/H5/REGISTRATION.md:346; the paragraph runs :343-346) — a
+  sentence absent from H2's, H3's and H4's otherwise identical paragraphs.
 - **Consolidation check:** re-verified first-hand. Quotes re-located at `REGISTRATION.md:282-283`,
   `:287`, `:277`, `:290-291`; `progress.md:33`, `:395`; `report.md:85-86`, `:126-127`;
   `registrations/H5/REGISTRATION.md:345-346`. `git show --name-status 2d2edc1` re-read
@@ -488,6 +613,22 @@ conclusion; the other ten say explicitly what they do not move.
   confirmed adjacent. `grep -c -i prior DECISIONS.md` = 0. **One presentation correction:** the
   verification-stage draft rendered part of the `REGISTRATION.md:282` quote in bold; the source
   carries no emphasis there, and the quote is now verbatim. No figure, line or conclusion changes.
+- **Citation check:** corrected — both quoted lines EXACT (`REGISTRATION.md:282-283`, `:287`);
+  `git show 2d2edc1` re-read read-only here at 2026-09-12T17:49Z: committer date
+  2026-08-27T12:30:34−07:00 = 19:30:34Z, `--name-status` exactly `M REGISTRATION.md` and
+  `M tests/test_registration_check.py`; `config.py:205`, `progress.md:33` and `:395`,
+  `grep -c -i prior DECISIONS.md` = 0 and `registrations/H5/REGISTRATION.md:346` all re-confirmed.
+  **Three corrections applied.** (1) The assistant's own 0.40 prior is at `REGISTRATION.md:278`, not
+  `:277` — line 277 carries the 0.20 edge prior. (2) The H5 sentence "The assistant never fills the
+  slot." sits entirely on `registrations/H5/REGISTRATION.md:346` (the paragraph runs :343-346), not
+  `:345-346`, and the bold this document had placed on it is removed: the source carries no emphasis
+  there. (3) "no entry at all" between `progress.md:315` and `:376` is corrected to "no **dated**
+  entry" — the undated `## Stage A.4 record` heading at `:331` intervenes, and it runs for the
+  finding rather than against it, since `:368` records "Open operator items: the Section 13 prior
+  slot, and nothing else" ten hours before the fill. The Consolidation check line above still carries
+  the superseded `:277` and `:345-346` spans as it was written at that pass. Class PROVENANCE,
+  direction A, label DERIVED, S3 (capped by the partial disclosure) and both disclosure references
+  (`report.md:85-86`, `:126-127`, re-read here) verified unchanged.
 
 ### AUDIT-C-NPLExperiment-4
 - **Repository / SHA:** NPLExperiment / `8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c`
@@ -520,6 +661,10 @@ conclusion; the other ten say explicitly what they do not move.
     in the program where a union correction is attached to a conjunction.**
   - The row that fired is `row_fired = "FAIL"` (`reports/stage_b/read.json`), so the conservatism
     runs toward the outcome that was recorded.
+  - **Conceded, in the authors' favour:** the three co-primaries are also reported individually
+    (`report.md:222-224`, `HYPOTHESES.md:52`), and a Šidák level is defensible for those three
+    per-test claims taken **separately**. It is unnecessary only for the conjunction the Stage B GO
+    row turns on, which is what this finding is about.
 - **Recomputation:** inputs `reports/stage_b/read.json:co_primaries` (197/312, 111/312, 114/175);
   method — re-run each component at an uncorrected alpha = 0.05 using `verdict.py:clopper_pearson_lower`
   and `power.py:upper_tail`, cross-checked against `scipy.stats.beta.ppf` and `scipy.stats.binom.sf`;
@@ -534,12 +679,36 @@ conclusion; the other ten say explicitly what they do not move.
   these counts, which is why this is S4.
 - **Invalidated by later commits?:** no — `REGISTRATION.md` Section 8 and `src/npl/verdict.py` are
   unchanged post-anchor, and the single H1 read is spent and latched.
-- **Disclosed by authors?:** **no** — no document discusses the conservatism of a union correction
-  under an all-must-pass rule.
+- **Disclosed by authors?:** **no for H1** — H1's own conservatism is discussed nowhere. But the
+  governing principle is stated in the authors' own words for the successor hypothesis: "Two
+  co-primaries at alpha_h (Section 9), both must pass. **The intersection carries no extra
+  multiplicity** — E2 implies a stronger version of E1's direction, and the familywise budget is
+  spent at the hypothesis level by the register's alpha_h, not within it."
+  (NPLExperiment/registrations/H2/REGISTRATION.md:149-152), and the same sentence appears inside the
+  H2 operator prompt logged verbatim at NPLExperiment/progress.md:549. An earlier draft said no
+  document discusses it at all; that is corrected, and the citation makes the H1 inconsistency
+  **sharper** rather than weaker — the program states the rule for H2 and applies it for H2, H3 and
+  H4, and departs from it only at H1.
 - **Consolidation check:** re-verified first-hand. Quote re-located at `REGISTRATION.md:200-202`;
   `verdict.py:201` re-read; `cull.py:18-20` re-read; `read.json` re-read (`row_fired = FAIL`,
   `alpha_adj = 0.016952427508441503`); the uncorrected P1 bound recomputed independently with
   `scipy.stats.beta.ppf(0.05, 197, 116) = 0.5840855403520515`. **No correction.**
+- **Citation check:** corrected — quote EXACT at `REGISTRATION.md:200-202` (the file uses U+2212 for
+  the minus where the quote uses a hyphen); `verdict.py:201`, `cull.py:18-20` and the reservation of
+  Šidák to H4's disjunctive grid re-read. Recomputation reproduced independently with `scipy` closed
+  forms rather than the repository's bisection: `alpha_adj` = 1 − 0.95^(1/3) = 0.016952427508441503,
+  matching `read.json` bit-for-bit; at an uncorrected 0.05, P1 `beta.ppf(0.05, 197, 116)` =
+  0.5840855403520515 (still under the 0.60 bar → FAIL), P2 `binom.sf(110, 312, 0.5)` =
+  0.9999998937952682 → FAIL, P3 `binom.sf(113, 175, 0.5)` = 3.766632285793e-05 → PASS — **the
+  verdict does not move**, exactly as claimed, and the stored statistics reproduce to < 2e-14. The
+  intersection-union reasoning was independently confirmed correct (under an all-must-pass rule the
+  level is bounded by the largest per-component level, so no union correction is required). **One
+  correction applied:** the disclosure field's flat "None" was too strong —
+  `registrations/H2/REGISTRATION.md:149-152` states the principle verbatim and `progress.md:549`
+  carries it inside the logged operator prompt; both are now cited, which sharpens the H1
+  inconsistency rather than softening it. **One concession added** in the authors' favour: the three
+  co-primaries are also reported individually (`report.md:222-224`, `HYPOTHESES.md:52`), where a
+  Šidák level is defensible. Severity S4, direction A and label DERIVED verified unchanged.
 
 ### AUDIT-C-NPLExperiment-5
 - **Repository / SHA:** NPLExperiment / `8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c`
@@ -557,17 +726,25 @@ conclusion; the other ten say explicitly what they do not move.
   - The script that consumes the constant fixes its own month length one line later:
     `DAYS_PER_MONTH = 30.44` — NPLExperiment/scripts/ktable_amended.py:50. With the claim's own
     stated inputs, 113/182 × 30.44 = **18.899**, not 18.57; at a 30-day month it is 18.626.
-  - **18.57 corresponds to n ≈ 111.0** over 182 days — the 113 listings less the two the same
-    paragraph explicitly excludes ("one new: io:EWY, delisted at birth, never an event; one /
-    relist: xyz:XBI", NPLExperiment/report.md:339-340). The label "n = 113 listings" is therefore the
-    wrong n for the rate printed beside it.
-  - The **main-dex** figure in the same sentence *does* reproduce under a 30.44-day month:
-    3/182 × 30.4375 = 0.5017 → "0.5/month (n = 3)" (`report.md:341-342`), so the two halves of the
-    sentence use different effective n.
+  - **18.57 corresponds to n = 111 over 182 days**: 111/182 × 30.44 = 18.5651, which prints 18.57 —
+    the 113 listings less the two the same paragraph explicitly excludes ("one new: io:EWY, delisted
+    at birth, never an event; one / relist: xyz:XBI", NPLExperiment/report.md:339-340). Stated as a
+    correspondence, not an identification: 18.57 is also consistent with 113 events over 185.2 days,
+    and n = 111 over 182 d is simply the reading the paragraph's own two exclusions support. Either
+    way the label "n = 113 listings" is the wrong n for the rate printed beside it.
+  - The **main-dex** figure in the same sentence *does* reproduce from its own stated n:
+    3/182 × 30.44 = 0.5018 → "0.5/month (n = 3)" (`report.md:341-342`). At 30.4375 it is 0.5017, so
+    this half does not by itself discriminate the month length; the point that survives is narrower
+    and exact — the main-dex half reproduces from the n printed beside it and the accrual half does
+    not.
   - n = 113 itself is correct: counting `data/census/census.jsonl` rows whose `first_1d_open_ms`
     falls in the 182 days before 2026-08-27 gives exactly **113**, of which 3 are main-dex.
-  - No artifact under `reports/` records the accrual measurement; the figure exists only as a
-    hard-coded constant.
+  - **No artifact records the measurement's inputs.** `reports/stage_a_h2/ktable_amended.json:386`
+    does carry `"measured_accrual_events_per_month": 18.57`, but that is an echo of the hard-coded
+    constant at `scripts/ktable_amended.py:49`; the numerator, the denominator and the window are
+    recorded nowhere, so the rate cannot be checked against its own source. (An earlier draft said
+    "no artifact under `reports/` records the accrual measurement"; that was wrong as written and is
+    corrected here.)
 - **Recomputation:** inputs `data/census/census.jsonl` (505 rows, UNANCHORED, read
   2026-09-12T12:44Z) and `scripts/ktable_amended.py:48-54`; method — count listings in the trailing
   window, divide by 182, multiply by the script's own `DAYS_PER_MONTH`, then re-run the projection
@@ -583,12 +760,31 @@ conclusion; the other ten say explicitly what they do not move.
 - **Invalidated by later commits?:** no — `report.md` and `scripts/ktable_amended.py` are unchanged
   post-anchor. The census store it is measured from is untracked, but the trailing window closes at
   2026-08-27 and the file has not been written since.
-- **Disclosed by authors?:** **no.** The effect on every downstream figure is small and in the
-  conservative direction — the stated look dates are **later** than the measured accrual implies —
+- **Disclosed by authors?:** **no**, and the same pairing is repeated verbatim in a second
+  document — "accrual 18.57 events/month total (n = 113 listings/182d)"
+  (NPLExperiment/progress.md:664) — so the mislabel stands in two places and nothing anywhere flags
+  the mismatch. The effect on every downstream figure is small and in the conservative direction — the stated look dates are **later** than the measured accrual implies —
   which is why this is S4 and why it does not weaken the "one month inside the deadline" conclusion.
 - **Consolidation check:** re-verified first-hand. Quotes re-located at `report.md:340-341` and
   `scripts/ktable_amended.py:48-49`, with `DAYS_PER_MONTH = 30.44` confirmed at `:50`. **No
   correction.**
+- **Citation check:** corrected — quotes EXACT at `report.md:340-341` and
+  `scripts/ktable_amended.py:48-49`, with `DAYS_PER_MONTH = 30.44` confirmed at `:50`. Arithmetic
+  re-derived here: 113/182 × 30.44 = 18.899560439560442 (printed 18.57), 113/182 × 30.0 = 18.6264,
+  and 111/182 × 30.44 = 18.5651, which prints 18.57. Downstream reproduced exactly from the script's
+  own projection rule: at 18.57 the 2027-03-31 forward count is 73 and the total 135, identical to
+  `ktable_amended.json`'s `projected_look_dates`, and look 2 falls on 2027-03-01; at 18.8996 the
+  total is 137 and look 2 moves about two days earlier, to 2027-02-27. **Three corrections applied.**
+  (1) "No artifact under `reports/` records the accrual measurement" is wrong as written —
+  `reports/stage_a_h2/ktable_amended.json:386` carries `"measured_accrual_events_per_month": 18.57`,
+  re-read here — so the bullet now says what is true, that no artifact records the measurement's
+  **inputs**. (2) "the two halves of the sentence use different effective n" was loose: 3/182 gives
+  0.50/month under both 30.44 (0.5018) and 30.4375 (0.5017), so the main-dex half does not
+  discriminate the month length; the surviving point is now stated exactly. (3) The n = 111 reading
+  is now explicitly a correspondence rather than an identification, since 18.57 is also consistent
+  with 113 events over 185.2 days. Disclosure gains the second, identical occurrence at
+  `progress.md:664`. Direction B, S4, class ARITHMETIC and the conservative-direction note verified
+  unchanged.
 
 ### AUDIT-C-NPLExperiment-6
 - **Repository / SHA:** NPLExperiment / `8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c`
@@ -611,11 +807,18 @@ conclusion; the other ten say explicitly what they do not move.
     **0.029206**, total 0.037268; and at the deadline (key `deadline_2027-03-31`):
     `alpha_spent_look1` **0.019230**, `alpha_spent_look2` **0.021113**, total 0.040343 — both
     re-read first-hand at consolidation.
-  - The values 0.0173, 0.0200, 0.0176 and 0.0227 occur **nowhere** in `ktable_amended.json` (every
-    float in the file searched to ±0.0006).
+  - **No `alpha_spent` field in the artifact carries these values.** Sweeping every float in
+    `ktable_amended.json` to ±0.0006: 0.0173 and 0.0227 occur nowhere at all (nearest values
+    0.018172 and 0.021603); **0.0200 does occur**, but only as the registered `alpha_1` constant
+    under `alpha_split_evaluation`, never as a spend; and 0.0176 sits 0.000572 from
+    `at_look2_min_n`'s `alpha_spent_look1` = 0.018172, i.e. inside the sweep tolerance but in the
+    wrong row. (An earlier draft's flat "occur nowhere" is corrected to this.)
   - The middle row, "at look-2 min N … 0.0182 + 0.0240 = **0.0422**"
     (`registrations/H2/REGISTRATION.md:696`), **does** match the artifact exactly
     (0.018172 + 0.024025).
+  - **Both wrong pairs sum to the right total**: 0.0173 + 0.0200 = 0.0373 = round(0.037268), and
+    0.0176 + 0.0227 = 0.0403 = round(0.040343). That is the signature of correct totals with
+    invented components, and is the sharpest available statement of the defect.
   - Only the components are wrong: both printed **totals** are right, and the totals are what the
     section's claim rests on ("Every total spend sits **inside** alpha_h = 0.05", :699-701). k₁, k₂
     and both power figures in the affected rows are also right (22/37 with 0.703083/0.552854; 43/79
@@ -632,13 +835,30 @@ conclusion; the other ten say explicitly what they do not move.
   the artifact the registration names as its full record.
 - **Invalidated by later commits?:** no — `registrations/H2/REGISTRATION.md` is not one of the two
   files the single post-anchor commit touches.
-- **Disclosed by authors?:** **no.**
+- **Disclosed by authors?:** **no.** `registrations/H2/REGISTRATION.md:645-646` names
+  `reports/stage_a_h2/ktable_amended.json` as the section's full record and `:699-701` asserts only
+  the totals; nothing in the repository flags the components.
 - **Consolidation check:** re-verified first-hand. Both quotes re-located at
   `registrations/H2/REGISTRATION.md:695` and `:697`, and the "Full record" pointer at `:645-646`.
   `ktable_amended.json` re-read at consolidation: `at_look1_min_n` 0.008062 / 0.029206 / 0.037268
   with k₁ 22, k₂ 37, powers 0.703083 / 0.552854; `deadline_2027-03-31` 0.019230 / 0.021113 /
   0.040343 with k₁ 43, k₂ 79, powers 0.955244 / 0.862922; `at_look2_min_n` 0.018172 / 0.024025 /
   0.042197. **No correction.**
+- **Citation check:** corrected — quotes EXACT at `registrations/H2/REGISTRATION.md:695` and `:697`,
+  with the "Full record" pointer at `:645-646`. The artifact's values were re-read first-hand
+  (0.008062 + 0.029206 = 0.037268; 0.018172 + 0.024025 = 0.042197; 0.019230 + 0.021113 = 0.040343)
+  and the design re-derived from first principles with `scipy`, independently of the repository's
+  module: (30, 59) → k₁ 22, k₂ 37, powers 0.703083 / 0.552854; (59, 117) → 38, 69, 0.932234 /
+  0.823731; (68, 135) → 43, 79, 0.955244 / 0.862922 — identical to the artifact in every component,
+  so the finding's verdict stands. **Two corrections applied.** (1) The sweep claim "the values …
+  occur **nowhere** … to ±0.0006" is wrong for two of the four: 0.0200 does occur, as the registered
+  `alpha_1` constant under `alpha_split_evaluation`, and 0.018172 sits 0.000572 from the printed
+  0.0176 — restated as "no `alpha_spent` field in the artifact carries these values", which is what
+  the sweep actually shows. (2) Added the sharpest statement of the defect, verified here: each wrong
+  pair sums to the **correct** total (0.0173 + 0.0200 = 0.0373 = round(0.037268); 0.0176 + 0.0227 =
+  0.0403 = round(0.040343)) — correct totals with invented components. The disclosure line now cites
+  `:645-646` and `:699-701`. Class INTERNAL_INCONSISTENCY, direction neutral, label DERIVED and S4
+  unchanged; no total, boundary, power figure or decision moves.
 
 ### AUDIT-C-NPLExperiment-7
 - **Repository / SHA:** NPLExperiment / `8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c`
@@ -677,6 +897,17 @@ conclusion; the other ten say explicitly what they do not move.
   `by_dex_live` re-read; the 94 live rows re-grouped by dex at consolidation (73/16/3/2);
   `docs/H5_ACCESS.md:152-155` re-read. **One re-grading:** the disclosure field, from "partially" to
   "no", with the reason stated. Severity, class, label and direction unchanged.
+- **Citation check:** verified (quote EXACT at `HYPOTHESES.md:127`; figures verified —
+  `reports/h5/census.json:by_dex_live` = `{io: 2, mkts: 3, para: 16, xyz: 73}` re-read first-hand,
+  and an independent re-grouping of the 94 resolved+live rows of `census.rows.json` by `dex` returns
+  `Counter({'xyz': 73, 'para': 16, 'mkts': 3, 'io': 2})` = 94, integer-exact; recomputation
+  reproduced exactly). Two polish items were put to this pass by the checker. **Accepted as a note:**
+  `progress.md:1298-1300` states the split correctly a second time ("`xyz` (73) and `para` (16) hold
+  89 of the 94 live instruments"), which makes `HYPOTHESES.md:127` the **only** place in the
+  repository where the "89 of 94" qualifier is dropped — the point of the finding. **Rejected on
+  re-checking:** the proposal to widen `docs/H5_ACCESS.md:152-154` to `:152-155` is wrong — the
+  sentence ends with the "2." that opens line 154, and line 155 belongs to the following sentence
+  about the four entirely-delisted dexs; the span as cited is exact. No field changed.
 
 ### AUDIT-C-NPLExperiment-8
 - **Repository / SHA:** NPLExperiment / `8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c`
@@ -707,6 +938,16 @@ conclusion; the other ten say explicitly what they do not move.
 - **Disclosed by authors?:** **no.**
 - **Consolidation check:** re-verified first-hand. Quote re-located at `report.md:509-511`; the
   artifact re-read and re-tabulated at consolidation. **No correction.**
+- **Citation check:** verified (quote EXACT at `report.md:509-511`; figures verified — an
+  independent tabulation of `reports/stage_a_h2/backfill_fallback.json` here gives `assigned_n` 24,
+  `Counter({173: 12, 174: 9, 172: 3})` over `assigned[*].candidates_considered`,
+  `candidate_universe_n` 175, `distinct_controls` 19, `candidates_skipped_low_coverage` = 0 on all 24
+  rows, and `pairs_ledger_by_tag` = `{cross_dex: 24, same_dex: 38}` = the 62 rows the next sentence
+  claims; recomputation reproduced exactly, and the suggested replacement wording "172–174 candidates
+  considered per event, from a universe of 175" is exactly right). Noted for whoever fixes it: the
+  identical error appears a second time at `progress.md:1058-1059` ("174 candidates considered per
+  fallback event, **0 skipped for coverage**, **0 exclusions**"), re-read here, so the correction has
+  to reach two documents rather than one. No field changed.
 
 ### AUDIT-C-NPLExperiment-9
 - **Repository / SHA:** NPLExperiment / `8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c`
@@ -757,6 +998,19 @@ conclusion; the other ten say explicitly what they do not move.
   file); `546b2e3` = 07:46:42Z; `f8e54d8` = 07:40:26Z. **Merged from DRAFT-V-8 and DRAFT-P-2**;
   class reconciled to PROVENANCE; the provenance draft's evidence carried whole; the 22:20Z half of
   DRAFT-V-8 routed to **-10** rather than duplicated here.
+- **Citation check:** verified (quote EXACT at `report.md:445-447`; figures verified —
+  `reports/stage_a_h2/amend_preconditions.json` `checked_at` = 2026-08-28T06:51:10Z with
+  `head = e89b18717ce8…` re-read from `SNAP`, the same 06:51:10Z re-located at
+  `registrations/H2/REGISTRATION.md:377` and `progress.md:831`, and a grep over the whole snapshot
+  confirming `report.md:446` is the only line in the repository carrying 07:51:10Z; the ordering
+  re-confirmed from the live objects read-only at 2026-09-12T17:49Z — `f31f7a3`
+  2026-08-28T00:01:06−07:00 = 07:01:06Z and `546b2e3` 00:46:42−07:00 = 07:46:42Z, both **before** the
+  printed time; no recomputation applies). `git show --name-status 449ff1e` re-read here as
+  `M progress.md`, `M registrations/H5/REGISTRATION.md`, `M reports/h5/h2_verification.json`,
+  confirming the correction sweep did not reach this line. Noted in support of the finding: 07:51Z is
+  a real timestamp elsewhere in the same stage log — `progress.md:958`, `:995` and `:1017` record
+  Tasks 4, 5 and 6 closing at 07:51Z — so the printed figure reads as a transposition from a
+  neighbouring real time rather than an invention. No field changed.
 
 ### AUDIT-C-NPLExperiment-10
 - **Repository / SHA:** NPLExperiment / `8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c`
@@ -805,6 +1059,15 @@ conclusion; the other ten say explicitly what they do not move.
   `git show --name-status 449ff1e` re-read 2026-09-12T13:06Z (three files, neither summary
   document). **One re-grading:** label DERIVED → **READ**, per the disclosed-limitation rule.
   Severity, class and direction unchanged.
+- **Citation check:** verified (quotes EXACT at `report.md:667` and `HYPOTHESES.md:122`; figures
+  verified — `reports/h5/verdict.json` `fired_at` = 2026-08-28T22:04:30Z re-read first-hand, the
+  authors' correction re-located at `registrations/H5/REGISTRATION.md:632-639` and
+  `progress.md:1492-1498` (the cited `:1494-1496` sits inside that block), and
+  `git show --name-status 449ff1e` re-read read-only here as three files with `report.md` and
+  `HYPOTHESES.md` absent — which is the whole and only claim; no recomputation applies). The checker
+  asked for no change and recorded the handling as the model the other findings should follow: the
+  underlying slip is disclosed in the authors' own words, so the finding stays **READ**, capped, and
+  recorded at S4 because no computed figure moves. No field changed.
 
 ### AUDIT-C-NPLExperiment-11
 - **Repository / SHA:** NPLExperiment / `8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c`
@@ -849,6 +1112,19 @@ conclusion; the other ten say explicitly what they do not move.
   it stands as recorded at 2026-09-12T12:37:29Z, and the confidence grade reflects that. The tracked
   corroboration of the count — "6 reconnaissance" at `progress.md:1509` — **was** re-read. **No
   correction.**
+- **Citation check:** verified (quote EXACT at `registrations/H5/REGISTRATION.md:367-369`; figures
+  verified by the checker's own independent re-read of the same untracked, UNANCHORED
+  `data/ledgers/requests.jsonl` at 2026-09-12T17:39Z — exactly six `charge` rows and six matching
+  `settle` rows in the burst, spanning 2026-08-28T21:39:45Z to 21:39:48Z (1 `info:perpDexs`,
+  2 `info:metaAndAssetCtxs`, 2 `info:fundingHistory`, 1 `info:l2Book`), every settle carrying
+  `http_status` 200, zero rows of any kind in 21:40:00Z–21:43:59Z, last charge before the burst
+  21:05:53Z and next after it 21:44:11Z, so the discrepancy against the printed 21:41Z is 1 m 45 s,
+  as recorded; no recomputation applies). This applying pass did **not** re-open the ledger — it is
+  untracked and still growing — but did re-read the tracked corroboration of the count at
+  `progress.md:1509`. The same checker read independently confirms **-1**'s ledger reference: the
+  21:44:11Z–21:47:56Z window holds exactly 323 charges (151 `fundingHistory` + 151 `l2Book` +
+  10 `meta` + 10 `metaAndAssetCtxs` + 1 `perpDexs`). Confidence MEDIUM and the UNANCHORED labelling
+  were both endorsed. No field changed.
 
 ---
 
@@ -991,10 +1267,20 @@ listed; `.env.example` appeared in one directory listing of the snapshot and was
 ```
 ```
 
-All six are **empty — a clean tree**, with no modified, staged or untracked entries (`data/` is
+**Citation-check applying pass — pre-access, 2026-09-12T17:47:10Z:**
+
+```
+```
+
+**Citation-check applying pass — post-access, 2026-09-12T17:49:19Z:**
+
+```
+```
+
+All eight are **empty — a clean tree**, with no modified, staged or untracked entries (`data/` is
 covered by `.gitignore:data/`). No entry outside the COMMON_RULES pre-existing-dirt list appeared,
 and NPLExperiment is not on that list, so there was nothing to report. `git rev-parse HEAD` returned
-`dff16632eca6eea05b290ade5464339f44c75744` at every check. **Nothing in the audited repository was
+`dff16632eca6eea05b290ade5464339f44c75744` at every check, including at 2026-09-12T17:49Z. **Nothing in the audited repository was
 modified.**
 
 ### What was read live, and when (all UTC 2026-09-12)
@@ -1007,6 +1293,7 @@ modified.**
 | 12:37:06, 12:37:59, 12:38:13 | `ls -la data/h5/`, `data/state/`, `data/ledgers/`; `sha256sum data/state/stage_b_read.json`; `json.load` of `data/state/stage_b_read.json` (keys `read_at`, `module_hashes`) and `data/state/generating_sample.json` (`count`, `event_ids`). **UNANCHORED** |
 | 12:38:24, 12:38:38 | module-hash comparison scripts reading `git show <commit>:src/npl/<module>` into memory and hashing; nothing written inside the repository |
 | 12:44, 12:45 | `data/census/census.jsonl` (505 lines; `first_1d_open_ms`, `dex`, `coin`, `recorded_at`); `data/controls/h2_pairs.jsonl` and `pairs.jsonl` (line counts and `pair_type` tallies, 63 / 176); `data/eligibility/{h2,h3,h4}.jsonl`, `data/state/{fresh_plan,retro_plan}.jsonl`, `data/state/generating_sample.json` (counts only). **UNANCHORED** |
+| 17:47:10–17:49:19 | **citation-check applying pass:** `git status --porcelain` (pre and post), `rev-parse HEAD`, `git show -s --format` and `show --name-status` on `13c6965`, `449ff1e`, `2d2edc1`, `f31f7a3` and `546b2e3`; and one read of `data/h5/census.jsonl` (546 lines, the two census passes) to re-confirm the count-identity and stratum figures that corrections to **-1** and **-2** turn on. **The census file is UNANCHORED** — read 2026-09-12T17:47Z. `data/ledgers/requests.jsonl` was **not** re-opened at this pass |
 | 13:06:23–13:06:58 | **consolidation:** `git status --porcelain` (pre and post), `rev-parse HEAD`, `log --format 8f1fef8..HEAD`, `diff --name-status 8f1fef8 HEAD`, `diff --stat`, a path-scoped `diff` of `registrations/H5/REGISTRATION.md`, `show -s --format` on nine commits, `show --name-status` on `2d2edc1`, `449ff1e`, `f31f7a3`, and `show 8f1fef8:progress.md` piped to `sed`. **Git objects only; no working-tree data was re-read at consolidation** |
 
 ### Scratch and work directories
@@ -1014,5 +1301,7 @@ modified.**
 All computation used `/home/kiros-li/.cache/program-audit/scratchpad/venv/bin/python` (numpy/scipy
 used only as an independent cross-check against the repository's own log-space formulas). All
 scratch written only under `/home/kiros-li/.cache/program-audit/scratchpad/work/` — `agentC-npl/`
-(verification), `agentC-npl-prov/` (provenance), `agentC-npl-consol/` (this pass). Nothing was
+(verification), `agentC-npl-prov/` (provenance), `agentC-npl-consol/` (consolidation) and
+`agentC-npl-apply/` (the citation-check applying pass: `counts.py`, `stats.py`, `q.py`, `q94.py`,
+`misc.py`). Nothing was
 written into `SNAP/`, which was read only.

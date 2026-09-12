@@ -632,3 +632,11 @@ Outcomes of B run 13 / C run 13 (launched 12:31Z 2026-09-12, cut by the session 
 Next: B run 14, C run 14 launched in parallel from the prepared args.
 Agent B run 14: task w86tzg1v4 (wf_03aec5c0-372), launched 17:31Z.
 Agent C run 14: task wnne7gngh (wf_80d0a649-3b8), launched 17:31Z.
+
+## 2026-09-12T22:31Z — tools/resume.py
+agent A: 13/13 done
+agent B: 10/13 done
+agent C: 10/13 done
+AFTER checks: pre-existing dirt only
+prepared B run 15 (provenance/launch-args/agentB-run15.args.json)
+prepared C run 15 (provenance/launch-args/agentC-run15.args.json)
