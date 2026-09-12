@@ -585,10 +585,12 @@ Outcomes of A run 20 / B run 11 / C run 11 (launched 02:35Z 2026-09-12, cut by t
 - A run 20 (wf_6a93ce12-f98): AiTrader consolidated, verified and applied (18: kept 6, corrected 12). A now 13/13,
   blind per-repo pass COMPLETE. The cross-repo pass started and failed on the limit; 13 AiTrader leads banked
   (A leads 136). Run 21 runs the cross-repo pass only.
-- B run 11 (wf_2eda5146-765): PMExperiment verified and applied (15 findings; kept/corrected per the journal line
-  above); solclear consolidated (22 findings) and verified, apply failed. Ten readers failed. 11 leads banked
+- B run 11 (wf_2eda5146-765): PMExperiment verified and applied (15: kept 7, corrected 8); solclear consolidated (22 findings) and verified, apply failed. Ten readers failed. 11 leads banked
   (B leads 75). B now 7/13.
 - C run 11 (wf_501f50e3-299): solclear verified, provenance and consolidated (6 findings; 24 claims verified,
   3 contradicted, 8 unverifiable); PMExperiment verified, provenance and consolidated (8 findings; 34 verified,
   7 contradicted, 14 unverifiable); both applies failed; five locates failed. C stays 6/13 with two repos at apply.
 Next: A run 21 (cross-repo), B run 12, C run 12 launched in parallel from the prepared args.
+Agent A run 21: task wxc3j9631 (wf_70480361-cfd), launched 07:31Z.
+Agent B run 12: task wlokk3xyl (wf_809a265b-e46), launched 07:31Z.
+Agent C run 12: task wkuee2l6v (wf_88280fd9-57b), launched 07:31Z.
