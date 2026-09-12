@@ -607,8 +607,9 @@ then closed at 08:12Z by the operator's standing decision; this session holds th
 - A run 21 (wf_70480361-cfd): cross-repo pass completed and committed by that session as 085ed15 (CROSS_REPO.md/.json,
   7 findings: 3 S3, 4 S4; all 136 leads dispositioned; live-repo status unchanged before/after). Agent A's blind phase
   is complete: 13/13 repositories plus the cross-repo pass.
-- B run 12 (wf_809a265b-e46): solclear verified and applied (22 findings; kept/corrected per the applier line if
-  present); the five remaining readers failed on the limit. B now 8/13.
-- C run 12 (wf_88280fd9-57b): PMExperiment applied (8 findings) and solclear applied (6 findings); NPLExperiment and
+- B run 12 (wf_809a265b-e46): solclear verified and applied (22 findings); the five remaining readers failed on the limit. B now 8/13.
+- C run 12 (wf_88280fd9-57b): PMExperiment applied (8: kept 7, corrected 1) and solclear applied (6: kept 4, corrected 2); NPLExperiment and
   solattn inventories written; their verification stages and the other locates failed on the limit. C now 8/13.
 Next: B run 13, C run 13 launched in parallel from the prepared args; nothing to launch for A.
+Agent B run 13: task w6w1wi8rd (wf_ea0a475c-55a), launched 12:31Z.
+Agent C run 13: task wx3xrwqmj (wf_c31a635b-6c1), launched 12:31Z.
