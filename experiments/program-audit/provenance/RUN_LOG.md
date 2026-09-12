@@ -640,3 +640,15 @@ agent C: 10/13 done
 AFTER checks: pre-existing dirt only
 prepared B run 15 (provenance/launch-args/agentB-run15.args.json)
 prepared C run 15 (provenance/launch-args/agentC-run15.args.json)
+Outcomes of B run 14 / C run 14 (launched 17:31Z 2026-09-12, cut by the session limit at ~18:25Z; reset 22:30Z):
+- B run 14 (wf_03aec5c0-372): solattn verified and applied (13: kept 10, corrected 3); NPLExperiment verified and
+  applied (17: kept 6, corrected 11). MLCryptoEngine p1-report reader wrote draft and ledger; MLCryptoEngine
+  p2-register and p3-progress and ORBExperiment p1-registration, p2-decisions, p3-progress readers wrote complete
+  drafts (closing sections present) but died before their positives ledgers; AiTrader readers failed. B now 10/13.
+  Recovery: five follow-up Opus agents write the five ledgers from the drafts plus the snapshots, no live-repo
+  access, drafts not modified, each ledger ending with a recovery note; B run 15 then launches with all six
+  MLCryptoEngine/ORBExperiment parts marked done so the consolidators run directly.
+- C run 14 (wf_80d0a649-3b8): solattn applied (6: kept 5, corrected 1); NPLExperiment applied (11: kept 5,
+  corrected 6). MLCryptoEngine and ORBExperiment inventories written, verification/provenance failed; AiTrader
+  locate failed. C now 10/13.
+Next: C run 15 launched now; B run 15 after the ledger recovery.
