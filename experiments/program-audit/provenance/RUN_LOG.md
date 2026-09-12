@@ -658,3 +658,4 @@ and p3-progress (38) and ORBExperiment p1-registration (40), p2-decisions (49) a
 from the drafts and the snapshots; drafts unchanged (git diff empty); no live-repository access; each ledger carries
 the recovery note; committed as 14e0f7a. AFTER check "02-agentB-ledger-recovery-AFTER": only the pre-existing dirt.
 B run 15 args: MLCryptoEngine and ORBExperiment all three parts done, consolidators run directly; AiTrader readers.
+Agent B run 15: task wka7otvpo (wf_ce3f1fe3-fb8), launched 22:48Z.

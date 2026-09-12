@@ -6,5 +6,13 @@
   "task": "w1g0lu1f9",
   "wf": "wf_5fc34499-d67",
   "launched": "2026-09-12T22:32Z"
+ },
+ {
+  "agent": "B",
+  "run": 15,
+  "label": "02-agentB-blind-run15",
+  "task": "wka7otvpo",
+  "wf": "wf_ce3f1fe3-fb8",
+  "launched": "2026-09-12T22:48Z"
  }
 ]
