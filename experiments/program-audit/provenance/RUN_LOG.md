@@ -560,3 +560,12 @@ AFTER checks: pre-existing dirt only
 prepared A run 20 (provenance/launch-args/agentA-run20.args.json)
 prepared B run 11 (provenance/launch-args/agentB-run11.args.json)
 prepared C run 11 (provenance/launch-args/agentC-run11.args.json)
+Outcomes of A run 19 / B run 10 / C run 10 (launched 02:02Z 2026-09-11; A cut by the session limit at ~02:18Z,
+reset 05:40Z; B and C killed when the Claude Code process exited, laptop rebooted 2026-09-12T02:32Z):
+- A run 19 (wf_a0ca737c-8b6): AiTrader consolidator failed on the limit after writing a partial AiTrader.md and
+  AiTrader.reopen.md (no .json); treated as not consolidated, rerun in run 20. A stays 12/13.
+- B run 10 (wf_184ea9a1-55a): solclear consolidator wrote a partial solclear.md (no .json, no positives ledger);
+  treated as not consolidated, rerun in run 11. PMExperiment verify/apply did not complete. B stays 6/13.
+- C run 10 (wf_be87ffc6-5e5): PMExperiment and solclear verification/provenance agents wrote partial files
+  (PMExperiment.claims.json, provenance/*.md) but no verification.md; both stages rerun in run 11. C stays 6/13.
+Next: A run 20, B run 11, C run 11 launched in parallel from the prepared args.
