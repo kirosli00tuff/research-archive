@@ -1,1 +1,26 @@
-[]
+[
+ {
+  "agent": "A",
+  "run": 20,
+  "label": "01-agentA-blind-run20",
+  "task": "w4q52keg5",
+  "wf": "wf_6a93ce12-f98",
+  "launched": "2026-09-12T02:35Z"
+ },
+ {
+  "agent": "B",
+  "run": 11,
+  "label": "02-agentB-blind-run11",
+  "task": "wfdztn6yy",
+  "wf": "wf_2eda5146-765",
+  "launched": "2026-09-12T02:35Z"
+ },
+ {
+  "agent": "C",
+  "run": 11,
+  "label": "03-agentC-blind-run11",
+  "task": "wftis2chm",
+  "wf": "wf_501f50e3-299",
+  "launched": "2026-09-12T02:35Z"
+ }
+]

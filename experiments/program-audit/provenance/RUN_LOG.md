@@ -569,3 +569,6 @@ reset 05:40Z; B and C killed when the Claude Code process exited, laptop reboote
 - C run 10 (wf_be87ffc6-5e5): PMExperiment and solclear verification/provenance agents wrote partial files
   (PMExperiment.claims.json, provenance/*.md) but no verification.md; both stages rerun in run 11. C stays 6/13.
 Next: A run 20, B run 11, C run 11 launched in parallel from the prepared args.
+Agent A run 20: task w4q52keg5 (wf_6a93ce12-f98), launched 02:35Z.
+Agent B run 11: task wfdztn6yy (wf_2eda5146-765), launched 02:35Z.
+Agent C run 11: task wftis2chm (wf_501f50e3-299), launched 02:35Z.
