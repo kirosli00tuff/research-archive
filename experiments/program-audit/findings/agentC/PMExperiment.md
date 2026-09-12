@@ -90,6 +90,12 @@ provenance pass (**-1**, **-2**) are the date error and the unregistered text-ra
 | MV7 | the power bars: "GO, MDE ≤ 0.02 \| **≥ 475**"; "stay out of BLOCKED \| **≥ 30**"; "sqrt(v̄) ≈ **0.218**"; "GO needs about **703** markets (475 / 0.676)" (`REGISTRATION.md:120-137`, `:148-150`) | **SPLIT: bars VERIFIED, derived market count CONTRADICTED** — `4 × 0.0475/0.0004 = 475.0` and `= 29.6875 → 30` exactly, `sqrt(0.0475) = 0.21794`; but `475/0.676 = 702.66` while the stated premise "two-thirds" gives **712.5** (finding **-4**) |
 | MV8 | the cost floor in its two written forms: "C(p) = 0.04 + 0.01 + 0.03·p … **0.0785**" and "C(p) = 0.05 + 0.03·p … C(0.95) = 0.0785. C(0.05) = **0.0515**." (`REGISTRATION.md:203-212`, `:335-338`) | **VERIFIED** — float-identical in both forms and identical to `power.cost_floor` |
 
+**Emphasis inside the eight quotes above is this audit's, added to mark the figure under test; it
+is not the sources'.** Checked at the applier pass and declared here rather than left implicit:
+`REGISTRATION.md:409-412` bolds its whole paragraph and nothing inside it, `docs/BAND.md:257-259`
+bolds "2.15 points" and "0.15 points" but not 4.84 or 2.83, and `REGISTRATION.md:120-137` and
+`:148-150` bold nothing at all. No figure or line reference changes.
+
 **7 VERIFIED, 0 CONTRADICTED, 1 SPLIT (bars verified, the market count derived from them
 contradicted).** Every claim the repository's only verdict rests on — MV1 through MV6 — reproduces
 exactly. The one contradicted MUST-VERIFY component is a derived market requirement on a gate that
@@ -228,6 +234,16 @@ between the two drafts and are unchanged. The provenance draft's evidence is the
 eight quoted statements against the verification draft's five — and is carried forward whole, with
 the verification draft's Amendment-4 ordering oddity retained as a corroborating bullet.
 
+**Applier pass, 2026-09-12.** An independent citation check re-located every quote, re-read the git
+objects first-hand and re-ran the arithmetic. **Eight findings in, eight out: 7 kept unchanged, 1
+corrected, 0 dropped**, and no severity, class, label, direction or conclusion moved. The single
+correction is in **-3**, and it is citation fidelity only: two emphasis spans that the registration
+does not carry had been rendered as if it did. Two further presentation fixes with no bearing on any
+finding: the emphasis in the MUST-VERIFY scoreboard quotes is now declared as this audit's, and the
+JSON's disclosure line for **-6** is moved from `docs/ACCESS.md:87-89` to `:88-89` to match this
+document. Each finding now ends with a **Citation check** line recording what was re-verified. There
+is no "dropped after verification" section because nothing was dropped.
+
 ---
 
 ## Findings
@@ -313,6 +329,21 @@ support. Where a direction does apply it is given: **-3** and **-4** are B.
   `4d75f66` = 19:17:21Z, `32dc10a` = 19:24:06Z, `f789079` = 2026-08-30T03:34:00Z, `1b3124e` =
   03:40:52Z all re-read. **No correction.** Merged from DRAFT-P-1 (evidence carried whole) and
   DRAFT-V-5 (Amendment-4 oddity retained); severity reconciled S4/S3 → **S3**.
+- **Citation check:** verified (quotes EXACT — all eight re-located at the lines cited:
+  `REGISTRATION.md:667`, `:707`, `:751`, `DECISIONS.md:140`, `:160`, `:180`, `HYPOTHESES.md:87`,
+  `progress.md:202`; figures verified — `f686036` author date = committer date =
+  `2026-08-29T11:05:26-07:00` = 2026-08-29T18:05:26Z, re-read first-hand again in the applier pass,
+  and `blame` at `03d16e7` returns `f686036` for all eight lines, two more than the six the finding
+  cites; the corroborating dates all reproduce — `e2d8f10` = 19:07:37Z carrying "Logged
+  2026-08-29T19:08Z" at `progress.md:248-249`, `34307b6` = 19:22:44Z carrying ADR-009/ADR-010 both
+  dated "accepted, 2026-08-29", `4d75f66` = 19:17:21Z, `32dc10a` = 19:24:06Z, `f789079` =
+  2026-08-30T03:34:00Z, `1b3124e` = 2026-08-30T03:40:52Z; recomputation reproduced — no timezone
+  reachable from −07:00 places 18:05:26Z on 08-30, so the defect stands, and an independent grep
+  over all ten documents finds no correction of these dates while `progress.md:511-512` repeats the
+  error. One severity note recorded and left as written: COMMON_RULES defines S3 as "a blocker or
+  external figure is stale" and a wrong date is literally neither, so S4 also fits; S3 is the upper
+  of two defensible grades because the date labels the registration of the only fired gate, and the
+  finding is unaffected either way. Kept unchanged.)
 
 ### AUDIT-C-PMExperiment-2
 - **Repository / SHA:** PMExperiment / `03d16e71dbf25a86c529884662d02136f8e82334`
@@ -386,6 +417,23 @@ support. Where a direction does apply it is given: **-3** and **-4** are B.
   across two lines); the `docs/LICENCES.md` quote re-located and its span **corrected from :76-79 to
   :77-79** for the quoted sentence (the authors' disclosure block runs :76-82). Substance
   unchanged.
+- **Citation check:** verified (quotes EXACT at `CLAUDE.md:36-37` (the sentence does wrap across the
+  two lines, as the consolidation says), `REGISTRATION.md:9-10`,
+  `pmexperiment/admissibility.py:39-43` with `MIN_DOCUMENT_TEXT_RATIO: float = 0.05` at `:49`, and
+  `docs/LICENCES.md:77-79` inside the authors' `:76-82` disclosure block; figures verified — `git
+  log --follow -- pmexperiment/admissibility.py` returns exactly one commit, `b67fc84` =
+  `2026-08-29T21:28:05-07:00` = 2026-08-30T04:28:05Z, `blame` puts `docs/ACCESS.md:125` in `1b3124e`
+  = 2026-08-30T03:40:52Z, so the bar lands 47 min 13 s after the measurement that sets it, and
+  `7b5a751` = 2026-08-30T06:22:49Z; presence check reproduced — `text ratio|text
+  share|client-render` returns 0 hits in `REGISTRATION.md`, `0.05` occurs there on exactly the seven
+  lines listed (:32, :33, :42, :43, :335, :338, :844) and none is this bar,
+  `MIN_DOCUMENT_TEXT_RATIO` appears only at `admissibility.py:49` and `:99`, and ADR-012 at
+  `DECISIONS.md:344-392` names its three elements at `:368-369` and no numeric bar. One label note
+  recorded and left as written: COMMON_RULES makes a finding whose limitation the authors disclose
+  READ, and the disclosed half — the derivation from the shell measurement — is separated out
+  explicitly here; the half actually raised, that the bar sits in no numbered amendment, is
+  undisclosed and was established from git objects and grep, so DERIVED stands and the severity is
+  already capped at S3 by the same clause. Kept unchanged.)
 
 ### AUDIT-C-PMExperiment-3
 - **Repository / SHA:** PMExperiment / `03d16e71dbf25a86c529884662d02136f8e82334`
@@ -396,9 +444,9 @@ support. Where a direction does apply it is given: **-3** and **-4** are B.
 - **Severity:** S4 — it would be S2 had the gate ever fired; no verdict in this repository depends on
   it, because no cell was ever built
 - **Label:** DERIVED (code + recomputation)
-- **Claim challenged (verbatim):** "| **GO** | MDE ≤ 0.02 | the design **resolves the entire
-  published band**; Stage B is authorized for that universe against the registered target |" —
-  PMExperiment/REGISTRATION.md:110 — read against its own bar, "| GO, MDE ≤ 0.02 | **≥ 475** |" —
+- **Claim challenged (verbatim):** "| **GO** | MDE ≤ 0.02 | the design resolves the entire
+  published band; Stage B is authorized for that universe against the registered target |" —
+  PMExperiment/REGISTRATION.md:110 — read against its own bar, "| GO, MDE ≤ 0.02 | ≥ 475 |" —
   PMExperiment/REGISTRATION.md:128
 - **Evidence:**
   - The estimator, as coded: `return registry.Z_CRITICAL * math.sqrt(mean_dispersion / tail_count)` —
@@ -444,6 +492,25 @@ support. Where a direction does apply it is given: **-3** and **-4** are B.
   (z = 2.0) and 932.08 → **933** (z = 1.96); 90 % → 1,279 / 1,248; `4 × 0.0475/0.0004 = 475.0` and
   `= 29.6875`; `sqrt(0.0475) = 0.21794494717703367`; `MDE(100) = 0.04358898943540673`. Both quotes
   re-located in `SNAP` at `REGISTRATION.md:110` and `:128`. **No correction.**
+- **Citation check:** corrected — the claim quote was presented as verbatim but carried two emphasis
+  spans the registration does not. `REGISTRATION.md:110` reads "| **GO** | MDE ≤ 0.02 | the design
+  resolves the entire published band; … |" — the bold on "resolves the entire published band" was
+  the auditor's — and `:128` reads "| GO, MDE ≤ 0.02 | ≥ 475 |" with no bold at all. Both lines were
+  re-read from `SNAP` in this pass and the added asterisks are removed above; the `**GO**` bold is
+  the source's own and is kept. This mattered more here than elsewhere because the finding's weight
+  sits on the word "resolves" appearing emphasised in the registration itself, which it does not.
+  **Substance unchanged and independently reproduced:** `power.py:45`, `registry.py:9` and
+  `REGISTRATION.md:301` read as quoted, `tests/test_power.py:37-66` pins 475/474/30/29/0, and a
+  fresh `scipy` run in this pass reproduces the report digit for digit — SE = sqrt(0.0475/475) =
+  0.01 exactly, power = 0.500000 at z = 2.0 and 0.515953 at z = 1.96, 80 %-power n = 958.88 → 959 (z
+  = 2.0) and 932.08 → 933 (z = 1.96), 90 % → 1,278.77 → 1,279 and 1,247.78 → 1,248, `4 ×
+  0.0475/0.0004 = 475.0`, `= 29.6875`, sqrt(0.0475) = 0.21794494717703367, MDE(100) =
+  0.04358898943540673, and 959/475 = 2.019. The non-disclosure reproduces too: grep for `z_beta`,
+  `z_β`, `80 %`, `80%`, `50 %`, `50%`, `power of`, `statistical power`, `1 − β` over all ten
+  documents and all twelve Python files returns zero hits, so no power level is stated anywhere and
+  none is misstated. One severity note recorded and left as written: a literal reading of S2 ("a
+  label contradicts its own evidence") could reach the GO row, the finding pre-empts that in its own
+  severity line, and S4 is the lower of two defensible grades.
 
 ### AUDIT-C-PMExperiment-4
 - **Repository / SHA:** PMExperiment / `03d16e71dbf25a86c529884662d02136f8e82334`
@@ -485,6 +552,18 @@ support. Where a direction does apply it is given: **-3** and **-4** are B.
 - **Consolidation check:** re-verified first-hand: `475/0.676 = 702.662721893491`,
   `475/(2/3) = 712.5`, `475/0.667 = 712.143928`. Both quotes re-located in `SNAP` at
   `REGISTRATION.md:148-150` and `:132-134`. **No correction.**
+- **Citation check:** verified (quote EXACT at `REGISTRATION.md:148-150`, wrapped across three
+  source lines word for word, with the premise EXACT at `:132-134` and the numerator at `:128`;
+  figures verified — `0.676` occurs exactly once in the whole snapshot, at `REGISTRATION.md:149`,
+  defined, attributed and pinned nowhere, and Section 3 at `:233-234` states only the loose
+  "two-thirds"; recomputation reproduced independently — `475/0.676 = 702.662721893491` → "about
+  703" (so the printed quotient is internally correct), `475/(2/3) = 712.5`, `475/0.667 =
+  712.143928035982`, and the registered floor of 1,000 at `:148` exceeds both. One point in the
+  finding's favour that it does not claim and does not need: the divisor's scope is coherent —
+  `registry.TAIL_BUCKETS_CENTS = ((1,10),(91,99))` covers both tails, matching Section 3's combined
+  "1–10c and 90–99c" — so the only defect is the divisor-versus-premise mismatch and no wider
+  arithmetic objection is warranted. Label DERIVED, class ARITHMETIC, severity S4 and direction B
+  all fit. Kept unchanged.)
 
 ### AUDIT-C-PMExperiment-5
 - **Repository / SHA:** PMExperiment / `03d16e71dbf25a86c529884662d02136f8e82334`
@@ -534,6 +613,21 @@ support. Where a direction does apply it is given: **-3** and **-4** are B.
 - **Consolidation check:** re-verified first-hand. All three quotes re-located in `SNAP` at
   `docs/BAND.md:8-9`, `:212` and `:123-124`. `git log --follow -- docs/BAND.md` returns one commit,
   `34307b6` (`2026-08-29T12:22:44-07:00`). **No correction.**
+- **Citation check:** verified (all three quotes EXACT at `docs/BAND.md:8-9`, `:212` and `:123-124`;
+  figures verified — `band.py` is 135 lines, read in full, with no crossing-price solver and no
+  probability-gap ↔ percent-return conversion and a public surface of exactly the eight functions
+  listed; grep over `pmexperiment/` and `tests/test_band.py` for `0.3333`, `1.6667`, `3.16`,
+  `0.117`, `0.883`, `0.043`, `-40`, `0.077` returns 0 hits for all eight; `tests/test_band.py` holds
+  14 test functions and never opens `docs/BAND.md`, and the only three tests that read it are
+  `test_honesty.py:183-195`, `:208-216` and `:241-245`, pinning exactly `BAND-OPEN`, 0.0585, 0.0785,
+  0.0300, 313,972 and the three sentence fragments named; recomputation reproduced independently,
+  the checker rewriting it from the registered constants alone without importing `pmexperiment` —
+  all 60 Pass-1 cells match at `'%.4f'` with 0 mismatches, crossings −0.3333 / +1.6667 / −1.0000 /
+  +1.0000, band-top minus R_X(0.95) = 0.0015, unit determination −0.02 / −40.0 % / +0.03 / +3.16 % /
+  0.117 and `0.04/(1−0.077) = 0.043337 → "0.043"`, Krause's 0.883 route costing 0.05649 → 0.0565 and
+  0.07649 → 0.0765, margins 4.835 → 4.84, 2.15, 2.835 → 2.83, 0.15 and `0.0215/0.00135 = 15.9259 →
+  16`. Both halves of the finding — every figure correct, the provenance sentence over-broad —
+  confirmed. Kept unchanged.)
 
 ### AUDIT-C-PMExperiment-6
 - **Repository / SHA:** PMExperiment / `03d16e71dbf25a86c529884662d02136f8e82334`
@@ -587,6 +681,18 @@ support. Where a direction does apply it is given: **-3** and **-4** are B.
   times" and then listed six locations; an independent grep for `2024-05-31` over `SNAP` returns
   **seven** hits, so the count is corrected to **six more times, seven occurrences in all**. No
   substance changes.
+- **Citation check:** verified (quote EXACT at `docs/ACCESS.md:72`, the full table row word for
+  word; figures verified — the consolidation's own correction reproduces: grep for `2024-05-31` over
+  `SNAP` returns exactly **7** hits, `ACCESS.md:72` and `:320`, `REGISTRATION.md:391` and `:539`,
+  `report.md:34`, `progress.md:43`, `DECISIONS.md:103`, so "six more times, seven occurrences in
+  all" is right and the draft's "four more times" was wrong; recomputation reproduced — the six
+  probes in that cell give max(empty) = 2024-01-01 and min(non-empty) = 2024-07-01, so the supported
+  bracket is [2024-01-01, 2024-07-01] and 2024-05-31 is neither a probe date nor implied by them, a
+  full month tighter. Label READ is correct: the defect is visible entirely in the document's own
+  sentence. S4 fits, the finding itself supplying the innocent reading that keeps it out of S2.
+  **One sync fix, no substance:** the JSON's `disclosure_ref` cited the irreproducibility disclosure
+  at `docs/ACCESS.md:87-89`; the quoted sentence begins on line 88, so the JSON is corrected to
+  `:88-89` to match this document.)
 
 ### AUDIT-C-PMExperiment-7
 - **Repository / SHA:** PMExperiment / `03d16e71dbf25a86c529884662d02136f8e82334`
@@ -642,6 +748,21 @@ support. Where a direction does apply it is given: **-3** and **-4** are B.
   exactly the one `-`/`+` pair quoted above with `32 1 REGISTRATION.md` in `--numstat`; commit date
   `2026-08-29T00:53:10-07:00` = 07:53:10Z; the claim quote re-located at
   `SNAP/PMExperiment/REGISTRATION.md:660-661` and the replacement text at `:369`. **No correction.**
+- **Citation check:** verified (quote EXACT at `REGISTRATION.md:660-661`; figures verified — `git
+  show 98ce2d4 --numstat -- REGISTRATION.md` returns `32 1 REGISTRATION.md` and the single deleted
+  line is precisely `-*Written only after the gate fires. Empty until then.*` replaced by `+*Written
+  only after a gate fires.*`, re-read first-hand again in the applier pass, with commit date
+  `2026-08-29T00:53:10-07:00` = 07:53:10Z; `f686036`'s one deletion is `-*(empty)*` below the
+  amendment line inside Section 17; every other numstat matches — `4d75f66` 72/0, `32dc10a` 59/0,
+  `f789079` 59/0, `1b3124e` 151/0, `17dfebd` 56/0, `fe7e6b9` 62/0, `f8128b2` 117/0, `03d16e7` 54/0;
+  recomputation reproduced independently — the checker re-implemented the region hash from the
+  method described (`## 0.` header to `## 15. ` header; "Written before the read." to the following
+  `---`) in its own script and got SHA-256 `00a7e9aa6b36d3d1…` for the Sections 0–14 region (347
+  lines) and `42173f13e69a04da…` for Section 16's paragraph at all eleven versions, byte-identical
+  to the digests printed above. One clarification added by the check and confirmed here:
+  `REGISTRATION.md` has **13** commits in all; the eleven are those from `9080186` forward, which is
+  exactly the span the guarantee "after Section 0 is committed" covers — `10041da` and `180c235`
+  precede it. Kept unchanged.)
 
 ### AUDIT-C-PMExperiment-8
 - **Repository / SHA:** PMExperiment / `03d16e71dbf25a86c529884662d02136f8e82334`
@@ -690,6 +811,20 @@ support. Where a direction does apply it is given: **-3** and **-4** are B.
 - **Consolidation check:** re-verified first-hand — subject line re-read as "docs: Stage C report,
   Entry 7, ADR-012 and nine honesty tests"; 28 → 36 re-counted; commit date `2026-08-29T20:45:12-07:00`
   = 2026-08-30T03:45:12Z. **No correction.**
+- **Citation check:** verified (quote EXACT in the immutable commit object `52d39ec` — subject
+  "docs: Stage C report, Entry 7, ADR-012 and nine honesty tests" and the body sentence beginning
+  "Nine honesty tests pin the verdict…", both re-read first-hand again in the applier pass; the bold
+  on "nine honesty tests" above is this audit's rendering, since a commit message carries no markup
+  — noted and not charged, because unlike finding **-3** no reader can mistake it for source
+  formatting; figures verified — `git show 52d39ec --stat` touches exactly one test file,
+  `tests/test_honesty.py`, +82/−0, and `grep -c '^def test_'` gives **28 before and 36 after**, i.e.
+  8 added and none removed, the eight `+def test_` lines in the diff being exactly the eight names
+  listed; recomputation reproduced — the suite total at `52d39ec` is 14 + 4 + 36 + 9 + 9 = **72**,
+  matching "72 tests green" in the same message, up from 64, and the convention check holds,
+  `ebdc116` saying "nine" and adding 9 (19 → 28) and `baa2bf3` saying "six" and adding 6 (37 → 43).
+  Nothing repeats the wrong figure: the "Nine new honesty tests" at `progress.md:502` belongs to
+  Entry 5 / Stage B, where nine is correct, and Stage C's Entry 7 states only the correct total,
+  "**72 tests**", at `progress.md:813`. Kept unchanged.)
 
 ---
 
@@ -818,11 +953,13 @@ ones this repository declined to make, and reproducing them now would measure 20
 
 ## Live-repo access log
 
-Every access to `/home/kiros-li/Documents/GitHub/PMExperiment/` across all three passes (LOCATE,
-VERIFY/PROVENANCE, and this consolidation) was **read-only**. The commands used, across all passes:
+Every access to `/home/kiros-li/Documents/GitHub/PMExperiment/` across all four passes (LOCATE,
+VERIFY/PROVENANCE, the consolidation, and the applier pass that recorded the citation checks) was
+**read-only**. The commands used, across all passes:
 `status --porcelain`, `rev-parse`, `log` (with `--format`, `--date=iso-strict`, `--reverse`,
 `--follow`, `--numstat`, `-p`, `-S`, `--all --diff-filter=A --name-only`), `show` (including
-`show <commit>:<path>` to stdout, `--stat`, `--numstat`, `-- <path>`), `blame -L`,
+`show <commit>:<path>` to stdout, `--stat`, `--numstat`, `-- <path>`), `blame -L` (with
+`--porcelain` in the applier pass),
 `rev-list --count`, `rev-list --objects`, `ls-tree`, `cat-file -s`, `count-objects -v`, and one
 `ls -laR data/`. **No file in the repository was opened for writing, no repository script was
 executed, and no commit, checkout, stash, reset, clean, add, branch, merge, rebase, worktree or gc
@@ -831,10 +968,11 @@ and code content was read from the anchored snapshot at
 `/home/kiros-li/.cache/program-audit/scratchpad/snap/PMExperiment/`.
 
 **Unanchored reads** (working tree, not the snapshot), carried forward from the earlier passes and
-none added in this one: `ls -la` of the working tree and of `data/` at **2026-09-05T23:28Z**
-(LOCATE), and `ls -laR data/` at **2026-09-12T02:41Z** (PROVENANCE) — in both, `data/` holds a single
-0-byte `.gitkeep`, with no `data/raw/` and no `data/vendor/`. These may have changed after the
-2026-09-02 anchor. **This consolidation pass made no unanchored read.**
+none added in the consolidation or the applier pass: `ls -la` of the working tree and of `data/` at
+**2026-09-05T23:28Z** (LOCATE), and `ls -laR data/` at **2026-09-12T02:41Z** (PROVENANCE) — in both,
+`data/` holds a single 0-byte `.gitkeep`, with no `data/raw/` and no `data/vendor/`. These may have
+changed after the 2026-09-02 anchor. **Neither the consolidation nor the applier pass made an
+unanchored read.**
 
 ### Status before and after, verbatim
 
@@ -869,7 +1007,17 @@ access, 2026-09-12T02:36:30Z:**
 ```
 ```
 
-All six outputs are **empty** (exit status 0, working tree clean), and `git rev-parse HEAD` returns
+**APPLIER pass — BEFORE first access, 2026-09-12T07:44:01Z:**
+
+```
+```
+
+**APPLIER pass — AFTER last access, 2026-09-12T07:48:42Z:**
+
+```
+```
+
+All eight outputs are **empty** (exit status 0, working tree clean), and `git rev-parse HEAD` returns
 `03d16e71dbf25a86c529884662d02136f8e82334` before and after every pass. **No modification was made to
 the audited repository and none is reported.**
 
@@ -891,3 +1039,4 @@ audited path.
 | `work/agentC-pm-prov/` | Provenance scratch (`adrs.py`, `sections.py`, `mkjson.py`). |
 | `/home/kiros-li/.cache/program-audit/scratchpad/work/agentC-PM-verify2/` | `power_check.py` (the power arithmetic behind **-3** and **-4**, using `scipy.stats.norm`) and `gen_tables.py` (renders the verification tables from the JSON so they cannot drift from it). |
 | `/home/kiros-li/.cache/program-audit/scratchpad/work/agentC-pm-prov2/` | `regions.py` (SHA-256 of the Sections 0–14 and Section 16 regions across eleven `REGISTRATION.md` versions) and `claims.txt`. |
+| `/home/kiros-li/.cache/program-audit/scratchpad/work/agentC-pm-apply/` | Applier pass: `power_recheck.py` (the independent `scipy` re-run of finding **-3**'s power arithmetic) and the two edit scripts that wrote the citation checks into this document. |

@@ -594,3 +594,11 @@ Next: A run 21 (cross-repo), B run 12, C run 12 launched in parallel from the pr
 Agent A run 21: task wxc3j9631 (wf_70480361-cfd), launched 07:31Z.
 Agent B run 12: task wlokk3xyl (wf_809a265b-e46), launched 07:31Z.
 Agent C run 12: task wkuee2l6v (wf_88280fd9-57b), launched 07:31Z.
+
+## 2026-09-12T12:31Z — tools/resume.py
+agent A: 13/13 done
+agent B: 8/13 done
+agent C: 8/13 done
+AFTER checks: pre-existing dirt only
+prepared B run 13 (provenance/launch-args/agentB-run13.args.json)
+prepared C run 13 (provenance/launch-args/agentC-run13.args.json)
