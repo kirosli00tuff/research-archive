@@ -1,0 +1,56 @@
+{
+  "repo": "NPLExperiment",
+  "claims": {
+    "verified": 56,
+    "contradicted": 17,
+    "unverifiable": 4,
+    "must_verify": [
+      {
+        "claim": "C1 - the H5 live stratum has '0.0 %' over the 54 bp VIABLE bar (median 3.72 bp, IQR 0.73-7.31, max 51.4 bp, 8.5 % over the 18 bp floor), and 'Every observation above the 54 bp VIABLE bar lives in the delisted stratum.' (docs/H5_ACCESS.md:193,197-198; report.md:659; HYPOTHESES.md:129; DECISIONS.md:497-499)",
+        "status": "CONTRADICTED - the tracked census artifact reports/h5/census.rows.json gives median 4.2137, IQR 0.7412-9.0865, max 55.6406, 7/94 = 7.447 % over the floor and 1/94 = 1.064 % over the bar (xyz:URNM at -55.641 bp, listing_status live); the fired reports/h5/verdict.json records share_over_viable = 0.015957 (3 of 188). The printed row reproduces only from census pass h5-census-2026-08-28T21:44:11Z, which is in no git object. Finding AUDIT-C-NPLExperiment-1 (S1); provenance half AUDIT-C-NPLExperiment-2 (S3). The delisted row of the same table reproduces exactly."
+      },
+      {
+        "claim": "C2 - the fired H5 PENDING row's deciding figures: 94 instruments with a served reference (bar 20), funding served 94 of 94 = share 1.000 (bar 0.500), 0 instruments at 30 days of coverage, and median absolute basis 4.14 bp with IQR 0.71-9.15, 9.57 % over floor, 1.60 % over bar at n = 188 (report.md:673-676; HYPOTHESES.md:126; registrations/H5/REGISTRATION.md:567-575)",
+        "status": "VERIFIED - all six components exact. 94 resolved+live rows all carry reference_served and reference_field = oraclePx; funding_history_state = stored on 94/94; covered_days_max = 1 so 0 meet the 30-day bar; pooled n = 188 gives median 4.14463090419424, q1 0.70947242299609, q3 9.145925118703394, shares 0.09574468085106383 and 0.015957446808510637 - identical to verdict.json at 0.0e+00. Bars read from src/npl/config.py:248-251; 54 = 3 x hip3_round_trip_bp[1] = 3 x 18."
+      },
+      {
+        "claim": "C3 - '29 daily passes needed; projected fire date 2026-09-26' (HYPOTHESES.md:122; report.md:685; registrations/H5/REGISTRATION.md:587)",
+        "status": "VERIFIED as arithmetic - src/npl/h5/outcome.py:200-222 gives max(0, 30 - 1) = 29 passes and 2026-08-28 + 29 d = 2026-09-26 exactly from verdict.json's covered_days_binding_instrument = 1. The one-pass-per-calendar-day ASSUMPTION is falsified after the anchor (data/h5/snapshots.jsonl, UNANCHORED: 12 full passes in the 15 days 2026-08-29..2026-09-12, 0.80/day) and the authors falsified and corrected it themselves in the single post-anchor commit dff1663, Amendment H5-3, at a measured 0.77/day, moving the projection to about 2026-10-05 with no bar moved. Not a finding: post-anchor and self-corrected."
+      },
+      {
+        "claim": "C4 - the H1 closure's three co-primaries: P1 197/312, exact lower bound 0.5707 against the 0.60 bar - FAIL; P2 111/312, sign-test p = 1.000 - FAIL; P3 114/175, p = 3.767e-05 - PASS; cost bands 0.5740 / 0.5707 / 0.5609 (HYPOTHESES.md:52; report.md:222-224; REGISTRATION.md:556-568)",
+        "status": "VERIFIED - every stored statistic reproduces to 1e-15 from the counts alone by both the repository's own bisection (verdict.py:67-82, power.py:35-42) and an independent closed form (scipy.stats.beta.ppf, scipy.stats.binom.sf): 0.5706880326738533 (closed form ...36), 0.9999998937952859, 3.766632285793312e-05; bands 0.5739630116873008 / 0.5706880326738533 / 0.5608793225336948; 90-day secondaries 0.6068655579748216 / 0.3885886631267041 / 0.00023604632892074097. A separate correction/rule mismatch is recorded at AUDIT-C-NPLExperiment-4 (S4) and does not move the verdict."
+      },
+      {
+        "claim": "C5 - H2's governing minimum N, the two-look spends, boundaries, powers, futility and look dates (HYPOTHESES.md:73; registrations/H2/REGISTRATION.md:673-730; report.md:546-563)",
+        "status": "SPLIT - minimum N (42/84/76, 59/117/111, 92/184/169, 169), boundaries k1/k2 (22/37, 38/69, 43/79), TOTAL spends (0.037268 / 0.042197 / 0.040343), powers (0.703083/0.552854, 0.932234/0.823731, 0.955244/0.862922), futility f1 (31 and 27) and the projected look dates 2026-11-26 / 2027-03-01 all VERIFIED exactly; two of the three printed COMPONENT spend pairs are CONTRADICTED - 0.0173 + 0.0200 and 0.0176 + 0.0227 appear nowhere in the artifact the registration names, whose values are 0.008062 + 0.029206 and 0.019230 + 0.021113 (finding AUDIT-C-NPLExperiment-6, S4). The look dates are verified GIVEN the accrual constant, which is itself contradicted at AUDIT-C-NPLExperiment-5 (S4) in the conservative direction."
+      },
+      {
+        "claim": "C6 - E2's 0.625 true share by linear interpolation, and that at the unchanged 0.60 E2 needs 92/184 and does not reach 0.80 by the deadline (HYPOTHESES.md:74; registrations/H2/REGISTRATION.md:675,683-684)",
+        "status": "VERIFIED - (0.65 + 0.60)/2 = 0.625 exactly, and the repository labels it 'a choice, not a measurement'; minimum N 92/184 exact; two-look power at n2 = 135 is 0.692372 and single-look 0.731814, both below 0.80; the Section 0 gate recomputation (single-look 0.888596 at 0.625, two-look 0.862922) matches the artifact to 5e-6."
+      },
+      {
+        "claim": "C7 - 'Live median touch spread **4.18 bp** (IQR 1.31-10.78).' at n = 94 (report.md:643; docs/H5_ACCESS.md section 'Is there a book?')",
+        "status": "CONTRADICTED - the tracked reports/h5/census.rows.json touch_spread_bp over the 94 resolved+live rows gives median 3.1586 bp, IQR 1.2270-10.4125. The printed figures reproduce exactly from the untracked h5-census-2026-08-28T21:44:11Z pass (median 4.1838; q1/q3 1.3062/10.7832 under a nearest-order-statistic convention). Finding AUDIT-C-NPLExperiment-2 (S3). Descriptive only - fires nothing."
+      }
+    ]
+  },
+  "intervals": {
+    "audited": 5,
+    "independence_doubtful": 1,
+    "recomputed": 5,
+    "conclusion_moved": 0
+  },
+  "tests": {
+    "audited": 15,
+    "tail_mismatch": 0,
+    "dof_issue": 0,
+    "correction_mismatch": 3
+  },
+  "provenance": {
+    "supported": 37,
+    "not_supported": 2,
+    "partial": 4,
+    "unverifiable": 5
+  }
+}

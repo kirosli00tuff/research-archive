@@ -613,3 +613,11 @@ then closed at 08:12Z by the operator's standing decision; this session holds th
 Next: B run 13, C run 13 launched in parallel from the prepared args; nothing to launch for A.
 Agent B run 13: task w6w1wi8rd (wf_ea0a475c-55a), launched 12:31Z.
 Agent C run 13: task wx3xrwqmj (wf_c31a635b-6c1), launched 12:31Z.
+
+## 2026-09-12T17:31Z — tools/resume.py
+agent A: 13/13 done
+agent B: 8/13 done
+agent C: 8/13 done
+AFTER checks: pre-existing dirt only
+prepared B run 14 (provenance/launch-args/agentB-run14.args.json)
+prepared C run 14 (provenance/launch-args/agentC-run14.args.json)
