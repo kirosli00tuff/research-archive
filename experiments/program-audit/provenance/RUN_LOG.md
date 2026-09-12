@@ -621,3 +621,12 @@ agent C: 8/13 done
 AFTER checks: pre-existing dirt only
 prepared B run 14 (provenance/launch-args/agentB-run14.args.json)
 prepared C run 14 (provenance/launch-args/agentC-run14.args.json)
+Outcomes of B run 13 / C run 13 (launched 12:31Z 2026-09-12, cut by the session limit at ~13:20Z; reset 17:30Z):
+- B run 13 (wf_ea0a475c-55a): solattn readers done and consolidated (13 findings) with positives ledger, verify failed;
+  NPLExperiment readers done and consolidated (17 findings; the consolidator wrote its outputs before dying). Readers
+  for MLCryptoEngine, ORBExperiment, AiTrader failed. 7 cross-repo leads banked (B leads now 82). B stays 8/13.
+- C run 13 (wf_c31a635b-6c1): solattn verified, provenance done and consolidated (6 findings; 26 claims verified,
+  2 contradicted, 5 unverifiable); NPLExperiment verified, provenance done and consolidated (11 findings; 56 verified,
+  17 contradicted, 4 unverifiable); both applies failed. Locates for MLCryptoEngine, ORBExperiment, AiTrader failed.
+  C stays 8/13.
+Next: B run 14, C run 14 launched in parallel from the prepared args.
