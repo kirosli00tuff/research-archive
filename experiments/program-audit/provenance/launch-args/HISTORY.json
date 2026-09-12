@@ -180,5 +180,32 @@
   "wf": "wf_5e8f4f9a-b30",
   "launched": "2026-09-05T23:12Z",
   "after": "2026-09-11T02:01Z"
+ },
+ {
+  "agent": "A",
+  "run": 19,
+  "label": "01-agentA-blind-run19",
+  "task": "wnw8ieasi",
+  "wf": "wf_a0ca737c-8b6",
+  "launched": "2026-09-11T02:02Z",
+  "after": "2026-09-12T02:34Z"
+ },
+ {
+  "agent": "B",
+  "run": 10,
+  "label": "02-agentB-blind-run10",
+  "task": "wymv8bac7",
+  "wf": "wf_184ea9a1-55a",
+  "launched": "2026-09-11T02:02Z",
+  "after": "2026-09-12T02:34Z"
+ },
+ {
+  "agent": "C",
+  "run": 10,
+  "label": "03-agentC-blind-run10",
+  "task": "wtnii7w5y",
+  "wf": "wf_be87ffc6-5e5",
+  "launched": "2026-09-11T02:02Z",
+  "after": "2026-09-12T02:34Z"
  }
 ]

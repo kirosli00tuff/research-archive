@@ -551,3 +551,12 @@ duplicates; their args files are unused).
 Agent A run 19: task wnw8ieasi (wf_a0ca737c-8b6), launched 02:02Z.
 Agent B run 10: task wymv8bac7 (wf_184ea9a1-55a), launched 02:02Z.
 Agent C run 10: task wtnii7w5y (wf_be87ffc6-5e5), launched 02:02Z.
+
+## 2026-09-12T02:34Z — tools/resume.py
+agent A: 12/13 done
+agent B: 6/13 done
+agent C: 6/13 done
+AFTER checks: pre-existing dirt only
+prepared A run 20 (provenance/launch-args/agentA-run20.args.json)
+prepared B run 11 (provenance/launch-args/agentB-run11.args.json)
+prepared C run 11 (provenance/launch-args/agentC-run11.args.json)
