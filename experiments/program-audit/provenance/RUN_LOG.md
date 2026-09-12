@@ -653,3 +653,8 @@ Outcomes of B run 14 / C run 14 (launched 17:31Z 2026-09-12, cut by the session 
   locate failed. C now 10/13.
 Next: C run 15 launched now; B run 15 after the ledger recovery.
 Agent C run 15: task w1g0lu1f9 (wf_5fc34499-d67), launched 22:32Z.
+Ledger recovery (22:33Z-22:50Z 2026-09-12): five follow-up Opus agents wrote MLCryptoEngine p2-register (37 entries)
+and p3-progress (38) and ORBExperiment p1-registration (40), p2-decisions (49) and p3-progress (29) positives ledgers
+from the drafts and the snapshots; drafts unchanged (git diff empty); no live-repository access; each ledger carries
+the recovery note; committed as 14e0f7a. AFTER check "02-agentB-ledger-recovery-AFTER": only the pre-existing dirt.
+B run 15 args: MLCryptoEngine and ORBExperiment all three parts done, consolidators run directly; AiTrader readers.
