@@ -22,6 +22,8 @@ With --runs-dead (after a reboot, or once every workflow has reported):
 findings/independent/) and commits them with a generated message; --session-url adds the trailer.
 """
 import argparse, datetime, glob, hashlib, json, os, re, shutil, subprocess, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import orchestrator_lock
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROV = os.path.join(ROOT, 'provenance')
@@ -335,7 +337,9 @@ def main():
     ap.add_argument('--commit', action='store_true')
     ap.add_argument('--session-url', default='')
     a = ap.parse_args()
+    lock = orchestrator_lock.refuse_if_other(a.session_url)
     say(f"resume.py @ {now()}  root={ROOT}")
+    say(f"orchestrator lock: this session (claude pid {lock['pid']}, tmux {lock.get('tmux')}); any other live session must stand down")
     verify_scratchpad()
     tmp_links()
     bank_leads()

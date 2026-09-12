@@ -5,6 +5,8 @@ Usage: tools/mark_launched.py <A|B|C|seeded-A|seeded-B|seeded-C|adj|D> <run> <ta
 Appends to provenance/launch-args/ACTIVE.json and one line to provenance/RUN_LOG.md.
 """
 import datetime, json, os, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import orchestrator_lock
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ACTIVE = os.path.join(ROOT, 'provenance', 'launch-args', 'ACTIVE.json')
@@ -20,6 +22,7 @@ def main():
     if len(sys.argv) != 5 or sys.argv[1] not in PREFIX:
         sys.exit(__doc__)
     agent, run, task, wf = sys.argv[1], int(sys.argv[2]), sys.argv[3], sys.argv[4]
+    orchestrator_lock.refuse_if_other()
     now = datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%dT%H:%MZ')
     entry = {'agent': agent, 'run': run, 'label': f'{PREFIX[agent]}-run{run}', 'task': task, 'wf': wf, 'launched': now}
     active = json.load(open(ACTIVE)) if os.path.isfile(ACTIVE) else []
