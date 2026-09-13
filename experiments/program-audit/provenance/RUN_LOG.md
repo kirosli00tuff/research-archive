@@ -674,3 +674,5 @@ Outcomes of B run 15 / C run 15 (launched 22:48Z and 22:32Z 2026-09-12, cut by t
 - C run 15 (wf_5fc34499-d67): MLCryptoEngine provenance done, verification failed; ORBExperiment verification and
   provenance done, consolidation failed; AiTrader locate failed. C stays 10/13.
 Next: B run 16 (same args as run 15), C run 16 launched in parallel.
+Agent B run 16: task wkifbwh6c (wf_9f6925ef-1a9), launched 08:55Z.
+Agent C run 16: task wvw2lpx9a (wf_6682a482-2ea), launched 08:55Z.
