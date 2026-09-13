@@ -19,15 +19,15 @@ from npl.census import CensusLedger
 from npl.checkpoints import CheckpointRunner, classify_due
 from npl.clock import MS_PER_DAY, now_utc, utc_ms
 from npl.config import CONFIG
-from npl.controls import control_dex_of_row
 from npl.h5.collector import H5YieldedToH2, record_yield, run_daily_pass
 from npl.h5.gate import CohortLedgerUnavailable, load_cohorts
 from npl.http import InfoClient
 from npl.ledger.append_only import AppendOnlyLedger
 from npl.ledger.requests import RequestLedger
 from npl.pacing import OPERATING_PACING_S
-from npl.paths import BIRTHS_DIR, FRESH_PLAN, H2_PAIRS_LEDGER, STATE_DIR
+from npl.paths import BIRTHS_DIR, FRESH_PLAN, H2_PAIRS_V2_LEDGER, STATE_DIR
 from npl.register.forward import forward_pair_pass
+from npl.register.tiered import assigned_rows, control_dex_of_row
 from npl.spread import record_entry_spread
 from npl.venue import Venue
 from npl.watcher import Watcher
@@ -95,11 +95,15 @@ def cmd_daily() -> int:
     today = now_utc().date()
     runner = CheckpointRunner(venue)
     attempted = runner.attempted()
-    # Amendment H2-3 Change 1: the elder leg checkpoints on its own dex,
-    # which under a cross_dex pair is not the event's dex.
+    # Amendment H2-5: the elder leg checkpoints on its own dex, which under a
+    # tier-2 or tier-3 pair is not the event's dex. Exclusion rows are not
+    # pairs and carry no elder leg, so `assigned_rows` filters them out.
     pair_controls = {
-        (str(r["event_coin"]), int(r["entry_ms"])): (str(r["control_coin"]), control_dex_of_row(r))
-        for r in AppendOnlyLedger(H2_PAIRS_LEDGER).read().rows
+        (str(r["event_coin"]), int(str(r["entry_ms"]))): (
+            str(r["control_coin"]),
+            control_dex_of_row(r),
+        )
+        for r in assigned_rows(AppendOnlyLedger(H2_PAIRS_V2_LEDGER).read().rows)
     }
     if BIRTHS_DIR.exists():
         for manifest in sorted(BIRTHS_DIR.glob("births-*.jsonl")):

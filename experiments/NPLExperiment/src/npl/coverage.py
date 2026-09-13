@@ -18,6 +18,8 @@ from npl.clock import MS_PER_DAY, MS_PER_HOUR
 from npl.config import CONFIG, Config
 from npl.intervals import total_covered_ms
 from npl.pairtype import REGISTERED_PAIR_TYPES
+from npl.register.assetclass import EQUITY_COMPLEX, REGISTERED_CLASSES
+from npl.tier import REGISTERED_TIERS
 
 
 class CoverageReason(StrEnum):
@@ -125,4 +127,77 @@ def coverage_by_pair_type(
             pair_type=pair_type, pairs=total, covered=covered, underpowered=total - covered
         )
         for pair_type, (total, covered) in counted.items()
+    )
+
+
+@dataclass(frozen=True, slots=True)
+class StratumCoverage:
+    """Pair counts for one named stratum. Counts only, never a value."""
+
+    stratum: str
+    pairs: int
+    covered: int
+    underpowered: int
+
+    def share(self) -> float:
+        return (self.covered / self.pairs) if self.pairs else 0.0
+
+
+def coverage_by_tier(pairs: Iterable[tuple[int, bool]]) -> tuple[StratumCoverage, ...]:
+    """Amendment H2-5: coverage reported per tier.
+
+    Takes (tier, both_legs_meet_bars) per pair. **Every registered tier
+    appears even at zero pairs** — an absent row would read as "no such
+    pairs" where the truth is "none yet" — and an unregistered tier is a
+    loud refusal, never a new bucket.
+    """
+    counted: dict[int, list[int]] = {t: [0, 0] for t in REGISTERED_TIERS}
+    for tier, covered in pairs:
+        if tier not in counted:
+            raise ValueError(
+                f"unregistered tier {tier!r} in a coverage view; "
+                f"the registered tiers are {list(REGISTERED_TIERS)}"
+            )
+        counted[tier][0] += 1
+        counted[tier][1] += int(covered)
+    return tuple(
+        StratumCoverage(
+            stratum=f"tier_{tier}", pairs=total, covered=covered, underpowered=total - covered
+        )
+        for tier, (total, covered) in counted.items()
+    )
+
+
+def coverage_by_class_pair(pairs: Iterable[tuple[str, bool]]) -> tuple[StratumCoverage, ...]:
+    """Amendment H2-5: coverage reported per class pair, e.g. `equity->etf`.
+
+    Unlike the tiers, the set of class pairs is not fixed in advance, so
+    only the pairs that occur are reported — in name order, so two runs of
+    the same ledger produce the same table. **Both halves must name a
+    registered class**, and a cross-complex label is a loud refusal: the
+    tiered rule cannot produce one, so seeing one means something upstream
+    broke rather than that a new stratum appeared.
+    """
+    counted: dict[str, list[int]] = {}
+    for label, covered in pairs:
+        event_class, _, control_class = label.partition("->")
+        if event_class not in REGISTERED_CLASSES or control_class not in REGISTERED_CLASSES:
+            raise ValueError(
+                f"unregistered class pair {label!r} in a coverage view; both halves must name "
+                f"one of {sorted(REGISTERED_CLASSES)}"
+            )
+        if event_class != control_class and not (
+            event_class in EQUITY_COMPLEX and control_class in EQUITY_COMPLEX
+        ):
+            raise ValueError(
+                f"cross-complex class pair {label!r} in a coverage view; the tiered rule of "
+                f"Amendment H2-5 refuses cross-complex at every tier, so this is a defect "
+                f"upstream, not a new stratum"
+            )
+        row = counted.setdefault(label, [0, 0])
+        row[0] += 1
+        row[1] += int(covered)
+    return tuple(
+        StratumCoverage(stratum=label, pairs=total, covered=covered, underpowered=total - covered)
+        for label, (total, covered) in sorted(counted.items())
     )

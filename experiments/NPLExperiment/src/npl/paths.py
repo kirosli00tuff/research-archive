@@ -40,6 +40,9 @@ GENERATING_SAMPLE_JSON = STATE_DIR / "generating_sample.json"
 # Successor eligibility ledgers (A.2 Task 1) and the fresh collection plan.
 ELIGIBILITY_DIR = DATA / "eligibility"
 H2_PAIRS_LEDGER = CONTROLS_DIR / "h2_pairs.jsonl"
+# Amendment H2-5 (2026-09-13): the tiered assignment. The H2-3 ledger above is
+# the superseded record, retained byte-identical and never written again.
+H2_PAIRS_V2_LEDGER = CONTROLS_DIR / "h2_pairs_v2.jsonl"
 FRESH_PLAN = STATE_DIR / "fresh_plan.jsonl"
 
 # --- register entry H5 (2026-08-28): HIP-3 equity-style basis feasibility ---

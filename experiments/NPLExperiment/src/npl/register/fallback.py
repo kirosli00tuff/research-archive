@@ -1,12 +1,21 @@
-"""The main-dex fallback control (Amendment H2-3 Change 1).
+"""The census-date candidate filter and the sealed trailing window.
 
-Two things live here, both shared by the one-shot backfill of the 24
-previously unpairable events and by the forward pass that runs at every
-new birth, so both pair on identical logic:
+**Amendment H2-5 withdrew the main-dex fallback *selection* of Amendment
+H2-3 Change 1** and replaced it with the tiered rule of
+`npl.register.tiered`. What survives here is the part the withdrawal does
+not touch: the census-date arithmetic that decides which instruments are
+*admissible* at all, which every rule since H1 Section 6 has shared, and the
+sealed-trail pair. `main_dex_candidate_rows` is retained because the
+superseded H2-3 assignment is reproducible from it; nothing on the live path
+calls it.
 
-- `candidate_census_rows` — the census-date filter: instruments on a given
-  dex, listed at least the registered 180 days before the entry, still
-  serving history across the trailing window. Dates and identities only.
+Three things live here, shared by the one-shot reassignment and by the
+forward pass that runs at every new birth, so both pair on identical logic:
+
+- `admissible_census_rows` — the census-date filter across every dex:
+  listed at least the registered 180 days before the entry, still serving
+  history across the trailing window. Dates and identities only.
+- `candidate_census_rows` — the same filter narrowed to one dex.
 - the sealed-trail pair: `seal_trail_window` fetches and seals raw bytes
   under the request ledger; `read_sealed_trail` parses those bytes back
   **through the blindness gate at the referencing event's own entry**, so
@@ -34,25 +43,30 @@ from npl.venue import Venue
 MAX_TRAIL_PAGES = 16
 
 
-def candidate_census_rows(
+def admissible_census_rows(
     latest: dict[tuple[str, str], CensusRow],
-    dex: str,
     entry_ms: int,
     exclude_coin: str,
     cfg: Config = CONFIG,
+    dex: str | None = None,
 ) -> list[CensusRow]:
-    """Section 6 candidates on one dex by census dates. No value is read.
+    """Candidates admissible by census dates, on one dex or across all of them.
 
     The age condition (listed at least `control_min_age_days` before the
     entry) and the still-serving condition (last served close at or after
     the trailing window's start) are date arithmetic. The coverage
-    condition is enforced at assignment, from funding row timestamps.
+    condition is enforced at assignment, from funding row timestamps, and
+    the class condition by `npl.register.tiered`.
+
+    Both conditions are **inclusive on the boundary**: an instrument listed
+    exactly `control_min_age_days` before the entry is admissible, and one
+    last serving exactly at the trailing window's start is admissible.
     """
     cutoff = entry_ms - cfg.control_min_age_days * MS_PER_DAY
     trail_start = entry_ms - cfg.control_trailing_window_hours * MS_PER_HOUR
     out: list[CensusRow] = []
     for (coin, candidate_dex), row in latest.items():
-        if candidate_dex != dex or coin == exclude_coin:
+        if coin == exclude_coin or (dex is not None and candidate_dex != dex):
             continue
         if row.first_1d_open_ms is None or row.first_1d_open_ms > cutoff:
             continue
@@ -63,13 +77,29 @@ def candidate_census_rows(
     return sorted(out, key=lambda r: (r.first_1d_open_ms or 0, r.coin))
 
 
+def candidate_census_rows(
+    latest: dict[tuple[str, str], CensusRow],
+    dex: str,
+    entry_ms: int,
+    exclude_coin: str,
+    cfg: Config = CONFIG,
+) -> list[CensusRow]:
+    """Section 6 candidates on one dex by census dates. No value is read."""
+    return admissible_census_rows(latest, entry_ms, exclude_coin, cfg, dex=dex)
+
+
 def main_dex_candidate_rows(
     latest: dict[tuple[str, str], CensusRow],
     entry_ms: int,
     exclude_coin: str,
     cfg: Config = CONFIG,
 ) -> list[CensusRow]:
-    """The registered fallback universe: the same conditions, on the main dex."""
+    """The superseded H2-3 fallback universe. Retained for reproducibility only.
+
+    **Amendment H2-5 withdrew this rule.** Nothing on the live path calls it;
+    it stays so the superseded assignment in `data/controls/h2_pairs.jsonl`
+    remains reproducible from source.
+    """
     return candidate_census_rows(latest, MAIN_DEX, entry_ms, exclude_coin, cfg)
 
 

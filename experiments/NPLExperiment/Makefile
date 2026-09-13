@@ -1,11 +1,14 @@
 SCRIPTS = scripts/mutations.py scripts/mutations_stage_b.py scripts/mutations_register.py \
           scripts/mutations_amend.py scripts/backfill_fallback.py scripts/ktable_amended.py \
+          scripts/reassign_tiered.py scripts/collect_new_elders.py \
+          scripts/ktable_tiered.py scripts/mutations_class.py \
           scripts/h5_census.py scripts/h5_retro.py \
           scripts/h5_pass.py scripts/h5_fire.py scripts/mutations_h5.py
 
 .PHONY: install lint fmt typecheck test all guards \
         mutations mutations-b mutations-register mutations-amend \
-        backfill-fallback ktable-amended h5-census h5-retro h5-pass h5-fire mutations-h5
+        backfill-fallback ktable-amended h5-census h5-retro h5-pass h5-fire mutations-h5 \
+        reassign-tiered collect-new-elders ktable-tiered mutations-class
 
 install:
 	uv sync
@@ -61,3 +64,15 @@ h5-fire:
 
 mutations-h5:
 	uv run python scripts/mutations_h5.py
+
+reassign-tiered:
+	uv run python scripts/reassign_tiered.py
+
+collect-new-elders:
+	uv run python scripts/collect_new_elders.py
+
+ktable-tiered:
+	uv run python scripts/ktable_tiered.py
+
+mutations-class:
+	uv run python scripts/mutations_class.py

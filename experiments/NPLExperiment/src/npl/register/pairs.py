@@ -16,6 +16,13 @@ A positive hourly rate pays the young short and costs the elder long. Tie
 rules, registered: a pair net exactly at zero fails E1; a pair net exactly
 at the E2 floor passes E2 (inclusive).
 
+Amendment H2-5 replaced the H2-3 fallback with the tiered control rule, so
+every pair now carries a `tier` and a `class_pair`. **Tier is a named
+stratum reported beside every primary figure at every look**, alongside the
+`same_dex` stratum H2-3 registered — which is retained and, under the tiered
+rule, is exactly the tier-1 subset plus any tier-2 or tier-3 pair whose
+elder happens to sit on the event's own dex.
+
 Amendment H2-3 makes the reader look-aware. Each co-primary is decided
 against the exact two-look boundary of `npl.register.sequential`, not
 against a p-value threshold; both co-primaries must clear the same look's
@@ -43,6 +50,7 @@ from npl.register.sequential import (
     futility_boundary,
     two_look_design,
 )
+from npl.tier import REGISTERED_TIERS, TIER_NAMES
 
 
 @dataclass(frozen=True, slots=True)
@@ -123,6 +131,8 @@ class PairNet:
     dex: str
     cohort: str  # "backfill" | "forward"
     pair_type: str  # "same_dex" | "cross_dex" (Amendment H2-3 Change 1)
+    tier: int  # 1 | 2 | 3 (Amendment H2-5 section 2)
+    class_pair: str  # e.g. "equity->etf" (Amendment H2-5 section 2)
     truncated_young: bool
     truncated_elder: bool
     pair_central_cost_bp: float
@@ -462,6 +472,54 @@ def same_dex_stratum(pairs: list[PairNet], cfg: Config = CONFIG) -> dict[str, ob
     }
 
 
+def tier_stratum(pairs: list[PairNet], cfg: Config = CONFIG) -> dict[str, object]:
+    """The named tier stratum: E1 and E2 counts within each registered tier.
+
+    Descriptive, never verdict-bearing, and **every registered tier appears
+    even at zero pairs** — an absent row would read as "no such pairs" where
+    the truth is "none yet". An unregistered tier is a loud refusal, never a
+    new bucket.
+    """
+    present, _ = _present_30(pairs)
+    out: dict[str, object] = {}
+    for tier in REGISTERED_TIERS:
+        subset = [(pair, net) for pair, net in present if pair.tier == tier]
+        n = len(subset)
+        e1 = _successes_e1(subset)
+        e2 = _successes_e2(subset, cfg.h2_cost_floor_multiple)
+        out[f"tier_{tier}"] = {
+            "name": TIER_NAMES[tier],
+            "n": n,
+            "e1_successes": e1,
+            "e1_share": (e1 / n) if n else 0.0,
+            "e2_successes": e2,
+            "e2_share": (e2 / n) if n else 0.0,
+        }
+    unregistered = sorted({pair.tier for pair, _ in present} - set(REGISTERED_TIERS))
+    if unregistered:
+        raise ValueError(
+            f"unregistered tier(s) {unregistered} among the pairs; "
+            f"the registered tiers are {list(REGISTERED_TIERS)}"
+        )
+    out["n_all_pairs"] = len(present)
+    return out
+
+
+def class_pair_stratum(pairs: list[PairNet]) -> dict[str, object]:
+    """The class-pair composition of the sample. Descriptive, counts only.
+
+    Unlike the tiers the set of class pairs is not fixed in advance, so only
+    those that occur are reported, in name order.
+    """
+    present, _ = _present_30(pairs)
+    out: dict[str, object] = {}
+    for label in sorted({pair.class_pair for pair, _ in present}):
+        subset = [(pair, net) for pair, net in present if pair.class_pair == label]
+        n = len(subset)
+        out[label] = {"n": n, "e1_share": (_successes_e1(subset) / n) if n else 0.0}
+    return out
+
+
 def two_times_floor_secondary(pairs: list[PairNet], cfg: Config = CONFIG) -> dict[str, object]:
     """E2 recomputed at the pre-amendment 2x floor. Descriptive, at every look."""
     present, _ = _present_30(pairs)
@@ -540,6 +598,8 @@ def run_h2_look(
 
     secondaries = h2_named_secondaries(pairs)
     secondaries["same_dex_stratum"] = same_dex_stratum(pairs, cfg)
+    secondaries["tier_stratum"] = tier_stratum(pairs, cfg)
+    secondaries["class_pair_stratum"] = class_pair_stratum(pairs)
     secondaries["economic_floor_two_times"] = two_times_floor_secondary(pairs, cfg)
     return H2LookReport(
         look=look,

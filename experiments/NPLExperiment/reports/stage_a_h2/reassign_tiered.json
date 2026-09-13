@@ -1,0 +1,715 @@
+{
+  "amendment": "H2-5",
+  "class_pair_distribution": {
+    "crypto->crypto": 3,
+    "equity->equity": 45,
+    "etf->equity": 1,
+    "etf->etf": 3,
+    "index->equity": 3
+  },
+  "computed_at": "2026-09-13T19:38:38Z",
+  "elders_changed": 33,
+  "elders_kept": 22,
+  "events_in_superseded_ledger": 63,
+  "exclusion_reasons": {
+    "excluded_no_class_elder:no admissible 'rates' elder at any available tier": 2,
+    "excluded_unclassifiable:ambiguous_ticker": 6
+  },
+  "exclusions": [
+    {
+      "assigned_at": "2026-09-13T19:09:55Z",
+      "dex": "xyz",
+      "entry_ms": 1780099200000,
+      "event_class": null,
+      "event_coin": "xyz:QNT",
+      "reason": "ambiguous_ticker",
+      "state": "excluded_unclassifiable",
+      "tier_pool_sizes": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "assigned_at": "2026-09-13T19:17:23Z",
+      "dex": "xyz",
+      "entry_ms": 1782604800000,
+      "event_class": null,
+      "event_coin": "xyz:BOT",
+      "reason": "ambiguous_ticker",
+      "state": "excluded_unclassifiable",
+      "tier_pool_sizes": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "assigned_at": "2026-09-13T19:19:55Z",
+      "dex": "xyz",
+      "entry_ms": 1783468800000,
+      "event_class": null,
+      "event_coin": "xyz:SHAZ",
+      "reason": "ambiguous_ticker",
+      "state": "excluded_unclassifiable",
+      "tier_pool_sizes": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "assigned_at": "2026-09-13T19:30:02Z",
+      "dex": "xyz",
+      "entry_ms": 1786147200000,
+      "event_class": null,
+      "event_coin": "xyz:LYTE",
+      "reason": "ambiguous_ticker",
+      "state": "excluded_unclassifiable",
+      "tier_pool_sizes": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "assigned_at": "2026-09-13T19:30:02Z",
+      "dex": "xyz",
+      "entry_ms": 1786147200000,
+      "event_class": null,
+      "event_coin": "xyz:NCLD",
+      "reason": "ambiguous_ticker",
+      "state": "excluded_unclassifiable",
+      "tier_pool_sizes": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "assigned_at": "2026-09-13T19:32:16Z",
+      "dex": "para",
+      "entry_ms": 1786665600000,
+      "event_class": "rates",
+      "event_coin": "para:10Y",
+      "reason": "no admissible 'rates' elder at any available tier (pools (0, 0, 0), 0 considered, 0 under the coverage bar)",
+      "state": "excluded_no_class_elder",
+      "tier_pool_sizes": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "assigned_at": "2026-09-13T19:37:22Z",
+      "dex": "para",
+      "entry_ms": 1787788800000,
+      "event_class": null,
+      "event_coin": "para:ANSEM",
+      "reason": "ambiguous_ticker",
+      "state": "excluded_unclassifiable",
+      "tier_pool_sizes": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "assigned_at": "2026-09-13T19:38:37Z",
+      "dex": "mkts",
+      "entry_ms": 1787875200000,
+      "event_class": "rates",
+      "event_coin": "mkts:USBOND",
+      "reason": "no admissible 'rates' elder at any available tier (pools (0, 0, 0), 0 considered, 0 under the coverage bar)",
+      "state": "excluded_no_class_elder",
+      "tier_pool_sizes": [
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "funding_distance": {
+    "mean_abs_superseded": 4.886353231433731e-05,
+    "mean_abs_tiered": 5.6793879400759864e-05,
+    "n": 55,
+    "note": "mean absolute signed trailing 168-hour mean hourly funding distance between event and elder, over the pairs that survive the tiered rule, against the same events' superseded distances. A larger figure is the registered accepted degradation of Amendment H2-5 section 4."
+  },
+  "outcome_values_read": 0,
+  "pairs_assigned": 55,
+  "per_event": [
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": false,
+      "event": "xyz:ASML",
+      "superseded_elder": "xyz:NVDA",
+      "superseded_funding_distance": 3.836582294372295e-05,
+      "tier": 1,
+      "tiered_elder": "xyz:NVDA",
+      "tiered_funding_distance": 3.836582294372295e-05
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": false,
+      "event": "xyz:DELL",
+      "superseded_elder": "xyz:ORCL",
+      "superseded_funding_distance": 3.268077937192117e-05,
+      "tier": 1,
+      "tiered_elder": "xyz:ORCL",
+      "tiered_funding_distance": 3.268077937192117e-05
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": false,
+      "event": "xyz:IBM",
+      "superseded_elder": "xyz:ORCL",
+      "superseded_funding_distance": 4.2587579058441554e-05,
+      "tier": 1,
+      "tiered_elder": "xyz:ORCL",
+      "tiered_funding_distance": 4.2587579058441554e-05
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": false,
+      "event": "xyz:AVGO",
+      "superseded_elder": "xyz:PLTR",
+      "superseded_funding_distance": 8.613640465367965e-05,
+      "tier": 1,
+      "tiered_elder": "xyz:PLTR",
+      "tiered_funding_distance": 8.613640465367965e-05
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": false,
+      "event": "xyz:NOW",
+      "superseded_elder": "xyz:PLTR",
+      "superseded_funding_distance": 9.45981767316017e-05,
+      "tier": 1,
+      "tiered_elder": "xyz:PLTR",
+      "tiered_funding_distance": 9.45981767316017e-05
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": false,
+      "event": "xyz:NBIS",
+      "superseded_elder": "xyz:HOOD",
+      "superseded_funding_distance": 0.000107544393732493,
+      "tier": 1,
+      "tiered_elder": "xyz:HOOD",
+      "tiered_funding_distance": 0.000107544393732493
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": false,
+      "event": "xyz:WDC",
+      "superseded_elder": "xyz:HOOD",
+      "superseded_funding_distance": 7.078031778033796e-06,
+      "tier": 1,
+      "tiered_elder": "xyz:HOOD",
+      "tiered_funding_distance": 7.078031778033796e-06
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": false,
+      "event": "xyz:NOK",
+      "superseded_elder": "xyz:MU",
+      "superseded_funding_distance": 7.59411702764977e-05,
+      "tier": 1,
+      "tiered_elder": "xyz:MU",
+      "tiered_funding_distance": 7.59411702764977e-05
+    },
+    {
+      "class_pair": "etf->equity",
+      "elder_changed": true,
+      "event": "xyz:SMH",
+      "superseded_elder": "xyz:MU",
+      "superseded_funding_distance": 0.00015317697857142857,
+      "tier": 3,
+      "tiered_elder": "vntl:ANTHROPIC",
+      "tiered_funding_distance": 0.00013893779880952382
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": false,
+      "event": "xyz:MINIMAX",
+      "superseded_elder": "xyz:PLTR",
+      "superseded_funding_distance": 0.00013346509739108409,
+      "tier": 1,
+      "tiered_elder": "xyz:PLTR",
+      "tiered_funding_distance": 0.00013346509739108409
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": false,
+      "event": "xyz:BE",
+      "superseded_elder": "xyz:MSFT",
+      "superseded_funding_distance": 2.7231428955453152e-05,
+      "tier": 1,
+      "tiered_elder": "xyz:MSFT",
+      "tiered_funding_distance": 2.7231428955453152e-05
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": false,
+      "event": "xyz:QCOM",
+      "superseded_elder": "xyz:MSFT",
+      "superseded_funding_distance": 8.981283913690476e-05,
+      "tier": 1,
+      "tiered_elder": "xyz:MSFT",
+      "tiered_funding_distance": 8.981283913690476e-05
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": false,
+      "event": "xyz:STRC",
+      "superseded_elder": "xyz:MSFT",
+      "superseded_funding_distance": 9.253932014652015e-05,
+      "tier": 1,
+      "tiered_elder": "xyz:MSFT",
+      "tiered_funding_distance": 9.253932014652015e-05
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": false,
+      "event": "xyz:ZHIPU",
+      "superseded_elder": "xyz:MSFT",
+      "superseded_funding_distance": 7.699572587301586e-05,
+      "tier": 1,
+      "tiered_elder": "xyz:MSFT",
+      "tiered_funding_distance": 7.699572587301586e-05
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": false,
+      "event": "xyz:KIOXIA",
+      "superseded_elder": "xyz:MSFT",
+      "superseded_funding_distance": 0.00016277854864488346,
+      "tier": 1,
+      "tiered_elder": "xyz:MSFT",
+      "tiered_funding_distance": 0.00016277854864488346
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": true,
+      "event": "xyz:SOFTBANK",
+      "superseded_elder": "xyz:JPY",
+      "superseded_funding_distance": 2.1979477678571435e-05,
+      "tier": 1,
+      "tiered_elder": "xyz:MSTR",
+      "tiered_funding_distance": 2.784685446428572e-05
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": false,
+      "event": "xyz:AMAT",
+      "superseded_elder": "xyz:MSFT",
+      "superseded_funding_distance": 9.305138457792208e-05,
+      "tier": 1,
+      "tiered_elder": "xyz:MSFT",
+      "tiered_funding_distance": 9.305138457792208e-05
+    },
+    {
+      "class_pair": "index->equity",
+      "elder_changed": true,
+      "event": "mkts:US500",
+      "superseded_elder": "BTC",
+      "superseded_funding_distance": 8.313593073593081e-08,
+      "tier": 3,
+      "tiered_elder": "xyz:TSLA",
+      "tiered_funding_distance": 1.0882043831168824e-06
+    },
+    {
+      "class_pair": "index->equity",
+      "elder_changed": true,
+      "event": "mkts:USTECH",
+      "superseded_elder": "BCH",
+      "superseded_funding_distance": 7.468668831169488e-09,
+      "tier": 3,
+      "tiered_elder": "xyz:AAPL",
+      "tiered_funding_distance": 2.4239968073593067e-06
+    },
+    {
+      "class_pair": "crypto->crypto",
+      "elder_changed": false,
+      "event": "GRAM",
+      "superseded_elder": "GRASS",
+      "superseded_funding_distance": 6.402964633458647e-05,
+      "tier": 1,
+      "tiered_elder": "GRASS",
+      "tiered_funding_distance": 6.402964633458647e-05
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": true,
+      "event": "xyz:SKHY",
+      "superseded_elder": "xyz:JPY",
+      "superseded_funding_distance": 6.524973039215678e-07,
+      "tier": 1,
+      "tiered_elder": "xyz:AAPL",
+      "tiered_funding_distance": 4.650111589635856e-06
+    },
+    {
+      "class_pair": "crypto->crypto",
+      "elder_changed": false,
+      "event": "CASHCAT",
+      "superseded_elder": "XMR",
+      "superseded_funding_distance": 0.00042744224343853825,
+      "tier": 1,
+      "tiered_elder": "XMR",
+      "tiered_funding_distance": 0.00042744224343853825
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": false,
+      "event": "xyz:CXMT",
+      "superseded_elder": "xyz:PLTR",
+      "superseded_funding_distance": 5.278617236024842e-07,
+      "tier": 1,
+      "tiered_elder": "xyz:PLTR",
+      "tiered_funding_distance": 5.278617236024842e-07
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": true,
+      "event": "para:COHR",
+      "superseded_elder": "MOVE",
+      "superseded_funding_distance": 5.371417857142916e-07,
+      "tier": 2,
+      "tiered_elder": "xyz:AAPL",
+      "tiered_funding_distance": 3.288596916666667e-05
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": true,
+      "event": "para:CRDO",
+      "superseded_elder": "VINE",
+      "superseded_funding_distance": 0.00018833545214285715,
+      "tier": 2,
+      "tiered_elder": "xyz:ORCL",
+      "tiered_funding_distance": 0.0002153482694047619
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": true,
+      "event": "para:GLW",
+      "superseded_elder": "POLYX",
+      "superseded_funding_distance": 3.6588986904761875e-06,
+      "tier": 2,
+      "tiered_elder": "xyz:AAPL",
+      "tiered_funding_distance": 2.756616916666667e-05
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": true,
+      "event": "para:LRCX",
+      "superseded_elder": "ZEC",
+      "superseded_funding_distance": 6.811551120448201e-07,
+      "tier": 2,
+      "tiered_elder": "xyz:BABA",
+      "tiered_funding_distance": 4.4683953081232295e-07
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": false,
+      "event": "xyz:GIGADEV",
+      "superseded_elder": "xyz:AAPL",
+      "superseded_funding_distance": 0.00014529957945134576,
+      "tier": 1,
+      "tiered_elder": "xyz:AAPL",
+      "tiered_funding_distance": 0.00014529957945134576
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": true,
+      "event": "para:IREN",
+      "superseded_elder": "VINE",
+      "superseded_funding_distance": 1.6570031127450978e-05,
+      "tier": 2,
+      "tiered_elder": "xyz:NFLX",
+      "tiered_funding_distance": 4.898675077030812e-05
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": true,
+      "event": "para:STX",
+      "superseded_elder": "POLYX",
+      "superseded_funding_distance": 5.70659900793651e-06,
+      "tier": 2,
+      "tiered_elder": "xyz:AAPL",
+      "tiered_funding_distance": 6.0383606150793656e-05
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": true,
+      "event": "para:TER",
+      "superseded_elder": "ZRO",
+      "superseded_funding_distance": 6.281034033613448e-06,
+      "tier": 2,
+      "tiered_elder": "xyz:USAR",
+      "tiered_funding_distance": 3.9625602240896395e-06
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": true,
+      "event": "para:AAOI",
+      "superseded_elder": "XMR",
+      "superseded_funding_distance": 3.734945238095234e-07,
+      "tier": 2,
+      "tiered_elder": "xyz:PLTR",
+      "tiered_funding_distance": 5.490738571428572e-06
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": true,
+      "event": "para:UNITREE",
+      "superseded_elder": "GMT",
+      "superseded_funding_distance": 7.855390534262414e-08,
+      "tier": 2,
+      "tiered_elder": "xyz:RIVN",
+      "tiered_funding_distance": 1.1231824041811848e-06
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": true,
+      "event": "para:VST",
+      "superseded_elder": "MOVE",
+      "superseded_funding_distance": 2.495529934715822e-06,
+      "tier": 2,
+      "tiered_elder": "xyz:MSFT",
+      "tiered_funding_distance": 4.378232874423963e-05
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": true,
+      "event": "para:NET",
+      "superseded_elder": "KAITO",
+      "superseded_funding_distance": 4.7294440476190093e-07,
+      "tier": 2,
+      "tiered_elder": "xyz:USAR",
+      "tiered_funding_distance": 9.336055952381e-07
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": true,
+      "event": "para:RDDT",
+      "superseded_elder": "AERO",
+      "superseded_funding_distance": 4.583011904761928e-08,
+      "tier": 2,
+      "tiered_elder": "xyz:MSFT",
+      "tiered_funding_distance": 1.0668436904761909e-06
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": true,
+      "event": "xyz:GEV",
+      "superseded_elder": "xyz:COPPER",
+      "superseded_funding_distance": 4.008493952380952e-05,
+      "tier": 1,
+      "tiered_elder": "xyz:USAR",
+      "tiered_funding_distance": 4.247418178571428e-05
+    },
+    {
+      "class_pair": "etf->etf",
+      "elder_changed": true,
+      "event": "xyz:KORU",
+      "superseded_elder": "xyz:MU",
+      "superseded_funding_distance": 2.787509600614486e-08,
+      "tier": 1,
+      "tiered_elder": "xyz:URNM",
+      "tiered_funding_distance": 7.334117165898617e-06
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": true,
+      "event": "xyz:UNITREE",
+      "superseded_elder": "xyz:EUR",
+      "superseded_funding_distance": 1.3016697510822512e-06,
+      "tier": 1,
+      "tiered_elder": "xyz:SNDK",
+      "tiered_funding_distance": 2.5408707251082247e-06
+    },
+    {
+      "class_pair": "etf->etf",
+      "elder_changed": true,
+      "event": "xyz:SOXL",
+      "superseded_elder": "xyz:JPY",
+      "superseded_funding_distance": 1.1196066666666665e-06,
+      "tier": 1,
+      "tiered_elder": "xyz:URNM",
+      "tiered_funding_distance": 1.4088967976190477e-05
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": true,
+      "event": "para:CIEN",
+      "superseded_elder": "INJ",
+      "superseded_funding_distance": 5.387870238095237e-07,
+      "tier": 2,
+      "tiered_elder": "xyz:MSFT",
+      "tiered_funding_distance": 1.1838817976190477e-05
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": true,
+      "event": "para:CRWD",
+      "superseded_elder": "SKR",
+      "superseded_funding_distance": 2.7209887857142858e-05,
+      "tier": 2,
+      "tiered_elder": "xyz:PLTR",
+      "tiered_funding_distance": 0.00011417345202380953
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": true,
+      "event": "para:SMCI",
+      "superseded_elder": "MOVE",
+      "superseded_funding_distance": 8.177831428571417e-06,
+      "tier": 2,
+      "tiered_elder": "xyz:PLTR",
+      "tiered_funding_distance": 5.8057916785714297e-05
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": false,
+      "event": "xyz:AAOI",
+      "superseded_elder": "xyz:SKHX",
+      "superseded_funding_distance": 1.98857893625192e-06,
+      "tier": 1,
+      "tiered_elder": "xyz:SKHX",
+      "tiered_funding_distance": 1.98857893625192e-06
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": true,
+      "event": "xyz:CRWD",
+      "superseded_elder": "xyz:URNM",
+      "superseded_funding_distance": 0.000147526513507326,
+      "tier": 1,
+      "tiered_elder": "xyz:SKHX",
+      "tiered_funding_distance": 0.0001575354873168498
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": true,
+      "event": "xyz:IREN",
+      "superseded_elder": "xyz:URNM",
+      "superseded_funding_distance": 6.654446374458881e-06,
+      "tier": 1,
+      "tiered_elder": "xyz:SKHX",
+      "tiered_funding_distance": 1.6663420183982687e-05
+    },
+    {
+      "class_pair": "etf->etf",
+      "elder_changed": false,
+      "event": "xyz:MAGS",
+      "superseded_elder": "xyz:URNM",
+      "superseded_funding_distance": 6.142997584154353e-05,
+      "tier": 1,
+      "tiered_elder": "xyz:URNM",
+      "tiered_funding_distance": 6.142997584154353e-05
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": true,
+      "event": "xyz:NET",
+      "superseded_elder": "xyz:URNM",
+      "superseded_funding_distance": 5.6422129166666684e-05,
+      "tier": 1,
+      "tiered_elder": "xyz:SKHX",
+      "tiered_funding_distance": 6.64311029761905e-05
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": true,
+      "event": "xyz:RDDT",
+      "superseded_elder": "xyz:URNM",
+      "superseded_funding_distance": 6.42956394047619e-05,
+      "tier": 1,
+      "tiered_elder": "xyz:SKHX",
+      "tiered_funding_distance": 7.430461321428572e-05
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": true,
+      "event": "io:ANTH",
+      "superseded_elder": "MOVE",
+      "superseded_funding_distance": 9.757259813384845e-07,
+      "tier": 2,
+      "tiered_elder": "xyz:SMSN",
+      "tiered_funding_distance": 4.549725804375802e-06
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": true,
+      "event": "io:SNDK",
+      "superseded_elder": "BOME",
+      "superseded_funding_distance": 2.1008917748918093e-07,
+      "tier": 2,
+      "tiered_elder": "xyz:USAR",
+      "tiered_funding_distance": 1.8046679653679625e-06
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": true,
+      "event": "xyz:MRNA",
+      "superseded_elder": "xyz:URNM",
+      "superseded_funding_distance": 2.7443425070028006e-06,
+      "tier": 1,
+      "tiered_elder": "xyz:USAR",
+      "tiered_funding_distance": 1.3328749159663865e-05
+    },
+    {
+      "class_pair": "equity->equity",
+      "elder_changed": true,
+      "event": "para:MELI",
+      "superseded_elder": "MINA",
+      "superseded_funding_distance": 7.260416190476191e-06,
+      "tier": 2,
+      "tiered_elder": "xyz:SKHX",
+      "tiered_funding_distance": 1.9415404761904687e-07
+    },
+    {
+      "class_pair": "index->equity",
+      "elder_changed": true,
+      "event": "mkts:SMALL2000",
+      "superseded_elder": "WLFI",
+      "superseded_funding_distance": 4.482102813852811e-07,
+      "tier": 3,
+      "tiered_elder": "xyz:MSTR",
+      "tiered_funding_distance": 5.9348051948052144e-08
+    },
+    {
+      "class_pair": "crypto->crypto",
+      "elder_changed": false,
+      "event": "PONS",
+      "superseded_elder": "XMR",
+      "superseded_funding_distance": 5.983535541125541e-05,
+      "tier": 1,
+      "tiered_elder": "XMR",
+      "tiered_funding_distance": 5.983535541125541e-05
+    }
+  ],
+  "spend": {
+    "cap": 20000,
+    "charged_after": 2140,
+    "charged_before": 912,
+    "charged_by_this_pass": 1228,
+    "day": "2026-09-13",
+    "trail_seal_states": {
+      "stored": 638
+    }
+  },
+  "stage": "H2 Amendment Stage 2 - Task 2, reassignment under the tiered rule",
+  "superseded_ledger": {
+    "note": "read only; assert_not_superseded refuses it as an assignment target",
+    "path": "/home/kiros-li/Documents/GitHub/NPLExperiment/data/controls/h2_pairs.jsonl",
+    "written": false
+  },
+  "tier_distribution": {
+    "excluded_no_class_elder": 2,
+    "excluded_unclassifiable": 6,
+    "tier_1": 33,
+    "tier_2": 18,
+    "tier_3": 4
+  }
+}

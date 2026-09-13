@@ -60,6 +60,7 @@ from npl.register.sequential import (
     two_look_design,
     two_look_power,
 )
+from npl.tier import TIER_SAME_DEX_EXACT_CLASS
 
 ENTRY = 1_760_000_000_000 - (1_760_000_000_000 % MS_PER_HOUR)
 TRAIL_START = ENTRY - CONFIG.control_trailing_window_hours * MS_PER_HOUR
@@ -301,13 +302,20 @@ FLOOR_BP = 36.0
 CLEARS_FLOOR = CONFIG.h2_cost_floor_multiple * FLOOR_BP / 1e4  # 0.0036
 
 
-def _pair_net(net: float, pair_type: str = PAIR_TYPE_SAME_DEX) -> PairNet:
+def _pair_net(
+    net: float,
+    pair_type: str = PAIR_TYPE_SAME_DEX,
+    tier: int = TIER_SAME_DEX_EXACT_CLASS,
+    class_pair: str = "equity->equity",
+) -> PairNet:
     return PairNet(
         event_coin="Y",
         control_coin="E",
         dex="xyz",
         cohort="backfill",
         pair_type=pair_type,
+        tier=tier,
+        class_pair=class_pair,
         truncated_young=False,
         truncated_elder=False,
         pair_central_cost_bp=FLOOR_BP,

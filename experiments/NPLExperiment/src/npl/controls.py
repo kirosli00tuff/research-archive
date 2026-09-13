@@ -16,8 +16,10 @@ control's own dex. The tag never filters anything; it names a stratum.
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from dataclasses import asdict, dataclass
 from pathlib import Path
+from typing import Protocol
 
 from npl.absence import NO_CONTROL_CANDIDATE, AbsenceReason, Absent
 from npl.blindness import FundingRow
@@ -35,6 +37,24 @@ class PostEntryRead(RuntimeError):
 # Amendment H2-3 Change 1: the registered pair types live in npl.pairtype so
 # the dark reader can name a stratum without importing a path-owning module.
 MAIN_DEX = ""
+
+
+class CandidateLike(Protocol):
+    """What the registered selection reads off a candidate, and nothing more.
+
+    Structural, so the tiered selector of Amendment H2-5 runs the identical
+    distance, tie-break, and coverage rules over its own richer record without
+    either module reaching into the other's privates.
+    """
+
+    @property
+    def coin(self) -> str: ...
+
+    @property
+    def listing_open_ms(self) -> int: ...
+
+    @property
+    def rows(self) -> tuple[FundingRow, ...]: ...
 
 
 @dataclass(frozen=True, slots=True)
@@ -82,7 +102,7 @@ def trailing_mean(
     return sum(values) / len(values)
 
 
-def _event_trailing_mean(
+def event_trailing_mean(
     event_rows: tuple[FundingRow, ...], entry_ms: int, cfg: Config
 ) -> float | Absent:
     """The event's own trailing mean over its short life; partial by design."""
@@ -102,29 +122,44 @@ def _event_trailing_mean(
     return sum(values) / len(values)
 
 
-def _nearest(
-    candidates: list[Candidate], entry_ms: int, event_mean: float, cfg: Config
-) -> tuple[tuple[float, int, str, float] | None, int, int]:
-    """(best key, considered, skipped) under the registered distance and ties.
+@dataclass(frozen=True, slots=True)
+class Selection:
+    """The registered selection's result: the winner and who was examined.
+
+    `considered` and `skipped` carry **coin names, not counts**, because the
+    tiered rule of Amendment H2-5 examines nested pools and a bare counter
+    would report the same candidate two or three times. Callers take `len()`
+    of a set where they want a count.
+    """
+
+    best: tuple[float, int, str, float] | None  # (distance, listing, name, mean)
+    considered: tuple[str, ...]
+    skipped: tuple[str, ...]
+
+
+def nearest_by_funding(
+    candidates: Sequence[CandidateLike], entry_ms: int, event_mean: float, cfg: Config
+) -> Selection:
+    """The nearest signed trailing mean under the registered distance and ties.
 
     The key orders by |distance|, then the earlier listing date, then coin
     name ascending — the registered tie-break, verbatim. A candidate whose
-    trailing mean is Absent (under the coverage bar) is skipped and counted,
+    trailing mean is Absent (under the coverage bar) is skipped and recorded,
     never guessed.
     """
-    considered = 0
-    skipped = 0
-    best: tuple[float, int, str, float] | None = None  # (distance, listing, name, mean)
+    considered: list[str] = []
+    skipped: list[str] = []
+    best: tuple[float, int, str, float] | None = None
     for candidate in candidates:
-        considered += 1
+        considered.append(candidate.coin)
         mean = trailing_mean(candidate.rows, entry_ms, cfg)
         if isinstance(mean, Absent):
-            skipped += 1
+            skipped.append(candidate.coin)
             continue
         key = (abs(mean - event_mean), candidate.listing_open_ms, candidate.coin, mean)
         if best is None or key < best:
             best = key
-    return best, considered, skipped
+    return Selection(best=best, considered=tuple(considered), skipped=tuple(skipped))
 
 
 def assign_control(
@@ -145,21 +180,22 @@ def assign_control(
     same-dex set yields nothing — a same-dex candidate always wins — and the
     resulting pair is tagged `cross_dex`.
     """
-    event_mean = _event_trailing_mean(event_rows, entry_ms, cfg)
+    event_mean = event_trailing_mean(event_rows, entry_ms, cfg)
     if isinstance(event_mean, Absent):
         return event_mean
 
-    best, considered, skipped = _nearest(candidates, entry_ms, event_mean, cfg)
+    selection = nearest_by_funding(candidates, entry_ms, event_mean, cfg)
+    best = selection.best
+    considered = len(selection.considered)
+    skipped = len(selection.skipped)
     pair_type = PAIR_TYPE_SAME_DEX
     control_dex = dex
     if best is None and fallback_candidates:
-        fallback_best, fallback_considered, fallback_skipped = _nearest(
-            fallback_candidates, entry_ms, event_mean, cfg
-        )
-        considered += fallback_considered
-        skipped += fallback_skipped
-        if fallback_best is not None:
-            best = fallback_best
+        fallback = nearest_by_funding(fallback_candidates, entry_ms, event_mean, cfg)
+        considered += len(fallback.considered)
+        skipped += len(fallback.skipped)
+        if fallback.best is not None:
+            best = fallback.best
             pair_type = PAIR_TYPE_CROSS_DEX
             control_dex = MAIN_DEX
     if best is None:

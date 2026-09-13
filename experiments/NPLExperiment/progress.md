@@ -1707,3 +1707,73 @@ before the read.
 
 Nothing else moved: no bar, no horizon, no anchor, no co-primary, no alpha
 split, no universe, and the superseded ledger is retained byte-identical.
+
+### Task 2 — Reassignment under the tiered rule (ETA 50–75 min · actual ~35 min, 19:13→19:48Z)
+
+`src/npl/register/assetclass.py` carries the taxonomy as a pure module — no
+path, no ledger, no venue — for the reason `npl.pairtype` exists: the dark
+reader names a class pair, and its structural pin holds it to pure modules.
+`src/npl/tier.py` does the same for the three tier constants.
+`src/npl/register/tiered.py` carries the selector. The registered distance,
+tie-break, and coverage rules are **not reimplemented**: `ClassedCandidate`
+satisfies `npl.controls.CandidateLike` structurally and runs through the
+same `nearest_by_funding`, so there is one implementation of Section 6 and
+the tiered rule cannot drift from it.
+
+Two things the selector refuses, both produced by test and never asserted:
+a funding row stamped after the event's entry (`PostEntryRead`, through the
+tiered path), and any assignment target resolving to the superseded ledger
+(`SupersededLedgerWrite`, checked before any row is built and on the
+resolved path, so a relative spelling is refused too).
+
+**Fetching is lazy by tier, because a fetch is a charge.** Candidate refs
+carry identity, dex, class and listing date only; a trailing window is
+materialised only for the tiers actually consulted, and each elder at most
+once per event. Pinned by two tests that count provider calls.
+
+**Result — exactly the feasibility registered in Amendment H2-5, to the
+event.**
+
+| outcome | n |
+|---|---:|
+| tier 1 — same dex, exact class | **33** |
+| tier 2 — any dex, exact class | **18** |
+| tier 3 — any dex, equity complex | **4** |
+| **pairs assigned** | **55 of 63** |
+| `excluded_unclassifiable` (all `ambiguous_ticker`) | **6** |
+| `excluded_no_class_elder` (both `rates`, pools (0,0,0)) | **2** |
+
+Class pairs, n = 55: `equity->equity` **45**, `crypto->crypto` **3**,
+`etf->etf` **3**, `index->equity` **3**, `etf->equity` **1**. **Every pair
+is inside one complex; not one cross-complex pair survives.** All 24
+cross-dex crypto elders the H2-3 fallback created are gone — `mkts:US500`
+leaves `BTC` for `xyz:TSLA`, `para:COHR` leaves `MOVE` for `xyz:AAPL`,
+`io:ANTH` leaves `MOVE` for `xyz:SMSN`.
+
+**Elders changed: 33. Kept: 22.** The 22 kept are the tier-1 equity pairs
+the same-dex rule had already got right.
+
+**The accepted degradation, measured (n = 55):** mean absolute trailing
+funding distance between event and elder moves from **4.886e-05 to
+5.679e-05**, a **16.2 percent** widening. Set against the registered
+arithmetic — funding carries 12.0 percent of the paired signal, price 88.0
+— a 16 percent worse match on the small term is the price of a real factor
+match on the large one.
+
+**Where the loosest tier lands, stated because tier is a named stratum for
+exactly this reason.** The four tier-3 pairs are `xyz:SMH`→`vntl:ANTHROPIC`,
+`mkts:US500`→`xyz:TSLA`, `mkts:USTECH`→`xyz:AAPL`, and
+`mkts:SMALL2000`→`xyz:MSTR`. An index hedged by a single name, and a
+semiconductor ETF hedged by a private AI issuer, are inside the equity
+complex and are still the weakest hedges in the sample. That is what the
+tier stratum is for, and it is 4 of 55.
+
+**Spend: 1,228 requests** (638 trail windows sealed), against 912 already
+charged today, for 2,140 of the registered 20,000 daily cap — **10.7
+percent**. Zero dollars, keyless, charged before sending.
+
+`data/controls/h2_pairs.jsonl` verified byte-identical at
+`f765e899…` after the run. The v2 ledger records what happened to **all 63
+events**, exclusions included, so a consumer that wants pairs must say so —
+`assigned_rows` is that statement, and an unregistered state is a loud
+refusal.

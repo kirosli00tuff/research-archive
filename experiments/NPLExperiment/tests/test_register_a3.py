@@ -42,6 +42,7 @@ from npl.register.pairs import (
     run_h2_verdict,
     two_times_floor_secondary,
 )
+from npl.tier import TIER_SAME_DEX_EXACT_CLASS
 from npl.venue import Venue
 
 PAIRS_FILE = Path(__file__).resolve().parents[1] / "src" / "npl" / "register" / "pairs.py"
@@ -56,6 +57,8 @@ def _pair(
     truncated_young: bool = False,
     central_bp: float = 36.0,
     pair_type: str = PAIR_TYPE_SAME_DEX,
+    tier: int = TIER_SAME_DEX_EXACT_CLASS,
+    class_pair: str = "equity->equity",
 ) -> PairNet:
     return PairNet(
         event_coin="Y",
@@ -63,6 +66,8 @@ def _pair(
         dex=dex,
         cohort=cohort,
         pair_type=pair_type,
+        tier=tier,
+        class_pair=class_pair,
         truncated_young=truncated_young,
         truncated_elder=False,
         pair_central_cost_bp=central_bp,
@@ -216,6 +221,8 @@ def test_the_pair_machinery_is_structurally_incapable_of_reaching_sealed_data() 
         "npl.coverage",
         "npl.pairtype",
         "npl.power",
+        "npl.tier",
+        "npl.register.assetclass",
         "npl.register.sequential",
         "dataclasses",
         "collections.abc",
@@ -275,9 +282,12 @@ def _census_fixture(entry_ms: int) -> list[CensusRow]:
 
     old = entry_ms - 400 * MS_PER_DAY
     return [
-        row("NEW", "xyz", entry_ms - 2 * MS_PER_DAY, entry_ms - 2 * MS_PER_DAY),
-        row("ELDER", "xyz", old, old),
-        row("TOO_YOUNG", "xyz", entry_ms - 30 * MS_PER_DAY, entry_ms - 30 * MS_PER_DAY),
+        # Amendment H2-5: the forward pass classifies through the registered
+        # taxonomy, so a fixture coin must be a registered ticker. All three
+        # are `equity` on a builder dex, which puts the elder at tier 1.
+        row("xyz:AAPL", "xyz", entry_ms - 2 * MS_PER_DAY, entry_ms - 2 * MS_PER_DAY),
+        row("xyz:MSFT", "xyz", old, old),
+        row("xyz:NVDA", "xyz", entry_ms - 30 * MS_PER_DAY, entry_ms - 30 * MS_PER_DAY),
     ]
 
 
@@ -326,7 +336,7 @@ def test_forward_pass_assigns_plans_and_snapshots(tmp_path: Path) -> None:
     funding_root = tmp_path / "funding"
     out = forward_pair_pass(
         venue,
-        "NEW",
+        "xyz:AAPL",
         "xyz",
         entry_ms,
         _census_fixture(entry_ms),
@@ -336,20 +346,24 @@ def test_forward_pass_assigns_plans_and_snapshots(tmp_path: Path) -> None:
         sample=frozenset(),
         funding_root=funding_root,
     )
-    assert out["state"] == "assigned" and out["control"] == "ELDER"
+    assert out["state"] == "assigned" and out["control"] == "xyz:MSFT"
+    assert out["tier"] == 1 and out["class_pair"] == "equity->equity"
     assert out["candidates"] == 1  # TOO_YOUNG is not aged 180 days
     pairs = AppendOnlyLedger(pairs_path).read().rows
-    assert len(pairs) == 1 and pairs[0]["control_coin"] == "ELDER"
+    assert len(pairs) == 1 and pairs[0]["control_coin"] == "xyz:MSFT"
     plan = AppendOnlyLedger(plan_path).read().rows
-    assert [(r["kind"], r["coin"]) for r in plan] == [("event", "NEW"), ("control", "ELDER")]
+    assert [(r["kind"], r["coin"]) for r in plan] == [
+        ("event", "xyz:AAPL"),
+        ("control", "xyz:MSFT"),
+    ]
     spreads = AppendOnlyLedger(spread_path).read().rows
-    assert [r["coin"] for r in spreads] == ["NEW", "ELDER"]
+    assert [r["coin"] for r in spreads] == ["xyz:AAPL", "xyz:MSFT"]
     # Trail seals land in the given root, never in the real store.
-    assert sorted(d.name for d in funding_root.iterdir()) == ["ELDER", "NEW"]
+    assert sorted(d.name for d in funding_root.iterdir()) == ["xyz_AAPL", "xyz_MSFT"]
     # Idempotent: a second pass is a no-op on the ledger.
     again = forward_pair_pass(
         venue,
-        "NEW",
+        "xyz:AAPL",
         "xyz",
         entry_ms,
         _census_fixture(entry_ms),
