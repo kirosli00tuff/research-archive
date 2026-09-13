@@ -1854,7 +1854,7 @@ The cost is **1 pair of 55**. Two other elders flagged by the same scan —
 2026-08-27 and simply predate their entries, which is staleness, not a gap,
 and the report says so per elder.
 
-### Task 4 — Forward pairing switched to the tiered rule (ETA 30–45 min · actual, see the commit clock below)
+### Task 4 — Forward pairing switched to the tiered rule (ETA 30–45 min · **actual 3 min, 19:58:25 → 20:01:00Z**)
 
 `forward_pair_pass` now classifies the birth, builds candidate refs across
 every dex, and assigns through the tiered selector, writing to
@@ -1911,3 +1911,53 @@ unions both ledgers.
   snapshots, which the registered design **explicitly permits**: a
   quarantined instrument still carries its snapshot and counts
   `excluded_quarantined` in the coverage census.
+
+### Task 5 — Power and look dates recomputed (ETA 30–45 min · **actual 8 min, 20:01:00 → see commit**)
+
+Registered as **Amendment H2-6**, the boundary record, from
+`reports/stage_a_h2/ktable_tiered.json`. No outcome value read.
+
+**Minimum N and the futility boundary are unchanged** — E1 42/84, E2 59/117
+governing, futility f₁ = 31 for E1 and 27 for E2 at n₁ = 59. They had to be:
+this amendment moved no bar, no alpha, no horizon, no true share. Reproducing
+them is the arithmetic's own check.
+
+**What moved, beside the superseded projection:**
+
+| | H2-4 | H2-6 | cost |
+|---|---|---|---|
+| match rate | 1.000 | **0.873** (55/63, measured) | −0.127 |
+| pairs at the deadline | 135 | **110** | **−25** |
+| look 1 | 2026-11-26 | **2026-12-24** | **+28 days** |
+| look 2 | 2027-03-01 | **2027-03-31** | **+30 days** |
+| governing two-look power at the deadline | 0.8629 | **0.8088** | −0.054 |
+
+**Three things that cell table understates.**
+
+**Look 2 is now the deadline itself.** At 110 projected pairs the design does
+not reach E2's look-2 minimum N of 117 before 2027-03-31, so look 2 fires on
+the registered *deadline* clause rather than the sample-size clause. No rule
+moves — Amendment H2-3 registered look 2 as the earlier of the two — but
+"2027-03-31" reads like a schedule and is in fact a hard stop arriving before
+the sample does.
+
+**Power at 110 is still above target, and that is not a contradiction of
+117.** Minimum N is registered as the smallest n from which power *stays* at
+or above target; exact binomial power saw-tooths, so n = 110 clears 0.80
+(0.8088) while 117 is the first n from which it never drops back. The design
+lands above its target at a sample below its minimum N.
+
+**The largest cost: Section 0's single-look gate returns to DEGRADED at
+0.7994 — six ten-thousandths below the 0.80 GO floor**, against H2-4's 0.8886
+and its GO. Under the registered DEGRADED rule collection proceeds and
+recomputed power travels beside the target at every later reading, so nothing
+is blocked. The honest one-line summary of this stage is nonetheless:
+**Amendment H2-3 bought a GO with an incoherent control, and returning the
+control to coherence hands the GO back.**
+
+The projection's named assumption: **the forward match rate is assumed equal
+to the measured reassigned 0.873**, which is a property of the instruments
+that exist now, not a measurement of the future. Recorded as the best
+available figure and to be restated against measurement rather than defended
+— this register has now had three assistant projections falsified by
+measurement and this is the fourth candidate.

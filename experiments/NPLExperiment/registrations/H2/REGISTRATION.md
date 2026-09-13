@@ -1153,3 +1153,122 @@ hash is recorded at the open and verified at the close of this stage.
 **The H2 pair reader stays dark.** It has seen only synthetic fixtures and
 has seen only synthetic fixtures at the close of this stage. All three H2
 latches remain absent.
+
+---
+
+### Amendment H2-6 — 2026-09-13 — the boundary record under the tiered rule: look dates, power, and the Section 0 gate
+
+#### What data existed when this was written
+
+Amendment H2-5, plus the reassignment it governs: the v2 pair ledger at **63
+rows — 55 assignments and 8 exclusions** — carrying event, elder, tier, class
+pair, both trailing means, and entry timestamps. Counts, tiers, and
+timestamps only. **No outcome value was read**, the three H2 latches remain
+absent, and the pair reader has still seen only synthetic fixtures.
+
+Computed by `scripts/ktable_tiered.py` into
+`reports/stage_a_h2/ktable_tiered.json`. Every superseded figure below is
+**quoted from the recorded Amendment H2-4 artifact**, never recomputed: a
+recomputed "superseded" number would not be the number that amendment
+recorded.
+
+#### 1. Minimum N per co-primary — unchanged, and that is the check
+
+| co-primary | look-1 min N | look-2 min N | single-look at alpha_h |
+|---|---:|---:|---:|
+| E1 (share 0.65) | 42 | 84 | 76 |
+| E2 (1× floor, share 0.625) | **59** | **117** | 111 |
+| E2 reported beside at 0.600 | 92 | 184 | 169 |
+
+**Governing: look 1 at 59, look 2 at 117.** Identical to Amendment H2-4,
+and necessarily so — this amendment moved no bar, no alpha, no horizon, and
+no true share. A difference here would have been an arithmetic error, not a
+design change, which is why the table is reproduced rather than referenced.
+
+#### 2. The futility boundary — unchanged
+
+At n₁ = 59 with the registered conditional-power floor of 0.10:
+
+| co-primary | n₁ | n₂ used | k₁ | k₂ | **f₁** |
+|---|---|---|---|---|---|
+| E1 | 59 | 84 | 38 | 51 | **31** |
+| E2 | 59 | 117 | 38 | 69 | **27** |
+
+**Futility still fires at look 1 when E1's positive count is 31 or fewer of
+59, or E2's floor-clearing count is 27 or fewer of 59.**
+
+#### 3. The projection, and what the tightening cost
+
+Measured accrual **18.57 events/month** (A.1, trailing 182 days, n = 113),
+unchanged: the taxonomy changes which events pair, never how many are born.
+The match rate is now the **measured reassigned rate, 55/63 = 0.873**, in
+place of the fallback's 1.000.
+
+| as of | backfill readable | forward | total |
+|---|---:|---:|---:|
+| 2026-09-30 | 16 | 0 | 16 |
+| 2026-10-31 | 31 | 0 | 31 |
+| 2026-11-30 | 54 | 0 | 54 |
+| **2026-12-31** | 55 | 7 | **62** |
+| 2027-01-31 | 55 | 24 | 79 |
+| 2027-02-28 | 55 | 39 | 94 |
+| **2027-03-31** | 55 | 55 | **110** |
+
+**Against the superseded projection, which is the point of this table:**
+
+| | Amendment H2-4 | Amendment H2-6 | cost |
+|---|---|---|---|
+| match rate | 1.000 | **0.873** | −0.127 |
+| pairs at the deadline | 135 | **110** | **−25** |
+| **look 1** | 2026-11-26 | **2026-12-24** | **+28 days** |
+| **look 2** | 2027-03-01 | **2027-03-31** | **+30 days, and it is now the deadline itself** |
+| governing two-look power at the deadline | 0.8629 | **0.8088** | −0.054 |
+
+**Three things in that table deserve to be said in words rather than left in
+a cell.**
+
+**First, look 2 is now the deadline.** Amendment H2-3 registered look 2 as
+*the earlier of the deadline or the date both co-primaries reach their look-2
+minimum N*. At 110 projected pairs the design **does not reach E2's look-2
+minimum N of 117 before 2027-03-31**, so look 2 fires on the deadline clause,
+not the sample-size clause. That is the registered behaviour and no rule
+moves; it is recorded here because "look 2: 2027-03-31" reads like a schedule
+and is in fact a hard stop arriving before the sample does.
+
+**Second, power at 110 is nonetheless above the target.** The governing
+two-look power at n₂ = 110 is **0.8088**, above the registered 0.80. That is
+not a contradiction of the 117 figure: minimum N is registered (Amendment
+H2-1) as *the smallest n from which exact power stays at or above target*,
+and exact binomial power saw-tooths, so individual n below 117 can clear 0.80
+while 117 is the first n from which it never drops back. The design lands
+above its target at a sample below its minimum N, and both statements are
+true at once.
+
+**Third, and the largest cost: the Section 0 single-look gate returns to
+DEGRADED.** At the projected deadline N of 110, on single-look power — the
+basis Section 0's map is stated on — the governing co-primary reaches
+**0.7994**, which is **0.0006 below the 0.80 GO floor**, against Amendment
+H2-4's 0.8886 and its GO. The Section 0 function returns **DEGRADED**.
+
+Under the registered DEGRADED rule (power between 0.50 and 0.80) **collection
+proceeds for H2 and recomputed power travels beside the registered target at
+every later reading**. Nothing is blocked. But the honest summary of this
+stage is: *Amendment H2-3 bought a GO with an incoherent control, and
+returning the control to coherence hands the GO back.* The Section 0 verdict
+record of Amendment H2-1 is not edited and is not re-fired.
+
+#### 4. What this amendment does not change
+
+No bar, no horizon, no anchor, no co-primary, no alpha split, no futility
+floor, no universe, no outcome definition. It records numbers produced by
+Amendment H2-5's rule; it registers no new rule of its own.
+
+#### 5. The assumption this projection rests on, named
+
+**The forward match rate is assumed equal to the measured reassigned rate of
+0.873.** That is an assumption, not a measurement of the future: the six
+`ambiguous_ticker` refusals and the two `rates` legs without elders are
+properties of the instruments that happen to exist now, and a forward cohort
+with a different ticker mix will not reproduce 0.873 exactly. It is recorded
+as the best available figure, derived from the only cohort that has been
+classified, and it will be restated against measurement rather than defended.
