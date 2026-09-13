@@ -1912,7 +1912,7 @@ unions both ledgers.
   quarantined instrument still carries its snapshot and counts
   `excluded_quarantined` in the coverage census.
 
-### Task 5 — Power and look dates recomputed (ETA 30–45 min · **actual 8 min, 20:01:00 → see commit**)
+### Task 5 — Power and look dates recomputed (ETA 30–45 min · **actual 1 min 32 s, 20:01:00 → 20:02:32Z**)
 
 Registered as **Amendment H2-6**, the boundary record, from
 `reports/stage_a_h2/ktable_tiered.json`. No outcome value read.
@@ -1961,3 +1961,37 @@ that exist now, not a measurement of the future. Recorded as the best
 available figure and to be restated against measurement rather than defended
 — this register has now had three assistant projections falsified by
 measurement and this is the fourth candidate.
+
+### Task 6 — Gates and mutations (ETA 35–50 min · **actual, see the commit clock**)
+
+`make all` green: `ruff format --check` and `ruff check` clean,
+`mypy --strict` clean on **103 source files**, **447 tests passed** (351
+before this stage, so **96 new**).
+
+**8 of 8 mutations CAUGHT**, evidence in
+`reports/stage_a_h2/mutations_class.md`. Real source edited, bytecode purged
+before every run, source restored byte-for-byte and verified clean against
+git, suite green again after each.
+
+| | mutation | caught by |
+|---|---|---|
+| MC1 | admit a cross-complex elder at any tier | `tests/test_tiered.py` — the tier-2 filter stops naming the class, so a commodity elder wins an equity leg on funding proximity: the H2-3 defect exactly |
+| MC2 | let tier 3 accept an fx/rates/commodity/vol leg | `tests/test_tiered.py` — `para:10Y` would be rescued into the equity complex instead of excluded |
+| MC3 | read a post-entry funding row inside tiered selection | `tests/test_tiered.py` — `PostEntryRead` is produced **through the tiered path**, not asserted |
+| MC4 | write into the superseded `h2_pairs.jsonl` | `tests/test_tiered.py` — the retained H2-3 record would become writable |
+| MC5 | silently classify an unmapped ticker as `equity` | `tests/test_assetclass.py` — the six tickers whose refusal is the whole measured cost would silently become equity |
+| MC6 | let a lower tier win over a higher one | `tests/test_tiered.py` — tier order **is** the rule |
+| MC7 | impute a missing tier instead of refusing | `tests/test_tiered.py` — the H2-3 `pair_type` imputation mistake repeated |
+| MC8 | drop the crypto dex rule | `tests/test_assetclass.py` — every main-dex instrument would fall through to the builder table |
+
+The three beyond the registered five (MC6, MC7, MC8) ride along because the
+amendment created their surface too.
+
+Boundary fixtures sit **on** the registered boundary, not comfortably inside
+it (the InsiderExperiment mutation lesson): an elder listed *exactly* 180
+days before entry is admissible and one a **single millisecond** younger is
+refused; funding coverage at **160** served hours of 168 clears the 0.95 bar
+(159.6) and **159** does not.
+
+Hashes after the mutation run: `data/controls/h2_pairs.jsonl` still
+`f765e899…`, and all three H5 stores still at their precondition hashes.
