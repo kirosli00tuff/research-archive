@@ -10,11 +10,15 @@ the equality pins on the registered field names.
 from __future__ import annotations
 
 import ast
+import json
 from pathlib import Path
+
+import pytest
 
 from npl.h5 import basis as h5basis
 from npl.h5 import calendar as h5cal
 from npl.h5 import outcome as h5out
+from npl.h5.gate import CohortLedgerUnavailable, is_gated, load_cohorts
 from npl.paths import DATA, H5_DIR
 
 SRC = Path(__file__).resolve().parents[1] / "src" / "npl"
@@ -207,3 +211,55 @@ def test_the_retrospective_gate_runs_before_the_first_request() -> None:
         "fetch_series no longer opens with the cohort gate; a quarantined coin "
         "could reach the network"
     )
+
+
+# ---------------- Amendment H2-5: the cohort spans both pair ledgers -------
+
+
+def test_the_h5_gate_quarantines_coins_from_both_h2_pair_ledgers(tmp_path: Path) -> None:
+    """The tiered rule changed which instruments are pair legs; both count.
+
+    Eight coins joined the H2 cohort at Amendment H2-5 and twenty-two left it.
+    Reading one ledger would leave a hole either way.
+    """
+    generating = tmp_path / "generating.json"
+    generating.write_text(json.dumps({"event_ids": ["OLD|main|1"]}), encoding="utf-8")
+    fresh = tmp_path / "fresh.jsonl"
+    fresh.write_text(json.dumps({"coin": "FRESHCOIN"}) + "\n", encoding="utf-8")
+    superseded = tmp_path / "h2_pairs.jsonl"
+    superseded.write_text(
+        json.dumps({"event_coin": "mkts:US500", "control_coin": "BTC"}) + "\n", encoding="utf-8"
+    )
+    v2 = tmp_path / "h2_pairs_v2.jsonl"
+    v2.write_text(
+        json.dumps({"event_coin": "mkts:US500", "control_coin": "xyz:TSLA"}) + "\n",
+        encoding="utf-8",
+    )
+
+    cohorts = load_cohorts(generating, fresh, superseded, v2)
+    # The new elder is quarantined...
+    assert is_gated("xyz:TSLA", cohorts)
+    # ...and the one it replaced stays quarantined, because H2 already
+    # collected it. Un-quarantining is a loosening and is never a side effect.
+    assert is_gated("BTC", cohorts)
+    assert not is_gated("xyz:NOTAPAIRLEG", cohorts)
+
+
+def test_an_absent_v2_ledger_is_not_an_error_but_an_absent_superseded_one_is(
+    tmp_path: Path,
+) -> None:
+    """The v2 ledger did not exist before Amendment H2-5; the H2-3 one always did."""
+    generating = tmp_path / "generating.json"
+    generating.write_text(json.dumps({"event_ids": []}), encoding="utf-8")
+    fresh = tmp_path / "fresh.jsonl"
+    fresh.write_text("", encoding="utf-8")
+    superseded = tmp_path / "h2_pairs.jsonl"
+    superseded.write_text(
+        json.dumps({"event_coin": "A", "control_coin": "B"}) + "\n", encoding="utf-8"
+    )
+
+    cohorts = load_cohorts(generating, fresh, superseded, tmp_path / "absent_v2.jsonl")
+    assert is_gated("A", cohorts) and is_gated("B", cohorts)
+
+    with pytest.raises(CohortLedgerUnavailable, match="absent"):
+        load_cohorts(generating, fresh, tmp_path / "absent.jsonl", tmp_path / "absent_v2.jsonl")

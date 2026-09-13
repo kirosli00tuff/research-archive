@@ -26,7 +26,12 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from npl.h5.stores import read_rows
-from npl.paths import FRESH_PLAN, GENERATING_SAMPLE_JSON, H2_PAIRS_LEDGER
+from npl.paths import (
+    FRESH_PLAN,
+    GENERATING_SAMPLE_JSON,
+    H2_PAIRS_LEDGER,
+    H2_PAIRS_V2_LEDGER,
+)
 
 EXCLUDED_QUARANTINED = "excluded_quarantined"
 
@@ -76,17 +81,36 @@ def load_cohorts(
     generating_path: Path = GENERATING_SAMPLE_JSON,
     fresh_path: Path = FRESH_PLAN,
     pairs_path: Path = H2_PAIRS_LEDGER,
+    pairs_v2_path: Path = H2_PAIRS_V2_LEDGER,
 ) -> Cohorts:
-    """Read the three cohort ledgers. Coin strings only; no value is read."""
+    """Read the cohort ledgers. Coin strings only; no value is read.
+
+    **Both H2 pair ledgers are unioned** (Amendment H2-5). The tiered rule
+    changed which instruments are pair legs: eight coins joined the cohort and
+    twenty-two left it. Reading only one ledger would leave a hole either way,
+    so both are read and the union is quarantined.
+
+    The union is deliberately one-directional: a coin that *left* the cohort
+    when its pair was reassigned stays quarantined, because H2 has already
+    collected it as a pair leg. Un-quarantining is a loosening of a blindness
+    gate and is never done as a side effect of a control-rule change.
+
+    A missing v2 ledger is not an error — it simply did not exist before
+    Amendment H2-5 — but a missing superseded ledger still is.
+    """
     payload = json.loads(_require(generating_path).read_text(encoding="utf-8"))
     generating = frozenset(str(entry).split("|", 1)[0] for entry in payload["event_ids"])
     fresh = frozenset(str(row["coin"]) for row in read_rows(_require(fresh_path)))
     pair_coins: set[str] = set()
-    for row in read_rows(_require(pairs_path)):
-        for key in ("event_coin", "control_coin"):
-            value = row.get(key)
-            if value is not None:
-                pair_coins.add(str(value))
+    ledgers = [_require(pairs_path)]
+    if pairs_v2_path.exists():
+        ledgers.append(pairs_v2_path)
+    for ledger in ledgers:
+        for row in read_rows(ledger):
+            for key in ("event_coin", "control_coin"):
+                value = row.get(key)
+                if value is not None:
+                    pair_coins.add(str(value))
     return Cohorts(generating_sample=generating, fresh_plan=fresh, h2_pairs=frozenset(pair_coins))
 
 

@@ -1658,7 +1658,7 @@ END PROMPT
 | 7. Docs and close-out | 40–60 min |
 | **Total** | **4 h 30 min – 6 h 35 min** |
 
-### Task 1 — Amendment H2-5 (ETA 40–60 min · actual ~24 min, 18:49→19:13Z)
+### Task 1 — Amendment H2-5 (ETA 40–60 min · **actual 11 min, 18:49 → 19:00:15Z**)
 
 Registered before any code change and before any reassignment, and pushed
 before Task 2 began.
@@ -1708,7 +1708,7 @@ before the read.
 Nothing else moved: no bar, no horizon, no anchor, no co-primary, no alpha
 split, no universe, and the superseded ledger is retained byte-identical.
 
-### Task 2 — Reassignment under the tiered rule (ETA 50–75 min · actual ~35 min, 19:13→19:48Z)
+### Task 2 — Reassignment under the tiered rule (ETA 50–75 min · **actual 48 min, 19:00:15 → 19:48:19Z**)
 
 `src/npl/register/assetclass.py` carries the taxonomy as a pure module — no
 path, no ledger, no venue — for the reason `npl.pairtype` exists: the dark
@@ -1778,7 +1778,7 @@ events**, exclusions included, so a consumer that wants pairs must say so —
 `assigned_rows` is that statement, and an unregistered state is a loud
 refusal.
 
-### Task 3 — Control-leg collection for the new elders (ETA 45–80 min · actual ~32 min, 19:48→20:20Z)
+### Task 3 — Control-leg collection for the new elders (ETA 45–80 min · **actual 10 min, 19:48:19 → 19:58:25Z**)
 
 **29 control legs, 15 distinct elders**, for the 33 pairs whose elder
 changed (four elders serve more than one event). Each was queued on the
@@ -1853,3 +1853,61 @@ The cost is **1 pair of 55**. Two other elders flagged by the same scan —
 `xyz:MSTR` and `XMR` — are **not** delisted; their census rows were recorded
 2026-08-27 and simply predate their entries, which is staleness, not a gap,
 and the report says so per elder.
+
+### Task 4 — Forward pairing switched to the tiered rule (ETA 30–45 min · actual, see the commit clock below)
+
+`forward_pair_pass` now classifies the birth, builds candidate refs across
+every dex, and assigns through the tiered selector, writing to
+`h2_pairs_v2.jsonl`. **An event the taxonomy cannot classify, or whose class
+admits no elder, writes its exclusion row to the same ledger** — so the
+ledger records what happened to every event, not only the ones that paired,
+and `existing_pair_keys` treats an excluded event as resolved rather than
+pending. Both entry points are switched: `npl watch` at each birth's entry
+anchor, and `npl daily`'s catch-up pass. The daily pass's elder-leg
+checkpoint map reads the v2 ledger through `assigned_rows`, so an exclusion
+row carries no elder leg.
+
+The coverage module gained `coverage_by_tier` and `coverage_by_class_pair`,
+and the dark reader gained `tier_stratum` and `class_pair_stratum` as named
+secondaries beside `same_dex_stratum` — the registration says tier travels
+beside every primary figure at every look, so the reader has to produce it.
+The reader stays pure: the tier constants live in `src/npl/tier.py` and the
+taxonomy in `npl.register.assetclass`, both path-free, and the reader's
+structural pin was widened to exactly those two.
+
+Coverage now, over the 55 pairs — a snapshot of collection progress, never a
+verdict input, and 48 of 55 are `pending_seal`:
+
+| tier | pairs | assessable and clearing both bars |
+|---|---:|---:|
+| 1 — same dex, exact class | 33 | 7 |
+| 2 — any dex, exact class | 18 | 0 |
+| 3 — any dex, equity complex | 4 | 0 |
+
+#### H5 verified untouched — and one gate widened on purpose
+
+The three H5 stores are byte-identical to the precondition record:
+`census.jsonl` `5bebc659…` (546 rows), `retro.jsonl` `e5c32bc1…` (38),
+`snapshots.jsonl` `64442fea…` (**3 924** snapshots). No H5 module imports the
+taxonomy or the tier constants, and no H2 module imports an H5 module — the
+one mention of `npl.h5.resolution` in the taxonomy is a docstring saying the
+two tables are deliberately different, and a test pins that neither imports
+the other.
+
+**One deliberate change inside H5, because this stage would otherwise have
+opened a hole.** `npl.h5.gate.load_cohorts` quarantines H2's pair legs from
+H5's retrospective read. It read the superseded ledger only. **The tiered
+rule moved the cohort: eight coins joined and twenty-two left.** The gate now
+unions both ledgers.
+
+- **Direction: strictly more quarantining, never less.** A coin that left the
+  cohort stays quarantined, because H2 has already collected it as a pair
+  leg. Un-quarantining is a loosening of a blindness gate and is never done
+  as a side effect of a control-rule change.
+- **No leak occurred.** None of the eight coins new to the cohort
+  (`vntl:ANTHROPIC`, `xyz:BABA`, `xyz:MSTR`, `xyz:NFLX`, `xyz:RIVN`,
+  `xyz:SMSN`, `xyz:SNDK`, `xyz:USAR`) has been read by the H5 retrospective,
+  which is the read the gate protects. All eight do carry H5 contemporaneous
+  snapshots, which the registered design **explicitly permits**: a
+  quarantined instrument still carries its snapshot and counts
+  `excluded_quarantined` in the coverage census.
