@@ -1,0 +1,32 @@
+{
+  "bytes": 1192,
+  "curve_usd": {
+    "01/2027": 1737.0,
+    "02/2027": 1744.0,
+    "03/2027": 1751.0,
+    "06/2027": 1775.0,
+    "09/2026": 1704.0,
+    "09/2027": 1798.0,
+    "10/2026": 1713.0,
+    "11/2026": 1720.0,
+    "12/2026": 1727.0,
+    "12/2027": 1823.0
+  },
+  "front_month": "09/2026",
+  "gaps_as_found": [
+    "Product Code column EMPTY on all 10 rows.",
+    "NO effective/as-of date column. The figure is undated at source and must be re-pulled if it becomes load-bearing again.",
+    "Maintenance Long reads '-' on all 10 rows; only Maintenance Short is populated. Whether long is equal, unspecified, or collapsed in the display is UNRESOLVED from this file.",
+    "Zero options rows. Options on futures are SPAN-computed and CME publishes parameter files, not per-contract margins. Expected shape, not a failed export."
+  ],
+  "maint_vol_scan": "50.000%",
+  "maintenance_short_usd": 1704.0,
+  "obtained_at_utc": "2026-09-03",
+  "obtained_by": "operator, manual browser export",
+  "product_rows": "MICRO BITCOIN FUTURES only; zero options rows",
+  "rows": 10,
+  "sha256": "8a889aa7ac3584152772db61c25df99b7edf328b8aa015625ea9f6c750e47865",
+  "source": "CME Group, Micro Bitcoin margins page, outright rates export",
+  "url": "https://www.cmegroup.com/markets/cryptocurrencies/bitcoin/micro-bitcoin/margins",
+  "what_this_is_not": "CME EXCHANGE MINIMUM maintenance margin. Not IBKR initial margin, which is a different quantity from a different party and conventionally higher. Customer initial conventionally runs about 1.1x maintenance before any broker multiplier."
+}

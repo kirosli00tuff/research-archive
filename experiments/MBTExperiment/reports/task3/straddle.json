@@ -1,0 +1,32 @@
+{
+  "at": "2026-09-03T19:37:11.732Z",
+  "broker_errors": [
+    "reqId=-1 code=2104 Market data farm connection is OK:hfarm",
+    "reqId=-1 code=2107 HMDS data farm connection is inactive but should be available upon demand.apachmds",
+    "reqId=-1 code=2158 Sec-def data farm connection is OK:secdefhk",
+    "reqId=-1 code=2119 Market data farm is connecting:usfuture",
+    "reqId=-1 code=2104 Market data farm connection is OK:usfuture",
+    "reqId=48 code=354 Requested market data is not subscribed. Check API status by selecting the Account menu then under Management choose Market Data Subscription Manager and/or availability of delayed"
+  ],
+  "command": "straddle",
+  "environment": "paper",
+  "front_future": "MBTU6",
+  "reference_quote": {
+    "absent": "true",
+    "detail": "future_hedge: the feed served no tick at all, so there is no venue timestamp and no touch. A missing venue stamp is never replaced by the local clock, because that would compare local against local and the staleness check would always pass.",
+    "reason": "unquoted_leg"
+  },
+  "registered_rules_applied": {
+    "atm_reference": "the midpoint of the MBT front future's touch (Section 3.1)",
+    "atm_strike": "nearest listed strike, ties to the LOWER strike (Section 3.2)",
+    "refusal": "if the future's quote is refused for any reason in Section 3.4, the whole straddle is refused (Section 3.1)",
+    "tenor": "listed expiry nearest 30 days measured to the SETTLEMENT INSTANT, ties to the LONGER tenor (Section 3.3)"
+  },
+  "resolved": false,
+  "series_listed": 11,
+  "straddle": {
+    "absent": "true",
+    "detail": "future_hedge: the feed served no tick at all, so there is no venue timestamp and no touch. A missing venue stamp is never replaced by the local clock, because that would compare local against local and the staleness check would always pass.",
+    "reason": "unquoted_leg"
+  }
+}

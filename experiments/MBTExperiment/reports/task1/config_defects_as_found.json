@@ -1,0 +1,31 @@
+{
+  "account_number_handling": "The account number does not appear in this artifact. Only its shape does, which is what the provenance guard reads and what a reader needs to check it.",
+  "artifact": "stage_b1_config_defects_as_found",
+  "defects": [
+    {
+      "id": "D-1",
+      "measured": {
+        "client_id_equals_account_number": true,
+        "client_id_first_character": "D",
+        "client_id_length": 9,
+        "client_id_parses_as_int32": false
+      },
+      "severity": "blocking",
+      "status_reported_by_operator": "The stage prompt records MBT_IB_PAPER_CLIENT_ID as now set, and it is set. It is set to a value that is not a client id, so the named blocker is not in fact cleared.",
+      "what": "MBT_IB_PAPER_CLIENT_ID holds the PAPER ACCOUNT NUMBER, not a client id.",
+      "where": ".env (gitignored operator configuration, not a registered rule)",
+      "why_it_cannot_be_intended": "The TWS API clientId is an int32. A 9-character D-prefixed string cannot be one, so this is a paste of the account number rather than a choice."
+    },
+    {
+      "family": "Same family as the Guard 1 hole the Stage B mutation harness found: a check that refuses correctly on the inputs it is pointed at, while the path that actually matters goes unchecked.",
+      "id": "D-2",
+      "second_and_worse_half": "ValueError from int() embeds the offending value in its message. With D-1 present that value IS the account number, so the account number reaches stderr and would reach any artifact that captured the traceback. tests/test_honesty.py scans TRACKED FILES for account shapes and cannot see a runtime exception path, so the scan was clean while the hole was open.",
+      "severity": "honesty guard hole",
+      "what": "The client id is passed to a bare int() with no validation. A malformed value raises ValueError, which is NOT a ConfigError, so cli._connect_or_record_absent does not catch it and the CLI exits on an uncaught traceback instead of recording a typed absence.",
+      "where": "src/mbt/config.py, GatewayConfig.load"
+    }
+  ],
+  "found_before": "any session was opened and any figure was measured",
+  "taken_utc": "2026-09-03T19:09:42Z",
+  "what_is_not_amended": "Neither defect is a registered rule. REGISTRATION.md is closed and untouched. The premium basis, the ATM strike rule, the tenor rule, the distinctness rule and the refusal conditions are obeyed as written."
+}

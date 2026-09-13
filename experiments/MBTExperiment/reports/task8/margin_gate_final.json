@@ -1,0 +1,28 @@
+{
+  "at": "2026-09-13T04:28:37.551858Z",
+  "basis": "notional_normalized",
+  "ceiling_usd_at_measured_notional": 1046.75,
+  "corroboration": "18 paper what-if previews across 9 strikes and both rights put a SINGLE short MBT option at 3441.42 to 4599.07 USD, median 3930.96, zero of 18 below the ceiling. That is 2.0x to 2.7x this future figure, consistent with a broker markup rather than a simulator artifact.",
+  "evidence": "docs/evidence/cme_outright_rates_crypto_20260903.csv",
+  "exceedance_ratio": 1.6279,
+  "final": true,
+  "gate": "margin",
+  "independent_corroboration": "Schwab reported MBT initial margin near 2800 USD as of 2026-03-24 alongside 140000 for full-size BTC (5 bitcoin), implying ~20% of notional and bitcoin near 140000 in March. The same ~20% rule at today's 81777.50 gives ~1700. Two independent sources agree on the PERCENTAGE, stronger than either figure alone.",
+  "measured_is": "CME exchange-minimum MAINTENANCE margin on ONE MBT future, front month 09/2026",
+  "measured_is_a_floor_because": [
+    "It is the hedge leg ALONE. The two short option legs are additional.",
+    "It is maintenance, not initial. Customer initial conventionally runs about 1.1x.",
+    "It is the exchange minimum. IBKR applies its own multiplier above it."
+  ],
+  "measured_notional_source": "MBT front future touch 81770.0/81785.0, paper session 2026-09-03, reports/task1/probe_session.json",
+  "measured_notional_usd": 8177.75,
+  "measured_pct_of_notional": 20.837,
+  "measured_usd": 1704.0,
+  "outcome": "FAIL",
+  "registered_ceiling_pct_of_notional": 12.8,
+  "registered_ceiling_usd_at_registration": 1000.0,
+  "registration_notional_usd": 7812.46,
+  "sleeve_usd": 1000.0,
+  "verdict_sentence": "The delta-hedging future alone, at the exchange minimum, requires 20.84% of notional against a registered ceiling of 12.80%. The gate FAILS by 1.628x on the cheapest single component of the position.",
+  "why_notional_normalized": "A dollar ceiling moves with the bitcoin price; a fraction of notional does not. Normalizing makes the verdict robust to a price move rather than hostage to one."
+}

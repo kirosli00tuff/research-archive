@@ -1,0 +1,20 @@
+{
+  "boundary_sha256_full": "c28e68609cca2d968427ac4485fb836cf9f11a4df62cd89262388f3850789f81",
+  "boundary_sha256_stable": "441495bce9a7af16c250a8de865b6565b81ce3273ef9ae4207e254f2cc153641",
+  "elapsed_seconds": 0.911,
+  "entry_count": 2901,
+  "errors": [],
+  "label": "close",
+  "manifest_path": "reports/boundary/vrp_manifest_close.txt",
+  "root": "/home/kiros-li/Documents/GitHub/VRPExperiment",
+  "stable_entry_count": 115,
+  "stable_excludes": [
+    ".git/",
+    ".venv/",
+    ".mypy_cache/",
+    ".pytest_cache/",
+    ".ruff_cache/"
+  ],
+  "taken_utc": "2026-09-03T07:02:55Z",
+  "total_bytes": 324887193
+}

@@ -1,0 +1,319 @@
+{
+  "accounts_returned": 1,
+  "api_handshake_seconds": 0.3083,
+  "at": "2026-09-03T19:30:08.803Z",
+  "broker_errors": [
+    "reqId=-1 code=2104 Market data farm connection is OK:hfarm",
+    "reqId=-1 code=2104 Market data farm connection is OK:usfuture",
+    "reqId=-1 code=2107 HMDS data farm connection is inactive but should be available upon demand.apachmds",
+    "reqId=-1 code=2158 Sec-def data farm connection is OK:secdefhk",
+    "reqId=-1 code=2108 Market data farm connection is inactive but should be available upon demand.usfuture",
+    "reqId=-1 code=2108 Market data farm connection is inactive but should be available upon demand.usfuture",
+    "reqId=50 code=321 Error validating request.-'bD' : cause - What-If order should have transmit flag set to TRUE.",
+    "reqId=-1 code=2119 Market data farm is connecting:usfuture",
+    "reqId=-1 code=2104 Market data farm connection is OK:usfuture",
+    "reqId=51 code=354 Requested market data is not subscribed. Check API status by selecting the Account menu then under Management choose Market Data Subscription Manager and/or availability of delayed",
+    "reqId=51 code=300 Can't find EId with tickerId:51",
+    "reqId=52 code=354 Requested market data is not subscribed. Check API status by selecting the Account menu then under Management choose Market Data Subscription Manager and/or availability of delayed",
+    "reqId=52 code=354 Requested market data is not subscribed. Check API status by selecting the Account menu then under Management choose Market Data Subscription Manager and/or availability of delayed",
+    "reqId=52 code=300 Can't find EId with tickerId:52",
+    "reqId=53 code=354 Requested market data is not subscribed. Check API status by selecting the Account menu then under Management choose Market Data Subscription Manager and/or availability of delayed",
+    "reqId=53 code=354 Requested market data is not subscribed. Check API status by selecting the Account menu then under Management choose Market Data Subscription Manager and/or availability of delayed",
+    "reqId=53 code=300 Can't find EId with tickerId:53",
+    "reqId=55 code=10167 Requested market data is not subscribed. Displaying delayed market data.",
+    "reqId=55 code=10090 Part of requested market data is not subscribed. Subscription-independent ticks are still active.Delayed market data is available.MBT OCT'26 (MBTV6) /TOP/ALL",
+    "reqId=56 code=10167 Requested market data is not subscribed. Displaying delayed market data."
+  ],
+  "command": "probe-full",
+  "config": {
+    "client_id": 4202,
+    "declared": "paper",
+    "expected_account_length": 9,
+    "expected_account_prefix": "D",
+    "host": "127.0.0.1",
+    "port": 4002
+  },
+  "feed": {
+    "delayed_requested": [
+      {
+        "admissible": false,
+        "leg": "future_hedge",
+        "raw": {
+          "ask": 81785.0,
+          "bid": 81770.0,
+          "lag_seconds": 0.146366,
+          "leg": "future_hedge",
+          "local_ts": "2026-09-03T19:30:07.549Z",
+          "subscription_note": "reqMarketDataType(3) was REQUESTED. The status recorded per leg is what the feed served, which is not the same thing.",
+          "tick_delay": "delayed",
+          "venue_ts": "2026-09-03T19:30:07.402Z"
+        },
+        "requested_market_data_type": "delayed",
+        "screening": {
+          "absent": "true",
+          "detail": "future_hedge: the feed served delayed data. A delayed quote carries a stale and artificially wide spread and is never widened into a cost band.",
+          "reason": "delayed_tick"
+        },
+        "served_tick_delay_status": "delayed"
+      },
+      {
+        "admissible": false,
+        "leg": "option_call",
+        "raw": {
+          "ask": 1860.0,
+          "bid": 1625.0,
+          "lag_seconds": 0.085366,
+          "leg": "option_call",
+          "local_ts": "2026-09-03T19:30:08.301Z",
+          "subscription_note": "reqMarketDataType(3) was REQUESTED. The status recorded per leg is what the feed served, which is not the same thing.",
+          "tick_delay": "delayed",
+          "venue_ts": "2026-09-03T19:30:08.215Z"
+        },
+        "requested_market_data_type": "delayed",
+        "screening": {
+          "absent": "true",
+          "detail": "option_call: the feed served delayed data. A delayed quote carries a stale and artificially wide spread and is never widened into a cost band.",
+          "reason": "delayed_tick"
+        },
+        "served_tick_delay_status": "delayed"
+      },
+      {
+        "admissible": false,
+        "leg": "option_put",
+        "raw": {
+          "ask": 7200.0,
+          "bid": 6895.0,
+          "lag_seconds": 0.105433,
+          "leg": "option_put",
+          "local_ts": "2026-09-03T19:30:08.802Z",
+          "subscription_note": "reqMarketDataType(3) was REQUESTED. The status recorded per leg is what the feed served, which is not the same thing.",
+          "tick_delay": "delayed",
+          "venue_ts": "2026-09-03T19:30:08.697Z"
+        },
+        "requested_market_data_type": "delayed",
+        "screening": {
+          "absent": "true",
+          "detail": "option_put: the feed served delayed data. A delayed quote carries a stale and artificially wide spread and is never widened into a cost band.",
+          "reason": "delayed_tick"
+        },
+        "served_tick_delay_status": "delayed"
+      }
+    ],
+    "realtime_requested": [
+      {
+        "admissible": false,
+        "leg": "future_hedge",
+        "raw": {
+          "absent": "true",
+          "detail": "future_hedge: the feed served no tick at all, so there is no venue timestamp and no touch. A missing venue stamp is never replaced by the local clock, because that would compare local against local and the staleness check would always pass.",
+          "reason": "unquoted_leg"
+        },
+        "requested_market_data_type": "realtime",
+        "screening": {
+          "absent": "true",
+          "detail": "future_hedge: the feed served no tick at all, so there is no venue timestamp and no touch. A missing venue stamp is never replaced by the local clock, because that would compare local against local and the staleness check would always pass.",
+          "reason": "unquoted_leg"
+        },
+        "served_tick_delay_status": "unknown"
+      },
+      {
+        "admissible": false,
+        "leg": "option_call",
+        "raw": {
+          "absent": "true",
+          "detail": "option_call: the feed served no tick at all, so there is no venue timestamp and no touch. A missing venue stamp is never replaced by the local clock, because that would compare local against local and the staleness check would always pass.",
+          "reason": "unquoted_leg"
+        },
+        "requested_market_data_type": "realtime",
+        "screening": {
+          "absent": "true",
+          "detail": "option_call: the feed served no tick at all, so there is no venue timestamp and no touch. A missing venue stamp is never replaced by the local clock, because that would compare local against local and the staleness check would always pass.",
+          "reason": "unquoted_leg"
+        },
+        "served_tick_delay_status": "unknown"
+      },
+      {
+        "admissible": false,
+        "leg": "option_put",
+        "raw": {
+          "absent": "true",
+          "detail": "option_put: the feed served no tick at all, so there is no venue timestamp and no touch. A missing venue stamp is never replaced by the local clock, because that would compare local against local and the staleness check would always pass.",
+          "reason": "unquoted_leg"
+        },
+        "requested_market_data_type": "realtime",
+        "screening": {
+          "absent": "true",
+          "detail": "option_put: the feed served no tick at all, so there is no venue timestamp and no touch. A missing venue stamp is never replaced by the local clock, because that would compare local against local and the staleness check would always pass.",
+          "reason": "unquoted_leg"
+        },
+        "served_tick_delay_status": "unknown"
+      }
+    ]
+  },
+  "fills_after_probe": 0,
+  "front_future": "MBTU6",
+  "nearest_to_registered_tenor": {
+    "expiry": {
+      "exchange": "CME",
+      "label": "W1E:20261002",
+      "settlement": "2026-10-02T15:00:00.000Z",
+      "settlement_rule": "ContractDetails.lastTradeTime read in ContractDetails.timeZoneId"
+    },
+    "strikes_listed": 150,
+    "trading_class": "W1E",
+    "underlying": "MBTV6"
+  },
+  "ok": true,
+  "orders_open_after_probe": 0,
+  "permission_probe": {
+    "broker_errors": [
+      "reqId=50 code=321 Error validating request.-'bD' : cause - What-If order should have transmit flag set to TRUE."
+    ],
+    "detail": "no OrderState after 20.02 s. Broker errors raised during the request: [\"reqId=50 code=321 Error validating request.-'bD' : cause - What-If order should have transmit flag set to TRUE.\"]",
+    "elapsed_seconds": 20.0209,
+    "permitted": {
+      "absent": "true",
+      "detail": "the venue returned no OrderState for a what-if built by this package, so nothing was learned about permission. An unanswered request is not a refused one, and the two are never merged: one says the account may not, the other says nobody asked.",
+      "reason": "permission_unknown"
+    },
+    "preview": null,
+    "timed_out": true
+  },
+  "positions_after_probe": 0,
+  "provenance": {
+    "account_length": 9,
+    "account_masked": "D*******5",
+    "account_prefix": "D",
+    "client_id": 4202,
+    "connected_at": "2026-09-03T19:28:31.130Z",
+    "declared": "paper",
+    "host": "127.0.0.1",
+    "measured": "paper",
+    "port": 4002
+  },
+  "series": [
+    {
+      "expiry": {
+        "exchange": "CME",
+        "label": "W1E:20260904",
+        "settlement": "2026-09-04T15:00:00.000Z",
+        "settlement_rule": "ContractDetails.lastTradeTime read in ContractDetails.timeZoneId"
+      },
+      "strikes_listed": 189,
+      "trading_class": "W1E",
+      "underlying": "MBTU6"
+    },
+    {
+      "expiry": {
+        "exchange": "CME",
+        "label": "W2E:20260911",
+        "settlement": "2026-09-11T15:00:00.000Z",
+        "settlement_rule": "ContractDetails.lastTradeTime read in ContractDetails.timeZoneId"
+      },
+      "strikes_listed": 183,
+      "trading_class": "W2E",
+      "underlying": "MBTU6"
+    },
+    {
+      "expiry": {
+        "exchange": "CME",
+        "label": "W1A:20260907",
+        "settlement": "2026-09-07T15:00:00.000Z",
+        "settlement_rule": "ContractDetails.lastTradeTime read in ContractDetails.timeZoneId"
+      },
+      "strikes_listed": 164,
+      "trading_class": "W1A",
+      "underlying": "MBTU6"
+    },
+    {
+      "expiry": {
+        "exchange": "CME",
+        "label": "WM:20260925",
+        "settlement": "2026-09-25T15:00:00.000Z",
+        "settlement_rule": "ContractDetails.lastTradeTime read in ContractDetails.timeZoneId"
+      },
+      "strikes_listed": 267,
+      "trading_class": "WM",
+      "underlying": "MBTU6"
+    },
+    {
+      "expiry": {
+        "exchange": "CME",
+        "label": "W3E:20260918",
+        "settlement": "2026-09-18T15:00:00.000Z",
+        "settlement_rule": "ContractDetails.lastTradeTime read in ContractDetails.timeZoneId"
+      },
+      "strikes_listed": 159,
+      "trading_class": "W3E",
+      "underlying": "MBTU6"
+    },
+    {
+      "expiry": {
+        "exchange": "CME",
+        "label": "W2C:20260909",
+        "settlement": "2026-09-09T15:00:00.000Z",
+        "settlement_rule": "ContractDetails.lastTradeTime read in ContractDetails.timeZoneId"
+      },
+      "strikes_listed": 160,
+      "trading_class": "W2C",
+      "underlying": "MBTU6"
+    },
+    {
+      "expiry": {
+        "exchange": "CME",
+        "label": "W1E:20261002",
+        "settlement": "2026-10-02T15:00:00.000Z",
+        "settlement_rule": "ContractDetails.lastTradeTime read in ContractDetails.timeZoneId"
+      },
+      "strikes_listed": 150,
+      "trading_class": "W1E",
+      "underlying": "MBTV6"
+    },
+    {
+      "expiry": {
+        "exchange": "CME",
+        "label": "W2E:20261009",
+        "settlement": "2026-10-09T15:00:00.000Z",
+        "settlement_rule": "ContractDetails.lastTradeTime read in ContractDetails.timeZoneId"
+      },
+      "strikes_listed": 127,
+      "trading_class": "W2E",
+      "underlying": "MBTV6"
+    },
+    {
+      "expiry": {
+        "exchange": "CME",
+        "label": "WM:20261030",
+        "settlement": "2026-10-30T15:00:00.000Z",
+        "settlement_rule": "ContractDetails.lastTradeTime read in ContractDetails.timeZoneId"
+      },
+      "strikes_listed": 230,
+      "trading_class": "WM",
+      "underlying": "MBTV6"
+    },
+    {
+      "expiry": {
+        "exchange": "CME",
+        "label": "WM:20261127",
+        "settlement": "2026-11-27T16:00:00.000Z",
+        "settlement_rule": "ContractDetails.lastTradeTime read in ContractDetails.timeZoneId"
+      },
+      "strikes_listed": 164,
+      "trading_class": "WM",
+      "underlying": "MBTX6"
+    },
+    {
+      "expiry": {
+        "exchange": "CME",
+        "label": "WM:20261224",
+        "settlement": "2026-12-24T16:00:00.000Z",
+        "settlement_rule": "ContractDetails.lastTradeTime read in ContractDetails.timeZoneId"
+      },
+      "strikes_listed": 228,
+      "trading_class": "WM",
+      "underlying": "MBTZ6"
+    }
+  ],
+  "series_listed": 11,
+  "trades_after_probe": 0
+}

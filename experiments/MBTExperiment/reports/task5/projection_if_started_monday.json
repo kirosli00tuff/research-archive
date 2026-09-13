@@ -1,0 +1,19 @@
+{
+  "collection_days": [
+    "2026-09-07 Monday",
+    "2026-09-08 Tuesday",
+    "2026-09-09 Wednesday",
+    "2026-09-10 Thursday",
+    "2026-09-11 Friday"
+  ],
+  "collection_days_required": 5,
+  "elapsed_calendar_days": 5,
+  "first_collection_day": "2026-09-07",
+  "max_windows_per_utc_day": 4,
+  "min_minutes_between_windows": 60,
+  "note": "Clock-bound and not compressible. The rule fixes the DURATION at 5 collection days; it does not fix the start. The start is the first day a Gateway session exists.",
+  "projected_completion_utc": "2026-09-11",
+  "start_requested": "2026-09-07",
+  "start_was_a_collection_day": true,
+  "windows_required": 20
+}

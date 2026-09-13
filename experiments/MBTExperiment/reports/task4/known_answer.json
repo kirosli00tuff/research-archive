@@ -1,0 +1,36 @@
+{
+  "agrees": false,
+  "blocker_count": 2,
+  "blockers": [
+    "no operator-supplied expected margin (MBT_KNOWN_ANSWER_MARGIN_USD unset): not_yet_measured",
+    "the venue returned no OrderState for a what-if built by this package, so no margin was measured to compare"
+  ],
+  "broker_errors": [
+    "reqId=-1 code=2104 Market data farm connection is OK:hfarm",
+    "reqId=-1 code=2107 HMDS data farm connection is inactive but should be available upon demand.apachmds",
+    "reqId=-1 code=2158 Sec-def data farm connection is OK:secdefhk",
+    "reqId=32 code=321 Error validating request.-'bD' : cause - What-If order should have transmit flag set to TRUE."
+  ],
+  "checked_at": "2026-09-03T19:33:58.829Z",
+  "code_path": "mbt.broker.build_short_option_order -> mbt.broker.what_if_order, the same path that would read MBT",
+  "command": "known-answer",
+  "detail": "2 independent blockers, so the outcome is over-determined and clearing either one alone would not reproduce a known answer: no operator-supplied expected margin (MBT_KNOWN_ANSWER_MARGIN_USD unset): not_yet_measured; the venue returned no OrderState for a what-if built by this package, so no margin was measured to compare",
+  "elapsed_seconds": 20.021,
+  "environment": "paper",
+  "expected": {
+    "absent": "true",
+    "detail": "MBT_KNOWN_ANSWER_MARGIN_USD is unset, so no independently checkable margin was supplied to compare against. The expected value is an operator input read by a person, because CME's Data Terms of Use refusal binds automated access to its schedule. This repository does not scrape it, infer it from a third party, or carry one from another repository.",
+    "reason": "not_yet_measured"
+  },
+  "measured": {
+    "absent": "true",
+    "detail": "the what-if response carried IBKR's not-computed sentinel for initMarginChange. A sentinel is not a margin and is never parsed into one.",
+    "reason": "not_served"
+  },
+  "orders_open_after_check": 0,
+  "product": "ES front future ESU6",
+  "source_of_expected": "ABSENT: no operator-supplied source was recorded",
+  "tolerance_fraction": 0.1,
+  "trades_after_check": 0,
+  "venue_answered": false
+}

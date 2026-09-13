@@ -1,0 +1,189 @@
+{
+  "artifact": "paper_margin_profile_INDICATION_ONLY",
+  "commission_scalar_observation": {
+    "detail": "OrderState carries 17 fields and ZERO exchange or regulatory fee fields, confirmed against a live session at n = 3 previews. The commission arrives as a single scalar with no breakdown, so the response CANNOT distinguish whether exchange and regulatory fees are inside it or outside it. The scalar is not equal to the registered 0.85 USD commission, and **the excess is NOT attributed to fees here**: a paper commission report is synthetic, so the excess is equally consistent with the simulator's own model. Attributing it would be the estimate this stage forbids. The leg stays Absent(not_served).",
+    "difference_usd": [
+      1.16
+    ],
+    "does_the_response_distinguish_fees": "NO",
+    "registered_ibkr_commission_usd_per_contract": 0.85,
+    "what_if_commission_usd": [
+      2.01
+    ]
+  },
+  "indication": {
+    "LABEL": "INDICATION ONLY. NOT A GATE RESULT. NOT VERDICT-BEARING.",
+    "statement": "Every one of the 18 paper previews returned an initial margin between 3441.42 and 4599.07 USD per contract, against a registered ceiling of 1000.00 USD per contract, so the ratio to the ceiling runs from 3.44x to 4.60x at n = 18 previews across 9 listed strikes and both rights. Not one preview sat below the ceiling.",
+    "verdict_direction": "FAIL",
+    "why_it_is_not_a_gate_result": "A margin is a property of the ACCOUNT. **A paper margin model is not the live one**: IBKR's paper environment approximates margin and does not reproduce the live SPAN calculation, so a paper figure measures the simulator rather than the account that would hold the position. The MARGIN gate remains Absent(no_live_session) and is not fired from this. mbt.gates.require_admissible raises PaperFigureInadmissibleError on any paper-tagged margin, and tests/test_paper_margin.py pins that against the measured figure rather than a synthetic one."
+  },
+  "initial_margin_usd_per_contract": {
+    "max": 4599.07,
+    "median": 3966.64,
+    "min": 3441.42,
+    "n": 18
+  },
+  "n_previews": 18,
+  "n_strikes_sampled": 9,
+  "obtained_how": "Outside the package, because the package's preview path cannot obtain a margin from the venue (defects D-3 and D-4, reports/task2/). Every order carried whatIf=True as a literal, and open orders, trades, positions and fills were all enumerated at 0 afterwards.",
+  "registered_ceiling_usd_per_contract": 1000.0,
+  "rows": [
+    {
+      "commission_usd": 2.01,
+      "init_margin_usd": 4464.7,
+      "local_symbol": "W1EV6 C60000",
+      "maint_margin_usd": 3496.07,
+      "right": "C",
+      "strike": 60000.0
+    },
+    {
+      "commission_usd": 2.01,
+      "init_margin_usd": 3458.3,
+      "local_symbol": "W1EV6 P60000",
+      "maint_margin_usd": 2719.89,
+      "right": "P",
+      "strike": 60000.0
+    },
+    {
+      "commission_usd": 2.01,
+      "init_margin_usd": 4599.07,
+      "local_symbol": "W1EV6 C65500",
+      "maint_margin_usd": 3495.93,
+      "right": "C",
+      "strike": 65500.0
+    },
+    {
+      "commission_usd": 2.01,
+      "init_margin_usd": 3663.26,
+      "local_symbol": "W1EV6 P65500",
+      "maint_margin_usd": 2934.72,
+      "right": "P",
+      "strike": 65500.0
+    },
+    {
+      "commission_usd": 2.01,
+      "init_margin_usd": 4531.42,
+      "local_symbol": "W1EV6 C71000",
+      "maint_margin_usd": 3490.53,
+      "right": "C",
+      "strike": 71000.0
+    },
+    {
+      "commission_usd": 2.01,
+      "init_margin_usd": 3789.02,
+      "local_symbol": "W1EV6 P71000",
+      "maint_margin_usd": 3113.98,
+      "right": "P",
+      "strike": 71000.0
+    },
+    {
+      "commission_usd": 2.01,
+      "init_margin_usd": 4342.22,
+      "local_symbol": "W1EV6 C76500",
+      "maint_margin_usd": 3470.21,
+      "right": "C",
+      "strike": 76500.0
+    },
+    {
+      "commission_usd": 2.01,
+      "init_margin_usd": 3888.69,
+      "local_symbol": "W1EV6 P76500",
+      "maint_margin_usd": 3271.25,
+      "right": "P",
+      "strike": 76500.0
+    },
+    {
+      "commission_usd": 2.01,
+      "init_margin_usd": 3972.65,
+      "local_symbol": "W1EV6 C82000",
+      "maint_margin_usd": 3414.31,
+      "right": "C",
+      "strike": 82000.0
+    },
+    {
+      "commission_usd": 2.01,
+      "init_margin_usd": 3960.63,
+      "local_symbol": "W1EV6 P82000",
+      "maint_margin_usd": 3389.55,
+      "right": "P",
+      "strike": 82000.0
+    },
+    {
+      "commission_usd": 2.01,
+      "init_margin_usd": 3903.26,
+      "local_symbol": "W1EV6 C87500",
+      "maint_margin_usd": 3306.16,
+      "right": "C",
+      "strike": 87500.0
+    },
+    {
+      "commission_usd": 2.01,
+      "init_margin_usd": 4000.57,
+      "local_symbol": "W1EV6 P87500",
+      "maint_margin_usd": 3455.46,
+      "right": "P",
+      "strike": 87500.0
+    },
+    {
+      "commission_usd": 2.01,
+      "init_margin_usd": 3801.52,
+      "local_symbol": "W1EV6 C93000",
+      "maint_margin_usd": 3157.81,
+      "right": "C",
+      "strike": 93000.0
+    },
+    {
+      "commission_usd": 2.01,
+      "init_margin_usd": 4017.94,
+      "local_symbol": "W1EV6 P93000",
+      "maint_margin_usd": 3483.48,
+      "right": "P",
+      "strike": 93000.0
+    },
+    {
+      "commission_usd": 2.01,
+      "init_margin_usd": 3664.23,
+      "local_symbol": "W1EV6 C98500",
+      "maint_margin_usd": 2984.54,
+      "right": "C",
+      "strike": 98500.0
+    },
+    {
+      "commission_usd": 2.01,
+      "init_margin_usd": 4025.18,
+      "local_symbol": "W1EV6 P98500",
+      "maint_margin_usd": 3494.74,
+      "right": "P",
+      "strike": 98500.0
+    },
+    {
+      "commission_usd": 2.01,
+      "init_margin_usd": 3441.42,
+      "local_symbol": "W1EV6 C104000",
+      "maint_margin_usd": 2775.14,
+      "right": "C",
+      "strike": 104000.0
+    },
+    {
+      "commission_usd": 2.01,
+      "init_margin_usd": 4028.53,
+      "local_symbol": "W1EV6 P104000",
+      "maint_margin_usd": 3499.76,
+      "right": "P",
+      "strike": 104000.0
+    }
+  ],
+  "series": {
+    "expiry": "20261002",
+    "strikes_listed": 150,
+    "trading_class": "W1E",
+    "underlying": "MBTV6"
+  },
+  "status": "DIAGNOSTIC. PAPER figures. INADMISSIBLE to the MARGIN gate.",
+  "strike_range_sampled": [
+    60000.0,
+    104000.0
+  ],
+  "taken_utc": "2026-09-03T19:38:00Z",
+  "what_this_is_NOT": "This is NOT a resolution of the registered at-the-money 30-day straddle. That resolution was ATTEMPTED under the registered rules and REFUSED, in reports/task3/straddle.json, because the front future served no real-time touch and Section 3.1 refuses the whole straddle when the reference quote is refused. **No reference price was used here at all.** Margins are reported across LISTED strikes, so the profile needs no at-the-money determination and no registered rule is exercised or bypassed."
+}

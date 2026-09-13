@@ -1,0 +1,272 @@
+{
+  "count": 30,
+  "guards_demonstrated": [
+    "five: recorded absence",
+    "four: deciding-read latch",
+    "one: no transmit",
+    "three: paper inadmissibility",
+    "two: environment provenance"
+  ],
+  "note": "Each entry is a refusal this suite PROVOKED and captured, carrying the exception type and message the guard actually produced. Refusals are demonstrated as artifacts, never asserted in prose.",
+  "refusals": [
+    {
+      "expectation": "the build fails; no transmitting call site exists here",
+      "finding": {
+        "callee": "placeOrder",
+        "col": 11,
+        "detail": "placeOrder places, modifies or cancels a live order. No such call site exists in this package. Every broker interaction is a whatIf preview or a market-data read.",
+        "line": 2,
+        "path": "src/mbt/synthetic.py",
+        "rule": "transmit_call_site"
+      },
+      "guard": "one: no transmit",
+      "recorded_at": "2026-09-13T05:07:29Z",
+      "scenario": "a placeOrder call site appears in the package"
+    },
+    {
+      "expectation": "the build fails on the False literal",
+      "finding": {
+        "callee": "Order",
+        "col": 32,
+        "detail": "whatIf=False. This repository transmits no order, ever.",
+        "line": 1,
+        "path": "src/mbt/synthetic.py",
+        "rule": "whatif_false_literal"
+      },
+      "guard": "one: no transmit",
+      "recorded_at": "2026-09-13T05:07:29Z",
+      "scenario": "whatIf is written as the literal False"
+    },
+    {
+      "expectation": "the build fails; a non-literal cannot be verified statically",
+      "finding": {
+        "callee": "Order",
+        "col": 32,
+        "detail": "whatIf is supplied from Name, not a literal. A value that is not a literal cannot be verified at build time, so it is refused rather than trusted.",
+        "line": 2,
+        "path": "src/mbt/synthetic.py",
+        "rule": "whatif_not_a_literal"
+      },
+      "guard": "one: no transmit",
+      "recorded_at": "2026-09-13T05:07:29Z",
+      "scenario": "whatIf is supplied from a variable rather than a literal"
+    },
+    {
+      "exception_message": "REFUSED: the order object does not carry whatIf=True. The AST scan verifies construction and cannot see a mutation applied afterwards, so the flag is checked again on the object at the moment of use.",
+      "exception_type": "TransmitRefusedError",
+      "expectation": "the run-time check refuses; the AST scan cannot see a later mutation",
+      "guard": "one: no transmit",
+      "recorded_at": "2026-09-13T05:07:29Z",
+      "scenario": "an order object was mutated to whatIf=False after construction"
+    },
+    {
+      "exception_message": "REFUSED and wrote nothing: session declared 'live' and connected to a D-prefixed account, which is 'paper'. Config states an intent, the connection states a fact, and the fact wins.",
+      "exception_type": "EnvironmentMismatchError",
+      "expectation": "construction raises and the recorder is never handed an object, so nothing is written",
+      "guard": "two: environment provenance",
+      "recorded_at": "2026-09-13T05:07:29Z",
+      "scenario": "a session declaring live connected to a D-prefixed account"
+    },
+    {
+      "exception_message": "refusing account prefix 'X': expected D for paper or U for live. An unrecognised prefix means the prefix assumption has broken, and this guard fails rather than defaulting to either side.",
+      "exception_type": "UnknownAccountPrefixError",
+      "expectation": "the guard fails rather than defaulting to either side",
+      "guard": "two: environment provenance",
+      "recorded_at": "2026-09-13T05:07:29Z",
+      "scenario": "an account carried neither a D nor a U prefix"
+    },
+    {
+      "exception_message": "REFUSED: the paper-only clause is in force and no live Gateway session runs in this repository. Two operator constraints are recorded rather than worked around: the machine's internal fans are not functioning, so concurrent live and paper sessions are not run, and no separate live profile exists for this project. Lifting the clause is an operator edit to CLAUDE.md, never a flag.",
+      "exception_type": "PaperOnlyClauseError",
+      "expectation": "refused before a socket is opened; lifting the clause is an operator edit to CLAUDE.md",
+      "guard": "two: environment provenance",
+      "recorded_at": "2026-09-13T05:07:29Z",
+      "scenario": "a live session was requested while the paper-only clause is in force"
+    },
+    {
+      "exception_message": "MBT_IB_HOST is unset or empty. Set it in .env, copying the shape from .env.example. This repository holds no default for it, because a default account number or a default port is how a session ends up somewhere nobody chose.",
+      "exception_type": "MissingConfigError",
+      "expectation": "the error names the variable, so a reader is not sent to the wrong file",
+      "guard": "two: environment provenance",
+      "recorded_at": "2026-09-13T05:07:29Z",
+      "scenario": "a required environment variable was unset"
+    },
+    {
+      "exception_message": "MBT_IB_PAPER_CLIENT_ID is set but is not an integer. The TWS API clientId is an int32, so a non-numeric value cannot be one. Observed shape: length 9, first character class alphabetic. The value itself is not reported: a value of that shape in this slot is most often an account number pasted into it, and an account number never enters a log or an artifact. Set MBT_IB_PAPER_CLIENT_ID to a small integer distinct from every other session against this Gateway.",
+      "exception_type": "MalformedConfigError",
+      "expectation": "a typed ConfigError naming the variable, never a bare ValueError",
+      "guard": "two: environment provenance",
+      "recorded_at": "2026-09-13T05:07:29Z",
+      "scenario": "the client id slot held an account number rather than an integer"
+    },
+    {
+      "exception_message": "REFUSED: figure 'initial_margin_short_mbt_option' of kind 'margin' is tagged environment 'paper' and reached the 'margin' gate. A margin is a property of the account or the fill, both of which paper simulates, so a paper one is development evidence and is never verdict-bearing.",
+      "exception_type": "PaperFigureInadmissibleError",
+      "expectation": "raises; a paper margin is development evidence and never verdict-bearing",
+      "guard": "three: paper inadmissibility",
+      "recorded_at": "2026-09-13T05:07:29Z",
+      "scenario": "a paper-tagged margin figure was fed to the MARGIN gate"
+    },
+    {
+      "exception_message": "REFUSED: figure 'exchange_and_regulatory_fee' of kind 'commission_report' is tagged environment 'paper' and reached the 'cost' gate. A commission_report is a property of the account or the fill, both of which paper simulates, so a paper one is development evidence and is never verdict-bearing.",
+      "exception_type": "PaperFigureInadmissibleError",
+      "expectation": "raises; paper fills are simulated and their reports synthetic",
+      "guard": "three: paper inadmissibility",
+      "recorded_at": "2026-09-13T05:07:29Z",
+      "scenario": "a paper-tagged commission report was fed to the COST gate"
+    },
+    {
+      "exception_message": "REFUSED: quote 'straddle_round_trip_bps' carries tick delay status 'delayed' and reached the 'cost' gate. Only a real-time tick is admissible. A delayed quote's spread is stale and artificially wide, and is never widened into a cost band.",
+      "exception_type": "DelayedQuoteInadmissibleError",
+      "expectation": "raises; only a real-time tick is admissible and an unreported status is never assumed live",
+      "guard": "three: paper inadmissibility",
+      "recorded_at": "2026-09-13T05:07:29Z",
+      "scenario": "a quote carrying tick delay status 'delayed' reached the COST gate"
+    },
+    {
+      "exception_message": "REFUSED: quote 'straddle_round_trip_bps' carries tick delay status 'frozen' and reached the 'cost' gate. Only a real-time tick is admissible. A delayed quote's spread is stale and artificially wide, and is never widened into a cost band.",
+      "exception_type": "DelayedQuoteInadmissibleError",
+      "expectation": "raises; only a real-time tick is admissible and an unreported status is never assumed live",
+      "guard": "three: paper inadmissibility",
+      "recorded_at": "2026-09-13T05:07:29Z",
+      "scenario": "a quote carrying tick delay status 'frozen' reached the COST gate"
+    },
+    {
+      "exception_message": "REFUSED: quote 'straddle_round_trip_bps' carries tick delay status 'delayed_frozen' and reached the 'cost' gate. Only a real-time tick is admissible. A delayed quote's spread is stale and artificially wide, and is never widened into a cost band.",
+      "exception_type": "DelayedQuoteInadmissibleError",
+      "expectation": "raises; only a real-time tick is admissible and an unreported status is never assumed live",
+      "guard": "three: paper inadmissibility",
+      "recorded_at": "2026-09-13T05:07:29Z",
+      "scenario": "a quote carrying tick delay status 'delayed_frozen' reached the COST gate"
+    },
+    {
+      "exception_message": "REFUSED: quote 'straddle_round_trip_bps' carries tick delay status 'unknown' and reached the 'cost' gate. Only a real-time tick is admissible. A delayed quote's spread is stale and artificially wide, and is never widened into a cost band.",
+      "exception_type": "DelayedQuoteInadmissibleError",
+      "expectation": "raises; only a real-time tick is admissible and an unreported status is never assumed live",
+      "guard": "three: paper inadmissibility",
+      "recorded_at": "2026-09-13T05:07:29Z",
+      "scenario": "a quote carrying tick delay status 'unknown' reached the COST gate"
+    },
+    {
+      "exception_message": "the latch for 'margin_short_mbt_option' at /tmp/pytest-of-kiros-li/pytest-0/test_guard_four_a_second_spend0/latches/margin_short_mbt_option.latch.json is already spent. One spend per registered figure. A second deciding read voids the registration; the recorded result stands and is not re-run.",
+      "exception_type": "LatchAlreadySpentError",
+      "expectation": "the second attempt raises LatchAlreadySpentError; a second deciding read voids the registration",
+      "guard": "four: deciding-read latch",
+      "recorded_at": "2026-09-13T05:07:29Z",
+      "scenario": "the deciding latch for one registered figure was spent twice"
+    },
+    {
+      "exception_message": "no latch for 'cost_absent_legs_p90' at /tmp/pytest-of-kiros-li/pytest-0/test_guard_four_reading_an_unw0/latches/cost_absent_legs_p90.latch.json: a deciding read requires a latch written before it, not after.",
+      "exception_type": "LatchNotWrittenError",
+      "expectation": "raises; a latch is written before the read, not after",
+      "guard": "four: deciding-read latch",
+      "recorded_at": "2026-09-13T05:07:29Z",
+      "scenario": "a latched read was attempted with no latch on disk"
+    },
+    {
+      "exception_message": "Absent(no_live_session) refuses float(): a recorded absence is never a value. detail='needs a U-prefixed session'",
+      "exception_type": "AbsentCoercionError",
+      "expectation": "raises; a synthesized zero is indistinguishable from a measured one",
+      "guard": "five: recorded absence",
+      "recorded_at": "2026-09-13T05:07:29Z",
+      "scenario": "an absent live-session margin was coerced with float()"
+    },
+    {
+      "exception_message": "cost gate: required a present value, found Absent(insufficient_sample). detail='3 of 20 windows'",
+      "exception_type": "AbsentCoercionError",
+      "expectation": "raises loudly rather than substituting a value",
+      "guard": "five: recorded absence",
+      "recorded_at": "2026-09-13T05:07:29Z",
+      "scenario": "an under-sampled census was narrowed with require_present"
+    },
+    {
+      "exception_message": "option_call: bid=None ask=110.0 at 2026-09-03T12:00:00.000Z. An unquoted leg is not a wide leg.",
+      "exception_type": "AbsentCoercionError",
+      "expectation": "refused as Absent(unquoted_leg), never coerced to a number",
+      "guard": "five: recorded absence",
+      "recorded_at": "2026-09-13T05:07:29Z",
+      "scenario": "a quote leg with {'bid': None} was screened"
+    },
+    {
+      "exception_message": "option_call: bid=100.0 ask=None at 2026-09-03T12:00:00.000Z. An unquoted leg is not a wide leg.",
+      "exception_type": "AbsentCoercionError",
+      "expectation": "refused as Absent(unquoted_leg), never coerced to a number",
+      "guard": "five: recorded absence",
+      "recorded_at": "2026-09-13T05:07:29Z",
+      "scenario": "a quote leg with {'ask': None} was screened"
+    },
+    {
+      "exception_message": "option_call: bid 120.0 above ask 110.0. A crossed book is a broken book, never a zero or negative spread.",
+      "exception_type": "AbsentCoercionError",
+      "expectation": "refused as Absent(crossed_book), never coerced to a number",
+      "guard": "five: recorded absence",
+      "recorded_at": "2026-09-13T05:07:29Z",
+      "scenario": "a quote leg with {'bid': 120.0, 'ask': 110.0} was screened"
+    },
+    {
+      "exception_message": "option_call: bid 0.0 is not positive. A zero bid is not a price.",
+      "exception_type": "AbsentCoercionError",
+      "expectation": "refused as Absent(zero_bid), never coerced to a number",
+      "guard": "five: recorded absence",
+      "recorded_at": "2026-09-13T05:07:29Z",
+      "scenario": "a quote leg with {'bid': 0.0} was screened"
+    },
+    {
+      "exception_message": "option_call: bid -1.0 is not positive. A zero bid is not a price.",
+      "exception_type": "AbsentCoercionError",
+      "expectation": "refused as Absent(zero_bid), never coerced to a number",
+      "guard": "five: recorded absence",
+      "recorded_at": "2026-09-13T05:07:29Z",
+      "scenario": "a quote leg with {'bid': -1.0} was screened"
+    },
+    {
+      "exception_message": "option_call: venue stamp trails local capture by 30.000 s, beyond the registered tolerance.",
+      "exception_type": "AbsentCoercionError",
+      "expectation": "refused as Absent(stale_timestamp), never coerced to a number",
+      "guard": "five: recorded absence",
+      "recorded_at": "2026-09-13T05:07:29Z",
+      "scenario": "a quote leg with {'clock': ObservationClock(venue=datetime.datetime(2026, 9, 3, 11, 59, 30, tzinfo=datetime.timezone.utc), local=datetime.datetime(2026, 9, 3, 12, 0, tzinfo=datetime.timezone.utc))} was screened"
+    },
+    {
+      "exception_message": "option_call: the feed served delayed data. A delayed quote carries a stale and artificially wide spread and is never widened into a cost band.",
+      "exception_type": "AbsentCoercionError",
+      "expectation": "refused as Absent(delayed_tick), never coerced to a number",
+      "guard": "five: recorded absence",
+      "recorded_at": "2026-09-13T05:07:29Z",
+      "scenario": "a quote leg with {'tick_delay': <TickDelayStatus.DELAYED: 'delayed'>} was screened"
+    },
+    {
+      "exception_message": "option_call: the feed served status 'frozen', a last-known snapshot rather than a live book.",
+      "exception_type": "AbsentCoercionError",
+      "expectation": "refused as Absent(frozen_tick), never coerced to a number",
+      "guard": "five: recorded absence",
+      "recorded_at": "2026-09-13T05:07:29Z",
+      "scenario": "a quote leg with {'tick_delay': <TickDelayStatus.FROZEN: 'frozen'>} was screened"
+    },
+    {
+      "exception_message": "option_call: tick delay status is 'unknown'. Only a real-time tick is admissible, and an unreported status is never assumed to be real-time.",
+      "exception_type": "AbsentCoercionError",
+      "expectation": "refused as Absent(delayed_tick), never coerced to a number",
+      "guard": "five: recorded absence",
+      "recorded_at": "2026-09-13T05:07:29Z",
+      "scenario": "a quote leg with {'tick_delay': <TickDelayStatus.UNKNOWN: 'unknown'>} was screened"
+    },
+    {
+      "exception_message": "test: refusing naive datetime datetime.datetime(2026, 9, 3, 12, 0). Every timestamp in this repository is timezone-aware. A naive stamp is never assumed to be UTC and never assumed to be local.",
+      "exception_type": "NaiveDatetimeError",
+      "expectation": "refused; a naive stamp is never assumed UTC and never assumed local",
+      "guard": "five: recorded absence",
+      "recorded_at": "2026-09-13T05:07:29Z",
+      "scenario": "a naive datetime reached a boundary"
+    },
+    {
+      "exception_message": "Absent(not_served) refuses addition: a recorded absence is never a value. detail='CME refused automated access to its schedule'",
+      "exception_type": "AbsentCoercionError",
+      "expectation": "raises; the all-in cost cannot be formed, so the gate falls back to a lower bound",
+      "guard": "five: recorded absence",
+      "recorded_at": "2026-09-13T05:07:29Z",
+      "scenario": "a measured spread was added to the absent exchange and regulatory fee"
+    }
+  ],
+  "written_at": "2026-09-13T05:07:30Z"
+}
