@@ -1777,3 +1777,79 @@ percent**. Zero dollars, keyless, charged before sending.
 events**, exclusions included, so a consumer that wants pairs must say so —
 `assigned_rows` is that statement, and an unregistered state is a loud
 refusal.
+
+### Task 3 — Control-leg collection for the new elders (ETA 45–80 min · actual ~32 min, 19:48→20:20Z)
+
+**29 control legs, 15 distinct elders**, for the 33 pairs whose elder
+changed (four elders serve more than one event). Each was queued on the
+fresh plan and its funding archive advanced to the registered span:
+**29 of 29 caught up**, terminal state `no_data`, which is the end of the
+served feed, not a failure. All 29 two-leg touch snapshots recorded a **loud
+`expired`** — correct and unavoidable: Amendment H2-5 reassigned these pairs
+months after their entries, so the touch state at entry is unrecoverable and
+is recorded absent rather than backfilled from a later book.
+
+**Spend: 29 requests.** The day stands at 2,313 of the 20,000 cap (11.6 %).
+
+#### A defect this stage introduced, found and repaired inside it
+
+The first run of `scripts/collect_new_elders.py` sealed **every** new
+elder's candle window immediately. **The registered rule seals a window
+exactly once, at maturity — entry + 92 days (ADR-019) — and
+`backfill_event_candles` short-circuits on file existence and never
+refetches.** Sealing early therefore writes a **partial window that stays
+partial forever**, and would have silently under-served the outcome window
+at the registered Stage B read.
+
+- **Origin:** the assistant, in this stage, at 19:48–19:50Z. The daily pass
+  has always carried the maturity gate; the new script simply did not.
+- **Detected** by the Task 3 coverage report itself: 48 of 55 pairs showed
+  candle coverage 0.0, which sent me to the files.
+- **Damage:** 26 distinct `(elder, entry)` windows sealed, every one
+  premature — from 79 of 92 days down to **0 of 92** — and none mature.
+- **Repair:** all 26 removed, each recorded by path, row count, and maturity
+  date in `reports/stage_a_h2/premature_seal_repair.json`. Removal is the
+  right repair here and the reasoning is recorded: **no outcome value was
+  ever parsed from those bytes** (the H2 reader is dark, all three latches
+  absent), the venue serves the full window at maturity, and both legs are
+  already queued on the fresh plan which seals under the gate the daily pass
+  has always used. Five files were **kept** — mature, complete at 93 rows,
+  and written before this stage.
+- **Prevented from recurring:** the script now carries the same maturity
+  gate as the daily pass, and records `pending_seal` otherwise.
+
+**A second measurement error, mine, corrected in the same pass.** The first
+coverage report measured the bars over the **collection span**
+(entry − 168 h → entry + 91 d) instead of the **registered outcome window**
+(candles entry − 1 d → entry + horizon; funding entry → entry + horizon,
+identical to `npl.stageb.preconditions`). That made every young leg fail by
+construction: a leg listed 48 hours before its entry cannot have funding for
+the 120 hours before it existed. Corrected, the picture is:
+
+| | n |
+|---|---:|
+| pairs pending their candle seal (`pending_seal`, seal due entry + 92 d) | **48** |
+| pairs assessable now | **7** |
+| assessable pairs failing a bar | **0** |
+
+`pending_seal` is a recorded absence, not a failure and not a skip
+(`npl.absence`): 48 pairs are neither covered nor underpowered, they are
+not yet due.
+
+#### One elder that will be underpowered, recorded rather than repaired
+
+`xyz:SMH` → `vntl:ANTHROPIC` (tier 3). **`vntl:ANTHROPIC` is flagged
+delisted and its last served daily candle is 2026-06-15, two days before
+that pair's entry on 2026-06-17.** It is nonetheless admissible under the
+registered rule, because H1 Section 6 asks whether an instrument was serving
+at the **trailing window's start** (2026-06-10), not at the entry — and its
+trailing funding cleared the 0.95 bar.
+
+**Recorded, not repaired.** Adding a delisting condition would change the
+registered control rule, which is outside this stage's registered scope, and
+the registered machinery already handles it: the pair fails the 0.90 candle
+bar and is **excluded underpowered, counted, never a negative** (Section 7).
+The cost is **1 pair of 55**. Two other elders flagged by the same scan —
+`xyz:MSTR` and `XMR` — are **not** delisted; their census rows were recorded
+2026-08-27 and simply predate their entries, which is staleness, not a gap,
+and the report says so per elder.
