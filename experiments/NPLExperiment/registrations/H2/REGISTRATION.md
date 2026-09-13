@@ -787,3 +787,369 @@ too stays at or under 0.05.
 event** used to compute the exact spend. Only the verdict question — has
 this co-primary rejected by this look — is corrected. Everything else in
 Amendment H2-3 stands unchanged.
+
+---
+
+### Amendment H2-5 — 2026-09-13 — the asset-class taxonomy and the tiered control rule, replacing the H2-3 fallback
+
+#### What data existed when this was written
+
+Class counts, pair counts, census listing dates, entry timestamps, and
+trailing-at-entry funding — and nothing else. Specifically: the census
+ledger's 504 `(coin, dex)` rows with their `first_1d_open_ms` and
+`last_1d_close_ms` **timestamps**; the 63 rows of
+`data/controls/h2_pairs.jsonl` with their event and control coins, dexs,
+entry timestamps, the two trailing means already written at assignment, and
+the candidate counts; and the ticker strings themselves.
+
+**No outcome value was read.** No candle open, high, low, close, or volume
+was parsed on this path; no funding rate stamped after an event's entry was
+coerced to a number. The three H2 latches remain absent and the H2 pair
+reader has still seen only synthetic fixtures. This amendment is written
+**before** the reassignment it governs and **before** any code change.
+
+#### The defect, and whose it is
+
+**Amendment H2-3 Change 1 — the main-dex fallback control — is the direct
+cause of 24 of the 31 incoherent pairs now in the ledger.** That fallback
+was written by the assistant, on 2026-08-28, to lift the match rate from
+0.613 to 1.000 and so pull H2's earliest read from past its own deadline
+back to 2026-11-26. It bought calendar. What it bought the calendar with is
+now measured.
+
+Measured on 2026-09-10, read-only: of the 63 assigned pairs, **24 are
+exact-class, 8 are same-complex, and 31 are cross-complex.** Of the 31
+cross-complex pairs, **24 are the cross-dex crypto elders the H2-3 fallback
+created** — `mkts:US500` short against `BTC` long, `para:10Y` against `APT`,
+`io:ANTH` against `MOVE`, `para:CRWD` against `SKR`. The remaining 7 are
+within-dex but still cross-complex: `xyz:SOFTBANK` against `xyz:JPY`,
+`xyz:GEV` and `xyz:LYTE` and `xyz:NCLD` against `xyz:COPPER`,
+`xyz:UNITREE` against `xyz:EUR`, `xyz:SOXL` and `xyz:SKHY` against
+`xyz:JPY`.
+
+**Section 1 of this registration says the pair exists to hold market-wide
+moves constant so that listing age stands alone.** A short in a Nasdaq-100
+proxy financed by a long in Bitcoin does not hold any market-wide move
+constant. It is a directional bet on two unrelated factors wearing the
+costume of a hedge. For 31 of 63 pairs — **just under half the sample** —
+the registered mechanism is absent, and the estimator is measuring
+equity-versus-crypto drift rather than young-versus-old drift.
+
+The H2-3 fallback matched on **funding distance only**, and funding
+distance turns out to be a poor proxy for factor exposure: a young HIP-3
+equity perp near zero funding matches a main-dex crypto perp near zero
+funding to five decimal places while sharing no risk factor at all. That is
+why the fallback found a control for every event and why almost none of
+them hedge.
+
+#### 1. The asset-class taxonomy, registered as a mechanical string mapping
+
+Fixed **here, before any reassignment.** Eight classes. Assignment is by
+exact string, in two steps, and nothing fuzzy-matches.
+
+**Step 1 — the dex rule.** Every instrument on the **main dex** (`dex == ""`)
+and on the **hyna dex** is class **`crypto`**. This is a dex rule, not a
+ticker rule, and it is mechanical.
+
+**Step 2 — the builder-dex ticker table.** Every instrument on any other dex
+takes its class from the exact-string table below. The available classes on
+a builder dex are exactly **`fx`, `rates`, `vol`, `commodity`, `index`,
+`etf`, `equity`** — `crypto` is **not** among them, by the same rule that
+made step 1 a dex rule.
+
+**A ticker in neither step is `excluded_unclassifiable` with its reason
+recorded and counted. It is never guessed, and it never receives a default.**
+
+##### The registered class test
+
+A ticker is assigned a class if and only if its exact string names a **kind
+of thing** whose asset class is unambiguous:
+
+| class | admits |
+|---|---|
+| `equity` | one identified issuer, public **or** private — a listed ticker, or the unambiguous name of exactly one company |
+| `etf` | one named exchange-traded fund |
+| `index` | one named equity index, or a thematic basket whose theme names an **industry or company group** and cannot equally name a physical commodity or a currency |
+| `commodity` | one named physical or industrial commodity |
+| `fx` | one currency pair or currency index |
+| `rates` | one government-rate instrument |
+| `vol` | one volatility index |
+| `crypto` | assigned by the step-1 dex rule only |
+
+**The test asks what kind of thing the string names, not which specific
+instrument it prices.** That distinction is deliberate and is the one place
+this table diverges from the H5 registered mapping (`npl.h5.resolution`),
+which asks the second question because H5 measures a basis against an
+external reference price and therefore needs the instrument itself. H2 needs
+only the factor the leg is exposed to. **The two tables are different by
+design and are never merged**; `npl.h5.resolution` is not imported by any
+H2 path and the H2 table is not imported by any H5 path.
+
+The consequence, stated so it can be checked: several tickers H5 registered
+as `excluded_unresolvable` **do** take a class here — `MINIMAX`, `ZHIPU`,
+`CXMT`, `UNITREE`, `ANTH`, `SHEIN`, `SPCX` are `private_no_public_underlying`
+in H5's table, which means the *issuer is identified* and only its price is
+not, so the **kind** is determinable and the class is `equity`. `STRC`,
+`SKHX`, and `SKHY` are `ambiguous_ticker` in H5's table, and are `equity`
+here because every reading of each is an equity.
+
+##### Table 1 — `equity` (91 tickers)
+
+    AAOI AAPL AMAT AMD AMZN ANTH ANTHROPIC ARM ASML AVGO BABA BB BE BMNR BX
+    CAMBRICON CAR CIEN COHR COIN COST CRCL CRDO CRWD CRWV CXMT DELL DKNG
+    EBAY GEV GIGADEV GLW GME GOOGL HIMS HOOD HYUNDAI IBIDEN IBM INNOLIGHT
+    INTC IONQ IREN KIOXIA LITE LLY LRCX MELI META MINIMAX MRNA MRVL MSFT
+    MSTR MU NAVER NBIS NET NFLX NOK NOW NVDA OAI OPENAI ORCL PLTR QCOM RDDT
+    RIVN RKLB RTX SHEIN SKHX SKHY SMCI SMSN SNDK SOFTBANK SPACEX SPCX STRC
+    STX TENCENT TER TSLA TSM UNITREE USAR VST WDC XIAOMI ZHIPU ZM
+
+##### Table 2 — `etf` (13 tickers)
+
+    EWJ EWT EWY EWZ KORU KSTR KWEB MAGS SMH SOXL URNM XBI XLE
+
+##### Table 3 — `index` (19 tickers)
+
+    IBOV JP225 JPN225 KR200 NIFTY SMALL2000 SP500 US500 USA100 USA500 USTECH
+    BIOTECH DEFENSE GLDMINE INFOTECH MAG7 ROBOT SEMI SEMIS
+
+The first eleven are named public equity indices. The last eight are
+thematic baskets admitted under the industry-or-company-group clause:
+`GLDMINE` names gold **miners**, which are companies, not bullion.
+
+##### Table 4 — `commodity` (21 tickers)
+
+    ALUMINIUM BRENTOIL COPPER CORN DRAM GAS GOLD GOLDJM H100 NATGAS OIL
+    PALLADIUM PLATINUM SILVER SILVERJM SOY TTF URANIUM USOIL WHEAT WTI
+
+`DRAM` and `H100` are admitted as commodities on the same ground H5's
+registered mapping admitted them: a memory-chip contract price and a GPU
+price are industrial commodity prices, not claims on an issuer.
+
+##### Table 5 — `fx` (5 tickers)
+
+    DXY EUR GBP JPY KRW
+
+##### Table 6 — `rates` (4 tickers)
+
+    10Y 2Y 30Y USBOND
+
+##### Table 7 — `vol` (1 ticker)
+
+    VIX
+
+**`vol` has exactly one member, and therefore no admissible elder can ever
+exist for a `vol` leg.** That is recorded here rather than hidden: a future
+`vol` birth will be `excluded_no_class_elder`, correctly, until a second
+volatility instrument lists and ages 180 days.
+
+##### Table 8 — `excluded_unclassifiable`, with reasons (24 instruments)
+
+`ambiguous_ticker` — the string does not name a determinable kind, or names
+kinds in more than one class:
+
+    ANSEM BIRD BOT CBRS CL ENERGY LYTE NCLD NUCLEAR PURRDAT QNT SHAZ
+    USENERGY VOL
+
+`venue_house_index_mixed_complex`:
+
+    XYZ100
+
+`crypto_reference_on_builder_dex` — crypto-referenced, but on a dex the
+step-1 rule does not assign to `crypto`, and the builder-dex class list
+contains no `crypto` class:
+
+    cash:BTC  cash:ETH  flx:BTC  flx:USDE  flx:XMR
+    para:BTCD  para:OTHERS  para:TOTAL2
+
+**A reader will find one or two of the fourteen `ambiguous_ticker` entries
+obvious.** `BOT` most likely names a robotics issuer or a robotics basket;
+`NCLD` most likely names a neocloud theme. **A likely meaning is a guess,
+and refusing guesses is what this table is for.** The cost of each refusal
+is counted in section 4 below rather than absorbed. Corroboration, recorded
+because it is not circular: the H5 registered mapping — written on
+2026-08-28 for a different purpose, before any price was read — independently
+refused **all six** of the tickers that this refusal actually costs H2 a
+pair (`ANSEM`, `BOT`, `LYTE`, `NCLD`, `QNT`, `SHAZ`) as `ambiguous_ticker`.
+
+##### Two consequences of the step-1 dex rule, recorded not patched
+
+1. **`hyna:GOLD`, `hyna:SILVER`, and `hyna:LIT` are class `crypto`** because
+   they sit on the hyna dex. Measured effect on this reassignment: **zero**.
+   No event in the sample is on hyna, and the three main-dex crypto events
+   (`GRAM`, `CASHCAT`, `PONS`) all resolve at tier 1, which is same-dex and
+   therefore never reaches hyna.
+2. **The eight crypto-referenced builder-dex instruments above are
+   unclassifiable**, not `crypto`. Measured effect: **zero**. No crypto event
+   needs a builder-dex elder — the main dex carries 232 crypto instruments —
+   and none of the eight was ever selected.
+
+##### The equity complex
+
+**The equity complex is `equity`, `etf`, and `index` together, and nothing
+else.** `crypto`, `commodity`, `fx`, `rates`, and `vol` are each their own
+complex and have no complex-level relaxation.
+
+#### 2. The tiered control rule, replacing the H2-3 fallback
+
+**Amendment H2-3 Change 1 is superseded in full.** The main-dex fallback is
+withdrawn. At each event entry, the control is selected by the first tier
+that yields a candidate:
+
+| tier | candidate set |
+|---|---|
+| **1** | **same dex, exact class** |
+| **2** | **any dex, exact class** |
+| **3** | **any dex, within the equity complex** — available **only** to `equity`, `etf`, and `index` legs |
+
+**Cross-complex is refused at every tier.** There is no fourth tier and no
+fallback beneath tier 3.
+
+Within the selected tier the registered Section 6 selection applies
+unchanged: **the elder is the instrument listed at least 180 days before the
+event entry, with funding coverage of at least 95 percent of the trailing
+168 hours, nearest by signed trailing 168-hour mean hourly funding, with
+replacement; ties break to the earlier listing date, then coin name
+ascending.** A lower tier is consulted only when every higher tier yields
+nothing, and a higher-tier candidate always wins.
+
+- **Matching stays trailing-only.** The tiered selector reads no funding row
+  stamped after its event's entry timestamp; `npl.controls.PostEntryRead` is
+  raised through the tiered path and the refusal is produced by test, not
+  asserted.
+- **Every pair row records its `tier` and its `class_pair`.** Both are
+  written at assignment time to the append-only ledger.
+- **`tier` is a named stratum reported beside every primary figure at every
+  look** — n, successes, and share for E1 and E2 per tier, descriptive,
+  never verdict-bearing. The registered reason: a tier-3 pair matches the
+  complex but not the exact class, and the reader must be able to see
+  whether the primary rests on it.
+- **An event whose ticker takes no class is `excluded_unclassifiable`,
+  counted, with its reason.** An event whose class admits no elder at any
+  available tier is `excluded_no_class_elder`, counted, with its reason.
+  Both are exclusions from H2 entirely, as Section 6 already requires for
+  `no_control_candidate`.
+- **Direction of the change: a tightening.** It refuses pairs the H2-3
+  fallback admitted. It moves no bar, no alpha, and no outcome definition.
+
+#### 3. The any-dex relaxation at tier 2, and why it is registered rather than avoided
+
+Tier 2 admits an elder on a **different dex** from the event. Section 6 as
+originally registered required the same dex, and Amendment H2-3 already
+broke that requirement — badly. Tier 2 keeps the break but binds it to the
+class, which is the constraint that was missing.
+
+**The reason the same-dex requirement existed** is execution: two legs on
+one dex share a fee schedule and a margin engine. **The reason it is
+relaxed** is that the registered cost model already prices the mixed case —
+Section 5 registers a four-leg central cost of **18 bp when both legs are
+vanilla, 36 bp when both are HIP-3, and states the mixed case per pair** —
+so a cross-dex pair is charged for what it is rather than assumed away. The
+economic floor E2 is defined against *the pair's own registered central
+cost*, so a cross-dex pair faces a higher floor, automatically, with no new
+machinery.
+
+**What tier 2 costs against tier 1 is therefore a fee, and fees are
+already registered. What cross-complex cost was the hedge itself, and that
+was never registered.** That asymmetry is the whole reason tier 2 is kept
+and the H2-3 fallback is withdrawn.
+
+#### 4. The cost of this change, stated with its arithmetic
+
+**Reassignment feasibility, measured 2026-09-13 against the existing 63
+events at their original entry timestamps, on census dates and classes
+alone:**
+
+| outcome | n |
+|---|---:|
+| tier 1 — same dex, exact class | **33** |
+| tier 2 — any dex, exact class | **18** |
+| tier 3 — any dex, equity complex | **4** |
+| **pairs assigned** | **55** |
+| `excluded_unclassifiable` | **6** |
+| `excluded_no_class_elder` | **2** |
+| **total events** | **63** |
+
+**This is 55, not the 63 the operator's 2026-09-10 read-only analysis
+projected for any-dex-plus-equity-complex, and the eight-pair difference is
+named rather than smoothed over.** It decomposes exactly:
+
+- **Six events lose their ticker's class**, not their elder:
+  `xyz:QNT`, `xyz:BOT`, `xyz:SHAZ`, `xyz:LYTE`, `xyz:NCLD`, `para:ANSEM`.
+  The 2026-09-10 counts of 24 exact-class / 8 same-complex / 31
+  cross-complex reconcile to this amendment's table **exactly** if those six
+  are classified — `QNT` as `index` and the other five as `equity`. This
+  amendment refuses all six as `ambiguous_ticker` under the section-1 test.
+  **If the operator judges any of them determinable, one line naming the
+  ticker and its class is an amendment and the event returns.**
+- **Two events are `rates` legs with no `rates` elder in existence**:
+  `para:10Y` and `mkts:USBOND`. The five `rates` instruments are
+  `para:10Y` (listed 2026-08-12), `para:2Y` and `para:30Y` (serving no
+  candles at all), `mkts:USBOND` (listed 2026-08-26), and `km:USBOND`
+  (listed 2026-01-21 but last serving 2026-06-16, so it fails the
+  still-serving condition at both entries). **No `rates` instrument is both
+  aged 180 days and still serving at either entry.** Tier 3 cannot rescue
+  them because `rates` is not in the equity complex — that is the registered
+  rule of section 2 applied mechanically, and the carried-in figure of 63 is
+  reachable only if a `rates` leg may use tier 3, which this amendment
+  refuses.
+
+**The projected cost to the look dates was one pair or zero. The measured
+cost is eight.** That is recorded here as an assistant projection falsified
+by measurement — the third in this register, after main-dex accrual at 9.4
+per month against a measured 0.5 in H3, and H5 accrual at 1.00 per day
+against a measured 0.77. The recomputed look dates are Amendment H2-6; they
+are not asserted here.
+
+##### The accepted degradation in funding distance
+
+A smaller candidate pool means the nearest-funding elder sits further away
+in funding terms. **This amendment accepts that degradation and records the
+arithmetic beside it.**
+
+The generating-sample figures — assumptions, not verdicts, and barred from
+every H2 verdict statistic — put the **paired price differential at 6.43
+points and the paired funding differential at 0.88 points over 30 days,
+n = 175.** Funding is therefore carrying **0.88 / (6.43 + 0.88) = 12.0
+percent** of the paired signal, and price the other 88.0 percent. **A
+degradation in funding matching damages the smaller term; a cross-complex
+pair destroys the larger one.** Trading a worse funding match for a real
+factor match is, on the only arithmetic available before the read, the
+right trade by roughly seven to one.
+
+The realised change in mean absolute funding distance between event and
+elder is measured in Task 2 of this stage and recorded in Amendment H2-6.
+It is not predicted here.
+
+#### 5. What this amendment does not change
+
+**No bar.** E1 stays a one-sided exact sign test against one half. E2 stays
+the economic floor at 1× the pair's registered central cost, with 2×
+retained as a named secondary (Amendment H2-3 Change 2, unchanged).
+
+**No horizon.** 30 days primary, 90 days secondary and descriptive.
+
+**No anchor.** Entry at the second daily close (Section 3).
+
+**No co-primary.** Two, both must pass at the same look, intersection
+carries no extra multiplicity.
+
+**No alpha split.** alpha_1 = 0.02 and alpha_2 = 0.03, fixed by Amendment
+H2-3 Change 3 and confirmed by the materiality test in Amendment H2-4
+section 1. The two-look plan, its outcome map, and the H2-4 section 7
+correction all stand unchanged.
+
+**No universe.** Every birth on every dex, including dexs whose events this
+taxonomy will exclude. **Recorded as a deliberate decision taken 2026-09-10:**
+the universe is not narrowed to the classifiable, because narrowing it would
+make the exclusion counts unobservable, and the exclusion counts are the
+honest record of what the tightening cost.
+
+**No change to the superseded record.** `data/controls/h2_pairs.jsonl` is
+retained byte-identical as the H2-3 assignment. The tiered assignment is
+written to a new append-only ledger, `data/controls/h2_pairs_v2.jsonl`. The
+superseded ledger is never rewritten, never repaired, and never deleted; its
+hash is recorded at the open and verified at the close of this stage.
+
+**The H2 pair reader stays dark.** It has seen only synthetic fixtures and
+has seen only synthetic fixtures at the close of this stage. All three H2
+latches remain absent.

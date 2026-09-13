@@ -1588,3 +1588,122 @@ running its post-resume catch-up, zero watcher errors since ADR-032 against
 four in the three days before it, H2 at 63 pairs with all three latches
 absent and its reader still dark, tree clean at origin parity, disk at 27
 percent.
+
+
+## 2026-09-13T18:49Z — Register H2 Amendment Stage 2 — operator prompt, logged verbatim (standing rule 1)
+
+BEGIN PROMPT
+
+NPLExperiment, register entry H2, Amendment Stage 2. Model: Opus. Effort: high. Run autonomously. Commit at each task boundary and push every commit to origin main.
+
+Purpose. Amendment H2-3 introduced a main-dex fallback control to lift the match rate from 0.613 to 1.0. Measurement on 2026-09-10 shows the fallback matches HIP-3 equity, index, and rates young legs to main-dex crypto elders, so 31 of 63 assigned pairs are cross-complex and the pair hedges nothing for half the sample. This stage constrains control assignment by asset class, reassigns every existing pair under the constrained rule using only trailing-at-entry data, switches forward pairing to it, and recomputes power and look dates. No outcome value is read at any point. The H2 pair reader has seen only synthetic fixtures and must still have seen only synthetic fixtures when this stage closes.
+
+Standing rules. All thirteen register rules remain in force. The generating-sample quarantine holds. Zero dollars, keyless endpoints, ledger charges before sending. Absence is a recorded state. Every figure travels with its n.
+
+Preconditions, refuse loudly and stop on failure. No H2 latch exists under data/state/. No H2 outcome artifact exists under reports/, verified by scan and recorded. Gates green, tree clean, origin equal to HEAD. npl-daily.service inactive, recorded, and if active or activating wait for completion and record the wait. Record H5 store hashes and the H5 snapshot count before any work and re-verify unchanged at close, since H5 shares the substrate and must be provably untouched.
+
+Measured inputs carried in, all from the 2026-09-10 read-only analysis, all outcome-blind. Current 63 pairs classify as 24 exact-class, 8 same-complex, 31 cross-complex. Of the 31, twenty-four are cross-dex crypto elders created by the H2-3 fallback. Rematch feasibility against the existing 63 events: same-dex plus exact class yields 38, any-dex plus exact class yields 62 with only xyz:SMH dropping, any-dex plus equity-complex yields 63, same-dex plus equity-complex yields 39. Generating-sample figures, assumptions not verdicts: paired price differential 6.43 points, paired funding differential 0.88 points, n 175.
+
+Task 1. Amendment H2-5, committed and pushed before any code change or reassignment.
+Open by stating what data existed at write time, which is class counts, pair counts, census listing dates, entry timestamps, and trailing-at-entry funding. No outcome value was read.
+State the defect plainly and name its origin: the H2-3 fallback, written by the assistant to buy calendar, is the direct cause of 24 of the 31 incoherent pairs. Record that the registration's own words say the pair holds market-wide moves constant so listing age stands alone, and that a cross-complex pair does not do this.
+Register the asset-class taxonomy as a mechanical string mapping fixed here, before any reassignment: crypto covers every main-dex and hyna-dex instrument, and on builder dexs the classes are fx, rates, vol, commodity, index, etf, and equity, assigned by an explicit ticker mapping written in full in the amendment. Tickers that resolve to no class are recorded excluded_unclassifiable and counted, never guessed. The equity complex is defined as equity, etf, and index together, and nothing else.
+Register the tiered control rule, replacing the H2-3 fallback. Tier 1, same dex and exact class. Tier 2, any dex and exact class. Tier 3, any dex within the equity complex, available only to equity, etf, and index legs. Cross-complex is refused at every tier. Within the selected tier the elder is the instrument listed at least 180 days before entry with funding coverage, nearest by signed trailing 168-hour mean hourly funding, with replacement, exactly as registered. Every pair records its tier and its class pair, and tier is a named stratum reported beside every primary figure.
+State the cost honestly: one pair or zero on the existing sample, so look dates are expected to hold, and a smaller candidate pool means the nearest-funding elder sits further away in funding terms, which the amendment records as an accepted degradation with the 0.88 against 6.43 arithmetic beside it.
+State what does not move: no bar, no horizon, no anchor, no co-primary, no alpha split, no universe. The universe stays every birth on every dex by deliberate decision recorded on 2026-09-10.
+
+Task 2. Reassignment, after the amendment is pushed.
+Build the class mapping and the tiered selector into the assignment module. The selector reads no row stamped after its event's entry timestamp, pinned by test. Reassign all 63 existing events at their original entry timestamps. Write a new append-only ledger at data/controls/h2_pairs_v2.jsonl carrying event, elder, tier, class pair, trailing means, candidates considered, and the assignment timestamp. Leave data/controls/h2_pairs.jsonl byte-identical and untouched as the superseded record, verified by hash at close. Events with no admissible elder at any tier are recorded excluded_no_class_elder with their reason and counted.
+Report the tier distribution, the class-pair distribution, how many elders changed, and the change in mean absolute funding distance between event and elder against the superseded assignment.
+
+Task 3. Control-leg collection for new elders.
+For every elder introduced by reassignment, fetch and seal candle windows and funding archives to the registered coverage bars, at the same entry-relative windows the superseded elders carried. Take l2Book snapshots where the entry window is still open, and record loud expired where it has closed. Report coverage per new elder and any event that now fails a coverage bar, counted as underpowered rather than negative.
+
+Task 4. Forward pairing.
+Switch the daily pass to the tiered rule so every new birth pairs under it. Extend the coverage module to report by tier and class pair. Verify the H5 path is untouched by the change.
+
+Task 5. Power and look dates.
+Recompute exact binomial power and minimum N for E1 and E2 at alpha_1 0.02 and alpha_2 0.03, at achieved reassigned pairs, and projected monthly to the deadline, using the measured accrual and the reassigned match rate. Restate look 1 and look 2 projected dates and the futility boundary. Report beside the superseded projection so the cost of the change is legible. Read no outcome value.
+
+Task 6. Gates and mutations.
+make all green. At least five mutations on the new surface, real source, bytecode purged each run: admit a cross-complex elder at any tier, caught. Let tier 3 accept an fx, rates, commodity, or vol leg, caught. Read a post-entry funding row inside tiered selection, caught. Write into the superseded h2_pairs.jsonl, caught. Silently classify an unmapped ticker as equity instead of recording excluded_unclassifiable, caught. Evidence in reports/stage_a_h2/mutations_class.md, source restored byte for byte.
+
+Task 7. Docs and close-out.
+HYPOTHESES.md H2 entry updated. DECISIONS.md ADRs for the taxonomy, the tiered rule, the any-dex relaxation with its fee rationale, and the superseded-ledger retention. report.md gains an amendment section carrying the defect, its origin in H2-3, the measured shapes, the tier distribution, the recomputed dates, and the mutation results. docs/STAGES.md and README status line updated. progress.md per task with ETA against actual. Verify H5 hashes and snapshot count unchanged from the precondition record, and verify h2_pairs.jsonl unchanged by hash. Final commit, push, confirm origin equals HEAD. End-state summary: pairs by tier and class pair, elders changed, events dropped with reasons, funding-distance change, recomputed look dates against the superseded ones, collectors state, H5 verified untouched, and open operator items, which must be the H2 and H5 prior slots and nothing else.
+
+END PROMPT
+
+### Preconditions — PASS (2026-09-13T18:52Z, `reports/stage_a_h2/amend2_preconditions.json`)
+
+| check | result |
+|---|---|
+| no H2 latch under `data/state/` | **PASS** — a case-insensitive scan of `data/state` for any name containing `h2` returned nothing. The four registered latch names (`h2_read.json`, `h2_read_latch.json`, `h2_look1_latch.json`, `h2_look2_latch.json`) are each absent. The H2 read is unspent |
+| no H2 outcome artifact under `reports/` | **PASS** — 20 files scanned and listed in the artifact. `reports/stage_b/*` is the **spent H1 read** on the 312 quarantined retro events, not H2; `reports/stage_a_h2/*` are outcome-blind k-tables over counts and the A.4/amend mutation evidence; `reports/h5/*` is register entry H5. **Zero H2 outcome artifacts** |
+| gates green | **PASS** — `ruff format --check` 99 files, `ruff check` clean, `mypy --strict` clean on 96 source files, **351 tests passed** |
+| tree clean, origin == HEAD | **PASS** — clean at `dff1663` before the standing-rule-1 prompt log; `origin/main` == `HEAD` == `dff1663` |
+| `npl-daily.service` inactive | **PASS** — `inactive`, and `npl-watch.service` `inactive` too. **No wait was required (0 s).** `npl-daily.timer` next fires 18:40 PDT; `npl-watch.timer` stays armed hourly at :05 and is idempotent on the pair ledger |
+| H5 store hashes and snapshot count recorded | **PASS** — `census.jsonl` `5bebc659…` (546 rows), `retro.jsonl` `e5c32bc1…` (38 rows), `snapshots.jsonl` `64442fea…` (**3 924 snapshots**). Re-verified unchanged in Task 7 |
+| superseded pair ledger recorded | `data/controls/h2_pairs.jsonl` `f765e899…`, 18 606 bytes, **63 rows**. Must be byte-identical at close |
+
+### ETA, stated before arming (standing rule 2)
+
+| Task | ETA |
+|---|---|
+| 1. Amendment H2-5 — taxonomy and the tiered rule | 40–60 min |
+| 2. Reassignment of all 63 events to `h2_pairs_v2.jsonl` | 50–75 min |
+| 3. Control-leg collection for new elders | 45–80 min |
+| 4. Forward pairing switched to the tiered rule | 30–45 min |
+| 5. Power and look dates recomputed | 30–45 min |
+| 6. Gates and five mutations | 35–50 min |
+| 7. Docs and close-out | 40–60 min |
+| **Total** | **4 h 30 min – 6 h 35 min** |
+
+### Task 1 — Amendment H2-5 (ETA 40–60 min · actual ~24 min, 18:49→19:13Z)
+
+Registered before any code change and before any reassignment, and pushed
+before Task 2 began.
+
+**The defect, and whose it is.** Amendment H2-3 Change 1 — the main-dex
+fallback, written by the assistant on 2026-08-28 to buy calendar — is the
+direct cause of **24 of the 31** incoherent pairs. It matched on funding
+distance alone, and funding distance is a poor proxy for factor exposure: a
+young HIP-3 equity perp near zero funding matches a main-dex crypto perp
+near zero funding to five decimals while sharing no risk factor. Section 1
+says the pair holds market-wide moves constant so listing age stands alone;
+`mkts:US500` short against `BTC` long does not do that.
+
+**Registered:** an eight-class taxonomy as a two-step mechanical string
+mapping — a dex rule for `crypto` (main and hyna), then a full builder-dex
+ticker table of 154 entries across `equity`, `etf`, `index`, `commodity`,
+`fx`, `rates`, `vol`, with 24 instruments recorded `excluded_unclassifiable`
+and their reasons. The equity complex is `equity`, `etf`, `index` and
+nothing else. The tiered rule replaces the fallback: tier 1 same dex plus
+exact class, tier 2 any dex plus exact class, tier 3 any dex within the
+equity complex and available only to equity-complex legs. Cross-complex is
+refused at every tier.
+
+**The cost, measured rather than projected, and it is worse than the
+projection.** Feasibility against the 63 existing events at their original
+entries: **33 tier 1, 18 tier 2, 4 tier 3 — 55 pairs**, with 6
+`excluded_unclassifiable` and 2 `excluded_no_class_elder`. The prompt
+carried in a projection of one pair or zero. **The measured cost is eight**,
+and the amendment decomposes it exactly: six events whose ticker the
+section-1 test refuses as `ambiguous_ticker` (`xyz:QNT`, `xyz:BOT`,
+`xyz:SHAZ`, `xyz:LYTE`, `xyz:NCLD`, `para:ANSEM` — all six independently
+refused by the H5 mapping written 2026-08-28 for a different purpose), and
+two `rates` legs for which **no `rates` instrument in existence is both aged
+180 days and still serving** at their entries. The carried-in 63 is reachable
+only if a `rates` leg may use tier 3, which the registered rule forbids.
+
+Third assistant planning figure falsified by measurement in this register,
+after H3 accrual and H5 accrual. Recorded as the same lesson, not a new one.
+
+**The 0.88-against-6.43 arithmetic, registered beside the accepted
+degradation:** funding carries 0.88/(6.43+0.88) = **12.0 percent** of the
+paired signal (n = 175, generating sample, assumption not verdict). A worse
+funding match damages the 12 percent; a cross-complex pair destroys the 88.
+The trade is right by roughly seven to one on the only arithmetic available
+before the read.
+
+Nothing else moved: no bar, no horizon, no anchor, no co-primary, no alpha
+split, no universe, and the superseded ledger is retained byte-identical.
