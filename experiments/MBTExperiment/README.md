@@ -2,13 +2,19 @@
 
 **Two venue facts, measured. No premium, no order, no position.**
 
-Status: **Stage B.1 closed HARNESS-BLOCKED, 2026-09-03.** IB Gateway now answers
-and the session works, so the harness was pointed at the live chain for the first
-time. **The blockers moved from the environment into this repository.** Two
-defects stop the what-if path reaching the venue, and no real-time market data
-subscription covers MBT, so **0 of 20 census windows were accepted and no margin
-was read through the package.** See `FINDINGS.md` for every figure with its `n`,
-and `progress.md` for the run log.
+Status: **CLOSED 2026-09-03. VENUE_BLOCKED, unqualified, on capital.**
+
+The MARGIN gate **FAILED**: CME maintenance on the delta-hedging future alone,
+at the exchange minimum, is **20.837% of notional against a registered 12.80%
+ceiling**, an exceedance of **1.628x** on the cheapest single component of the
+position. The MBT variance-harvest route does not fit a $1,000 sleeve.
+
+The COST gate never fired and is `Absent(insufficient_sample)` at n = 0 of 20
+registered windows. **No CME spread was ever measured and none is claimed.** No
+live session was ever opened.
+
+Read `CLOSURE.md` for the finding and `REINTRODUCTION.md` for the conditions
+under which the question reopens.
 
 ---
 

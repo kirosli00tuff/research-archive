@@ -6,6 +6,47 @@ re-quotes them from measurement afterward. Every stage prompt is logged here
 
 ---
 
+## CLOSED 2026-09-03. VENUE_BLOCKED, unqualified, on capital.
+
+**The MARGIN gate FAILED at 20.837% of notional against a registered 12.80%
+ceiling, an exceedance of 1.628x.** The measured figure is CME's exchange-minimum
+maintenance margin on ONE MBT future, front month 09/2026, at $1,704.00 against a
+measured notional of $8,177.75.
+
+**That is the hedge leg alone, at the exchange minimum, in maintenance terms.**
+Every correction moves it up: the two short option legs are additional, customer
+initial conventionally runs about 1.1x maintenance, and IBKR applies its own
+multiplier above CME. The cheapest single component of the position breaks the
+gate before anything else is counted.
+
+**The verdict is normalized to notional rather than left in dollars.** Bitcoin
+fell roughly 42% between registration and measurement, so a dollar-only verdict
+would have been hostage to a price move. The gate fails on a ratio, so a rally
+does not rescue it.
+
+**Corroborated twice, and the two agree on the percentage rather than the
+dollar.** 18 paper what-if previews put a single short MBT option at $3,441.42 to
+$4,599.07, median $3,930.96, zero of 18 below the ceiling, which is 2.0x to 2.7x
+the future figure and consistent with a broker markup rather than a simulator
+artifact. Schwab reported ~$2,800 as of 2026-03-24 alongside $140,000 for
+full-size BTC, implying ~20% of notional at bitcoin near $140,000; the same rule
+at today's $81,777.50 gives ~$1,700.
+
+**What is NOT claimed.** The premium is not disputed. The COST gate never fired,
+at n = 0 of 20 windows, with its fee leg absent regardless, so no CME spread was
+measured and none is claimed. The route is shown uncapitalizable at $1,000, not
+unprofitable. No live session was ever opened and no order was ever transmitted.
+
+**Closing evidence carries three recorded gaps**: no effective date at source, an
+empty Product Code column, and Maintenance Long reading `-` on all 10 rows,
+unresolved. Provenance and sha256 in `docs/evidence/`.
+
+Stage B.2 was never run. `REINTRODUCTION.md` fixes the reopening conditions,
+including the headroom rule and the disclosure that the $7,000 figure was named
+after the margin was known.
+
+---
+
 ## Stage B.1 closed HARNESS-BLOCKED, 2026-09-03. The blockers moved into the harness.
 
 **HARNESS-BLOCKED, 2 of 4 registered conditions held, down from 3 of 4 at Stage

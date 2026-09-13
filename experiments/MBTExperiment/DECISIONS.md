@@ -419,3 +419,39 @@ cannot be what was intended, the fix is not a registered rule, and stopping woul
 have blocked every measurement in the stage on a paste error. *Guessing which
 integer the operator meant* was not attempted; `4202` is recorded as a choice
 made here, and the operator may change it freely.
+
+### ADR-011 — close on capital rather than continue to the census (2026-09-03)
+
+**Context.** CME's published outright rates put maintenance on one MBT future at
+$1,704.00 for front month 09/2026, being 20.837% of the $8,177.75 measured
+notional, against a registered MARGIN ceiling of 12.80%. Exceedance 1.628x on the
+hedge leg alone, at the exchange minimum, in maintenance terms. 18 paper previews
+put a single short option at 2.0x to 2.7x that figure, zero of 18 below the
+ceiling.
+
+**Decision.** Fire the MARGIN gate FAIL on a notional-normalized basis and close
+the repository VENUE_BLOCKED, unqualified. Do not fix the transmit invariant, do
+not buy the CME crypto market data subscription, do not run the census.
+
+**Consequence.** The COST gate never fires, so no CME spread is ever measured by
+this repository and the 34.600 bps ceiling is never tested. That is accepted: a
+cost band prices a position the margin figures say cannot be held, and measuring
+it would answer a question that no longer has a decision attached. The transmit
+defect is documented in ADR-010 and in `CLOSURE.md` and travels to whatever
+touches a broker API next, unrepaired here.
+
+**Why normalized to notional.** A dollar ceiling moves with the bitcoin price and
+a fraction of notional does not. Bitcoin fell roughly 42% between registration
+and measurement. Leaving the verdict in dollars would have made it hostage to a
+price move rather than robust to one.
+
+**Alternatives rejected.** *Fixing transmit first and taking a paper margin read
+across a hedged cycle* lost on ordering: the published exchange minimum already
+breaks the gate on the cheapest leg, so the paper read would refine a number
+whose verdict is settled. *Raising the ceiling to fit a larger sleeve* lost
+because the ceiling was registered before the measurement and a threshold revised
+after seeing the number is not a threshold. *Leaving the repository open pending a
+capital decision* lost because an open repository with a failed gate and no next
+action is the drift the closure discipline exists to prevent; `REINTRODUCTION.md`
+carries the reopening conditions instead.
+
