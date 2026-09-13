@@ -1,0 +1,80 @@
+{
+  "repo": "NPDExperiment",
+  "claims": {
+    "verified": 20,
+    "contradicted": 6,
+    "unverifiable": 4,
+    "must_verify": [
+      {
+        "claim": "Rank 1 - '**The realized 0.36339 sits at 98 percent of that maximum.** The model daily rank IC and the momentum daily rank IC are therefore strongly negatively correlated across this window' (reports/stage_b2/evaluation.md:229-233)",
+        "status": "CONTRADICTED"
+      },
+      {
+        "claim": "Rank 2 - '| realized minimum detectable contrast | **0.0512** |' (reports/stage_b2/evaluation.md:93)",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "Rank 3 - '| does not beat coin | **YES** |' and the Closed verdict row (reports/stage_b2/evaluation.md:123,127)",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "Rank 4 - 'coverage: **96.1%**' / '## Section 0 verdict: **GO**' (reports/stage_b1/collection.md:33,41)",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "Rank 5 - 'total spent: **6.9378 USD** of a 10.00 USD cap' / 'gate calls billed: **920**' / '0.007508 USD' (reports/stage_b1/collection.md:47-51)",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "Rank 6 - '| **two-sided p** | **0.5174** |' (reports/stage_b2/evaluation.md:113)",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "Rank 7 - '| shuffled mean daily rank IC | **+0.0001** |' ... '**Gate verdict: PASS.**' (reports/stage_b2/evaluation.md:36,42)",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "Rank 8 - 'MDE = 2.0 * 0.185695 / sqrt(432) = 0.01787' and 'VIF ... = 3.4 ... 427 evaluable days to **125.6**' (REGISTRATION.md:212,225-227)",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "Rank 9 - 'The 26 superseded attempts stay in the ledger and their 0.0286 USD still counts against the cap.' (reports/session_a1_b1.md:254-255)",
+        "status": "CONTRADICTED"
+      },
+      {
+        "claim": "Rank 10 - 'Every stored ranking carries `7e6f3d6801506bd7...`' / '**zero** of the 415 stored rankings' from the superseded template (REGISTRATION.md:780-781)",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "Rank 14 - 'requires roughly **four times the evaluable days**, landing near **1,700 trading days**' (REGISTRATION.md:716-718)",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "Rank 16 - 'B.2 reports the outcome split by realized effort alongside the primary contrast. The split is descriptive.' (REGISTRATION.md:534-536)",
+        "status": "CONTRADICTED"
+      },
+      {
+        "claim": "Rank 18 - 'The evaluable counts are 427 at the five-session horizon and 431 at the one-session horizon.' (REGISTRATION.md:92-93)",
+        "status": "VERIFIED"
+      }
+    ]
+  },
+  "intervals": {
+    "audited": 11,
+    "independence_doubtful": 1,
+    "recomputed": 10,
+    "conclusion_moved": 0
+  },
+  "tests": {
+    "audited": 11,
+    "tail_mismatch": 0,
+    "dof_issue": 0,
+    "correction_mismatch": 0
+  },
+  "provenance": {
+    "supported": 15,
+    "not_supported": 3,
+    "partial": 10,
+    "unverifiable": 2
+  }
+}

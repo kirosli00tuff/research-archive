@@ -1,0 +1,416 @@
+{
+ "VRPExperiment": [
+  {
+   "repo": "VRPExperiment",
+   "verdicts": [
+    {
+     "id": "AUDIT-A-VRPExperiment-1",
+     "quote_found": "EXACT",
+     "quote_line_ok": true,
+     "figures_ok": "YES",
+     "n_present": true,
+     "label_ok": true,
+     "disclosed_by_authors": false,
+     "disclosure_ref": "",
+     "recommendation": "KEEP",
+     "severity_ok": true,
+     "notes": "Both quoted claims are verbatim at the cited lines: HYPOTHESES.md:21 ('the ETH premium's point estimate, 119.052 bps, is below the central commission-only cost of 122.140 bps') and docs/ARTIFACT.md:216-217 ('no further measurement can reverse this'). Every anchored figure reproduces exactly: straddle 32.571 bps and per-fill 8.143 bps at docs/COSTS.md:88-96; median 11 / p90 16 at n=1,955 at docs/ARTIFACT.md:162-172 and progress.md:751-754; ETH band-0.20 median 5, p90 9, mean 5.7483, n=1,955 in reports/task6/real_attempt2_result.json (assets.ETH.rebalances, band 0.2); 32.571+5*8.1427 = 73.284 bps against the stored mean_bps 119.0521, so the load-bearing reversal at the registered +/-0.20 sensitivity is confirmed from anchored data alone. REGISTRATION.md:208 does read 'minimum order increment' and venue_table.md:62 does record 'minimum price increment' instead; no quantity increment appears anywhere (grep confirms). 2*N(d1)-1 is at sealed_read.py:321/336, count_rebalances at :350-405, bands (0.05,0.10,0.20) at task6_sealed_run.py:405-407. I also confirmed by grep that no document anywhere converts a swept count into a cost. Caveat for the reader, already disclosed by the finding: the 0.25/0.50/1.00 rows come from the agent's own re-implementation over untracked data/raw/task6/*.json and are NOT verifiable from the snapshot; this verifier did not reproduce them. They are not load-bearing \u2014 the +/-0.20 reversal stands on anchored figures only. Severity S1 and label DERIVED are appropriate; the finding correctly concedes the VENUE_BLOCKED verdict and the 2.0x margin failure survive."
+    },
+    {
+     "id": "AUDIT-A-VRPExperiment-2",
+     "quote_found": "EXACT",
+     "quote_line_ok": true,
+     "figures_ok": "YES",
+     "n_present": true,
+     "label_ok": true,
+     "disclosed_by_authors": false,
+     "disclosure_ref": "docs/COSTS.md:122-125 publishes each probe verbatim and :135-140 discloses the refusal to substitute, but no document acknowledges that none of the four responses is an account refusal, and the claim at :127 is unqualified.",
+     "recommendation": "KEEP",
+     "severity_ok": true,
+     "notes": "Quote exact at docs/COSTS.md:127. All four probe rows verified verbatim at :122-125: CME 'Not attempted for quotes.'; IBKR 'HTTP 200 serving a \"404 Page Not Found\" body', 17,301 bytes; Barchart HTTP 404, 535,327 bytes on MET*0; Yahoo HTTP 401 on BTC=F. n = 4 rows, and the count of authentication refusals is indeed 0 of 4 on the recorded text. The Volmex contrast is verbatim at docs/ACCESS.md:209-212 ('recorded as not located and not as does not exist'). The restatement at docs/ARTIFACT.md:183 and the load-bearing role at HYPOTHESES.md:42-49 and docs/HANDOVER.md:24 all check out. One cosmetic note only: the JSON evidence_summary abbreviates the Yahoo body to the inner error object; the .md carries it in full as {\"finance\":{\"result\":null,\"error\":{...}}}. No correction needed."
+    },
+    {
+     "id": "AUDIT-A-VRPExperiment-3",
+     "quote_found": "EXACT",
+     "quote_line_ok": true,
+     "figures_ok": "PARTIAL",
+     "n_present": true,
+     "label_ok": true,
+     "disclosed_by_authors": false,
+     "disclosure_ref": "reports/task3/robots_and_terms.md:26 quotes the refusal in full and docs/VENUE_TABLE_UPDATE.md:92-96 the sibling round turns; the conclusion itself is unqualified.",
+     "recommendation": "CORRECT",
+     "severity_ok": true,
+     "notes": "Quote exact at HYPOTHESES.md:26. The GCC sentence is verbatim in the repository at reports/task3/robots_and_terms.md:26 ('CME has numerous other methods to deliver the content you require. Please contact CME Group's Global Command Center (GCC) at gcc@cmegroup.com'), and the not-done list at :35-37 omits it, as claimed. Round turns $4.04/$1.94 vs $1.70/$0.40 verbatim at VENUE_TABLE_UPDATE.md:92-96 with 'most likely'; (4.04-1.70)/2 = 1.17, /7812.46*1e4 = 1.4976 bps, 16*1.498 = 23.96 bps all recompute; 22.50 bps Deribit BTC straddle round trip confirmed at COSTS.md:253 (6.25+5.00 = 11.25 one way, COSTS.md:224-225). TWO CORRECTIONS. (1) Citation slip: the figures 'HTTP 403, 602 bytes, SHA-256 eecde3fa...a4f7e' are attributed to robots_and_terms.md:26 but are printed at :22-23; cite ':22-23' for the status/size/hash and ':26' for the refusal text. (2) Scope overreach: the claim is said to be 'unqualified in all four places it appears', listing docs/HANDOVER.md:61-62 as the fourth \u2014 but that passage ('Not obtainable without an account') concerns CME margins for MES, MNQ, MGC, MBT sought for the programme venue table, expressly 'not for this hypothesis', not the two reopen figures. Reduce to three places (HYPOTHESES.md:26, HANDOVER.md:18-19, ARTIFACT.md:233-234) or requalify the fourth. Substance and S2 unaffected."
+    },
+    {
+     "id": "AUDIT-A-VRPExperiment-4",
+     "quote_found": "EXACT",
+     "quote_line_ok": true,
+     "figures_ok": "YES",
+     "n_present": true,
+     "label_ok": true,
+     "disclosed_by_authors": false,
+     "disclosure_ref": "",
+     "recommendation": "KEEP",
+     "severity_ok": true,
+     "notes": "Quote exact at docs/ARTIFACT.md:96-98, imperative form exact at docs/HANDOVER.md:82-83. The four BTC quarters match the stored artifact to every digit: 284.53 (t 3.498, n 488), 250.587 (t 3.845, n 488), 145.132 (t 2.619, n 488), 112.719 (t 2.098, n 491) in reports/task6/real_attempt2_result.json (assets.BTC.stability_quarters); same rounded at ARTIFACT.md:91-94 and progress.md:741-744. I independently recomputed the statistics from the stored JSON and reproduce the finding exactly: SE = mean/t gives 0.035559/0.028491/0.024226/0.023488; Cochran Q(BTC) = 4.7838, 3 df, p = 0.1883; Q(ETH) = 9.7895, p = 0.0204; Q1-Q4 = 0.075110 vol pts = 171.81 bps, SE 97.48 bps, z = 1.762, two-sided p = 0.078. Disclosure check confirmed by grep: no heterogeneity, trend, break or Cochran test exists anywhere in the repository, and no document caveats the decay as untested, so disclosed_by_authors=false is right. S2 is if anything conservative (an instruction to a successor rests on it)."
+    },
+    {
+     "id": "AUDIT-A-VRPExperiment-5",
+     "quote_found": "EXACT",
+     "quote_line_ok": true,
+     "figures_ok": "PARTIAL",
+     "n_present": true,
+     "label_ok": true,
+     "disclosed_by_authors": false,
+     "disclosure_ref": "",
+     "recommendation": "CORRECT",
+     "severity_ok": true,
+     "notes": "Quote exact at docs/ARTIFACT.md:119 including the bolded MERs. Every repository-sourced figure verified: census rows n = 8 at venue_table.md:22-29; BTCY 1.28% / ETHY 1.29% / capped 1.48% at venue_table.md:28 and progress.md:466-473; criterion 3.1(2) verbatim at REGISTRATION.md:189; 'may be extended ... may not be narrowed' verbatim at REGISTRATION.md:222-223; candidate set at :214-220; notionals $245.62 / $7,812.46 and the 31.8x ratio at COSTS.md:100-102. I re-ran the stated grep and reproduce it exactly: 4 hits (venue_table.md:23, :40; VENUE_TABLE_UPDATE.md:123; progress.md:363), all the IBKR Canada Montreal registered office. CORRECTION: three assertions in the evidence carry no source, no file:line and no n, and are external general knowledge rather than repository figures \u2014 (a) 'A listed equity option is 100 shares of its underlying ETF, which for the crypto ETFs in circulation lands inside that gap' (no ETF unit price is measured anywhere, so the 'lands inside the gap' step is unevidenced); (b) 'listed equity-option quotes are publicly disseminated without an account'; (c) 'equity-option margin is published by the listing exchange and by CIRO/OCC schedules'. Mark these explicitly as unverified assumptions, not evidence. The finding already says 'This is a lead, not a measurement' and confidence MEDIUM, so S3 remains right; only the labelling of those three sentences needs tightening."
+    },
+    {
+     "id": "AUDIT-A-VRPExperiment-6",
+     "quote_found": "EXACT",
+     "quote_line_ok": true,
+     "figures_ok": "PARTIAL",
+     "n_present": true,
+     "label_ok": true,
+     "disclosed_by_authors": true,
+     "disclosure_ref": "tools/measure_spreads.py:39 and reports/task5/reference_spreads_deribit.json publish spacing_seconds 20.0; docs/COSTS.md:229-241 argues the 24-window sample is stable for the tick-bound reference book.",
+     "recommendation": "CORRECT",
+     "severity_ok": true,
+     "notes": "Quote exact and complete at docs/HANDOVER.md:33-37. All primary figures verified: WINDOWS = 24 at tools/measure_spreads.py:36, SPACING_SECONDS = 20.0 at :39; started_at 2026-08-30T06:33:33Z, first observation 06:33:34Z, finished_at 06:41:34Z, spacing_seconds 20.0, windows_registered 24 in reports/task5/reference_spreads_deribit.json (n = 24 quoted windows per leg, four legs, confirmed at docs/COSTS.md:218-227). REGISTRATION.md:253-256 does register a count with no spacing; :274 defines pessimistic = 90th percentile; :312-316 carries the 2.0x rule. The characterisation of COSTS.md:239-241 as a central-tendency argument is fair (the text reads 'a much better estimate of its central tendency'). CORRECTION, arithmetic in the recomputation line only: '24 windows x 20.0 s = 460 s' does not compute \u2014 24 x 20 = 480 s. The 460 s figure is 23 intervals x 20 s, i.e. the gap between the first and last window. Restate as '23 inter-window gaps x 20.0 s = 460 s', or drop the product and cite the stored timestamps alone (06:33:33Z to 06:41:34Z = 481 s), which are exact. Disclosure and S3 cap correctly stated."
+    },
+    {
+     "id": "AUDIT-A-VRPExperiment-7",
+     "quote_found": "EXACT",
+     "quote_line_ok": true,
+     "figures_ok": "YES",
+     "n_present": true,
+     "label_ok": true,
+     "disclosed_by_authors": false,
+     "disclosure_ref": "",
+     "recommendation": "KEEP",
+     "severity_ok": true,
+     "notes": "Quote exact, whole table row, at docs/HANDOVER.md:24. The defect is real and reproduces: 142.740 - 43.520 = 99.220 bps, while 142.740/2 - 21.760 = 49.610 bps, matching the published 49.61 exactly. The same faulty description does appear in exactly three places \u2014 HANDOVER.md:24 ('The room between the BTC premium's one-sided 95% lower bound (142.740 bps) and twice the measured commission-only pessimistic cost (2 x 21.760 = 43.520 bps)'), ARTIFACT.md:229-231 ('the room between the premium's lower bound and twice the measured commission') and HYPOTHESES.md:26 ('the room left between the BTC premium's CI lower bound and twice the measured commission'); progress.md:798 publishes the 49.61 figure without the erroneous derivation, so 'all three places' is accurate as written. Inputs verified: 21.760 at progress.md:783, ci_lower_bps 142.7401 at n = 1,955 in the stored JSON, and the inverted rule verbatim at REGISTRATION.md:316. READ label and S4 both defensible (S4 is conservative; the sentence contradicts its own number, which would also support S2)."
+    }
+   ]
+  },
+  {
+   "repo": "VRPExperiment",
+   "verdicts": [
+    {
+     "id": "AUDIT-A-VRPExperiment-1",
+     "quote_found": "EXACT",
+     "quote_line_ok": true,
+     "figures_ok": "YES",
+     "n_present": true,
+     "label_ok": true,
+     "disclosed_by_authors": false,
+     "disclosure_ref": "Partial disclosure only, and the finding already names most of it: REGISTRATION.md:293-297 discloses that +/-0.10 is a 'registered choice, not an optimum' and that the band is 'swept and reported, never chosen'; README.md:62 and progress.md:751-754 publish the swept counts; REGISTRATION.md:330-332 discloses the count is 'a rule, not an observed path'; ARTIFACT.md:248 discloses 'No fill was modelled'. Nothing in the repository discloses the limitation actually raised: grep for indivisible|fractional|whole contract|granular over the whole snapshot returns zero relevant hits, and no document states that the headline comparison reverses at a registered band. 'minimum order increment' occurs only twice in the repo (REGISTRATION.md:208, progress.md:69), both as a requirement, never as a recorded value.",
+     "severity_ok": true,
+     "recommendation": "KEEP",
+     "notes": "Fully verified. HYPOTHESES.md:21 and docs/ARTIFACT.md:216-217 are verbatim at those lines; every restatement (ARTIFACT.md:36-40, :212-214, README.md:23-24, HYPOTHESES.md:56, progress.md:788-790) is exact; REGISTRATION.md:289-291, :293-297, :208, :320-336, ARTIFACT.md:142/143/168, COSTS.md:88-96/176, venue_table.md:61/62/64, sealed_read.py:318-337/350-405, task6_sealed_run.py:237-262/405-407 all check out. Arithmetic reproduces: 0.8/245.62*1e4 = 32.571; 5 x 8.1427 + 32.571 = 73.284 vs ETH mean_bps 119.0521 (n=1,955) from the anchored JSON, spare 45.8 bps. The extended rows (0.25/0.50/1.00) match work/agentA-VRP-consolidate/bands.out, whose re-implementation reproduces the anchored JSON's band 0.05/0.10/0.20 medians, p90s and means (17/22/16.589, 11/16/10.991, 5/9/5.748) and both premium means exactly before extending, so the unanchored raw read is validated. S1 is justified by ARTIFACT.md:216-217 ('no further measurement can reverse this'), which is a stated conclusion that is wrong: the rebalance count is a modelled output of a free parameter, not a lower bound, and REGISTRATION.md:320-332's own three named error sources all push the count up, never down. DERIVED is correct (data + code + stored artifacts). The finding is scrupulous about what survives (the 2.0x test fails on MET at every band, so VENUE_BLOCKED stands) and about its MEDIUM leg. Optional nicety only: the Disclosed paragraph could also cite REGISTRATION.md:293-297 alongside README.md:62, since that is the sentence that most nearly discloses the band's contestability."
+    },
+    {
+     "id": "AUDIT-A-VRPExperiment-2",
+     "quote_found": "EXACT",
+     "quote_line_ok": true,
+     "figures_ok": "YES",
+     "n_present": true,
+     "label_ok": true,
+     "disclosed_by_authors": false,
+     "disclosure_ref": "Evidence disclosed, limitation not. The four probe outcomes are republished beside the universal claim itself at docs/ARTIFACT.md:183 ('IBKR's quote page returns a 404 body, Barchart 404, Yahoo Finance HTTP 401') and again at progress.md:616 (including the verbatim 'Invalid Crumb' body), in addition to docs/COSTS.md:122-125 which the finding cites. Nowhere does any document acknowledge that none of the four responses is an authentication or entitlement refusal, or that the universal claim therefore outruns its evidence; the Volmex 'not located, not does-not-exist' standard at docs/ACCESS.md:209-212 (echoed at progress.md:556) is applied only to Volmex.",
+     "severity_ok": true,
+     "recommendation": "CORRECT",
+     "notes": "Substance confirmed. COSTS.md:127 and :122-125 are verbatim at those lines; ARTIFACT.md:183, ACCESS.md:209-212, HYPOTHESES.md:42-49, HANDOVER.md:24, COSTS.md:135-140 all verified. The counts hold: n = 4 probes, 0 authentication/entitlement refusals, CME 'Not attempted for quotes'. S2 and READ are both correct, and the disclosure verdict (No) is correct. Two text corrections: (1) the assertion 'BTC=F is Yahoo's symbol for the full-size CME bitcoin future, not MET and not MBT' is an external market fact carried with no citation of any kind, yet it is load-bearing for the 'at most 2 of 4 requested the right chain' count -- either cite a source with its retrieval date or mark it explicitly as an unverified external identification and state that the count is 'at most 3 of 4' if the symbol is not established. (2) In the Disclosed paragraph, replace 'they publish each probe's status code and body size so a reader can check them' with a version that names docs/ARTIFACT.md:183 and progress.md:616, because at ARTIFACT.md:183 the status codes sit in the same table cell as the universal claim -- that is the strongest form of the authors' partial disclosure and the finding currently understates it by citing only COSTS.md."
+    },
+    {
+     "id": "AUDIT-A-VRPExperiment-3",
+     "quote_found": "EXACT",
+     "quote_line_ok": true,
+     "figures_ok": "YES",
+     "n_present": true,
+     "label_ok": true,
+     "disclosed_by_authors": false,
+     "disclosure_ref": "The evidence is disclosed and the limitation is not. reports/task3/robots_and_terms.md:26 quotes the CME refusal in full, including the sentence naming gcc@cmegroup.com, and :35-37 lists 'What was NOT done' (user-agent rotation, proxy, VPN, delay-and-retry, third-party mirror) -- a list of workarounds refused on ethical grounds, which does not include the rights-holder's own offered delivery channel. docs/VENUE_TABLE_UPDATE.md:92-96 publishes the sibling all-in round turns. No document qualifies 'by nobody without one' in any of the four places it appears (HYPOTHESES.md:26, docs/HANDOVER.md:18-19 and :61-62, docs/ARTIFACT.md:233-234), and GCC is mentioned in none of them.",
+     "severity_ok": true,
+     "recommendation": "KEEP",
+     "notes": "Verified in full. HYPOTHESES.md:26, HANDOVER.md:18-19 and :61-62, ARTIFACT.md:233-234, robots_and_terms.md:20-21/:26/:35-37, VENUE_TABLE_UPDATE.md:92-96, HYPOTHESES.md:77-79, COSTS.md:42/:176/:253, REGISTRATION.md:246-247 all check out verbatim at the cited lines. The recomputation reproduces: (4.04 - 2 x 0.85)/2 = 1.17; 1.17/7812.46*1e4 = 1.498 bps; 16 x 1.498 = 23.96 bps against the 49.61 bps budget. S2 fits the definition exactly -- the 'by nobody' label contradicts the refusal text printed inside the same repository. The finding's own disclosure paragraph is a model of the rule: it distinguishes disclosure of the evidence from disclosure of the limitation and states the S3 fallback in terms, so no correction is needed. Two small notes for the record, neither changing the verdict: the Deribit BTC straddle 22.50 bps at COSTS.md:253 is quoted without its n (it is the round trip of medians over 24 windows per series, COSTS.md:222-227), and the derived exchange-fee bound applies only to the futures/hedge leg, which the finding does say."
+    },
+    {
+     "id": "AUDIT-A-VRPExperiment-4",
+     "quote_found": "EXACT",
+     "quote_line_ok": true,
+     "figures_ok": "YES",
+     "n_present": true,
+     "label_ok": true,
+     "disclosed_by_authors": false,
+     "disclosure_ref": "Not disclosed. The decay is asserted as a finding at docs/ARTIFACT.md:96-98, repeated at README.md:48, progress.md:746-747, HYPOTHESES.md:23 and ARTIFACT.md:255, and converted into an instruction at docs/HANDOVER.md:82-83. A grep for decay|decaying|monotonic across every markdown file in the snapshot returns no statement anywhere that the decline is untested or not statistically established, and no test of it exists in the code or the stored artifacts.",
+     "severity_ok": true,
+     "recommendation": "KEEP",
+     "notes": "Every number reproduces exactly from the anchored reports/task6/real_attempt2_result.json. Backing SEs out as mean/t gives 0.035559 / 0.028491 / 0.024226 / 0.023488 vol points for BTC; inverse-variance Cochran Q = 4.784 on 3 df, p = 0.1883; ETH Q = 9.789, p = 0.0204; Q1-Q4 = 0.07511 vol points = 171.8 bps, SE 97.5 bps, z = 1.762, two-sided p = 0.0780. Quarterly means and t statistics, and n = 488/488/488/491, are as cited, and ARTIFACT.md:96-98 and HANDOVER.md:82-83 are verbatim at those lines. DERIVED is correct (inputs from the stored JSON, not prose). S2 rather than S1 is the conservative reading and is defensible: the descriptive sentence about the four point estimates is literally true, and only the inference drawn from it ('assume the decay continues') is unsupported -- so the label contradicts its own evidence rather than a verdict being wrong. The MEDIUM-confidence caveat about treating contiguous blocks of an overlapping-window series as independent is the right caveat and is stated."
+    },
+    {
+     "id": "AUDIT-A-VRPExperiment-5",
+     "quote_found": "EXACT",
+     "quote_line_ok": true,
+     "figures_ok": "YES",
+     "n_present": true,
+     "label_ok": true,
+     "disclosed_by_authors": false,
+     "disclosure_ref": "Not disclosed. The ETF row is disposed of on the fund-unit test alone at reports/task3/venue_table.md:28, docs/ARTIFACT.md:119 and progress.md:466-473, all three testing only whether the unit is an option. I re-ran the finding's own grep (case-insensitive, montr|bourse|TMX|listed option|equity option|options on (BTCY|ETHY|BCCL), all markdown) and it returns exactly 4 hits, all IBKR's Montreal registered office: progress.md:363, reports/task3/venue_table.md:23 and :40, docs/VENUE_TABLE_UPDATE.md:123. No document records the option-on-ETF question as asked, answered, or Absent, and REGISTRATION.md:222-223 expressly permits extension of the set.",
+     "severity_ok": true,
+     "recommendation": "KEEP",
+     "notes": "Verified. ARTIFACT.md:119 is verbatim at that line; venue_table.md:28, REGISTRATION.md:189/:214-220/:222-223, progress.md:466-473, COSTS.md:100-105 all check out; venue_table rows are n = 8 at :22-29; MERs (BTCY 1.28%, ETHY 1.29%, capped 1.48%) and the 31.8x / $245.62 / $7,812.46 gap arithmetic are the repository's own. The S2-to-S3 downgrade recorded in 'Dropped at consolidation' is the right call and the READ label is correct. One hedge worth adding, not a defect in the substance: the two 'properties of the omitted class' (that listed equity-option quotes are publicly disseminated without an account, and that equity-option margin is published by the listing exchange and CIRO/OCC rather than behind a client portal) are stated flatly as facts with no citation, while the surrounding caveat only disclaims knowledge of 'what any specific ETF's option chain contains'. Recommend rephrasing them as expectations the extension row would test, e.g. 'listed equity-option quotes are expected to be publicly disseminated and equity-option margin published by schedule -- both to be verified, not established here', so that the finding claims nothing beyond the documented census gap."
+    },
+    {
+     "id": "AUDIT-A-VRPExperiment-6",
+     "quote_found": "EXACT",
+     "quote_line_ok": true,
+     "figures_ok": "PARTIAL",
+     "n_present": true,
+     "label_ok": true,
+     "disclosed_by_authors": true,
+     "disclosure_ref": "Partially disclosed, and the finding correctly says so and caps itself at S3. Disclosed: SPACING_SECONDS = 20.0 at tools/measure_spreads.py:39 and WINDOWS = 24 at :36 (with the comment at :37-38 explaining the 24-vs-20 choice); spacing_seconds 20.0, windows_registered 24, started_at 2026-08-30T06:33:33Z and finished_at 06:41:34Z all present in reports/task5/reference_spreads_deribit.json; docs/COSTS.md:229-241 argues the sample is stable for the tick-bound reference book. Not disclosed: no markdown file anywhere states the 20-second spacing or the eight-minute span (grep for 20 seconds|20-second|spacing|minutes apart|06:33|06:41 across all .md returns nothing), and nothing flags that the p90 handed to the operator at HANDOVER.md:33-37 as needing 'no further decisions' is an intra-eight-minute statistic on an unmeasured instrument class.",
+     "severity_ok": true,
+     "recommendation": "CORRECT",
+     "notes": "Substance confirmed and the disclosure handling is exactly right (READ-equivalent partial disclosure acknowledged, severity capped at S3, the undisclosed residue stated precisely). HANDOVER.md:33-37 is verbatim; REGISTRATION.md:253-256, :274, :312-314, COSTS.md:229-241 and :142-146 all check out; the JSON gives started_at 06:33:33Z, first observation at 06:33:34Z, finished_at 06:41:34Z (481 s = 8 min 1 s), spacing_seconds 20.0, windows_registered 24, and 24 observations per series across 4 series. One arithmetic slip to fix in the Recomputation line: '24 windows x 20.0 s = 460 s' is wrong -- 24 x 20 = 480 s, and 460 s is 23 inter-window gaps x 20.0 s. Restate as '23 inter-window gaps x 20.0 s = 460 s of nominal spacing, against an observed 481 s from started_at 06:33:33Z to finished_at 06:41:34Z'. The eight-minute conclusion is unaffected. Also worth noting that the DERIVED label is right here specifically because the timestamps come from the stored artifact and the constants from source, not from prose -- consistent with the DERIVED/READ rule the consolidation applied to finding 7."
+    },
+    {
+     "id": "AUDIT-A-VRPExperiment-7",
+     "quote_found": "EXACT",
+     "quote_line_ok": true,
+     "figures_ok": "YES",
+     "n_present": true,
+     "label_ok": true,
+     "disclosed_by_authors": false,
+     "disclosure_ref": "Not disclosed. The erroneous description ('the room between the BTC premium's one-sided 95% lower bound and twice the measured commission') stands uncorrected at docs/HANDOVER.md:24, docs/ARTIFACT.md:229-231 and HYPOTHESES.md:26. Nothing anywhere gives the correct derivation; the two remaining occurrences of 49.61 (HYPOTHESES.md:62 and progress.md:798) state the number with no derivation at all, so no document contradicts or repairs the wrong sentence.",
+     "severity_ok": false,
+     "recommendation": "CORRECT",
+     "notes": "Arithmetic confirmed: 142.740 - 43.520 = 99.220, while 142.740/2 - 21.760 = 49.610 exactly, so the published number is right and the sentence describing it is wrong. HANDOVER.md:24 is verbatim; ARTIFACT.md:229-231, HYPOTHESES.md:26, REGISTRATION.md:316, progress.md:783 all check out; the DERIVED-to-READ relabel is the correct application of the labelling rule. Two corrections. (1) Factual precision: 'The wrong sentence appears in all three places the threshold is published' is not accurate -- the threshold is published in five places (HANDOVER.md:24, ARTIFACT.md:229-231, HYPOTHESES.md:26, HYPOTHESES.md:62, progress.md:798); the erroneous description appears in three. Restate as 'in all three places the threshold's derivation is described; the number alone also appears at HYPOTHESES.md:62 and progress.md:798, without the description.' (2) Severity: S4 (hygiene) understates what the finding itself asserts -- that an operator applying the description as written would carry a budget exactly 2x too large and could report the open route as clearing when it does not. That is a description contradicting the number printed beside it with an operational consequence, i.e. S2 by the definitions. Either raise to S2 or delete the operational-impact sentence so the severity and the claim agree; S4 with that sentence retained is internally inconsistent."
+    }
+   ]
+  }
+ ],
+ "ETFExperiment": [
+  {
+   "repo": "ETFExperiment",
+   "verdicts": [
+    {
+     "id": "AUDIT-A-ETFExperiment-1",
+     "quote_found": "EXACT",
+     "quote_line_ok": true,
+     "figures_ok": "YES",
+     "n_present": true,
+     "label_ok": true,
+     "disclosed_by_authors": false,
+     "severity_ok": true,
+     "recommendation": "KEEP",
+     "disclosure_ref": "",
+     "notes": "Clean. Quote is verbatim at REGISTRATION.md:1038-1039 (wraps across two source lines; cited line 1038 is the start). Every evidence cite verified in SNAP: section0.py:49 (collectors_armed field), :110/:122/:134 (BLOCKED False), :149 (GO True), :182 (DEGRADED True), :25 MAJORITY=0.50 and :113 its use; REGISTRATION.md:41 'Collection proceeds.' and :51 'Nothing armed beyond the census.' exact; :876-881 PARTIAL->DEGRADED / FAIL->BLOCKED exact; :851 carries 163 / 0.6105 / 0.2015 / 0.5225 / 0.1700 exactly; power.json:62 e1=0.6105 and :64 n=163 exact; retro_revision.json:3 comparable_days=11 and :9 revised_days=0 exact; test_section0.py:61 'assert gate.collectors_armed', :75 'assert not gate.collectors_armed', :87 fixture e1_reg=0.20, e2_reg=0.15, e1_pub=0.62, e2_pub=0.40 all exact; REGISTRATION.md:1157-1158 exact. Independently confirmed the two supporting claims: grep for 'fire_section0' across src/ and scripts/ returns only the definition at section0.py:75 (sole caller is tests/test_section0.py:16,:32), and 'collectors_armed' appears in zero .md files in the snapshot, which is what the 'not disclosed' field asserts. Recomputation inputs config.py:25 (ALPHA_ADJ) and power.py:47-55 / :70-83 are at the cited lines."
+    },
+    {
+     "id": "AUDIT-A-ETFExperiment-2",
+     "quote_found": "EXACT",
+     "quote_line_ok": true,
+     "figures_ok": "YES",
+     "n_present": true,
+     "label_ok": true,
+     "disclosed_by_authors": true,
+     "disclosure_ref": "ETFExperiment/DECISIONS.md:551-553 (partial only)",
+     "severity_ok": true,
+     "recommendation": "KEEP",
+     "notes": "Clean. Quote verbatim at DECISIONS.md:551-558. All counter-evidence verified: REGISTRATION.md:44-46 (DEGRADED scope, exact), section0.py:55-58 (DEGRADED_SCOPE constant), :74-75 and :82-85 (registered expectation, exact), :347-356 (0.09 rationale), :863-867 (GO eliminated on archive density), :1084-1085 ('roughly 33 requests per day and zero dollars' wraps 1084/1085 as cited), config.py:136 request_cap_flow_per_day=200, REGISTRATION.md:1160 '220 charged requests', :1015 E1's 237 / 74-day shortfall, DECISIONS.md:574 ADR-020 supersedes only the collection consequence. I reran the date arithmetic independently (weekdays x 333/336 + achieved 11 from 2026-08-28): 88 by 2026-12-31, 152 forward-only and 163 all-cohorts by 2027-03-31 (matching power.json:114-116 exactly), N=237 first reached 2027-07-14 and N=300 on 2027-10-12 \u2014 the finding's figures reproduce exactly. Disclosure: the .md correctly records 'partly' and names the undisclosed half; the .json sets disclosed_by_authors=false, which loses that nuance \u2014 a JSON/MD field mismatch worth harmonising, but the MD's reasoning (disclosed half does not cover the finding's basis, so the S3 cap does not apply) is sound and S1 stands."
+    },
+    {
+     "id": "AUDIT-A-ETFExperiment-3",
+     "quote_found": "EXACT",
+     "quote_line_ok": true,
+     "figures_ok": "YES",
+     "n_present": true,
+     "label_ok": true,
+     "disclosed_by_authors": true,
+     "disclosure_ref": "ETFExperiment/report.md:369-370 and DECISIONS.md:551 (partial only)",
+     "severity_ok": true,
+     "recommendation": "KEEP",
+     "notes": "Clean, and the two exhaustive greps hold. Quote verbatim at REGISTRATION.md:1004-1006. I reran both textual claims: 'deadline' has zero occurrences in REGISTRATION.md at NR<=600 (Sections 0-14 end at 589, amendments open at 591), and '2027-03-31' occurs exactly three times before the amendments, at :36, :48 and :78 \u2014 all three as the horizon for the achievable admissible-day count, as stated. Code cites exact: config.py:89 'projection_deadline: str', :176 '2027-03-31', :175 interim '2026-12-31'; section0.py:130 and :145 consume it only inside rationale strings; power_gate.py:73. REGISTRATION.md:394-398 (Section 10 trigger, no date) and :47-48 (BLOCKED power trigger) exact; power.json:62 = 0.6105; REGISTRATION.md:869-871 exact; report.md:369-370 exact; HYPOTHESES.md:48-49 defines the closure kind exactly as quoted. MDE recomputation independently checks out (normal approximation gives rho ~ 0.220 / 0.182 / 0.162 at n = 163 / 237 / 300 against the finding's 0.218 / 0.181 / 0.161)."
+    },
+    {
+     "id": "AUDIT-A-ETFExperiment-4",
+     "quote_found": "EXACT",
+     "quote_line_ok": true,
+     "figures_ok": "YES",
+     "n_present": true,
+     "label_ok": true,
+     "disclosed_by_authors": true,
+     "disclosure_ref": "ETFExperiment/scripts/power_gate.py:30-36 and HYPOTHESES.md:70 / report.md:264 (partial only \u2014 calendar factor disclosed, admissibility factor not)",
+     "severity_ok": true,
+     "recommendation": "CORRECT",
+     "notes": "Substance verified in full; one citation to trim. Quote verbatim at HYPOTHESES.md:70. Code exact: power_gate.py:71 'printed_rate = 333 / 336', :78-80 the three forward scenarios, :69-70 the comment quoted verbatim, :30-36 the docstring whose 'MEASURED printed-day rate' disclosure the finding correctly characterises as covering only the calendar factor. Data exact: census.json:3 admissible_forward_capture=0, power.json:114 achieved_forward_only=0, :112 printed_day_rate=0.9910714285714286, :121 weekdays_to_deadline=153, census.json:2 admissible=11. Rule cites exact: REGISTRATION.md:194-196 (forward-day admissibility), :571-572 (the 14.7 prohibition, verbatim), :566-569 (NPL 9.4/month), :580 (the A.1 Task 3 row, verbatim); progress.md:143 and :453-454 exact. Arithmetic reproduces: 153 weekdays, 152 forward, 163 all-cohorts; 21 x 0.99107 = 20.8125; my own calendar-month division of 152 gives 21.52/month, as the finding says. CORRECTION: the parenthetical listing where 'the same measured label' recurs includes REGISTRATION.md:1010, but line 1010 carries no 'measured' \u2014 it is the closing table row '| projected achieved N at the registered deadline | **163** | forward accrual 20.8 admissible days/month |', i.e. the figure sits in the table's 'its n' column. Drop :1010 from that list (or relabel it): the remaining eight locations \u2014 HYPOTHESES.md:70, :82, :84; report.md:360, :447, :506; REGISTRATION.md:982, :1129 \u2014 all carry the word 'measured' and exactly match the summary's 'measured in eight places'."
+    },
+    {
+     "id": "AUDIT-A-ETFExperiment-5",
+     "quote_found": "EXACT",
+     "quote_line_ok": true,
+     "figures_ok": "PARTIAL",
+     "n_present": true,
+     "label_ok": true,
+     "disclosed_by_authors": false,
+     "disclosure_ref": "",
+     "severity_ok": true,
+     "recommendation": "CORRECT",
+     "notes": "Core claim and its n verified; the recomputation block's single JSON cite is over-broad. Quote verbatim at REGISTRATION.md:1055-1058, and unbolded at report.md:476-479. n=1 archive operator and n=2 URLs both confirmed independently: robots_and_terms.json is a 9-element list covering 8 distinct robots.txt hosts (farside, sosovalue, theblock, glassnode, web.archive.org, archive.org, api.hyperliquid.xyz, api.kraken.com; the 9th entry is farside's terms-of-use URL), of which only web.archive.org (:51-56, HTTP 404) and archive.org (:62-67, 200) are archives and both are the Internet Archive; ACCESS.md:26-27 exact; config.py:126-127 registers only the two Wayback endpoints; archive_density.json:31 and :78 hold exactly the two Farside URLs; archive_density.py:30-33 is the two-page PAGES tuple; my grep of the whole snapshot for archive.today / archive.ph / archive.is / archive.li / commoncrawl returns nothing, as claimed. Cost cites exact: rate_ceilings.json has archive.availability 59.92/min and archive.timemap 21.28/min, both finding='no_ceiling_found_at_or_above_floor'; config.py:137 cap 2,000/day; REGISTRATION.md:1160 (220 total) and progress.md:514-515 (33/79/108) exact. HYPOTHESES.md:84 reopen (b) exact; DECISIONS.md:585-586 exact. CORRECTIONS: (1) the recomputation says its seven reproduced figures match 'archive_density.json:118-125', but only 37 (:120), 0.1111 (:121), 53 (:122), 333 (:123), 243 (:124) and 451 (:125) are in that range \u2014 336 oos date rows is at :5 and 333 printed at :6, and 112/333 = 0.3363 and 0.316 mementos/day appear nowhere in that JSON; they are prose figures at report.md:193-194, REGISTRATION.md:678-679 and :1063-1064, ACCESS.md:381/:385, progress.md:476-478, HYPOTHESES.md:80. Re-cite accordingly. (2) 'the archive endpoints were the fastest clean endpoints measured' overstates: 59.92/min is the fastest of the six, but archive.timemap's 21.28/min is second-slowest (only flow.table's 12.17 is lower). The figures are exact; the ranking claim should read 'among the fastest, with no ceiling found on either'."
+    },
+    {
+     "id": "AUDIT-A-ETFExperiment-6",
+     "quote_found": "EXACT",
+     "quote_line_ok": true,
+     "figures_ok": "PARTIAL",
+     "n_present": true,
+     "label_ok": true,
+     "disclosed_by_authors": false,
+     "disclosure_ref": "",
+     "severity_ok": true,
+     "recommendation": "CORRECT",
+     "notes": "Reading and quotes verified; one JSON cite is too narrow for the figures it carries. Quote verbatim at HYPOTHESES.md:84 (reopen path (a)). Rule cite exact: REGISTRATION.md:155-158 verbatim; DECISIONS.md:57-61 is ADR-002 and states the same rule (the finding cites it as ADR-002, not as verbatim, which is fair). Amendment 6 quotes exact: REGISTRATION.md:1141, :1149, :1152-1153, and :1125 (the \u00a72 valuation-table row) are all verbatim at the cited lines. retro_revision.json:3 comparable_days=11, :7 meets_registered_minimum=false, :8 registered_minimum_sample=30, :9 revised_days=0 all exact; config.py:187 retro_revision_sample_min=30 exact; REGISTRATION.md:889-895 (the refusal to promote n=11) exact; ACCESS.md:104 and :169 confirm neither surviving source serves a per-row publication timestamp. CORRECTIONS: (1) the '0 revised / 0 sign flips / 0 threshold crosses' triple is cited to retro_revision.json:3, :7-9, but only revised_days (:9) is in that range \u2014 sign_flip_days=0 is at :433 and threshold_cross_days=0 at :435 (both after the 'rows' array). Add :433 and :435, or cite the prose statement at REGISTRATION.md:1149-1150 which carries all three. (2) 'identically ETFExperiment/DECISIONS.md:608-611' overstates: DECISIONS.md:608-611 states the same prohibition in different words ('may not be cited by any future hypothesis as evidence of source stability. That measurement must be made from scratch.'), so 'to the same effect' rather than 'identically'."
+    },
+    {
+     "id": "AUDIT-A-ETFExperiment-7",
+     "quote_found": "EXACT",
+     "quote_line_ok": true,
+     "figures_ok": "PARTIAL",
+     "n_present": true,
+     "label_ok": true,
+     "disclosed_by_authors": true,
+     "disclosure_ref": "ETFExperiment/DECISIONS.md:39-42 (partial only)",
+     "severity_ok": true,
+     "recommendation": "CORRECT",
+     "notes": "Substance verified; two small cite fixes. Quote verbatim at REGISTRATION.md:178-181. progress.md:452-453 ('Not quoted... 2 captures exist') verbatim; census.json:1-2 (336 rows / 11 admissible) exact; power_gate.py:65 'achieved = int(census[\"admissible\"])' exact; REGISTRATION.md:848-851 and :1010-1015 carry the power table and closing figures as cited; anchor.py:70-82 is amended_anchor_hour and moves the anchor later only, as claimed; archive.py:90-95 confirms qualifying_window takes no anchor parameter and calls entry_anchor(trade_day). The +07:59:43 capture the finding relies on is real: retro_revision.json row for trade_date 2025-10-22 has archive_captured_at 2025-10-23T07:59:43Z, and ACCESS.md:413-414 lists +07:11 / +07:12 / +07:16 x3 exactly (I confirmed 07:11:22, 07:12:30, 07:16:25, 07:16:29, 07:16:29 in the rows). The disclosure quote at DECISIONS.md:39-42 is verbatim. CORRECTIONS: (1) the 53 capture_too_late days are cited to archive_density.json:120, but :120 is 'admissible_days': 37 \u2014 capture_too_late_days: 53 is at :122 (2 lines off, same object; census.json exclusion_reasons carries it at :76). (2) 'identically ADR-001, ETFExperiment/DECISIONS.md:22-27' overstates: DECISIONS.md:22-27 states the same rule in different words; only REGISTRATION.md:178-181 is verbatim. The anchor-sensitivity table (37/40/43/48/56) rests on untracked live timemaps I did not open, so I could verify only its 08:00 row, which reproduces archive_density.json:120-122 (37 / 0.1111 / 53) exactly."
+    },
+    {
+     "id": "AUDIT-A-ETFExperiment-8",
+     "quote_found": "EXACT",
+     "quote_line_ok": true,
+     "figures_ok": "YES",
+     "n_present": true,
+     "label_ok": true,
+     "disclosed_by_authors": true,
+     "disclosure_ref": "ETFExperiment/REGISTRATION.md:1139-1153, DECISIONS.md:602-619, progress.md:592-599 \u2014 full disclosure, and the finding says so and caps itself at S3",
+     "severity_ok": true,
+     "recommendation": "KEEP",
+     "notes": "Clean, and the git-derived figures reproduce exactly. Quote verbatim at DECISIONS.md:613-618. Purpose cites exact: progress.md:19, CLAUDE.md:20-21, README.md:17-18. report.md:165 'Armed 2026-08-28T20:17:11Z' exact; REGISTRATION.md:1084-1085 cost; DECISIONS.md:603-604 (2026-09-22, sixteen trading days), :611 ('That measurement must be made from scratch.'), :617-618 (the legibility ground) all verbatim; config.py:183 lag_min_trading_days=15; progress.md:455-456 (15th US trading day 2026-09-21, print lands 2026-09-22) exact; REGISTRATION.md:1152-1153 (retro n=11 barred) exact. I independently checked the two git timestamps read-only on the live repository: 699d4add88db 'feat: collectors armed...' at 2026-08-28 13:21:03 -0700 and 4d110027674e 'Disarm etf-snap...' at 2026-08-28 19:43:48 -0700, i.e. 6h22m45s \u2014 the finding's '6 hours 23 minutes' is right. git status --porcelain was empty and HEAD was 4d110027674e7b4cd2861cf4e0e74f975111daf1 both before (2026-09-03T20:12:51Z) and after (2026-09-03T20:12:55Z) my reads; I ran only log/show/rev-parse/status and wrote nothing anywhere."
+    }
+   ]
+  },
+  {
+   "repo": "ETFExperiment",
+   "verdicts": [
+    {
+     "id": "AUDIT-A-ETFExperiment-1",
+     "quote_found": "EXACT",
+     "quote_line_ok": true,
+     "figures_ok": "YES",
+     "n_present": true,
+     "label_ok": true,
+     "disclosed_by_authors": false,
+     "disclosure_ref": "REGISTRATION.md:1027 (heading), :1029, :1039-1041; DECISIONS.md:533-535; HYPOTHESES.md:69",
+     "severity_ok": true,
+     "recommendation": "CORRECT",
+     "notes": "Quote verbatim at REGISTRATION.md:1038-1039. Every code citation checks out: section0.py:49 (collectors_armed field), :110/:122/:134 (BLOCKED False), :149 (GO True), :182 (DEGRADED True); tests/test_section0.py:61 and :75 assert the two branches differently; :87 fixture is 0.20/0.15/0.62/0.40 as quoted. REGISTRATION.md:41 'Collection proceeds.' and :51 'Nothing armed beyond the census.' verbatim; :876-881 PARTIAL->DEGRADED / FAIL->BLOCKED verbatim; power.json:62/:64 = 0.6105 / n 163; retro_revision.json:3 comparable_days 11 and :9 revised_days 0; REGISTRATION.md:1157-1158 verbatim. Independently confirmed the resolving step: grep for 'fire_section0' over the snapshot returns only src/etf/section0.py:75 and tests/test_section0.py:16,:32 \u2014 no caller in src/ or scripts/, exactly as the finding says. Also confirmed 'collectors_armed' appears in no .md file in the repository, which is the basis for the finding's 'never mentions collectors_armed'. CORRECTION (disclosure only): disclosure_ref is null in the JSON and the .md says a flat 'no'. That is too strong. The authors do partially disclose the adjacent fact: REGISTRATION.md:1027 heads the section 'Why this is not a Section 0 firing', :1029 states 'Section 0 never completed and is left partially fired', :1039-1041 types the closure as 'an operator decision on a measured, outcome-blind finding ... taken before the map completed', and DECISIONS.md:533-535 and HYPOTHESES.md:69 repeat it. Replace 'no' with 'partly' and fill disclosure_ref with those lines, then state plainly what remains undisclosed and carries the finding: that the collection state actually adopted is the BLOCKED one while the registered function returns DEGRADED with collectors_armed=True. Because that half is undisclosed, the S3 cap does not apply and S1 stands. Second, smaller point worth adding for honesty: the amendment's 'here' is scoped by its own preceding sentence (:1034-1037) to whether Stage B can fire, and on that narrow reading the claim is true; the finding should say so and then rest on REGISTRATION.md:41, where collection is a registered DEGRADED consequence, which is what makes the claim false as written. DERIVED is correct \u2014 the decisive evidence is code and tests."
+    },
+    {
+     "id": "AUDIT-A-ETFExperiment-2",
+     "quote_found": "EXACT",
+     "quote_line_ok": true,
+     "figures_ok": "YES",
+     "n_present": true,
+     "label_ok": true,
+     "disclosed_by_authors": false,
+     "disclosure_ref": "DECISIONS.md:551-553 (partial, already cited by the finding)",
+     "severity_ok": true,
+     "recommendation": "KEEP",
+     "notes": "Quote verbatim at DECISIONS.md:551-558. All counter-evidence verified: REGISTRATION.md:44-46 DEGRADED scope verbatim, frozen in code as DEGRADED_SCOPE at section0.py:55-58; :74-75 'The Section 9 arithmetic and the decay evidence of Section 14 point to DEGRADED.' verbatim; :82-85 verbatim; :347-356 the 0.09 rationale; :863-867 GO closed on the archive-density leg; :1084-1085 '33 requests per day and zero dollars'; config.py:136 flow cap 200/day; REGISTRATION.md:1160 220 lifetime requests. I re-ran the date arithmetic independently from power_gate.py:71,:78-80 and reproduced the finding exactly: 88 by 2026-12-31 (forward-only), 152 forward-only and 163 all-cohorts by 2027-03-31 (matching power.json:114-118), N=237 on 2027-07-14, N=300 on 2027-10-12, 153 weekdays to the horizon. Optional refinement, not a defect: the record's own 'N=300 around 2027-10-26' is the forward-only variant (my forward-only run gives 2027-10-27); the finding's 2027-10-12 is all-cohorts. Neither changes the conclusion that a 2027-12-31 extension clears both minima, but one clause naming the difference would forestall a reader thinking the two disagree. Label READ is right and the finding is exemplary here \u2014 it states that the challenged claim and the decisive counter-evidence are both documents and marks the derived date block '[from stored data and code]'. Disclosure handling is correct: DECISIONS.md:551-553 is cited as the partial disclosure and the undisclosed half (that what the extension buys is the registration's own pre-registered expected outcome) is identified as what the finding rests on, so the S3 cap properly does not apply. S1 is defensible; S2 would also have been arguable, but the finding attacks the ground of a closure decision, not a mislabel."
+    },
+    {
+     "id": "AUDIT-A-ETFExperiment-3",
+     "quote_found": "EXACT",
+     "quote_line_ok": true,
+     "figures_ok": "YES",
+     "n_present": true,
+     "label_ok": true,
+     "disclosed_by_authors": false,
+     "disclosure_ref": "report.md:369-370 and :370-372; DECISIONS.md:551",
+     "severity_ok": true,
+     "recommendation": "CORRECT",
+     "notes": "Quote verbatim at REGISTRATION.md:1004-1006. I re-ran both greps and they reproduce exactly: awk over REGISTRATION.md NR<=600 for /deadline/ returns nothing (Sections 0-14 end at :589, 'Amendments' opens at :591), and 2027-03-31 occurs exactly three times before the amendments, at :36, :48 and :78, in all three as the horizon for the achievable admissible-day count. config.py:89 'projection_deadline: str' and :176 '2027-03-31' beside :175 interim_deadline verified; consumed only in section0.py rationale strings and power_gate.py:73. Section 10 at REGISTRATION.md:394-398 verbatim and carries no date. report.md:369-370 verbatim. HYPOTHESES.md:48-49 definition verbatim. CORRECTION: the finding quotes report.md:369-370 but stops one sentence short of the line that matters most to it. report.md:370-372 reads 'The design is not unpowered in principle; it is unpowered **within the window this registration gave itself** \u2014 the untestable-at-achievable-power shape named in HYPOTHESES.md, arriving through the calendar rather than through the arithmetic.' That is the record's strongest assertion that the window was self-imposed by the registration, and it is exactly what the exhaustive grep contradicts. Quoting it sharpens the finding and does NOT cap it: it asserts the opposite of the limitation raised rather than disclosing it, so S2 stands. Add it to both the evidence and the disclosure field. Second, minor: label DERIVED is acceptable because config.py:89/:176, section0.py:130/:145, power_gate.py:73 and power.json:62 are code and data, but the decisive leg is a document absence. The finding would be cleaner if it did what AUDIT-A-ETFExperiment-2 does \u2014 name which leg is READ and which is derived \u2014 rather than labelling the whole finding DERIVED without comment. S2 is a precise fit: the closure type is a label resting on a constraint its own evidence does not contain."
+    },
+    {
+     "id": "AUDIT-A-ETFExperiment-4",
+     "quote_found": "EXACT",
+     "quote_line_ok": true,
+     "figures_ok": "YES",
+     "n_present": true,
+     "label_ok": true,
+     "disclosed_by_authors": false,
+     "disclosure_ref": "power_gate.py:30-36; HYPOTHESES.md:70; report.md:264 (all already cited)",
+     "severity_ok": true,
+     "recommendation": "KEEP",
+     "notes": "Quote verbatim at HYPOTHESES.md:70. Code path verified line for line: power_gate.py:71 'printed_rate = 333 / 336', :78-80 every forward scenario is achieved + round(weekdays x printed_rate), :69-70 the comment naming what was measured, :30-36 the docstring disclosing the calendar approximation and asserting 'The projection uses the MEASURED printed-day rate rather than a calendar assumption'. census.json:3 admissible_forward_capture 0 and power.json:114 achieved_forward_only 0 confirmed; progress.md:453-454 two forward captures both recording the open day absent. progress.md:143 quote verbatim; REGISTRATION.md:580 table row verbatim; :571-572 the governing 14.7 correction verbatim, with the NPLExperiment 9.4/month precedent at :566-569. I reproduced the arithmetic: weekdays 2026-08-28 to 2027-03-31 = 153, round(153 x 0.9910714) = 152, +11 = 163, matching power.json:114-118, and 21 x 0.99107 = 20.81. I also confirmed independently that '20.8' appears nowhere in src/, scripts/ or reports/ \u2014 it is prose only \u2014 which is the load-bearing part of the provenance claim. The word 'measured' is attached to the accrual in at least the eight cited places and in two more the finding does not claim (progress.md:493, :533) plus REGISTRATION.md:911, so 'eight places' is conservative rather than inflated. Disclosure handling is careful and correct: the docstring disclosure covers the calendar factor only, and I confirmed by grep that no document anywhere states an assumed forward admissibility factor. S2 is the right severity \u2014 the 'measured' label contradicts its own evidence \u2014 and DERIVED is right since the evidence is code plus stored report data."
+    },
+    {
+     "id": "AUDIT-A-ETFExperiment-5",
+     "quote_found": "EXACT",
+     "quote_line_ok": true,
+     "figures_ok": "PARTIAL",
+     "n_present": true,
+     "label_ok": true,
+     "disclosure_ref": "docs/ACCESS.md:276; progress.md:134; REGISTRATION.md:701",
+     "disclosed_by_authors": false,
+     "severity_ok": true,
+     "recommendation": "CORRECT",
+     "notes": "Quote verbatim at REGISTRATION.md:1055-1058, and the unbolded twin at report.md:476-479 verified. The substance is solid: robots_and_terms.json covers exactly 8 hosts (farside, sosovalue, theblock, glassnode, web.archive.org, archive.org, api.hyperliquid.xyz, api.kraken.com) plus one terms-of-use entry, and the only two archive hosts are web.archive.org at :51-56 (404) and archive.org at :62-67 \u2014 both the Internet Archive; config.py:126-127 registers only the two Wayback endpoints; archive_density.json:31 and :78 are the only two URLs and archive_density.py:30-33 is the PAGES tuple; ACCESS.md:336-337 gives 59.92/min and 21.28/min; config.py:137 the 2,000/day archive cap; progress.md:514-515 the 33/79/108 split. I confirmed independently that grep over the whole snapshot for archive.today, archive.ph, archive.is, commoncrawl and 'Common Crawl' returns nothing. TWO CORRECTIONS. (1) Figures: the recomputation block says its list matches 'archive_density.json:118-125', but two items on that list are not in that file at all \u2014 the unbounded-window ceiling 112/333 = 0.3363 and the crawl rate 0.316 mementos/day live at report.md:190-195 (and HYPOTHESES.md:84) \u2014 and the 336 out-of-sample date rows and 333 printed days are at archive_density.json:5 and :6, not :118-125. Lines :120-:125 do carry admissible_days 37, share 0.1111, capture_too_late 53, n_trading_days 333, total_mementos 451. Re-cite as 'archive_density.json:5, :6, :120-125 and report.md:190-195'. The 'checked and found sound' item 1 already cites report.md:187-195 correctly, so this is a slip confined to the finding body. (2) Disclosure: disclosure_ref is null and the .md says a flat 'no'. The record does partially disclose the scope \u2014 docs/ACCESS.md:276 heads the section '4. The archive \u2014 Wayback', progress.md:134 scopes the probe to 'the Wayback availability and timemap endpoints for the chosen flow source', and REGISTRATION.md:701 says the 37 captures were 'fetched from the Wayback Machine'. Change to 'partly', cite those three, and keep the finding at S2 with its point restated precisely: what is never disclosed is the leap from that scope to the universal 'any free archive', and the n over archive operators (1) is stated nowhere. The finding is properly honest about having no network access and making no claim about what archive.today holds."
+    },
+    {
+     "id": "AUDIT-A-ETFExperiment-6",
+     "quote_found": "EXACT",
+     "quote_line_ok": true,
+     "figures_ok": "YES",
+     "n_present": true,
+     "label_ok": true,
+     "disclosed_by_authors": false,
+     "disclosure_ref": "REGISTRATION.md:1149-1153; DECISIONS.md:607-611",
+     "severity_ok": true,
+     "recommendation": "CORRECT",
+     "notes": "Quote verbatim at HYPOTHESES.md:84 (reopen path (a)), and the consolidation note is right that the draft's added bolding around 'or mirror' in the path (b) quote was removed so both quotes are verbatim. Counter-evidence verified: REGISTRATION.md:155-158 the as-printed rule verbatim, ADR-002 at DECISIONS.md:57-61 restating it; REGISTRATION.md:1141 'The forward revision-integrity leg will never complete.', :1149 'It is dropped by decision, not by oversight.', :1152-1153 'must measure it from scratch** and may not cite the n = 11 figure as evidence of anything.'; the \u00a72 valuation row at :1125 verbatim; retro_revision.json:3 comparable_days 11, :7 meets_registered_minimum false, :8 registered_minimum_sample 30, :9 revised_days 0; config.py:187 retro_revision_sample_min=30; REGISTRATION.md:889-895 the refusal to promote n=11; ACCESS.md:104 and :169 confirm neither surviving source serves a per-row timestamp, which is what makes the MEDIUM confidence appropriate. CORRECTION (disclosure): the .md says a flat 'no \u2014 the register presents (a) as a self-sufficient threshold' and disclosure_ref is null. That is not sustainable when the finding itself quotes the disclosure two paragraphs earlier: REGISTRATION.md:1149-1153 (identically DECISIONS.md:607-611) states that any future flow hypothesis in this house must measure the revision rate from scratch and may not cite the n = 11 figure. That is a genuine partial disclosure of the transferred debt. Change to 'partly', fill disclosure_ref with those lines, and state what remains undisclosed and carries the finding: that reopen path (a) is nonetheless presented at HYPOTHESES.md:84 and REGISTRATION.md:1125 as clearing 'every minimum on the record at once' with no such debt attached, and that the register attaches 'requires its own registration' only to path (c). On that reading S2 stands and the S3 cap does not apply. One wording nit: 'identically ETFExperiment/DECISIONS.md:608-611' overstates \u2014 the ADR restates the rule in different words; write 'restated at'. Label READ is correct: the recomputation field honestly says 'none \u2014 this is a reading of the registered admissibility rule against the reopen condition.'"
+    },
+    {
+     "id": "AUDIT-A-ETFExperiment-7",
+     "quote_found": "EXACT",
+     "quote_line_ok": true,
+     "figures_ok": "PARTIAL",
+     "n_present": true,
+     "label_ok": true,
+     "disclosed_by_authors": true,
+     "disclosure_ref": "DECISIONS.md:39-42 (already cited); progress.md:452-456",
+     "severity_ok": true,
+     "recommendation": "CORRECT",
+     "notes": "Quote verbatim at REGISTRATION.md:178-181, and ADR-001 at DECISIONS.md:22-27 restates the same rule (in different words \u2014 'identically' overstates it; write 'restated at'). Verified: progress.md:452-453 'Not quoted...2 captures exist' verbatim; anchor.py:70-82 moves the anchor later only and never earlier; archive.py:90-95 qualifying_window takes no anchor parameter and calls entry_anchor with the config default, so every density and census figure is conditioned on the un-amended anchor; ACCESS.md:413-414 the 34 capture times with n = 11 served-value. TWO CITATION CORRECTIONS. (1) 'archive_density.json:120' is cited for capture_too_late = 53, but :120 is 'admissible_days': 37; capture_too_late_days: 53 is at :122. Cite :122. (2) 'census.json:1-2' is cited for '336 rows / 11 admissible', but :2 is 'admissible': 11 while 'rows': 336 is at :83. Cite 'census.json:2 and :83'. Neither slip touches the substance: both figures exist and are correct. The anchor-sensitivity table is computed from untracked live timemaps I did not open, and it is properly declared UNANCHORED with a read time; its 08:00 row (37 / 0.1111 / 53) reproduces the anchored archive_density.json:120-122 exactly, which is the check that matters. Disclosure: I judge this genuinely (partly) disclosed \u2014 ADR-001's Consequences at DECISIONS.md:39-42 discloses that the retro evidence puts the print at 04:00-08:00 and 'therefore that the anchor may well move. It has not moved and will not move on that evidence', with the censoring reason given, and progress.md:452-456 discloses that the lag distribution is not quotable. Add progress.md:452-456 to the disclosure field. The finding is already at S3, so the cap binds nothing, and the undisclosed residue it identifies (a final admissibility count produced anyway, with no sensitivity band on any anchor-dependent figure) is real. DERIVED is correct given the recomputation from raw timemaps."
+    },
+    {
+     "id": "AUDIT-A-ETFExperiment-8",
+     "quote_found": "EXACT",
+     "quote_line_ok": true,
+     "figures_ok": "YES",
+     "n_present": true,
+     "label_ok": true,
+     "disclosed_by_authors": true,
+     "disclosure_ref": "REGISTRATION.md:1139-1153; DECISIONS.md:602-619; progress.md:592-599",
+     "severity_ok": true,
+     "recommendation": "KEEP",
+     "notes": "Quote verbatim at DECISIONS.md:613-618. This is the model the other seven should be measured against on my lens: the disclosure is stated as full, the severity field itself carries the cap ('S3 \u2014 capped at S3 because the authors disclose this fully'), the label is READ, and the finding says in terms that presenting it as a discovery would itself be a process failure. I verified the disclosure is indeed full: REGISTRATION.md:1139 heads the section 'The one measurement forgone, recorded as forgone rather than merely unmeasured', :1141-1153 gives the leg, the earliest completion date and the transfer to a successor; DECISIONS.md:602-611 does the same under 'The cost of the decision, stated so it is legible'; progress.md:592-599 repeats it. Supporting figures all check out: progress.md:19, CLAUDE.md:20-21 and README.md:17-18 all name A.1 Tasks 3 and 4 as the experiment, verbatim; report.md:165 'Armed 2026-08-28T20:17:11Z'; REGISTRATION.md:1084-1085 '33 requests per day and zero dollars'; config.py:183 lag_min_trading_days=15; progress.md:455-456 the 15th trading day 2026-09-21 with its print on 2026-09-22; DECISIONS.md:611 'That measurement must be made from scratch.' I independently confirmed the git claim read-only on the live repository: 699d4add88db103af19f952781e6b5bd93c2746e 'feat: collectors armed, outcome substrate sealed before the window slid' at 2026-08-28 13:21:03 -0700 and 4d11002 'Disarm etf-snap...' at 2026-08-28 19:43:48 -0700 \u2014 6h 22m 45s, which the finding rounds to '6 hours 23 minutes'. git status --porcelain was clean before and after my reads and HEAD is 4d110027674e7b4cd2861cf4e0e74f975111daf1, matching the anchor; I wrote nothing anywhere. The consolidation note explaining why F8 was not merged into F1 \u2014 that folding a disclosed S3 into an undisclosed S1 would either import the cap or launder the disclosure \u2014 is correct reasoning and should be preserved."
+    }
+   ]
+  }
+ ]
+}

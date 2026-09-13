@@ -1,0 +1,21 @@
+{
+ "done_repos": [
+  "ETFExperiment",
+  "HFExperiment",
+  "InsiderExperiment",
+  "NPDExperiment",
+  "PMExperiment",
+  "VRPExperiment",
+  "retail-power-limits"
+ ],
+ "done_parts": {
+  "solclear": [
+   "p1-findings",
+   "p2-progress"
+  ]
+ },
+ "consolidated": {
+  "solclear": 10
+ },
+ "leads": []
+}

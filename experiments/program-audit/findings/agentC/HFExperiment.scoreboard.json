@@ -1,0 +1,56 @@
+{
+  "repo": "HFExperiment",
+  "claims": {
+    "verified": 20,
+    "contradicted": 7,
+    "unverifiable": 3,
+    "must_verify": [
+      {
+        "claim": "C1 — Section 0 closure verdict, BLOCKED on the A.1b order behaviour",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "C2 — registered cost hurdle 4.07 bp/day",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "C3 — holdout effect 27.99 bp/day, IR 1.062, and the primary-width choice",
+        "status": "UNVERIFIABLE"
+      },
+      {
+        "claim": "C4 — the DEGRADED closure arithmetic (2,880 / 720 / \"36 in March and April\" / \"22 to 1,595\")",
+        "status": "CONTRADICTED"
+      },
+      {
+        "claim": "C5 — kill-floor sigma and touch probability",
+        "status": "CONTRADICTED"
+      },
+      {
+        "claim": "C6 — Gateway server version, prose vs ledger",
+        "status": "CONTRADICTED"
+      },
+      {
+        "claim": "C7 — measured spread distribution (median 12.77, p75 17.2, p90 20.7, max 27.4)",
+        "status": "VERIFIED"
+      }
+    ]
+  },
+  "intervals": {
+    "audited": 14,
+    "independence_doubtful": 2,
+    "recomputed": 8,
+    "conclusion_moved": 0
+  },
+  "tests": {
+    "audited": 6,
+    "tail_mismatch": 0,
+    "dof_issue": 0,
+    "correction_mismatch": 0
+  },
+  "provenance": {
+    "supported": 30,
+    "not_supported": 2,
+    "partial": 4,
+    "unverifiable": 1
+  }
+}

@@ -1,0 +1,1277 @@
+{
+  "repo": "NPDExperiment",
+  "anchored_sha": "2d3d0aebf977fb2821ec78c25b370c84ec055920",
+  "agent": "C",
+  "task": "LOCATE",
+  "snapshot": "/tmp/claude-1000/-home-kiros-li-Documents-GitHub-program-audit/5ca157a0-1746-4eb9-a1b8-f3732ea42bf4/scratchpad/snap/NPDExperiment/",
+  "live_repo": "/home/kiros-li/Documents/GitHub/NPDExperiment",
+  "live_status_before": "",
+  "live_status_after": "",
+  "live_read_window_utc": "2026-09-04T05:25:06Z to 2026-09-04T05:34:04Z",
+  "artifacts": [
+    {
+      "path": "NPDExperiment/REGISTRATION.md",
+      "holds": "17 registered sections, Amendments 1-7, Closure block",
+      "backs": "window 432 days; power floor 0.01787; power grid; spend arithmetic; verdict table; calibration decision rule; closure headline figures",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 34139,
+      "mtime": null
+    },
+    {
+      "path": "NPDExperiment/DECISIONS.md",
+      "holds": "ADR-001 through ADR-014",
+      "backs": "ADR-007 power limitation; ADR-010 after-the-fact best baseline; ADR-011 realized power; ADR-014 dormant momentum observation",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 13814,
+      "mtime": null
+    },
+    {
+      "path": "NPDExperiment/progress.md",
+      "holds": "per-stage log A.1 through Z.1 with ETA and actual",
+      "backs": "restates B.1 and B.2 headline tables and the closure language",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 15950,
+      "mtime": null
+    },
+    {
+      "path": "NPDExperiment/CLAUDE.md",
+      "holds": "standing rules, seal rule, boundaries, layout",
+      "backs": "collection-is-not-evaluation rule; single-reader seal",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 3927,
+      "mtime": null
+    },
+    {
+      "path": "NPDExperiment/reports/stage_b0/build.md",
+      "holds": "B.0 data build report",
+      "backs": "15,474,106 bars; 18,474 symbols; 55 formations; 308,610 feature rows; 432 panels; logistic fit 21322 rows / 711 days; MDE 0.01787; VIF 3.4 and 125.6 effective days",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 4087,
+      "mtime": null
+    },
+    {
+      "path": "NPDExperiment/reports/stage_b0b/mock_run.md",
+      "holds": "five mock collector scenarios",
+      "backs": "superseded prompt digest 9a174e01...; mock spend 5.832 USD",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 2280,
+      "mtime": null
+    },
+    {
+      "path": "NPDExperiment/reports/stage_b1/collection.md",
+      "holds": "B.1 live collection report",
+      "backs": "415/432 stored; 96.1 percent coverage; GO; 920 gate calls; 6.9378 USD; token totals; effort split; 74 superseded attempts",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 3090,
+      "mtime": null
+    },
+    {
+      "path": "NPDExperiment/reports/stage_b1/collection.json",
+      "holds": "machine-readable B.1 counts",
+      "backs": "coverage 0.9606; verdict GO; spend 6.9378; escalated_days 53; integrity 415 on five checks",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 558,
+      "mtime": null
+    },
+    {
+      "path": "NPDExperiment/reports/stage_b1/calibration.json",
+      "holds": "the low-effort calibration call",
+      "backs": "1753 in / 2508 out / 2432 reasoning; 0.027271 USD; projected 11.7812; safety budget 7.9782",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 857,
+      "mtime": null
+    },
+    {
+      "path": "NPDExperiment/reports/stage_b1/calibration_minimal.json",
+      "holds": "the minimal-effort calibration call",
+      "backs": "1753 in / 106 out / 0 reasoning; 0.003251 USD; projected 1.4045; safety budget 7.9756",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 895,
+      "mtime": null
+    },
+    {
+      "path": "NPDExperiment/reports/stage_b2/evaluation.md",
+      "holds": "the one-shot B.2 evaluation",
+      "backs": "every B.2 number: validity gate, primary contrast, permutation null, verdict row, secondaries, window halves, realized-power appendix",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 9173,
+      "mtime": null
+    },
+    {
+      "path": "NPDExperiment/reports/mutations.json",
+      "holds": "six mutation results as objects",
+      "backs": "guard_failed_as_required and restored_green for each mutation",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 4431,
+      "mtime": null
+    },
+    {
+      "path": "NPDExperiment/reports/mutations.md",
+      "holds": "mutation harness report",
+      "backs": "six mutations listed; summary line says five",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 4633,
+      "mtime": null
+    },
+    {
+      "path": "NPDExperiment/reports/session_a1_b1.md",
+      "holds": "consolidated A.1 to B.1 narrative",
+      "backs": "restates B.1 figures; 26 superseded attempts / 0.0286 USD; 52 label-ticker collisions",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 12670,
+      "mtime": null
+    },
+    {
+      "path": "NPDExperiment/reports/session_record.html",
+      "holds": "HTML session record of A.1 to B.1",
+      "backs": "restates B.1 figures; masthead 38 modules, 4,699 lines, 113 tests",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 30540,
+      "mtime": null
+    },
+    {
+      "path": "NPDExperiment/src/npd/eval/evaluator.py",
+      "holds": "sole permitted reader of the sealed store; run_b2()",
+      "backs": "model and baseline mean daily rank IC; best-baseline selection; block-bootstrap interval and SE; daily contrast sd; realized MDE; effective n; within-day null for gate and permutation; window halves; verdict row",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 24959,
+      "mtime": null
+    },
+    {
+      "path": "NPDExperiment/src/npd/eval/report.py",
+      "holds": "renderer for reports/stage_b2/evaluation.md",
+      "backs": "every table in the B.2 report; literal REGISTERED_PROJECTION = '0.026 to 0.047'",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 12935,
+      "mtime": null
+    },
+    {
+      "path": "NPDExperiment/src/npd/power.py",
+      "holds": "power arithmetic",
+      "backs": "0.185695 null sd; VIF 3.4; 125.6 effective days; the Section 9 grid; the 0.01787 floor",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 5816,
+      "mtime": null
+    },
+    {
+      "path": "NPDExperiment/src/npd/section0.py",
+      "holds": "coverage verdict fire()",
+      "backs": "GO/DEGRADED/BLOCKED verdict and the 96.1 percent coverage string",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 2909,
+      "mtime": null
+    },
+    {
+      "path": "NPDExperiment/src/npd/config.py",
+      "holds": "frozen registered parameters",
+      "backs": "panel 30; horizons 5 and 1; bootstrap 10,000; permutation 10,000; t 2.0; band (0.01,0.05); cap 10.0; list prices; effort ladder",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 3882,
+      "mtime": null
+    },
+    {
+      "path": "NPDExperiment/src/npd/window.py",
+      "holds": "window derivation from cutoff, guard band and exchange calendar",
+      "backs": "2024-10-31 to 2026-07-24, 432 trading days",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 2647,
+      "mtime": null
+    },
+    {
+      "path": "NPDExperiment/src/npd/ledger/spend.py",
+      "holds": "cost_of() and the pre-batch cap refusal",
+      "backs": "every cost_usd value in ledgers/spend.jsonl",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 4142,
+      "mtime": null
+    },
+    {
+      "path": "NPDExperiment/src/npd/ledger/evidence.py",
+      "holds": "append-only evidence rows",
+      "backs": "ledgers/evidence.jsonl",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 2897,
+      "mtime": null
+    },
+    {
+      "path": "NPDExperiment/src/npd/data/",
+      "holds": "B.0 data layer: build, extract, features, formations, forward_returns, panel, series, source, store, universe, anonymize",
+      "backs": "bars, formations, panels, features, both forward-return stores",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": null,
+      "mtime": null
+    },
+    {
+      "path": "NPDExperiment/src/npd/baselines/",
+      "holds": "logistic, mom_12_1, sign_last",
+      "backs": "baseline_ranking rows and the three baseline mean ICs",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": null,
+      "mtime": null
+    },
+    {
+      "path": "NPDExperiment/src/npd/collect/",
+      "holds": "collector, adapter, prompt, scenarios, mock, __main__",
+      "backs": "stored rankings, call states, evidence and spend rows, prompt digest",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": null,
+      "mtime": null
+    },
+    {
+      "path": "NPDExperiment/scripts/report_b1.py",
+      "holds": "writes reports/stage_b1/collection.md and .json",
+      "backs": "all B.1 report figures",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 10132,
+      "mtime": null
+    },
+    {
+      "path": "NPDExperiment/scripts/calibrate.py",
+      "holds": "the one pre-registered calibration call",
+      "backs": "both calibration json files",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 7414,
+      "mtime": null
+    },
+    {
+      "path": "NPDExperiment/scripts/mutations.py",
+      "holds": "mutation harness",
+      "backs": "reports/mutations.md and .json",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 8329,
+      "mtime": null
+    },
+    {
+      "path": "NPDExperiment/tests/",
+      "holds": "12 files, 107 test_ functions at 433dabe: seal guards, config enforcement, five call states, no confidence field, Amendment 0 refusal, absence, anonymization, universe port, window/power",
+      "backs": "the structural claims and the mutation guards",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": null,
+      "mtime": null
+    },
+    {
+      "path": "/home/kiros-li/Documents/GitHub/NPDExperiment/var/npd.db",
+      "holds": "bar 15,474,106; feature 308,610; panel 34,290; formation 27,500; anonymization 12,960; model_ranking 12,450; baseline_ranking 38,880; day_status 432; session 2,907; logistic_coefficient 10; meta 23,042",
+      "backs": "every B.0 build figure; the 415 stored rankings; the three baseline rankings; the B.2 inputs",
+      "tracked": false,
+      "anchored": false,
+      "size_bytes": 939966464,
+      "mtime": "2026-08-25T12:46:42-07:00"
+    },
+    {
+      "path": "/home/kiros-li/Documents/GitHub/NPDExperiment/var/npd_sealed.db",
+      "holds": "forward_return 25,920 rows; 432 dates 2024-10-31 to 2026-07-24; horizons 1 and 5; 32 and 156 NULL returns",
+      "backs": "every outcome-bearing B.2 figure",
+      "tracked": false,
+      "anchored": false,
+      "size_bytes": 1585152,
+      "mtime": "2026-08-25T09:54:33-07:00"
+    },
+    {
+      "path": "/home/kiros-li/Documents/GitHub/NPDExperiment/var/npd_fit.db",
+      "holds": "forward_return 42,660 rows; 711 dates 2022-01-03 to 2024-10-30; 21,330 per horizon",
+      "backs": "the logistic fit sample (claimed 21322 rows / 711 days)",
+      "tracked": false,
+      "anchored": false,
+      "size_bytes": 2609152,
+      "mtime": "2026-08-25T09:54:33-07:00"
+    },
+    {
+      "path": "/home/kiros-li/Documents/GitHub/NPDExperiment/var/source_hashes_before.txt",
+      "holds": "one line: sha256 8188eea0...5529 for AiTrader/backtest/universe.py",
+      "backs": "the source-integrity hash in reports/stage_b0/build.md:9-12",
+      "tracked": false,
+      "anchored": false,
+      "size_bytes": 128,
+      "mtime": "2026-08-25T09:29:42-07:00"
+    },
+    {
+      "path": "/home/kiros-li/Documents/GitHub/NPDExperiment/ledgers/spend.jsonl",
+      "holds": "922 rows: 920 kind=gate, 2 kind=calibration",
+      "backs": "spend 6.9378 USD; 920 gate calls; 0.007508 USD per call; the cap arithmetic",
+      "tracked": false,
+      "anchored": false,
+      "size_bytes": 202163,
+      "mtime": "2026-08-25T12:46:42-07:00"
+    },
+    {
+      "path": "/home/kiros-li/Documents/GitHub/NPDExperiment/ledgers/evidence.jsonl",
+      "holds": "959 rows: 883 current-procedure carrying prompt_digest, 74 superseded gate, 2 calibration; raw responses verbatim",
+      "backs": "token totals; effort split; attempts per day; model_failed; prompt-digest supersession; Amendment 3, 4 and 5 tables",
+      "tracked": false,
+      "anchored": false,
+      "size_bytes": 806001,
+      "mtime": "2026-08-25T12:46:42-07:00"
+    },
+    {
+      "path": "/home/kiros-li/Documents/GitHub/NPDExperiment/docs/",
+      "holds": "empty directory",
+      "backs": "nothing",
+      "tracked": false,
+      "anchored": false,
+      "size_bytes": null,
+      "mtime": "2026-08-25T09:26:00-07:00"
+    },
+    {
+      "path": "/home/kiros-li/Documents/GitHub/NPDExperiment/_CLOSED_DO_NOT_RUN_HERE",
+      "holds": "post-anchor closure marker, excluded via .git/info/exclude",
+      "backs": "nothing; operator note dated 2026-09-02",
+      "tracked": false,
+      "anchored": false,
+      "size_bytes": 747,
+      "mtime": "2026-09-02T22:38:00-07:00"
+    },
+    {
+      "path": "/home/kiros-li/Documents/GitHub/NPDExperiment/.env",
+      "holds": "API key, mode 600",
+      "backs": "nothing; NOT OPENED by this audit",
+      "tracked": false,
+      "anchored": false,
+      "size_bytes": 180,
+      "mtime": "2026-08-25T01:30:00-07:00"
+    }
+  ],
+  "claims": [
+    {
+      "rank": 1,
+      "must_verify": true,
+      "claim": "The realized 0.36339 sits at 98 percent of that maximum. The model daily rank IC and the momentum daily rank IC are therefore strongly negatively correlated across this window, far outside the 0.0 to 0.7 range the registration contemplated.",
+      "file_line": "NPDExperiment/reports/stage_b2/evaluation.md:229-233",
+      "figures": [
+        "daily contrast sd 0.36339",
+        "98 percent of the 0.3714 maximum",
+        "correlation asserted strongly negative"
+      ],
+      "n": 404,
+      "produced_by": [
+        "src/npd/eval/evaluator.py:526-529 (contrast_sd_daily)",
+        "src/npd/power.py:116 (sd_diff = sqrt(2(1-corr)) * null_sd)",
+        "var/npd.db model_ranking + baseline_ranking",
+        "var/npd_sealed.db forward_return"
+      ],
+      "also_stated_at": [
+        "NPDExperiment/REGISTRATION.md:699-702",
+        "NPDExperiment/REGISTRATION.md:727-735",
+        "NPDExperiment/DECISIONS.md:272-276",
+        "NPDExperiment/progress.md:41-45",
+        "NPDExperiment/progress.md:70-73",
+        "NPDExperiment/progress.md:158-161"
+      ],
+      "status": "CONTRADICTED (derived)",
+      "derived_note": "Recomputed from the stores 2026-09-04: corr(model daily IC, mom_12_1 daily IC) = +0.1182 over 404 days. Realized per-series sds 0.25159 and 0.29364 against the null 0.185695 assumed by the formula. sqrt(0.25159^2+0.29364^2-2*0.1182*0.25159*0.29364)=0.36339 reproduces the reported sd with a POSITIVE correlation. The registration's formula implies corr = -0.9147 only because it fixes both series at the null sd."
+    },
+    {
+      "rank": 2,
+      "must_verify": true,
+      "claim": "| realized minimum detectable contrast | **0.0512** |",
+      "file_line": "NPDExperiment/reports/stage_b2/evaluation.md:93",
+      "figures": [
+        "0.0512",
+        "registered projection 0.026 to 0.047",
+        "realistic band 0.01 to 0.05"
+      ],
+      "n": 404,
+      "produced_by": [
+        "src/npd/eval/evaluator.py:524,544 (se and t_critical*se)",
+        "src/npd/eval/report.py:22 REGISTERED_PROJECTION"
+      ],
+      "also_stated_at": [
+        "NPDExperiment/REGISTRATION.md:695",
+        "NPDExperiment/DECISIONS.md:215",
+        "NPDExperiment/DECISIONS.md:222",
+        "NPDExperiment/progress.md:39",
+        "NPDExperiment/progress.md:148",
+        "NPDExperiment/progress.md:156"
+      ],
+      "status": "VERIFIED (derived)",
+      "derived_note": "Recomputed 0.051242 from bootstrap SE 0.0256209 at t 2.0. The statement that it sits above the whole (0.01, 0.05) band is arithmetically true."
+    },
+    {
+      "rank": 3,
+      "must_verify": true,
+      "claim": "| does not beat coin | **YES** | ... the replication confirms the council negative under frontier capability and sane formulation. Closed.",
+      "file_line": "NPDExperiment/reports/stage_b2/evaluation.md:123,127",
+      "figures": [
+        "model mean daily rank IC +0.0061 interval -0.0276 to +0.0397",
+        "primary contrast -0.0161 interval -0.0673 to +0.0351"
+      ],
+      "n": 404,
+      "produced_by": [
+        "src/npd/eval/evaluator.py:496-547",
+        "src/npd/eval/evaluator.py:686-704 (verdict rows)"
+      ],
+      "also_stated_at": [
+        "NPDExperiment/reports/stage_b2/evaluation.md:59,78-80,133-134",
+        "NPDExperiment/progress.md:136-146",
+        "NPDExperiment/REGISTRATION.md:689-691"
+      ],
+      "status": "VERIFIED (derived)",
+      "derived_note": "Recomputed: model mean IC +0.0060772, interval -0.027575 to +0.039729; contrast -0.0161048, interval -0.067347 to +0.035137; beats_coin False, beats_best_baseline False."
+    },
+    {
+      "rank": 4,
+      "must_verify": true,
+      "claim": "coverage: **96.1%** ... ## Section 0 verdict: **GO**",
+      "file_line": "NPDExperiment/reports/stage_b1/collection.md:33,41",
+      "figures": [
+        "415 stored of 432 eligible",
+        "96.1 percent against a 90 percent bar"
+      ],
+      "n": 432,
+      "produced_by": [
+        "src/npd/section0.py:47-90",
+        "scripts/report_b1.py",
+        "var/npd.db day_status",
+        "ledgers/evidence.jsonl"
+      ],
+      "also_stated_at": [
+        "NPDExperiment/reports/stage_b1/collection.json",
+        "NPDExperiment/progress.md:190-191",
+        "NPDExperiment/reports/session_a1_b1.md:197-201"
+      ],
+      "status": "VERIFIED (derived)",
+      "derived_note": "day_status holds exactly stored 415 and model_failed 17 over 432 days; final-state-per-day from the evidence ledger agrees. 415/432 = 0.96065."
+    },
+    {
+      "rank": 5,
+      "must_verify": true,
+      "claim": "total spent: **6.9378 USD** of a 10.00 USD cap ... gate calls billed: **920** ... measured cost per gate call: **0.007508 USD**",
+      "file_line": "NPDExperiment/reports/stage_b1/collection.md:47-51",
+      "figures": [
+        "6.9378 USD",
+        "920 gate calls",
+        "0.007508 USD per call",
+        "3.0622 USD unspent"
+      ],
+      "n": 922,
+      "produced_by": [
+        "src/npd/ledger/spend.py:40-56 cost_of",
+        "ledgers/spend.jsonl"
+      ],
+      "also_stated_at": [
+        "NPDExperiment/REGISTRATION.md:789",
+        "NPDExperiment/progress.md:104",
+        "NPDExperiment/progress.md:201"
+      ],
+      "status": "VERIFIED (derived), with an author-disclosed caveat",
+      "derived_note": "spend.jsonl: 922 rows (920 gate + 2 calibration); total 6.937784; gate total 6.907261 and mean 0.0075079; calibration 0.030522. Caveat disclosed at REGISTRATION.md:617-622: 37 superseded attempts carry cost_usd 0 because their usage was discarded, so true spend exceeds 6.9378."
+    },
+    {
+      "rank": 6,
+      "must_verify": true,
+      "claim": "| **two-sided p** | **0.5174** |",
+      "file_line": "NPDExperiment/reports/stage_b2/evaluation.md:113",
+      "figures": [
+        "0.5174"
+      ],
+      "n": 404,
+      "produced_by": [
+        "src/npd/eval/evaluator.py:368-403 within_day_null",
+        "src/npd/eval/evaluator.py:663-668"
+      ],
+      "also_stated_at": [
+        "NPDExperiment/progress.md:146",
+        "NPDExperiment/REGISTRATION.md:691"
+      ],
+      "status": "VERIFIED (derived)",
+      "derived_note": "Recomputed 0.51745 = (5173+1)/(10000+1) at 10,000 draws with seed 20260845."
+    },
+    {
+      "rank": 7,
+      "must_verify": true,
+      "claim": "| shuffled mean daily rank IC | **+0.0001** | ... **Gate verdict: PASS.**",
+      "file_line": "NPDExperiment/reports/stage_b2/evaluation.md:36,42",
+      "figures": [
+        "+0.0001",
+        "MC 95 percent -0.0001 to +0.0003",
+        "null sd 0.00925",
+        "2.5-97.5 pct -0.0179 to +0.0181",
+        "tolerance 0.02"
+      ],
+      "n": 404,
+      "produced_by": [
+        "src/npd/eval/evaluator.py:624-627",
+        "src/npd/eval/evaluator.py:553 CONTROL_TOLERANCE"
+      ],
+      "also_stated_at": [
+        "NPDExperiment/REGISTRATION.md:174-175",
+        "NPDExperiment/progress.md:142"
+      ],
+      "status": "VERIFIED (derived)",
+      "derived_note": "Recomputed gate mean +0.00011025, MC 95 percent -0.0000711 to +0.00029165, sd 0.0092549, percentiles -0.017890 to +0.018138."
+    },
+    {
+      "rank": 8,
+      "must_verify": true,
+      "claim": "MDE = 2.0 * 0.185695 / sqrt(432) = 0.01787 ... VIF = 1 + 2 * sum_{k=1..4} (1 - k/5)^2 = 3.4 ... which takes 427 evaluable days to **125.6** independent-equivalent days",
+      "file_line": "NPDExperiment/REGISTRATION.md:212,225-227",
+      "figures": [
+        "0.185695",
+        "0.01787",
+        "3.4",
+        "125.6",
+        "the eight-cell contrast grid at REGISTRATION.md:231-245"
+      ],
+      "n": 432,
+      "produced_by": [
+        "src/npd/power.py:34-131"
+      ],
+      "also_stated_at": [
+        "NPDExperiment/reports/stage_b0/build.md:96-105",
+        "NPDExperiment/reports/session_a1_b1.md:48-61",
+        "NPDExperiment/progress.md:317-320"
+      ],
+      "status": "VERIFIED (derived)",
+      "derived_note": "1/sqrt(29)=0.1856953; 2*0.185695/sqrt(432)=0.017872; VIF=3.4 exactly; 427/3.4=125.588; all eight grid cells reproduce to the printed digit."
+    },
+    {
+      "rank": 9,
+      "must_verify": true,
+      "claim": "The 26 superseded attempts stay in the ledger and their 0.0286 USD still counts against the cap.",
+      "file_line": "NPDExperiment/reports/session_a1_b1.md:254",
+      "figures": [
+        "26 superseded attempts",
+        "0.0286 USD"
+      ],
+      "n": 74,
+      "produced_by": [
+        "ledgers/evidence.jsonl",
+        "ledgers/spend.jsonl"
+      ],
+      "also_stated_at": [
+        "NPDExperiment/REGISTRATION.md:779-780 ('the two calibration calls and the 26 superseded attempts')",
+        "NPDExperiment/REGISTRATION.md:543 ('The 9 superseded attempts cost 0.0286 USD')",
+        "NPDExperiment/reports/stage_b1/collection.md:73 ('superseded attempts ... 74')"
+      ],
+      "status": "CONTRADICTED (derived)",
+      "derived_note": "evidence.jsonl holds 74 superseded gate attempts (26 pre-Amendment-3 with no reasoning_effort field, 48 Amendment-3-era with one) costing 0.318852 USD in total; the 26 pre-Amendment-3 rows alone cost 0.026807 USD across 13 dates. Three different counts (9, 26, 74) appear across the documents."
+    },
+    {
+      "rank": 10,
+      "must_verify": true,
+      "claim": "Every stored ranking carries `7e6f3d6801506bd7...`, which Amendment 4 re-froze and which supersession keys on.",
+      "file_line": "NPDExperiment/REGISTRATION.md:780-781",
+      "figures": [
+        "zero of the 415 stored rankings came from 9a174e01...",
+        "all stored rankings at 7e6f3d68..."
+      ],
+      "n": 883,
+      "produced_by": [
+        "ledgers/evidence.jsonl prompt_digest field",
+        "src/npd/collect/prompt.py template_digest"
+      ],
+      "also_stated_at": [
+        "NPDExperiment/progress.md:96-99"
+      ],
+      "status": "VERIFIED (derived)",
+      "derived_note": "All 883 current-procedure evidence rows carry 7e6f3d6801506bd7b158d7937b8fc3bae82c8fffac6770acaeb924bc4391c7fb and no other digest appears on any row that carries the field."
+    },
+    {
+      "rank": 11,
+      "must_verify": false,
+      "claim": "| `minimal` | 29 | 12 | 41 percent | ... | `low` | 19 | 9 | 47 percent |",
+      "file_line": "NPDExperiment/REGISTRATION.md:558-560",
+      "figures": [
+        "29 attempts / 12 failed / 41 percent",
+        "19 attempts / 9 failed / 47 percent",
+        "17 of 29, 59 percent"
+      ],
+      "n": 48,
+      "produced_by": [
+        "ledgers/evidence.jsonl (the 48 Amendment-3-era rows)"
+      ],
+      "also_stated_at": [
+        "NPDExperiment/REGISTRATION.md:576",
+        "NPDExperiment/reports/session_a1_b1.md:246"
+      ],
+      "status": "VERIFIED (derived)",
+      "derived_note": "The 48 Amendment-3-era rows split exactly minimal 29 (17 stored / 12 model_failed) and low 19 (10 stored / 9 model_failed)."
+    },
+    {
+      "rank": 12,
+      "must_verify": false,
+      "claim": "attempts under the current procedure: **883**, across 432 days, 2.04 per day ... days needing more than one attempt: **175** ... attempts by reasoning effort: **{'minimal': 813, 'low': 70}** ... days whose stored answer came from `low` after an escalation: **53**",
+      "file_line": "NPDExperiment/reports/stage_b1/collection.md:70-75",
+      "figures": [
+        "883",
+        "2.04",
+        "175",
+        "813 minimal / 70 low",
+        "53",
+        "input 3,514,278",
+        "output 361,641 of which reasoning 217,728"
+      ],
+      "n": 883,
+      "produced_by": [
+        "ledgers/evidence.jsonl",
+        "scripts/report_b1.py"
+      ],
+      "also_stated_at": [
+        "NPDExperiment/reports/stage_b1/collection.md:52-53",
+        "NPDExperiment/reports/session_a1_b1.md:234-237,261"
+      ],
+      "status": "VERIFIED (derived)",
+      "derived_note": "All seven reproduce exactly from the 883 prompt_digest-bearing evidence rows; 883/432 = 2.0440."
+    },
+    {
+      "rank": 13,
+      "must_verify": false,
+      "claim": "daily bars copied: **15,474,106** ... distinct symbols: **18,474** ... formations reproduced: **55** ... members per formation: **500 to 500** ... feature rows stored, fit period and window: **308,610**",
+      "file_line": "NPDExperiment/reports/stage_b0/build.md:18,19,26,29,62",
+      "figures": [
+        "15,474,106",
+        "18,474",
+        "55",
+        "500 to 500",
+        "308,610",
+        "432 anonymization days",
+        "432 days per baseline"
+      ],
+      "n": null,
+      "produced_by": [
+        "src/npd/data/build.py",
+        "src/npd/data/universe.py",
+        "var/npd.db"
+      ],
+      "also_stated_at": [
+        "NPDExperiment/progress.md:276-279",
+        "NPDExperiment/reports/session_a1_b1.md:100-113"
+      ],
+      "status": "VERIFIED (derived)",
+      "derived_note": "var/npd.db gives 15,474,106 bar rows over 18,474 distinct symbols; 55 distinct formation_date with min=max=500 members; 308,610 feature rows; 432 distinct anonymization dates; 432 distinct dates for each of the three baselines."
+    },
+    {
+      "rank": 14,
+      "must_verify": true,
+      "claim": "Sizing against the measured 0.36339 rather than the registered assumption requires roughly **four times the evaluable days**, landing near **1,700 trading days** of post-cutoff window.",
+      "file_line": "NPDExperiment/REGISTRATION.md:716-718",
+      "figures": [
+        "four times",
+        "1,700 trading days"
+      ],
+      "n": 404,
+      "produced_by": [
+        "arithmetic on evaluation.md figures; no code produces this"
+      ],
+      "also_stated_at": [
+        "NPDExperiment/progress.md:51-53"
+      ],
+      "status": "MUST-VERIFY",
+      "derived_note": "4 x 427 = 1,708, so the statement is internally consistent. What it buys is not stated: 4x days halves the MDE to about 0.0256, still above the 0.01 lower edge of the band the sizing is offered against. Rests on claim 1, which is contradicted."
+    },
+    {
+      "rank": 15,
+      "must_verify": false,
+      "claim": "**All five caught and restored: True**",
+      "file_line": "NPDExperiment/reports/mutations.md:14",
+      "figures": [
+        "five",
+        "six"
+      ],
+      "n": 6,
+      "produced_by": [
+        "scripts/mutations.py",
+        "reports/mutations.json"
+      ],
+      "also_stated_at": [
+        "NPDExperiment/progress.md:176 ('Six mutations run')",
+        "NPDExperiment/reports/session_a1_b1.md:155 ('Five mutations, all caught')"
+      ],
+      "status": "INTERNALLY INCONSISTENT (read)",
+      "derived_note": "The table immediately above the summary line lists six mutations (numbered 1,2,3,4,6,5) and mutations.json holds six objects, each guard_failed_as_required true and restored_green true. S4 hygiene."
+    },
+    {
+      "rank": 16,
+      "must_verify": true,
+      "claim": "B.2 reports the outcome split by realized effort alongside the primary contrast. The split is descriptive. It does not become a verdict, under Clause 1.",
+      "file_line": "NPDExperiment/REGISTRATION.md:535-536",
+      "figures": [
+        "a registered descriptive split by realized reasoning effort",
+        "53 escalated days"
+      ],
+      "n": 404,
+      "produced_by": [
+        "src/npd/eval/evaluator.py and src/npd/eval/report.py contain no effort split"
+      ],
+      "also_stated_at": [
+        "NPDExperiment/reports/session_a1_b1.md:269-270"
+      ],
+      "status": "NOT DELIVERED (derived)",
+      "derived_note": "reports/stage_b2/evaluation.md contains no split by realized reasoning effort; grep for 'effort' in evaluator.py and report.py returns only the Amendment 2 limitation prose at report.py:292-293. The confound Amendment 3 raised at REGISTRATION.md:531-536 stands unexamined."
+    },
+    {
+      "rank": 17,
+      "must_verify": false,
+      "claim": "The logistic baseline was fitted once on **21322** rows across **711** days, 2022-01-03 through 2024-10-30",
+      "file_line": "NPDExperiment/reports/stage_b0/build.md:75",
+      "figures": [
+        "21322 rows",
+        "711 days"
+      ],
+      "n": 711,
+      "produced_by": [
+        "src/npd/baselines/logistic.py",
+        "var/npd_fit.db"
+      ],
+      "also_stated_at": [
+        "NPDExperiment/progress.md:279",
+        "NPDExperiment/reports/session_a1_b1.md:115"
+      ],
+      "status": "MUST-VERIFY (partly derived)",
+      "derived_note": "var/npd_fit.db holds 711 distinct dates in exactly that range and 21,330 forward_return rows per horizon, 8 more than the claimed fit sample of 21,322. The 8-row gap is not explained in any document."
+    },
+    {
+      "rank": 18,
+      "must_verify": true,
+      "claim": "The evaluable counts are 427 at the five-session horizon and 431 at the one-session horizon.",
+      "file_line": "NPDExperiment/REGISTRATION.md:92-93",
+      "figures": [
+        "427",
+        "431",
+        "404 evaluable, 6 dropped"
+      ],
+      "n": 432,
+      "produced_by": [
+        "src/npd/data/forward_returns.py",
+        "var/npd_sealed.db"
+      ],
+      "also_stated_at": [
+        "NPDExperiment/REGISTRATION.md:229,238 (the power grid is built on D=427 and D=431)",
+        "NPDExperiment/reports/stage_b2/evaluation.md:51-54"
+      ],
+      "status": "MUST-VERIFY (partly derived)",
+      "derived_note": "var/npd_sealed.db has complete 30-name panels on 421 days at h=5 and 429 days at h=1, not 427 and 431. Intersecting with the 415 stored days gives 404 and 412, matching the B.2 report. The 415-to-404 gap is 11, of which the report explains only 6; the other 5 are days with no h=5 return at all. The registered power grid is stated against a D that was never realized."
+    },
+    {
+      "rank": 19,
+      "must_verify": false,
+      "claim": "Raised 2026-08-25, 14 gate calls into B.1 ... Across the first 14 live attempts the model failed to return a usable permutation of the 30 labels on 9 of them ... The 7 days stored before this amendment followed the superseded procedure.",
+      "file_line": "NPDExperiment/REGISTRATION.md:504-510,538",
+      "figures": [
+        "14 attempts",
+        "9 failures",
+        "7 days stored"
+      ],
+      "n": 26,
+      "produced_by": [
+        "ledgers/evidence.jsonl (pre-Amendment-3 rows)"
+      ],
+      "also_stated_at": [
+        "NPDExperiment/reports/session_a1_b1.md:245"
+      ],
+      "status": "MUST-VERIFY (partly derived)",
+      "derived_note": "The pre-Amendment-3 evidence rows number 26 attempts across 13 dates, with 10 rows in state stored and 16 in model_failed. The 14 / 9 / 7 figures do not match what the ledger retained."
+    },
+    {
+      "rank": 20,
+      "must_verify": false,
+      "claim": "38 modules &middot; 4,699 lines ... 113 tests",
+      "file_line": "NPDExperiment/reports/session_record.html:191-192",
+      "figures": [
+        "38 modules",
+        "4,699 lines",
+        "113 tests"
+      ],
+      "n": null,
+      "produced_by": [
+        "git tree at 433dabe"
+      ],
+      "also_stated_at": [],
+      "status": "VERIFIED (derived), one part unresolved",
+      "derived_note": "At commit 433dabe, src/**/*.py is exactly 38 files and 4,699 lines. def test_ count is 107; 113 is plausibly pytest's collected count with parametrisation but is not reconstructible from the tree."
+    },
+    {
+      "rank": 21,
+      "must_verify": false,
+      "claim": "432 calls * 0.01350 USD = 5.83 USD against a 10.00 USD cap ... At 2,000 reasoning tokens the total reaches 10.15 USD and crosses the cap.",
+      "file_line": "NPDExperiment/REGISTRATION.md:313,316",
+      "figures": [
+        "5.83 USD",
+        "10.15 USD"
+      ],
+      "n": 432,
+      "produced_by": [
+        "arithmetic in REGISTRATION.md Section 12.1"
+      ],
+      "also_stated_at": [
+        "NPDExperiment/reports/stage_b0b/mock_run.md:29 (mock spend 5.832)"
+      ],
+      "status": "VERIFIED (derived)",
+      "derived_note": "432*0.0135 = 5.832; at 2,000 reasoning tokens the per-call cost is 0.02350 USD and 432*that = 10.152."
+    },
+    {
+      "rank": 22,
+      "must_verify": false,
+      "claim": "| `low` | 1,753 | 2,508 | 2,432 | 0.027271 USD | **11.7812 USD** | ... | `minimal` | 1,753 | 106 | 0 | 0.003251 USD | **1.4045 USD** | ... The safety budget is 80 percent of the remaining cap, 7.9756 USD.",
+      "file_line": "NPDExperiment/REGISTRATION.md:471-477",
+      "figures": [
+        "11.7812",
+        "1.4045",
+        "7.9756",
+        "0.0194 for a 365-day low run"
+      ],
+      "n": 2,
+      "produced_by": [
+        "scripts/calibrate.py",
+        "reports/stage_b1/calibration.json",
+        "reports/stage_b1/calibration_minimal.json",
+        "ledgers/spend.jsonl"
+      ],
+      "also_stated_at": [
+        "NPDExperiment/REGISTRATION.md:490",
+        "NPDExperiment/reports/session_a1_b1.md:244"
+      ],
+      "status": "VERIFIED (derived)",
+      "derived_note": "0.027271*432 = 11.7811; 0.003251*432 = 1.4044; 0.8*(10-0.030522) = 7.9756. Both calibration rows are in spend.jsonl at the stated token counts. 2*0.185695/sqrt(365) = 0.01944."
+    },
+    {
+      "rank": 23,
+      "must_verify": false,
+      "claim": "recorded 0.3494 USD against an actual 0.6429 USD, a 46 percent undercount",
+      "file_line": "NPDExperiment/REGISTRATION.md:612",
+      "figures": [
+        "0.3494",
+        "0.6429",
+        "46 percent",
+        "0.2936 unrecoverable"
+      ],
+      "n": 29,
+      "produced_by": [
+        "ledgers/spend.jsonl",
+        "ledgers/evidence.jsonl"
+      ],
+      "also_stated_at": [
+        "NPDExperiment/reports/session_a1_b1.md:247",
+        "NPDExperiment/progress.md:219-222"
+      ],
+      "status": "MUST-VERIFY (arithmetic checks; inputs unreconstructible)",
+      "derived_note": "(0.6429-0.3494)/0.6429 = 45.65 percent, so 46 percent rounds correctly. The two dollar figures cannot be rebuilt from the surviving ledgers because the usage behind the 37 unbilled attempts was discarded, which the authors state at REGISTRATION.md:619-622."
+    },
+    {
+      "rank": 24,
+      "must_verify": false,
+      "claim": "| first | 202 | +0.0123 | | second | 202 | -0.0001 | | difference, first minus second | | +0.0124 | ... **The observed difference is about one third of one standard error.**",
+      "file_line": "NPDExperiment/reports/stage_b2/evaluation.md:183-185,253-260",
+      "figures": [
+        "202/202",
+        "+0.0123",
+        "-0.0001",
+        "+0.0124",
+        "se near 0.035"
+      ],
+      "n": 404,
+      "produced_by": [
+        "src/npd/eval/evaluator.py:681-684"
+      ],
+      "also_stated_at": [],
+      "status": "VERIFIED (derived)",
+      "derived_note": "Recomputed 202/202 days, +0.012258 and -0.000104, difference +0.012361. The SE arithmetic (0.19 daily sd, VIF 3.4, n=202 gives 0.0349 on the difference; 0.0124/0.0349 = 0.36) also checks. The realized model daily IC sd is 0.2516 rather than 0.19, which widens the SE further and strengthens the authors' own 'inside noise' reading."
+    },
+    {
+      "rank": 25,
+      "must_verify": false,
+      "claim": "| evaluable days | 412 | | best baseline | `logistic` | | contrast | -0.0300 | | interval | -0.0677 to +0.0077 | ... | realized minimum detectable contrast | 0.0377 |",
+      "file_line": "NPDExperiment/reports/stage_b2/evaluation.md:167-173",
+      "figures": [
+        "412",
+        "-0.0300",
+        "-0.0677 to +0.0077",
+        "0.0377"
+      ],
+      "n": 412,
+      "produced_by": [
+        "src/npd/eval/evaluator.py:671-679"
+      ],
+      "also_stated_at": [],
+      "status": "VERIFIED (derived)",
+      "derived_note": "Recomputed 412 days; model -0.020273, logistic +0.009725, mom_12_1 +0.008865, sign_last -0.031531; contrast -0.029998, interval -0.067690 to +0.007694, realized MDE 0.037692."
+    }
+  ],
+  "intervals": [
+    {
+      "id": "I1",
+      "file_line": "NPDExperiment/reports/stage_b2/evaluation.md:37",
+      "quantity": "Monte Carlo 95 percent interval on the shuffled mean",
+      "estimator": "grand_mean +/- 1.96 * sd/sqrt(draws) (src/npd/eval/evaluator.py:359-365)",
+      "figure": "-0.0001 to +0.0003",
+      "n": "404 days x 10,000 draws",
+      "data_structure": "one Spearman rank IC per day over a 30-name panel"
+    },
+    {
+      "id": "I2",
+      "file_line": "NPDExperiment/reports/stage_b2/evaluation.md:39",
+      "quantity": "null distribution 2.5 to 97.5 percentile",
+      "estimator": "order statistic on the 10,000 draw means (evaluator.py:342-344)",
+      "figure": "-0.0179 to +0.0181",
+      "n": "10,000 draws",
+      "data_structure": "as above"
+    },
+    {
+      "id": "I3",
+      "file_line": "NPDExperiment/reports/stage_b2/evaluation.md:79",
+      "quantity": "interval on the primary contrast",
+      "estimator": "moving-block bootstrap, 10,000 resamples, block length 10, point +/- t_critical(2.0) * bootstrap sd (evaluator.py:160-190)",
+      "figure": "-0.0673 to +0.0351",
+      "n": 404,
+      "data_structure": "day-ordered series of daily contrast (model IC minus mom_12_1 IC)"
+    },
+    {
+      "id": "I4",
+      "file_line": "NPDExperiment/reports/stage_b2/evaluation.md:81",
+      "quantity": "bootstrap standard error",
+      "estimator": "sd of the 10,000 block-bootstrap means (evaluator.py:524)",
+      "figure": "0.02562",
+      "n": 404,
+      "data_structure": "as I3"
+    },
+    {
+      "id": "I5",
+      "file_line": "NPDExperiment/reports/stage_b2/evaluation.md:112",
+      "quantity": "permutation null 2.5 to 97.5 percentile",
+      "estimator": "within-day permutation of the stored ranking, 10,000 draws (evaluator.py:368-403)",
+      "figure": "-0.0184 to +0.0177",
+      "n": "404 x 10,000",
+      "data_structure": "realized-rank rows aligned to the predicted order"
+    },
+    {
+      "id": "I6",
+      "file_line": "NPDExperiment/reports/stage_b2/evaluation.md:133",
+      "quantity": "interval on the model mean daily rank IC",
+      "estimator": "same moving-block bootstrap, seed+1 (evaluator.py:516-522)",
+      "figure": "-0.0276 to +0.0397",
+      "n": 404,
+      "data_structure": "day-ordered series of model daily rank IC"
+    },
+    {
+      "id": "I7",
+      "file_line": "NPDExperiment/reports/stage_b2/evaluation.md:170",
+      "quantity": "interval on the secondary contrast",
+      "estimator": "same bootstrap, block length still 10 at a one-session horizon (evaluator.py:508)",
+      "figure": "-0.0677 to +0.0077",
+      "n": 412,
+      "data_structure": "day-ordered daily contrast at h=1"
+    },
+    {
+      "id": "I8",
+      "file_line": "NPDExperiment/reports/stage_b2/evaluation.md:192",
+      "quantity": "interval, model against a coin (descriptive)",
+      "estimator": "identical to I6",
+      "figure": "-0.0276 to +0.0397",
+      "n": 404,
+      "data_structure": "as I6"
+    },
+    {
+      "id": "I9",
+      "file_line": "NPDExperiment/reports/stage_b2/evaluation.md:250-251",
+      "quantity": "half-width of the model-against-a-coin test",
+      "estimator": "derived from I6",
+      "figure": "0.0337",
+      "n": 404,
+      "data_structure": "as I6"
+    },
+    {
+      "id": "I10",
+      "file_line": "NPDExperiment/REGISTRATION.md:38-39",
+      "quantity": "predecessor council interval (external, carried in from AiTrader)",
+      "estimator": "not stated; not recomputed here",
+      "figure": "-22.5 to +21.4 bp",
+      "n": "274 calls / 80 clusters",
+      "data_structure": "per-symbol directional calls, clustered"
+    },
+    {
+      "id": "I11",
+      "file_line": "NPDExperiment/REGISTRATION.md:231-245 and reports/stage_b2/evaluation.md:94",
+      "quantity": "registered projection band for the detectable contrast",
+      "estimator": "analytic grid over assumed correlations 0.0 to 0.7 (src/npd/power.py:98-126)",
+      "figure": "0.026 to 0.047",
+      "n": "D = 427, n_eff = 125.6",
+      "data_structure": "analytic, no data"
+    }
+  ],
+  "tests": [
+    {
+      "id": "T1",
+      "file_line": "NPDExperiment/reports/stage_b2/evaluation.md:36,42",
+      "statistic": "shuffled mean daily rank IC against a registered tolerance of 0.02",
+      "test": "within-day permutation pipeline-validity gate; NOT a hypothesis test, no p is computed; abs(mean) <= 0.02 (evaluator.py:627)",
+      "figure": "+0.0001, PASS",
+      "n": "404 days x 10,000 draws",
+      "data_structure": "daily realized-rank rows"
+    },
+    {
+      "id": "T2",
+      "file_line": "NPDExperiment/reports/stage_b2/evaluation.md:113",
+      "statistic": "two-sided permutation p",
+      "test": "(hits+1)/(draws+1) on |null mean| >= |observed mean| (evaluator.py:667-668)",
+      "figure": "0.5174",
+      "n": "404 x 10,000",
+      "data_structure": "daily realized-rank rows"
+    },
+    {
+      "id": "T3",
+      "file_line": "NPDExperiment/reports/stage_b2/evaluation.md:80,134",
+      "statistic": "excludes zero, primary contrast",
+      "test": "contrast_interval.low > 0 (evaluator.py:547)",
+      "figure": "False",
+      "n": 404,
+      "data_structure": "bootstrap interval on the daily contrast"
+    },
+    {
+      "id": "T4",
+      "file_line": "NPDExperiment/reports/stage_b2/evaluation.md:133,193",
+      "statistic": "beats a coin",
+      "test": "model_interval.low > 0 (evaluator.py:546)",
+      "figure": "False",
+      "n": 404,
+      "data_structure": "bootstrap interval on the model daily IC"
+    },
+    {
+      "id": "T5",
+      "file_line": "NPDExperiment/reports/stage_b2/evaluation.md:171-172",
+      "statistic": "secondary excludes zero and model IC excludes zero",
+      "test": "as T3 and T4 at h=1",
+      "figure": "False, False",
+      "n": 412,
+      "data_structure": "as T3/T4 at the secondary horizon"
+    },
+    {
+      "id": "T6",
+      "file_line": "NPDExperiment/reports/stage_b2/evaluation.md:92-93",
+      "statistic": "achieved effective sample size and realized MDE",
+      "test": "(sd_daily/se)^2 and t_critical*se (evaluator.py:529,544)",
+      "figure": "201.2 and 0.0512",
+      "n": 404,
+      "data_structure": "daily contrast series"
+    },
+    {
+      "id": "T7",
+      "file_line": "NPDExperiment/REGISTRATION.md:36",
+      "statistic": "predecessor council z (external)",
+      "test": "carried in from AiTrader, not recomputed",
+      "figure": "z -0.046",
+      "n": 274,
+      "data_structure": "per-call excess bp"
+    },
+    {
+      "id": "T8",
+      "file_line": "NPDExperiment/REGISTRATION.md:418-420 and DECISIONS.md:82-84",
+      "statistic": "predecessor pooled confidence Spearman (external)",
+      "test": "carried in",
+      "figure": "+0.0357 pooled against -0.0996 / -0.1156 / -0.2724 per provider",
+      "n": "not stated",
+      "data_structure": "pooled vs per-provider confidence"
+    },
+    {
+      "id": "T9",
+      "file_line": "NPDExperiment/REGISTRATION.md:434-437",
+      "statistic": "predecessor consolidat rationale cell (external, dormant)",
+      "test": "carried in",
+      "figure": "71.7 percent",
+      "n": 53,
+      "data_structure": "rationale-text cell"
+    },
+    {
+      "id": "T10",
+      "file_line": "NPDExperiment/REGISTRATION.md:558-560",
+      "statistic": "Amendment 4 format-failure rates",
+      "test": "raw proportions from the live evidence ledger",
+      "figure": "12/29 = 41 percent, 9/19 = 47 percent",
+      "n": 48,
+      "data_structure": "per-attempt parse outcome"
+    },
+    {
+      "id": "T11",
+      "file_line": "NPDExperiment/REGISTRATION.md:576",
+      "statistic": "first-attempt compliance, free-form array vs strict schema",
+      "test": "raw proportions",
+      "figure": "17/29 = 59 percent vs 7/8 = 88 percent",
+      "n": "29 and 8",
+      "data_structure": "per-attempt parse outcome"
+    }
+  ],
+  "provenance_claims": [
+    {
+      "id": "P1",
+      "claim": "Written 2026-08-25, before the first call. Every number below is derived, not assumed.",
+      "file_line": "NPDExperiment/REGISTRATION.md:3",
+      "commit_named": null,
+      "what_would_have_to_be_true": "REGISTRATION.md exists in a commit whose time precedes the first API call",
+      "status": "VERIFIED",
+      "note": "Commit 64b7d41 (2026-08-25T16:39:00Z) contains the full 17-section registration; the earliest ledger row is 2026-08-25T17:10:48Z."
+    },
+    {
+      "id": "P2",
+      "claim": "Committed before any call goes out. Coverage decides this verdict and nothing else does.",
+      "file_line": "NPDExperiment/REGISTRATION.md:11",
+      "commit_named": null,
+      "what_would_have_to_be_true": "the GO/DEGRADED/BLOCKED bars are byte-identical from a pre-call commit",
+      "status": "VERIFIED",
+      "note": "Section 0 is unchanged between 64b7d41 and HEAD."
+    },
+    {
+      "id": "P3",
+      "claim": "Written now, before any output exists. (Section 10 verdict table)",
+      "file_line": "NPDExperiment/REGISTRATION.md:268",
+      "commit_named": null,
+      "what_would_have_to_be_true": "the three verdict rows are unchanged from a pre-call commit",
+      "status": "VERIFIED",
+      "note": "git diff 64b7d41 HEAD -- REGISTRATION.md shows no change inside Sections 9, 10 or 11."
+    },
+    {
+      "id": "P4",
+      "claim": "These numbers are produced before a cent is spent, from the derived day count.",
+      "file_line": "NPDExperiment/REGISTRATION.md:201",
+      "commit_named": null,
+      "what_would_have_to_be_true": "the power floor and the eight-cell grid predate the first call",
+      "status": "VERIFIED",
+      "note": "Present verbatim in 64b7d41; all grid values recompute."
+    },
+    {
+      "id": "P5",
+      "claim": "A single pre-registered contrast on a single pre-registered model ... this hypothesis was not selected from a sweep. It was written before any output existed.",
+      "file_line": "NPDExperiment/REGISTRATION.md:188-190 and reports/stage_b2/evaluation.md:84-86",
+      "commit_named": null,
+      "what_would_have_to_be_true": "Sections 1, 5, 6 and 8 unchanged since 64b7d41",
+      "status": "VERIFIED for the text",
+      "note": "The contrast is defined against 'the best baseline' without naming it; the selection is made after the fact under ADR-010 (see P9)."
+    },
+    {
+      "id": "P6",
+      "claim": "The operator's registered prior. Recorded 2026-08-25, before any module touched the sealed store.",
+      "file_line": "NPDExperiment/REGISTRATION.md:343-344 and reports/stage_b2/evaluation.md:9",
+      "commit_named": null,
+      "what_would_have_to_be_true": "a repository state exists in which Section 13 holds 0.05 and B.2 has not run",
+      "status": "NOT VERIFIABLE FROM GIT",
+      "note": "The fill of Section 13 and the B.2 artefacts land in the same commit 2c6d683. Commits 64b7d41 through 433dabe all carry '[ EMPTY.' in Section 13; evaluation.md records the run at 2026-08-25T20:10:48Z and 2c6d683 was committed at 20:13:28Z. The only in-repo mechanism is require_amendment_zero() (evaluator.py:73-78), enforced by code, not recorded by git. The document itself discloses the prior was adopted from the assistant and yields no calibration evidence (REGISTRATION.md:349,367-368)."
+    },
+    {
+      "id": "P7",
+      "claim": "Prompts freeze at B.0b. The frozen prompt hash is recorded in reports/stage_b0b/mock_run.md and every replay uses it byte for byte.",
+      "file_line": "NPDExperiment/REGISTRATION.md:374-375",
+      "commit_named": null,
+      "what_would_have_to_be_true": "the digest in force predates every call it governs",
+      "status": "VERIFIED for the re-freeze",
+      "note": "7e6f3d68... first enters git at 250bc8f (2026-08-25T17:35:37Z); the earliest evidence row carrying it is 17:35:44Z, seven seconds later. The original freeze 9a174e01... entered at 943ba05 (17:06:55Z), before the first call."
+    },
+    {
+      "id": "P8",
+      "claim": "The corrected template digest is 7e6f3d68... and every B.3 replay uses these bytes. Supersession now keys on the prompt digest.",
+      "file_line": "NPDExperiment/REGISTRATION.md:592-603",
+      "commit_named": null,
+      "what_would_have_to_be_true": "every stored ranking carries that digest",
+      "status": "VERIFIED FROM DATA",
+      "note": "All 883 current-procedure evidence rows carry it; the 415 stored days come from those rows."
+    },
+    {
+      "id": "P9",
+      "claim": "The best baseline is the one with the highest mean daily rank IC inside the evaluable window, designated after the fact ... Choosing after the fact is conservative in this direction and only this direction.",
+      "file_line": "NPDExperiment/DECISIONS.md:193-206 (ADR-010, 'Accepted, 2026-08-25, at B.2')",
+      "commit_named": null,
+      "what_would_have_to_be_true": "ADR-010 is honestly labelled post-hoc and the conservatism argument holds",
+      "status": "VERIFIED AS DISCLOSED",
+      "note": "ADR-010 first appears in 2c6d683, the same commit as the evaluation, and its own first line says 'at B.2'. The conservatism argument is checkable from the printed per-baseline table and holds: mom_12_1 at +0.0222 is the highest of the three."
+    },
+    {
+      "id": "P10",
+      "claim": "ADR-007 registered this failure mode as a risk before collection. It was not discovered afterwards.",
+      "file_line": "NPDExperiment/REGISTRATION.md:704-705 and progress.md:44-45",
+      "commit_named": null,
+      "what_would_have_to_be_true": "ADR-007 predates the first call and describes the failure mode that materialised",
+      "status": "VERIFIED for the ordering",
+      "note": "ADR-007 is present in 64b7d41 and unchanged at HEAD. What it registered is the overlap risk; the realized widening is attributed in the closure to a correlation claim that claim 1 above contradicts."
+    },
+    {
+      "id": "P11",
+      "claim": "Amendment 6 carries POST-READ in its first line, states that it has no pre-registration force",
+      "file_line": "NPDExperiment/DECISIONS.md:231-247 (ADR-012) and REGISTRATION.md:624-631",
+      "commit_named": null,
+      "what_would_have_to_be_true": "Amendment 6 arrived after the read and says so",
+      "status": "VERIFIED",
+      "note": "Amendment 6 and Amendment 7 (VOID) first appear in 2d3d0ae, the closure commit, after the evaluation commit 2c6d683. The label matches the git order."
+    },
+    {
+      "id": "P12",
+      "claim": "Forward returns live in their own store, var/npd_sealed.db. The only module permitted to name that path or open that store is npd.eval.evaluator.",
+      "file_line": "NPDExperiment/DECISIONS.md:61-66 (ADR-004) and DECISIONS.md:150-164 (ADR-008)",
+      "commit_named": null,
+      "what_would_have_to_be_true": "the date split is real and the fit store holds no window date",
+      "status": "VERIFIED FROM DATA",
+      "note": "var/npd_fit.db holds 0 rows dated on or after 2024-10-31; var/npd_sealed.db holds 0 rows before it. tests/test_guards.py:72-127 enforces the single-reader rule and reports/mutations.md:46-59 shows mutation 3 failing it."
+    },
+    {
+      "id": "P13",
+      "claim": "Its hash and mtime are unchanged from the B.0 build, because it was opened read-only.",
+      "file_line": "NPDExperiment/progress.md:168-169",
+      "commit_named": null,
+      "what_would_have_to_be_true": "the sealed store was not written after the B.0 build",
+      "status": "VERIFIED for mtime, UNVERIFIABLE for hash",
+      "note": "var/npd_sealed.db mtime is 2026-08-25 09:54:33 -0700, before the B.1 collection (12:46) and before the B.2 run (13:10). No pre-image hash of the sealed store is recorded anywhere in the repository, so the hash half of the claim cannot be checked."
+    },
+    {
+      "id": "P14",
+      "claim": "backtest/universe.py sha256 before the extract ... after the extract ... unchanged: True",
+      "file_line": "NPDExperiment/reports/stage_b0/build.md:9-12",
+      "commit_named": null,
+      "what_would_have_to_be_true": "the AiTrader source file still hashes to 8188eea0...5529 and no other source path was opened",
+      "status": "PARTIALLY CHECKABLE",
+      "note": "var/source_hashes_before.txt (untracked) records the before-hash for universe.py only. The bar store analysis_bars.db has no recorded hash on either side, so 'two read-only paths were opened and no others' is evidenced for one of the two. Re-hashing the live AiTrader file is a cross-repo read left to the VERIFY pass."
+    },
+    {
+      "id": "P15",
+      "claim": "This repository never installed a systemd unit, a timer, or a cron entry. Verified at closure",
+      "file_line": "NPDExperiment/progress.md:87-90",
+      "commit_named": null,
+      "what_would_have_to_be_true": "no unit, timer or crontab entry references this path",
+      "status": "NOT CHECKED",
+      "note": "A host-state claim, not a repository claim."
+    },
+    {
+      "id": "P16",
+      "claim": "Nothing is deleted. The artifacts that make the result auditable stay in place",
+      "file_line": "NPDExperiment/REGISTRATION.md:764-775",
+      "commit_named": null,
+      "what_would_have_to_be_true": "the ledgers, stores and 415 stored rankings still exist",
+      "status": "VERIFIED (unanchored read)",
+      "note": "All present in the live tree; none of them is tracked, so the anchored commit preserves the claim but not the artifacts. A clone at the anchored SHA can re-derive no B.1 or B.2 figure."
+    },
+    {
+      "id": "P17",
+      "claim": "The question is closed by operator decision, not by evidence.",
+      "file_line": "NPDExperiment/REGISTRATION.md:710",
+      "commit_named": null,
+      "what_would_have_to_be_true": "-",
+      "status": "DISCLOSURE, not a verifiable claim",
+      "note": "Recorded because it is the correct frame for reading claims 1 through 3, and the authors state it themselves."
+    }
+  ]
+}

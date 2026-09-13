@@ -1,0 +1,1422 @@
+{
+  "repo": "retail-power-limits",
+  "anchored_sha": "dda39b2f148569a6fe9be956a979471b2330611d",
+  "snapshot": "/tmp/claude-1000/-home-kiros-li-Documents-GitHub-program-audit/5ca157a0-1746-4eb9-a1b8-f3732ea42bf4/scratchpad/snap/retail-power-limits/",
+  "live_repo": "/home/kiros-li/Documents/GitHub/retail-power-limits/",
+  "agent": "C",
+  "task": "LOCATE",
+  "generated_utc": "2026-09-04T00:05:00Z",
+  "repository_character": "Secondary source. Holds no market data, opens no data source, computes no statistic. No REGISTRATION.md, registrations/, HYPOTHESES.md, report.md, FINDINGS.md or reports/ exist here. Every numeric claim is a transcription from a sibling repository at a named commit; verification inside this repository is limited to internal prose-vs-data consistency, arithmetic among stated figures, and the single self-flagged derived figure (411 minutes).",
+  "citation_resolution": {
+    "total_source_keys": 24,
+    "keys_matching_sibling_anchor": [
+      "npd-registration",
+      "npd-progress",
+      "npd-decisions",
+      "npd-close",
+      "insider-registration",
+      "insider-decisions",
+      "insider-close",
+      "etf-registration",
+      "etf-disarm",
+      "hf-progress",
+      "solattn-registration",
+      "solattn-findings"
+    ],
+    "keys_needing_live_sibling_git": [
+      "insider-section0",
+      "insider-gate",
+      "etf-readme",
+      "etf-close",
+      "hf-registration",
+      "hf-readme",
+      "hf-close",
+      "aitrader-return",
+      "aitrader-round",
+      "mlc-hypotheses",
+      "mlc-h1note",
+      "solclear-findings"
+    ]
+  },
+  "has_untracked_data": false,
+  "untracked_note": "The only untracked material in the live working tree is .venv/ (91 MB), .mypy_cache/ (6.1 MB), .pytest_cache/ (40 KB), .ruff_cache/ (32 KB) and two __pycache__/ directories, all gitignored build residue. No data file of any kind exists outside git.",
+  "artifacts": [
+    {
+      "path": "retail-power-limits/rplimits/cases.py",
+      "tracked": true,
+      "anchoring": "anchored",
+      "size_bytes": 19210,
+      "holds": "The single definition of every quoted figure: 4 PowerCase records x 7 Figure fields + caveat, 3 ContrastCase records x 2 Figure fields + why_not_power, 4 Headline records. All values are string literals; nothing is computed; no data read; no network.",
+      "backs": "Every generated block in SOURCES.md and the headline table in docs/the-power-limit.md; transitively the figures repeated in README.md and note prose.",
+      "notes": "34 Figure objects total. Figure.__post_init__ (lines 29-33) raises KeyError on an unresolvable source key and ValueError on an empty value."
+    },
+    {
+      "path": "retail-power-limits/rplimits/sources.py",
+      "tracked": true,
+      "anchoring": "anchored",
+      "size_bytes": 7359,
+      "holds": "Citation registry: 24 Source(repo, path, commit, date, detail) entries mapping every figure to a sibling repo/file/commit.",
+      "backs": "source-registry block at SOURCES.md:210-236; the inline '*Source: ...*' line under every figure.",
+      "notes": "11 of the 24 cited commits equal the audit's anchored SHA for that sibling and are checkable from SNAP; 13 need live sibling git history."
+    },
+    {
+      "path": "retail-power-limits/rplimits/render.py",
+      "tracked": true,
+      "anchoring": "anchored",
+      "size_bytes": 3442,
+      "holds": "Four markdown builders: headline-table, power-records, contrast-records, source-registry. Pure string assembly.",
+      "backs": "The four generated document blocks.",
+      "notes": "No arithmetic anywhere."
+    },
+    {
+      "path": "retail-power-limits/rplimits/docsync.py",
+      "tracked": true,
+      "anchoring": "anchored",
+      "size_bytes": 2822,
+      "holds": "Marker-block reader/writer; DOCUMENTS = (SOURCES.md, docs/the-power-limit.md).",
+      "backs": "Mechanism only, carries no figures.",
+      "notes": "ROOT is this repository's own parent (line 27); no path outside ROOT is read, which supports the 'imports nothing from siblings at runtime' claim."
+    },
+    {
+      "path": "retail-power-limits/rplimits/__main__.py",
+      "tracked": true,
+      "anchoring": "anchored",
+      "size_bytes": 613,
+      "holds": "CLI entry point; --write rewrites blocks in place.",
+      "backs": "none",
+      "notes": ""
+    },
+    {
+      "path": "retail-power-limits/rplimits/__init__.py",
+      "tracked": true,
+      "anchoring": "anchored",
+      "size_bytes": 514,
+      "holds": "Package docstring and __version__ = 0.1.0.",
+      "backs": "none",
+      "notes": ""
+    },
+    {
+      "path": "retail-power-limits/SOURCES.md",
+      "tracked": true,
+      "anchoring": "anchored",
+      "size_bytes": 23127,
+      "holds": "The full extraction. Lines 27-155 power-records, 165-201 contrast-records, 209-236 source-registry are GENERATED from cases.py/sources.py. Lines 240-300 hand-written: the two git check commands, the published/unpublished table, the derived-figure disclosure.",
+      "backs": "Primary carrier of nearly every numeric claim in the repository.",
+      "notes": "300 lines."
+    },
+    {
+      "path": "retail-power-limits/docs/the-power-limit.md",
+      "tracked": true,
+      "anchoring": "anchored",
+      "size_bytes": 24378,
+      "holds": "The note, 407 lines. Lines 69-76 are the generated headline-table; all other prose is hand-written and restates figures also held in cases.py.",
+      "backs": "Four case summaries, the progression (155-272), the cost-asymmetry table (236-243), the contrast cases (274-315), the practice (317-359).",
+      "notes": "Only one of its blocks is drift-tested; the rest of the prose is pinned only by string-presence assertions in tests/test_honesty.py."
+    },
+    {
+      "path": "retail-power-limits/README.md",
+      "tracked": true,
+      "anchoring": "anchored",
+      "size_bytes": 4762,
+      "holds": "The claim, the scope limit, the four-case table (lines 18-23), the list of honesty-pinned figures (78-80).",
+      "backs": "The headline four-case figures.",
+      "notes": "IMPORTANT: README.md carries NO generated block, so its four-case table is not covered by the drift test."
+    },
+    {
+      "path": "retail-power-limits/DECISIONS.md",
+      "tracked": true,
+      "anchoring": "anchored",
+      "size_bytes": 9190,
+      "holds": "Six ADRs. ADR-003 (87-118) the four corrections; ADR-004 (121-148) the HFExperiment inheritance; ADR-006 (177-193) the one derived figure and its six addends.",
+      "backs": "The correction claims, the HF-inheritance claim, the 411-minute derivation.",
+      "notes": "All six dated 'Accepted, 2026-08-29'."
+    },
+    {
+      "path": "retail-power-limits/progress.md",
+      "tracked": true,
+      "anchoring": "anchored",
+      "size_bytes": 7472,
+      "holds": "Stage record for this repository only: ETA vs actual, what was read from each sibling (36-45), three build defects (70-109), the no-remote finding (111-127), self-reported gate result (65-68).",
+      "backs": "Self-report figures about this repository ('111 tests', '11 source files').",
+      "notes": ""
+    },
+    {
+      "path": "retail-power-limits/tests/test_honesty.py",
+      "tracked": true,
+      "anchoring": "anchored",
+      "size_bytes": 8270,
+      "holds": "The machine-readable statement of which figures the authors consider load-bearing: SCOPE_PINNED (59-70) and FIGURES_PINNED (90-119), plus a credential scan and canaries for every detector.",
+      "backs": "Pins 0.0512, 0.01 to 0.05, 49.35 bp per month, 845, above 1,200, 302, z 1.668, 2.50, 6.9378 USD in both README and note; additionally in the note -1.0779, 300 to 550 bps, 0 USD and three closure phrases.",
+      "notes": "Pins are substring-presence only after whitespace flattening; they do not verify any value."
+    },
+    {
+      "path": "retail-power-limits/tests/test_render.py",
+      "tracked": true,
+      "anchoring": "anchored",
+      "size_bytes": 2131,
+      "holds": "Drift check: re-renders each of the 4 marker blocks and compares to disk.",
+      "backs": "Guarantees the SOURCES.md blocks and the note's headline table equal cases.py.",
+      "notes": "Covers 4 blocks across 2 documents; README.md is out of scope."
+    },
+    {
+      "path": "retail-power-limits/tests/test_cases.py",
+      "tracked": true,
+      "anchoring": "anchored",
+      "size_bytes": 2335,
+      "holds": "Structural checks: every figure resolves to a source; exactly four power cases in a fixed order; headlines correspond; cases are frozen.",
+      "backs": "Integrity of the citation layer, not of any figure's value.",
+      "notes": ""
+    },
+    {
+      "path": "retail-power-limits/tests/test_sources.py",
+      "tracked": true,
+      "anchoring": "anchored",
+      "size_bytes": 1740,
+      "holds": "Every source complete; every commit a 7-char lowercase short hash; every date ISO 2026; all seven repositories represented.",
+      "backs": "Citation-registry integrity.",
+      "notes": "Does not check that any hash resolves in the named repository."
+    },
+    {
+      "path": "retail-power-limits/uv.lock",
+      "tracked": true,
+      "anchoring": "anchored",
+      "size_bytes": 75212,
+      "holds": "Dependency lock (pytest, ruff, mypy only).",
+      "backs": "none",
+      "notes": "The largest tracked file; no data."
+    },
+    {
+      "path": "retail-power-limits/pyproject.toml",
+      "tracked": true,
+      "anchoring": "anchored",
+      "size_bytes": 1431,
+      "holds": "Build config; mypy files = ['rplimits','tests'] (line 46); RUF001 ignored for cases.py and test_honesty.py because U+2212 minus signs must match the source byte-for-byte (33-39).",
+      "backs": "Relevant to claim C-28 (the '11 source files' self-report).",
+      "notes": ""
+    },
+    {
+      "path": "retail-power-limits/Makefile",
+      "tracked": true,
+      "anchoring": "anchored",
+      "size_bytes": 730,
+      "holds": "lint/typecheck/test/tables targets; 'check' is the gate.",
+      "backs": "none",
+      "notes": ""
+    },
+    {
+      "path": "retail-power-limits/LICENSE",
+      "tracked": true,
+      "anchoring": "anchored",
+      "size_bytes": 1089,
+      "holds": "MIT.",
+      "backs": "none",
+      "notes": ""
+    },
+    {
+      "path": "retail-power-limits/.gitignore",
+      "tracked": true,
+      "anchoring": "anchored",
+      "size_bytes": 76,
+      "holds": "Ignores .venv, __pycache__, *.pyc, the three tool caches, and .env.",
+      "backs": "none",
+      "notes": ""
+    },
+    {
+      "path": "retail-power-limits/tests/__init__.py",
+      "tracked": true,
+      "anchoring": "anchored",
+      "size_bytes": 0,
+      "holds": "Empty.",
+      "backs": "none",
+      "notes": ""
+    },
+    {
+      "path": "/home/kiros-li/Documents/GitHub/retail-power-limits/.venv/",
+      "tracked": false,
+      "anchoring": "unanchored",
+      "size_bytes": 95420416,
+      "holds": "Python virtualenv. Build residue; no repository-authored data.",
+      "backs": "none",
+      "notes": "91 MB, gitignored, mtime 2026-08-29 00:13 local. Listed by ls -la and du only; not opened. Read 2026-09-03T23:57Z."
+    },
+    {
+      "path": "/home/kiros-li/Documents/GitHub/retail-power-limits/.mypy_cache/",
+      "tracked": false,
+      "anchoring": "unanchored",
+      "size_bytes": 6396313,
+      "holds": "mypy incremental cache.",
+      "backs": "none",
+      "notes": "6.1 MB, gitignored, mtime 2026-08-29 00:18 local. Not opened. Read 2026-09-03T23:57Z."
+    },
+    {
+      "path": "/home/kiros-li/Documents/GitHub/retail-power-limits/.pytest_cache/",
+      "tracked": false,
+      "anchoring": "unanchored",
+      "size_bytes": 40960,
+      "holds": "pytest cache (lastfailed/nodeids).",
+      "backs": "none",
+      "notes": "40 KB, gitignored, mtime 2026-08-29 00:15 local. Not opened. Read 2026-09-03T23:57Z."
+    },
+    {
+      "path": "/home/kiros-li/Documents/GitHub/retail-power-limits/.ruff_cache/",
+      "tracked": false,
+      "anchoring": "unanchored",
+      "size_bytes": 32768,
+      "holds": "ruff cache.",
+      "backs": "none",
+      "notes": "32 KB, gitignored. Not opened. Read 2026-09-03T23:57Z."
+    },
+    {
+      "path": "/home/kiros-li/Documents/GitHub/retail-power-limits/rplimits/__pycache__/ and tests/__pycache__/",
+      "tracked": false,
+      "anchoring": "unanchored",
+      "size_bytes": null,
+      "holds": "Compiled bytecode.",
+      "backs": "none",
+      "notes": "Gitignored. Not opened. Read 2026-09-03T23:57Z."
+    }
+  ],
+  "claims": [
+    {
+      "id": "C-01",
+      "rank": 1,
+      "must_verify": true,
+      "claim_verbatim": "realized MDE **0.0512** - above the whole band",
+      "file_lines": [
+        "retail-power-limits/docs/the-power-limit.md:72",
+        "retail-power-limits/README.md:20",
+        "retail-power-limits/SOURCES.md:38",
+        "retail-power-limits/rplimits/cases.py:95",
+        "retail-power-limits/rplimits/cases.py:405"
+      ],
+      "figures": [
+        "MDE 0.0512",
+        "effect band 0.01 to 0.05",
+        "pre-registered projection 0.026 to 0.047",
+        "realized contrast sd 0.36339",
+        "registered sd assumption at most 0.2626"
+      ],
+      "n": "415 stored daily rankings; 404 evaluable days; 125.6 independent-equivalent days",
+      "produced_by": "NPDExperiment/progress.md and REGISTRATION.md Section 9 @ 2d3d0ae (== NPDExperiment's anchored SHA, checkable from SNAP/NPDExperiment/)",
+      "notes": "Deciding number of case 1 and the pivot of the whole progression argument; re-quoted inside InsiderExperiment at docs/the-power-limit.md:186. tests/test_honesty.py:146-147 names the inverting edit ('0.0012'). In-repo: 0.0512 with sd 0.36339 and N_eff 125.6 implies t*M = 1.579 (1.645 gives 0.0533; 1.96 gives 0.0636); the scale term M is stated nowhere here, so the figure is not closable inside this repository."
+    },
+    {
+      "id": "C-02",
+      "rank": 2,
+      "must_verify": true,
+      "claim_verbatim": "The minimum detectable effect is 49.35 bp per month against a registered BLOCKED floor of 40",
+      "file_lines": [
+        "retail-power-limits/SOURCES.md:86",
+        "retail-power-limits/docs/the-power-limit.md:73",
+        "retail-power-limits/docs/the-power-limit.md:92",
+        "retail-power-limits/docs/the-power-limit.md:208",
+        "retail-power-limits/README.md:21",
+        "retail-power-limits/rplimits/cases.py:146",
+        "retail-power-limits/rplimits/cases.py:172",
+        "retail-power-limits/rplimits/cases.py:412"
+      ],
+      "figures": [
+        "MDE 49.35 bp/month",
+        "BLOCKED floor 40 bp",
+        "GO bar 20 bp",
+        "gross band 30 to 40 bp/month",
+        "net band 13.3 to 34.7 bp/month"
+      ],
+      "n": "4,585 qualifying events; 2,581 sessions; 2,869.9 effective independent periods",
+      "produced_by": "InsiderExperiment/REGISTRATION.md Sections 0 and 15.5-15.7 @ 12d9fd3 (anchored, checkable from SNAP) and the gate commit cb17046 (NOT the anchor; needs live sibling git)",
+      "notes": "The only case of the four where a power gate fired as a registered verdict. The 'expensive discovery to cheap refusal' progression (README.md:36-39) rests entirely on it."
+    },
+    {
+      "id": "C-03",
+      "rank": 3,
+      "must_verify": true,
+      "claim_verbatim": "The closure itself fired on 163 projected against 300 governing at the 2027-03-31 deadline.",
+      "file_lines": [
+        "retail-power-limits/SOURCES.md:122",
+        "retail-power-limits/docs/the-power-limit.md:138",
+        "retail-power-limits/DECISIONS.md:102",
+        "retail-power-limits/rplimits/cases.py:235"
+      ],
+      "figures": [
+        "163 projected",
+        "300 governing",
+        "forward accrual 20.8 admissible days/month",
+        "11 admissible days at closure",
+        "deadline 2027-03-31"
+      ],
+      "n": "336-row census: 53 capture-too-late + 243 no-capture + 25 capture-served-no-value + 3 no-printed-value + 1 archive-fetch-failed + 11 admissible = 336",
+      "produced_by": "ETFExperiment/REGISTRATION.md @ 4d11002 (anchored) and the closing commit 3f5d629 (not anchored)",
+      "notes": "This is the note's own correction #2: it asserts the handed-over 845/above-1,200/about-302 triple is NOT the closure's numbers and that 163-vs-300 is. In-repo: the census sums to exactly 336; but projecting 20.8/month from 2026-08-29 to 2027-03-31 plus the 11 held gives ~157, not 163 (the same projection to 2027-10-31 gives ~303.5, consistent with 'about 302'), so the 163 implies an earlier accrual start that only ETFExperiment's record settles."
+    },
+    {
+      "id": "C-04",
+      "rank": 4,
+      "must_verify": true,
+      "claim_verbatim": "**z 1.668** against a 2.50 bar; needed 104.0 %/yr of excess, delivered 70.5",
+      "file_lines": [
+        "retail-power-limits/docs/the-power-limit.md:75",
+        "retail-power-limits/docs/the-power-limit.md:109",
+        "retail-power-limits/README.md:23",
+        "retail-power-limits/SOURCES.md:134",
+        "retail-power-limits/DECISIONS.md:133",
+        "retail-power-limits/rplimits/cases.py:257",
+        "retail-power-limits/rplimits/cases.py:426"
+      ],
+      "figures": [
+        "z 1.668",
+        "corrected bar 2.50",
+        "104.0 %/yr needed",
+        "70.5 %/yr delivered",
+        "excess 27.99 bp/day",
+        "noise ~418 bp/day",
+        "TE 66.4 % annualized",
+        "shortfall 1.5x"
+      ],
+      "n": "one 2.55-year holdout (~643 sessions), touched once at commit a0a9ef6",
+      "produced_by": "AiTrader/RETURN.md @ f819b68 (NOT AiTrader's anchored SHA 705e0ed; needs live sibling git, or a check of whether RETURN.md changed between f819b68 and the anchor)",
+      "notes": "The fourth case's entire evidentiary basis, and the one case that did not fire its own power gate (ADR-004). In-repo arithmetic: 66.4/sqrt(252) = 418.3 bp/day CONSISTENT with 'near 418'; 27.99*252 = 70.53 %/yr CONSISTENT with 'delivered 70.5'; but 70.5*(2.50/1.668) = 105.7 %/yr, not the stated 104.0 - equivalently 104.0/70.5 = 1.4752 implies a bar of 2.461, not 2.50. Roughly 1.6 pp unexplained."
+    },
+    {
+      "id": "C-05",
+      "rank": 5,
+      "must_verify": true,
+      "claim_verbatim": "NPDExperiment's closing commit is stamped 2026-08-25 13:26:58. InsiderExperiment's first commit - the one carrying the gate - is stamped 18:34:56 the same day, five hours and eight minutes later. Its own closure came at 23:24:15.",
+      "file_lines": [
+        "retail-power-limits/docs/the-power-limit.md:211-214"
+      ],
+      "figures": [
+        "13:26:58",
+        "18:34:56",
+        "23:24:15",
+        "five hours and eight minutes",
+        "under ten hours"
+      ],
+      "n": "three git commit timestamps",
+      "produced_by": "git objects: NPDExperiment 2d3d0ae (anchor); InsiderExperiment fbfc74e (first commit) and 12d9fd3 (closing commit)",
+      "notes": "README.md:38-39 calls this progression 'the transferable output, and it matters more than any individual closure'. Purely git-verifiable. In-repo: 18:34:56 - 13:26:58 = 5h07m58s, so 'five hours and eight minutes' rounds seconds up; 13:26:58 to 23:24:15 = 9h57m17s, consistent with 'under ten hours'. The note states no timezone."
+    },
+    {
+      "id": "C-06",
+      "rank": 6,
+      "must_verify": true,
+      "claim_verbatim": "The 411 minutes is stated as this note's arithmetic over six quoted addends - A.1 22, A.2 34, B.0 68, B.0b 52, B.1 194, B.2 41",
+      "file_lines": [
+        "retail-power-limits/DECISIONS.md:184-186",
+        "retail-power-limits/SOURCES.md:292-300",
+        "retail-power-limits/docs/the-power-limit.md:241",
+        "retail-power-limits/rplimits/cases.py:112"
+      ],
+      "figures": [
+        "411 minutes",
+        "addends 22, 34, 68, 52, 194, 41",
+        "excludes stage Z.1"
+      ],
+      "n": "six recorded stage actuals",
+      "produced_by": "This repository's own arithmetic over NPDExperiment/progress.md @ 2d3d0ae (anchored, checkable from SNAP)",
+      "notes": "The only derived number in the repository and a column of the cost-asymmetry table; ADR-006 stakes the 'everything else is quoted' claim on it. In-repo: 22+34+68+52+194+41 = 411, the sum is CORRECT. What remains is whether each addend matches NPDExperiment's progress.md and whether six stages is the complete set."
+    },
+    {
+      "id": "C-07",
+      "rank": 7,
+      "must_verify": true,
+      "claim_verbatim": "the effective day count fell from 427 to 125.6",
+      "file_lines": [
+        "retail-power-limits/docs/the-power-limit.md:165",
+        "retail-power-limits/SOURCES.md:42",
+        "retail-power-limits/rplimits/cases.py:102",
+        "retail-power-limits/docs/the-power-limit.md:380"
+      ],
+      "figures": [
+        "427 (note prose)",
+        "404 evaluable days (generated block)",
+        "125.6 independent-equivalent days",
+        "variance inflation 3.4",
+        "'lost 70 percent of its sample'"
+      ],
+      "n": "NPDExperiment's daily series",
+      "produced_by": "NPDExperiment/progress.md @ 2d3d0ae (anchored)",
+      "notes": "INTERNAL TENSION between two places in the same repository. 427/3.4 = 125.59 CONSISTENT; 404/3.4 = 118.82 INCONSISTENT with the stated 125.6. The related 'lost 70 percent' at docs/the-power-limit.md:380 also fits the 427 base (1 - 125.6/427 = 70.6 %) and not the 404 base (68.9 %). The 427 figure sits in hand-written prose OUTSIDE the generated blocks, so the drift test does not cover it."
+    },
+    {
+      "id": "C-08",
+      "rank": 8,
+      "must_verify": true,
+      "claim_verbatim": "Widening 5 names to 50 halves tracking error (66.4 to 31.7 percent) and cuts excess proportionally (27.99 to 10.04 bp per day), so z moves only 1.668 to 1.455 and neither width clears.",
+      "file_lines": [
+        "retail-power-limits/SOURCES.md:134",
+        "retail-power-limits/rplimits/cases.py:259-261"
+      ],
+      "figures": [
+        "TE 66.4 to 31.7 %",
+        "excess 27.99 to 10.04 bp/day",
+        "z 1.668 to 1.455"
+      ],
+      "n": "the same 2.55-year holdout, re-scored at two book widths",
+      "produced_by": "AiTrader/RETURN.md 'H-F width tables' @ f819b68 (not the anchor)",
+      "notes": "The sentence that forecloses the obvious repair (hold more names) and supports 'not a better estimator on the same samples' (docs/the-power-limit.md:363-368). In-repo: if z scales as excess/TE then (10.04/31.7)/(27.99/66.4) = 0.7513, giving z = 1.253, not the stated 1.455. Also 'cuts excess proportionally' does not describe the numbers: TE falls x0.477 while excess falls x0.359."
+    },
+    {
+      "id": "C-09",
+      "rank": 9,
+      "must_verify": false,
+      "claim_verbatim": "about 302 admissible days by 2027-10-31, which clears the governing 300 at the published 0.18 by two days and clears nothing at the registered 0.09, where E1 needs 845 and E2 needs above 1,200",
+      "file_lines": [
+        "retail-power-limits/docs/the-power-limit.md:132-139",
+        "retail-power-limits/SOURCES.md:122",
+        "retail-power-limits/DECISIONS.md:101-104",
+        "retail-power-limits/rplimits/cases.py:230-236"
+      ],
+      "figures": [
+        "about 302",
+        "300 governing",
+        "845 (E1 at 0.09)",
+        "above 1,200 (E2 at 0.09)",
+        "0.18 published",
+        "0.09 registered"
+      ],
+      "n": "Amendment 6's forward projection to 2027-10-31",
+      "produced_by": "ETFExperiment/REGISTRATION.md Amendment 6 @ 4d11002 (anchored)",
+      "notes": "Three of these four figures (845, above 1,200, 302) are pinned by tests/test_honesty.py:96-97,107-108."
+    },
+    {
+      "id": "C-10",
+      "rank": 10,
+      "must_verify": false,
+      "claim_verbatim": "**6.9378 USD** across 920 billed model calls",
+      "file_lines": [
+        "retail-power-limits/docs/the-power-limit.md:239",
+        "retail-power-limits/docs/the-power-limit.md:240",
+        "retail-power-limits/SOURCES.md:50",
+        "retail-power-limits/rplimits/cases.py:112",
+        "retail-power-limits/README.md:34"
+      ],
+      "figures": [
+        "6.9378 USD",
+        "10.00 USD cap",
+        "920 billed calls",
+        "2 calibration calls"
+      ],
+      "n": "920 billed gate calls",
+      "produced_by": "NPDExperiment/progress.md @ 2d3d0ae (anchored)",
+      "notes": "The before-the-gate half of the cost asymmetry; pinned by tests/test_honesty.py:100,111."
+    },
+    {
+      "id": "C-11",
+      "rank": 11,
+      "must_verify": false,
+      "claim_verbatim": "4,585 qualifying events against a registered floor of 1,000; 2,581 sessions at 99.5 percent coverage against a floor of 80 percent; 2,869.9 effective independent periods, which exceeds the raw session count because the variance inflation of 0.899 is below one.",
+      "file_lines": [
+        "retail-power-limits/SOURCES.md:74",
+        "retail-power-limits/rplimits/cases.py:152-154"
+      ],
+      "figures": [
+        "4,585 events",
+        "floor 1,000",
+        "2,581 sessions",
+        "99.5 % coverage",
+        "floor 80 %",
+        "2,869.9 N_eff",
+        "variance inflation 0.899"
+      ],
+      "n": "4,585 events over 2,581 sessions",
+      "produced_by": "InsiderExperiment/REGISTRATION.md @ 12d9fd3 (anchored)",
+      "notes": "In-repo: 2,581/0.899 = 2,870.97 against the stated 2,869.9, i.e. the implied inflation is 0.89933 and '0.899' is its rounding - internally CONSISTENT."
+    },
+    {
+      "id": "C-12",
+      "rank": 12,
+      "must_verify": false,
+      "claim_verbatim": "a book of 71.9 names that behaves like 29.7, whose 9.993 percent tracking error is the whole of the 49.35",
+      "file_lines": [
+        "retail-power-limits/docs/the-power-limit.md:96-97",
+        "retail-power-limits/SOURCES.md:78",
+        "retail-power-limits/rplimits/cases.py:158-161"
+      ],
+      "figures": [
+        "71.9 names",
+        "29.7 effective names",
+        "9.993 % annualized TE",
+        "about 23 effective names required",
+        "top name 14.9 %",
+        "top five 33.8 %"
+      ],
+      "n": "the value-weighted book",
+      "produced_by": "InsiderExperiment/REGISTRATION.md Section 0.4 @ 12d9fd3 (anchored)",
+      "notes": "This is the mechanism claim for C-02: the note asserts the verdict turned on dispersion, not on corpus size."
+    },
+    {
+      "id": "C-13",
+      "rank": 13,
+      "must_verify": false,
+      "claim_verbatim": "Stable across Newey-West bandwidths: 50.19 at lag 5, 49.11 at lag 63, 49.53 at lag 126.",
+      "file_lines": [
+        "retail-power-limits/SOURCES.md:70",
+        "retail-power-limits/rplimits/cases.py:148"
+      ],
+      "figures": [
+        "50.19 at lag 5",
+        "49.11 at lag 63",
+        "49.53 at lag 126"
+      ],
+      "n": "same 2,581-session calendar-time portfolio",
+      "produced_by": "InsiderExperiment gate commit cb17046 (not the anchor)",
+      "notes": "The robustness evidence behind C-02."
+    },
+    {
+      "id": "C-14",
+      "rank": 14,
+      "must_verify": false,
+      "claim_verbatim": "The equal-weighted secondary, on the identical 71.9 names, would have landed at 34.29 bp and fired DEGRADED.",
+      "file_lines": [
+        "retail-power-limits/docs/the-power-limit.md:227-229",
+        "retail-power-limits/docs/the-power-limit.md:388-390"
+      ],
+      "figures": [
+        "34.29 bp",
+        "49.35 bp",
+        "71.9 names"
+      ],
+      "n": "identical 71.9-name universe",
+      "produced_by": "InsiderExperiment/REGISTRATION.md @ 12d9fd3 (anchored)",
+      "notes": "Load-bearing for the 'the refusal was honest about what it forwent' argument and for practice rule 4."
+    },
+    {
+      "id": "C-15",
+      "rank": 15,
+      "must_verify": false,
+      "claim_verbatim": "94.2 percent of qualifying-shaped insider purchases happen outside the liquid-500 band this design could trade",
+      "file_lines": [
+        "retail-power-limits/SOURCES.md:90",
+        "retail-power-limits/rplimits/cases.py:179-180"
+      ],
+      "figures": [
+        "94.2 percent"
+      ],
+      "n": "qualifying-shaped Form 4 purchases",
+      "produced_by": "InsiderExperiment/REGISTRATION.md @ 12d9fd3 (anchored)",
+      "notes": "A scope-limiting figure: it bounds the claim rather than supporting it."
+    },
+    {
+      "id": "C-16",
+      "rank": 16,
+      "must_verify": false,
+      "claim_verbatim": "415 stored daily rankings of 432 eligible window days, 96.1 percent coverage against a 90 percent bar",
+      "file_lines": [
+        "retail-power-limits/SOURCES.md:42",
+        "retail-power-limits/rplimits/cases.py:100-102",
+        "retail-power-limits/docs/the-power-limit.md:130"
+      ],
+      "figures": [
+        "415",
+        "432",
+        "96.1 %",
+        "90 % bar"
+      ],
+      "n": "432 eligible window days",
+      "produced_by": "NPDExperiment/progress.md @ 2d3d0ae (anchored)",
+      "notes": "In-repo: 415/432 = 96.06 %, CONSISTENT with '96.1'."
+    },
+    {
+      "id": "C-17",
+      "rank": 17,
+      "must_verify": false,
+      "claim_verbatim": "The projection ran 0.026 to 0.047 across a grid of assumed correlations from 0.0 to 0.7. The realized figure came in at 0.0512, outside and above the entire grid",
+      "file_lines": [
+        "retail-power-limits/docs/the-power-limit.md:169-176",
+        "retail-power-limits/SOURCES.md:38"
+      ],
+      "figures": [
+        "0.026 to 0.047",
+        "correlation grid 0.0 to 0.7",
+        "0.0512",
+        "realized sd 0.36339",
+        "registered sd at most 0.2626",
+        "98 percent of the theoretical maximum"
+      ],
+      "n": "same 125.6 (or 427-based) independent-equivalent days",
+      "produced_by": "NPDExperiment/REGISTRATION.md Section 9 and progress.md @ 2d3d0ae (anchored)",
+      "notes": "The mechanism claim for C-01: the design failed because model and baseline turned out strongly negatively correlated, a cell the registration did not contemplate."
+    },
+    {
+      "id": "C-18",
+      "rank": 18,
+      "must_verify": false,
+      "claim_verbatim": "Roughly four times the evaluable days, landing near 1,700 trading days of post-cutoff window. No model has one; the window accrues at about 21 trading days a month.",
+      "file_lines": [
+        "retail-power-limits/SOURCES.md:46",
+        "retail-power-limits/rplimits/cases.py:106-108",
+        "retail-power-limits/docs/the-power-limit.md:366-368"
+      ],
+      "figures": [
+        "4x",
+        "near 1,700 trading days",
+        "21 trading days per month"
+      ],
+      "n": "404 evaluable / 415 stored / 432 eligible days",
+      "produced_by": "NPDExperiment/REGISTRATION.md @ 2d3d0ae (anchored)",
+      "notes": "In-repo: 4 x 415 = 1,660 and 4 x 432 = 1,728, so 'near 1,700' is consistent with either base."
+    },
+    {
+      "id": "C-19",
+      "rank": 19,
+      "must_verify": false,
+      "claim_verbatim": "archive capture density measured 11 of 333 days, 3.30 percent, against a registered 60 percent bar",
+      "file_lines": [
+        "retail-power-limits/docs/the-power-limit.md:103-104",
+        "retail-power-limits/SOURCES.md:106",
+        "retail-power-limits/rplimits/cases.py:206-210"
+      ],
+      "figures": [
+        "11 of 333 days",
+        "3.30 %",
+        "60 % registered bar",
+        "336-row census"
+      ],
+      "n": "333 days (prose) vs a 336-row census (generated block)",
+      "produced_by": "ETFExperiment/REGISTRATION.md @ 4d11002 (anchored)",
+      "notes": "In-repo: 11/333 = 3.303 % CONSISTENT with '3.30'; the census breakdown sums to exactly 336; 336 - 333 = 3, matching the '3 no-printed-value' row. Worth confirming which denominator the registered 60 % bar was written against."
+    },
+    {
+      "id": "C-20",
+      "rank": 20,
+      "must_verify": false,
+      "claim_verbatim": "E1 needs 237 admissible days at the published 0.18 and 845 at the registered 0.09; E2 needs 300 at 0.18 and above 1,200 at 0.09. Section 10 requires both co-primaries, so the governing minimum is 300",
+      "file_lines": [
+        "retail-power-limits/SOURCES.md:102",
+        "retail-power-limits/rplimits/cases.py:200-203",
+        "retail-power-limits/SOURCES.md:110",
+        "retail-power-limits/rplimits/cases.py:215-217"
+      ],
+      "figures": [
+        "237",
+        "845",
+        "300",
+        "above 1,200",
+        "shortfall 137",
+        "shortfall 74"
+      ],
+      "n": "required admissible days for two co-primaries",
+      "produced_by": "ETFExperiment/REGISTRATION.md Sections 9 and 10 @ 4d11002 (anchored)",
+      "notes": "In-repo: 300-163 = 137 and 237-163 = 74, both CORRECT. No alpha or target power is stated for these required-N figures anywhere in this repository."
+    },
+    {
+      "id": "C-21",
+      "rank": 21,
+      "must_verify": false,
+      "claim_verbatim": "Zero dollars, no capital and no credential at any point. 220 charged requests over the repository's lifetime. No outcome value was ever read.",
+      "file_lines": [
+        "retail-power-limits/SOURCES.md:114",
+        "retail-power-limits/rplimits/cases.py:220-222",
+        "retail-power-limits/docs/the-power-limit.md:35"
+      ],
+      "figures": [
+        "0 USD",
+        "220 charged requests"
+      ],
+      "n": "repository lifetime",
+      "produced_by": "ETFExperiment/REGISTRATION.md @ 4d11002 (anchored)",
+      "notes": "The 'never read an outcome value' half backs the note's scope claim at docs/the-power-limit.md:35."
+    },
+    {
+      "id": "C-22",
+      "rank": 22,
+      "must_verify": false,
+      "claim_verbatim": "The raw outperformance was the largest that project ever measured - 90.3 percent per year against a benchmark's 19.7 - and it still could not clear a significance bar, because a five-position limit gave the book 66.4 percent annualized tracking error",
+      "file_lines": [
+        "retail-power-limits/docs/the-power-limit.md:110-114"
+      ],
+      "figures": [
+        "90.3 %/yr",
+        "19.7 %/yr benchmark",
+        "66.4 % TE"
+      ],
+      "n": "same 2.55-year holdout",
+      "produced_by": "AiTrader/RETURN.md @ f819b68 (not the anchor)",
+      "notes": "'the largest that project ever measured' is a superlative over AiTrader's whole record, not a single figure, and needs the full register to confirm."
+    },
+    {
+      "id": "C-23",
+      "rank": 23,
+      "must_verify": false,
+      "claim_verbatim": "the lower bound clears zero at day 2,061 and clears the measured 4.07 bp per day cost hurdle at day 2,852. Eight to eleven years.",
+      "file_lines": [
+        "retail-power-limits/SOURCES.md:142",
+        "retail-power-limits/rplimits/cases.py:269-273",
+        "retail-power-limits/docs/the-power-limit.md:114-116",
+        "retail-power-limits/DECISIONS.md:135-136"
+      ],
+      "figures": [
+        "2,061 trading days",
+        "2,852 trading days",
+        "4.07 bp/day cost hurdle",
+        "eight to eleven years"
+      ],
+      "n": "a hypothetical forward daily series; zero forward observations were realized",
+      "produced_by": "HFExperiment/REGISTRATION.md Section 11 @ f13e1d3 (NOT HFExperiment's anchor 82e77a0)",
+      "notes": "In-repo: 2,061/252 = 8.18 yr and 2,852/252 = 11.32 yr, CONSISTENT with 'eight to eleven years'."
+    },
+    {
+      "id": "C-24",
+      "rank": 24,
+      "must_verify": false,
+      "claim_verbatim": "Primary trial lift -1.0779 net of the central 450 bps cost band, 95 percent day-clustered bootstrap interval [-3.3354, +0.0204], n = 12,798 amm pools over three birth days, 2,107 measurable at the d0+2 anchor, Q5 cell n = 412",
+      "file_lines": [
+        "retail-power-limits/SOURCES.md:184",
+        "retail-power-limits/rplimits/cases.py:337-339",
+        "retail-power-limits/docs/the-power-limit.md:297-301"
+      ],
+      "figures": [
+        "-1.0779",
+        "450 bps cost band",
+        "[-3.3354, +0.0204]",
+        "120 computable cells",
+        "100.0 % outcome coverage"
+      ],
+      "n": "n = 12,798 AMM pools over three birth days; 2,107 measurable at d0+2; Q5 cell n = 412",
+      "produced_by": "solattn/FINDINGS.md @ b3f5062 (== solattn's ANCHORED SHA; checkable from SNAP/solattn/)",
+      "notes": "One of only three figures offered as evidence AGAINST the note's own thesis, so it carries the scope limit. '-1.0779' is pinned by tests/test_honesty.py:116 (with a U+2212 minus)."
+    },
+    {
+      "id": "C-25",
+      "rank": 25,
+      "must_verify": false,
+      "claim_verbatim": "A short-horizon model scored AUC 0.9432 at 100 ms and captured 0.0291 bps per trade on Kraken BTC/USD, which charges 50 bps round trip - a miss of roughly 1,700x. Against the cheapest venue reachable from the operator's jurisdiction at all, Hyperliquid at 3 bps, it still misses by roughly 100x. Separately, H4 cointegration break-even transaction costs ran 300 to 550 bps against that same 3 bps actual, a margin of 100 to 180x.",
+      "file_lines": [
+        "retail-power-limits/SOURCES.md:172",
+        "retail-power-limits/rplimits/cases.py:311-317",
+        "retail-power-limits/docs/the-power-limit.md:148-153",
+        "retail-power-limits/docs/the-power-limit.md:285-292"
+      ],
+      "figures": [
+        "AUC 0.9432",
+        "0.0291 bps capture",
+        "50 bps Kraken",
+        "~1,700x",
+        "3 bps Hyperliquid",
+        "~100x",
+        "300 to 550 bps",
+        "100 to 180x",
+        "eleven hypotheses, nine closed"
+      ],
+      "n": "not stated in this repository",
+      "produced_by": "MLCryptoEngine/HYPOTHESES.md @ d2a0f05 and docs/notes/h1-predictability-without-capturability.md @ ae03bf6 (neither is MLCryptoEngine's anchor 5359a11)",
+      "notes": "In-repo: 50/0.0291 = 1,718 CONSISTENT with 'roughly 1,700x'; 3/0.0291 = 103.1 CONSISTENT with 'roughly 100x'; 300/3 = 100 and 550/3 = 183.3 against '100 to 180x' (a round-down of 183). '300 to 550 bps' is pinned by tests/test_honesty.py:117. This is correction #4 in ADR-003."
+    },
+    {
+      "id": "C-26",
+      "rank": 26,
+      "must_verify": false,
+      "claim_verbatim": "18 cleared against a floor of 20 at 30 days, and 4 at 90 days ... priced out at 4,695,489 weighted credits, 37.6x the stale 124,764 estimate",
+      "file_lines": [
+        "retail-power-limits/SOURCES.md:192",
+        "retail-power-limits/SOURCES.md:196",
+        "retail-power-limits/rplimits/cases.py:353-367",
+        "retail-power-limits/docs/the-power-limit.md:304-312"
+      ],
+      "figures": [
+        "18 cleared",
+        "floor 20",
+        "4 at 90 days",
+        "4,695,489 credits",
+        "37.6x",
+        "124,764",
+        "60 points at 30 days",
+        "79 at 90",
+        "97.5 % of 40 pools",
+        "18.75 % of 16 pools"
+      ],
+      "n": "18 cleared pools at 30 days; 4 at 90; 40 birth-ordered vs 16 attention-crawled pools",
+      "produced_by": "solclear/FINDINGS.md @ c692032 (NOT solclear's anchor d298576)",
+      "notes": "In-repo: 4,695,489/124,764 = 37.63 CONSISTENT with '37.6x'; 97.5 - 18.75 = 78.75 points CONSISTENT with '79 at 90'; the '60 points at 30 days' pair is not stated here and needs solclear."
+    },
+    {
+      "id": "C-27",
+      "rank": 27,
+      "must_verify": false,
+      "claim_verbatim": "214 wire requests totalling 2.78 GB with zero non-200 responses. About 51 minutes for Stage A.1 and 20 for Z.1 by the commit record.",
+      "file_lines": [
+        "retail-power-limits/SOURCES.md:82",
+        "retail-power-limits/rplimits/cases.py:165-167",
+        "retail-power-limits/docs/the-power-limit.md:240-241"
+      ],
+      "figures": [
+        "214 wire requests",
+        "2.78 GB",
+        "zero non-200",
+        "~51 minutes A.1",
+        "20 minutes Z.1",
+        "0 USD"
+      ],
+      "n": "214 requests",
+      "produced_by": "InsiderExperiment/REGISTRATION.md @ 12d9fd3 (anchored); 'by the commit record' makes the minute figures git-verifiable in the sibling",
+      "notes": "The after-the-gate column of the cost-asymmetry table."
+    },
+    {
+      "id": "C-28",
+      "rank": 28,
+      "must_verify": false,
+      "claim_verbatim": "mypy strict clean over 11 source files, 111 tests passing",
+      "file_lines": [
+        "retail-power-limits/progress.md:68",
+        "retail-power-limits/progress.md:59"
+      ],
+      "figures": [
+        "11 source files",
+        "111 tests"
+      ],
+      "n": "this repository's own suite",
+      "produced_by": "This repository at dda39b2; mypy scope is files = ['rplimits','tests'] (pyproject.toml:46)",
+      "notes": "VERIFIABLE IN-REPO and both figures appear off by one: the mypy scope contains 10 .py files at the anchor, and a static count of the parametrized suite gives 112 (test_sources 3x24+2 = 74; test_cases 19; test_render 9; test_honesty 10). Hygiene-grade only; no conclusion rests on it. A collection run in a scratch copy (never in place) would settle the test count exactly."
+    },
+    {
+      "id": "C-29",
+      "rank": 29,
+      "must_verify": false,
+      "claim_verbatim": "The note quotes about ninety figures from seven repositories.",
+      "file_lines": [
+        "retail-power-limits/DECISIONS.md:35-36"
+      ],
+      "figures": [
+        "about ninety figures",
+        "seven repositories"
+      ],
+      "n": "34 Figure objects plus 4 Headline records in cases.py",
+      "produced_by": "This repository at dda39b2",
+      "notes": "Rhetorical scale claim in ADR-001's rejected-alternatives section; countable but no verdict rests on it."
+    },
+    {
+      "id": "C-30",
+      "rank": 30,
+      "must_verify": false,
+      "claim_verbatim": "four of the seven source repositories have no remote. NPDExperiment, InsiderExperiment, ETFExperiment and HFExperiment are local-only.",
+      "file_lines": [
+        "retail-power-limits/progress.md:113-116",
+        "retail-power-limits/SOURCES.md:262-271",
+        "retail-power-limits/docs/the-power-limit.md:44-52"
+      ],
+      "figures": [
+        "four of seven unpublished",
+        "three contrast cases plus AiTrader public"
+      ],
+      "n": "seven source repositories",
+      "produced_by": "git remote -v in each of the seven siblings, as of the reading date",
+      "notes": "A disclosure that WEAKENS the note. Time-sensitive: it can only have become wrong in the note's favour (a repo published after 2026-08-29)."
+    }
+  ],
+  "intervals": [
+    {
+      "id": "I-01",
+      "interval": "[-3.3354, +0.0204] around a point lift of -1.0779, net of a 450 bps cost band",
+      "file_lines": [
+        "retail-power-limits/SOURCES.md:184",
+        "retail-power-limits/rplimits/cases.py:337-339",
+        "retail-power-limits/docs/the-power-limit.md:298-300"
+      ],
+      "estimator": "95 percent day-clustered bootstrap interval - the only interval in the repository whose level, clustering and method are all stated",
+      "n": "12,798 AMM pools over three birth days; 2,107 measurable at the d0+2 anchor; Q5 cell n = 412",
+      "data_structure": "cross-sectional pools grouped by birth day; clustering on day",
+      "source": "solattn/FINDINGS.md @ b3f5062 (anchored; checkable from SNAP)"
+    },
+    {
+      "id": "I-02",
+      "interval": "interval -4.9 to +60.9",
+      "file_lines": [
+        "retail-power-limits/SOURCES.md:134",
+        "retail-power-limits/rplimits/cases.py:257-258"
+      ],
+      "estimator": "NOT STATED. No confidence level, no units, no method. Sits beside 'z 1.668 against a corrected bar of 2.50 over a 2.55-year holdout'; units are presumably bp/day matching the 27.99 point estimate, and the interval covers zero, consistent with z below the bar",
+      "n": "one 2.55-year holdout (~643 daily observations), touched once",
+      "data_structure": "daily excess return of a 5-position book versus an equal-weighted universe",
+      "source": "AiTrader/RETURN.md @ f819b68 (not the anchor)"
+    },
+    {
+      "id": "I-03",
+      "interval": "the frozen confidence sequence ... the lower bound clears zero at day 2,061 and clears the measured 4.07 bp per day cost hurdle at day 2,852",
+      "file_lines": [
+        "retail-power-limits/SOURCES.md:142",
+        "retail-power-limits/rplimits/cases.py:269-273"
+      ],
+      "estimator": "A confidence sequence (anytime-valid sequential interval), named but with no level, no boundary family and no alpha-spending rule stated",
+      "n": "forward daily observations, n = 0 realized - the series was disarmed before its first accrual (SOURCES.md:138)",
+      "data_structure": "a hypothetical forward daily series; the arithmetic assumes the sample mean holding at 27.99 bp per day",
+      "source": "HFExperiment/REGISTRATION.md Section 11 @ f13e1d3 (not the anchor)"
+    },
+    {
+      "id": "I-04",
+      "interval": "0.026 to 0.047 across a grid of assumed correlations from 0.0 to 0.7",
+      "file_lines": [
+        "retail-power-limits/docs/the-power-limit.md:169-171",
+        "retail-power-limits/SOURCES.md:38"
+      ],
+      "estimator": "NOT AN INTERVAL. A pre-registered projection range over a sensitivity grid",
+      "n": "grid over assumed correlation between model and momentum baseline",
+      "data_structure": "sensitivity analysis, not inference",
+      "source": "NPDExperiment/REGISTRATION.md Section 9 @ 2d3d0ae (anchored)"
+    },
+    {
+      "id": "I-05",
+      "interval": "30 to 40 bp per month decayed gross; 13.3 to 34.7 bp per month net; daily rank IC 0.01 to 0.05; rank correlation 0.09 registered against a published 0.18 and a quartered 0.045",
+      "file_lines": [
+        "retail-power-limits/SOURCES.md:66",
+        "retail-power-limits/SOURCES.md:34",
+        "retail-power-limits/SOURCES.md:98",
+        "retail-power-limits/rplimits/cases.py:139-143",
+        "retail-power-limits/rplimits/cases.py:89-92",
+        "retail-power-limits/rplimits/cases.py:195-197"
+      ],
+      "estimator": "NOT INTERVALS. Literature-derived effect bands; the insider band is sourced to Cohen, Malloy and Pomorski's 82 bp/month over 1989-2007, decayed 60 to 70 percent on 2008-2024 data",
+      "n": "not applicable",
+      "data_structure": "the bands the MDEs are judged against - the comparator, not an estimate",
+      "source": "InsiderExperiment, NPDExperiment and ETFExperiment REGISTRATION.md files"
+    }
+  ],
+  "tests": [
+    {
+      "id": "T-01",
+      "statistic": "z 1.668 against a 'corrected bar of 2.50'",
+      "file_lines": [
+        "retail-power-limits/docs/the-power-limit.md:75",
+        "retail-power-limits/docs/the-power-limit.md:109",
+        "retail-power-limits/README.md:23",
+        "retail-power-limits/SOURCES.md:134",
+        "retail-power-limits/DECISIONS.md:133",
+        "retail-power-limits/rplimits/cases.py:257",
+        "retail-power-limits/rplimits/cases.py:426"
+      ],
+      "test": "A z/t statistic on daily excess return; the bar is described as 'corrected', implying a multiplicity adjustment whose family size is not stated here. NO p-value given.",
+      "n": "one 2.55-year holdout, ~643 sessions",
+      "data_structure": "daily time series of a 5-position book's excess return over an equal-weighted universe",
+      "p_value": "none reported"
+    },
+    {
+      "id": "T-02",
+      "statistic": "MDE 49.35 bp per month; robustness 50.19 / 49.11 / 49.53",
+      "file_lines": [
+        "retail-power-limits/SOURCES.md:70",
+        "retail-power-limits/SOURCES.md:86",
+        "retail-power-limits/rplimits/cases.py:146-148"
+      ],
+      "test": "Minimum detectable effect on a calendar-time portfolio with Newey-West standard errors at lags 5, 63 and 126. Governing identity quoted at docs/the-power-limit.md:195-198 as t * M * sd / sqrt(N_eff); t and M are given no numeric value anywhere in this repository.",
+      "n": "4,585 events; 2,581 sessions; N_eff = 2,869.9",
+      "data_structure": "monthly calendar-time portfolio built from Form 4 events",
+      "p_value": "none reported"
+    },
+    {
+      "id": "T-03",
+      "statistic": "MDE 0.0512 (minimum detectable contrast)",
+      "file_lines": [
+        "retail-power-limits/docs/the-power-limit.md:72",
+        "retail-power-limits/docs/the-power-limit.md:84",
+        "retail-power-limits/SOURCES.md:38",
+        "retail-power-limits/rplimits/cases.py:95"
+      ],
+      "test": "Same MDE identity. The note names 'a permutation test on a rank correlation' as one admissible form (docs/the-power-limit.md:326) but does not say which form NPDExperiment used. Variance inflation 3.4 for the overlapping five-session horizon.",
+      "n": "415 stored / 404 evaluable / 125.6 (or 427-based) independent-equivalent days",
+      "data_structure": "daily cross-sectional rank IC series with a 5-session forward window",
+      "p_value": "none reported"
+    },
+    {
+      "id": "T-04",
+      "statistic": "Required N: 237, 845, 300, above 1,200",
+      "file_lines": [
+        "retail-power-limits/SOURCES.md:102",
+        "retail-power-limits/rplimits/cases.py:200-203"
+      ],
+      "test": "Power calculations expressed as required admissible days for two co-primaries E1 and E2 at two assumed magnitudes (0.18 published, 0.09 registered, plus a quartered 0.045). THE TARGET POWER AND THE ALPHA ARE STATED NOWHERE IN THIS REPOSITORY. Section 10 of the sibling is cited for the both-co-primaries rule that makes 300 governing.",
+      "n": "11 admissible days achieved; 163 projected at the deadline",
+      "data_structure": "daily rank correlation of ETF flow prints against next-day BTC return",
+      "p_value": "none reported"
+    },
+    {
+      "id": "T-05",
+      "statistic": "Kill criterion K1 fired at 100.0 percent outcome coverage; all 120 computable cells negative, none positive at any significance level",
+      "file_lines": [
+        "retail-power-limits/SOURCES.md:180",
+        "retail-power-limits/rplimits/cases.py:330-333",
+        "retail-power-limits/docs/the-power-limit.md:295-297"
+      ],
+      "test": "A registered kill criterion plus a 120-cell sign/sweep summary; the underlying interval is I-01",
+      "n": "120 computable cells; n = 12,798 pools",
+      "data_structure": "quantile cells x cohorts x horizons",
+      "p_value": "none reported; 'none positive at any significance level' is the only significance statement"
+    },
+    {
+      "id": "T-06",
+      "statistic": "A registered underpowered rule: 18 cleared against a floor of 20 at 30 days, 4 at 90 days",
+      "file_lines": [
+        "retail-power-limits/SOURCES.md:192",
+        "retail-power-limits/rplimits/cases.py:354-357",
+        "retail-power-limits/docs/the-power-limit.md:305-308"
+      ],
+      "test": "A pre-registered minimum-n rule that suppresses inference rather than a test statistic; no significance claimed in either direction. The note calls this the earliest power-shaped refusal in the program.",
+      "n": "18 cleared pools at 30 days; 4 at 90 days; floor 20",
+      "data_structure": "pool-level outcome study",
+      "p_value": "none reported, by design"
+    },
+    {
+      "id": "T-07",
+      "statistic": "AUC 0.9432 at 100 ms",
+      "file_lines": [
+        "retail-power-limits/SOURCES.md:172",
+        "retail-power-limits/rplimits/cases.py:312",
+        "retail-power-limits/docs/the-power-limit.md:149",
+        "retail-power-limits/docs/the-power-limit.md:286"
+      ],
+      "test": "A discrimination statistic, offered as evidence the closure was NOT power-bound. Related: 'H9 insignificant after deflation' (SOURCES.md:168) implies a deflated performance statistic whose form is not given.",
+      "n": "not stated in this repository",
+      "data_structure": "short-horizon classification on Kraken BTC/USD trades",
+      "p_value": "none reported"
+    },
+    {
+      "id": "T-08",
+      "statistic": "The MDE identity itself: MDE = t * scale * sd / sqrt(N_eff)",
+      "file_lines": [
+        "retail-power-limits/docs/the-power-limit.md:324",
+        "retail-power-limits/docs/the-power-limit.md:196"
+      ],
+      "test": "The load-bearing methodological claim of the whole note: that the right-hand side needs no first moment. Two different symbols (scale at line 324, M at line 196) for the same term, neither given a value in any of the four cases.",
+      "n": "not applicable",
+      "data_structure": "not applicable",
+      "p_value": "not applicable"
+    }
+  ],
+  "provenance_claims": [
+    {
+      "id": "P-01",
+      "claim_verbatim": "Across four independent pre-registered experiments, the binding constraint was not whether a published effect exists.",
+      "file_lines": [
+        "retail-power-limits/docs/the-power-limit.md:11-12",
+        "retail-power-limits/README.md:3-5",
+        "retail-power-limits/pyproject.toml:4"
+      ],
+      "commit_named": null,
+      "what_would_have_to_be_true": "Each of the four carries a registration committed before its own measurement, and each closed on a detectability figure rather than a measured null.",
+      "notes": "The repository itself weakens the 'independent' half at docs/the-power-limit.md:54-60 and concedes at docs/the-power-limit.md:141-146 that HFExperiment did not fire a power gate."
+    },
+    {
+      "id": "P-02",
+      "claim_verbatim": "The gate was committed in the repository's first commit, `fbfc74e`, titled \"scaffold, standing guards, and REGISTRATION Section 0 power gate\" - before the corpus existed, before the portfolio existed, and before there was anything for it to judge. The bars were fixed at 20 bp for GO and 40 bp for BLOCKED",
+      "file_lines": [
+        "retail-power-limits/docs/the-power-limit.md:218-223",
+        "retail-power-limits/rplimits/sources.py:86",
+        "retail-power-limits/SOURCES.md:226"
+      ],
+      "commit_named": "InsiderExperiment fbfc74e (NOT InsiderExperiment's anchored SHA 12d9fd3)",
+      "what_would_have_to_be_true": "(a) fbfc74e is genuinely the first commit in InsiderExperiment's history (git rev-list --max-parents=0); (b) its subject reads as quoted; (c) the 20/40 bars and the boundary convention are present in that commit's REGISTRATION.md Section 0; (d) no corpus or portfolio artifact exists in that tree.",
+      "notes": "The strongest provenance claim in the note. All four conditions are decidable from git objects alone."
+    },
+    {
+      "id": "P-03",
+      "claim_verbatim": "NPDExperiment's closing commit is stamped 2026-08-25 13:26:58. InsiderExperiment's first commit - the one carrying the gate - is stamped 18:34:56 the same day, five hours and eight minutes later. Its own closure came at 23:24:15.",
+      "file_lines": [
+        "retail-power-limits/docs/the-power-limit.md:211-214"
+      ],
+      "commit_named": "NPDExperiment 2d3d0ae; InsiderExperiment fbfc74e and 12d9fd3",
+      "what_would_have_to_be_true": "Those three commit timestamps, read in a single consistent timezone, and 2d3d0ae genuinely being NPDExperiment's closing commit.",
+      "notes": "Also numeric claim C-05. In-repo: the stated gap is 5h07m58s, so 'five hours and eight minutes' rounds seconds up; no timezone is stated."
+    },
+    {
+      "id": "P-04",
+      "claim_verbatim": "Its ADR-007 had registered the exact failure mode as a risk before collection began ... The registration said so, in writing, before a cent was spent, and chose not to repair it by promoting the better-powered secondary",
+      "file_lines": [
+        "retail-power-limits/docs/the-power-limit.md:161-168",
+        "retail-power-limits/rplimits/sources.py:58"
+      ],
+      "commit_named": "NPDExperiment 2d3d0ae (the anchor)",
+      "what_would_have_to_be_true": "ADR-007 exists at that commit with the stated content, and - for 'before a cent was spent' - the ADR predates the billed collection in NPDExperiment's own commit history, not merely in the final tree.",
+      "notes": ""
+    },
+    {
+      "id": "P-05",
+      "claim_verbatim": "Daily rank IC 0.01 to 0.05, the realistic band from the literature, registered in Section 9.2 before any call went out.",
+      "file_lines": [
+        "retail-power-limits/rplimits/cases.py:89-92",
+        "retail-power-limits/SOURCES.md:34"
+      ],
+      "commit_named": "NPDExperiment 2d3d0ae (anchor)",
+      "what_would_have_to_be_true": "Section 9.2 with the 0.01-0.05 band is present in a commit that precedes the first billed API call.",
+      "notes": ""
+    },
+    {
+      "id": "P-06",
+      "claim_verbatim": "against a registered BLOCKED floor of 40 bp committed before the measurement existed",
+      "file_lines": [
+        "retail-power-limits/rplimits/cases.py:147",
+        "retail-power-limits/SOURCES.md:70"
+      ],
+      "commit_named": "InsiderExperiment fbfc74e (the floor) and cb17046 (the measurement)",
+      "what_would_have_to_be_true": "fbfc74e precedes cb17046 in both commit order and timestamp, and the 40 bp floor is unchanged between them.",
+      "notes": "A git diff fbfc74e cb17046 -- REGISTRATION.md restricted to Section 0 settles it."
+    },
+    {
+      "id": "P-07",
+      "claim_verbatim": "It was registered as non-verdict-bearing before any number was visible, and it was not promoted. The repository recorded the temptation explicitly, and recorded that any future test naming equal-weight as primary would have to disclose that the choice was made after seeing this number.",
+      "file_lines": [
+        "retail-power-limits/docs/the-power-limit.md:227-232"
+      ],
+      "commit_named": "none directly; implied InsiderExperiment fbfc74e",
+      "what_would_have_to_be_true": "The equal-weight secondary is marked non-verdict-bearing in a commit predating cb17046, and the disclosure obligation is recorded in InsiderExperiment's own text.",
+      "notes": ""
+    },
+    {
+      "id": "P-08",
+      "claim_verbatim": "The raw daily excess returns went into one store whose mean *is* the answer, with a single permitted reader. A second store held the same series with its own mean already subtracted, and the mean was never written there, so it could not be recovered. The power module was forbidden by import guard from reaching the portfolio, market or evaluation packages - the path from the power computation to a first moment does not exist, rather than existing and being avoided.",
+      "file_lines": [
+        "retail-power-limits/docs/the-power-limit.md:200-206",
+        "retail-power-limits/docs/the-power-limit.md:208-209",
+        "retail-power-limits/rplimits/cases.py:167"
+      ],
+      "commit_named": null,
+      "what_would_have_to_be_true": "An import guard exists in InsiderExperiment's source at 12d9fd3, with a test enforcing it, and the demeaned store genuinely never persists a mean.",
+      "notes": "The only provenance claim here that is a CODE claim - checkable by reading the sibling's source rather than its prose."
+    },
+    {
+      "id": "P-09",
+      "claim_verbatim": "Its underpowered rule was registered before the measurement and fired on 2026-08-14, eleven days before NPDExperiment.",
+      "file_lines": [
+        "retail-power-limits/rplimits/cases.py:370-372",
+        "retail-power-limits/SOURCES.md:200",
+        "retail-power-limits/docs/the-power-limit.md:264-266"
+      ],
+      "commit_named": "solclear c692032 (dated 2026-08-22, i.e. AFTER the 2026-08-14 firing it documents)",
+      "what_would_have_to_be_true": "The rule appears in a solclear commit predating the Stage E measurement.",
+      "notes": "In-repo: 2026-08-25 minus 2026-08-14 = 11 days, so the 'eleven days' arithmetic is CORRECT. This claim carries weight because it is the note's own evidence that the practice was not novel."
+    },
+    {
+      "id": "P-10",
+      "claim_verbatim": "HFExperiment's Section 11, registered 2026-08-23, priced its own forward verdict at eight to eleven years and the operator proceeded anyway, deliberately",
+      "file_lines": [
+        "retail-power-limits/docs/the-power-limit.md:266-269"
+      ],
+      "commit_named": "none at that line; the Section 11 figures are cited to hf-registration = f13e1d3 dated 2026-08-25 (rplimits/sources.py:130-136), and the README to 0a0d214 dated 2026-08-23",
+      "what_would_have_to_be_true": "Section 11 with the 2,061/2,852 schedule exists in an HFExperiment commit dated 2026-08-23.",
+      "notes": "The prose asserts 2026-08-23 while the citation the repository supplies is dated 2026-08-25 - a two-day gap worth resolving, because the argument is that the arithmetic was present and non-binding BEFORE the operator proceeded."
+    },
+    {
+      "id": "P-11",
+      "claim_verbatim": "The sibling repositories are closed. Their closing commits do not move, so the short hashes below are stable references rather than moving branch tips.",
+      "file_lines": [
+        "retail-power-limits/SOURCES.md:8-9",
+        "retail-power-limits/rplimits/sources.py:11-13",
+        "retail-power-limits/SOURCES.md:279-282"
+      ],
+      "commit_named": "all 24 cited short hashes",
+      "what_would_have_to_be_true": "Each of the 24 short hashes resolves unambiguously in the named repository, and each named file path exists at that commit.",
+      "notes": "Several siblings moved after this note was written. The claim to check is not that the hashes moved (they cannot) but whether a cited file's CONTENT differs between the cited commit and the sibling's anchored SHA - exactly the drift ADR-001 warns about at DECISIONS.md:45-47."
+    },
+    {
+      "id": "P-12",
+      "claim_verbatim": "The 845 / above-1,200 / about-302 triple is real but does not belong to the closure firing. Those are Amendment 6's numbers",
+      "file_lines": [
+        "retail-power-limits/rplimits/cases.py:230-236",
+        "retail-power-limits/SOURCES.md:122",
+        "retail-power-limits/DECISIONS.md:101-104",
+        "retail-power-limits/docs/the-power-limit.md:132-139"
+      ],
+      "commit_named": "ETFExperiment 4d11002 (the anchor)",
+      "what_would_have_to_be_true": "Amendment 6 exists at that commit and carries those three figures, and the closure commit 3f5d629 states the 163-vs-300 comparison instead.",
+      "notes": "The first half is readable from SNAP/ETFExperiment/."
+    },
+    {
+      "id": "P-13",
+      "claim_verbatim": "HFExperiment did not. Its Section 0 fired BLOCKED on IBKR's refusal of fractional quantities through the API, and it then closed by operator decision on 2026-08-26 with its shadow series never started.",
+      "file_lines": [
+        "retail-power-limits/DECISIONS.md:125-129",
+        "retail-power-limits/rplimits/cases.py:286-294",
+        "retail-power-limits/SOURCES.md:154",
+        "retail-power-limits/docs/the-power-limit.md:141-146"
+      ],
+      "commit_named": "hf-progress 82e77a0 (the anchor) for the closure entry; hf-readme 0a0d214 for the inheritance sentence",
+      "what_would_have_to_be_true": "The closure entry dated 2026-08-26 exists in HFExperiment's progress.md at 82e77a0 (checkable from SNAP), and the README's first sentence reads as quoted at 0a0d214.",
+      "notes": "A self-weakening disclosure; the reason the note's headline for this case says 'resolved on statistical power' rather than 'BLOCKED'. Includes IBKR errors 10243 and 10244."
+    },
+    {
+      "id": "P-14",
+      "claim_verbatim": "Four of the seven source repositories are not published. The four power cases - NPDExperiment, InsiderExperiment, ETFExperiment and HFExperiment - exist only on the operator's machine and have no remote.",
+      "file_lines": [
+        "retail-power-limits/docs/the-power-limit.md:44-47",
+        "retail-power-limits/SOURCES.md:262-271",
+        "retail-power-limits/progress.md:111-123"
+      ],
+      "commit_named": null,
+      "what_would_have_to_be_true": "git remote -v is empty in those four and non-empty (github.com/kirosli00tuff/...) in the other three plus AiTrader, as of the reading date.",
+      "notes": "A time-sensitive disclosure that can only have become wrong in the note's favour."
+    },
+    {
+      "id": "P-15",
+      "claim_verbatim": "Read-only, nothing modified in any sibling repository. No sibling repository was written to, and this repository imports nothing from them at runtime - the figures are transcribed, not loaded, so a stale sibling checkout cannot change what this note says.",
+      "file_lines": [
+        "retail-power-limits/progress.md:31-34",
+        "retail-power-limits/DECISIONS.md:42-43"
+      ],
+      "commit_named": null,
+      "what_would_have_to_be_true": "No sibling repository has a commit authored on 2026-08-29 attributable to this work, and rplimits/ contains no filesystem or network read of a sibling path.",
+      "notes": "The second half is VERIFIABLE IN-REPO AND HOLDS: rplimits/docsync.py:27 roots every path at this repository's own parent, and no module imports subprocess, requests or urllib or reads any path outside ROOT."
+    },
+    {
+      "id": "P-16",
+      "claim_verbatim": "The 411 minutes is stated as this note's arithmetic over six quoted addends ... Every other number in the repository is quoted rather than computed.",
+      "file_lines": [
+        "retail-power-limits/DECISIONS.md:184-187",
+        "retail-power-limits/SOURCES.md:294-300",
+        "retail-power-limits/README.md:53-55"
+      ],
+      "commit_named": "NPDExperiment 2d3d0ae for the addends",
+      "what_would_have_to_be_true": "No other figure in cases.py, the note or the README is an arithmetic combination the siblings do not themselves state.",
+      "notes": "The repository's central honesty claim about itself, and exhaustively checkable. Candidates to test it against: 'roughly 1,700x' / 'roughly 100x' / '100 to 180x' (C-25), the shortfalls 137 and 74 (C-20), '37.6x' (C-26), 'a shortfall of 1.5x' (C-04), 'eight to eleven years' (C-23) - each derivable from stated primitives, so the question is whether the sibling states the ratio or this repository formed it."
+    },
+    {
+      "id": "P-17",
+      "claim_verbatim": "NPDExperiment's design permitted a single evaluation of its sealed store ... When a post-hoc amendment proposed scoring the same data at two more horizons, the registration voided it: *scoring spent data against new horizons is a second look however it is labelled*.",
+      "file_lines": [
+        "retail-power-limits/docs/the-power-limit.md:248-253",
+        "retail-power-limits/docs/the-power-limit.md:242",
+        "retail-power-limits/rplimits/cases.py:167",
+        "retail-power-limits/SOURCES.md:82"
+      ],
+      "commit_named": "NPDExperiment 2d3d0ae (Section 17 amendments per rplimits/sources.py:44); InsiderExperiment 12d9fd3",
+      "what_would_have_to_be_true": "The voided amendment exists in NPDExperiment's Section 17 with that language, and InsiderExperiment's record shows no read of its sealed store.",
+      "notes": ""
+    },
+    {
+      "id": "P-18",
+      "claim_verbatim": "Every figure is typed as `Figure(value, source)` in `rplimits/cases.py`, and `Figure.__post_init__` raises on a source key that does not resolve. A figure cannot be added without a citation, because the constructor refuses.",
+      "file_lines": [
+        "retail-power-limits/DECISIONS.md:67-70",
+        "retail-power-limits/DECISIONS.md:74-76"
+      ],
+      "commit_named": "this repository's own anchor dda39b2",
+      "what_would_have_to_be_true": "The guard and the drift test exist and behave as described.",
+      "notes": "VERIFIED IN-REPO AS PRESENT: rplimits/cases.py:29-33 raises KeyError on an unknown source and ValueError on an empty value; tests/test_render.py:31-37 re-renders all four blocks and compares. LIMIT TO RECORD: the drift test covers only the four marker-delimited blocks, and README.md carries NO generated block, so its four-case table (README.md:18-23) and figure list (README.md:78-80) are pinned only by string-presence assertions in tests/test_honesty.py, not by re-rendering."
+    },
+    {
+      "id": "P-19",
+      "claim_verbatim": "with the boundary conventions written down (\"An MDE of exactly 20.00 bp is GO\")",
+      "file_lines": [
+        "retail-power-limits/docs/the-power-limit.md:222-224"
+      ],
+      "commit_named": "InsiderExperiment fbfc74e",
+      "what_would_have_to_be_true": "That exact sentence, or its equivalent, is in Section 0 at the first commit.",
+      "notes": ""
+    },
+    {
+      "id": "P-20",
+      "claim_verbatim": "One 2.55-year holdout, touched once at commit a0a9ef6.",
+      "file_lines": [
+        "retail-power-limits/SOURCES.md:138",
+        "retail-power-limits/rplimits/cases.py:265",
+        "retail-power-limits/rplimits/sources.py:170"
+      ],
+      "commit_named": "AiTrader a0a9ef6 (not AiTrader's anchor 705e0ed)",
+      "what_would_have_to_be_true": "The commit subject reads as quoted ('...holdout touched once, findings only, nothing applied') and no later AiTrader commit re-scores that holdout for H-F.",
+      "notes": ""
+    },
+    {
+      "id": "P-21",
+      "claim_verbatim": "the registered deadline of 2027-03-31",
+      "file_lines": [
+        "retail-power-limits/SOURCES.md:118",
+        "retail-power-limits/SOURCES.md:106",
+        "retail-power-limits/rplimits/cases.py:209",
+        "retail-power-limits/rplimits/cases.py:226"
+      ],
+      "commit_named": "ETFExperiment 4d11002 (anchor) and the closing commit 3f5d629",
+      "what_would_have_to_be_true": "2027-03-31 appears as the deadline in a registration commit predating the closure, not introduced by an amendment after the 163 projection was computed.",
+      "notes": "Matters because the whole 'untestable at achievable power' verdict is a statement about what is reachable by that date."
+    },
+    {
+      "id": "P-22",
+      "claim_verbatim": "**Status.** Accepted, 2026-08-29.",
+      "file_lines": [
+        "retail-power-limits/DECISIONS.md:10",
+        "retail-power-limits/DECISIONS.md:58",
+        "retail-power-limits/DECISIONS.md:89",
+        "retail-power-limits/DECISIONS.md:123",
+        "retail-power-limits/DECISIONS.md:154",
+        "retail-power-limits/DECISIONS.md:179"
+      ],
+      "commit_named": null,
+      "what_would_have_to_be_true": "The ADR dates match this repository's commit dates.",
+      "notes": "VERIFIED IN-REPO AND CONSISTENT: all three commits are dated 2026-08-29 local (0974f96 00:19:47-07:00, 710093d 00:20:34, dda39b2 00:21:28), and progress.md:15 records the scaffold at 00:07:32 with gates green at 00:18. Nothing was measured here, so no ADR can be 'accepted before' a measurement."
+    }
+  ],
+  "live_access_log": {
+    "status_before": {
+      "time_utc": "2026-09-03T23:55:51Z",
+      "command": "git -C /home/kiros-li/Documents/GitHub/retail-power-limits status --porcelain",
+      "output_verbatim": "",
+      "interpretation": "empty - clean working tree, no untracked entries"
+    },
+    "status_after": {
+      "time_utc": "2026-09-03T23:59:15Z",
+      "command": "git -C /home/kiros-li/Documents/GitHub/retail-power-limits status --porcelain",
+      "output_verbatim": "",
+      "interpretation": "empty - clean working tree, unchanged"
+    },
+    "unexpected_entries": "none",
+    "commands": [
+      {
+        "cmd": "git status --porcelain",
+        "time_utc": "2026-09-03T23:55:51Z",
+        "why": "mandatory before-log"
+      },
+      {
+        "cmd": "ls -la (top level, docs/, rplimits/, tests/)",
+        "time_utc": "2026-09-03T23:56Z",
+        "why": "untracked-data inventory: sizes and mtimes"
+      },
+      {
+        "cmd": "git status --ignored=matching --porcelain",
+        "time_utc": "2026-09-03T23:57Z",
+        "why": "enumerate gitignored material"
+      },
+      {
+        "cmd": "du -sh .venv .mypy_cache .pytest_cache .ruff_cache",
+        "time_utc": "2026-09-03T23:57Z",
+        "why": "sizes of ignored directories without opening them"
+      },
+      {
+        "cmd": "find ... -printf (caches and .git pruned)",
+        "time_utc": "2026-09-03T23:57Z",
+        "why": "confirm no data files outside git"
+      },
+      {
+        "cmd": "git ls-files",
+        "time_utc": "2026-09-03T23:57Z",
+        "why": "tracked-file list"
+      },
+      {
+        "cmd": "git rev-parse HEAD; git log --format=...; git remote -v; git branch -a",
+        "time_utc": "2026-09-03T23:58Z",
+        "why": "confirm the anchor and read commit provenance"
+      },
+      {
+        "cmd": "git status --porcelain",
+        "time_utc": "2026-09-03T23:59:15Z",
+        "why": "mandatory after-log"
+      }
+    ],
+    "unanchored_reads": "none - every quoted figure was read from the snapshot at dda39b2f148569a6fe9be956a979471b2330611d; the only live content used is git metadata and the directory listing",
+    "live_head": "dda39b2f148569a6fe9be956a979471b2330611d (matches the anchor)",
+    "live_commits": [
+      "0974f96 2026-08-29T00:19:47-07:00 'The power limit: four pre-registered experiments that closed on detectability'",
+      "710093d 2026-08-29T00:20:34-07:00 'fix: the scope section counts four limits, not three'",
+      "dda39b2 2026-08-29T00:21:28-07:00 'fix: the credential scan was passing over zero files, and its canary self-matched'"
+    ],
+    "live_remote": "origin https://github.com/kirosli00tuff/retail-power-limits.git (this repository IS published)",
+    "scratch_dir": "/tmp/claude-1000/-home-kiros-li-Documents-GitHub-program-audit/2c6a58bc-6f69-48c9-a930-b20684f1e1e4/scratchpad/work/agentC/",
+    "repository_scripts_executed": "none"
+  },
+  "counts": {
+    "artifacts": 26,
+    "tracked_files": 21,
+    "untracked_dirs": 6,
+    "claims": 30,
+    "must_verify": 8,
+    "intervals": 5,
+    "tests": 8,
+    "provenance_claims": 22,
+    "p_values_reported": 0,
+    "stated_alpha_or_power_levels": 0
+  }
+}

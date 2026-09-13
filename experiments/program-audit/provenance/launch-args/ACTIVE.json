@@ -1,0 +1,18 @@
+[
+ {
+  "agent": "B",
+  "run": 16,
+  "label": "02-agentB-blind-run16",
+  "task": "wkifbwh6c",
+  "wf": "wf_9f6925ef-1a9",
+  "launched": "2026-09-13T08:55Z"
+ },
+ {
+  "agent": "C",
+  "run": 16,
+  "label": "03-agentC-blind-run16",
+  "task": "wvw2lpx9a",
+  "wf": "wf_6682a482-2ea",
+  "launched": "2026-09-13T08:55Z"
+ }
+]

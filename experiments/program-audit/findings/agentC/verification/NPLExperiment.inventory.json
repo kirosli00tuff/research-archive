@@ -1,0 +1,1297 @@
+{
+  "repo": "NPLExperiment",
+  "anchored_sha": "8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c",
+  "live_head_at_read": "dff16632eca6eea05b290ade5464339f44c75744",
+  "live_head_subject": "docs: Amendment H5-3 - fire date recomputed at measured 0.77 passes/day; no bar moved, projection was falsified by three lost collection days",
+  "live_head_date": "2026-09-09T21:46:02-07:00",
+  "anchoring_caveat": "The live repository is four commits ahead of the anchor and its HEAD commit records that the anchored H5 fire-date projection (claim C3) was falsified. Every claim here is a claim about 8f1fef8 only.",
+  "counts": {
+    "artifacts": 38,
+    "artifacts_tracked": 20,
+    "artifacts_untracked": 18,
+    "code_files": 101,
+    "claims": 23,
+    "must_verify": 7,
+    "intervals": 8,
+    "tests": 14,
+    "provenance_claims": 20
+  },
+  "code_inventory": {
+    "total_files": 101,
+    "src_py": 62,
+    "scripts": 13,
+    "tests": 26,
+    "statistics_modules": [
+      "src/npl/power.py (115 L: pmf, upper_tail, critical_k, exact_power, min_n_for_power, log-space)",
+      "src/npl/verdict.py (203 L: clopper_pearson_lower by 200-step bisection, p1_profitability, p2_magnitude, p3_contrast, named_secondaries, tie rules in the docstring)",
+      "src/npl/register/sequential.py (184 L: look2_spend, look2_critical, two_look_design, two_look_power, planned_n1, min_n2_for_power, futility_boundary, look1_stop_probability)",
+      "src/npl/register/cull.py (291 L: familywise fixed-point cull)",
+      "src/npl/section0.py (150 L: the outcome map gate)",
+      "src/npl/h5/stats.py (88 L: median, linear-interpolated quantile, summarize with n)",
+      "src/npl/h5/outcome.py (222 L: the H5 map)",
+      "src/npl/h5/basis.py (212 L: same-snapshot basis in bp)",
+      "src/npl/intervals.py (30 L: merge_windows before any interval sum)"
+    ],
+    "artifact_producing_scripts": [
+      "scripts/ktable_amended.py -> A6",
+      "scripts/backfill_fallback.py -> A8",
+      "scripts/h5_census.py -> A13/A14",
+      "scripts/h5_retro.py -> A16",
+      "scripts/h5_fire.py -> A17",
+      "scripts/h5_pass.py -> A15",
+      "scripts/mutations{,_register,_amend,_stage_b,_h5}.py -> A5/A10/A11/A12/A20"
+    ],
+    "note": "Claimed gate figures (249 passed / mypy --strict on 71 files, and the 217/172/159 variants) are not verifiable by reading; a test run inside the audited tree is forbidden."
+  },
+  "artifacts": [
+    {
+      "id": "A1",
+      "path": "NPLExperiment/reports/stage_b/read.json",
+      "holds": "the single spent H1 Stage B read: co_primaries p1/p2/p3 (n, successes, statistic, passes), alpha_adj 0.016952427508441503, funding_rows_30_total 224633, pending_30/90 = 0, row_fired FAIL, read_at 2026-08-28T03:01:08Z, 21 module hashes, secondaries (cost bands, 90d, per-type strata, truncated, H8 decomposition)",
+      "backs": "H1 closure deciding numbers: HYPOTHESES.md:52, report.md:222-244 and 297-299, REGISTRATION.md:556-571, README.md:6-9, docs/STAGES.md:70",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 8853,
+      "mtime_local": null,
+      "note": "sha256 recomputed this session = 4455489675c3774f05c977cb7edb9d8b26928f851400077b31263f5826be840c, matching the value claimed at HYPOTHESES.md:54"
+    },
+    {
+      "id": "A2",
+      "path": "NPLExperiment/reports/stage_b/preconditions.json",
+      "holds": "per-event and per-control precondition and coverage rows for the 312 event + 176 control windows",
+      "backs": "report.md:120-153; REGISTRATION.md:550",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 315594,
+      "mtime_local": null,
+      "note": ""
+    },
+    {
+      "id": "A3",
+      "path": "NPLExperiment/reports/stage_b/hashes_b0.json",
+      "holds": "19-module read-surface sha256 set at B.0",
+      "backs": "report.md:149-151",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 1651,
+      "mtime_local": null,
+      "note": ""
+    },
+    {
+      "id": "A4",
+      "path": "NPLExperiment/reports/stage_b/hashes_b1.json",
+      "holds": "21-module read-surface sha256 set at B.1",
+      "backs": "report.md:200-206 ('exactly one diff against B.0')",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 1828,
+      "mtime_local": null,
+      "note": ""
+    },
+    {
+      "id": "A5",
+      "path": "NPLExperiment/reports/stage_b/mutations.md",
+      "holds": "3 Stage B mutations, all CAUGHT",
+      "backs": "report.md:280-291",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 1320,
+      "mtime_local": null,
+      "note": ""
+    },
+    {
+      "id": "A6",
+      "path": "NPLExperiment/reports/stage_a_h2/ktable_amended.json",
+      "holds": "H2 two-look boundary record: minimum_n (E1 42/84/76; E2@0.625 59/117/111; E2@0.600 92/184/169; 2x floor single-look 169), boundaries (k1,k2,alpha_spent_look1/look2,power,futility f1), look1_futility (E1 31, E2 27), projected_look_dates 2026-11-26 / 2027-03-01, projection_by_month, alpha_split_evaluation (6 candidates), section0_gate_recomputed (single 0.888596, two-look 0.862922), outcome_values_read 0, computed_at 2026-08-28T07:44:41Z",
+      "backs": "HYPOTHESES.md:70,73,74; report.md:530-566; registrations/H2/REGISTRATION.md:648-760",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 17687,
+      "mtime_local": null,
+      "note": ""
+    },
+    {
+      "id": "A7",
+      "path": "NPLExperiment/reports/stage_a_h2/ktable_cull.json",
+      "holds": "the outcome-blind cull k-table: achieved/interim/deadline scenarios, by-dex vs flat pair projections, H4 conditioning rates, powers at k=1,2,3; computed_at 2026-08-28T05:41:32Z",
+      "backs": "report.md:358-376; HYPOTHESES.md:89,106; registrations/H3/REGISTRATION.md:159-185; registrations/H4/REGISTRATION.md:207-221",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 19551,
+      "mtime_local": null,
+      "note": ""
+    },
+    {
+      "id": "A8",
+      "path": "NPLExperiment/reports/stage_a_h2/backfill_fallback.json",
+      "holds": "fallback-control backfill: assigned_n 24, distinct_controls 19, candidate_universe_n 175, pairs_ledger_total 62 (same_dex 38 / cross_dex 24), fresh_plan_rows 124, requests_spent_this_run 1080, trail_pages_sealed 724, control_leg_spread_states {expired:24}, outcome_values_read 0",
+      "backs": "report.md:506-522; registrations/H2/REGISTRATION.md:638-641",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 10510,
+      "mtime_local": null,
+      "note": "records candidate_universe_n 175 where report.md:510 states '174 candidates considered per event'"
+    },
+    {
+      "id": "A9",
+      "path": "NPLExperiment/reports/stage_a_h2/amend_preconditions.json",
+      "holds": "H2 amendment preconditions: checked_at 2026-08-28T06:51:10Z, gates (ruff clean, mypy 67 files, pytest 217 passed), h2_read_json_absent true, h2_registered_latch_absent true, h2_outcome_artifacts_found [], reports_scan_n 8, head/origin_main e89b187, tree_clean true, verdict PASS",
+      "backs": "report.md:445-453",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 1683,
+      "mtime_local": null,
+      "note": "report.md:446 states 07:51:10Z 'on the project clock'; the artifact records 06:51:10Z"
+    },
+    {
+      "id": "A10",
+      "path": "NPLExperiment/reports/stage_a_h2/mutations.md",
+      "holds": "register Stage A.4 mutation evidence",
+      "backs": "report.md:416-424 (6/6 CAUGHT)",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 2307,
+      "mtime_local": null,
+      "note": ""
+    },
+    {
+      "id": "A11",
+      "path": "NPLExperiment/reports/stage_a_h2/mutations_amend.md",
+      "holds": "Amendment H2-3 mutation evidence, 'Result: 6 of 6 CAUGHT'",
+      "backs": "report.md:581-592",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 2624,
+      "mtime_local": null,
+      "note": ""
+    },
+    {
+      "id": "A12",
+      "path": "NPLExperiment/reports/stage_a4/mutations.md",
+      "holds": "H1 Stage A.4 mutation evidence",
+      "backs": "report.md Stage A narrative",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 1782,
+      "mtime_local": null,
+      "note": ""
+    },
+    {
+      "id": "A13",
+      "path": "NPLExperiment/reports/h5/census.json",
+      "holds": "H5 census pass-1 summary: instruments_total 273, resolved 151, live 94, by_resolution_state, by_dex_live {io 2, mkts 3, para 16, xyz 73}, excluded_delisted 57, listing_conflicting 0, reference_field_used {oraclePx:151}, reference_unserved_live 0, requests_charged 323, forward_daily_pass_requests 115, forward_share_of_daily_cap 0.00575, snapshot_id h5-census-2026-08-28T21:51:54Z",
+      "backs": "report.md:636-655 and 673-675; HYPOTHESES.md:126-127; registrations/H5/REGISTRATION.md:564-570",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 2490,
+      "mtime_local": null,
+      "note": ""
+    },
+    {
+      "id": "A14",
+      "path": "NPLExperiment/reports/h5/census.rows.json",
+      "holds": "273 per-instrument rows at snapshot h5-census-2026-08-28T21:51:54Z with basis_bp, touch_spread_bp, listing_status, resolution_state, quarantined, served_fields, session_tag - the ONLY tracked source of per-instrument basis values",
+      "backs": "the H5 stratum tables at docs/H5_ACCESS.md:191-195, report.md:657-660, DECISIONS.md:496-499",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 330621,
+      "mtime_local": null,
+      "note": ""
+    },
+    {
+      "id": "A15",
+      "path": "NPLExperiment/reports/h5/collector.json",
+      "holds": "the one verified forward pass: pass_id h5-census-2026-08-28T22:00:14Z, coverage states (ctx stored 273; funding stored 94 / excluded_ineligible 57; l2 stored 94), requests_charged 209, ran_at 2026-08-28T22:02:40Z",
+      "backs": "report.md:685-687",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 1150,
+      "mtime_local": null,
+      "note": ""
+    },
+    {
+      "id": "A16",
+      "path": "NPLExperiment/reports/h5/retro.json",
+      "holds": "the retrospective named secondary: instruments_eligible 27, instruments_excluded_quarantined 124, observations_served 39, instruments_with_any_observation 2, instruments_meeting_30d_coverage 0, pooled_by_session_tag (regular 14.169534 n=17; extended 14.120973 n=14; closed_weekday 20.599501 n=8), 27 per_instrument rows, requests_charged 27",
+      "backs": "report.md:689-701; HYPOTHESES.md:128; registrations/H5/REGISTRATION.md:591-616",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 11771,
+      "mtime_local": null,
+      "note": ""
+    },
+    {
+      "id": "A17",
+      "path": "NPLExperiment/reports/h5/verdict.json",
+      "holds": "the fired H5 row: fired_at 2026-08-28T22:04:30Z, primary_registered_basis PENDING with max_median_abs_bp 4.14463090419424, funding_share 1.0, instruments_with_reference 94, instruments_meeting_coverage 0, floor_bp 18.0, viable_bp 54.0; inputs.by_session_tag.extended {n 188, n_absent 0, median 4.14463090419424, q1 0.70947242299609, q3 9.145925118703394, share_over_floor 0.09574468085106383, share_over_viable 0.015957446808510637}; census_window {covered_days_binding_instrument 1, passes_needed 29, projected_fire_date 2026-09-26}",
+      "backs": "report.md:667-687; HYPOTHESES.md:122,126,132; registrations/H5/REGISTRATION.md:555-589",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 3919,
+      "mtime_local": null,
+      "note": ""
+    },
+    {
+      "id": "A18",
+      "path": "NPLExperiment/reports/h5/preconditions.json",
+      "holds": "H5 preconditions: checked_at 2026-08-28T21:24:00Z, counts {census_rows 505, eligibility_h2_rows 62, fresh_plan_rows 124, h2_pairs_rows 62}, gates (mypy 71 files, pytest 249 passed, ruff clean), 11 H2 store sha256s, three H2 latches absent, head fc639c77, carried context (HFExperiment ADR-026 IBKR 40-100 bp / error 10243; HIP-3 3 bp maker / 9 bp taker measurement)",
+      "backs": "report.md:581-582; HYPOTHESES.md:130",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 4071,
+      "mtime_local": null,
+      "note": ""
+    },
+    {
+      "id": "A19",
+      "path": "NPLExperiment/reports/h5/h2_verification.json",
+      "holds": "the quarantine proof: 11 H2 store sha256 before/after with unchanged true, h2_pair_count_now 62 = precondition 62, three latches absent_now true; plus a self-disclosed timestamp correction (first write carried a typed 22:36:00Z estimate; the real window is 22:07:26Z-22:10:08Z)",
+      "backs": "HYPOTHESES.md:130; report.md H5 quarantine text",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 4744,
+      "mtime_local": null,
+      "note": ""
+    },
+    {
+      "id": "A20",
+      "path": "NPLExperiment/reports/h5/mutations.md",
+      "holds": "'Result: 7 of 7 CAUGHT' on the H5 surface",
+      "backs": "README.md:76; report.md H5 close-out",
+      "tracked": true,
+      "anchored": true,
+      "size_bytes": 3234,
+      "mtime_local": null,
+      "note": ""
+    },
+    {
+      "id": "U1",
+      "path": "NPLExperiment/data/h5/snapshots.jsonl",
+      "holds": "3639 rows; 14 distinct snapshot_id values (h5-census-2026-08-28T22:00:14Z through 2026-09-12T01:54:07Z) plus 13 rows carrying no snapshot_id; holds the SECOND of the two 2026-08-28 census snapshots (273 rows)",
+      "backs": "the 188-observation H5 verdict (one of its two snapshots lives only here); the 29-passes / 2026-09-26 projection",
+      "tracked": false,
+      "anchored": false,
+      "size_bytes": 3719818,
+      "mtime_local": "2026-09-11 18:56",
+      "note": "UNANCHORED, read 2026-09-12 07:53 UTC; may have changed after the anchor. 2026-09-05 and 2026-09-06 have no snapshot at all; 2026-09-03 has 4 rows"
+    },
+    {
+      "id": "U2",
+      "path": "NPLExperiment/data/h5/census.jsonl",
+      "holds": "the first H5 census snapshot on disk",
+      "backs": "H5 census figures",
+      "tracked": false,
+      "anchored": false,
+      "size_bytes": 547294,
+      "mtime_local": "2026-08-28 14:55",
+      "note": "UNANCHORED; listed only, not opened"
+    },
+    {
+      "id": "U3",
+      "path": "NPLExperiment/data/h5/retro.jsonl",
+      "holds": "retrospective observation rows",
+      "backs": "retro.json pooled medians",
+      "tracked": false,
+      "anchored": false,
+      "size_bytes": 9999,
+      "mtime_local": "2026-08-28 14:56",
+      "note": "UNANCHORED; listed only"
+    },
+    {
+      "id": "U4",
+      "path": "NPLExperiment/data/ledgers/requests.jsonl",
+      "holds": "the request ledger, every charge",
+      "backs": "every spend claim: 888 H5 requests, 323/pass, 209/day, 1080 backfill, the A.1 probe ledger positions, 'zero charges by Stage B'",
+      "tracked": false,
+      "anchored": false,
+      "size_bytes": 6636084,
+      "mtime_local": "2026-09-12 00:06",
+      "note": "UNANCHORED; listed only"
+    },
+    {
+      "id": "U5",
+      "path": "NPLExperiment/data/state/stage_b_read.json",
+      "holds": "the spent H1 read latch, claimed sha256 2d204ccb...438f67e with 21 module hashes inside",
+      "backs": "HYPOTHESES.md:54; report.md:210-211",
+      "tracked": false,
+      "anchored": false,
+      "size_bytes": 1932,
+      "mtime_local": "2026-08-27 20:01",
+      "note": "UNANCHORED; listed only, not opened"
+    },
+    {
+      "id": "U6",
+      "path": "NPLExperiment/data/state/generating_sample.json",
+      "holds": "the 312 quarantined retro event IDs",
+      "backs": "report.md:322-324; HYPOTHESES.md:138-140",
+      "tracked": false,
+      "anchored": false,
+      "size_bytes": 9720,
+      "mtime_local": "2026-08-27 20:47",
+      "note": "UNANCHORED; listed only"
+    },
+    {
+      "id": "U7",
+      "path": "NPLExperiment/data/state/fresh_plan.jsonl",
+      "holds": "the fresh plan, claimed 124 rows at the amendment",
+      "backs": "report.md:513; backfill_fallback.json",
+      "tracked": false,
+      "anchored": false,
+      "size_bytes": 20610,
+      "mtime_local": "2026-09-09 21:36",
+      "note": "UNANCHORED; listed only"
+    },
+    {
+      "id": "U8",
+      "path": "NPLExperiment/data/state/retro_plan.jsonl",
+      "holds": "the retro plan, 546 rows claimed at progress.md:318",
+      "backs": "Stage A/B cohort reconstruction",
+      "tracked": false,
+      "anchored": false,
+      "size_bytes": 105886,
+      "mtime_local": "2026-08-27 02:12",
+      "note": "UNANCHORED; listed only"
+    },
+    {
+      "id": "U9",
+      "path": "NPLExperiment/data/state/checkpoints.jsonl",
+      "holds": "+2/+32/+92 checkpoint scheduler state",
+      "backs": "ADR-007, ADR-019",
+      "tracked": false,
+      "anchored": false,
+      "size_bytes": 2919,
+      "mtime_local": "2026-09-10 18:40",
+      "note": "UNANCHORED; listed only"
+    },
+    {
+      "id": "U10",
+      "path": "NPLExperiment/data/state/watcher.jsonl",
+      "holds": "hourly watcher passes",
+      "backs": "ADR-012; the 'watcher explains moving hashes' note in reports/h5/preconditions.json",
+      "tracked": false,
+      "anchored": false,
+      "size_bytes": 38156,
+      "mtime_local": "2026-09-12 00:06",
+      "note": "UNANCHORED; listed only"
+    },
+    {
+      "id": "U11",
+      "path": "NPLExperiment/data/controls/h2_pairs.jsonl",
+      "holds": "the H2 pairs ledger, claimed 62 rows (38 same_dex + 24 cross_dex)",
+      "backs": "HYPOTHESES.md:70; report.md:511; h2_verification.json hash 6f2bc967",
+      "tracked": false,
+      "anchored": false,
+      "size_bytes": 18606,
+      "mtime_local": "2026-09-01 19:01",
+      "note": "UNANCHORED; listed only"
+    },
+    {
+      "id": "U12",
+      "path": "NPLExperiment/data/controls/pairs.jsonl",
+      "holds": "the H1 pairs ledger, claimed 176 rows",
+      "backs": "REGISTRATION.md:619",
+      "tracked": false,
+      "anchored": false,
+      "size_bytes": 47446,
+      "mtime_local": "2026-08-27 02:10",
+      "note": "UNANCHORED; listed only"
+    },
+    {
+      "id": "U13",
+      "path": "NPLExperiment/data/census/census.jsonl",
+      "holds": "the H1/H2 census, claimed 505 rows",
+      "backs": "reports/h5/preconditions.json counts; report.md:338 (504 found / 505 on disk)",
+      "tracked": false,
+      "anchored": false,
+      "size_bytes": 174131,
+      "mtime_local": "2026-08-27 22:12",
+      "note": "UNANCHORED; listed only"
+    },
+    {
+      "id": "U14",
+      "path": "NPLExperiment/data/eligibility/{h2,h3,h4}.jsonl",
+      "holds": "per-hypothesis eligibility views (h2 claimed 62 rows)",
+      "backs": "the cull inputs",
+      "tracked": false,
+      "anchored": false,
+      "size_bytes": 80459,
+      "mtime_local": "2026-08-27 22:24",
+      "note": "UNANCHORED; three files 15390 + 14936 + 50133 B; listed only"
+    },
+    {
+      "id": "U15",
+      "path": "NPLExperiment/data/spreads/{pair_spreads,spreads}.jsonl",
+      "holds": "entry-anchor touch-spread snapshots",
+      "backs": "ADR-008; report.md:354",
+      "tracked": false,
+      "anchored": false,
+      "size_bytes": 40341,
+      "mtime_local": "2026-09-01 19:01 / 2026-09-10 01:05",
+      "note": "UNANCHORED; two files 33786 + 6555 B; listed only"
+    },
+    {
+      "id": "U16",
+      "path": "NPLExperiment/data/births/",
+      "holds": "24 files (12 .jsonl manifests + 12 .sha256 seals) for 2026-08-27, 08-28, 08-29, 08-31, 09-02, 09-04, 09-05, 09-06, 09-07, 09-08, 09-09, 09-11",
+      "backs": "the 18.57 events/month accrual; the forward cohort",
+      "tracked": false,
+      "anchored": false,
+      "size_bytes": null,
+      "mtime_local": "2026-08-27 to 2026-09-11",
+      "note": "UNANCHORED; ls -la only"
+    },
+    {
+      "id": "U17",
+      "path": "NPLExperiment/data/outcomes/",
+      "holds": "373 per-instrument directories of sealed raw candle windows (claimed 312 event + 176 control windows)",
+      "backs": "the H1 P1/P2/P3 recomputation from stored primitives",
+      "tracked": false,
+      "anchored": false,
+      "size_bytes": null,
+      "mtime_local": "2026-08-26 to 2026-09-10",
+      "note": "UNANCHORED; ls -la only, no payload opened"
+    },
+    {
+      "id": "U18",
+      "path": "NPLExperiment/data/funding/",
+      "holds": "462 per-instrument directories of sealed raw funding pages (claimed 386 archives, 224,633 rows inside the 30-day windows)",
+      "backs": "H8 decomposition; H4 conditioning rates",
+      "tracked": false,
+      "anchored": false,
+      "size_bytes": null,
+      "mtime_local": "2026-08-27 to 2026-09-11",
+      "note": "UNANCHORED; ls -la only, no payload opened"
+    }
+  ],
+  "claims": [
+    {
+      "id": "C1",
+      "rank": 1,
+      "must_verify": true,
+      "claim_verbatim": "| **live** | **94** | **3.72 bp** | 0.73 - 7.31 | 51.4 bp | 8.5 % | **0.0 %** |  ...  **Every observation above the 54 bp VIABLE bar lives in the delisted stratum.**  ...  'the delisted stratum is where **every** observation above the 54 bp bar lived: median 30.5 bp with 45.6 % over the bar, against 3.72 bp and **0.0 %** for live instruments in the same snapshot.'",
+      "file_line": [
+        "NPLExperiment/docs/H5_ACCESS.md:193",
+        "NPLExperiment/docs/H5_ACCESS.md:197",
+        "NPLExperiment/docs/H5_ACCESS.md:31",
+        "NPLExperiment/report.md:659",
+        "NPLExperiment/report.md:652",
+        "NPLExperiment/HYPOTHESES.md:129",
+        "NPLExperiment/DECISIONS.md:496-499"
+      ],
+      "figures": "live median 3.72 bp, IQR 0.73-7.31, max 51.4 bp, 8.5 % over 18 bp, 0.0 % over 54 bp; delisted median 30.52 bp, IQR 0.00-210.79, max 2481 bp, 54.4 % / 45.6 %",
+      "n": "94 live (and 57 delisted) resolved instruments, one census snapshot",
+      "believed_source": "reports/h5/census.rows.json (A14) via src/npl/h5/stats.py:summarize",
+      "locate_status": "Recomputed at LOCATE from A14 with the repo's own quantile rule: live-and-resolved n=94 gives median 4.2137, q1 0.7412, q3 9.0865, max 55.64, 7.45% over 18 bp, 1.06% over 54 bp. The second snapshot (U1) gives median 4.1404, max 63.29, 2.13% over 54 bp. No filter variant tried reproduces 3.72 / 0.73-7.31 / 51.4 / 8.5% / 0.0%. reports/h5/verdict.json itself records share_over_viable 0.015957 on the pooled live n=188. The delisted row of the same table reproduces exactly. docs/H5_ACCESS.md was added in 13c6965 at 2026-08-28T21:59:42Z, after snapshot 1 (21:51:54Z) and before snapshot 2 (22:00:14Z). This is the stated justification for Amendment H5-2."
+    },
+    {
+      "id": "C2",
+      "rank": 2,
+      "must_verify": true,
+      "claim_verbatim": "| instruments carrying a served reference | **94** | >= 20 | **clears** | ... | funding served on those instruments | **94 of 94, share 1.000** | >= 0.500 | **clears** | ... | instruments at 30 days of coverage | **0** | >= 20 | **window open** | ... | median absolute basis, `extended` (n = 188) | **4.14 bp** | floor 18 / bar 54 |",
+      "file_line": [
+        "NPLExperiment/report.md:673-676",
+        "NPLExperiment/HYPOTHESES.md:126",
+        "NPLExperiment/registrations/H5/REGISTRATION.md:567-575"
+      ],
+      "figures": "94; 94 of 94 share 1.000; 0; median 4.14 bp, IQR 0.71-9.15, 9.57 % over floor, 1.60 % over bar",
+      "n": "188 observations across 2 snapshots of 94 live instruments",
+      "believed_source": "reports/h5/verdict.json (A17) written by scripts/h5_fire.py over src/npl/h5/outcome.py + stats.py",
+      "locate_status": "The 188-observation summary reproduces EXACTLY at LOCATE from A14 pooled with the second snapshot in U1: median 4.1446, q1 0.7095, q3 9.1459, share_over_floor 0.0957, share_over_viable 0.0160. Remaining to verify: the instrument counts and the bars against src/npl/config.py."
+    },
+    {
+      "id": "C3",
+      "rank": 3,
+      "must_verify": true,
+      "claim_verbatim": "**PENDING - the census window is open** - fired 2026-08-28T22:20Z. Both structural clauses **clear**; what is missing is time. **29 daily passes needed; projected fire date 2026-09-26.**",
+      "file_line": [
+        "NPLExperiment/HYPOTHESES.md:122",
+        "NPLExperiment/report.md:685",
+        "NPLExperiment/registrations/H5/REGISTRATION.md:587",
+        "NPLExperiment/HYPOTHESES.md:132"
+      ],
+      "figures": "29 passes; binding instrument at 1 covered day; bar 20 instruments at 30 covered days; fire date 2026-09-26",
+      "n": "the 20th-best-covered instrument at one pass per day",
+      "believed_source": "reports/h5/verdict.json:census_window (A17) + src/npl/h5/coverage.py",
+      "locate_status": "U1 shows only 14 census snapshots between 2026-08-28 and 2026-09-12: 2026-09-05 and 2026-09-06 absent, 2026-09-03 with 4 rows. The live post-anchor HEAD dff1663 (2026-09-09) is titled 'Amendment H5-3 - fire date recomputed at measured 0.77 passes/day ... projection was falsified by three lost collection days'. Any finding must state it is a claim about 8f1fef8 and was addressed by later commits."
+    },
+    {
+      "id": "C4",
+      "rank": 4,
+      "must_verify": true,
+      "claim_verbatim": "**P1** 197/312 positive (63.14%), exact lower bound **0.5707** against the 0.60 bar - FAIL; **P2** 111/312 at <= -15% net (35.58%), sign-test p = **1.000** - FAIL; **P3** 114/175 pairs young-below-control (65.14%), p = **3.767e-05** - PASS. Cost-insensitive across the registered bands (P1 lb 0.5740 / 0.5707 / 0.5609, n = 312 each).",
+      "file_line": [
+        "NPLExperiment/HYPOTHESES.md:52",
+        "NPLExperiment/report.md:222-224",
+        "NPLExperiment/report.md:297-299",
+        "NPLExperiment/REGISTRATION.md:556-568",
+        "NPLExperiment/README.md:6-9",
+        "NPLExperiment/docs/STAGES.md:70"
+      ],
+      "figures": "P1 197/312 lb 0.5707 at alpha_adj 0.016952; P2 111/312 p=1.000; P3 114/175 p=3.767e-05; bands 198/197/194 of 312",
+      "n": "312 events, 175 pairs",
+      "believed_source": "reports/stage_b/read.json (A1) via src/npl/verdict.py:clopper_pearson_lower and src/npl/power.py:upper_tail",
+      "locate_status": "A1 stores 0.5706880326738533, 0.9999998937952859, 3.766632285793312e-05. Fully recomputable from counts alone. A1's own sha256 matches the claimed value."
+    },
+    {
+      "id": "C5",
+      "rank": 5,
+      "must_verify": true,
+      "claim_verbatim": "Look-1 min N **59** (E1 42, E2 59), look-2 min N **117** (E1 84, E2 117). At the look-2 minimum: k1 = 38, k2 = 69, exact spend 0.0182 + 0.0240 = 0.0422 inside alpha_h. Futility at n1 = 59: E1 f1 = 31, E2 f1 = 27 at the 0.10 conditional-power floor.  ...  '| at look-1 min N | 59 | 30 | 22 | 37 | 0.0173 + 0.0200 = 0.0373 | ... | at the deadline | 135 | 68 | 43 | 79 | 0.0176 + 0.0227 = 0.0403 |'  ...  '**Look 1 projects to 2026-11-26 and look 2 to 2027-03-01**'",
+      "file_line": [
+        "NPLExperiment/HYPOTHESES.md:73",
+        "NPLExperiment/HYPOTHESES.md:70",
+        "NPLExperiment/registrations/H2/REGISTRATION.md:695",
+        "NPLExperiment/registrations/H2/REGISTRATION.md:697",
+        "NPLExperiment/report.md:546-548",
+        "NPLExperiment/report.md:561-563"
+      ],
+      "figures": "min N 42/84, 59/117, 111, 169, 184/92; k1/k2 22/37, 38/69, 43/79; spends 0.0373 / 0.0422 / 0.0403; powers 0.7031/0.5529, 0.9322/0.8237, 0.9552/0.8629; futility 31/27; dates 2026-11-26 and 2027-03-01",
+      "n": "59 / 117 / 135 projected pairs; accrual 18.57 events/month; match rate 1.000",
+      "believed_source": "reports/stage_a_h2/ktable_amended.json (A6) written by scripts/ktable_amended.py over src/npl/register/sequential.py",
+      "locate_status": "Totals match A6 but two of three component spends do not: A6 records at look-1 min N 0.008062 + 0.029206 = 0.037268 (doc prints 0.0173 + 0.0200) and at the deadline 0.019230 + 0.021113 = 0.040343 (doc prints 0.0176 + 0.0227). Only the look-2-min-N row (0.018172 + 0.024025 = 0.042197) matches its printed components. Futility f1 31/27 matches A6:look1_futility exactly."
+    },
+    {
+      "id": "C6",
+      "rank": 6,
+      "must_verify": true,
+      "claim_verbatim": "**E2 true share 0.625** under the 1x floor, by stated linear interpolation between multiple 0 (E1's 0.65) and multiple 2 (the registered 0.60) - a choice, not a measurement, so **every minimum N is also reported at the unchanged 0.60** (E2 then needs 92/184 and does not reach 0.80 by the deadline).",
+      "file_line": [
+        "NPLExperiment/HYPOTHESES.md:74",
+        "NPLExperiment/report.md:476-481",
+        "NPLExperiment/report.md:536",
+        "NPLExperiment/report.md:544",
+        "NPLExperiment/registrations/H2/REGISTRATION.md:675",
+        "NPLExperiment/registrations/H2/REGISTRATION.md:683"
+      ],
+      "figures": "0.625 interpolated; alternative 0.600 -> 92/184; single-look power at N=135 is 0.888596 at 0.625 and 0.731814 at 0.600",
+      "n": "135 projected deadline pairs",
+      "believed_source": "reports/stage_a_h2/ktable_amended.json:minimum_n and single_look_k_table_extension_at_deadline (A6)",
+      "locate_status": "The justification for the weakened floor rests on an assumption the authors themselves label a choice; the alternative they report beside it fails the registered 0.80 target."
+    },
+    {
+      "id": "C7",
+      "rank": 7,
+      "must_verify": true,
+      "claim_verbatim": "Live median touch spread **4.18 bp** (IQR 1.31-10.78).",
+      "file_line": [
+        "NPLExperiment/report.md:643",
+        "NPLExperiment/docs/H5_ACCESS.md:28"
+      ],
+      "figures": "median 4.18 bp, IQR 1.31-10.78",
+      "n": "94 live instruments",
+      "believed_source": "reports/h5/census.rows.json:touch_spread_bp (A14)",
+      "locate_status": "Snapshot 1 gives median 3.1586 (IQR 1.2270-10.4125, n=94); snapshot 2 (U1) gives median 3.8388 (IQR 0.9986-11.7339). Neither is 4.18 / 1.31-10.78. Same shape of discrepancy as C1 and on the same rows."
+    },
+    {
+      "id": "C8",
+      "rank": 8,
+      "must_verify": false,
+      "claim_verbatim": "**Pass 1 (k = 3, alpha_h = 0.016952):** H2 required 0.5771; H3 0.0000; H4 best cell 0.0140 -> **H3 and H4 fire BLOCKED.** ... **Pass 2 (k = 1, alpha_h = 0.05):** H2 required 0.7604 -> fixed point.",
+      "file_line": [
+        "NPLExperiment/report.md:362-365"
+      ],
+      "figures": "powers 0.5771 / 0.0000 / 0.0140 / 0.7604; min-N 76 / 169; 141 projected deadline pairs",
+      "n": "38 achieved pairs; H3 n = 5; H4 n = 62",
+      "believed_source": "reports/stage_a_h2/ktable_cull.json (A7), src/npl/register/cull.py, src/npl/power.py",
+      "locate_status": ""
+    },
+    {
+      "id": "C9",
+      "rank": 9,
+      "must_verify": false,
+      "claim_verbatim": "measured main-dex accrual 0.5/month (n = 3/182d) against a P1 min-N of 262; deadline N = 5; both required legs at ~0 power",
+      "file_line": [
+        "NPLExperiment/HYPOTHESES.md:89",
+        "NPLExperiment/registrations/H3/REGISTRATION.md:161",
+        "NPLExperiment/registrations/H3/REGISTRATION.md:174",
+        "NPLExperiment/registrations/H3/REGISTRATION.md:185"
+      ],
+      "figures": "0.5 events/month; min-N 262; deadline N 5",
+      "n": "n = 3 listings in the trailing 182 days",
+      "believed_source": "reports/stage_a_h2/ktable_cull.json (A7); data/census/census.jsonl (U13)",
+      "locate_status": ""
+    },
+    {
+      "id": "C10",
+      "rank": 10,
+      "must_verify": false,
+      "claim_verbatim": "measured conditioning rates 0.177/0.129/0.081 (n = 62; median trailing entry funding +31.6%/yr - deep negative entry funding is rare); best-cell deadline power 0.014 governing (0.711 even at the declined optimistic 0.85)",
+      "file_line": [
+        "NPLExperiment/HYPOTHESES.md:106",
+        "NPLExperiment/registrations/H4/REGISTRATION.md:211-214",
+        "NPLExperiment/registrations/H4/REGISTRATION.md:220-221"
+      ],
+      "figures": "11/62, 8/62, 5/62 = 0.1774 / 0.1290 / 0.0806; median +31.6 %/yr (min -132.4); powers 0.0140 / 0.0037 / 0.0025",
+      "n": "n = 62 fresh events, 0 absent",
+      "believed_source": "reports/stage_a_h2/ktable_cull.json:inputs.conditioning_rates (A7), src/npl/register/conditioning.py, data/funding/ (U18)",
+      "locate_status": ""
+    },
+    {
+      "id": "C11",
+      "rank": 11,
+      "must_verify": false,
+      "claim_verbatim": "Accrual re-measured at **18.57 events/month** (n = 113 listings/182d) - the carried 18.5 confirmed - but **main-dex accrual measured 0.5/month (n = 3), falsifying the prompt's ~9.4/month planning figure for H3**.",
+      "file_line": [
+        "NPLExperiment/report.md:340-343"
+      ],
+      "figures": "18.57 events/month; 0.5/month main-dex",
+      "n": "n = 113 listings in 182 days",
+      "believed_source": "data/census/census.jsonl (U13), data/births/ (U16)",
+      "locate_status": ""
+    },
+    {
+      "id": "C12",
+      "rank": 12,
+      "must_verify": false,
+      "claim_verbatim": "**24 of 24, zero exclusions**, 19 distinct controls, 174 candidates considered per event and **none skipped for coverage**. The pairs ledger stands at **62 rows - 38 `same_dex` plus 24 `cross_dex`** - and the backfillable cohort's match rate went from 0.613 to **1.000**.",
+      "file_line": [
+        "NPLExperiment/report.md:509-512"
+      ],
+      "figures": "24/24; 19 distinct controls; 174 candidates; 62 rows (38+24); 0.613 -> 1.000",
+      "n": "24 backfilled events; 62 pairs",
+      "believed_source": "reports/stage_a_h2/backfill_fallback.json (A8)",
+      "locate_status": "A8 records candidate_universe_n = 175, not 174."
+    },
+    {
+      "id": "C13",
+      "rank": 13,
+      "must_verify": false,
+      "claim_verbatim": "H8 decomposition (n = 312): mean funding term +1.33%, mean price term +1.00% per event over 30 days - the average short earned about **+2.2%** net, dominated by funding, not price. Paired (n = 175): funding differential +0.88 points, price differential +6.43 points against funding-matched controls.",
+      "file_line": [
+        "NPLExperiment/report.md:240-244"
+      ],
+      "figures": "0.013317, 0.009990 (sum 2.33 %), 0.008816, 0.064263",
+      "n": "312 events; 175 pairs",
+      "believed_source": "reports/stage_b/read.json:secondaries.h8_decomposition_30d and h8_paired_30d (A1)",
+      "locate_status": "The paired figures reproduce exactly (+0.88 and +6.43 points). The funding and price terms sum to 2.33 %, and the text says 'about +2.2%' - consistent only if costs are netted off."
+    },
+    {
+      "id": "C14",
+      "rank": 14,
+      "must_verify": false,
+      "claim_verbatim": "273 HIP-3 instruments over 10 dexs -> **151 resolved** (118 equity, 15 ETF, 18 index), 80 `excluded_non_equity`, 42 `excluded_unresolvable`, -> **94 live** after the three-field delisted rule (57 excluded, **0 conflicting**). The live family is two dexs: `xyz` 73, `para` 16.",
+      "file_line": [
+        "NPLExperiment/HYPOTHESES.md:127",
+        "NPLExperiment/report.md:649-655"
+      ],
+      "figures": "273 / 151 / 94; 118+15+18; 80+42; 57 delisted; 0 conflicting; xyz 73 + para 16 = 89",
+      "n": "273 enumerated instruments",
+      "believed_source": "reports/h5/census.json (A13)",
+      "locate_status": "A13's by_dex_live is {xyz 73, para 16, mkts 3, io 2} = 94; docs/H5_ACCESS.md:153 states the 89-of-94 split correctly, HYPOTHESES.md:127 does not."
+    },
+    {
+      "id": "C15",
+      "rank": 15,
+      "must_verify": false,
+      "claim_verbatim": "The cohort gate leaves **27 of 151** instruments eligible; **124 are `excluded_quarantined`**. Of the 27, **25 return no funding rows at all** over the registered 180-day window and **2 are days-old listings** - `io:NBIS` (n = 8, 1 covered day) and `xyz:XBI` (n = 31, 2 days). **39 observations, 2 instruments, 0 meeting the 30-day bar.**",
+      "file_line": [
+        "NPLExperiment/report.md:691-695",
+        "NPLExperiment/HYPOTHESES.md:128",
+        "NPLExperiment/registrations/H5/REGISTRATION.md:598-600"
+      ],
+      "figures": "27 of 151; 124 quarantined; 39 observations; n = 8 and n = 31",
+      "n": "39 observations across 2 instruments",
+      "believed_source": "reports/h5/retro.json (A16)",
+      "locate_status": ""
+    },
+    {
+      "id": "C16",
+      "rank": 16,
+      "must_verify": false,
+      "claim_verbatim": "**32 of the 57 delisted instruments are still being served an unbroken hourly funding series** - 168 rows each, the most recent stamped 2026-08-28T21:00Z - on markets with zero open interest, zero volume and no book.",
+      "file_line": [
+        "NPLExperiment/report.md:705-707",
+        "NPLExperiment/HYPOTHESES.md:129"
+      ],
+      "figures": "32 of 57; 168 rows each",
+      "n": "57 delisted instruments",
+      "believed_source": "reports/h5/census.rows.json funding fields (A14); data/funding/ (U18)",
+      "locate_status": ""
+    },
+    {
+      "id": "C17",
+      "rank": 17,
+      "must_verify": false,
+      "claim_verbatim": "The collector is armed and runs last in the 01:40Z daily pass, at 209 requests - **1.05 percent of the daily cap**",
+      "file_line": [
+        "NPLExperiment/report.md:685-687",
+        "NPLExperiment/progress.md:1462",
+        "NPLExperiment/progress.md:1516"
+      ],
+      "figures": "209 / 20,000 = 1.045 %",
+      "n": "one forward pass",
+      "believed_source": "reports/h5/collector.json:requests_charged (A15); src/npl/config.py:request_cap_per_day = 20000",
+      "locate_status": "reports/h5/census.json instead records forward_daily_pass_requests = 115 and forward_share_of_daily_cap = 0.00575."
+    },
+    {
+      "id": "C18",
+      "rank": 18,
+      "must_verify": false,
+      "claim_verbatim": "**H5's own spend** | **888** - 6 reconnaissance + 323 census pass 1 + 323 census pass 2 + 27 retrospective + 209 forward pass; the firing script sends nothing  ...  **H5's 888 is 4.44 percent of the daily cap.**  ...  | **day total, 2026-08-28** | **3,847** of the registered 20,000 cap (**19.2 %**) |",
+      "file_line": [
+        "NPLExperiment/progress.md:1509",
+        "NPLExperiment/progress.md:1511",
+        "NPLExperiment/progress.md:1513",
+        "NPLExperiment/progress.md:1459",
+        "NPLExperiment/progress.md:1502"
+      ],
+      "figures": "888 = 6+323+323+27+209; 4.44 %; day total 3,847 = 19.2 %",
+      "n": "one day of ledger rows",
+      "believed_source": "data/ledgers/requests.jsonl (U4); the correction is commit c2aaa27",
+      "locate_status": "progress.md:1459 first stated 1,124 and progress.md:1502-1509 records the correction to 888 from the ledger."
+    },
+    {
+      "id": "C19",
+      "rank": 19,
+      "must_verify": false,
+      "claim_verbatim": "Two full census passes, 323 requests each, returning **identical** counts, plus a 6-request reconnaissance probe.",
+      "file_line": [
+        "NPLExperiment/report.md:636",
+        "NPLExperiment/docs/H5_ACCESS.md:3-4"
+      ],
+      "figures": "323 + 323 + 6 = 652",
+      "n": "two census passes",
+      "believed_source": "reports/h5/census.json + collector.json (A13, A15); data/ledgers/requests.jsonl (U4)",
+      "locate_status": ""
+    },
+    {
+      "id": "C20",
+      "rank": 20,
+      "must_verify": false,
+      "claim_verbatim": "served premium -0.0003482613 equals (77501.0 - 77528.0)/77528.0 exactly, where 77501.0 is the served impact ask",
+      "file_line": [
+        "NPLExperiment/report.md:645",
+        "NPLExperiment/docs/H5_ACCESS.md"
+      ],
+      "figures": "one arithmetic identity",
+      "n": "one contemporaneous BTC context",
+      "believed_source": "docs/H5_ACCESS.md verbatim fragment; recomputable in one line",
+      "locate_status": ""
+    },
+    {
+      "id": "C21",
+      "rank": 21,
+      "must_verify": false,
+      "claim_verbatim": "**Effective N:** P1 312, P2 312, P3 175 - against the registered minimums 34, 103, 60. All clear.  ...  224,633 funding rows summed inside the 30-day windows",
+      "file_line": [
+        "NPLExperiment/report.md:146-147",
+        "NPLExperiment/report.md:216",
+        "NPLExperiment/REGISTRATION.md:550"
+      ],
+      "figures": "312 / 312 / 175 against 34 / 103 / 60; 224,633 rows",
+      "n": "312 events, 176 controls",
+      "believed_source": "reports/stage_b/read.json:preconditions (A1); data/funding/ (U18)",
+      "locate_status": ""
+    },
+    {
+      "id": "C22",
+      "rank": 22,
+      "must_verify": false,
+      "claim_verbatim": "their archives were built from scratch - 156 pages, 60,010 funding hours, **0 unrecoverable hours** ... The census refresh found 504 instruments",
+      "file_line": [
+        "NPLExperiment/report.md:336-339"
+      ],
+      "figures": "156 pages; 60,010 hours; 0 unrecoverable; 504 instruments",
+      "n": "62 pending-at-closure events",
+      "believed_source": "data/funding/ (U18), data/census/census.jsonl (U13)",
+      "locate_status": "reports/h5/preconditions.json (A18) records census_rows = 505 on disk at 2026-08-28T21:24Z."
+    },
+    {
+      "id": "C23",
+      "rank": 23,
+      "must_verify": false,
+      "claim_verbatim": "`make all` green throughout: ruff, `mypy --strict` on 71 files, **249 tests**.",
+      "file_line": [
+        "NPLExperiment/report.md:581-582",
+        "NPLExperiment/report.md:292",
+        "NPLExperiment/report.md:148",
+        "NPLExperiment/reports/h5/preconditions.json",
+        "NPLExperiment/reports/stage_a_h2/amend_preconditions.json"
+      ],
+      "figures": "249 / 217 / 172 / 159 tests; mypy on 71 / 67 / 54 / 50 files",
+      "n": "-",
+      "believed_source": "reports/h5/preconditions.json (A18), reports/stage_a_h2/amend_preconditions.json (A9)",
+      "locate_status": "NOT verifiable by reading; a test run inside the audited tree is forbidden by the common rules."
+    }
+  ],
+  "intervals": [
+    {
+      "id": "I1",
+      "file_line": [
+        "NPLExperiment/REGISTRATION.md:556",
+        "NPLExperiment/HYPOTHESES.md:52",
+        "NPLExperiment/report.md:222"
+      ],
+      "estimator": "exact binomial (Clopper-Pearson) one-sided LOWER confidence bound at alpha_adj = 0.016952, bar 0.60",
+      "figure": "0.5707 (197 successes)",
+      "n": 312,
+      "data_structure": "one Bernoulli per event (net short at 30 d > 0); src/npl/verdict.py:clopper_pearson_lower"
+    },
+    {
+      "id": "I2",
+      "file_line": [
+        "NPLExperiment/REGISTRATION.md:566",
+        "NPLExperiment/report.md:230-231"
+      ],
+      "estimator": "same, at the three registered cost bands",
+      "figure": "0.5740 (198) / 0.5707 (197) / 0.5609 (194)",
+      "n": 312,
+      "data_structure": "same, per cost band"
+    },
+    {
+      "id": "I3",
+      "file_line": [
+        "NPLExperiment/REGISTRATION.md:571",
+        "NPLExperiment/report.md:233"
+      ],
+      "estimator": "same, at the 90-day horizon (descriptive only)",
+      "figure": "0.6069 (208)",
+      "n": 312,
+      "data_structure": "same at 90 days"
+    },
+    {
+      "id": "I4",
+      "file_line": [
+        "NPLExperiment/REGISTRATION.md:201-237",
+        "NPLExperiment/HYPOTHESES.md:143-145"
+      ],
+      "estimator": "the registered bound levels themselves: alpha_adj = 1 - 0.95^(1/3) = 0.016952; alpha_h = 1 - 0.95^(1/k) = 0.05 at k = 1",
+      "figure": "0.016952 / 0.05",
+      "n": null,
+      "data_structure": "src/npl/config.py:ALPHA_ADJ; src/npl/register/cull.py"
+    },
+    {
+      "id": "I5",
+      "file_line": [
+        "NPLExperiment/report.md:676",
+        "NPLExperiment/HYPOTHESES.md:126",
+        "NPLExperiment/registrations/H5/REGISTRATION.md:573"
+      ],
+      "estimator": "IQR (dispersion, NOT a confidence interval): linear-interpolated quartiles of |basis|",
+      "figure": "IQR 0.71-9.15 bp about a median of 4.14 bp",
+      "n": 188,
+      "data_structure": "per-instrument-per-snapshot basis values; src/npl/h5/stats.py:summarize"
+    },
+    {
+      "id": "I6",
+      "file_line": [
+        "NPLExperiment/docs/H5_ACCESS.md:193-195",
+        "NPLExperiment/report.md:659-660"
+      ],
+      "estimator": "IQR of |basis| by listing stratum",
+      "figure": "live 0.73-7.31 (claimed); delisted 0.00-210.79; all resolved 0.00-18.13",
+      "n": "94 / 57 / 151",
+      "data_structure": "reports/h5/census.rows.json (A14)"
+    },
+    {
+      "id": "I7",
+      "file_line": [
+        "NPLExperiment/registrations/H5/REGISTRATION.md:601",
+        "NPLExperiment/reports/h5/retro.json"
+      ],
+      "estimator": "IQR of |premium| by session tag, retrospective secondary",
+      "figure": "regular 14.17 bp (IQR 2.36-16.45); extended 14.12 (10.78-15.14); closed_weekday 20.60 (14.70-25.45); weekend none",
+      "n": "17 / 14 / 8 (39 total)",
+      "data_structure": "reports/h5/retro.json:pooled_by_session_tag (A16)"
+    },
+    {
+      "id": "I8",
+      "file_line": [
+        "NPLExperiment/report.md:643"
+      ],
+      "estimator": "IQR of live touch spread",
+      "figure": "4.18 bp, IQR 1.31-10.78",
+      "n": 94,
+      "data_structure": "reports/h5/census.rows.json:touch_spread_bp (A14)"
+    }
+  ],
+  "tests": [
+    {
+      "id": "T1",
+      "file_line": [
+        "NPLExperiment/REGISTRATION.md:560",
+        "NPLExperiment/HYPOTHESES.md:52",
+        "NPLExperiment/report.md:223"
+      ],
+      "test": "P2 magnitude: exact one-sided sign test, p0 = 0.5, success = net at or below -15 % asset-side",
+      "statistic": "p = 1.000 (stored 0.9999998937952859); 111 successes",
+      "n": 312,
+      "data_structure": "per-event Bernoulli; src/npl/verdict.py:p2_magnitude"
+    },
+    {
+      "id": "T2",
+      "file_line": [
+        "NPLExperiment/REGISTRATION.md:563",
+        "NPLExperiment/HYPOTHESES.md:52",
+        "NPLExperiment/report.md:224"
+      ],
+      "test": "P3 listing-age contrast: exact one-sided sign test, p0 = 0.5, success = young net short > control",
+      "statistic": "p = 3.767e-05 (stored 3.766632285793312e-05); 114 successes",
+      "n": 175,
+      "data_structure": "paired young-vs-control; 137 of 312 events underpowered/unpaired"
+    },
+    {
+      "id": "T3",
+      "file_line": [
+        "NPLExperiment/REGISTRATION.md:571",
+        "NPLExperiment/report.md:235"
+      ],
+      "test": "P2 at 90 days, same test as T1",
+      "statistic": "p = 0.3886; 159 successes",
+      "n": 312,
+      "data_structure": "same"
+    },
+    {
+      "id": "T4",
+      "file_line": [
+        "NPLExperiment/REGISTRATION.md:571",
+        "NPLExperiment/report.md:235"
+      ],
+      "test": "P3 at 90 days, same test as T2",
+      "statistic": "p = 2.36e-04; 111 successes",
+      "n": 175,
+      "data_structure": "same"
+    },
+    {
+      "id": "T5",
+      "file_line": [
+        "NPLExperiment/registrations/H2/REGISTRATION.md:691-701",
+        "NPLExperiment/report.md:546-548"
+      ],
+      "test": "H2 two-look exact binomial boundary: k1 from alpha_1 = 0.02 alone, k2 from the spend conditional on not rejecting at look 1 over the independent increment, alpha_2 = 0.03, p0 = 0.5",
+      "statistic": "k1/k2 = 22/37 (n1=30,n2=59), 38/69 (59,117), 43/79 (68,135); total spends 0.0373 / 0.0422 / 0.0403",
+      "n": "59 / 117 / 135 pairs",
+      "data_structure": "per-pair Bernoulli, co-primaries E1 and E2; src/npl/register/sequential.py"
+    },
+    {
+      "id": "T6",
+      "file_line": [
+        "NPLExperiment/registrations/H2/REGISTRATION.md:712-718",
+        "NPLExperiment/report.md:555"
+      ],
+      "test": "H2 look-1 futility boundary at a 0.10 conditional-power floor",
+      "statistic": "E1 f1 = 31, E2 f1 = 27",
+      "n": 59,
+      "data_structure": "same"
+    },
+    {
+      "id": "T7",
+      "file_line": [
+        "NPLExperiment/report.md:565",
+        "NPLExperiment/HYPOTHESES.md:70",
+        "NPLExperiment/registrations/H2/REGISTRATION.md:754-757"
+      ],
+      "test": "exact binomial power at the registered true shares",
+      "statistic": "single-look 0.8886, two-look 0.8629 (E1 0.9665 / 0.9552); 0.7318 at the 0.60 alternative",
+      "n": "135 projected",
+      "data_structure": "src/npl/power.py:exact_power; src/npl/register/sequential.py:two_look_power"
+    },
+    {
+      "id": "T8",
+      "file_line": [
+        "NPLExperiment/registrations/H2/REGISTRATION.md:654-661"
+      ],
+      "test": "alpha-split materiality screen: six candidate splits against a two-clause test (power gain >= 0.01; interim stop-loss <= 0.05)",
+      "statistic": "0.01/0.04 -> power 0.8900 (+0.0270) but P(interim fires) 0.3112 (-0.1930); 0.005/0.045 -> +0.0262 / -0.2765; none replaces",
+      "n": "evaluated at n2 = 135",
+      "data_structure": "reports/stage_a_h2/ktable_amended.json:alpha_split_evaluation (A6)"
+    },
+    {
+      "id": "T9",
+      "file_line": [
+        "NPLExperiment/registrations/H4/REGISTRATION.md:79-80",
+        "NPLExperiment/registrations/H4/REGISTRATION.md:207"
+      ],
+      "test": "H4 within-hypothesis Sidak: alpha_cell = 1 - (1 - alpha_h)^(1/3)",
+      "statistic": "0.00568 at alpha_h = 0.016952",
+      "n": "3 cells",
+      "data_structure": "src/npl/register/conditioning.py"
+    },
+    {
+      "id": "T10",
+      "file_line": [
+        "NPLExperiment/report.md:362-365"
+      ],
+      "test": "the cull's exact-binomial power screen against a 0.50 floor at the achievable N",
+      "statistic": "H2 0.5771 / H3 0.0000 / H4 best cell 0.0140 at k = 3; H2 0.7604 at k = 1",
+      "n": "38 achieved / 141 projected pairs; H3 n = 5; H4 n = 62",
+      "data_structure": "reports/stage_a_h2/ktable_cull.json (A7); src/npl/register/cull.py"
+    },
+    {
+      "id": "T11",
+      "file_line": [
+        "NPLExperiment/report.md:676",
+        "NPLExperiment/HYPOTHESES.md:126",
+        "NPLExperiment/registrations/H5/REGISTRATION.md:573-574"
+      ],
+      "test": "H5 primary: median, linear-interpolated quartiles and exceedance shares. NO test statistic and NO p-value is computed anywhere in H5",
+      "statistic": "median 4.14 bp; 9.57 % over the 18 bp floor; 1.60 % over the 54 bp bar",
+      "n": 188,
+      "data_structure": "src/npl/h5/stats.py:summarize"
+    },
+    {
+      "id": "T12",
+      "file_line": [
+        "NPLExperiment/docs/H5_ACCESS.md:193-195",
+        "NPLExperiment/report.md:659-660"
+      ],
+      "test": "H5 stratum summaries (descriptive, no test)",
+      "statistic": "live 3.72 / 8.5 % / 0.0 % (claimed); delisted 30.52 / 54.4 % / 45.6 %; all resolved 4.14 / 25.8 % / 17.2 %",
+      "n": "94 / 57 / 151",
+      "data_structure": "reports/h5/census.rows.json (A14)"
+    },
+    {
+      "id": "T13",
+      "file_line": [
+        "NPLExperiment/registrations/H5/REGISTRATION.md:601"
+      ],
+      "test": "H5 retrospective secondary pooled summaries (descriptive, fires nothing)",
+      "statistic": "regular 14.17 (n=17); extended 14.12 (n=14); closed_weekday 20.60 (n=8); weekend absent",
+      "n": 39,
+      "data_structure": "reports/h5/retro.json (A16)"
+    },
+    {
+      "id": "T14",
+      "file_line": [
+        "NPLExperiment/report.md:643"
+      ],
+      "test": "live touch-spread summary (descriptive)",
+      "statistic": "median 4.18 bp, IQR 1.31-10.78",
+      "n": 94,
+      "data_structure": "reports/h5/census.rows.json:touch_spread_bp (A14)"
+    }
+  ],
+  "provenance_claims": [
+    {
+      "id": "P1",
+      "claim_verbatim": "docs: register Sections 0-13 before any network call",
+      "file_line": [
+        "NPLExperiment/REGISTRATION.md (object of commit cd640b6)"
+      ],
+      "commit_named": "cd640b6 = 2026-08-27T00:54:38Z",
+      "what_would_have_to_be_true": "no request-ledger row earlier than 2026-08-27T00:54:38Z",
+      "locate_status": "docs/ACCESS.md:8 dates the first access verification at 2026-08-27T00:56-00:58Z, two minutes after. Checkable against data/ledgers/requests.jsonl (U4, untracked)."
+    },
+    {
+      "id": "P2",
+      "claim_verbatim": "Amendment 3 was committed and pushed (commit 6399d63) while the only data in existence were counts, timestamps, and coverage - before the reader existed.",
+      "file_line": [
+        "NPLExperiment/report.md:157-158",
+        "NPLExperiment/REGISTRATION.md:457"
+      ],
+      "commit_named": "6399d63 = 2026-08-28T02:49:19Z",
+      "what_would_have_to_be_true": "6399d63 precedes both stageb/reader.py and the read",
+      "locate_status": "CONFIRMED by git: 6399d63 touches only REGISTRATION.md; reader.py and cli.py first appear in 32b3f9e = 2026-08-28T03:00:42Z; read.json read_at = 03:01:08Z."
+    },
+    {
+      "id": "P3",
+      "claim_verbatim": "the 312 retro event IDs are recorded in data/state/generating_sample.json, and every successor view refuses them - the refusals produced by test on synthetic offenders, never asserted",
+      "file_line": [
+        "NPLExperiment/report.md:322-325",
+        "NPLExperiment/HYPOTHESES.md:138-140"
+      ],
+      "commit_named": null,
+      "what_would_have_to_be_true": "the file holds exactly 312 IDs, and src/npl/register/generating_sample.py + views.py refuse them",
+      "locate_status": "File exists untracked (U6, 9,720 B, mtime 2026-08-27 20:47); not opened. The refusal code and its tests are readable in SNAP."
+    },
+    {
+      "id": "P4",
+      "claim_verbatim": "Amended the same day, before any pair outcome existed (H2-3, H2-4)",
+      "file_line": [
+        "NPLExperiment/HYPOTHESES.md:14",
+        "NPLExperiment/HYPOTHESES.md:70"
+      ],
+      "commit_named": "f31f7a3 = 2026-08-28T07:01:06Z; 546b2e3 = 2026-08-28T07:46:42Z",
+      "what_would_have_to_be_true": "no H2 outcome value, latch or artifact existed at those times",
+      "locate_status": "reports/stage_a_h2/amend_preconditions.json (A9) records h2_read_json_absent, h2_registered_latch_absent, h2_outcome_artifacts_found [] and head e89b187."
+    },
+    {
+      "id": "P5",
+      "claim_verbatim": "**Amendment H2-3 registered three changes before a line of code moved, and was committed and pushed before any of them was implemented.**",
+      "file_line": [
+        "NPLExperiment/report.md:455-456"
+      ],
+      "commit_named": "f31f7a3",
+      "what_would_have_to_be_true": "that commit contains no implementation",
+      "locate_status": "CONFIRMED by git --name-status: progress.md, registrations/H2/REGISTRATION.md and reports/stage_a_h2/amend_preconditions.json only. The implementation lands in f8e54d8, 39 minutes later."
+    },
+    {
+      "id": "P6",
+      "claim_verbatim": "**Chosen before any pair outcome existed.** At the moment this line was [written] ...",
+      "file_line": [
+        "NPLExperiment/registrations/H2/REGISTRATION.md:475",
+        "NPLExperiment/registrations/H2/REGISTRATION.md:395",
+        "NPLExperiment/registrations/H2/REGISTRATION.md:707",
+        "NPLExperiment/DECISIONS.md:262",
+        "NPLExperiment/DECISIONS.md:297",
+        "NPLExperiment/DECISIONS.md:326",
+        "NPLExperiment/DECISIONS.md:365"
+      ],
+      "commit_named": null,
+      "what_would_have_to_be_true": "as P4",
+      "locate_status": "same evidence as P4."
+    },
+    {
+      "id": "P7",
+      "claim_verbatim": "The correction, made now, **before any outcome value exists and before the reader has seen anything but synthetic fixtures**",
+      "file_line": [
+        "NPLExperiment/registrations/H2/REGISTRATION.md:773-776",
+        "NPLExperiment/DECISIONS.md:354-365"
+      ],
+      "commit_named": "546b2e3",
+      "what_would_have_to_be_true": "the two per-look latches absent and the pair reader fixture-only at 2026-08-28T07:46:42Z",
+      "locate_status": "report.md:594-598 asserts both latches absent at stage close; reports/h5/preconditions.json (A18) independently records all three H2 latches absent at 2026-08-28T21:24Z. The latch files themselves are untracked."
+    },
+    {
+      "id": "P8",
+      "claim_verbatim": "`registrations/H5/REGISTRATION.md` was committed and pushed with **zero H5 requests sent**",
+      "file_line": [
+        "NPLExperiment/report.md:617-618"
+      ],
+      "commit_named": "98e7e01 = 2026-08-28T21:38:58Z",
+      "what_would_have_to_be_true": "no H5 request charged before 21:38:58Z",
+      "locate_status": "reports/h5/census.json snapshot_id = h5-census-2026-08-28T21:51:54Z, 13 minutes later. Checkable against data/ledgers/requests.jsonl (U4)."
+    },
+    {
+      "id": "P9",
+      "claim_verbatim": "an **exact-string mapping registered before any price was read** (198 entries)",
+      "file_line": [
+        "NPLExperiment/HYPOTHESES.md:125",
+        "NPLExperiment/report.md:620",
+        "NPLExperiment/DECISIONS.md:382",
+        "NPLExperiment/registrations/H5/REGISTRATION.md:92",
+        "NPLExperiment/registrations/H5/REGISTRATION.md:551",
+        "NPLExperiment/docs/H5_ACCESS.md:130",
+        "NPLExperiment/docs/H5_ACCESS.md:179"
+      ],
+      "commit_named": "98e7e01",
+      "what_would_have_to_be_true": "src/npl/h5/resolution.py exists at 21:38:58Z and is unchanged when prices arrive",
+      "locate_status": "resolution.py is added by 98e7e01 (git --name-status). Whether it changed afterwards is a git log --follow check."
+    },
+    {
+      "id": "P10",
+      "claim_verbatim": "tagged by US market session against a calendar **registered before collection**",
+      "file_line": [
+        "NPLExperiment/HYPOTHESES.md:125",
+        "NPLExperiment/registrations/H5/REGISTRATION.md:209"
+      ],
+      "commit_named": "98e7e01",
+      "what_would_have_to_be_true": "src/npl/h5/calendar.py (2024-2027, four session tags) added before the first snapshot",
+      "locate_status": "calendar.py added by 98e7e01; first snapshot 21:51:54Z."
+    },
+    {
+      "id": "P11",
+      "claim_verbatim": "the outcome map built dark with fixtures sitting exactly on 18.00 bp, 54.00 bp, 20 instruments and a 10-of-20 funding share ... Boundary conventions, fixed before data and each with a fixture sitting exactly on it",
+      "file_line": [
+        "NPLExperiment/report.md:621-623",
+        "NPLExperiment/DECISIONS.md:483-487"
+      ],
+      "commit_named": "98e7e01",
+      "what_would_have_to_be_true": "h5/outcome.py and its boundary fixtures predate the census",
+      "locate_status": "outcome.py added by 98e7e01; the fixtures live in tests/test_h5_registration.py (547 L), added in the same commit."
+    },
+    {
+      "id": "P12",
+      "claim_verbatim": "Three consequences were registered **before** measurement, because the obvious implementation breaks all three",
+      "file_line": [
+        "NPLExperiment/report.md:626-631",
+        "NPLExperiment/DECISIONS.md:533"
+      ],
+      "commit_named": "98e7e01",
+      "what_would_have_to_be_true": "the three Section 0 consequences are present in the file as first committed",
+      "locate_status": "diffable: git show 98e7e01:registrations/H5/REGISTRATION.md."
+    },
+    {
+      "id": "P13",
+      "claim_verbatim": "That amendment was made before any firing and makes CLOSED **strictly harder**; it cost this entry a same-day close.",
+      "file_line": [
+        "NPLExperiment/report.md:679-683",
+        "NPLExperiment/registrations/H5/REGISTRATION.md:365-390"
+      ],
+      "commit_named": "13c6965 = 2026-08-28T21:59:42Z",
+      "what_would_have_to_be_true": "Amendment H5-1 committed before verdict.json fired_at",
+      "locate_status": "fired_at = 2026-08-28T22:04:30Z (A17), so the ordering holds. Note H5-1 was nonetheless written after census pass 1 (21:51:54Z)."
+    },
+    {
+      "id": "P14",
+      "claim_verbatim": "**The amendment deleted this entry's only route to VIABLE** ... it was made with the census in hand, disclosed in full in its own text, and it costs rather than buys.",
+      "file_line": [
+        "NPLExperiment/report.md:662-665",
+        "NPLExperiment/DECISIONS.md:509-513",
+        "NPLExperiment/registrations/H5/REGISTRATION.md:459-528"
+      ],
+      "commit_named": "13c6965",
+      "what_would_have_to_be_true": "the amendment is post-hoc AND self-disclosed as such, and restrictive in direction",
+      "locate_status": "Self-disclosed by the authors. The measurement it rests on is claim C1, which does not reproduce from reports/h5/census.rows.json."
+    },
+    {
+      "id": "P15",
+      "claim_verbatim": "Latch `data/state/stage_b_read.json` sha256 `2d204ccb...438f67e` (21 module hashes inside); artifact `reports/stage_b/read.json` sha256 `4455489675c...be840c`. Read 2026-08-28T03:01:08Z, exactly once.",
+      "file_line": [
+        "NPLExperiment/HYPOTHESES.md:54"
+      ],
+      "commit_named": null,
+      "what_would_have_to_be_true": "both hashes reproduce and the latch holds 21 module hashes",
+      "locate_status": "VERIFIED in part at LOCATE: sha256 of reports/stage_b/read.json recomputed = 4455489675c3774f05c977cb7edb9d8b26928f851400077b31263f5826be840c, matching. The latch is untracked (U5) and was not opened."
+    },
+    {
+      "id": "P16",
+      "claim_verbatim": "**The B.1 re-hash** (reports/stage_b/hashes_b1.json, 21 modules): exactly one diff against B.0 ... Every other read-surface module is byte-identical to its B.0 hash.",
+      "file_line": [
+        "NPLExperiment/report.md:200-206"
+      ],
+      "commit_named": null,
+      "what_would_have_to_be_true": "hashes_b0.json vs hashes_b1.json differ on stageb/__init__.py only, plus the two added modules",
+      "locate_status": "directly diffable between A3 and A4; the 21 hashes inside A1 can be checked against the SNAP sources."
+    },
+    {
+      "id": "P17",
+      "claim_verbatim": "H2's collectors, ledgers, latches and stores are **read-only** to every H5 path ... the cohort ledgers are read precisely so the quarantine can be honoured.",
+      "file_line": [
+        "NPLExperiment/HYPOTHESES.md:130",
+        "NPLExperiment/DECISIONS.md:515-546"
+      ],
+      "commit_named": null,
+      "what_would_have_to_be_true": "the 11 H2 store hashes unchanged across the H5 stage, pair count 62, three latches absent",
+      "locate_status": "reports/h5/h2_verification.json (A19) records exactly that, before and after, unchanged true on all 11 stores."
+    },
+    {
+      "id": "P18",
+      "claim_verbatim": "alpha_h = 1 - 0.95^(1/k), fixed at the cull, recorded in every surviving registration by amendment, **never revisited after any outcome exists**",
+      "file_line": [
+        "NPLExperiment/HYPOTHESES.md:143-145",
+        "NPLExperiment/registrations/H2/REGISTRATION.md:251-306"
+      ],
+      "commit_named": null,
+      "what_would_have_to_be_true": "no later commit changes family_confidence or the recorded alpha_h",
+      "locate_status": "checkable with git log -p -- src/npl/config.py across the anchor."
+    },
+    {
+      "id": "P19",
+      "claim_verbatim": "all three registrations - each with its Section 0 outcome map, its generating-sample-labelled assumptions, its epistemic boundary, and its own reserved empty operator prior slot - were committed and pushed before any successor measurement",
+      "file_line": [
+        "NPLExperiment/report.md:327-330"
+      ],
+      "commit_named": "77ee522 = 2026-08-28T03:53:20Z",
+      "what_would_have_to_be_true": "A.0 precedes the A.1 measurement",
+      "locate_status": "A.1 lands in c4003e5 = 2026-08-28T05:21:55Z, so the ordering holds."
+    },
+    {
+      "id": "P20",
+      "claim_verbatim": "The verdict record above is headed **22:20Z**. That figure was typed by the assistant as an estimate rather than read from the clock. **The map actually fired at 2026-08-28T22:04:30Z**",
+      "file_line": [
+        "NPLExperiment/registrations/H5/REGISTRATION.md:632-639"
+      ],
+      "commit_named": null,
+      "what_would_have_to_be_true": "the correction is recorded and the artifact carries the true time",
+      "locate_status": "verdict.json fired_at = 22:04:30Z confirms. BUT at the anchor HYPOTHESES.md:122 and report.md:667 still read 'fired 2026-08-28T22:20Z'. A parallel case: report.md:446 states the amendment preconditions passed at 07:51:10Z 'on the project clock' where reports/stage_a_h2/amend_preconditions.json records 06:51:10Z."
+    }
+  ],
+  "live_access_log": {
+    "pre_access_git_status_porcelain": "",
+    "pre_access_time_utc": "2026-09-12T07:50:43Z",
+    "post_access_git_status_porcelain": "",
+    "post_access_time_utc": "2026-09-12T07:56:52Z",
+    "note": "Both status outputs were empty. Nothing was written to the audited repository. Live reads: git log/show/rev-parse on 14 commits; ls -la of the repo root and data/ subtrees; two read-only field scans of data/h5/snapshots.jsonl (snapshot_id counts, then basis_bp and touch_spread_bp of the 273 rows of snapshot h5-census-2026-08-28T22:00:14Z). No .env, keystore, session, credential or token file was read. Scratch work lives only under /home/kiros-li/.cache/program-audit/scratchpad/work/agentC-npl-locate/."
+  }
+}

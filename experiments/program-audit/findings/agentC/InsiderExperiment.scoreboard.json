@@ -1,0 +1,56 @@
+{
+  "repo": "InsiderExperiment",
+  "claims": {
+    "verified": 33,
+    "contradicted": 9,
+    "unverifiable": 5,
+    "must_verify": [
+      {
+        "claim": "Rank 1 - 'The minimum detectable effect is 49.35 bp per month against a registered BLOCKED floor of 40' (REGISTRATION.md:812-816)",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "Rank 2 - 'CORPUS-GO. 4,585 qualifying events ... Mean book width 71.9 names' and the by-year table (REGISTRATION.md:594-608)",
+        "status": "CONTRADICTED"
+      },
+      {
+        "claim": "Rank 3 - 'tracking error came in at 9.993 percent across 2,869.9 effective independent periods from 2,581 sessions, and that tracking error is the whole of the 49.35' (REGISTRATION.md:844-848)",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "Rank 4 - 'The value-weighted book holds a mean of 71.9 names and behaves like 29.7 effective names' (REGISTRATION.md:839-841)",
+        "status": "CONTRADICTED"
+      },
+      {
+        "claim": "Rank 5 - '214 wire requests totalling 2.78 GB with zero non-200 responses' and the byte-exact cache (REGISTRATION.md:827-833)",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "Rank 6 - 'The commit record puts Stage A.1 at about 51 minutes ... and Stage Z.1 at about 20 minutes' (progress.md:115-117)",
+        "status": "CONTRADICTED"
+      },
+      {
+        "claim": "Rank 7 - 'the equal-weighted book holds 71.9 and behaves like 66.9, with tracking error of 6.86 percent and an MDE of 34.29 bp per month, which would have fired DEGRADED' (REGISTRATION.md:852-854)",
+        "status": "CONTRADICTED"
+      }
+    ]
+  },
+  "intervals": {
+    "audited": 3,
+    "independence_doubtful": 0,
+    "recomputed": 1,
+    "conclusion_moved": 0
+  },
+  "tests": {
+    "audited": 9,
+    "tail_mismatch": 0,
+    "dof_issue": 0,
+    "correction_mismatch": 0
+  },
+  "provenance": {
+    "supported": 17,
+    "not_supported": 4,
+    "partial": 2,
+    "unverifiable": 1
+  }
+}

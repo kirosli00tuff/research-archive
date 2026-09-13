@@ -1,0 +1,60 @@
+{
+  "repo": "retail-power-limits",
+  "claims": {
+    "verified": 37,
+    "contradicted": 6,
+    "unverifiable": 1,
+    "must_verify": [
+      {
+        "claim": "C-01 - NPDExperiment's deciding number, realized MDE 0.0512",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "C-02 - InsiderExperiment's deciding number 49.35 bp/month against the registered 40 bp BLOCKED floor",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "C-03 - ETFExperiment's closure comparison, 163 projected against 300 governing at the 2027-03-31 deadline",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "C-04 - HFExperiment's inherited resolution, z 1.668 against a 2.50 bar, needed 104.0 %/yr, delivered 70.5",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "C-05 - the progression clock (13:26:58 -> 18:34:56 -> 23:24:15, under ten hours)",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "C-06 - the one figure the repository derives itself, 411 minutes over six quoted addends",
+        "status": "VERIFIED"
+      },
+      {
+        "claim": "C-07 - NPDExperiment's effective-sample base, 404 evaluable days paired with 125.6 independent-equivalent days",
+        "status": "CONTRADICTED"
+      },
+      {
+        "claim": "C-08 - HFExperiment's width-widening arithmetic, TE 66.4->31.7, excess 27.99->10.04, z 1.668->1.455",
+        "status": "VERIFIED"
+      }
+    ]
+  },
+  "intervals": {
+    "audited": 5,
+    "independence_doubtful": 1,
+    "recomputed": 2,
+    "conclusion_moved": 0
+  },
+  "tests": {
+    "audited": 8,
+    "tail_mismatch": 0,
+    "dof_issue": 0,
+    "correction_mismatch": 0
+  },
+  "provenance": {
+    "supported": 32,
+    "not_supported": 1,
+    "partial": 2,
+    "unverifiable": 0
+  }
+}

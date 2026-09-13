@@ -1,0 +1,28 @@
+{
+ "done_repos": [
+  "ETFExperiment",
+  "HFExperiment",
+  "InsiderExperiment",
+  "NPDExperiment",
+  "NPLExperiment",
+  "PMExperiment",
+  "VRPExperiment",
+  "retail-power-limits",
+  "solattn",
+  "solclear"
+ ],
+ "done_parts": {
+  "MLCryptoEngine": [
+   "p1-report",
+   "p2-register",
+   "p3-progress"
+  ],
+  "ORBExperiment": [
+   "p1-registration",
+   "p2-decisions",
+   "p3-progress"
+  ]
+ },
+ "consolidated": {},
+ "leads": []
+}

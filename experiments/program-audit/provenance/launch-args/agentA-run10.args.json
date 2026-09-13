@@ -1,0 +1,19 @@
+{
+ "done_repos": [
+  "HFExperiment",
+  "InsiderExperiment",
+  "NPDExperiment",
+  "VRPExperiment",
+  "retail-power-limits"
+ ],
+ "done_parts": {
+  "ETFExperiment": [
+   "all"
+  ]
+ },
+ "consolidated": {
+  "ETFExperiment": 8
+ },
+ "leads": [],
+ "note": "leads now read by the cross-repo agent from provenance/launch-args/agentA-leads.json (56 entries at launch)"
+}

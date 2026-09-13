@@ -1,0 +1,2116 @@
+{
+ "repo": "ORBExperiment",
+ "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+ "task": "LOCATE",
+ "agent": "C (referee / verifier)",
+ "compiled_utc": "2026-09-12T18:20:00Z",
+ "documents_read": [
+  "README.md",
+  "REGISTRATION.md",
+  "HYPOTHESES.md",
+  "DECISIONS.md",
+  "report.md",
+  "CLAUDE.md",
+  "docs/HANDOVER.md",
+  "docs/STAGES.md",
+  "docs/DUPLICATION.md",
+  "docs/STAGE_A_PROMPT.md",
+  "docs/ACCESS.md (partial)",
+  "progress.md (targeted grep only)",
+  "reports/** (all 49 files inspected)"
+ ],
+ "documents_absent": [
+  "FINDINGS.md - does not exist",
+  "registrations/ - does not exist; registration is the single REGISTRATION.md with 28 amendments"
+ ],
+ "counts": {
+  "artifacts": 67,
+  "artifacts_tracked": 53,
+  "artifacts_untracked": 14,
+  "code_files_tracked": 87,
+  "report_files_tracked": 49,
+  "claims": 30,
+  "must_verify": 7,
+  "intervals": 7,
+  "tests": 14,
+  "provenance_claims": 22
+ },
+ "structural_note": "No in-sample or holdout bar has ever been read. Both co-primaries (E1 deflated Sharpe, E2 clustered permutation) are UNRUN. There is therefore no p-value anywhere in the repository and no test statistic computed from outcome data; every 't' and 'power' figure is a planning quantity from an assumed Sharpe and a session count. The descriptive measurements (slippage band, dispersion, stop share, trigger rate) are all on a POST-HOLDOUT carve-out (2026-07-01 to 2026-08-28) outside both registered windows.",
+ "live_repo_access_log": {
+  "path": "/home/kiros-li/Documents/GitHub/ORBExperiment",
+  "status_porcelain_before": "",
+  "status_porcelain_before_time_utc": "2026-09-12T18:01:53Z",
+  "status_porcelain_after": "",
+  "status_porcelain_after_time_utc": "2026-09-12T18:04:56Z",
+  "head_at_both_checks": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+  "both_status_outputs_empty": true,
+  "pre_existing_dirt_observed": "none",
+  "git_operations": [
+   "rev-parse HEAD",
+   "log --format -20",
+   "show --stat on 4ae14dc, 5899e1b, 7edeea7, 68a1c65, 34a91b3, f2aa675, 416c1f4",
+   "ls-tree --name-only 4ae14dc tools/",
+   "log --diff-filter=A -- tools/slippage_band.py tools/floor_scan.py tools/rescue_verdict.py",
+   "remote -v",
+   "branch -a",
+   "reflog show origin/main",
+   "cat .git/logs/refs/remotes/origin/main",
+   "cat .git/packed-refs",
+   "status --porcelain (x2)"
+  ],
+  "untracked_data_operations": [
+   "ls -la on /, data/, data/access/, data/access/{fees,robots,sealed,sealed_credentialed}, data/state/",
+   "wc -l on requests.jsonl, seals.jsonl, carve_out_reads.jsonl, section0.jsonl, cost_model.jsonl",
+   "du -sb sealed_credentialed",
+   "filename census of sealed_credentialed (names only)",
+   "ls -la --time-style=full-iso on task2q_*.raw and task2_quoteprobe* (metadata only)",
+   "json parse of requests.jsonl (aggregate counts only), section0.jsonl, cost_model.jsonl, cost_model_latch.json",
+   "cat .gitignore",
+   "cat _PARKED_CHECK_BEFORE_RUNNING"
+  ],
+  "not_opened": [
+   ".env (seen in ls -la, never read)",
+   "every .raw payload",
+   "every HTML fee body",
+   "every sealed bar file",
+   "seals.jsonl row content"
+  ],
+  "modifications_made": "none - no file created, edited, renamed or deleted; no repository script executed; no writing git command issued",
+  "unanchored_caveat": "Everything under data/ was read at 2026-09-12 18:01Z-18:05Z, fourteen days after the anchor, and may have changed since. _PARKED_CHECK_BEFORE_RUNNING is dated 2026-09-02 and POSTDATES the anchor; it asserts a state (H1b closed, H2 and H3 registered) that the anchored documents do not contain and may not be used to adjudicate any claim about f2aa675."
+ },
+ "artifacts": [
+  {
+   "path": "ORBExperiment/src/orb/power.py",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "The whole power arithmetic. daily_sharpe=annual/sqrt(252); t=daily*sqrt(n); power_one_sided=Phi(t-z(1-alpha)); sessions_for_power=ceil(((z(1-a)+z(b))/daily)^2); e2_pessimistic_mean=central-shift; e2_power_pessimistic=Phi((pess/sigma)*sqrt(trades)-z(1-alpha)) with NO clamping at zero; trades_for_e2_power returns Absent when pessimistic mean <= 0; joint_power = min(E1,E2) with Frechet lower bound max(0,p1+p2-1).",
+   "backs": [
+    "every E1 power figure",
+    "every E2 power figure",
+    "every JOINT power figure",
+    "every min-n figure"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "analysis_code",
+   "size_bytes": 244
+  },
+  {
+   "path": "ORBExperiment/src/orb/dispersion.py",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "The sealed carve-out writer: dispersion scalar, execution mix (stop share, ambiguous rate, shift), the measured slippage band (per-leg overshoot + time-weighted half spread), and the H1b floor scan. central_mean = dispersion*(annual/sqrt(252))/sqrt(trades_per_session) at lines ~1140-1142.",
+   "backs": [
+    "dispersion 2.029585",
+    "stop share 0.381818",
+    "shift 0.041455",
+    "the six measured band ends",
+    "the floor-scan ratios",
+    "central mean 0.040386"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "analysis_code",
+   "size_bytes": 44896
+  },
+  {
+   "path": "ORBExperiment/tools/slippage_band.py",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "TASK 2 producer, writes reports/stage_a3rescue/task2_slippage_band.json. First appears in commit 5899e1b, 27m48s after criterion commit 4ae14dc.",
+   "backs": [
+    "the measured band",
+    "the 0.467065 shift"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "analysis_code",
+   "size_bytes": 299
+  },
+  {
+   "path": "ORBExperiment/tools/rescue_verdict.py",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "TASK 3 producer: applies the Amendment 24 criterion.",
+   "backs": [
+    "NOT_RESCUED",
+    "E2 power 0.000000",
+    "joint 0.000000",
+    "pessimistic mean -0.426679"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "analysis_code",
+   "size_bytes": 195
+  },
+  {
+   "path": "ORBExperiment/tools/floor_scan.py",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "TASK 4 producer: the H1b price-floor feasibility scan.",
+   "backs": [
+    "the five-floor table",
+    "ratios 0.9742 -> 2.1424",
+    "relvol 2.0652 -> 1.4103"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "analysis_code",
+   "size_bytes": 193
+  },
+  {
+   "path": "ORBExperiment/tools/joint_power.py",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "The E2 + joint power writer. Reads mean_per_unit_sharpe off the stored dispersion table rather than re-deriving it (lines 62-72), so the two records cannot drift apart and also cannot cross-check each other.",
+   "backs": [
+    "0.040386",
+    "-0.001068",
+    "E2 power 0.043277",
+    "joint power 0.043277"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "analysis_code",
+   "size_bytes": 8547
+  },
+  {
+   "path": "ORBExperiment/tools/power_gate.py",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "A.2 power table producer at alpha_adj.",
+   "backs": [
+    "reports/stage_a2/power.json|md|txt"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "analysis_code",
+   "size_bytes": 4564
+  },
+  {
+   "path": "ORBExperiment/tools/execution_mix.py",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "Stop/close mix, ambiguous rate, pessimistic shift.",
+   "backs": [
+    "210 stop / 340 close",
+    "0.381818",
+    "0.041455",
+    "ambiguous 0.000000"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "analysis_code",
+   "size_bytes": 9134
+  },
+  {
+   "path": "ORBExperiment/tools/dispersion_compute.py + tools/dispersion_pull.py",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "Carve-out pull and dispersion computation.",
+   "backs": [
+    "2.029585",
+    "trigger rate 0.982143",
+    "19.642857 trades per session"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "analysis_code",
+   "size_bytes": 22740
+  },
+  {
+   "path": "ORBExperiment/src/orb/costs.py + src/orb/costs_registered.py",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "The Section 6 cost model, frozen and hashed; refuses to price when the SEC Section 31 effective date is Absent.",
+   "backs": [
+    "round trip 0.0386 close / 0.0686 stop",
+    "550 of 550 trades refused",
+    "Absent under the frozen model"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "analysis_code",
+   "size_bytes": 12557
+  },
+  {
+   "path": "ORBExperiment/src/orb/calendar.py",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "NYSE rules encoded rather than downloaded.",
+   "backs": [
+    "2,637 sessions",
+    "21 half sessions",
+    "1,762 in-sample",
+    "875 holdout"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "analysis_code",
+   "size_bytes": 7354
+  },
+  {
+   "path": "ORBExperiment/src/orb/section0.py + src/orb/verdict.py",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "The Section 0 outcome map and its clause ordering.",
+   "backs": [
+    "every PENDING_ACCESS / PENDING_REVISION firing"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "analysis_code",
+   "size_bytes": 24597
+  },
+  {
+   "path": "ORBExperiment/src/orb/comparator.py",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "The sealed comparator: built, armed, NEVER RUN. The bar-revision and cross-vendor-agreement measurements do not exist.",
+   "backs": [
+    "the two Absent(not_yet_measured) integrity rows"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "analysis_code",
+   "size_bytes": 16137
+  },
+  {
+   "path": "ORBExperiment/src/orb/config.py",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "The registered constants: entry_slippage_usd=(0.010,0.020,0.040), stop_slippage_usd=(0.020,0.040,0.080), close_slippage_usd=(0.005,0.010,0.020), per_test_alpha=0.05, alpha_adj superseded 0.025320565519103666, trial_count=8, registered_sharpe=1.40, published=2.81, quartered=0.70, trading_days_per_year=252, min_session_open_usd=5.00, relvol_lookback_sessions=14, pre_period_end_ms=1451917800000, post_holdout_start_ms=1782878400000.",
+   "backs": [
+    "the 'registered band is NOT moved' claim",
+    "every Sharpe assumption",
+    "the alpha correction"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "analysis_code",
+   "size_bytes": 10601
+  },
+  {
+   "path": "ORBExperiment/src/orb/{absence,latch,ledger,seal,redact,callstate,sessionclock,preperiod,fields,integrity}.py",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "Guards 1-8: recorded absence refusing coercion, the read latch, the append-only fsynced ledger, the seal target, credential redaction, the seven call states, the DST-aware session clock, the pre-period date pin, the priced-bar field registry.",
+   "backs": [
+    "the guard claims",
+    "the 17 mutation results"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "guard_code"
+  },
+  {
+   "path": "ORBExperiment/tools/reach_bisect.py + tools/reach_power.py",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "Vendor reach bisection and its power consequences.",
+   "backs": [
+    "2016-01-04 / 2024-08-29",
+    "16 probes each",
+    "459/875 overlap"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "analysis_code",
+   "size_bytes": 11334
+  },
+  {
+   "path": "ORBExperiment/tools/tape_identify.py",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "The tape verdict and its two controls.",
+   "backs": [
+    "SAME_TAPE 1.005197",
+    "controls 0.027856 / 0.027761"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "analysis_code",
+   "size_bytes": 9766
+  },
+  {
+   "path": "ORBExperiment/tools/delisted_coverage.py + tools/delisted_supplement.py",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "Delisted enumeration and intraday-history checks.",
+   "backs": [
+    "203 / 229",
+    "4,731 of 6,421"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "analysis_code",
+   "size_bytes": 14272
+  },
+  {
+   "path": "ORBExperiment/tools/{alpaca_ceiling,alpaca_sustained,probe_ceilings,ceilings_credentialed}.py",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "Rate-ceiling escalations.",
+   "backs": [
+    "384 in 55.96 s",
+    "250 at 199.73/min",
+    "Massive 5.00/min"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "analysis_code"
+  },
+  {
+   "path": "ORBExperiment/tools/{probe_pull,repull_probe,confirm_feed}.py",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "The sealed probe slice, the 14-day refusal (exit 78) and the feed confirmation.",
+   "backs": [
+    "480 files / 737,507 bars",
+    "CONFIRMED_CONSOLIDATED",
+    "earliest re-pull 2026-09-12"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "analysis_code"
+  },
+  {
+   "path": "ORBExperiment/tools/{fire_section0,refire_section0,refire_section0_amend,refire_section0_repair,refire_section0_rescue}.py",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "The five Section 0 firings.",
+   "backs": [
+    "reports/**/task*_section0.json"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "analysis_code"
+  },
+  {
+   "path": "ORBExperiment/tools/mutate.py",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "The mutation harness, 17 mutations.",
+   "backs": [
+    "17 mutations, 0 harness failures"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "analysis_code",
+   "size_bytes": 17272
+  },
+  {
+   "path": "ORBExperiment/tools/{freeze_costs,_a1r,probe_access,probe_credentialed,probe_credentialed_b}.py",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "Cost freeze, A.1 helpers, access probes.",
+   "backs": [
+    "the frozen sha256 3789221b...",
+    "the 9-vendor access table"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "analysis_code"
+  },
+  {
+   "path": "ORBExperiment/tests/ (24 files: 23 test_*.py + tools_freeze.py)",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "419 tests.",
+   "backs": [
+    "'419 passing'",
+    "every guard and mutation pin"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "tests"
+  },
+  {
+   "path": "ORBExperiment/reports/stage_a3rescue/task2_slippage_band.json",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "THE DECIDING ARTIFACT OF THE CLOSURE. measured_shift_usd_per_share=0.46706520287790176; measured_band (6 ends); measured_against_carried (6 ratios + verdict strings); per_leg_statistics with mean/median/p90/n for entry overshoot (n=550, 457 intrabar, 93 gapped), entry half spread (550 served 0 refused), entry total (550), stop overshoot (210, 195/15), stop half spread (210), stop total (210), close slippage (340, 0 without official print); assignment_fixed_before_computation; quote_requests_sent=759; bars_read=1927156; sessions_used=28; tickers_with_bars=199; stop_exit_share_used=0.3818181818181818; measured_at='2026-08-29'.",
+   "backs": [
+    "README.md:289-315",
+    "docs/HANDOVER.md:53-65",
+    "HYPOTHESES.md:59",
+    "report.md:945-970",
+    "REGISTRATION.md Amendment 26 sections 2-5"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "result_json",
+   "size_bytes": 4260
+  },
+  {
+   "path": "ORBExperiment/reports/stage_a3rescue/task3_rescue_verdict.json",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "outcome=NOT_RESCUED; criterion_commit=4ae14dc; criterion_precommitted_before_the_measurement=true; criterion_precommitted_on='2026-08-30'; computed_at='2026-08-29'; deciding_numbers (central 0.04038617169045801, shift 0.46706520287790176, pessimistic -0.42667903118744377, e2 power 0.0); 6 rows x (E1 power, E2 power, joint, min-n, trades_implied 17188/34611); shift_before_and_after.ratio_measured_over_carried=11.266923753633597.",
+   "backs": [
+    "README.md:28",
+    "HYPOTHESES.md:59-62",
+    "report.md:974-976",
+    "REGISTRATION.md Amendment 28"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "result_json",
+   "size_bytes": 6786
+  },
+  {
+   "path": "ORBExperiment/reports/stage_a3rescue/task4_floor_scan.json",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "H1b scan, 5 rows: floor / eligible / selected / sessions_with_a_full_top20_selection / mean_relvol / dispersion / central mean / shift / ratio. hypothesis_status=REGISTERED_NOT_OPEN; requests_sent=0.",
+   "backs": [
+    "README.md:323-347",
+    "report.md:1045-1056",
+    "REGISTRATION.md Amendment 27"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "result_json",
+   "size_bytes": 4565
+  },
+  {
+   "path": "ORBExperiment/reports/stage_a3rescue/task3_execution_mix.json",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "stop_exit_share 0.38181818181818183 (210 stop / 340 close of 550 triggered of 560 evaluated); ambiguous_rate 0.0; mean_pessimistic_shift_usd_per_share=0.04145454545454545; bounds 0.030/0.060; long-only sensitivity (294 triggered, 0.3843537414965986); requests_sent=0. BYTE-IDENTICAL to stage_a1r/ and stage_a2repair/ copies.",
+   "backs": [
+    "README.md:260-262",
+    "DECISIONS.md ADR-035",
+    "REGISTRATION.md Amendment 20"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "result_json",
+   "size_bytes": 1651
+  },
+  {
+   "path": "ORBExperiment/reports/stage_a3rescue/task5_section0.json",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "The fourth PENDING_REVISION, fired_at 2026-08-30T03:42:21+00:00, every input incl. the measured band and rescue_outcome=NOT_RESCUED. BYTE-IDENTICAL to reports/stage_a1r/task5_section0.json, which was created in the same commit 34a91b3.",
+   "backs": [
+    "README.md:58-78",
+    "HYPOTHESES.md:65,68"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "result_json",
+   "size_bytes": 5219
+  },
+  {
+   "path": "ORBExperiment/reports/stage_a3rescue/gates.log",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "'56 files already formatted'; 'Success: no issues found in 56 source files'; '419 passed in 2.63s'.",
+   "backs": [
+    "'419 passing'",
+    "'mypy strict clean, 56 source files'"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "gate_log",
+   "size_bytes": 693
+  },
+  {
+   "path": "ORBExperiment/reports/stage_a3rescue/mutations.md + mutations_run.log",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "17 mutations, 'harness failures: 0', each with its failing test.",
+   "backs": [
+    "'17 mutations applied to real source, 0 harness failures'"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "gate_log",
+   "size_bytes": 7352
+  },
+  {
+   "path": "ORBExperiment/reports/stage_a2repair/task1_alpha.json",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "corrected_alpha 0.05 vs superseded_alpha 0.025320565519103666; 6 rows with E1 power at both alphas, deltas, and min-n at both (198/795/3180 vs 250/1006/4021).",
+   "backs": [
+    "README.md:255-259, 401-405",
+    "HYPOTHESES.md:82",
+    "REGISTRATION.md Amendment 18"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "result_json",
+   "size_bytes": 3080
+  },
+  {
+   "path": "ORBExperiment/reports/stage_a2repair/task4_joint_power.json",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "central_mean_per_unit_of_annual_sharpe=0.028847265493184292; pessimistic_shift 0.04145454545454545; 6 rows with E2 power at 0.05, joint power (upper bound / Frechet / nested), binding component and min-n.",
+   "backs": [
+    "README.md:263-271",
+    "DECISIONS.md ADR-034",
+    "REGISTRATION.md Amendment 21"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "result_json",
+   "size_bytes": 9433
+  },
+  {
+   "path": "ORBExperiment/reports/stage_a2repair/task6_section0.json",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "The third PENDING_REVISION, fired_at 2026-08-29T19:31:11Z. BYTE-IDENTICAL to reports/stage_a1r/task6c_section0.json.",
+   "backs": [
+    "README.md:102-134"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "result_json",
+   "size_bytes": 5228
+  },
+  {
+   "path": "ORBExperiment/reports/stage_a2repair/{gates.log,mutations.md,mutations_run.log}",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "16 mutations at that pass.",
+   "backs": [],
+   "tracked": true,
+   "anchored": true,
+   "kind": "gate_log",
+   "size_bytes": 7596
+  },
+  {
+   "path": "ORBExperiment/reports/stage_a1amend/task5c_dispersion_e2.json",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "dispersion_usd_per_share 2.029585030455633; bracket low 2.0294139223208143; relative width 8.430695548655339e-05; 6 E2 power rows at alpha_adj; net_edge_rows; measured_trigger_rate 0.9821428571428571 (n=560); trades_per_session_measured 19.642857142857142; 4 named runs incl. frozen_section_6_model with trades_refused_by_cost_model=550; reference_pool_size 5317; universe_stride 26; tickers_sampled 200; sessions_pulled 42; sessions_evaluable_after_trailing_window 28.",
+   "backs": [
+    "README.md:217-238, 417-421",
+    "HYPOTHESES.md:66-67",
+    "DECISIONS.md ADR-031"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "result_json",
+   "size_bytes": 14385
+  },
+  {
+   "path": "ORBExperiment/reports/stage_a1amend/task5b_post_holdout_pull.json",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "The carve-out pull manifest, 42 sessions x 200 tickers.",
+   "backs": [
+    "'42 / 28, 200 tickers, 1,927,156 bars'"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "result_json",
+   "size_bytes": 124755
+  },
+  {
+   "path": "ORBExperiment/reports/stage_a1amend/task3b_feed_confirmation.json",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "CONFIRMED_CONSOLIDATED, 7 discriminating chunks of 8.",
+   "backs": [
+    "README.md:234"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "result_json",
+   "size_bytes": 6778
+  },
+  {
+   "path": "ORBExperiment/reports/stage_a1amend/task4b_alpaca_ceiling.json",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "Burst 384 admitted in 55.96 s, 385th refused 429, 391 sent; sustained 250/250 at 199.73/min.",
+   "backs": [
+    "README.md:230-232",
+    "DECISIONS.md ADR-030"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "result_json",
+   "size_bytes": 5952
+  },
+  {
+   "path": "ORBExperiment/reports/stage_a1amend/task6b_section0.json",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "The second PENDING_REVISION, fired_at 2026-08-29T18:43:38Z. BYTE-IDENTICAL to reports/stage_a1r/task6b_section0.json.",
+   "backs": [
+    "README.md:89-100"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "result_json",
+   "size_bytes": 6031
+  },
+  {
+   "path": "ORBExperiment/reports/stage_a1r/task9_probe_manifest.json",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "files_stored 480; bars_stored 737507; session_ticker_pairs 2400; session_count 60; ticker_count 40; feed 'sip'; pulled_at '2026-08-29'; registered_wait_days 14; earliest_eligible_repull '2026-09-12'; chunks_needing_more_than_one_page 0; per-file manifest of 480 entries.",
+   "backs": [
+    "README.md:71-77, 200-201",
+    "report.md:362"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "result_json",
+   "size_bytes": 268049
+  },
+  {
+   "path": "ORBExperiment/reports/stage_a1r/task5_reach.json + task5_reach_power.json",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "32 bisection attempts on AAPL; per-vendor earliest served session, reachable/registered session counts, shortfalls, E1 power on the reachable holdout; cross_vendor_overlap 459 holdout / 0 in-sample from 2024-08-29.",
+   "backs": [
+    "README.md:189-190,199",
+    "HYPOTHESES.md:70,79-80"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "result_json",
+   "size_bytes": 16282
+  },
+  {
+   "path": "ORBExperiment/reports/stage_a1r/task4_tape.json",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "3 comparisons x (median, IQR low/high, min, max, 100 pairs, verdict); 60 calls; 5 sessions x 20 tickers.",
+   "backs": [
+    "README.md:191-193",
+    "DECISIONS.md ADR-021, ADR-022"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "result_json",
+   "size_bytes": 19683
+  },
+  {
+   "path": "ORBExperiment/reports/stage_a1r/task6_delisted.json + task6b_delisted_in_window.json",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "enumerated_delisted_names 6421 over 7 pages; enumerated_inside_window 4731; delisted_names_with_intraday_history 203; combined_in_window_checks 229 (89 first pass + 140 supplementary); served_share 0.8864628820960698; registered_verdict 'PASS'.",
+   "backs": [
+    "README.md:194-196",
+    "HYPOTHESES.md:70"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "result_json",
+   "size_bytes": 630159
+  },
+  {
+   "path": "ORBExperiment/reports/stage_a1r/task7_ceilings.json",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "4 escalations with achieved_rate_per_min, admitted, first_refusal_at_request, verbatim redacted refusal payloads. Massive rows show achieved 30.45 and 28.67/min with 5 admitted and first refusal at request 6.",
+   "backs": [
+    "README.md:197-198",
+    "DECISIONS.md ADR-026"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "result_json",
+   "size_bytes": 6153
+  },
+  {
+   "path": "ORBExperiment/reports/stage_a1r/task3_auth.json",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "11 credential/auth probes including the live-trading 401 {'code':40110000,...}.",
+   "backs": [
+    "README.md:14-18"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "result_json",
+   "size_bytes": 7247
+  },
+  {
+   "path": "ORBExperiment/reports/stage_a1r/task10_section0.json",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "The FIRST PENDING_REVISION, fired_at 2026-08-29T07:47:54Z.",
+   "backs": [
+    "README.md:58-78"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "result_json",
+   "size_bytes": 2787
+  },
+  {
+   "path": "ORBExperiment/reports/stage_a1r/{task3_execution_mix,task3b_feed_confirmation,task4b_alpaca_ceiling,task5b_post_holdout_pull,task5c_dispersion_e2,task5_section0,task6b_section0,task6c_section0}.json",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "All EIGHT are byte-identical duplicates of the same-named files in stage_a1amend, stage_a2repair or stage_a3rescue. Verified by diff during LOCATE.",
+   "backs": [],
+   "tracked": true,
+   "anchored": true,
+   "kind": "duplicate_json",
+   "note": "duplication is a hygiene observation, not a discrepancy: the bytes agree exactly"
+  },
+  {
+   "path": "ORBExperiment/reports/stage_a2/power.json + power.md + power.txt",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "9 rows at alpha_adj=0.025320565519103666, each with t, E1 power, min-n and e2_power:'Absent'; the 515/514 and 1,158/1,157 disagreements; the 1,003-session knife-edge (0.7991, short by 0.0009).",
+   "backs": [
+    "README.md:387-394",
+    "report.md:175-207"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "result_json",
+   "size_bytes": 9920
+  },
+  {
+   "path": "ORBExperiment/reports/stage_a2/calendar.md",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "Per-year sessions and half sessions; the 1,762 (+2) and 875 (-5) deltas against the registration's approximations; the 2018 hand check 261 - 10 = 251.",
+   "backs": [
+    "README.md:359-366",
+    "report.md:109-133"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "result_md",
+   "size_bytes": 7428
+  },
+  {
+   "path": "ORBExperiment/reports/stage_a2/section0.json",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "PENDING_ACCESS, fired_at 2026-08-29T02:43:20Z, with counterfactual_if_integrity_passed_in_full: {verdict: DEGRADED} recorded inside it.",
+   "backs": [
+    "README.md:83-87",
+    "report.md:211-231"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "result_json",
+   "size_bytes": 1223
+  },
+  {
+   "path": "ORBExperiment/reports/stage_a4/gates.md",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "STALE. Reads '46 files already formatted', 'no issues found in 46 source files', '270 passed' - superseded by stage_a3rescue/gates.log (56 files, 419 passed) and NOT refreshed, while the companion stage_a4/mutations.md WAS refreshed to 17 mutations in f2aa675. Also holds the guard table and the disclosure of Guard 5's two real catches.",
+   "backs": [
+    "the guard-coverage table is still cited; the 46/270 figures are contradicted by README.md:438-439"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "gate_log",
+   "size_bytes": 2833,
+   "note": "stale content, still tracked at the anchor"
+  },
+  {
+   "path": "ORBExperiment/reports/stage_a4/mutations.md",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "17 mutations, 2 marked GUARD STOPPED BINDING.",
+   "backs": [
+    "README.md:440-441"
+   ],
+   "tracked": true,
+   "anchored": true,
+   "kind": "gate_log",
+   "size_bytes": 4665
+  },
+  {
+   "path": "ORBExperiment/data/access/requests.jsonl",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "The append-only request ledger; each row {day, endpoint, kind:'charge', recorded_at, vendor}. Observed 2026-09-12: 2,766 rows. Day split 2026-08-29 -> 2,005; 2026-08-30 -> 761. Vendor split alpaca 2,640, massive 102, polygon 15, alphavantage 7, databento 1, tiingo 1. Endpoint split alpaca:bars 1,875, alpaca:quotes 761, massive:aggs 78, massive:reference 24, polygon:aggs 14, alphavantage:intraday 6, alpaca:account 2, alpaca:assets 2, polygon:tickers 1, databento:timeseries 1, tiingo:iex 1, alphavantage:listing 1.",
+   "backs": [
+    "n = 1,026 credentialed pass",
+    "n = 979 amendment pass (973 Alpaca + 6 Massive)",
+    "1,879 Alpaca of a 3,000 daily cap",
+    "n = 759 quote requests",
+    "0 dollars"
+   ],
+   "tracked": false,
+   "anchored": false,
+   "kind": "untracked_ledger",
+   "size_bytes": 336697,
+   "note": "1,026 + 979 = 2,005 matches the 2026-08-29 total exactly; 761 alpaca:quotes minus the 2 quote-probe files = 759. Read 2026-09-12T18:03Z; UNANCHORED."
+  },
+  {
+   "path": "ORBExperiment/data/access/seals.jsonl",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "One SHA-256 seal row per stored file; 1,978 rows observed.",
+   "backs": [
+    "the seal and manifest claims"
+   ],
+   "tracked": false,
+   "anchored": false,
+   "kind": "untracked_ledger",
+   "size_bytes": 559143,
+   "note": "line count only; no row content read"
+  },
+  {
+   "path": "ORBExperiment/data/access/sealed_credentialed/",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "1,957 files, 349,976,958 bytes. Filename census: task2q_* 759, task9_* 481 (480 bar files + 1 reference pool), task5b_* 314, task6_* 147, task6b_* 140, task4_* 60 (20 massive + 20 alpaca_sip + 20 alpaca_iex), task5_* 27, task3b_* 20, task3_* 7, task2_quoteprobe_* 2.",
+   "backs": [
+    "the 480-file seal",
+    "the 759 quote requests",
+    "the 100-pair tape",
+    "the probe slice"
+   ],
+   "tracked": false,
+   "anchored": false,
+   "kind": "untracked_data",
+   "size_bytes": 349976958,
+   "note": "ls -la and name census only; NO file contents opened. Read 2026-09-12T18:02Z; UNANCHORED."
+  },
+  {
+   "path": "ORBExperiment/data/access/carve_out_reads.jsonl",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "The carve-out read log, 4 rows.",
+   "backs": [
+    "the four carve-out writer runs"
+   ],
+   "tracked": false,
+   "anchored": false,
+   "kind": "untracked_ledger",
+   "size_bytes": 3123
+  },
+  {
+   "path": "ORBExperiment/data/access/sealed/",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "7 .raw files, <=220 B each, the pre-credential refusal bodies.",
+   "backs": [
+    "the '0 of 9 vendors serving a bar' table"
+   ],
+   "tracked": false,
+   "anchored": false,
+   "kind": "untracked_data"
+  },
+  {
+   "path": "ORBExperiment/data/access/robots/",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "21 .txt fetched robots.txt files.",
+   "backs": [
+    "'15 hosts fetched for robots.txt'",
+    "the 4 terms refusals"
+   ],
+   "tracked": false,
+   "anchored": false,
+   "kind": "untracked_data"
+  },
+  {
+   "path": "ORBExperiment/data/access/fees/",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "4 HTML fee-schedule bodies: ibkr_stocks.html 584,282 B, finra_taf.html 88,292 B, sec_fee.html and sec_fee2.html 1,925 B each.",
+   "backs": [
+    "'HTTP 200, 584,282 bytes'",
+    "TAF measured 0.000195",
+    "the 403 on sec.gov"
+   ],
+   "tracked": false,
+   "anchored": false,
+   "kind": "untracked_data",
+   "size_bytes": 676000
+  },
+  {
+   "path": "ORBExperiment/data/access/probe_findings.json",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "The 9-vendor access probe.",
+   "backs": [
+    "the A.1 access table"
+   ],
+   "tracked": false,
+   "anchored": false,
+   "kind": "untracked_data",
+   "size_bytes": 3611
+  },
+  {
+   "path": "ORBExperiment/data/access/ceiling_findings.json",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "The pre-credential ceiling escalation.",
+   "backs": [
+    "'18 requests, 0 x 429, 88.4/min, 29.1/min'"
+   ],
+   "tracked": false,
+   "anchored": false,
+   "kind": "untracked_data",
+   "size_bytes": 2668
+  },
+  {
+   "path": "ORBExperiment/data/state/section0.jsonl",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "The five Section 0 firings: PENDING_ACCESS 2026-08-29T02:43:20Z; PENDING_REVISION 07:47:54Z, 18:43:38Z, 19:31:11Z, and 2026-08-30T03:42:21Z.",
+   "backs": [
+    "every Section 0 claim",
+    "the 'fired a fourth time' count"
+   ],
+   "tracked": false,
+   "anchored": false,
+   "kind": "untracked_ledger",
+   "size_bytes": 19078
+  },
+  {
+   "path": "ORBExperiment/data/state/cost_model.jsonl",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "kind=cost_model_freeze; canonical_bytes 359; recorded_at 2026-08-29T02:32:28.834Z; measured_against_carried per component (TAF carried 0.000166 vs measured 0.000195 'CARRIED FIGURE IS STALE'; clearing 0.0002, cap 0.01, CAT 3e-06 all 'NOT PREVIOUSLY MODELED'; sec_rate 2.06e-05 'measured, effective date unmeasured'); sha256 3789221b...",
+   "backs": [
+    "the frozen-model hash",
+    "the TAF staleness",
+    "the three unmodeled components"
+   ],
+   "tracked": false,
+   "anchored": false,
+   "kind": "untracked_ledger",
+   "size_bytes": 873
+  },
+  {
+   "path": "ORBExperiment/data/state/cost_model_latch.json",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "{measured_on:'2026-08-29', sha256:'3789221b9dd3fea5a9680547dfdf8ec7b1febaf246042fe1fa70e27ca610fba3'}",
+   "backs": [
+    "report.md:169"
+   ],
+   "tracked": false,
+   "anchored": false,
+   "kind": "untracked_ledger",
+   "size_bytes": 113
+  },
+  {
+   "path": "ORBExperiment/_PARKED_CHECK_BEFORE_RUNNING",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "UNTRACKED, mtime 2026-09-02 22:38 - four days AFTER the anchor. Text: 'THIS REPOSITORY IS PARKED, NOT CLOSED. H1 and H1b closed cost-bound. H2 (pre-FOMC) and H3 (VIX roll yield) are parked pending a revision measurement that becomes eligible 2026-09-12.' It disagrees with the anchored documents on two points: H1b is REGISTERED_NOT_OPEN at f2aa675, and neither H2 nor H3 exists anywhere in the anchored HYPOTHESES.md.",
+   "backs": [
+    "nothing in the anchored record"
+   ],
+   "tracked": false,
+   "anchored": false,
+   "kind": "untracked_post_anchor",
+   "size_bytes": 322,
+   "note": "POST-ANCHOR. Must not be used to adjudicate any claim about f2aa675."
+  },
+  {
+   "path": "ORBExperiment/.env",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "holds": "Credentials. SEEN IN ls -la, NEVER OPENED.",
+   "backs": [],
+   "tracked": false,
+   "anchored": false,
+   "kind": "never_opened",
+   "size_bytes": 166
+  }
+ ],
+ "claims": [
+  {
+   "rank": 1,
+   "must_verify": true,
+   "claim_verbatim": "The registered rule cannot clear its own registered cost band. The measured slippage band on the traded instruments gives a pessimistic-minus-central shift of 0.467065 USD per share against a central mean of 0.040386 at the registered effect assumption. The pessimistic-cost mean is -0.426679. E2 power 0.000000. Joint power 0.000000.",
+   "file_line": "ORBExperiment/README.md:28; also HYPOTHESES.md:59, docs/HANDOVER.md:7, report.md:974-976, REGISTRATION.md:4081-4086",
+   "figures": [
+    "shift 0.46706520287790176",
+    "central 0.04038617169045801",
+    "pessimistic -0.42667903118744377",
+    "E2 power 0.0",
+    "joint 0.0"
+   ],
+   "n": 875,
+   "produced_by": [
+    "tools/slippage_band.py -> reports/stage_a3rescue/task2_slippage_band.json",
+    "tools/rescue_verdict.py -> reports/stage_a3rescue/task3_rescue_verdict.json",
+    "src/orb/power.py::e2_power_pessimistic and ::joint_power"
+   ],
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "note": "The closure's deciding number. 17,188 implied trades; band measured on n = 550 entry / 210 stop / 340 close from 28 evaluable post-holdout sessions. Recompute: pess = 0.040386 - 0.467065 = -0.426679; effect = (-0.426679/2.029585)*sqrt(17188) = -27.57; Phi(-27.57 - 1.6449) ~ 0."
+  },
+  {
+   "rank": 2,
+   "must_verify": true,
+   "claim_verbatim": "the implied central mean of 0.040386 at the registered assumption",
+   "file_line": "ORBExperiment/README.md:118; the criterion form at HYPOTHESES.md:60 and REGISTRATION.md:3711-3712 ('the TASK 2 measured shift falls strictly below 0.040386')",
+   "figures": [
+    "central_mean_per_unit_of_annual_sharpe = 0.028847265493184292",
+    "x 1.40 = 0.04038617169045801"
+   ],
+   "n": 550,
+   "produced_by": [
+    "src/orb/dispersion.py:1140-1142 (central_mean = dispersion*(annual/sqrt(252))/sqrt(trades_per_session))",
+    "tools/joint_power.py:62-72 reads it back verbatim from reports/stage_a1amend/task5c_dispersion_e2.json"
+   ],
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "note": "This single scalar sets both the RESCUED_DEGRADED threshold and the sign of the pessimistic mean at every assumption. Derived from dispersion 2.029585030455633 (n=550 priced trades) and trades_per_session 19.642857142857142 (n=28 sessions). Because joint_power.py reads it back rather than re-deriving it, the two records cannot cross-check each other."
+  },
+  {
+   "rank": 3,
+   "must_verify": true,
+   "claim_verbatim": "entry, central 0.0200 -> 0.087019 (4.35x) ... entry, pessimistic 0.0400 -> 0.354645 (8.87x) ... stop, central 0.0400 -> 0.033529 (0.84x) ... stop, pessimistic 0.0800 -> 0.198061 (2.48x) ... close, central 0.0100 -> 0.040000 (4.00x) ... close, pessimistic 0.0200 -> 0.261000 (13.05x)",
+   "file_line": "ORBExperiment/README.md:289-296; REGISTRATION.md:3973-3980; report.md:945-952; docs/HANDOVER.md:53-58; HYPOTHESES.md:59",
+   "figures": [
+    "0.08701938620876422",
+    "0.35464495116577943",
+    "0.03352891210212913",
+    "0.19806129713302226",
+    "0.04",
+    "0.26100000000000023",
+    "decomposition 0.267626 + 0.062821 + 0.136618 = 0.467065 (57.3 / 13.5 / 29.3 percent)"
+   ],
+   "n": "550 entry / 210 stop / 340 close",
+   "produced_by": [
+    "tools/slippage_band.py",
+    "src/orb/dispersion.py",
+    "reports/stage_a3rescue/task2_slippage_band.json"
+   ],
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "note": "Every median, p90, n and carried figure is stored in the JSON; the six ratios and the decomposition at REGISTRATION.md:4022-4027 are pure arithmetic on them."
+  },
+  {
+   "rank": 4,
+   "must_verify": true,
+   "claim_verbatim": "E1 remains powered at 0.832450 ... E1 at the registered 1.40 Sharpe assumption moves 0.743521 -> 0.832450 on the achievable holdout, and the minimum n for 80 percent power falls 1,006 -> 795 against 875 achievable.",
+   "file_line": "ORBExperiment/README.md:49 and README.md:110-112; also HYPOTHESES.md:63,82, docs/HANDOVER.md:65,80, README.md:256,308,404",
+   "figures": [
+    "0.8324500493878693 at alpha=0.05",
+    "0.7435206445941073 at alpha=0.025320565519103666",
+    "min n 795 vs 1,006",
+    "t = 2.6087459737497545"
+   ],
+   "n": 875,
+   "produced_by": [
+    "src/orb/power.py::power_one_sided and ::sessions_for_power",
+    "tools/power_gate.py",
+    "reports/stage_a2repair/task1_alpha.json"
+   ],
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "note": "Recompute: t = 1.40/sqrt(252)*sqrt(875) = 2.608746; Phi(2.608746 - 1.644854) = 0.83245. Load-bearing in every 'what the closure is NOT' sentence and in Amendment 21 route (a)."
+  },
+  {
+   "rank": 5,
+   "must_verify": true,
+   "claim_verbatim": "And then it collapsed. The measured pessimistic shift of 0.041455 USD per share exceeds the implied central mean of 0.040386 at the registered assumption, so the pessimistic-cost mean is -0.001068 - negative. E2 power is 0.043277, below the 0.05 size of the test, and JOINT power collapses with it. No session count reaches 80 percent.",
+   "file_line": "ORBExperiment/README.md:118; also HYPOTHESES.md:82, docs/HANDOVER.md:279-282, DECISIONS.md:1252, README.md:501-504",
+   "figures": [
+    "shift 0.04145454545454545",
+    "pessimistic mean -0.0010683737640874436",
+    "E2 power 0.043276644872287495",
+    "joint 0.043276644872287495"
+   ],
+   "n": "550 (shift) / 875 (power)",
+   "produced_by": [
+    "tools/execution_mix.py -> task3_execution_mix.json",
+    "tools/joint_power.py -> reports/stage_a2repair/task4_joint_power.json"
+   ],
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "note": "The margin is 0.001069 USD/share, about a tenth of a cent; a 2.6 percent error in either the central mean or the shift flips the sign. The most precision-sensitive claim in the repository."
+  },
+  {
+   "rank": 6,
+   "must_verify": true,
+   "claim_verbatim": "For E2 to reach 80 percent power on 875 sessions at the registered 1.40 assumption, with the measured dispersion of 2.029585 USD per share and 19.642857 trades per session, the pessimistic-cost mean must be at least 0.038493 USD per share - which means the shift must fall to 0.001893 or below, a 21.89-fold reduction from the measured 0.041455. That is below a single tick across both legs.",
+   "file_line": "ORBExperiment/report.md:884-891; also README.md:32-34, DECISIONS.md:1353-1357, REGISTRATION.md:3686-3702, HYPOTHESES.md:60",
+   "figures": [
+    "z(0.95)+z(0.80) = 2.486475",
+    "required pessimistic mean 0.038493",
+    "required shift <= 0.001893",
+    "21.89-fold"
+   ],
+   "n": "875 sessions / 17,188 trades",
+   "produced_by": [
+    "REGISTRATION.md Amendment 24 section 2 table (commit 4ae14dc)",
+    "src/orb/power.py::trades_for_e2_power inverted"
+   ],
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "note": "Recompute: required mean = 2.486475*2.029585/sqrt(17188) = 0.038493; 0.040386 - 0.038493 = 0.001893; 0.041455/0.001893 = 21.90. This is what makes the pass unfalsifiable in the favourable direction."
+  },
+  {
+   "rank": 7,
+   "must_verify": true,
+   "claim_verbatim": "It does not rest on the halving heuristic. At the source study's own undecayed 2.81 the pessimistic-cost mean is -0.386004 and E2 power is zero as well.",
+   "file_line": "ORBExperiment/README.md:44-46; the carried-vs-measured contrast at report.md:990-993 and HYPOTHESES.md:61",
+   "figures": [
+    "central at 2.81 = 0.08106081603584786",
+    "pessimistic -0.3860043868420539",
+    "E2 power at 2.81 carried = 0.819523804601201 (min n 827)",
+    "E2 power at 2.81 measured = 0.0"
+   ],
+   "n": 875,
+   "produced_by": [
+    "reports/stage_a2repair/task4_joint_power.json (carried)",
+    "reports/stage_a3rescue/task3_rescue_verdict.json (measured)"
+   ],
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "note": "Without this the closure is conditional on the McLean-Pontiff halving, which the repository itself calls a heuristic."
+  },
+  {
+   "rank": 8,
+   "must_verify": false,
+   "claim_verbatim": "break-even Sharpe - where the pessimistic mean reaches zero | 1.437035 | the registered 1.40 sits below it by 2.577 percent | break-even stop share at 1.40 0.346206 against a measured 0.381818",
+   "file_line": "ORBExperiment/README.md:272-274; DECISIONS.md:1274-1276; report.md:773",
+   "figures": [
+    "1.437035",
+    "2.577 percent",
+    "0.346206"
+   ],
+   "n": 875,
+   "produced_by": [
+    "tools/joint_power.py",
+    "REGISTRATION.md Amendment 21 section 4"
+   ],
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "rank": 9,
+   "must_verify": false,
+   "claim_verbatim": "E2 dispersion input | 2.029585 USD/share | 550 priced trades ... E2 dispersion, bracket relative width | 8.43 x 10-5 ... E2 dispersion under the frozen Section 6 model | Absent - 550 of 550 trades refused",
+   "file_line": "ORBExperiment/README.md:221-223; report.md:548",
+   "figures": [
+    "2.029585030455633",
+    "2.0294139223208143",
+    "8.430695548655339e-05",
+    "550 of 550 refused"
+   ],
+   "n": 550,
+   "produced_by": [
+    "src/orb/dispersion.py",
+    "reports/stage_a1amend/task5c_dispersion_e2.json"
+   ],
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "rank": 10,
+   "must_verify": false,
+   "claim_verbatim": "measured stop-exit share | 0.381818 - 210 stop, 340 close | 550 ... measured ambiguous rate | 0.000000, rule-of-three upper bound 0.005357 | 560",
+   "file_line": "ORBExperiment/README.md:260-261; DECISIONS.md:1299-1301,1319-1321",
+   "figures": [
+    "0.38181818181818183",
+    "210 / 340",
+    "0.0",
+    "0.005357",
+    "bounds 0.030 / 0.060"
+   ],
+   "n": "550 trades / 560 name-sessions",
+   "produced_by": [
+    "tools/execution_mix.py",
+    "reports/stage_a3rescue/task3_execution_mix.json",
+    "DECISIONS.md ADR-035"
+   ],
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "rank": 11,
+   "must_verify": false,
+   "claim_verbatim": "measured trigger rate | 0.982143 - against an assumption of 0.55 | 560 name-sessions ... trigger rate, long-only 0.525 ... trades per session 19.64 of a registered 20",
+   "file_line": "ORBExperiment/README.md:217-220; HYPOTHESES.md:67,81; README.md:131-134",
+   "figures": [
+    "0.9821428571428571",
+    "0.525",
+    "19.642857142857142",
+    "disagreement +0.432"
+   ],
+   "n": "560 name-sessions over 28 sessions",
+   "produced_by": [
+    "reports/stage_a1amend/task5c_dispersion_e2.json",
+    "REGISTRATION.md Amendments 15 and 22"
+   ],
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "rank": 12,
+   "must_verify": false,
+   "claim_verbatim": "sessions, 2016-01-04 to 2026-06-30 | 2,637 | half sessions | 21 | in-sample sessions | 1,762 (registration said ~1,760) | holdout sessions | 875 (registration said ~880)",
+   "file_line": "ORBExperiment/README.md:359-366; reports/stage_a2/calendar.md:22,30-32; report.md:111-118",
+   "figures": [
+    "2637",
+    "21",
+    "1762 (+2)",
+    "875 (-5)",
+    "2 unscheduled closures"
+   ],
+   "n": "11 calendar years",
+   "produced_by": [
+    "src/orb/calendar.py",
+    "reports/stage_a2/calendar.md"
+   ],
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "rank": 13,
+   "must_verify": false,
+   "claim_verbatim": "alpha_adj = 0.02532057, one-sided, per co-primary. n = 875 holdout sessions ... published 2.81 | 0.9995 | 250 ... REGISTERED (half) 1.40 | 0.7435 | 1,006 ... quartered 0.70 | 0.2578 | 4,021",
+   "file_line": "ORBExperiment/README.md:387-394; reports/stage_a2/power.md",
+   "figures": [
+    "0.9994839324795277",
+    "0.7435206445941073",
+    "0.25780240153992307",
+    "250 / 1006 / 4021",
+    "t = 2.6087459737497545"
+   ],
+   "n": 875,
+   "produced_by": [
+    "tools/power_gate.py",
+    "reports/stage_a2/power.json"
+   ],
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "rank": 14,
+   "must_verify": false,
+   "claim_verbatim": "extending to 2026-12-31 gives 1,003 sessions and power 0.7991, short of 0.80 by 0.0009 and short of the required count by three trading days. 2027-06-30 gives 1,126 and 0.8425.",
+   "file_line": "ORBExperiment/report.md:191-195; reports/stage_a2/power.md",
+   "figures": [
+    "0.799135859539906",
+    "0.0009",
+    "0.8425144846005717",
+    "1,003 / 1,126"
+   ],
+   "n": "1,003 / 1,126",
+   "produced_by": [
+    "reports/stage_a2/power.json"
+   ],
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "rank": 15,
+   "must_verify": false,
+   "claim_verbatim": "Minimum N for t = 2.0 is 515, not 514 (at 514 the statistic is 1.9994); for t = 3.0 it is 1,158, not 1,157 (at 1,157 it is 2.9998).",
+   "file_line": "ORBExperiment/report.md:198-200; reports/stage_a2/power.md",
+   "figures": [
+    "515",
+    "1.9994",
+    "1158",
+    "2.9998"
+   ],
+   "n": null,
+   "produced_by": [
+    "src/orb/power.py::sessions_for_t"
+   ],
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "rank": 16,
+   "must_verify": false,
+   "claim_verbatim": "Alpaca earliest served session | 2016-01-04 - 1,762/1,762 in-sample, 875/875 holdout | 16 probes ... Massive earliest served session | 2024-08-29 - 0/1,762 in-sample, 459/875 holdout | 16 probes",
+   "file_line": "ORBExperiment/README.md:189-190,199; HYPOTHESES.md:70,79-80",
+   "figures": [
+    "2016-01-04",
+    "2024-08-29",
+    "1762/1762",
+    "875/875",
+    "0/1762",
+    "459/875"
+   ],
+   "n": "16 bisection probes each (32 attempts total)",
+   "produced_by": [
+    "tools/reach_bisect.py",
+    "reports/stage_a1r/task5_reach.json",
+    "task5_reach_power.json"
+   ],
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "rank": 17,
+   "must_verify": false,
+   "claim_verbatim": "tape verdict, Massive vs Alpaca-SIP | SAME_TAPE, median ratio 1.005197, IQR [1.003096, 1.007726] | 100 pairs; tape control, Massive vs Alpaca-IEX | DIFFERENT_TAPE, median 0.027856; tape control, Alpaca-SIP vs Alpaca-IEX | DIFFERENT_TAPE, median 0.027761",
+   "file_line": "ORBExperiment/README.md:191-193; DECISIONS.md:619; HYPOTHESES.md:70,79",
+   "figures": [
+    "1.0051969522894746",
+    "[1.0030955198958567, 1.007726232198476]",
+    "0.027856470683074227",
+    "0.02776092774146611",
+    "IQR 0.46 percentage points wide"
+   ],
+   "n": "100 session-ticker pairs each",
+   "produced_by": [
+    "tools/tape_identify.py",
+    "reports/stage_a1r/task4_tape.json"
+   ],
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "rank": 18,
+   "must_verify": false,
+   "claim_verbatim": "delisted names with intraday history | 203 - PASS, share 0.8865 | 229 checked; delisted names enumerated in the registered window | 4,731 of 6,421 served | 7 pages",
+   "file_line": "ORBExperiment/README.md:194-196; HYPOTHESES.md:70",
+   "figures": [
+    "203",
+    "229",
+    "0.8864628820960698",
+    "4731",
+    "6421",
+    "7 pages"
+   ],
+   "n": 229,
+   "produced_by": [
+    "tools/delisted_coverage.py",
+    "tools/delisted_supplement.py",
+    "reports/stage_a1r/task6b_delisted_in_window.json"
+   ],
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "rank": 19,
+   "must_verify": false,
+   "claim_verbatim": "A.1 TASK 9 sealed the registered probe slice on 2026-08-29 - 480 files, 737,507 bars, 2,400 session-ticker pairs - and the registered 14-calendar-day wait before the identical re-pull runs to 2026-09-12.",
+   "file_line": "ORBExperiment/README.md:70-77,200-201; report.md:362",
+   "figures": [
+    "480",
+    "737507",
+    "2400",
+    "60 sessions x 40 tickers",
+    "14 days",
+    "2026-09-12"
+   ],
+   "n": null,
+   "produced_by": [
+    "tools/probe_pull.py",
+    "reports/stage_a1r/task9_probe_manifest.json"
+   ],
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "rank": 20,
+   "must_verify": false,
+   "claim_verbatim": "FINRA TAF per share sold | 0.000166 | measured 0.000195 | carried figure STALE, 14.9% low ... Round trip at the central band on a 50 USD name: ~0.0386 USD/share on a close exit, ~0.0686 on a stop exit, against the replication's measured gross edge of 0.070 USD/share (carried) - 55 percent and 98 percent of the edge, with slippage 78 percent of the close-exit total.",
+   "file_line": "ORBExperiment/README.md:370-383; report.md:146-170; HYPOTHESES.md:72",
+   "figures": [
+    "0.000166 vs 0.000195 (14.9% low)",
+    "1% max per order",
+    "CAT 0.000003",
+    "clearing 0.00020",
+    "0.0386 / 0.0686 vs 0.070",
+    "55% / 98% / 78%",
+    "sha256 3789221b..."
+   ],
+   "n": null,
+   "produced_by": [
+    "src/orb/costs.py",
+    "src/orb/costs_registered.py",
+    "data/state/cost_model.jsonl (untracked)"
+   ],
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "rank": 21,
+   "must_verify": false,
+   "claim_verbatim": "n = 1,026 requests charged on 2026-08-29. Dollars spent: 0. ... n = 979 further requests charged in this pass - 973 Alpaca, 6 Massive ... 1,879 Alpaca of a 3,000 daily cap ... n = 759 quote requests, 0 dollars spent.",
+   "file_line": "ORBExperiment/README.md:182, 209-213, 285",
+   "figures": [
+    "1026",
+    "979",
+    "973 + 6",
+    "1879 of 3000",
+    "759",
+    "0 dollars"
+   ],
+   "n": null,
+   "produced_by": [
+    "data/access/requests.jsonl (untracked)"
+   ],
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "note": "Observed 2026-09-12: 2,766 ledger rows; 2,005 on 2026-08-29 and 761 on 2026-08-30. 1,026 + 979 = 2,005 exactly; 761 alpaca:quotes minus 2 quote-probe files = 759 exactly. Alpaca on 2026-08-29 = 1,879 exactly."
+  },
+  {
+   "rank": 22,
+   "must_verify": false,
+   "claim_verbatim": "Alpaca ceiling, burst allowance | 384 requests admitted in 55.96 s, 385th refused 429 | 391 sent ... Alpaca ceiling, sustained | not reached - 250 of 250 at 199.73/min over 75.10 s, 0 refusals | 250 ... Alpaca operating pace | 98.36/min at 0.61 s spacing ... Alpaca daily cap | 3,000, a circuit breaker, from no measured daily allowance",
+   "file_line": "ORBExperiment/README.md:230-233",
+   "figures": [
+    "384 / 55.96 s / 391",
+    "250 / 199.73 per min / 75.10 s",
+    "98.36 per min",
+    "3000"
+   ],
+   "n": "391 / 250 / 25",
+   "produced_by": [
+    "tools/alpaca_ceiling.py",
+    "tools/alpaca_sustained.py",
+    "reports/stage_a1amend/task4b_alpaca_ceiling.json"
+   ],
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "rank": 23,
+   "must_verify": false,
+   "claim_verbatim": "Massive measured rate ceiling | 5.00/min, first refusal at request 6 of 8, both endpoints | 16",
+   "file_line": "ORBExperiment/README.md:197",
+   "figures": [
+    "5.00/min",
+    "first refusal at request 6 of 8"
+   ],
+   "n": 16,
+   "produced_by": [
+    "reports/stage_a1r/task7_ceilings.json"
+   ],
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "note": "The stored rows record achieved_rate_per_min 30.45 and 28.67 with admitted=5 and first_refusal_at_request=6; '5.00/min' is a re-expression of '5 admitted before refusal', not the achieved rate. The stored documented_per_minute is also 5, labelled 'carried, vendor documentation, never measured'."
+  },
+  {
+   "rank": 24,
+   "must_verify": false,
+   "claim_verbatim": "sealed slice feed | CONFIRMED_CONSOLIDATED - every sealed bar count equals the consolidated count, none equals the single-venue count | 7 discriminating chunks of 8",
+   "file_line": "ORBExperiment/README.md:234",
+   "figures": [
+    "CONFIRMED_CONSOLIDATED",
+    "7 of 8"
+   ],
+   "n": 8,
+   "produced_by": [
+    "tools/confirm_feed.py",
+    "reports/stage_a1amend/task3b_feed_confirmation.json"
+   ],
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "rank": 25,
+   "must_verify": false,
+   "claim_verbatim": "The central-mean-to-shift ratio rises monotonically 0.9742 -> 0.9983 -> 1.1415 -> 1.4767 -> 2.1424 while the shift stays inside a 4 percent band ... And mean relative volume of the selection falls 2.0652 -> 1.4103 ... The scan runs on a 200-name systematic sample of a 5,317-name listing - every 26th ticker. A floor that fails to fill 20 names in a 1-in-26 subsample says nothing about a universe 26.6 times larger.",
+   "file_line": "ORBExperiment/README.md:323-342; report.md:1045-1056; DECISIONS.md:1413-1420",
+   "figures": [
+    "0.9742278258663116",
+    "0.9983130900025968",
+    "1.1414806512851097",
+    "1.4766536381546207",
+    "2.1424146160082387",
+    "2.0651704796524437 -> 1.4102610425218884",
+    "shift 0.039967 to 0.041782 (4 percent band)",
+    "5317 / 200 = 26.6"
+   ],
+   "n": "560 / 560 / 560 / 446 / 310 name-sessions over 28 sessions",
+   "produced_by": [
+    "tools/floor_scan.py",
+    "reports/stage_a3rescue/task4_floor_scan.json"
+   ],
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "rank": 26,
+   "must_verify": false,
+   "claim_verbatim": "tests | 419 passing ... mypy strict | clean, 56 source files ... mutations applied to real source | 17, 0 harness failures",
+   "file_line": "ORBExperiment/README.md:438-441; docs/HANDOVER.md:67",
+   "figures": [
+    "419",
+    "56",
+    "17",
+    "0"
+   ],
+   "n": null,
+   "produced_by": [
+    "reports/stage_a3rescue/gates.log",
+    "reports/stage_a3rescue/mutations_run.log"
+   ],
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "note": "src 32 + tools 31 + tests 24 = 87 Python files; 32 + 24 = 56 is the mypy target (src + tests, tools excluded). reports/stage_a4/gates.md still reads 46 files / 270 passed and was not refreshed, while the companion stage_a4/mutations.md was."
+  },
+  {
+   "rank": 27,
+   "must_verify": false,
+   "claim_verbatim": "net edge per share at the registered 1.40 | -0.003756 close exit, -0.033756 stop exit | modeled ... net edge per share at the published 2.81 | +0.031369 close exit, +0.001369 stop exit",
+   "file_line": "ORBExperiment/README.md:237-238",
+   "figures": [
+    "-0.003756",
+    "-0.033756",
+    "+0.031369",
+    "+0.001369"
+   ],
+   "n": null,
+   "produced_by": [
+    "reports/stage_a1amend/task5c_dispersion_e2.json::net_edge_rows"
+   ],
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "rank": 28,
+   "must_verify": false,
+   "claim_verbatim": "carve-out sessions read / evaluated | 42 / 28, 2026-07-01 to 2026-08-28 | 200 tickers, 1,927,156 bars ... carve-out universe | every 26th of a 5,317-name active US common-stock listing | 6 reference pages",
+   "file_line": "ORBExperiment/README.md:235-236",
+   "figures": [
+    "42",
+    "28",
+    "200",
+    "1927156",
+    "199 tickers with bars",
+    "5317",
+    "stride 26"
+   ],
+   "n": "42 sessions / 28 evaluable",
+   "produced_by": [
+    "reports/stage_a1amend/task5b_post_holdout_pull.json",
+    "reports/stage_a1amend/task5c_dispersion_e2.json"
+   ],
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "rank": 29,
+   "must_verify": false,
+   "claim_verbatim": "Verdict: CLEAR. No repository under /home/kiros-li/Documents/GitHub contains an opening-range, relative-volume or intraday-US-equity-price-structure design. All 14,002 raw hits across 11 repositories are incidental and are cleared below with reasons, n = 11 repositories screened.",
+   "file_line": "ORBExperiment/docs/DUPLICATION.md:9-12; per-pattern table at :51,55-64",
+   "figures": [
+    "14002 raw / 0 substantive",
+    "11 repositories",
+    "solattn 12,954; MLCryptoEngine 943; AiTrader 47; solclear 19; NPLExperiment 9; HFExperiment 8",
+    "the five design-carrying patterns return 0"
+   ],
+   "n": 11,
+   "produced_by": [
+    "a shell grep recorded verbatim at docs/DUPLICATION.md:16-28"
+   ],
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "note": "No stored artifact: the hit counts are not reproducible from anything in the repository, and two of the screened repositories (MLCryptoTrader, [personal repo, name removed]) are outside this audit's scope."
+  },
+  {
+   "rank": 30,
+   "must_verify": false,
+   "claim_verbatim": "McLean and Pontiff measured 58 percent post-publication decay across 97 predictors from 80 studies (carried) ... Concretum ... 226,000 to 726,000 USD ... 76 percent of the replication's filtered profit came from 2022 alone ... the plain broad-universe 5-minute ORB returned 3.2 percent annually at Sharpe 0.48, below passive (carried, C-2), while the top-20-by-relative-volume restriction returned more than 1,600 percent net at Sharpe 2.81 (carried, C-3)",
+   "file_line": "ORBExperiment/README.md:447-455; HYPOTHESES.md:40,74,76",
+   "figures": [
+    "58 percent / 97 predictors / 80 studies",
+    "226,000-726,000 USD / 4 vendors",
+    "76 percent from 2022",
+    "3.2 percent, Sharpe 0.48",
+    "1,600 percent, Sharpe 2.81"
+   ],
+   "n": null,
+   "produced_by": [
+    "all carried, none measured here; labelled C-2, C-3, C-6, C-10, C-12, C-13"
+   ],
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0",
+   "note": "Carried external figures. The repository labels every one as carried and unreplicated."
+  }
+ ],
+ "intervals": [
+  {
+   "index": "I1",
+   "label": "tape volume-ratio IQR, Massive vs Alpaca-SIP",
+   "file_line": "ORBExperiment/README.md:191; DECISIONS.md:619; HYPOTHESES.md:79; reports/stage_a1r/task4_tape.json",
+   "estimator": "interquartile range of the per-pair first-5-minute volume ratio - NOT a confidence interval",
+   "point_estimate": 1.0051969522894746,
+   "low": 1.0030955198958567,
+   "high": 1.007726232198476,
+   "n": 100,
+   "data_structure": "paired session-ticker volume ratios across two redistributors; ADR-022 argues the narrowness itself proves a shared upstream (0.46 percentage points wide)",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "I2",
+   "label": "rule-of-three upper bound on the ambiguous-trigger rate",
+   "file_line": "ORBExperiment/README.md:261; DECISIONS.md:1300-1301",
+   "estimator": "rule of three, 3/n, one-sided 95 percent upper bound on a rate observed zero times",
+   "point_estimate": 0.0,
+   "low": 0.0,
+   "high": 0.005357,
+   "n": 560,
+   "data_structure": "binary per selected name-session, 0 events; THE ONLY GENUINE INTERVAL ESTIMATE IN THE REPOSITORY",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "I3",
+   "label": "dispersion bracket over the unmeasured SEC Section 31 rate",
+   "file_line": "ORBExperiment/README.md:222; reports/stage_a1amend/task5c_dispersion_e2.json",
+   "estimator": "sensitivity bracket (rate = 0 vs rate = measured), NOT a sampling interval",
+   "point_estimate": 2.029585030455633,
+   "low": 2.0294139223208143,
+   "high": 2.029585030455633,
+   "n": 550,
+   "data_structure": "two full re-runs of the same sealed writer; absolute width 0.00017110813481879816, relative width 8.430695548655339e-05",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "I4",
+   "label": "hard arithmetic bounds on the pessimistic shift",
+   "file_line": "ORBExperiment/README.md:262; reports/stage_a3rescue/task3_execution_mix.json",
+   "estimator": "arithmetic bounds from the two extreme stop shares (all-close, all-stop), NOT an interval estimate",
+   "point_estimate": 0.04145454545454545,
+   "low": 0.03,
+   "high": 0.06,
+   "n": 550,
+   "data_structure": "deterministic given the registered carried band",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "I5",
+   "label": "the measured band: median -> central end, p90 -> pessimistic end, per leg",
+   "file_line": "ORBExperiment/REGISTRATION.md:3998-4000; DECISIONS.md:1439-1444; reports/stage_a3rescue/task2_slippage_band.json",
+   "estimator": "percentile summary with the assignment fixed in advance; explicitly NOT a mean and NOT a maximum",
+   "point_estimate": null,
+   "low": "median per leg",
+   "high": "p90 per leg",
+   "n": "550 entry / 210 stop / 340 close",
+   "data_structure": "per-trade slippage distributions, LOWER-BOUNDED: 457/550 entry and 195/210 stop crossings are intrabar and recorded as 0.0 overshoot",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "I6",
+   "label": "per-leg half-spread and slippage percentile summaries",
+   "file_line": "ORBExperiment/REGISTRATION.md:3988-3996; reports/stage_a3rescue/task2_slippage_band.json::per_leg_statistics",
+   "estimator": "time-weighted quoted half spread per minute (weighted by time held, not quote count); mean/median/p90",
+   "point_estimate": "entry half spread median 0.076572, p90 0.333662; mean 0.131842",
+   "low": "stop 0.031934 / close 0.040000",
+   "high": "stop 0.182336 / close 0.261000",
+   "n": "550 / 210 / 340 minutes, 0 refused",
+   "data_structure": "minute-level NBBO quotes; a minute whose quotes are unusable is a refused minute, never a zero spread",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "I7",
+   "label": "Concretum final-equity range across four vendors",
+   "file_line": "ORBExperiment/HYPOTHESES.md:40,80",
+   "estimator": "CARRIED range across vendors, not measured here and not a confidence interval",
+   "point_estimate": null,
+   "low": 226000,
+   "high": 726000,
+   "n": 4,
+   "data_structure": "four vendors, identical opening-range code, dates, parameters and starting capital (carried, C-13)",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  }
+ ],
+ "tests": [
+  {
+   "index": "T1",
+   "label": "E1 t at the registered 1.40 on the computed holdout",
+   "file_line": "ORBExperiment/reports/stage_a2/power.md; README.md:387-394; reports/stage_a2/power.json",
+   "test": "t = (S/sqrt(252))*sqrt(n), one-sided normal approximation to the Sharpe test",
+   "statistic": 2.6087459737497545,
+   "p_value": null,
+   "n": 875,
+   "data_structure": "ASSUMED Sharpe x session count - a planning quantity, not a sample statistic",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "T2",
+   "label": "E1 t at 2.81 and 0.70",
+   "file_line": "ORBExperiment/reports/stage_a2/power.json",
+   "test": "same",
+   "statistic": "5.236125847312007 (2.81); 1.3043729868748772 (0.70)",
+   "p_value": null,
+   "n": 875,
+   "data_structure": "same",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "T3",
+   "label": "E1 power at the superseded alpha_adj = 0.025320565519103666",
+   "file_line": "ORBExperiment/reports/stage_a2/power.json; README.md:390-394",
+   "test": "Phi(t - z(1-alpha))",
+   "statistic": "0.9994839324795277 / 0.7435206445941073 / 0.25780240153992307",
+   "p_value": null,
+   "n": 875,
+   "data_structure": "same",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "T4",
+   "label": "E1 power at the corrected alpha = 0.05",
+   "file_line": "ORBExperiment/reports/stage_a2repair/task1_alpha.json; README.md:401-405",
+   "test": "Phi(t - z(1-alpha)), intersection-union test (Berger 1982), no multiplicity correction owed on a conjunction",
+   "statistic": "holdout 0.9998354661484129 / 0.8324500493878693 / 0.36674729990739663; in-sample 0.9999999963849747 / 0.9801615908493421 / 0.5816522287070272",
+   "p_value": null,
+   "n": "875 / 1762",
+   "data_structure": "same",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "T5",
+   "label": "E2 power under the CARRIED band",
+   "file_line": "ORBExperiment/reports/stage_a2repair/task4_joint_power.json; README.md:265-266",
+   "test": "Phi(((central - shift)/sigma)*sqrt(trades) - z(1-alpha)), one-sided at 0.05, NOT clamped at zero",
+   "statistic": "0.819523804601201 (2.81) / 0.043276644872287495 (1.40) / 0.0012711608642568817 (0.70)",
+   "p_value": null,
+   "n": "875 sessions = 17,188 trades",
+   "data_structure": "per-trade; sigma cancels in E1 but not under the amended pessimistic-cost E2",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "T6",
+   "label": "E2 power under the MEASURED band",
+   "file_line": "ORBExperiment/reports/stage_a3rescue/task3_rescue_verdict.json; README.md:306",
+   "test": "same",
+   "statistic": "0.0 / 0.0 / 0.0",
+   "p_value": null,
+   "n": 875,
+   "data_structure": "same; the alternative lies inside the null because the pessimistic mean is negative",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "T7",
+   "label": "E2 power at alpha_adj before the Amendment 19 replacement (the old rescale-of-E1 E2)",
+   "file_line": "ORBExperiment/reports/stage_a1amend/task5c_dispersion_e2.json; README.md:417-421; HYPOTHESES.md:66",
+   "test": "Phi((mu/sigma)*sqrt(trades) - z(1-alpha))",
+   "statistic": "holdout 0.999484 / 0.743533 / 0.257809; in-sample 0.959721 / 1.000000 / 0.458773",
+   "p_value": null,
+   "n": "875 / 1762",
+   "data_structure": "EQUALS E1 TO FIVE DECIMAL PLACES because E2's permutation clusters on session date and per-trade sigma cancels; Amendment 15 records this as a falsified premise of Section 9, not a copied figure",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "T8",
+   "label": "JOINT power (the latch condition, ADR-034)",
+   "file_line": "ORBExperiment/reports/stage_a2repair/task4_joint_power.json; reports/stage_a3rescue/task3_rescue_verdict.json; README.md:268-269,307",
+   "test": "min(E1,E2) as an unconditional upper bound; Frechet lower bound max(0, p1+p2-1); exact under nested rejection",
+   "statistic": "0.819523804601201 -> 0.043276644872287495 (carried) -> 0.0 (measured); binding component E2 throughout",
+   "p_value": null,
+   "n": 875,
+   "data_structure": "conjunction of two co-primaries",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "T9",
+   "label": "required effect for 80 percent power",
+   "file_line": "ORBExperiment/REGISTRATION.md:3692",
+   "test": "z(0.95) + z(0.80)",
+   "statistic": 2.486475,
+   "p_value": null,
+   "n": null,
+   "data_structure": "-",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "T10",
+   "label": "minimum n for 80 percent power, E1",
+   "file_line": "ORBExperiment/reports/stage_a2repair/task1_alpha.json; README.md:259,403-405",
+   "test": "ceil(((z(1-alpha)+z(0.80))/(S/sqrt(252)))^2)",
+   "statistic": "795 at alpha 0.05 vs 1,006 at alpha 0.02532057; 198 / 3,180 at 2.81 / 0.70 (was 250 / 4,021)",
+   "p_value": null,
+   "n": null,
+   "data_structure": "ceiling, never round",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "T11",
+   "label": "minimum n for 80 percent power, E2 and JOINT",
+   "file_line": "ORBExperiment/reports/stage_a2repair/task4_joint_power.json; reports/stage_a3rescue/task3_rescue_verdict.json; README.md:267,270-271",
+   "test": "trades_for_e2_power, returning a recorded Absent when the pessimistic mean <= 0 (ADR-026 rule)",
+   "statistic": "827 at 2.81 under the carried band; Absent - unreachable at any n at 1.40 carried and at EVERY assumption under the measured band",
+   "p_value": null,
+   "n": null,
+   "data_structure": "reported as an absence, never as a large number",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "T12",
+   "label": "the two alphas",
+   "file_line": "ORBExperiment/src/orb/config.py:123-135,256; README.md:255; DECISIONS.md ADR-032",
+   "test": "alpha_adj = 1 - 0.95^(1/2) = 0.025320565519103666 (UNION rule, superseded); per_test_alpha = 0.05 (intersection-union test, Berger 1982)",
+   "statistic": null,
+   "p_value": null,
+   "n": null,
+   "data_structure": "Section 8 is a conjunction; a union correction was applied to it from the first commit",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "T13",
+   "label": "the REGISTERED BUT UNRUN E1 statistic",
+   "file_line": "ORBExperiment/HYPOTHESES.md:75; src/orb/config.py:145-151",
+   "test": "deflated Sharpe >= 1.00 on the daily net portfolio return series over the holdout, trial count 8 (9 for H1b), skew and kurtosis from the realized series; holdout per-trade t gate 2.50",
+   "statistic": null,
+   "p_value": null,
+   "n": "875 planned",
+   "data_structure": "NEVER COMPUTED - no holdout bar has been read",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "T14",
+   "label": "the REGISTERED BUT UNRUN E2 statistic",
+   "file_line": "ORBExperiment/HYPOTHESES.md:75; DECISIONS.md:1202",
+   "test": "mean net PnL per trade, one-sided lower bound > 0 by permutation on session labels clustered by session date",
+   "statistic": null,
+   "p_value": null,
+   "n": "17,188 planned",
+   "data_structure": "NEVER COMPUTED; the session-level clustering is why per-trade dispersion cancels (Amendment 15)",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  }
+ ],
+ "provenance_claims": [
+  {
+   "index": "P1",
+   "claim_verbatim": "The closure was decided by a criterion committed and pushed as `4ae14dc` BEFORE the measurement that decided it, and the commit order is checkable in `git log`.",
+   "file_line": "ORBExperiment/README.md:30-32; HYPOTHESES.md:58,60; DECISIONS.md:1342-1345; report.md:879-882; REGISTRATION.md:3959-3961,4069; docs/HANDOVER.md:52",
+   "commit_named": "4ae14dc62328cab8a0db486622ab341cd61d2d5a",
+   "what_would_have_to_be_true": "4ae14dc must precede both the commit containing the measuring tool and the network calls that produced the measurement",
+   "observed_during_locate": "4ae14dc authored and committed 2026-08-29T20:13:26-07:00, pushed 20:13:27 per .git/logs/refs/remotes/origin/main. It touches ONLY REGISTRATION.md (+96) and progress.md (+116). tools/slippage_band.py first appears in 5899e1b, pushed 20:41:14. First alpaca:quotes ledger row 2026-08-30T03:15:35.818Z = 20:15:35 -07:00, 2m08s after the criterion push; last 03:39:19Z. Order holds on every clock checked.",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "P2",
+   "claim_verbatim": "Amendment 24 was written, committed and pushed as `4ae14dc` before a single line of the measuring tool existed.",
+   "file_line": "ORBExperiment/report.md:879-882; REGISTRATION.md:3671-3673",
+   "commit_named": "4ae14dc62328cab8a0db486622ab341cd61d2d5a",
+   "what_would_have_to_be_true": "no tools/slippage_band.py, floor_scan.py or rescue_verdict.py may exist in the tree at 4ae14dc",
+   "observed_during_locate": "git ls-tree 4ae14dc tools/ returns none of the three. git log --diff-filter=A puts all three in 5899e1b (2026-08-29T20:41:12-07:00).",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "P3",
+   "claim_verbatim": "GO was ruled out arithmetically in that same commit: it needed a 21.89-fold reduction in the shift, which is below a single tick across both legs.",
+   "file_line": "ORBExperiment/README.md:32-34; REGISTRATION.md:3684-3707",
+   "commit_named": "4ae14dc62328cab8a0db486622ab341cd61d2d5a",
+   "what_would_have_to_be_true": "the 21.89-fold table must sit inside 4ae14dc's REGISTRATION.md diff, not be added later",
+   "observed_during_locate": "4ae14dc adds 96 lines to REGISTRATION.md; Amendment 24 section 2 (the table with z(0.95)+z(0.80)=2.486475) sits in that block at REGISTRATION.md:3684-3707 in the anchored tree. The diff content was NOT line-checked during LOCATE - VERIFY step.",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "P4",
+   "claim_verbatim": "the assignment of median to the central band end and 90th percentile to the pessimistic end were all nailed down in advance ... fixed in the tool's docstring before it runs",
+   "file_line": "ORBExperiment/report.md:894-896; DECISIONS.md:1369-1373; REGISTRATION.md:3998-4000",
+   "commit_named": null,
+   "what_would_have_to_be_true": "the assignment must appear in 4ae14dc (or some object predating 5899e1b), not only in the commit that also carries the result",
+   "observed_during_locate": "The assignment is recorded inside the result file itself (task2_slippage_band.json::assignment_fixed_before_computation) and inside tools/slippage_band.py - BOTH first appearing in 5899e1b, the same commit as the result. The ordering claim is therefore self-attested unless the assignment also appears in 4ae14dc's Amendment 24 text. VERIFY step.",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "P5",
+   "claim_verbatim": "Its counterfactual still stands: had bar integrity passed in full, the same power inputs fire DEGRADED - exactly what Section 0 predicted in writing, before any measurement existed.",
+   "file_line": "ORBExperiment/README.md:85-87; report.md:223-228",
+   "commit_named": null,
+   "what_would_have_to_be_true": "the DEGRADED prediction must appear in a registration commit predating the A.2 power computation",
+   "observed_during_locate": "reports/stage_a2/section0.json carries counterfactual_if_integrity_passed_in_full: {clause: 'DEGRADED residual', verdict: 'DEGRADED'}, fired 2026-08-29T02:43:20Z. docs/STAGE_A_PROMPT.md:104 states the DEGRADED clause. The commit ordering was not checked during LOCATE - VERIFY step.",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "P6",
+   "claim_verbatim": "the registered Section 6 cost model and its pessimistic band, registered before any data existed",
+   "file_line": "ORBExperiment/HYPOTHESES.md:62; report.md:1006-1008",
+   "commit_named": null,
+   "what_would_have_to_be_true": "entry/stop/close_slippage_usd must appear in the first registration commit, before any vendor call",
+   "observed_during_locate": "CONFIG at src/orb/config.py:252-254 holds (0.010,0.020,0.040), (0.020,0.040,0.080), (0.005,0.010,0.020). The registration scaffold is commit 840de7c / 3c8d836 per progress.md:15,17. Earliest untracked fetched artifact is data/access/robots/*.txt, mtime 2026-08-28 19:13. Not yet reconciled - VERIFY step.",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "P7",
+   "claim_verbatim": "Frozen `3789221b9dd3fea5a9680547dfdf8ec7b1febaf246042fe1fa70e27ca610fba3`, latched, and pinned by a test that recomputes it.",
+   "file_line": "ORBExperiment/report.md:169; docs/STAGES.md:18",
+   "commit_named": null,
+   "what_would_have_to_be_true": "the latch file must hold that hash and a test must recompute it from the canonical bytes",
+   "observed_during_locate": "data/state/cost_model_latch.json (untracked, read 2026-09-12T18:03Z) holds exactly that sha256 with measured_on '2026-08-29'. data/state/cost_model.jsonl records canonical_bytes 359 and recorded_at 2026-08-29T02:32:28.834Z.",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "P8",
+   "claim_verbatim": "A.1 TASK 9 sealed the registered probe slice on 2026-08-29 - 480 files, 737,507 bars, 2,400 session-ticker pairs - and the registered 14-calendar-day wait before the identical re-pull runs to 2026-09-12.",
+   "file_line": "ORBExperiment/README.md:70-77",
+   "commit_named": null,
+   "what_would_have_to_be_true": "480 stored files with a per-file SHA-256 in the ledger; the re-pull tool must refuse earlier dates",
+   "observed_during_locate": "task9_probe_manifest.json records 480 / 737507 / 2400 and earliest_eligible_repull '2026-09-12'. Live data/access/sealed_credentialed/ holds 481 task9_* files (480 bar files + task9_reference_pool.raw); seals.jsonl has 1,978 rows. tools/repull_probe.py exists; docs/HANDOVER.md:10-11 claims exit 78 on an early attempt.",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "P9",
+   "claim_verbatim": "No vendor coverage, revision, agreement, delisting, trigger-rate or slippage figure in this repo is registered before it is measured. Every such figure below is named as an A.1 or A.2 measurement target, never as an input.",
+   "file_line": "ORBExperiment/docs/STAGE_A_PROMPT.md:70",
+   "commit_named": null,
+   "what_would_have_to_be_true": "no such figure may appear as a registered constant",
+   "observed_during_locate": "CONFIG holds no coverage, revision, agreement or trigger-rate constant. The SLIPPAGE BAND however IS a registered constant at src/orb/config.py:252-254, carried from QQQ and never measured until Amendment 26 - and Amendment 26 section 8 explicitly declines to move it. Whether that is in tension with this sentence is a VERIFY step.",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "P10",
+   "claim_verbatim": "Two planning figures were falsified by measurement in this pass, both recorded rather than quietly corrected: the pre-period carve-out ... and the 0.55 trigger-rate assumption - measured at 0.982143.",
+   "file_line": "ORBExperiment/README.md:138-144; REGISTRATION.md Amendments 11 and 15",
+   "commit_named": null,
+   "what_would_have_to_be_true": "the superseded figures must still be present in the file, struck rather than deleted",
+   "observed_during_locate": "README.md:410-415 carries a struck-through '~~E2 power: Absent in all nine cells~~' with a 'left standing because it was true when written' note. reports/stage_a2/power.json still carries e2_power: 'Absent' in all nine rows. Supersession is visibly preserved.",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "P11",
+   "claim_verbatim": "This amendment is numbered 26 and appears in this file after Amendment 27. Amendment 27 was appended while this amendment's measurement was still running, and src/orb/dispersion.py and ADR-038 already referred to this one as 26 in text that is committed and pushed. The number is kept ... the anomaly is recorded here rather than tidied away by editing pushed text.",
+   "file_line": "ORBExperiment/REGISTRATION.md:3950-3956",
+   "commit_named": null,
+   "what_would_have_to_be_true": "Amendment 27 must have been appended in an earlier object than Amendment 26, and dispersion.py / ADR-038 must already say '26' there",
+   "observed_during_locate": "File order confirms the out-of-sequence numbering: Amendment 27 at REGISTRATION.md:3852, Amendment 26 at :3944. Both blocks land in the 5899e1b / 7edeea7 range; intra-commit ordering is not checkable from commit boundaries alone. VERIFY step.",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "P12",
+   "claim_verbatim": "H1b increments the Section 8 deflated-Sharpe trial count from 8 to 9, for H1b. H1's count of 8 is unchanged.",
+   "file_line": "ORBExperiment/DECISIONS.md:1392-1394; HYPOTHESES.md:105; REGISTRATION.md Amendment 25 section 4",
+   "commit_named": null,
+   "what_would_have_to_be_true": "CONFIG.trial_count must still read 8 at the anchor",
+   "observed_during_locate": "src/orb/config.py:257 reads trial_count=8. Present and unchanged.",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "P13",
+   "claim_verbatim": "No in-sample or holdout bar was ever read. Both latches remain absent.",
+   "file_line": "ORBExperiment/README.md:49-50; HYPOTHESES.md:63; report.md:1018-1019; docs/HANDOVER.md:80-81",
+   "commit_named": null,
+   "what_would_have_to_be_true": "no latch file may exist, and no priced-bar read may occur outside a sealed writer",
+   "observed_during_locate": "No latch artifact appears under reports/ or under the live data/state/ (which holds only section0.jsonl, cost_model.jsonl and cost_model_latch.json - the last being a COST-MODEL latch, not a read latch). Guard 5 (test_no_module_reads_a_priced_bar_field_anywhere) is claimed to pin the blindness, with two disclosed real catches at reports/stage_a4/gates.md:29-38.",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "P14",
+   "claim_verbatim": "Storing bars is not reading them - the probe slice overlaps the holdout from 2026-05-05 to 2026-06-30 as collection, and the Stage D latch continues to govern the holdout in full and has not been written.",
+   "file_line": "ORBExperiment/HYPOTHESES.md:66; docs/HANDOVER.md:165-168",
+   "commit_named": null,
+   "what_would_have_to_be_true": "the 480 sealed files must overlap the holdout window, and nothing outside a sealed writer may parse a price from them",
+   "observed_during_locate": "The overlap is DISCLOSED BY THE AUTHORS. The live store holds 481 task9_* and 314 task5b_* files. The blindness claim rests entirely on Guard 5's AST walk plus the sealed-writer contract.",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "P15",
+   "claim_verbatim": "Assistant prior 0.15, recorded 2026-08-28 before any measurement. Operator prior 0.30, label INDEPENDENT, recorded 2026-08-29 ... the assistant's 0.15 was recorded first, on 2026-08-28, and was visible to the operator before this number was formed. A later reader must not score 0.30 as an unanchored estimate.",
+   "file_line": "ORBExperiment/HYPOTHESES.md:64,83-84; report.md:1026-1027; DECISIONS.md ADR-020",
+   "commit_named": null,
+   "what_would_have_to_be_true": "the 0.15 must appear in a commit dated 2026-08-28 and the 0.30 in a later one",
+   "observed_during_locate": "Commits on 2026-08-28 exist (origin/main reflog: 23:48-23:59 -07:00 on 2026-08-28). The specific diffs were not located during LOCATE - VERIFY step. The non-blindness is DISCLOSED BY THE AUTHORS at HYPOTHESES.md:84.",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "P16",
+   "claim_verbatim": "A later reader can verify the ordering in `git log`: this commit precedes the commit that contains the measuring tool.",
+   "file_line": "ORBExperiment/REGISTRATION.md:3727-3729; DECISIONS.md:1345",
+   "commit_named": "4ae14dc62328cab8a0db486622ab341cd61d2d5a",
+   "what_would_have_to_be_true": "same as P1 and P2",
+   "observed_during_locate": "Verified in outline. The origin/main reflog additionally shows the PUSH order (20:13:27 vs 20:41:14), which git log alone would not establish.",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "P17",
+   "claim_verbatim": "CONFIG.entry_slippage, stop_slippage and close_slippage are unchanged at (0.010, 0.020, 0.040), (0.020, 0.040, 0.080) and (0.005, 0.010, 0.020). This amendment records a measurement beside them; it does not re-register them.",
+   "file_line": "ORBExperiment/REGISTRATION.md:4053-4057",
+   "commit_named": null,
+   "what_would_have_to_be_true": "the config values must be unchanged between the pre-rescue and post-rescue trees",
+   "observed_during_locate": "src/orb/config.py:252-254 at f2aa675 holds exactly those triples. Commit 5899e1b (the measuring commit) does not touch src/orb/config.py.",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "P18",
+   "claim_verbatim": "Everything above was measured before any credential existed and is left standing. n = 1,026 requests charged on 2026-08-29.",
+   "file_line": "ORBExperiment/README.md:181-182",
+   "commit_named": null,
+   "what_would_have_to_be_true": "the 9-vendor refusal table must predate the credentials",
+   "observed_during_locate": "data/access/sealed/ and probe_findings.json have mtimes 2026-08-28 19:13-19:19; the earliest file in sealed_credentialed/ is 2026-08-29. Consistent.",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "P19",
+   "claim_verbatim": "criterion_precommitted_on: '2026-08-30' recorded beside computed_at: '2026-08-29' and measured_at: '2026-08-29' inside the rescue artifacts",
+   "file_line": "ORBExperiment/reports/stage_a3rescue/task3_rescue_verdict.json; reports/stage_a3rescue/task2_slippage_band.json; reports/stage_a3rescue/task5_section0.json (rescue_criterion_precommitted_on)",
+   "commit_named": "4ae14dc62328cab8a0db486622ab341cd61d2d5a",
+   "what_would_have_to_be_true": "the two date fields must be on the same clock, or the mixture must be explained somewhere",
+   "observed_during_locate": "THEY ARE ON DIFFERENT CLOCKS. The criterion was pushed 2026-08-29 20:13 local (-07:00) = 2026-08-30T03:13Z; the measurement ran 20:15-20:39 local = 03:15-03:39Z. criterion_precommitted_on uses the UTC date while measured_at / computed_at use the LOCAL date, so the artifacts read as if the criterion post-dated the measurement while the underlying order is the reverse. A reader checking the recorded dates rather than the reflog times would draw the wrong conclusion. VERIFY/report step.",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "P20",
+   "claim_verbatim": "Run 2026-08-29, STAGE A.-1 TASK 0, before a single line of design was written. ... Verdict: CLEAR. ... All 14,002 raw hits across 11 repositories are incidental",
+   "file_line": "ORBExperiment/docs/DUPLICATION.md:3-12",
+   "commit_named": null,
+   "what_would_have_to_be_true": "the screen must predate the design commits, and the hit counts must be reproducible from the recorded command",
+   "observed_during_locate": "The exact grep is recorded verbatim at docs/DUPLICATION.md:16-28. No stored output artifact exists, so the 14,002 figure rests on the prose alone. The screened set includes MLCryptoTrader and [personal repo, name removed], which are outside this audit's scope and must not be re-run here.",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "P21",
+   "claim_verbatim": "mutation 13 ... when this was written the edge had ONE pin and the suite went green - the InsiderExperiment lesson. A.1 TASK 5 added a second, independent fixture at the same instant inside the carve-out writer, and the harness now CATCHES it.",
+   "file_line": "ORBExperiment/reports/stage_a2repair/mutations.md:21; reports/stage_a4/mutations.md",
+   "commit_named": null,
+   "what_would_have_to_be_true": "the earlier mutations.md must show mutation 13 uncaught",
+   "observed_during_locate": "reports/stage_a1r/mutations.md and reports/stage_a1amend/mutations.md are both present for comparison. DISCLOSED BY THE AUTHORS.",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  },
+  {
+   "index": "P22",
+   "claim_verbatim": "The operator pre-committed to this on 2026-08-30, before the measurement, and this amendment is the record of that commitment.",
+   "file_line": "ORBExperiment/REGISTRATION.md:3726-3727",
+   "commit_named": "4ae14dc62328cab8a0db486622ab341cd61d2d5a",
+   "what_would_have_to_be_true": "an operator act, not a git object - only the amendment text evidences it",
+   "observed_during_locate": "The COMMIT is verifiable (P1). The OPERATOR'S pre-commitment is attested only by the amendment the operator's assistant wrote in that commit. Nothing outside the repository corroborates it, and nothing in the repository could.",
+   "repo": "ORBExperiment",
+   "anchored_sha": "f2aa675a80fc06b74979040b3028154d1add5ec0"
+  }
+ ]
+}

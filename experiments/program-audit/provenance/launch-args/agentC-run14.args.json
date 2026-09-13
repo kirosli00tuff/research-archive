@@ -1,0 +1,28 @@
+{
+ "done_repos": [
+  "ETFExperiment",
+  "HFExperiment",
+  "InsiderExperiment",
+  "NPDExperiment",
+  "PMExperiment",
+  "VRPExperiment",
+  "retail-power-limits",
+  "solclear"
+ ],
+ "stages": {
+  "NPLExperiment": {
+   "inventory": true,
+   "verification": true,
+   "provenance": true,
+   "consolidated": true,
+   "n_findings": 11
+  },
+  "solattn": {
+   "inventory": true,
+   "verification": true,
+   "provenance": true,
+   "consolidated": true,
+   "n_findings": 6
+  }
+ }
+}

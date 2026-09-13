@@ -1,0 +1,1157 @@
+{
+  "repository": "PMExperiment",
+  "anchored_sha": "03d16e71dbf25a86c529884662d02136f8e82334",
+  "anchor_branch_and_date": "main, 2026-09-02 (closed project)",
+  "snapshot_read": "/home/kiros-li/.cache/program-audit/scratchpad/snap/PMExperiment/",
+  "live_repo_read": "/home/kiros-li/Documents/GitHub/PMExperiment/ (git objects and ls -la only, read-only)",
+  "compiled_utc": "2026-09-05T23:26Z-23:35Z",
+  "headline": "This repository contains NO stored data artifact of any kind and never has: git log --all --diff-filter=A --name-only over 36 commits adds zero files with a .json/.csv/.parquet/.db/.ndjson/.txt extension, and data/ in the live tree holds only a zero-byte .gitkeep. Every number is one of three kinds: (a) arithmetic over constants that are in the registration and in pmexperiment/registry.py - fully recomputable and fully anchored; (b) a figure a session reported measuring over HTTP with no retained response - unanchored and irreproducible, which docs/ACCESS.md:87-89 states plainly; (c) a figure imported from an outside publication or another repository in this program.",
+  "counts": {
+    "artifacts": 31,
+    "claims": 26,
+    "must_verify": 8,
+    "confidence_intervals_reported": 0,
+    "p_values_reported": 0,
+    "test_statistics_reported": 0,
+    "registered_but_never_fired_interval_entries": 2,
+    "registered_or_imported_test_entries": 9,
+    "provenance_claims": 25,
+    "tracked_files_at_head": 32,
+    "commits": 36,
+    "reachable_objects_at_head": 213,
+    "test_functions_in_suite": 111
+  },
+  "artifacts": [
+    {
+      "path": "pmexperiment/registry.py",
+      "holds": "Every registered constant in one place: Z_CRITICAL 2.0; EFFECT_BAND_LO 0.02 / EFFECT_BAND_HI 0.08; ten BUCKET_EDGES_CENTS and TAIL_BUCKETS_CENTS ((1,10),(91,99)); SNAPSHOT_S24_HOURS 24 / SNAPSHOT_S30_DAYS 30; UNRESTRICTED_SAMPLE_SIZE 2000; SAMPLE_SEED 20260829; WILSON_Z 1.96; ACCESS_MIN_SETTLED_MARKETS 1000; ACCESS_OUTCOME_PRESENCE_MAX_RECORDS 5; PERMITTED_MIN_MATURITY_DAYS 30; PERMITTED_MIN_VOLUME_USD 1000.0; FEE_PER_SIDE_USD 0.02; FEE_SIDES 2; HALF_SPREAD_USD 0.01; FX_PER_DIRECTION 0.015; FX_DIRECTIONS 2; FX_TURNOVER_REGISTERED 1.0 (66 lines)",
+      "backs_figures": "every figure in docs/BAND.md; REGISTRATION.md Sections 0.2-0.4, 2, 3, 9, 11 and Amendments 2, 4, 5",
+      "tracked": true,
+      "anchored": true
+    },
+    {
+      "path": "pmexperiment/band.py",
+      "holds": "The gate that produced the repository's one number. ExitRoute (1 vs 2 fee sides); fx_cost(p,k)=0.03*p/k; required_underpricing = fee + 0.01 + fx; band_top_exceeds_requirement (strict < against 0.08, the existential reading); band_bottom_exceeds_requirement (strict reading, reported not used); bucket_midpoint=(lo+hi)/200; surviving_buckets; is_band_empty. BAND-NARROW/BAND-OPEN deliberately not derived in code (band.py:128-134). 135 lines",
+      "backs_figures": "the whole docs/BAND.md Pass-1 table; the 5.85/8.00 verdict; the 0.0300 floor; the 2.15-point margin; the crossings",
+      "tracked": true,
+      "anchored": true
+    },
+    {
+      "path": "pmexperiment/power.py",
+      "holds": "minimum_detectable_effect = Z_CRITICAL*sqrt(v/n), None on an empty cell; fire_power_gate mapping MDE to GO/DEGRADED/BLOCKED with the lower edge inclusive; cost_floor(p)=0.02*2+0.01+0.03*p. 82 lines",
+      "backs_figures": "Section 0.3's outcome map; Section 0.4's planning bars; Section 11's C(0.95)=0.0785 and C(0.05)=0.0515. NEVER FIRED on real data",
+      "tracked": true,
+      "anchored": true
+    },
+    {
+      "path": "pmexperiment/admissibility.py",
+      "holds": "ADR-012 as a procedure. MIN_DOCUMENT_TEXT_RATIO 0.05; REQUIRED_ELEMENTS (clause, effective_date, fetch_date); DocumentReading.text_ratio / looks_client_rendered / is_established; missing_elements (non-empty clause, date.fromisoformat on both dates); admit; permits. 190 lines",
+      "backs_figures": "every ADMISSIBLE/UNMEASURED verdict in docs/LICENCES.md, REGISTRATION.md 15.4, ADR-012/014/015/016; the 5% text-ratio bar quoted in its own docstring",
+      "tracked": true,
+      "anchored": true
+    },
+    {
+      "path": "pmexperiment/__init__.py",
+      "holds": "Docstring only; __all__ empty (3 lines)",
+      "backs_figures": "nothing",
+      "tracked": true,
+      "anchored": true
+    },
+    {
+      "path": "tests/test_honesty.py",
+      "holds": "59 test functions pinning named sentences and figures across README.md, CLAUDE.md, REGISTRATION.md, HYPOTHESES.md, DECISIONS.md, report.md, progress.md, docs/*. Pins 0.0512, 0.01 to 0.05, 415 days, 49.35 bp, AUC 0.501, 5.85 points, 8.00 points, 0.0785, 0.0585, 0.0300, 0.0200, 313,972; pins that Section 13 stays empty and that BAND-OPEN is never written as an edge. 602 lines",
+      "backs_figures": "the documentary figures of every stage",
+      "tracked": true,
+      "anchored": true
+    },
+    {
+      "path": "tests/test_band.py",
+      "holds": "14 test functions. required_underpricing(0.95,X,k=1)==0.0785, (0.05,X)==0.0515, (0.95,H)==0.0585; routes differ by exactly one FEE_PER_SIDE_USD; fx_cost(0.95,1)==0.0285 and 0 at k=inf; FX-free held floor ==0.03; band bottom survives at 0/10 buckets, band top at 10/10, on both routes at k=1,12,inf; route-X margin 0.0015 vs slack 0.00195; route-H margin 0.0215 vs slack 0.00135. 184 lines",
+      "backs_figures": "the BAND-OPEN verdict's arithmetic, cross-pinned to power.cost_floor",
+      "tracked": true,
+      "anchored": true
+    },
+    {
+      "path": "tests/test_admissibility.py",
+      "holds": "14 test functions. The three real permission claims reconstructed as fixtures, including test_stage_a_kalshi_claim_carries_no_effective_date_in_the_record (the self-conviction). 229 lines",
+      "backs_figures": "docs/LICENCES.md's admissibility verdicts and README.md's self-audit section",
+      "tracked": true,
+      "anchored": true
+    },
+    {
+      "path": "tests/test_registry.py",
+      "holds": "9 test functions asserting each registered constant against a quoted substring of REGISTRATION.md - a mechanised code-to-document provenance guard. 99 lines",
+      "backs_figures": "the claim that code and registration cannot drift apart silently",
+      "tracked": true,
+      "anchored": true
+    },
+    {
+      "path": "tests/test_power.py",
+      "holds": "9 test functions. MDE at n=100 == 0.043589; GO inclusive at n=475; DEGRADED at 474 and at 30; BLOCKED at 29 and at 0; cost_floor(0.95)==0.0785 and (0.05)==0.0515. 85 lines",
+      "backs_figures": "Section 0.3's boundaries and Section 0.4's planning bars",
+      "tracked": true,
+      "anchored": true
+    },
+    {
+      "path": "tests/test_guards.py",
+      "holds": "6 test functions. AST scan of power.py, band.py, admissibility.py for outcome tokens; the scanner is fed a synthetic violation; every registered bar must have a registry. enforcement site; each ADR-012 element blanked singly must collapse the claim. 166 lines",
+      "backs_figures": "the outcome-blindness claims of Sections 4, 10 and 0.6",
+      "tracked": true,
+      "anchored": true
+    },
+    {
+      "path": "tests/__init__.py",
+      "holds": "empty",
+      "backs_figures": "nothing",
+      "tracked": true,
+      "anchored": true
+    },
+    {
+      "path": "REGISTRATION.md",
+      "holds": "1,170 lines. Sections 0-17: the two gates and the outcome map; 0.4 the planning bars; 2 and 11 the cost model; 3 the effect band and its three sources; 9 the power method; 13 the empty prior; 14 reproducibility; 15.1-15.5 the five fired verdicts; 16 closure conditions annotated at closure; 17 Amendments 1-9",
+      "backs_figures": "every registered figure and every verdict",
+      "tracked": true,
+      "anchored": true
+    },
+    {
+      "path": "progress.md",
+      "holds": "1,651 lines. Entries 0-12 with sub-entries: ETA-vs-actual tables per task with commit hashes and Z-timestamps; the mutation-harness fault record; the closing git and credential audit",
+      "backs_figures": "the ETA figures, the test and mutation tallies, the 32-commit/189-object audit",
+      "tracked": true,
+      "anchored": true
+    },
+    {
+      "path": "docs/LICENCES.md",
+      "holds": "846 lines. Stage D's three candidates with byte counts, text ratios, occurrence counts, dataset row counts; the Stage E addendum",
+      "backs_figures": "the three licence verdicts and every occurrence-count null",
+      "tracked": true,
+      "anchored": true
+    },
+    {
+      "path": "DECISIONS.md",
+      "holds": "796 lines. ADR-001 to ADR-021, including the recorded duplicate ADR-006/ADR-007 numbering collision",
+      "backs_figures": "ADR-009's unit determination; ADR-010's FX turnover and its commit-lag disclosure; ADR-012 through ADR-018",
+      "tracked": true,
+      "anchored": true
+    },
+    {
+      "path": "report.md",
+      "holds": "487 lines. One never-revised section per stage: Scaffold, A, B, C, D, E",
+      "backs_figures": "each stage's one-sentence verdict and its figures",
+      "tracked": true,
+      "anchored": true
+    },
+    {
+      "path": "HYPOTHESES.md",
+      "holds": "358 lines. H1/H1t/H2/H3 register, five dated amendments, the carry-forward figure table at lines 138-145",
+      "backs_figures": "the closure status and the figures carried forward with BAND-OPEN",
+      "tracked": true,
+      "anchored": true
+    },
+    {
+      "path": "docs/BAND.md",
+      "holds": "341 lines. THE ONLY EVIDENCE DOCUMENT WITH COMPUTED NUMBERS. Task 1 quoted inputs; Task 2 unit determination; Task 3 FX; Task 4 Pass 1 the 10x6 band table, crossings and margins; Pass 2 the Canadian filter; Task 5 the verdict",
+      "backs_figures": "MUST-VERIFY claims 1-6",
+      "tracked": true,
+      "anchored": true
+    },
+    {
+      "path": "docs/ACCESS.md",
+      "holds": "333 lines. Kalshi (Stage A), Polymarket (Stage C), the Kalshi desk reply (Stage E): latencies, byte counts, request logs, verbatim clauses",
+      "backs_figures": "every access-gate reading and every latency/byte figure - none of which has a retained artifact",
+      "tracked": true,
+      "anchored": true
+    },
+    {
+      "path": "README.md",
+      "holds": "233 lines. The cold-reader front door; the route ledger; the one number and what it is not",
+      "backs_figures": "the headline verdict and the BAND-OPEN caveat",
+      "tracked": true,
+      "anchored": true
+    },
+    {
+      "path": "CLAUDE.md",
+      "holds": "78 lines. The sixteen standing rules later entries cite by number",
+      "backs_figures": "the standing-rule citations throughout",
+      "tracked": true,
+      "anchored": true
+    },
+    {
+      "path": "pyproject.toml",
+      "holds": "43 lines. deps httpx/pydantic/pydantic-settings; dev pytest/ruff/mypy/pre-commit; mypy strict; ruff line-length 88. NO numpy, NO scipy - nothing statistical could have been computed with the declared dependency set",
+      "backs_figures": "the lint/typecheck-clean claims",
+      "tracked": true,
+      "anchored": true
+    },
+    {
+      "path": ".env.example",
+      "holds": "294 bytes, 5 comment lines, zero occurrences of '='",
+      "backs_figures": "progress.md:1539-1541's closing audit line - verified byte-for-byte",
+      "tracked": true,
+      "anchored": true,
+      "size": "294 B"
+    },
+    {
+      "path": ".gitignore",
+      "holds": "13 lines: .env, .env.* with !.env.example, *.session, data/raw/, data/vendor/",
+      "backs_figures": "progress.md:1542-1543 - verified",
+      "tracked": true,
+      "anchored": true
+    },
+    {
+      "path": "LICENSE",
+      "holds": "MIT, Copyright (c) 2026 kirosli00tuff. 21 physical lines / 17 non-blank",
+      "backs_figures": "progress.md:1541's 'MIT, 17 lines' - matches the non-blank count",
+      "tracked": true,
+      "anchored": true
+    },
+    {
+      "path": "Makefile",
+      "holds": "27 lines. lint / typecheck / test, plus a verify target that only echoes the recorded access state and refuses to re-probe",
+      "backs_figures": "the make-targets-green claims",
+      "tracked": true,
+      "anchored": true
+    },
+    {
+      "path": ".pre-commit-config.yaml",
+      "holds": "14 lines: ruff-format, ruff --fix, check-added-large-files, detect-private-key, end-of-file-fixer, trailing-whitespace",
+      "backs_figures": "the credential-hygiene claims",
+      "tracked": true,
+      "anchored": true
+    },
+    {
+      "path": "data/.gitkeep, scripts/.gitkeep, docs/.gitkeep",
+      "holds": "zero bytes each. data/ is otherwise EMPTY in the live tree (read 2026-09-05T23:28Z)",
+      "backs_figures": "the ABSENCE of every data artifact; REGISTRATION.md Section 14's reproducibility clause names data/raw/, which does not exist",
+      "tracked": true,
+      "anchored": true
+    },
+    {
+      "path": "git object store (live, read-only)",
+      "holds": "36 commits 2026-08-29T07:09:55Z to 2026-09-02T09:50:29Z; 213 reachable objects at HEAD; 32 files at HEAD; branch main only; no tags; remote github.com/kirosli00tuff/PMExperiment. git log --all --diff-filter=A --name-only adds ZERO files with a .json/.csv/.parquet/.db/.ndjson/.txt extension at any commit",
+      "backs_figures": "P2/P3/P4/P8/P11/P16 - the amendment dates, the band-computed-once claim, the Sections 0-14 immutability, and the 32-commit/189-object audit",
+      "tracked": false,
+      "anchored": true,
+      "note": "The git history is the only non-document artifact in this repository and it carries real, checkable evidence."
+    },
+    {
+      "path": "_CLOSED_DO_NOT_RUN_HERE (live working tree)",
+      "holds": "747 B operator marker written after the anchor, excluded locally via .git/info/exclude (verified). Says the repository is closed and no session may run in it",
+      "backs_figures": "nothing - recorded so it is not mistaken for repository evidence",
+      "tracked": false,
+      "anchored": false,
+      "size": "747 B",
+      "mtime_utc": "2026-09-02 22:38 local",
+      "note": "Pre-existing operator dirt, dated three days before this access; does not appear in git status because of .git/info/exclude."
+    }
+  ],
+  "claims": [
+    {
+      "rank": 1,
+      "must_verify": true,
+      "claim_verbatim": "BAND-OPEN - a surviving region exists that the permitted subset admits, at entry prices 91-99c held to resolution, requiring 5.85 points of underpricing at the registered FX turnover against a registered band whose top is 8.00 points.",
+      "file_line": [
+        "REGISTRATION.md:409-412",
+        "README.md:139-141",
+        "docs/BAND.md:15-18",
+        "HYPOTHESES.md:130-133",
+        "report.md:61-68",
+        "docs/LICENCES.md:718"
+      ],
+      "figures": "0.0585 required underpricing vs 0.0800 registered band top",
+      "n": "none - arithmetic over registered constants; no sample stands behind it",
+      "artifact_or_code_believed_to_produce_it": "pmexperiment/band.py:68-80 required_underpricing(0.95, HELD_TO_RESOLUTION, turnover=1.0) over pmexperiment/registry.py:53-66; pinned by tests/test_band.py:56-59",
+      "note": "The single figure every closure document carries forward. Independently recomputed: 0.02 + 0.01 + 0.03*0.95 = 0.0585 exactly. This is the number a reader is most likely to misread as evidence of an edge, which the repository forbids in five places."
+    },
+    {
+      "rank": 2,
+      "must_verify": true,
+      "claim_verbatim": "fee and half-spread alone total 0.0300 on the held route before any FX at all, against a registered band bottom of 0.0200. No FX treatment, no venue price and no exit route reaches the bottom of the band.",
+      "file_line": [
+        "REGISTRATION.md:456-459",
+        "report.md:105-108",
+        "HYPOTHESES.md:140",
+        "docs/BAND.md:241-243",
+        "progress.md:449-451"
+      ],
+      "figures": "0.02 + 0.01 = 0.0300 against EFFECT_BAND_LO 0.0200",
+      "n": "none",
+      "artifact_or_code_believed_to_produce_it": "pmexperiment/band.py:46-48 plus registry.HALF_SPREAD_USD; pinned by tests/test_band.py:84-96 and :99-107 (band bottom survives at 0 of 10 buckets on both routes at k=1, 12 and infinity)",
+      "note": "Independently recomputed: holds. The repository calls this 'the decisive figure, for a reader who reads one number'."
+    },
+    {
+      "rank": 3,
+      "must_verify": true,
+      "claim_verbatim": "There are no crossings inside the tradeable price range ... R_H(p) = 0.03 + 0.03p ... p = -0.3333 ... p = +1.6667 ... R_X(p) = 0.05 + 0.03p ... p = -1.0000 ... p = +1.0000 - the curve meets the band top exactly at $1.00, a price that cannot be traded",
+      "file_line": [
+        "docs/BAND.md:212-227",
+        "REGISTRATION.md:448-454",
+        "report.md:97-103",
+        "progress.md:442-447"
+      ],
+      "figures": "-0.3333, +1.6667, -1.0000, +1.0000; 'confirms it to 0.0015'",
+      "n": "none",
+      "artifact_or_code_believed_to_produce_it": "pmexperiment/band.py:68-80 solved analytically; no code computes the crossings",
+      "note": "Independently recomputed: (0.02-0.03)/0.03=-0.3333, (0.08-0.03)/0.03=1.6667, (0.02-0.05)/0.03=-1.0000, (0.08-0.05)/0.03=+1.0000, and 0.08-0.0785=0.0015. This is the only place a pre-registered prediction (Section 2) is declared confirmed."
+    },
+    {
+      "rank": 4,
+      "must_verify": true,
+      "claim_verbatim": "the Pass-1 band table: required underpricing to break even, in probability points, by registered decile, R_H and R_X at k=1, k=12 and k->infinity",
+      "file_line": [
+        "docs/BAND.md:199-210",
+        "progress.md:435-440"
+      ],
+      "figures": "60 cells at 4 decimal places, from 0.0300 to 0.0785",
+      "n": "none",
+      "artifact_or_code_believed_to_produce_it": "pmexperiment/band.py:68-80 over registry.BUCKET_EDGES_CENTS",
+      "note": "Independently recomputed from the registered constants alone: ALL 60 CELLS MATCH at %.4f, zero mismatches. The apparently inconsistent rounding (0.0316 vs 0.0517; 0.0347 vs 0.0376) is the honest consequence of binary float representation, not an error."
+    },
+    {
+      "rank": 5,
+      "must_verify": true,
+      "claim_verbatim": "route H clears by 4.84 points at 1-10c falling to 2.15 points at 91-99c; route X clears by 2.83 points falling to 0.15 points at 91-99c. Route X's margin at the favourite tail (0.0015) is smaller than the 0.00195 by which Section 2's FX base understates cost at the same price ... Route H's margin at that bucket is 0.0215 against a comparable 0.00135 - larger by a factor of 16",
+      "file_line": [
+        "docs/BAND.md:255-265",
+        "REGISTRATION.md:426-429",
+        "docs/BAND.md:322-327",
+        "REGISTRATION.md:423-424",
+        "docs/BAND.md:317-318"
+      ],
+      "figures": "0.0215, 0.0015, 0.00195, 0.00135, factor 16; 5.73 at 91c and 5.97 at 99c",
+      "n": "none",
+      "artifact_or_code_believed_to_produce_it": "pmexperiment/band.py; pinned by tests/test_band.py:134-172",
+      "note": "Independently recomputed: all figures hold (ratio 15.93). One cosmetic asymmetry for VERIFY: 0.04835 is written '4.84' while 0.02835 in the same sentence is written '2.83'."
+    },
+    {
+      "rank": 6,
+      "must_verify": true,
+      "claim_verbatim": "Burgi's 5c contract winning 3 % | 0.03 - 0.05 = -0.02 = the recorded '2-point gap' | -0.02/0.05 = -40.0 % ... Krause's -0.077 ... implies a mean bucket price of 0.117 ... implies a mean price of 0.043 ... every registered magnitude sits at a high entry price [0.950, 0.950, 0.883]",
+      "file_line": [
+        "docs/BAND.md:128-137",
+        "docs/BAND.md:151-155",
+        "DECISIONS.md:221-231",
+        "DECISIONS.md:246-250",
+        "README.md:84-88",
+        "REGISTRATION.md:433-436",
+        "HYPOTHESES.md:143"
+      ],
+      "figures": "-0.02/-40.0%; +0.03/+3.16%; 0.117 and 0.043; entry prices 0.950/0.950/0.883; the 3.0 exactly ties 0.0300 with FX at zero",
+      "n": "Burgi 313,972 prices / 46,282 contracts / 12,403 events; KRAUSE n ABSENT EVERYWHERE",
+      "artifact_or_code_believed_to_produce_it": "hand arithmetic recorded in ADR-009 and docs/BAND.md Task 2; no code computes it",
+      "note": "Independently recomputed: -0.02 and -40.0%; +0.03 and +3.158% (printed +3.16/+3.1); 0.040+0.077=0.117 and 0.040/0.923=0.0433; 1-0.117=0.883; 0.6*0.05=0.030 and 0.6*0.095=0.057. The underlying published magnitudes are external and unverifiable here."
+    },
+    {
+      "rank": 7,
+      "must_verify": true,
+      "claim_verbatim": "GO, MDE <= 0.02 | >= 475 ... stay out of BLOCKED, MDE <= 0.08 | >= 30 [at v-bar = 0.0475, sqrt(v-bar) ~ 0.218] ... GO needs about 703 markets (475 / 0.676)",
+      "file_line": [
+        "REGISTRATION.md:120-137",
+        "REGISTRATION.md:148-150"
+      ],
+      "figures": "475, 30, 0.0475, 0.218, 703",
+      "n": "none realized - planning figures, labelled as such",
+      "artifact_or_code_believed_to_produce_it": "pmexperiment/power.py:37-45; pinned at the boundary by tests/test_power.py:37-62",
+      "note": "Independently recomputed: 4*0.0475/0.02^2 = 475.0 exactly; 4*0.0475/0.08^2 = 29.6875 -> >=30; sqrt(0.0475)=0.2179; 475/0.676=702.66. These bars are the design's whole power argument and were NEVER tested against a count."
+    },
+    {
+      "rank": 8,
+      "must_verify": true,
+      "claim_verbatim": "C(p) = 0.04 + 0.01 + 0.03*p ... At the favourite tail, p = 0.95, the floor is 0.0785 [Section 2]; C(p) = 0.05 + 0.03*p ... C(0.95) = 0.0785. C(0.05) = 0.0515. [Section 11]",
+      "file_line": [
+        "REGISTRATION.md:203-212",
+        "REGISTRATION.md:335-338"
+      ],
+      "figures": "0.0785 and 0.0515",
+      "n": "none",
+      "artifact_or_code_believed_to_produce_it": "pmexperiment/power.py:74-82; cross-pinned to band.py by tests/test_band.py:30-41 and to prose by tests/test_power.py:76-79",
+      "note": "Independently recomputed: both written forms agree and give 0.0785 and 0.0515. Note for VERIFY: power.cost_floor charges both fee sides while band.required_underpricing(HELD_TO_RESOLUTION) charges one - reconciled by route, and band.py:77-78 says so."
+    },
+    {
+      "rank": 9,
+      "must_verify": false,
+      "claim_verbatim": "earliest retrievable settled close sits between 2024-01-01 (empty page) and 2024-05-31 (present), bracketed by max_close_ts probes ... n = 6 probes",
+      "file_line": [
+        "docs/ACCESS.md:72",
+        "REGISTRATION.md:389-393",
+        "DECISIONS.md:100-105"
+      ],
+      "figures": "2024-01-01 to 2024-05-31; n = 6",
+      "n": "6 bracketing probes",
+      "artifact_or_code_believed_to_produce_it": "NONE - no probe response was retained (docs/ACCESS.md:87-89)",
+      "note": "READ-only. The five access-gate condition readings at REGISTRATION.md:376-382 and docs/ACCESS.md:16-22 rest on the same unretained probes."
+    },
+    {
+      "rank": 10,
+      "must_verify": false,
+      "claim_verbatim": "keyless API reachability | HTTP 200, latencies 99.9-213.8 ms across 11 requests ... 13 outbound requests total on 2026-08-29, all keyless, single-shot, spaced >= 1.5 s",
+      "file_line": [
+        "docs/ACCESS.md:71",
+        "docs/ACCESS.md:80-89",
+        "docs/ACCESS.md:18",
+        "progress.md:41"
+      ],
+      "figures": "11 API reads, 13 total requests, 99.9-213.8 ms, 127.6 ms, 2 records",
+      "n": "11 requests / 2 records",
+      "artifact_or_code_believed_to_produce_it": "NONE retained",
+      "note": "READ-only."
+    },
+    {
+      "rank": 11,
+      "must_verify": false,
+      "claim_verbatim": "robots.txt, polymarket.com | HTTP 200 | 35.7 ms | 73 bytes ... 404 in 280.1 / 201.4 / 220.9 ms ... 7 requests to Polymarket hosts on 2026-08-30",
+      "file_line": [
+        "docs/ACCESS.md:106-111",
+        "docs/ACCESS.md:210-216",
+        "REGISTRATION.md:477-478",
+        "REGISTRATION.md:502-506"
+      ],
+      "figures": "35.7 / 280.1 / 201.4 / 220.9 ms; 73 bytes; 7 requests; zero market-data requests",
+      "n": "7 requests",
+      "artifact_or_code_believed_to_produce_it": "NONE retained",
+      "note": "READ-only."
+    },
+    {
+      "rank": 12,
+      "must_verify": false,
+      "claim_verbatim": "Terms of Use | read in full, 59,617 bytes [docs/ACCESS.md] vs 58,830 characters / 59,061 bytes, against the 59,617 bytes Stage C recorded [docs/LICENCES.md]; and 217 KB body ... 1,354 characters vs 217,045 bytes -> 1,405 characters, 0.65 % text",
+      "file_line": [
+        "docs/ACCESS.md:122",
+        "REGISTRATION.md:479",
+        "progress.md:726",
+        "pmexperiment/admissibility.py:41-43",
+        "docs/LICENCES.md:61-62",
+        "docs/LICENCES.md:72-73",
+        "docs/ACCESS.md:126-127"
+      ],
+      "figures": "59,617 / 59,061 / 58,830; 217,045 -> 1,354 or 1,405; 0.65 %",
+      "n": "one document",
+      "artifact_or_code_believed_to_produce_it": "NONE retained",
+      "note": "The disagreement is DISCLOSED in docs/LICENCES.md itself. 1405/217045 = 0.647 % and 1354/217045 = 0.624 %, so each text share is coherent with its own numerator."
+    },
+    {
+      "rank": 13,
+      "must_verify": false,
+      "claim_verbatim": "Notices - 0 occurrences, Notice - 0 ... authorization - 0 occurrences ... Searched over the full 58,830 characters; artificial intelligence 0, machine learning 0, large language 0, llm 0, neural 0; Kalshi PDF Effective 0, Last Updated 0, @ 0, contact 0, address 0",
+      "file_line": [
+        "docs/LICENCES.md:195-199",
+        "docs/LICENCES.md:332-337",
+        "docs/LICENCES.md:261-267",
+        "docs/LICENCES.md:280",
+        "docs/ACCESS.md:188-193",
+        "docs/LICENCES.md:582-586"
+      ],
+      "figures": "a long list of zero-counts carrying three licence verdicts",
+      "n": "58,830 chars (Polymarket); 6,648 chars (Kalshi PDF); 389,435 bytes (docs.polymarket.com); 172,750 bytes (Dune)",
+      "artifact_or_code_believed_to_produce_it": "NONE retained",
+      "note": "READ-only. These nulls carry the PROHIBITED/UNMEASURED verdicts and the ADR-012 self-conviction."
+    },
+    {
+      "rank": 14,
+      "must_verify": false,
+      "claim_verbatim": "TimeSeventeen/Polymarket-v1 ... OrderFilled/ 1,201,580,990 rows (~49.1 GB compressed Parquet), coverage 2022-11-21 to 2026-04-28",
+      "file_line": [
+        "docs/LICENCES.md:348-384",
+        "HYPOTHESES.md:218",
+        "report.md:241",
+        "docs/LICENCES.md:465-473"
+      ],
+      "figures": "1,201,580,990 rows; ~49.1 GB; 24,460-byte card; and the other datasets' row counts including a disclosed 1.9 B/538,587 vs 1.1 B/268 K contradiction",
+      "n": "as documented on external cards",
+      "artifact_or_code_believed_to_produce_it": "NONE retained - external",
+      "note": "READ-only, external."
+    },
+    {
+      "rank": 15,
+      "must_verify": false,
+      "claim_verbatim": "dune.com/pricing is a client-rendered shell in both the archived copy (56,756 bytes -> 81 characters, 0.14 %, text ending in 'Loading') and live (67,316 bytes -> 269 characters, 0.40 %) ... the verification pass measured 18.05 % text and this session's own tag-stripping measured 67.98 %",
+      "file_line": [
+        "docs/LICENCES.md:590-597",
+        "docs/LICENCES.md:78-82",
+        "docs/LICENCES.md:528-532",
+        "docs/LICENCES.md:601-609",
+        "docs/LICENCES.md:328-331"
+      ],
+      "figures": "172,750 B Dune ToS; 0.14 % and 0.40 % shells; 18.05 % vs 67.98 %; Token Terminal 86,702 B at 25.06 %; geoblock 509,725 B",
+      "n": "one document each",
+      "artifact_or_code_believed_to_produce_it": "NONE retained",
+      "note": "The $390/month and $1,990/month tier prices are EXPRESSLY recorded as not adopted (docs/LICENCES.md:594-597) because they came from no document that was read."
+    },
+    {
+      "rank": 16,
+      "must_verify": false,
+      "claim_verbatim": "13 agents, ~2.1 M subagent tokens and 454 tool uses across two passes, four of which died on a session limit ... All 17 quoted or attributed strings ... 14 match byte-for-byte; 3 differ only in typographic apostrophes",
+      "file_line": [
+        "progress.md:959-960",
+        "docs/LICENCES.md:97",
+        "docs/LICENCES.md:614-618",
+        "docs/LICENCES.md:91-95"
+      ],
+      "figures": "13 agents, 2.1 M tokens, 454 tool uses, 4 deaths, 17/14/3 quotations, 3/3 lens coverage",
+      "n": "13 agents / 17 strings",
+      "artifact_or_code_believed_to_produce_it": "NONE - no agent log or transcript is stored",
+      "note": "READ-only."
+    },
+    {
+      "rank": 17,
+      "must_verify": false,
+      "claim_verbatim": "All fourteen restore green at 108 tests ... Restored, 111 pass, lint and typecheck clean (and 34, 39, 63, 72, 89, 95 at the earlier stages)",
+      "file_line": [
+        "progress.md:1527",
+        "progress.md:1648",
+        "progress.md:12",
+        "progress.md:235",
+        "progress.md:507",
+        "progress.md:813",
+        "progress.md:986",
+        "progress.md:1214"
+      ],
+      "figures": "34 -> 39 -> 63 -> 72 -> 89 -> 95 -> 108 -> 111 tests; mutations 9, 5, 5, 6, 13, 14, 2",
+      "n": "111 test functions at the anchored SHA",
+      "artifact_or_code_believed_to_produce_it": "tests/*.py themselves",
+      "note": "THE 111 IS VERIFIED: grep -c '^def test_' over tests/*.py gives 14+14+6+59+9+9 = 111 exactly. The mutation tallies are unverifiable - no mutation log, harness script or CI artifact is stored."
+    },
+    {
+      "rank": 18,
+      "must_verify": false,
+      "claim_verbatim": "32 commits, 189 reachable objects, every blob decompressed and scanned: zero credential-shaped strings ... .env.example, which is 294 bytes, five comment lines, and contains no '=' at all ... LICENSE is MIT, 17 lines",
+      "file_line": [
+        "progress.md:1537-1543"
+      ],
+      "figures": "32 commits; 189 objects; 294 bytes; 0 '='; 17 lines",
+      "n": "36 commits / 213 objects at the anchored HEAD",
+      "artifact_or_code_believed_to_produce_it": "the git object store",
+      "note": "VERIFIED at 1ba50aa, which was HEAD when the Stage E Task 5 audit ran: rev-list --count = 32 and rev-list --objects = 189. .env.example is 294 bytes with zero '='. LICENSE is 21 physical lines / 17 non-blank."
+    },
+    {
+      "rank": 19,
+      "must_verify": false,
+      "claim_verbatim": "Stage B total: 22.9 min against a 75-min stated ETA ... Stage C total: ~17 min against 50 min stated ... Stage D total: ~2 h 15 min against 55 min stated ... it took 111 minutes against 20 ... Stage E total: ~21.4 min against 50 min stated, coming in at 43 % of estimate",
+      "file_line": [
+        "progress.md:534-535",
+        "progress.md:836",
+        "progress.md:1255-1261",
+        "progress.md:942",
+        "progress.md:1573-1574",
+        "progress.md:1385-1400"
+      ],
+      "figures": "22.9/75; ~17/50; 2h15/55; 111/20 (x5.5); 21.4/50 (43 %); Task 1 7.8 vs 8 (within 3 %); Task 4 x3.2",
+      "n": "5 stages / 27 tasks",
+      "artifact_or_code_believed_to_produce_it": "the git commit timestamps quoted alongside each figure",
+      "note": "Partly checkable: every quoted Z-time that carries a commit hash matches that commit's author date to the second (spot-checked on e2d8f10, 84f7b92, aa37749, 7b5a751, 2006ae6, 905d552)."
+    },
+    {
+      "rank": 20,
+      "must_verify": false,
+      "claim_verbatim": "the registered constants, each pinned to a quoted sentence of REGISTRATION.md: 0.02 to 0.08, z = 2.0 two-sided, the ten deciles and the tail cell, m = 2,000, seed 20260829, Wilson 95% lower bound, at least 1,000 settled markets, at most five records, 30-day maturity, $1,000 volume floor, 2 cents per side, 1 cent half-spread, 1.5 % per direction, k = 1",
+      "file_line": [
+        "REGISTRATION.md:69-95",
+        "REGISTRATION.md:99-106",
+        "REGISTRATION.md:141-155",
+        "REGISTRATION.md:197-201",
+        "REGISTRATION.md:862",
+        "pmexperiment/registry.py:8-66"
+      ],
+      "figures": "every registered constant",
+      "n": "n/a",
+      "artifact_or_code_believed_to_produce_it": "pmexperiment/registry.py, mechanically pinned by tests/test_registry.py",
+      "note": "The strongest internal provenance guarantee in the repository."
+    },
+    {
+      "rank": 21,
+      "must_verify": false,
+      "claim_verbatim": "realized minimum detectable contrast came in at 0.0512 against a realistic effect band of 0.01 to 0.05 ... discovered after 415 days of collection and 6.9378 USD of spend; InsiderExperiment ... fired BLOCKED at 49.35 bp; MLCryptoEngine's H2 at AUC 0.501; Eleven MLCryptoEngine hypotheses closed on cost rather than on signal",
+      "file_line": [
+        "REGISTRATION.md:31-38",
+        "REGISTRATION.md:46-47",
+        "README.md:182-188",
+        "CLAUDE.md:54-61",
+        "DECISIONS.md:41-44",
+        "REGISTRATION.md:710-712",
+        "HYPOTHESES.md:103"
+      ],
+      "figures": "0.0512; 0.01 to 0.05; 415 days; 6.9378 USD; 49.35 bp; AUC 0.501; eleven hypotheses",
+      "n": "not stated here",
+      "artifact_or_code_believed_to_produce_it": "NPDExperiment, InsiderExperiment and MLCryptoEngine - other repositories in this program",
+      "note": "CROSS-REPO checkable, not checkable inside PMExperiment. The NPD figures are quoted as a block quote from NPD's own REGISTRATION.md and progress.md."
+    },
+    {
+      "rank": 22,
+      "must_verify": false,
+      "claim_verbatim": "313,972 Yes-and-No contract prices on 46,282 contracts across 12,403 events ... a 5c contract that wins 3 % of the time - a 2-point gap - returns -40 % before fees; a 95c contract winning 98 % - a 3-point gap - returns +3.1 % ... the average pre-fee return across all contracts is -20 %. Two-thirds of all recorded prices sit in the 1-10c and 90-99c bands. [Krause] longshots priced below 30c settled YES 4.0 % of the time, a bias of -0.077",
+      "file_line": [
+        "REGISTRATION.md:225-251",
+        "docs/BAND.md:37-63"
+      ],
+      "figures": "313,972 / 46,282 / 12,403; 60 %; -40 %; +3.1 %; -20 %; two-thirds; 4.0 %; -0.077; n=95 over 12 months; SSRN 7087538; EJ 123(568):491-513",
+      "n": "Burgi n stated; KRAUSE n NEVER RECORDED - and Krause sets the band's TOP, which is the figure BAND-OPEN survives on",
+      "artifact_or_code_believed_to_produce_it": "external publications; none retained",
+      "note": "READ-only, external. The missing Krause n is disclosed by the repository at REGISTRATION.md:440-443, DECISIONS.md:265-270, docs/BAND.md:115 and README.md:148-149."
+    },
+    {
+      "rank": 23,
+      "must_verify": false,
+      "claim_verbatim": "Five stages. Zero dollars. Zero contracts enumerated. Zero market-data requests to Polymarket. Zero requests of any kind in Stage E. No price bucket, no dispersion, and no statistic relating a price to an outcome, anywhere, ever.",
+      "file_line": [
+        "report.md:476-478",
+        "README.md:16",
+        "REGISTRATION.md:628-630",
+        "progress.md:1547-1549"
+      ],
+      "figures": "five stages; 0 dollars; 0 contracts; 0 requests",
+      "n": "n/a",
+      "artifact_or_code_believed_to_produce_it": "the absence of any artifact in git or the working tree",
+      "note": "Negative claims. The git tree corroborates the absence of every artifact; no request log exists to corroborate the request counts."
+    },
+    {
+      "rank": 24,
+      "must_verify": false,
+      "claim_verbatim": "The operator's prior is 5 to 8 percent, given 2026-09-02 at closure ... The figure is therefore stated, not pre-registered",
+      "file_line": [
+        "README.md:168-175",
+        "REGISTRATION.md:1015-1029",
+        "HYPOTHESES.md:267",
+        "DECISIONS.md:642",
+        "report.md:434-441"
+      ],
+      "figures": "5 to 8 percent",
+      "n": "n/a",
+      "artifact_or_code_believed_to_produce_it": "operator statement, recorded in Amendment 7",
+      "note": "Explicitly labelled stated-not-registered everywhere it appears, and pinned by tests/test_honesty.py:508-527."
+    },
+    {
+      "rank": 25,
+      "must_verify": false,
+      "claim_verbatim": "rate limit, documented claim | Basic tier 200 reads/s (docs.kalshi.com/getting_started/rate_limits, read 2026-08-29); tiers are defined for API-key holders | claim, not a measurement",
+      "file_line": [
+        "docs/ACCESS.md:75",
+        "DECISIONS.md:132-133",
+        "progress.md:45"
+      ],
+      "figures": "200 reads/s",
+      "n": "n/a",
+      "artifact_or_code_believed_to_produce_it": "NONE retained",
+      "note": "Labelled 'claim, not a measurement' in the same table row, with ADR-007 (2026-08-29) as the named deviation from standing rule 4."
+    },
+    {
+      "rank": 26,
+      "must_verify": false,
+      "claim_verbatim": "the one >= 30-day-old settled market tested (NASDAQ100-24OCT25-T21499.99, closed 2024-10-25) returned HTTP 200 and 0 daily candles over T-40d..T; ambiguous, counted as ambiguous, attributed to nothing",
+      "file_line": [
+        "docs/ACCESS.md:21",
+        "progress.md:44"
+      ],
+      "figures": "1 candle on a fresh market; 0 daily candles on one 30-day-old market",
+      "n": "1 market tested",
+      "artifact_or_code_believed_to_produce_it": "NONE retained",
+      "note": "READ-only. Counted ambiguous per standing rule 15, and the access gate failed closed on it."
+    }
+  ],
+  "intervals": [
+    {
+      "id": "I6",
+      "entry": "Wilson 95 % lower bound on the sampled tail share; n_T = N x bound",
+      "file_line": [
+        "REGISTRATION.md:88-95",
+        "REGISTRATION.md:303-304",
+        "pmexperiment/registry.py:33"
+      ],
+      "stated_estimator": "Wilson score interval, lower bound; WILSON_Z = 1.96",
+      "n": "none - no universe was ever enumerated, so no sample was ever drawn",
+      "data_structure": "a uniform random sample of m = 2,000 markets without replacement, seed 20260829",
+      "fired": false,
+      "note": "The constant is 1.96, the TWO-sided 95 % z, while the text names a ONE-sided '95 % lower bound', for which 1.645 is conventional. tests/test_registry.py:59-66 pins the constant to the phrase without reconciling them. Never exercised, so it affects no reported result."
+    },
+    {
+      "id": "I7",
+      "entry": "Section 8, Inference - 'the estimator, the interval construction, the clustering unit, and the trial grid with its multiplicity correction'",
+      "file_line": [
+        "REGISTRATION.md:291-295"
+      ],
+      "stated_estimator": "*To be registered after the gate fires.* - NEVER REGISTERED",
+      "n": "none",
+      "data_structure": "none",
+      "fired": false,
+      "note": "The only interval-construction commitment in the registration, and it was never filled because the gate never fired."
+    }
+  ],
+  "tests": [
+    {
+      "id": "I1",
+      "entry": "MDE = z * sqrt(v-bar / n_T), z = 2.0 two-sided",
+      "file_line": [
+        "REGISTRATION.md:99-106",
+        "REGISTRATION.md:301-308",
+        "pmexperiment/power.py:37-45"
+      ],
+      "stated_test": "minimum detectable effect on a proportion, normal approximation",
+      "n": "none - never computed on any cell, on any venue, over any region",
+      "data_structure": "a tail-cell count n_T and a mean Bernoulli dispersion v-bar over integer-cent prices",
+      "fired": false,
+      "note": "Uses z alone with NO power term z_beta, so this is a ~50 %-power detectability threshold rather than the conventional (z_alpha/2 + z_beta) * SE. Inherited from InsiderExperiment (REGISTRATION.md:46-49); the registration does not claim otherwise."
+    },
+    {
+      "id": "I2",
+      "entry": "verdict map GO <= 0.02 < DEGRADED <= 0.08 < BLOCKED, lower edge inclusive; n_T = 0 is BLOCKED",
+      "file_line": [
+        "REGISTRATION.md:105-112",
+        "pmexperiment/power.py:48-71"
+      ],
+      "stated_test": "threshold rule against the registered effect band",
+      "n": "none",
+      "data_structure": "one GateReading per cell (U24, P30 verdict cells; U30, P24 attribution)",
+      "fired": false,
+      "note": "Four cells were designed; none was ever built."
+    },
+    {
+      "id": "I3",
+      "entry": "v-bar = mean of p_i(1-p_i) over the cell's snapshot prices, 'computed from prices alone. No outcome enters it'",
+      "file_line": [
+        "REGISTRATION.md:74-77"
+      ],
+      "stated_test": "null Bernoulli dispersion",
+      "n": "none",
+      "data_structure": "integer-cent prices 1-99",
+      "fired": false,
+      "note": "The outcome-blindness guarantee rests on this definition; tests/test_guards.py AST-scans the gate modules for outcome tokens."
+    },
+    {
+      "id": "I4",
+      "entry": "planning dispersion 0.0475 at 5c/95c, sqrt(v-bar) ~ 0.218",
+      "file_line": [
+        "REGISTRATION.md:120-129",
+        "tests/test_power.py:21"
+      ],
+      "stated_test": "planning value, labelled as such",
+      "n": "none",
+      "data_structure": "none",
+      "fired": false,
+      "note": "Independently recomputed: 0.05*0.95 = 0.0475 and sqrt = 0.2179."
+    },
+    {
+      "id": "I5",
+      "entry": "planning bars n_T >= 475 (GO) and n_T >= 30 (out of BLOCKED)",
+      "file_line": [
+        "REGISTRATION.md:126-129"
+      ],
+      "stated_test": "inversion of I1 at v-bar = 0.0475",
+      "n": "none",
+      "data_structure": "none",
+      "fired": false,
+      "note": "Independently recomputed: 4*0.0475/0.02^2 = 475.0 exactly; 4*0.0475/0.08^2 = 29.6875."
+    },
+    {
+      "id": "I8",
+      "entry": "boundary assertions: n=475 -> MDE 0.02 GO; 474 -> DEGRADED; 30 -> DEGRADED; 29 -> BLOCKED; 0 -> BLOCKED with mde is None; MDE at n=100 == 0.043589",
+      "file_line": [
+        "tests/test_power.py:24-73"
+      ],
+      "stated_test": "unit tests of I1 and I2",
+      "n": "synthetic",
+      "data_structure": "scalar inputs",
+      "fired": true,
+      "note": "The only place the power arithmetic was ever executed."
+    },
+    {
+      "id": "I9",
+      "entry": "imported: MLCryptoEngine H2 cross-venue transfer at AUC 0.501",
+      "file_line": [
+        "HYPOTHESES.md:103",
+        "HYPOTHESES.md:191",
+        "HYPOTHESES.md:241",
+        "HYPOTHESES.md:300",
+        "HYPOTHESES.md:347",
+        "REGISTRATION.md:625",
+        "REGISTRATION.md:693",
+        "REGISTRATION.md:1150",
+        "DECISIONS.md:153",
+        "report.md:222",
+        "report.md:456",
+        "docs/LICENCES.md:656"
+      ],
+      "stated_test": "ROC AUC from another repository in this program",
+      "n": "not stated here",
+      "data_structure": "not stated here",
+      "fired": false,
+      "note": "Carries the whole H1t-is-UNTESTED argument; cross-repo checkable only."
+    },
+    {
+      "id": "I10",
+      "entry": "imported: NPD realized minimum detectable contrast 0.0512 against band 0.01 to 0.05, after 415 days and 6.9378 USD",
+      "file_line": [
+        "REGISTRATION.md:31-44",
+        "CLAUDE.md:54-58",
+        "README.md:182-186",
+        "DECISIONS.md:41-42"
+      ],
+      "stated_test": "MDE from NPDExperiment, quoted verbatim as a block quote",
+      "n": "not stated here",
+      "data_structure": "not stated here",
+      "fired": false,
+      "note": "The precedent the entire design is built against; pinned by tests/test_honesty.py:55-60."
+    },
+    {
+      "id": "I11",
+      "entry": "imported: InsiderExperiment fired BLOCKED at 49.35 bp before spending",
+      "file_line": [
+        "REGISTRATION.md:46-47",
+        "CLAUDE.md:60-61",
+        "README.md:187-188",
+        "DECISIONS.md:43-44"
+      ],
+      "stated_test": "a cost/power gate figure from InsiderExperiment",
+      "n": "not stated here",
+      "data_structure": "not stated here",
+      "fired": false,
+      "note": "Pinned by tests/test_honesty.py:62-64."
+    }
+  ],
+  "provenance_claims": [
+    {
+      "id": "P1",
+      "claim_verbatim": "Section 0 registered 2026-08-29, before the first request to the measured source. No request had been sent to any Kalshi endpoint when the commit carrying this section was made.",
+      "file_line": [
+        "REGISTRATION.md:7-9",
+        "HYPOTHESES.md:22",
+        "report.md:37",
+        "progress.md:57-59"
+      ],
+      "commit_named": null,
+      "what_would_have_to_be_true": "The Section-0 commit must predate the first HTTP request. The commit is 9080186 at 2026-08-29T07:37:33Z; progress.md:58-59 puts the first request at ~07:44Z.",
+      "status_at_locate": "COMMIT TIME VERIFIED (07:37:33Z). The request time is uncorroborated - no probe response was retained."
+    },
+    {
+      "id": "P2",
+      "claim_verbatim": "Made 2026-08-30 [Amendments 1, 2 and 3]; Status: accepted, 2026-08-30 [second ADR-006 and second ADR-007]",
+      "file_line": [
+        "REGISTRATION.md:667",
+        "REGISTRATION.md:707",
+        "REGISTRATION.md:751",
+        "DECISIONS.md:140",
+        "DECISIONS.md:160"
+      ],
+      "commit_named": "f686036 (not named in the documents)",
+      "what_would_have_to_be_true": "The five entries must have been made on 2026-08-30. They all landed in one commit whose author and committer date is 2026-08-29T18:05:26Z (11:05:26 -07:00).",
+      "status_at_locate": "DATE MISMATCH: one calendar day earlier than stated, in UTC and in local time alike. The ORDERING claim survives - f686036 (18:05Z) precedes the band verdict 32dc10a (19:24:06Z) - but the stated dates do not match the git objects. MUST-CHECK in VERIFY."
+    },
+    {
+      "id": "P3",
+      "claim_verbatim": "Made 2026-08-29, before the band gate fired and while no statistic relating a price to an outcome exists. Registered before it is used, as Stage B Task 3 requires. [Amendment 4]",
+      "file_line": [
+        "REGISTRATION.md:783-785"
+      ],
+      "commit_named": "4d75f66 (named in ADR-010)",
+      "what_would_have_to_be_true": "Amendment 4 must precede the band verdict.",
+      "status_at_locate": "VERIFIED: 4d75f66 at 2026-08-29T19:17:21Z; band verdict 32dc10a at 19:24:06Z. Note the inversion this creates with P2: Amendment 4 is dated a day BEFORE the Amendment 2 it operates under."
+    },
+    {
+      "id": "P4",
+      "claim_verbatim": "Recorded rather than tidied: registry.FX_TURNOVER_REGISTERED was committed in 9b4bd4f, one commit before the Amendment 4 text it cites landed in 4d75f66. Both sit inside the same task and no verdict fired between them, but the lag is real and is written down rather than rebased away.",
+      "file_line": [
+        "DECISIONS.md:304-307",
+        "progress.md:515-518"
+      ],
+      "commit_named": "9b4bd4f, 4d75f66",
+      "what_would_have_to_be_true": "9b4bd4f must add the constant and 4d75f66 must be the immediately following commit adding the amendment text, with no verdict between them.",
+      "status_at_locate": "VERIFIED EXACTLY: 9b4bd4f (19:15:55Z) touches registry.py, band.py and two test files; 4d75f66 (19:17:21Z) is the next commit and touches REGISTRATION.md only; the band verdict is two commits later. The repository disclosed its own lag correctly."
+    },
+    {
+      "id": "P5",
+      "claim_verbatim": "Made 2026-08-30, before a single contract had been enumerated from any venue. [Amendment 5, the volume floor]",
+      "file_line": [
+        "REGISTRATION.md:855-856",
+        "DECISIONS.md:313-315"
+      ],
+      "commit_named": "f789079 (not named)",
+      "what_would_have_to_be_true": "The date must be 2026-08-30 and no enumeration may have preceded it.",
+      "status_at_locate": "VERIFIED: f789079 at 2026-08-30T03:34:00Z. 'Before enumeration' is trivially satisfied - nothing was ever enumerated, anywhere."
+    },
+    {
+      "id": "P6",
+      "claim_verbatim": "Made 2026-08-30, before any contract was enumerated from Polymarket and while no statistic relating a price to an outcome exists. [Amendment 6]",
+      "file_line": [
+        "REGISTRATION.md:914-916"
+      ],
+      "commit_named": "1b3124e (not named)",
+      "what_would_have_to_be_true": "The date must be 2026-08-30.",
+      "status_at_locate": "VERIFIED: 1b3124e at 2026-08-30T03:40:52Z."
+    },
+    {
+      "id": "P7",
+      "claim_verbatim": "Made 2026-09-02 [Amendments 7, 8, 9 and ADR-016 to ADR-021]",
+      "file_line": [
+        "REGISTRATION.md:1011",
+        "REGISTRATION.md:1073",
+        "REGISTRATION.md:1122",
+        "DECISIONS.md:553",
+        "DECISIONS.md:635",
+        "DECISIONS.md:686",
+        "DECISIONS.md:750",
+        "DECISIONS.md:771",
+        "DECISIONS.md:787"
+      ],
+      "commit_named": "fe7e6b9, f8128b2, 905d552, 03d16e7 (905d552 named in progress.md:1569)",
+      "what_would_have_to_be_true": "All must be dated 2026-09-02.",
+      "status_at_locate": "VERIFIED: all four commits are dated 2026-09-02, 09:32Z to 09:50Z."
+    },
+    {
+      "id": "P8",
+      "claim_verbatim": "The band is computed once and registered. It is not recomputed after seeing a calibration result, and no bucket may be added to it afterwards.",
+      "file_line": [
+        "REGISTRATION.md:744-745",
+        "REGISTRATION.md:1106-1111",
+        "HYPOTHESES.md:153-157",
+        "DECISIONS.md:729-734"
+      ],
+      "commit_named": null,
+      "what_would_have_to_be_true": "docs/BAND.md and the band constants must never change after the verdict fired.",
+      "status_at_locate": "VERIFIED BY GIT: docs/BAND.md has exactly ONE commit in its whole history - 34307b6, 2026-08-29T19:22:44Z - and has never been modified since."
+    },
+    {
+      "id": "P9",
+      "claim_verbatim": "Section 13, The operator prior ... it was never filled, and it is left empty permanently ... This prior may not be described anywhere as pre-registered, and no verdict in this repository may be read against it as though it had been.",
+      "file_line": [
+        "REGISTRATION.md:1015-1029",
+        "README.md:168-175",
+        "DECISIONS.md:666-674",
+        "report.md:434-441"
+      ],
+      "commit_named": null,
+      "what_would_have_to_be_true": "Section 13 must carry no figure at any commit.",
+      "status_at_locate": "VERIFIED AT HEAD and implied for the whole history by P11: Section 13 still reads 'To be filled by the operator before the gate fires' with no figure, and it sits inside the Sections 0-14 region that is byte-identical across every commit. Pinned by tests/test_honesty.py:508-527."
+    },
+    {
+      "id": "P10",
+      "claim_verbatim": "The paragraph below stands unedited as it was registered on 2026-08-29, so a reader can see what the design provided for and what actually happened. [Section 16]",
+      "file_line": [
+        "REGISTRATION.md:636-641"
+      ],
+      "commit_named": null,
+      "what_would_have_to_be_true": "The original Section 16 paragraph must be byte-identical to its 2026-08-29 text, with only the disclosed closure annotation prepended.",
+      "status_at_locate": "PARTLY OPEN: the annotation is explicitly disclosed. Whether the original paragraph itself is byte-identical is a line-scoped git diff on Section 16 - left for VERIFY."
+    },
+    {
+      "id": "P11",
+      "claim_verbatim": "Amendments append here, numbered, each carrying its own evidence and the date it was made. Nothing above this line is edited after Section 0 is committed.",
+      "file_line": [
+        "REGISTRATION.md:660-661"
+      ],
+      "commit_named": null,
+      "what_would_have_to_be_true": "No text above the Section 17 header may change after 9080186.",
+      "status_at_locate": "PARTLY VERIFIED, AND THE IMPORTANT PART VERIFIES: Sections 0 THROUGH 14 ARE BYTE-IDENTICAL from 9080186 to HEAD - SHA-256 of that region is a33f7768... at all eleven commits that touched the file after registration. What did change above Section 17 is Section 15 ('*Written only after a gate fires*', REGISTRATION.md:369) and the Section 16 closure annotation, both of which the design provides for. The sentence is literally over-broad; its substance holds."
+    },
+    {
+      "id": "P12",
+      "claim_verbatim": "Rule 12 requires the terms be recorded before any repeated fetch. Stage A read 11 keyless market requests before its terms position was established and could only withhold the rate-limit burst afterwards. Stage C read robots.txt and the terms first, and therefore sent zero market-data requests.",
+      "file_line": [
+        "REGISTRATION.md:495-500",
+        "docs/ACCESS.md:203-206",
+        "DECISIONS.md:386-389",
+        "report.md:180-186"
+      ],
+      "commit_named": null,
+      "what_would_have_to_be_true": "A timestamped record of request order would have to exist.",
+      "status_at_locate": "UNVERIFIABLE: no request ledger, no response body and no timestamped log is stored. Standing rule 6's 'ledgers are append-only and fsynced' has no file behind it in this repository."
+    },
+    {
+      "id": "P13",
+      "claim_verbatim": "Zero market-data requests were sent to Polymarket. Zero requests of any kind were sent in Stage E.",
+      "file_line": [
+        "README.md:108-109",
+        "REGISTRATION.md:528-531",
+        "docs/ACCESS.md:214-216"
+      ],
+      "commit_named": null,
+      "what_would_have_to_be_true": "An outbound-request log would have to exist and be empty.",
+      "status_at_locate": "UNVERIFIABLE from inside the repository. The absence of any stored response is consistent with it; .gitignore's data/raw/ line over an empty data/ is the only corroboration available."
+    },
+    {
+      "id": "P14",
+      "claim_verbatim": "the raw probe responses were not retained beyond this report and the two tickers named above",
+      "file_line": [
+        "docs/ACCESS.md:87-89"
+      ],
+      "commit_named": null,
+      "what_would_have_to_be_true": "No probe artifact may exist at any commit.",
+      "status_at_locate": "VERIFIED AS AN ABSENCE: git log --all --diff-filter=A --name-only adds no data file at any commit. This is the sentence that makes every Stage A/C/D measurement irreproducible, and the repository states it plainly rather than leaving it to be discovered."
+    },
+    {
+      "id": "P15",
+      "claim_verbatim": "Raw enumeration responses ... are stored untouched in data/raw/ (gitignored, append-only); and Section 14: The gate verdict must be regenerable from: the stored raw enumeration and candlestick responses under data/raw/ ... A rerun may depend on no other state.",
+      "file_line": [
+        "REGISTRATION.md:320-321",
+        "REGISTRATION.md:359-363"
+      ],
+      "commit_named": null,
+      "what_would_have_to_be_true": "data/raw/ would have to exist and hold the responses.",
+      "status_at_locate": "data/raw/ DOES NOT EXIST in the live tree (read 2026-09-05T23:28Z; data/ holds one 0-byte .gitkeep). Consistent with no enumeration ever having run, but Section 14's reproducibility clause is therefore VACUOUS rather than satisfied."
+    },
+    {
+      "id": "P16",
+      "claim_verbatim": "32 commits, 189 reachable objects, every blob decompressed and scanned: zero credential-shaped strings.",
+      "file_line": [
+        "progress.md:1537-1539"
+      ],
+      "commit_named": null,
+      "what_would_have_to_be_true": "The counts must match the history as it stood when the audit ran.",
+      "status_at_locate": "VERIFIED EXACTLY at 1ba50aa, which was HEAD when Stage E Task 5 ran: git rev-list --count = 32 and git rev-list --objects | wc -l = 189. (At the anchored HEAD the same commands give 36 and 213.)"
+    },
+    {
+      "id": "P17",
+      "claim_verbatim": ".env.example, which is 294 bytes, five comment lines, and contains no '=' at all - pinned by a test since the scaffold",
+      "file_line": [
+        "progress.md:1539-1541"
+      ],
+      "commit_named": null,
+      "what_would_have_to_be_true": "The file must be 294 bytes with no '='.",
+      "status_at_locate": "VERIFIED BYTE-FOR-BYTE: 294 bytes, 5 lines, 0 occurrences of '='. Pinned by tests/test_honesty.py:98-100."
+    },
+    {
+      "id": "P18",
+      "claim_verbatim": "LICENSE is MIT, 17 lines, Copyright (c) 2026 kirosli00tuff",
+      "file_line": [
+        "progress.md:1541-1542"
+      ],
+      "commit_named": null,
+      "what_would_have_to_be_true": "The file must be MIT and 17 lines.",
+      "status_at_locate": "MIT and the copyright line verified. The file is 21 physical lines / 17 NON-BLANK, so '17 lines' is the non-blank count."
+    },
+    {
+      "id": "P19",
+      "claim_verbatim": "Entry 6 states it was logged at 2026-08-29T19:32Z. That figure is wrong. It was extrapolated from Entry 5.1's measured 19:28:45Z rather than read from the clock. The measured logging time is 2026-08-30T03:31Z.",
+      "file_line": [
+        "progress.md:652-666"
+      ],
+      "commit_named": "84f7b92 (named at progress.md:688)",
+      "what_would_have_to_be_true": "The Stage C prompt commit must sit at 2026-08-30T03:31Z.",
+      "status_at_locate": "VERIFIED: 84f7b92 is dated 2026-08-30T03:31:03Z. The repository caught and corrected its own extrapolated timestamp, and the correction is right."
+    },
+    {
+      "id": "P20",
+      "claim_verbatim": "the Kalshi Data Terms of Use print no date at all - Effective 0 occurrences, Last Updated 0 - so the finding met two of three elements, not three",
+      "file_line": [
+        "README.md:65-74",
+        "DECISIONS.md:435-439",
+        "docs/LICENCES.md:266-276",
+        "progress.md:999-1010"
+      ],
+      "commit_named": null,
+      "what_would_have_to_be_true": "The PDF would have to be inspectable.",
+      "status_at_locate": "THE PDF IS NOT RETAINED, so the occurrence counts are unverifiable here. The CONSEQUENCE - that the Kalshi claim is UNMEASURED under the repository's own procedure - is verifiable against pmexperiment/admissibility.py and is pinned by tests/test_admissibility.py."
+    },
+    {
+      "id": "P21",
+      "claim_verbatim": "The received date was not in the prompt and was not synthesized. Standing rule 5 forbids exactly that, so it was asked for and supplied: 2026-09-01.",
+      "file_line": [
+        "progress.md:1419-1420",
+        "REGISTRATION.md:533-544",
+        "docs/ACCESS.md:220-234"
+      ],
+      "commit_named": null,
+      "what_would_have_to_be_true": "The correspondence would have to exist in the record.",
+      "status_at_locate": "THE CORRESPONDENCE IS NOT IN THE REPOSITORY - docs/ACCESS.md:285-289 and ADR-016 say so ('what this repository holds is the operator's summary of the reply, not its text'). The claim is recorded UNMEASURED by the repository's own procedure, and the procedure's inability to tell a paraphrase from a quotation is itself disclosed."
+    },
+    {
+      "id": "P22",
+      "claim_verbatim": "the fee band of Amendment 2 fires first. The power gate fires second, and only over a region the band left open. No calibration statistic is computed before both have fired.",
+      "file_line": [
+        "REGISTRATION.md:765-767",
+        "HYPOTHESES.md:112-115",
+        "DECISIONS.md:158-174"
+      ],
+      "commit_named": null,
+      "what_would_have_to_be_true": "The band gate's definition must precede its firing, and the power gate must not have fired first.",
+      "status_at_locate": "VERIFIED trivially and by commit order: f686036 (band definition) precedes 32dc10a (band verdict); the power gate never fired at all."
+    },
+    {
+      "id": "P23",
+      "claim_verbatim": "A floor chosen by someone else, before this repository existed, for reasons unrelated to this sample, cannot have been tuned to this sample - the $1,000 volume floor imported verbatim from the benchmark study",
+      "file_line": [
+        "REGISTRATION.md:862-877",
+        "pmexperiment/registry.py:44-50",
+        "DECISIONS.md:323-328"
+      ],
+      "commit_named": null,
+      "what_would_have_to_be_true": "Burgi-Deng-Whelan would have to actually use 'total staked >= $1,000'.",
+      "status_at_locate": "EXTERNAL, unverifiable here. tests/test_registry.py:77-87 pins BOTH the number and its citation sentence, which is the strongest internal guarantee available."
+    },
+    {
+      "id": "P24",
+      "claim_verbatim": "Each value here is registered in REGISTRATION.md and changes only by a numbered amendment there. tests/test_registry.py pins the figures to the document, so code and registration cannot drift apart silently.",
+      "file_line": [
+        "pmexperiment/registry.py:1-6"
+      ],
+      "commit_named": null,
+      "what_would_have_to_be_true": "Every registered constant must be asserted against a quoted substring of the registration.",
+      "status_at_locate": "VERIFIED BY READING THE TEST: nine tests assert each constant against a quoted substring of REGISTRATION.md, covering every constant the band gate consumes. A real, mechanised provenance guard."
+    },
+    {
+      "id": "P25",
+      "claim_verbatim": "A gate that has never failed is not a gate - every guard here carries a test that fails when the guard is removed, verified by mutation. [with per-stage tallies 9, 5, 5, 6, 13, 14, 2, all reported load-bearing]",
+      "file_line": [
+        "README.md:231-232",
+        "CLAUDE.md:45-46",
+        "progress.md:502-507",
+        "progress.md:806-813",
+        "progress.md:982-989",
+        "progress.md:1202-1214",
+        "progress.md:1517-1535",
+        "progress.md:1645-1648",
+        "DECISIONS.md:708-718"
+      ],
+      "commit_named": null,
+      "what_would_have_to_be_true": "A mutation log, harness or CI artifact would have to exist.",
+      "status_at_locate": "NO MUTATION LOG, HARNESS SCRIPT OR CI ARTIFACT IS STORED ANYWHERE. The tests that would be killed are present and readable; that each mutation was run and killed is READ-only. The repository itself records three separate harness faults that produced false-green mutation runs (progress.md:815-833, 991-997, 1232-1246, 1638-1648), which is the strongest internal reason to treat the tallies as unverified."
+    }
+  ],
+  "live_repo_access_log": {
+    "purpose": [
+      "git history and objects for provenance",
+      "ls -la of the working tree to establish what untracked data exists"
+    ],
+    "status_porcelain_before": {
+      "utc": "2026-09-05T23:26:57Z",
+      "output": "",
+      "note": "empty; exit status 0"
+    },
+    "status_porcelain_after": {
+      "utc": "2026-09-05T23:30:32Z",
+      "output": "",
+      "note": "empty; exit status 0"
+    },
+    "modified_anything": false,
+    "commands_used": [
+      "git rev-parse HEAD",
+      "git rev-parse --abbrev-ref HEAD",
+      "git log --format=... --date=iso-strict",
+      "git rev-list --count",
+      "git rev-list --objects",
+      "git show --stat",
+      "git show <commit>:<path>",
+      "git log -- <path>",
+      "git ls-tree -r --name-only HEAD",
+      "git branch -a",
+      "git tag",
+      "git remote -v",
+      "git notes list",
+      "git status --porcelain",
+      "ls -la",
+      "ls -laR data/",
+      "cat .git/info/exclude",
+      "cat _CLOSED_DO_NOT_RUN_HERE",
+      "wc -c .env.example",
+      "wc -l LICENSE",
+      "head -3 LICENSE",
+      "grep -c"
+    ],
+    "untracked_entries_seen": [
+      {
+        "path": "_CLOSED_DO_NOT_RUN_HERE",
+        "size": "747 B",
+        "mtime": "2026-09-02 22:38 local",
+        "note": "Pre-existing operator dirt, not mine; dated three days before this access. Does not appear in git status because it is listed in .git/info/exclude (verified). Reported per the common rules."
+      }
+    ],
+    "scratch_outputs": "/home/kiros-li/.cache/program-audit/scratchpad/work/agentC-pm-locate/ (band_recompute.py, round_check.py) - read no repository file; every constant typed in from the registration"
+  }
+}

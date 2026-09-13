@@ -1,0 +1,2103 @@
+##### CHECK: 00-anchor  @ 2026-09-02T09:31:15Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=2006ae6914cfd8a74da44ce57c74df9f4382ead3  BRANCH=main  porcelain_entries=3
+     M DECISIONS.md
+     M REGISTRATION.md
+     M docs/ACCESS.md
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 00-anchor
+
+##### CHECK: 00-anchor-rev1  @ 2026-09-02T09:55:20Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 00-anchor-rev1
+
+##### CHECK: 01-agentA-blind-BEFORE  @ 2026-09-02T09:59:56Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 01-agentA-blind-BEFORE
+
+##### CHECK: 01-agentA-blind-run1-FAILED-AFTER  @ 2026-09-02T18:36:08Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 01-agentA-blind-run1-FAILED-AFTER
+
+##### CHECK: 01-agentA-blind-run2-BEFORE  @ 2026-09-02T18:36:40Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 01-agentA-blind-run2-BEFORE
+
+##### CHECK: 01-agentA-blind-run2-FAILED-AFTER  @ 2026-09-03T00:31:15Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 01-agentA-blind-run2-FAILED-AFTER
+
+##### CHECK: 01-agentA-blind-run3-BEFORE  @ 2026-09-03T00:33:23Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 01-agentA-blind-run3-BEFORE
+
+##### CHECK: 01-agentA-blind-run3-partial-AFTER  @ 2026-09-03T04:47:12Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 01-agentA-blind-run3-partial-AFTER
+
+##### CHECK: 01-agentA-blind-run4-BEFORE  @ 2026-09-03T04:47:56Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 01-agentA-blind-run4-BEFORE
+
+##### CHECK: 01-agentA-blind-run4-AFTER  @ 2026-09-03T06:17:21Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 01-agentA-blind-run4-AFTER
+
+##### CHECK: 01-agentA-blind-run5-BEFORE  @ 2026-09-03T06:18:44Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 01-agentA-blind-run5-BEFORE
+
+##### CHECK: 01-agentA-blind-run6-BEFORE  @ 2026-09-03T06:24:26Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 01-agentA-blind-run6-BEFORE
+
+##### CHECK: 01-agentA-blind-run6-killed-AFTER  @ 2026-09-03T06:57:55Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 01-agentA-blind-run6-killed-AFTER
+
+##### CHECK: 01-agentA-blind-run7-BEFORE  @ 2026-09-03T06:57:55Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 01-agentA-blind-run7-BEFORE
+
+##### CHECK: 01-agentA-blind-run7-AFTER  @ 2026-09-03T18:56:42Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 01-agentA-blind-run7-AFTER
+
+##### CHECK: 01-agentA-blind-run8-BEFORE  @ 2026-09-03T19:06:22Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 01-agentA-blind-run8-BEFORE
+
+##### CHECK: 01-agentA-blind-run8-stopped-AFTER  @ 2026-09-03T19:28:12Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 01-agentA-blind-run8-stopped-AFTER
+
+##### CHECK: 01-agentA-blind-run9-AFTER  @ 2026-09-03T23:52:37Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 01-agentA-blind-run9-AFTER
+
+##### CHECK: 02-agentB-blind-run1-BEFORE  @ 2026-09-03T23:54:37Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 02-agentB-blind-run1-BEFORE
+
+##### CHECK: 03-agentC-blind-run1-BEFORE  @ 2026-09-03T23:54:37Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 03-agentC-blind-run1-BEFORE
+
+##### CHECK: 01-agentA-blind-run10-AFTER  @ 2026-09-04T04:51:44Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 01-agentA-blind-run10-AFTER
+
+##### CHECK: 02-agentB-blind-run1-AFTER  @ 2026-09-04T04:51:45Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 02-agentB-blind-run1-AFTER
+
+##### CHECK: 03-agentC-blind-run1-AFTER  @ 2026-09-04T04:51:45Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 03-agentC-blind-run1-AFTER
+
+##### CHECK: 01-agentA-blind-run11-AFTER  @ 2026-09-04T18:18:47Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 01-agentA-blind-run11-AFTER
+
+##### CHECK: 02-agentB-blind-run2-AFTER  @ 2026-09-04T18:18:47Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 02-agentB-blind-run2-AFTER
+
+##### CHECK: 03-agentC-blind-run2-AFTER  @ 2026-09-04T18:18:47Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 03-agentC-blind-run2-AFTER
+
+##### CHECK: 01-agentA-blind-run12-BEFORE  @ 2026-09-04T18:20:23Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 01-agentA-blind-run12-BEFORE
+
+##### CHECK: 03-agentC-blind-run3-BEFORE  @ 2026-09-04T18:20:23Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 03-agentC-blind-run3-BEFORE
+
+##### CHECK: 02-agentB-blind-run3-BEFORE  @ 2026-09-04T18:30:35Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 02-agentB-blind-run3-BEFORE
+
+##### CHECK: 01-agentA-blind-run12-AFTER  @ 2026-09-04T23:02:25Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 01-agentA-blind-run12-AFTER
+
+##### CHECK: 02-agentB-blind-run3-AFTER  @ 2026-09-04T23:02:26Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 02-agentB-blind-run3-AFTER
+
+##### CHECK: 03-agentC-blind-run3-AFTER  @ 2026-09-04T23:02:26Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 03-agentC-blind-run3-AFTER
+
+##### CHECK: 01-agentA-blind-run13-BEFORE  @ 2026-09-04T23:02:26Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 01-agentA-blind-run13-BEFORE
+
+##### CHECK: 02-agentB-blind-run4-BEFORE  @ 2026-09-04T23:02:26Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 02-agentB-blind-run4-BEFORE
+
+##### CHECK: 03-agentC-blind-run4-BEFORE  @ 2026-09-04T23:02:27Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 03-agentC-blind-run4-BEFORE
+
+##### CHECK: 01-agentA-blind-run13-AFTER  @ 2026-09-05T03:41:23Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 01-agentA-blind-run13-AFTER
+
+##### CHECK: 02-agentB-blind-run4-AFTER  @ 2026-09-05T03:41:23Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 02-agentB-blind-run4-AFTER
+
+##### CHECK: 03-agentC-blind-run4-AFTER  @ 2026-09-05T03:41:24Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 03-agentC-blind-run4-AFTER
+
+##### CHECK: 01-agentA-blind-run14-BEFORE  @ 2026-09-05T03:41:24Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 01-agentA-blind-run14-BEFORE
+
+##### CHECK: 02-agentB-blind-run5-BEFORE  @ 2026-09-05T03:41:24Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 02-agentB-blind-run5-BEFORE
+
+##### CHECK: 03-agentC-blind-run5-BEFORE  @ 2026-09-05T03:41:24Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 03-agentC-blind-run5-BEFORE
+
+##### CHECK: 01-agentA-blind-run14-AFTER  @ 2026-09-05T05:47:27Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 01-agentA-blind-run14-AFTER
+
+##### CHECK: 02-agentB-blind-run5-AFTER  @ 2026-09-05T05:47:27Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 02-agentB-blind-run5-AFTER
+
+##### CHECK: 03-agentC-blind-run5-AFTER  @ 2026-09-05T05:47:28Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 03-agentC-blind-run5-AFTER
+
+##### CHECK: 01-agentA-blind-run15-BEFORE  @ 2026-09-05T05:47:28Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 01-agentA-blind-run15-BEFORE
+
+##### CHECK: 02-agentB-blind-run6-BEFORE  @ 2026-09-05T05:47:28Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 02-agentB-blind-run6-BEFORE
+
+##### CHECK: 03-agentC-blind-run6-BEFORE  @ 2026-09-05T05:47:28Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 03-agentC-blind-run6-BEFORE
+
+##### CHECK: 01-agentA-blind-run15-AFTER  @ 2026-09-05T18:02:06Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 01-agentA-blind-run15-AFTER
+
+##### CHECK: 02-agentB-blind-run6-AFTER  @ 2026-09-05T18:02:07Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 02-agentB-blind-run6-AFTER
+
+##### CHECK: 03-agentC-blind-run6-AFTER  @ 2026-09-05T18:02:07Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 03-agentC-blind-run6-AFTER
+
+##### CHECK: 01-agentA-blind-run16-BEFORE  @ 2026-09-05T18:02:07Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 01-agentA-blind-run16-BEFORE
+
+##### CHECK: 02-agentB-blind-run7-BEFORE  @ 2026-09-05T18:02:07Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 02-agentB-blind-run7-BEFORE
+
+##### CHECK: 03-agentC-blind-run7-BEFORE  @ 2026-09-05T18:02:07Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 03-agentC-blind-run7-BEFORE
+
+##### CHECK: 01-agentA-blind-run16-AFTER  @ 2026-09-05T23:01:13Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 01-agentA-blind-run16-AFTER
+
+##### CHECK: 02-agentB-blind-run7-AFTER  @ 2026-09-05T23:01:14Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 02-agentB-blind-run7-AFTER
+
+##### CHECK: 03-agentC-blind-run7-AFTER  @ 2026-09-05T23:01:14Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 03-agentC-blind-run7-AFTER
+
+##### CHECK: 01-agentA-blind-run17-BEFORE  @ 2026-09-05T23:01:14Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 01-agentA-blind-run17-BEFORE
+
+##### CHECK: 02-agentB-blind-run8-BEFORE  @ 2026-09-05T23:01:14Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 02-agentB-blind-run8-BEFORE
+
+##### CHECK: 03-agentC-blind-run8-BEFORE  @ 2026-09-05T23:01:14Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 03-agentC-blind-run8-BEFORE
+
+##### CHECK: 01-agentA-blind-run18-BEFORE  @ 2026-09-05T23:01:18Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 01-agentA-blind-run18-BEFORE
+
+##### CHECK: 02-agentB-blind-run9-BEFORE  @ 2026-09-05T23:01:18Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 02-agentB-blind-run9-BEFORE
+
+##### CHECK: 03-agentC-blind-run9-BEFORE  @ 2026-09-05T23:01:18Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 03-agentC-blind-run9-BEFORE
+
+##### CHECK: 01-agentA-blind-run18-AFTER-aborted  @ 2026-09-05T23:05:27Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 01-agentA-blind-run18-AFTER-aborted
+
+##### CHECK: 03-agentC-blind-run9-AFTER-aborted  @ 2026-09-05T23:05:28Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=8f1fef83be0f76cbd671c2ce0fbfe8b1c4a5ea2c  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 03-agentC-blind-run9-AFTER-aborted
+
+##### CHECK: 01-agentA-blind-run17-AFTER  @ 2026-09-11T02:01:27Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=dff16632eca6eea05b290ade5464339f44c75744  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 01-agentA-blind-run17-AFTER
+
+##### CHECK: 03-agentC-blind-run8-AFTER  @ 2026-09-11T02:01:28Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=dff16632eca6eea05b290ade5464339f44c75744  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 03-agentC-blind-run8-AFTER
+
+##### CHECK: 02-agentB-blind-run8-AFTER  @ 2026-09-11T02:01:28Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=dff16632eca6eea05b290ade5464339f44c75744  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 02-agentB-blind-run8-AFTER
+
+##### CHECK: 01-agentA-blind-run19-BEFORE  @ 2026-09-11T02:01:28Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=dff16632eca6eea05b290ade5464339f44c75744  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 01-agentA-blind-run19-BEFORE
+
+##### CHECK: 02-agentB-blind-run10-BEFORE  @ 2026-09-11T02:01:28Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=dff16632eca6eea05b290ade5464339f44c75744  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 02-agentB-blind-run10-BEFORE
+
+##### CHECK: 03-agentC-blind-run10-BEFORE  @ 2026-09-11T02:01:28Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=dff16632eca6eea05b290ade5464339f44c75744  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 03-agentC-blind-run10-BEFORE
+
+##### CHECK: 01-agentA-blind-run19-AFTER  @ 2026-09-12T02:34:29Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=dff16632eca6eea05b290ade5464339f44c75744  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 01-agentA-blind-run19-AFTER
+
+##### CHECK: 02-agentB-blind-run10-AFTER  @ 2026-09-12T02:34:30Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=dff16632eca6eea05b290ade5464339f44c75744  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 02-agentB-blind-run10-AFTER
+
+##### CHECK: 03-agentC-blind-run10-AFTER  @ 2026-09-12T02:34:30Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=dff16632eca6eea05b290ade5464339f44c75744  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 03-agentC-blind-run10-AFTER
+
+##### CHECK: 01-agentA-blind-run20-BEFORE  @ 2026-09-12T02:34:30Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=dff16632eca6eea05b290ade5464339f44c75744  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 01-agentA-blind-run20-BEFORE
+
+##### CHECK: 02-agentB-blind-run11-BEFORE  @ 2026-09-12T02:34:30Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=dff16632eca6eea05b290ade5464339f44c75744  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 02-agentB-blind-run11-BEFORE
+
+##### CHECK: 03-agentC-blind-run11-BEFORE  @ 2026-09-12T02:34:30Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=dff16632eca6eea05b290ade5464339f44c75744  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 03-agentC-blind-run11-BEFORE
+
+##### CHECK: 01-agentA-blind-run20-AFTER  @ 2026-09-12T07:31:18Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=dff16632eca6eea05b290ade5464339f44c75744  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 01-agentA-blind-run20-AFTER
+
+##### CHECK: 02-agentB-blind-run11-AFTER  @ 2026-09-12T07:31:19Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=dff16632eca6eea05b290ade5464339f44c75744  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 02-agentB-blind-run11-AFTER
+
+##### CHECK: 03-agentC-blind-run11-AFTER  @ 2026-09-12T07:31:19Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=dff16632eca6eea05b290ade5464339f44c75744  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 03-agentC-blind-run11-AFTER
+
+##### CHECK: 01-agentA-blind-run21-BEFORE  @ 2026-09-12T07:31:19Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=dff16632eca6eea05b290ade5464339f44c75744  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 01-agentA-blind-run21-BEFORE
+
+##### CHECK: 02-agentB-blind-run12-BEFORE  @ 2026-09-12T07:31:20Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=dff16632eca6eea05b290ade5464339f44c75744  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 02-agentB-blind-run12-BEFORE
+
+##### CHECK: 03-agentC-blind-run12-BEFORE  @ 2026-09-12T07:31:20Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=dff16632eca6eea05b290ade5464339f44c75744  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 03-agentC-blind-run12-BEFORE
+
+##### CHECK: 01-agentA-blind-run21-AFTER  @ 2026-09-12T12:31:24Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=dff16632eca6eea05b290ade5464339f44c75744  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 01-agentA-blind-run21-AFTER
+
+##### CHECK: 02-agentB-blind-run12-AFTER  @ 2026-09-12T12:31:24Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=dff16632eca6eea05b290ade5464339f44c75744  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 02-agentB-blind-run12-AFTER
+
+##### CHECK: 03-agentC-blind-run12-AFTER  @ 2026-09-12T12:31:24Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=dff16632eca6eea05b290ade5464339f44c75744  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 03-agentC-blind-run12-AFTER
+
+##### CHECK: 02-agentB-blind-run13-BEFORE  @ 2026-09-12T12:31:24Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=dff16632eca6eea05b290ade5464339f44c75744  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 02-agentB-blind-run13-BEFORE
+
+##### CHECK: 03-agentC-blind-run13-BEFORE  @ 2026-09-12T12:31:25Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=dff16632eca6eea05b290ade5464339f44c75744  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 03-agentC-blind-run13-BEFORE
+
+##### CHECK: 02-agentB-blind-run13-AFTER  @ 2026-09-12T17:31:20Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=dff16632eca6eea05b290ade5464339f44c75744  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 02-agentB-blind-run13-AFTER
+
+##### CHECK: 03-agentC-blind-run13-AFTER  @ 2026-09-12T17:31:20Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=dff16632eca6eea05b290ade5464339f44c75744  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 03-agentC-blind-run13-AFTER
+
+##### CHECK: 02-agentB-blind-run14-BEFORE  @ 2026-09-12T17:31:20Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=dff16632eca6eea05b290ade5464339f44c75744  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 02-agentB-blind-run14-BEFORE
+
+##### CHECK: 03-agentC-blind-run14-BEFORE  @ 2026-09-12T17:31:20Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=dff16632eca6eea05b290ade5464339f44c75744  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 03-agentC-blind-run14-BEFORE
+
+##### CHECK: 02-agentB-blind-run14-AFTER  @ 2026-09-12T22:31:14Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=dff16632eca6eea05b290ade5464339f44c75744  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 02-agentB-blind-run14-AFTER
+
+##### CHECK: 03-agentC-blind-run14-AFTER  @ 2026-09-12T22:31:14Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=dff16632eca6eea05b290ade5464339f44c75744  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 03-agentC-blind-run14-AFTER
+
+##### CHECK: 02-agentB-blind-run15-BEFORE  @ 2026-09-12T22:31:14Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=dff16632eca6eea05b290ade5464339f44c75744  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 02-agentB-blind-run15-BEFORE
+
+##### CHECK: 03-agentC-blind-run15-BEFORE  @ 2026-09-12T22:31:14Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=dff16632eca6eea05b290ade5464339f44c75744  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 03-agentC-blind-run15-BEFORE
+
+##### CHECK: 02-agentB-ledger-recovery-AFTER  @ 2026-09-12T22:48:19Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=dff16632eca6eea05b290ade5464339f44c75744  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 02-agentB-ledger-recovery-AFTER
+
+##### CHECK: 03-agentC-blind-run15-AFTER  @ 2026-09-13T08:55:32Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=dff16632eca6eea05b290ade5464339f44c75744  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 03-agentC-blind-run15-AFTER
+
+##### CHECK: 02-agentB-blind-run15-AFTER  @ 2026-09-13T08:55:33Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=dff16632eca6eea05b290ade5464339f44c75744  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 02-agentB-blind-run15-AFTER
+
+##### CHECK: 02-agentB-blind-run16-BEFORE  @ 2026-09-13T08:55:33Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=dff16632eca6eea05b290ade5464339f44c75744  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 02-agentB-blind-run16-BEFORE
+
+##### CHECK: 03-agentC-blind-run16-BEFORE  @ 2026-09-13T08:55:33Z
+=== AiTrader  HEAD=705e0ed128b7e184be6c1a23dcd06750c524c525  BRANCH=main  porcelain_entries=1
+     M COLLECTION_LOG.md
+=== ETFExperiment  HEAD=4d110027674e7b4cd2861cf4e0e74f975111daf1  BRANCH=master  porcelain_entries=0
+=== HFExperiment  HEAD=82e77a021256d917c665ff6d4304c25b08f35451  BRANCH=main  porcelain_entries=4
+    ?? Accept:
+    ?? GET
+    ?? Host:
+    ?? User-Agent:
+=== InsiderExperiment  HEAD=12d9fd36cf055cb10ea67a3fc737e404217bc95a  BRANCH=master  porcelain_entries=0
+=== MLCryptoEngine  HEAD=5359a11fc753cdcd2606aea991dae826293d0307  BRANCH=main  porcelain_entries=0
+=== NPDExperiment  HEAD=2d3d0aebf977fb2821ec78c25b370c84ec055920  BRANCH=main  porcelain_entries=0
+=== NPLExperiment  HEAD=dff16632eca6eea05b290ade5464339f44c75744  BRANCH=main  porcelain_entries=0
+=== ORBExperiment  HEAD=f2aa675a80fc06b74979040b3028154d1add5ec0  BRANCH=main  porcelain_entries=0
+=== PMExperiment  HEAD=03d16e71dbf25a86c529884662d02136f8e82334  BRANCH=main  porcelain_entries=0
+=== VRPExperiment  HEAD=d37cf6d190dfdaef8e613daf099a507fe1a77dcf  BRANCH=main  porcelain_entries=0
+=== retail-power-limits  HEAD=dda39b2f148569a6fe9be956a979471b2330611d  BRANCH=main  porcelain_entries=0
+=== solattn  HEAD=b3f5062bd87ca92303fc090f129b71e1e09b434c  BRANCH=main  porcelain_entries=0
+=== solclear  HEAD=d2985769229ad40a3f02f0fe5a2fe0ad4fca295f  BRANCH=main  porcelain_entries=0
+##### END: 03-agentC-blind-run16-BEFORE
+

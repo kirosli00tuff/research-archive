@@ -1,0 +1,22 @@
+{
+ "done_repos": [
+  "HFExperiment",
+  "retail-power-limits"
+ ],
+ "stages": {
+  "InsiderExperiment": {
+   "inventory": true,
+   "verification": false,
+   "provenance": false,
+   "consolidated": false,
+   "n_findings": null
+  },
+  "NPDExperiment": {
+   "inventory": true,
+   "verification": false,
+   "provenance": false,
+   "consolidated": false,
+   "n_findings": null
+  }
+ }
+}
