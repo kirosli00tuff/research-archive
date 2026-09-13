@@ -1,0 +1,30 @@
+{
+ "done_repos": [
+  "ETFExperiment",
+  "HFExperiment",
+  "InsiderExperiment",
+  "NPDExperiment",
+  "NPLExperiment",
+  "PMExperiment",
+  "VRPExperiment",
+  "retail-power-limits",
+  "solattn",
+  "solclear"
+ ],
+ "stages": {
+  "MLCryptoEngine": {
+   "inventory": true,
+   "verification": false,
+   "provenance": true,
+   "consolidated": false,
+   "n_findings": null
+  },
+  "ORBExperiment": {
+   "inventory": true,
+   "verification": true,
+   "provenance": true,
+   "consolidated": false,
+   "n_findings": null
+  }
+ }
+}

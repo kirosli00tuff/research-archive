@@ -297,5 +297,23 @@
   "wf": "wf_80d0a649-3b8",
   "launched": "2026-09-12T17:31Z",
   "after": "2026-09-12T22:31Z"
+ },
+ {
+  "agent": "C",
+  "run": 15,
+  "label": "03-agentC-blind-run15",
+  "task": "w1g0lu1f9",
+  "wf": "wf_5fc34499-d67",
+  "launched": "2026-09-12T22:32Z",
+  "after": "2026-09-13T08:55Z"
+ },
+ {
+  "agent": "B",
+  "run": 15,
+  "label": "02-agentB-blind-run15",
+  "task": "wka7otvpo",
+  "wf": "wf_ce3f1fe3-fb8",
+  "launched": "2026-09-12T22:48Z",
+  "after": "2026-09-13T08:55Z"
  }
 ]
