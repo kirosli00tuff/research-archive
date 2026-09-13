@@ -667,3 +667,10 @@ agent C: 10/13 done
 AFTER checks: pre-existing dirt only
 prepared B run 16 (provenance/launch-args/agentB-run16.args.json)
 prepared C run 16 (provenance/launch-args/agentC-run16.args.json)
+Outcomes of B run 15 / C run 15 (launched 22:48Z and 22:32Z 2026-09-12, cut by the session limit at ~23:05Z; reset
+03:30Z 2026-09-13; laptop then off until ~08:55Z, snapshots re-verified):
+- B run 15 (wf_ce3f1fe3-fb8): MLCryptoEngine and ORBExperiment consolidators (from the six drafts and recovered
+  ledgers) and the three AiTrader readers all failed on the limit before writing anything. B stays 10/13.
+- C run 15 (wf_5fc34499-d67): MLCryptoEngine provenance done, verification failed; ORBExperiment verification and
+  provenance done, consolidation failed; AiTrader locate failed. C stays 10/13.
+Next: B run 16 (same args as run 15), C run 16 launched in parallel.
