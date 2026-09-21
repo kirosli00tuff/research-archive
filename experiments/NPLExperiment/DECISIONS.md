@@ -806,3 +806,51 @@ stage.
 any new code path that seals an outcome window must carry the maturity gate.
 A seal is a one-shot write, and a one-shot write taken early is
 indistinguishable at read time from a short feed.**
+
+
+## ADR-035: Project cancellation, operator decision, 2026-09-21
+
+Not a verdict. A scope decision, recorded with the same discipline as any
+other closure so a future reader cannot mistake "cancelled" for "resolved."
+
+**The decision.** The operator ended NPLExperiment on 2026-09-21, in this
+chat, to redirect attention to AiTrader and the new PropExperiment repo. No
+hypothesis was disproven by this decision. H1 closed negative on its Stage B
+read (2026-08-28). H3 and H4 closed BLOCKED on measured venue rates
+(2026-08-28). H2 was mid collection with zero reads taken — 55 of 63 events
+paired under the tiered rule (8 excluded: 6 `ambiguous_ticker`, 2 with no
+admissible rates-class elder at any tier), look 1 projected 2026-12-24,
+look 2 projected 2027-03-31. H5 was mid census, projected fire near 2026-10-05, never read.
+
+**Sequencing, and why it matters.** Task 7 of Amendment Stage 2 — the
+close-out documentation for the tiered-control-rule rematch — had been
+completed and gate-verified on 2026-09-13 (447 tests, 8/8 mutations caught,
+H5 verified byte-identical) but never committed. That work was committed
+first, as `8b1ee4f`, before any shutdown action, so the repository's history
+reflects what was actually done on 2026-09-13 rather than silently absorbing
+eight finished days into a closure dated 2026-09-21.
+
+**Shutdown mechanics.** `npl-watch.timer` and `npl-daily.timer` disabled and
+stopped via `systemctl --user disable --now`, both verified inactive and
+disabled afterward. `solattn-daily.timer` confirmed independently inactive
+from its own prior closure. `news-collect.timer` confirmed active and
+enabled, verifying the shutdown's blast radius stopped at this repository.
+
+**Capital.** A store-wide search for any order, fill, or position record
+returned zero results. No hypothesis in this register ever reached a
+capital-authorizing verdict; none was capable of committing money.
+
+**Data disposition.** All sealed stores are retained, not deleted. H2's
+forward-collected candle and funding windows, and H5's 6,230 snapshots
+across 546 instruments, represent real collection time and are left intact
+for a possible reopening. This ADR does not delete or supersede anything —
+it is the record that collection stopped and why.
+
+**What reopening requires, stated now while the state is fresh rather than
+reconstructed later.** Restarting the timers resumes collection under the
+existing registrations unchanged. The look-date projections (2026-12-24 and
+2027-03-31 for H2; ~2026-10-05 for H5) were computed against continuous
+collection and do not hold across a gap of unknown length — the first task
+of any reopening is remeasuring accrual since the last stored row and
+recomputing projected dates, in the same style as Amendment H5-3, not
+resuming the old dates as if the gap did not happen.

@@ -1999,3 +1999,50 @@ refused; funding coverage at **160** served hours of 168 clears the 0.95 bar
 
 Hashes after the mutation run: `data/controls/h2_pairs.jsonl` still
 `f765e899…`, and all three H5 stores still at their precondition hashes.
+
+
+## 2026-09-21T15:52Z — ADR-035: project cancelled by operator decision
+
+Not a stage. The final entry. Made in chat with the operator present,
+redirecting attention to AiTrader and the new PropExperiment repo.
+
+Preceding action, not itself part of the cancellation. Amendment Stage 2's
+Task 7 close-out — ADR-033, ADR-034, the tiered control rule, the
+63-event reassignment under it (55 paired, 8 excluded) — had been
+completed and gate-verified on 2026-09-13
+(447 tests, 8/8 mutations, H5 verified byte-identical before and after) but
+the closing commit never ran. Found and committed first, as 8b1ee4f, so
+this closure does not silently absorb eight days of finished, tested work
+into today's date.
+
+State at cancellation, none of it a resolved verdict. H1 closed negative
+2026-08-28 on its Stage B read. H3 and H4 closed BLOCKED 2026-08-28 on
+measured venue rates. H2 mid collection: 55 of 63 events class-coherently
+paired (8 excluded: 6 ambiguous_ticker, 2 with no admissible rates-class
+elder at any tier), zero capital, all four look latches absent, look 1
+projected 2026-12-24, look 2 projected 2027-03-31 — the deadline itself, with the
+design's own report already noting look 2 would likely fire on the deadline
+clause rather than on power at the then-current pace. H5 mid census: 546
+instruments, 6,230 snapshots, fire projected ~2026-10-05, never read.
+
+Shutdown: npl-watch.timer and npl-daily.timer disabled and stopped, verified
+inactive and disabled. solattn-daily.timer independently confirmed already
+inactive from its own August closure. news-collect.timer (AiTrader)
+confirmed active and enabled, unaffected.
+
+Capital: a store-wide search for any order, fill, or position record across
+every data path returned zero matches. Nothing in this register was ever
+capable of committing money, by design, at every stage that existed.
+
+Data: all sealed stores retained. Nothing deleted.
+
+Reopening note, recorded now rather than reconstructed later: the timers
+resume collection under the existing registrations unchanged, but the
+look-date projections were computed against continuous collection and do
+not survive a gap of unknown length. First task of any reopening is
+remeasuring accrual since the last stored row, in the same style as
+Amendment H5-3, before trusting any old date.
+
+HYPOTHESES.md, DECISIONS.md ADR-035, and this entry are the closure record.
+No further commits follow this one for NPLExperiment unless the project is
+reopened.

@@ -157,3 +157,61 @@ sealed reads established.
 5. **The quarantine.** `reports/stage_b/read.json`, every value inside it,
    and every outcome window read on 2026-08-28 are quarantined from all
    successor code paths — enforced by AST pin and by test, not by intention.
+
+
+---
+
+## Project status: CANCELLED BY OPERATOR — 2026-09-21
+
+**No hypothesis in this register was resolved by evidence when the project
+ended.** H1 closed negative on a sealed Stage B read. H3 and H4 closed
+BLOCKED on measured venue rates. H2, the surviving co-primary, was mid
+collection: **55 of 63 events carrying a class-coherent pair**, 8 excluded
+(6 `ambiguous_ticker`, 2 with no admissible rates-class elder at any tier),
+zero capital ever committed, all four look latches absent, look 1 projected
+to **2026-12-24** and look 2 to
+**2027-03-31** — the registered deadline itself, with the design's own
+report already flagging that at the then-projected 110-pair pace look 2
+would not reach E2's minimum N of 117 and would fire on the deadline clause
+rather than on power. H5, the feasibility entry, was mid census: 546
+instruments, 6,230 snapshots, its own fire projected near 2026-10-05 and
+never read.
+
+**The operator ended the project on 2026-09-21 for time, not for evidence**,
+to redirect attention to AiTrader and the new PropExperiment repo. This is a
+scope decision, not a verdict, and it is recorded as one: nothing below
+states or implies that H2, H4 (which stayed BLOCKED rather than proven
+false), or H5 were resolved. A reopening starts from where this record
+stops, not from zero.
+
+**Shutdown actions taken 2026-09-21, in order:** the Task 7 close-out for
+Amendment Stage 2 (ADR-033, ADR-034, the tiered control rule, the 57-pair
+reassignment) — completed and gate-verified on 2026-09-13 but never
+committed — was committed first (`8b1ee4f`), so the record reflects work
+actually done rather than an artificially early stopping point. `npl-watch
+.timer` and `npl-daily.timer` were then disabled and stopped
+(`systemctl --user disable --now`), verified inactive and disabled.
+`solattn-daily.timer` was independently already inactive from its own
+August closure; `news-collect.timer` (AiTrader) was verified untouched and
+still enabled, confirming this shutdown reached only NPLExperiment.
+
+**No capital was ever committed under any hypothesis in this register.** A
+grep of every data store for an order, fill, or position record returns
+zero matches, consistent with every registration: H1 and H2 never reached a
+capital-authorizing verdict, H3 and H4 closed BLOCKED before one could be
+reached, H5 was never a trade hypothesis.
+
+**What is preserved, for a future reopening.** Every registration,
+amendment, and dark reader stays as committed. The sealed stores —
+`data/outcomes/`, `data/funding/`, `data/controls/`, `data/h5/` — are left
+in place rather than deleted; H2's forward-collected windows and H5's
+snapshot history represent real collection cost. Restarting either timer
+resumes collection under the registrations exactly as written. If H2 is
+revived, look 1 no longer has a fixed calendar date to aim at — the correct
+first step is recomputing projected look dates against however much
+collection time actually elapsed while the timers were off, per the same
+falsified-projection discipline as H5-3.
+
+The generating-sample quarantine (312 retro events, 176 control windows)
+remains binding on any future successor. It does not expire with this
+closure.
