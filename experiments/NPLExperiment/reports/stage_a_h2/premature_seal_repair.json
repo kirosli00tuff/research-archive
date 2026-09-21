@@ -1,0 +1,325 @@
+{
+  "at": "2026-09-13T19:54:42Z",
+  "defect": "scripts/collect_new_elders.py sealed every new elder's candle window unconditionally. The registered rule (npl.cli.cmd_daily, ADR-019) seals a window exactly once, at maturity - entry + 92 days - because backfill_event_candles short-circuits on file existence and never refetches. Every premature seal was therefore a PARTIAL window that would have been permanently short at the registered Stage B read.",
+  "detected": "Task 3 coverage reporting: 48 of 55 pairs showed candle coverage 0.0",
+  "kept": [
+    {
+      "candle_rows_expected_at_maturity": 92,
+      "candle_rows_sealed": 93,
+      "coin": "xyz:NVDA",
+      "entry_ms": 1780185600000,
+      "matures_on": "2026-08-31",
+      "path": "data/outcomes/xyz_NVDA/retro-candles-20604.raw",
+      "window_mature": true,
+      "written_by_this_stage": false
+    },
+    {
+      "candle_rows_expected_at_maturity": 92,
+      "candle_rows_sealed": 93,
+      "coin": "xyz:ORCL",
+      "entry_ms": 1780444800000,
+      "matures_on": "2026-09-03",
+      "path": "data/outcomes/xyz_ORCL/retro-candles-20607.raw",
+      "window_mature": true,
+      "written_by_this_stage": false
+    },
+    {
+      "candle_rows_expected_at_maturity": 92,
+      "candle_rows_sealed": 93,
+      "coin": "xyz:PLTR",
+      "entry_ms": 1780617600000,
+      "matures_on": "2026-09-05",
+      "path": "data/outcomes/xyz_PLTR/retro-candles-20609.raw",
+      "window_mature": true,
+      "written_by_this_stage": false
+    },
+    {
+      "candle_rows_expected_at_maturity": 92,
+      "candle_rows_sealed": 93,
+      "coin": "xyz:PLTR",
+      "entry_ms": 1780704000000,
+      "matures_on": "2026-09-06",
+      "path": "data/outcomes/xyz_PLTR/retro-candles-20610.raw",
+      "window_mature": true,
+      "written_by_this_stage": false
+    },
+    {
+      "candle_rows_expected_at_maturity": 92,
+      "candle_rows_sealed": 93,
+      "coin": "xyz:HOOD",
+      "entry_ms": 1781136000000,
+      "matures_on": "2026-09-11",
+      "path": "data/outcomes/xyz_HOOD/retro-candles-20615.raw",
+      "window_mature": true,
+      "written_by_this_stage": false
+    }
+  ],
+  "kept_count": 5,
+  "origin": "the assistant, in this stage, at 19:48-19:50Z on 2026-09-13",
+  "outcome_values_read_from_the_removed_files": 0,
+  "removed": [
+    {
+      "candle_rows_expected_at_maturity": 92,
+      "candle_rows_sealed": 0,
+      "coin": "vntl:ANTHROPIC",
+      "entry_ms": 1781654400000,
+      "matures_on": "2026-09-17",
+      "path": "data/outcomes/vntl_ANTHROPIC/retro-candles-20621.raw",
+      "window_mature": false,
+      "written_by_this_stage": true
+    },
+    {
+      "candle_rows_expected_at_maturity": 92,
+      "candle_rows_sealed": 79,
+      "coin": "xyz:MSTR",
+      "entry_ms": 1782604800000,
+      "matures_on": "2026-09-28",
+      "path": "data/outcomes/xyz_MSTR/retro-candles-20632.raw",
+      "window_mature": false,
+      "written_by_this_stage": true
+    },
+    {
+      "candle_rows_expected_at_maturity": 92,
+      "candle_rows_sealed": 74,
+      "coin": "xyz:TSLA",
+      "entry_ms": 1783036800000,
+      "matures_on": "2026-10-03",
+      "path": "data/outcomes/xyz_TSLA/retro-candles-20637.raw",
+      "window_mature": false,
+      "written_by_this_stage": true
+    },
+    {
+      "candle_rows_expected_at_maturity": 92,
+      "candle_rows_sealed": 74,
+      "coin": "xyz:AAPL",
+      "entry_ms": 1783036800000,
+      "matures_on": "2026-10-03",
+      "path": "data/outcomes/xyz_AAPL/retro-candles-20637.raw",
+      "window_mature": false,
+      "written_by_this_stage": true
+    },
+    {
+      "candle_rows_expected_at_maturity": 92,
+      "candle_rows_sealed": 66,
+      "coin": "xyz:AAPL",
+      "entry_ms": 1783728000000,
+      "matures_on": "2026-10-11",
+      "path": "data/outcomes/xyz_AAPL/retro-candles-20645.raw",
+      "window_mature": false,
+      "written_by_this_stage": true
+    },
+    {
+      "candle_rows_expected_at_maturity": 92,
+      "candle_rows_sealed": 58,
+      "coin": "xyz:AAPL",
+      "entry_ms": 1784419200000,
+      "matures_on": "2026-10-19",
+      "path": "data/outcomes/xyz_AAPL/retro-candles-20653.raw",
+      "window_mature": false,
+      "written_by_this_stage": true
+    },
+    {
+      "candle_rows_expected_at_maturity": 92,
+      "candle_rows_sealed": 58,
+      "coin": "xyz:ORCL",
+      "entry_ms": 1784419200000,
+      "matures_on": "2026-10-19",
+      "path": "data/outcomes/xyz_ORCL/retro-candles-20653.raw",
+      "window_mature": false,
+      "written_by_this_stage": true
+    },
+    {
+      "candle_rows_expected_at_maturity": 92,
+      "candle_rows_sealed": 55,
+      "coin": "xyz:BABA",
+      "entry_ms": 1784678400000,
+      "matures_on": "2026-10-22",
+      "path": "data/outcomes/xyz_BABA/retro-candles-20656.raw",
+      "window_mature": false,
+      "written_by_this_stage": true
+    },
+    {
+      "candle_rows_expected_at_maturity": 92,
+      "candle_rows_sealed": 52,
+      "coin": "xyz:NFLX",
+      "entry_ms": 1784937600000,
+      "matures_on": "2026-10-25",
+      "path": "data/outcomes/xyz_NFLX/retro-candles-20659.raw",
+      "window_mature": false,
+      "written_by_this_stage": true
+    },
+    {
+      "candle_rows_expected_at_maturity": 92,
+      "candle_rows_sealed": 52,
+      "coin": "xyz:AAPL",
+      "entry_ms": 1784937600000,
+      "matures_on": "2026-10-25",
+      "path": "data/outcomes/xyz_AAPL/retro-candles-20659.raw",
+      "window_mature": false,
+      "written_by_this_stage": true
+    },
+    {
+      "candle_rows_expected_at_maturity": 92,
+      "candle_rows_sealed": 48,
+      "coin": "xyz:USAR",
+      "entry_ms": 1785283200000,
+      "matures_on": "2026-10-29",
+      "path": "data/outcomes/xyz_USAR/retro-candles-20663.raw",
+      "window_mature": false,
+      "written_by_this_stage": true
+    },
+    {
+      "candle_rows_expected_at_maturity": 92,
+      "candle_rows_sealed": 45,
+      "coin": "xyz:PLTR",
+      "entry_ms": 1785542400000,
+      "matures_on": "2026-11-01",
+      "path": "data/outcomes/xyz_PLTR/retro-candles-20666.raw",
+      "window_mature": false,
+      "written_by_this_stage": true
+    },
+    {
+      "candle_rows_expected_at_maturity": 92,
+      "candle_rows_sealed": 40,
+      "coin": "xyz:RIVN",
+      "entry_ms": 1785974400000,
+      "matures_on": "2026-11-06",
+      "path": "data/outcomes/xyz_RIVN/retro-candles-20671.raw",
+      "window_mature": false,
+      "written_by_this_stage": true
+    },
+    {
+      "candle_rows_expected_at_maturity": 92,
+      "candle_rows_sealed": 40,
+      "coin": "xyz:MSFT",
+      "entry_ms": 1785974400000,
+      "matures_on": "2026-11-06",
+      "path": "data/outcomes/xyz_MSFT/retro-candles-20671.raw",
+      "window_mature": false,
+      "written_by_this_stage": true
+    },
+    {
+      "candle_rows_expected_at_maturity": 92,
+      "candle_rows_sealed": 39,
+      "coin": "xyz:USAR",
+      "entry_ms": 1786060800000,
+      "matures_on": "2026-11-07",
+      "path": "data/outcomes/xyz_USAR/retro-candles-20672.raw",
+      "window_mature": false,
+      "written_by_this_stage": true
+    },
+    {
+      "candle_rows_expected_at_maturity": 92,
+      "candle_rows_sealed": 39,
+      "coin": "xyz:MSFT",
+      "entry_ms": 1786060800000,
+      "matures_on": "2026-11-07",
+      "path": "data/outcomes/xyz_MSFT/retro-candles-20672.raw",
+      "window_mature": false,
+      "written_by_this_stage": true
+    },
+    {
+      "candle_rows_expected_at_maturity": 92,
+      "candle_rows_sealed": 39,
+      "coin": "xyz:URNM",
+      "entry_ms": 1786060800000,
+      "matures_on": "2026-11-07",
+      "path": "data/outcomes/xyz_URNM/retro-candles-20672.raw",
+      "window_mature": false,
+      "written_by_this_stage": true
+    },
+    {
+      "candle_rows_expected_at_maturity": 92,
+      "candle_rows_sealed": 39,
+      "coin": "xyz:SNDK",
+      "entry_ms": 1786060800000,
+      "matures_on": "2026-11-07",
+      "path": "data/outcomes/xyz_SNDK/retro-candles-20672.raw",
+      "window_mature": false,
+      "written_by_this_stage": true
+    },
+    {
+      "candle_rows_expected_at_maturity": 92,
+      "candle_rows_sealed": 38,
+      "coin": "xyz:URNM",
+      "entry_ms": 1786147200000,
+      "matures_on": "2026-11-08",
+      "path": "data/outcomes/xyz_URNM/retro-candles-20673.raw",
+      "window_mature": false,
+      "written_by_this_stage": true
+    },
+    {
+      "candle_rows_expected_at_maturity": 92,
+      "candle_rows_sealed": 37,
+      "coin": "xyz:MSFT",
+      "entry_ms": 1786233600000,
+      "matures_on": "2026-11-09",
+      "path": "data/outcomes/xyz_MSFT/retro-candles-20674.raw",
+      "window_mature": false,
+      "written_by_this_stage": true
+    },
+    {
+      "candle_rows_expected_at_maturity": 92,
+      "candle_rows_sealed": 34,
+      "coin": "xyz:PLTR",
+      "entry_ms": 1786492800000,
+      "matures_on": "2026-11-12",
+      "path": "data/outcomes/xyz_PLTR/retro-candles-20677.raw",
+      "window_mature": false,
+      "written_by_this_stage": true
+    },
+    {
+      "candle_rows_expected_at_maturity": 92,
+      "candle_rows_sealed": 30,
+      "coin": "xyz:PLTR",
+      "entry_ms": 1786838400000,
+      "matures_on": "2026-11-16",
+      "path": "data/outcomes/xyz_PLTR/retro-candles-20681.raw",
+      "window_mature": false,
+      "written_by_this_stage": true
+    },
+    {
+      "candle_rows_expected_at_maturity": 92,
+      "candle_rows_sealed": 25,
+      "coin": "xyz:SMSN",
+      "entry_ms": 1787270400000,
+      "matures_on": "2026-11-21",
+      "path": "data/outcomes/xyz_SMSN/retro-candles-20686.raw",
+      "window_mature": false,
+      "written_by_this_stage": true
+    },
+    {
+      "candle_rows_expected_at_maturity": 92,
+      "candle_rows_sealed": 25,
+      "coin": "xyz:USAR",
+      "entry_ms": 1787270400000,
+      "matures_on": "2026-11-21",
+      "path": "data/outcomes/xyz_USAR/retro-candles-20686.raw",
+      "window_mature": false,
+      "written_by_this_stage": true
+    },
+    {
+      "candle_rows_expected_at_maturity": 92,
+      "candle_rows_sealed": 20,
+      "coin": "xyz:SKHX",
+      "entry_ms": 1787702400000,
+      "matures_on": "2026-11-26",
+      "path": "data/outcomes/xyz_SKHX/retro-candles-20691.raw",
+      "window_mature": false,
+      "written_by_this_stage": true
+    },
+    {
+      "candle_rows_expected_at_maturity": 92,
+      "candle_rows_sealed": 18,
+      "coin": "xyz:MSTR",
+      "entry_ms": 1787875200000,
+      "matures_on": "2026-11-28",
+      "path": "data/outcomes/xyz_MSTR/retro-candles-20693.raw",
+      "window_mature": false,
+      "written_by_this_stage": true
+    }
+  ],
+  "removed_count": 26,
+  "stage": "H2 Amendment Stage 2 - Task 3 repair: premature candle seals removed",
+  "why_removal_is_the_repair": "no outcome value was ever parsed from these bytes - the H2 reader is dark and all three latches are absent - and the venue serves the full window at maturity. Both legs of every affected pair are already queued on the fresh plan, which seals at maturity under the gate the daily pass has always used. Leaving a partial seal in place would silently under-serve the outcome window forever."
+}

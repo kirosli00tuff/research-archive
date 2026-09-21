@@ -1,0 +1,440 @@
+{
+  "amendment": "H2-3 Change 1",
+  "assigned": [
+    {
+      "candidates_considered": 173,
+      "candidates_skipped_low_coverage": 0,
+      "control_coin": "BTC",
+      "control_dex": "",
+      "dex": "mkts",
+      "entry_ms": 1783036800000,
+      "event_coin": "mkts:US500",
+      "pair_type": "cross_dex"
+    },
+    {
+      "candidates_considered": 173,
+      "candidates_skipped_low_coverage": 0,
+      "control_coin": "BCH",
+      "control_dex": "",
+      "dex": "mkts",
+      "entry_ms": 1783036800000,
+      "event_coin": "mkts:USTECH",
+      "pair_type": "cross_dex"
+    },
+    {
+      "candidates_considered": 172,
+      "candidates_skipped_low_coverage": 0,
+      "control_coin": "MOVE",
+      "control_dex": "",
+      "dex": "para",
+      "entry_ms": 1784419200000,
+      "event_coin": "para:COHR",
+      "pair_type": "cross_dex"
+    },
+    {
+      "candidates_considered": 172,
+      "candidates_skipped_low_coverage": 0,
+      "control_coin": "VINE",
+      "control_dex": "",
+      "dex": "para",
+      "entry_ms": 1784419200000,
+      "event_coin": "para:CRDO",
+      "pair_type": "cross_dex"
+    },
+    {
+      "candidates_considered": 172,
+      "candidates_skipped_low_coverage": 0,
+      "control_coin": "POLYX",
+      "control_dex": "",
+      "dex": "para",
+      "entry_ms": 1784419200000,
+      "event_coin": "para:GLW",
+      "pair_type": "cross_dex"
+    },
+    {
+      "candidates_considered": 173,
+      "candidates_skipped_low_coverage": 0,
+      "control_coin": "ZEC",
+      "control_dex": "",
+      "dex": "para",
+      "entry_ms": 1784678400000,
+      "event_coin": "para:LRCX",
+      "pair_type": "cross_dex"
+    },
+    {
+      "candidates_considered": 173,
+      "candidates_skipped_low_coverage": 0,
+      "control_coin": "VINE",
+      "control_dex": "",
+      "dex": "para",
+      "entry_ms": 1784937600000,
+      "event_coin": "para:IREN",
+      "pair_type": "cross_dex"
+    },
+    {
+      "candidates_considered": 173,
+      "candidates_skipped_low_coverage": 0,
+      "control_coin": "POLYX",
+      "control_dex": "",
+      "dex": "para",
+      "entry_ms": 1784937600000,
+      "event_coin": "para:STX",
+      "pair_type": "cross_dex"
+    },
+    {
+      "candidates_considered": 173,
+      "candidates_skipped_low_coverage": 0,
+      "control_coin": "ZRO",
+      "control_dex": "",
+      "dex": "para",
+      "entry_ms": 1785283200000,
+      "event_coin": "para:TER",
+      "pair_type": "cross_dex"
+    },
+    {
+      "candidates_considered": 173,
+      "candidates_skipped_low_coverage": 0,
+      "control_coin": "XMR",
+      "control_dex": "",
+      "dex": "para",
+      "entry_ms": 1785542400000,
+      "event_coin": "para:AAOI",
+      "pair_type": "cross_dex"
+    },
+    {
+      "candidates_considered": 173,
+      "candidates_skipped_low_coverage": 0,
+      "control_coin": "GMT",
+      "control_dex": "",
+      "dex": "para",
+      "entry_ms": 1785974400000,
+      "event_coin": "para:UNITREE",
+      "pair_type": "cross_dex"
+    },
+    {
+      "candidates_considered": 173,
+      "candidates_skipped_low_coverage": 0,
+      "control_coin": "MOVE",
+      "control_dex": "",
+      "dex": "para",
+      "entry_ms": 1785974400000,
+      "event_coin": "para:VST",
+      "pair_type": "cross_dex"
+    },
+    {
+      "candidates_considered": 173,
+      "candidates_skipped_low_coverage": 0,
+      "control_coin": "KAITO",
+      "control_dex": "",
+      "dex": "para",
+      "entry_ms": 1786060800000,
+      "event_coin": "para:NET",
+      "pair_type": "cross_dex"
+    },
+    {
+      "candidates_considered": 173,
+      "candidates_skipped_low_coverage": 0,
+      "control_coin": "AERO",
+      "control_dex": "",
+      "dex": "para",
+      "entry_ms": 1786060800000,
+      "event_coin": "para:RDDT",
+      "pair_type": "cross_dex"
+    },
+    {
+      "candidates_considered": 173,
+      "candidates_skipped_low_coverage": 0,
+      "control_coin": "INJ",
+      "control_dex": "",
+      "dex": "para",
+      "entry_ms": 1786233600000,
+      "event_coin": "para:CIEN",
+      "pair_type": "cross_dex"
+    },
+    {
+      "candidates_considered": 174,
+      "candidates_skipped_low_coverage": 0,
+      "control_coin": "SKR",
+      "control_dex": "",
+      "dex": "para",
+      "entry_ms": 1786492800000,
+      "event_coin": "para:CRWD",
+      "pair_type": "cross_dex"
+    },
+    {
+      "candidates_considered": 174,
+      "candidates_skipped_low_coverage": 0,
+      "control_coin": "APT",
+      "control_dex": "",
+      "dex": "para",
+      "entry_ms": 1786665600000,
+      "event_coin": "para:10Y",
+      "pair_type": "cross_dex"
+    },
+    {
+      "candidates_considered": 174,
+      "candidates_skipped_low_coverage": 0,
+      "control_coin": "MOVE",
+      "control_dex": "",
+      "dex": "para",
+      "entry_ms": 1786838400000,
+      "event_coin": "para:SMCI",
+      "pair_type": "cross_dex"
+    },
+    {
+      "candidates_considered": 174,
+      "candidates_skipped_low_coverage": 0,
+      "control_coin": "MOVE",
+      "control_dex": "",
+      "dex": "io",
+      "entry_ms": 1787270400000,
+      "event_coin": "io:ANTH",
+      "pair_type": "cross_dex"
+    },
+    {
+      "candidates_considered": 174,
+      "candidates_skipped_low_coverage": 0,
+      "control_coin": "BOME",
+      "control_dex": "",
+      "dex": "io",
+      "entry_ms": 1787270400000,
+      "event_coin": "io:SNDK",
+      "pair_type": "cross_dex"
+    },
+    {
+      "candidates_considered": 174,
+      "candidates_skipped_low_coverage": 0,
+      "control_coin": "MINA",
+      "control_dex": "",
+      "dex": "para",
+      "entry_ms": 1787702400000,
+      "event_coin": "para:MELI",
+      "pair_type": "cross_dex"
+    },
+    {
+      "candidates_considered": 174,
+      "candidates_skipped_low_coverage": 0,
+      "control_coin": "APEX",
+      "control_dex": "",
+      "dex": "para",
+      "entry_ms": 1787788800000,
+      "event_coin": "para:ANSEM",
+      "pair_type": "cross_dex"
+    },
+    {
+      "candidates_considered": 174,
+      "candidates_skipped_low_coverage": 0,
+      "control_coin": "WLFI",
+      "control_dex": "",
+      "dex": "mkts",
+      "entry_ms": 1787875200000,
+      "event_coin": "mkts:SMALL2000",
+      "pair_type": "cross_dex"
+    },
+    {
+      "candidates_considered": 174,
+      "candidates_skipped_low_coverage": 0,
+      "control_coin": "TRUMP",
+      "control_dex": "",
+      "dex": "mkts",
+      "entry_ms": 1787875200000,
+      "event_coin": "mkts:USBOND",
+      "pair_type": "cross_dex"
+    }
+  ],
+  "assigned_n": 24,
+  "candidate_trail_window": {
+    "end_ms": 1787875200000,
+    "start_ms": 1782432000000
+  },
+  "candidate_universe_n": 175,
+  "control_leg_archives": [
+    {
+      "caught_up": true,
+      "coin": "BTC",
+      "pages_fetched": 7,
+      "rows_seen": 3032,
+      "terminal_state": "no_data"
+    },
+    {
+      "caught_up": true,
+      "coin": "BCH",
+      "pages_fetched": 7,
+      "rows_seen": 3032,
+      "terminal_state": "no_data"
+    },
+    {
+      "caught_up": true,
+      "coin": "MOVE",
+      "pages_fetched": 7,
+      "rows_seen": 3032,
+      "terminal_state": "no_data"
+    },
+    {
+      "caught_up": true,
+      "coin": "VINE",
+      "pages_fetched": 7,
+      "rows_seen": 3032,
+      "terminal_state": "no_data"
+    },
+    {
+      "caught_up": true,
+      "coin": "POLYX",
+      "pages_fetched": 7,
+      "rows_seen": 3032,
+      "terminal_state": "no_data"
+    },
+    {
+      "caught_up": true,
+      "coin": "ZEC",
+      "pages_fetched": 7,
+      "rows_seen": 3032,
+      "terminal_state": "no_data"
+    },
+    {
+      "caught_up": true,
+      "coin": "VINE",
+      "pages_fetched": 0,
+      "rows_seen": 0,
+      "terminal_state": "no_data"
+    },
+    {
+      "caught_up": true,
+      "coin": "POLYX",
+      "pages_fetched": 0,
+      "rows_seen": 0,
+      "terminal_state": "no_data"
+    },
+    {
+      "caught_up": true,
+      "coin": "ZRO",
+      "pages_fetched": 7,
+      "rows_seen": 3032,
+      "terminal_state": "no_data"
+    },
+    {
+      "caught_up": true,
+      "coin": "XMR",
+      "pages_fetched": 7,
+      "rows_seen": 3032,
+      "terminal_state": "no_data"
+    },
+    {
+      "caught_up": true,
+      "coin": "GMT",
+      "pages_fetched": 7,
+      "rows_seen": 3032,
+      "terminal_state": "no_data"
+    },
+    {
+      "caught_up": true,
+      "coin": "MOVE",
+      "pages_fetched": 0,
+      "rows_seen": 0,
+      "terminal_state": "no_data"
+    },
+    {
+      "caught_up": true,
+      "coin": "KAITO",
+      "pages_fetched": 7,
+      "rows_seen": 3032,
+      "terminal_state": "no_data"
+    },
+    {
+      "caught_up": true,
+      "coin": "AERO",
+      "pages_fetched": 7,
+      "rows_seen": 3032,
+      "terminal_state": "no_data"
+    },
+    {
+      "caught_up": true,
+      "coin": "INJ",
+      "pages_fetched": 7,
+      "rows_seen": 3032,
+      "terminal_state": "no_data"
+    },
+    {
+      "caught_up": true,
+      "coin": "SKR",
+      "pages_fetched": 7,
+      "rows_seen": 3008,
+      "terminal_state": "no_data"
+    },
+    {
+      "caught_up": true,
+      "coin": "APT",
+      "pages_fetched": 7,
+      "rows_seen": 3032,
+      "terminal_state": "no_data"
+    },
+    {
+      "caught_up": true,
+      "coin": "MOVE",
+      "pages_fetched": 0,
+      "rows_seen": 0,
+      "terminal_state": "no_data"
+    },
+    {
+      "caught_up": true,
+      "coin": "MOVE",
+      "pages_fetched": 0,
+      "rows_seen": 0,
+      "terminal_state": "no_data"
+    },
+    {
+      "caught_up": true,
+      "coin": "BOME",
+      "pages_fetched": 7,
+      "rows_seen": 3032,
+      "terminal_state": "no_data"
+    },
+    {
+      "caught_up": true,
+      "coin": "MINA",
+      "pages_fetched": 7,
+      "rows_seen": 3032,
+      "terminal_state": "no_data"
+    },
+    {
+      "caught_up": true,
+      "coin": "APEX",
+      "pages_fetched": 7,
+      "rows_seen": 3032,
+      "terminal_state": "no_data"
+    },
+    {
+      "caught_up": true,
+      "coin": "WLFI",
+      "pages_fetched": 7,
+      "rows_seen": 3032,
+      "terminal_state": "no_data"
+    },
+    {
+      "caught_up": true,
+      "coin": "TRUMP",
+      "pages_fetched": 7,
+      "rows_seen": 3032,
+      "terminal_state": "no_data"
+    }
+  ],
+  "control_leg_spread_states": {
+    "expired": 24
+  },
+  "distinct_controls": 19,
+  "events_attempted": 24,
+  "fresh_plan_rows": 124,
+  "outcome_values_read": 0,
+  "pairs_ledger_by_tag": {
+    "cross_dex": 24,
+    "same_dex": 38
+  },
+  "pairs_ledger_total": 62,
+  "ran_at": "2026-08-28T07:35:28Z",
+  "requests_spent_this_run": 1080,
+  "trail_pages_sealed": 724,
+  "trail_seal_states": {
+    "stored": 199
+  },
+  "unassigned_reasons": {}
+}

@@ -1,0 +1,34 @@
+{
+  "checked_at": "2026-08-28T06:51:10Z",
+  "gates": {
+    "mypy_strict": "67 files, no issues",
+    "pytest": "217 passed",
+    "ruff": "clean"
+  },
+  "h2_outcome_artifacts_found": [],
+  "h2_read_json_absent": true,
+  "h2_registered_latch_absent": true,
+  "head": "e89b18717ce86e853acbdb6f30761b7e68a4ac7e",
+  "npl_daily_service": "inactive",
+  "npl_daily_wait_recorded": "npl-daily.service inactive at check time; no wait was required. The system-scope unit does not exist (the units are user-scope). npl-daily.timer next fires 2026-08-28T18:40 local (01:40Z 2026-08-29); npl-watch.timer fires hourly at :05 and stays armed through this stage \u2014 the watcher is idempotent on the pair ledger and its passes are recorded.",
+  "npl_watch_service": "inactive",
+  "origin_equals_head": true,
+  "origin_main": "e89b18717ce86e853acbdb6f30761b7e68a4ac7e",
+  "registered_latch_path": "data/state/h2_read_latch.json",
+  "reports_scan": [
+    "reports/stage_a4/mutations.md",
+    "reports/stage_a_h2/ktable_cull.json",
+    "reports/stage_a_h2/mutations.md",
+    "reports/stage_b/hashes_b0.json",
+    "reports/stage_b/hashes_b1.json",
+    "reports/stage_b/mutations.md",
+    "reports/stage_b/preconditions.json",
+    "reports/stage_b/read.json"
+  ],
+  "reports_scan_n": 8,
+  "stage": "register H2 amendment stage",
+  "stage_b_artifact_note": "reports/stage_b/* is the spent H1 read (co-primaries P1/P2/P3, 312 retro events); quarantined from every successor code path by AST pin. reports/stage_a_h2/* holds the outcome-blind k-table and the A.4 mutation evidence \u2014 counts, rates, timestamps only.",
+  "stage_b_artifacts_are_h1_only": true,
+  "tree_clean": true,
+  "verdict": "PASS"
+}

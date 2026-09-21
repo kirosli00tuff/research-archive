@@ -1,0 +1,104 @@
+{
+  "checked_at": "2026-09-13T18:52:00Z",
+  "checks": {
+    "gates_green": {
+      "mypy_strict": "Success: no issues found in 96 source files",
+      "pytest": "351 passed",
+      "result": "PASS",
+      "ruff_check": "All checks passed",
+      "ruff_format": "99 files already formatted"
+    },
+    "no_h2_latch_under_data_state": {
+      "h2_named_files_found": [],
+      "note": "case-insensitive scan of data/state for any name containing 'h2' returned nothing. The H2 read is unspent.",
+      "registered_latch_names_checked": [
+        "data/state/h2_read.json",
+        "data/state/h2_read_latch.json",
+        "data/state/h2_look1_latch.json",
+        "data/state/h2_look2_latch.json"
+      ],
+      "result": "PASS",
+      "scanned": [
+        "checkpoints.jsonl",
+        "fresh_plan.jsonl",
+        "generating_sample.json",
+        "retro_plan.jsonl",
+        "stage_b_read.json",
+        "watcher.jsonl"
+      ]
+    },
+    "no_h2_outcome_artifact_under_reports": {
+      "files": [
+        "reports/h5/census.json",
+        "reports/h5/census.rows.json",
+        "reports/h5/collector.json",
+        "reports/h5/h2_verification.json",
+        "reports/h5/mutations.md",
+        "reports/h5/preconditions.json",
+        "reports/h5/retro.json",
+        "reports/h5/verdict.json",
+        "reports/stage_a4/mutations.md",
+        "reports/stage_a_h2/amend_preconditions.json",
+        "reports/stage_a_h2/backfill_fallback.json",
+        "reports/stage_a_h2/ktable_amended.json",
+        "reports/stage_a_h2/ktable_cull.json",
+        "reports/stage_a_h2/mutations.md",
+        "reports/stage_a_h2/mutations_amend.md",
+        "reports/stage_b/hashes_b0.json",
+        "reports/stage_b/hashes_b1.json",
+        "reports/stage_b/mutations.md",
+        "reports/stage_b/preconditions.json",
+        "reports/stage_b/read.json"
+      ],
+      "files_scanned": 20,
+      "note": "reports/stage_b/* is the SPENT H1 read on the 312 retro events (quarantined generating sample, AST-pinned), not H2. reports/stage_a_h2/* are outcome-blind: k-tables over counts and the A.4/amend mutation evidence. reports/h5/* is register entry H5. Zero H2 outcome artifacts exist.",
+      "result": "PASS"
+    },
+    "npl_daily_service_inactive": {
+      "npl-daily.service": "inactive",
+      "npl-daily.timer_next": "2026-09-13T18:40:00-07:00 (next fire, outside this stage's expected window)",
+      "npl-watch.service": "inactive",
+      "npl-watch.timer_next": "2026-09-13T12:05:00-07:00 (hourly; idempotent on the pair ledger, every pass recorded)",
+      "result": "PASS",
+      "wait_required": false,
+      "wait_seconds": 0
+    },
+    "tree_clean_and_origin_equals_head": {
+      "note": "clean at dff1663 before the standing-rule-1 prompt log; origin/main == HEAD == dff1663",
+      "result": "PASS"
+    }
+  },
+  "h2_superseded_ledger_precondition": {
+    "bytes": 18606,
+    "note": "must be byte-identical at close; it is the superseded record, retained and never rewritten",
+    "path": "data/controls/h2_pairs.jsonl",
+    "rows": 63,
+    "sha256": "f765e8993d26c702724666add60bc679cff04896ca9f2e4cda03cd33a6a3e2c3"
+  },
+  "h5_precondition_record": {
+    "h5_snapshot_count": 3924,
+    "note": "H5 shares the substrate and must be provably untouched at close. Re-verified in Task 7.",
+    "stores": {
+      "data/h5/census.jsonl": {
+        "bytes": 547294,
+        "rows": 546,
+        "sha256": "5bebc65946fb040100fe93585c7a2d81ed282531649c23eacf4333701a586ca1"
+      },
+      "data/h5/retro.jsonl": {
+        "bytes": 9999,
+        "rows": 38,
+        "sha256": "e5c32bc109a8c0cef28f9bcd357aa899b6525ca32d8ca0e99c0294d9bb7d4c49"
+      },
+      "data/h5/snapshots.jsonl": {
+        "bytes": 4009474,
+        "rows": 3924,
+        "sha256": "64442feae8e9f8724b1aa295a9831f82e63ff2e5aabb3efb35fdb9eb893fe3cf"
+      }
+    }
+  },
+  "head": "dff16632eca6eea05b290ade5464339f44c75744",
+  "origin_main": "dff16632eca6eea05b290ade5464339f44c75744",
+  "outcome_values_read": 0,
+  "stage": "register entry H2, Amendment Stage 2 - Task 0 preconditions",
+  "verdict": "ALL PRECONDITIONS PASS - stage armed"
+}

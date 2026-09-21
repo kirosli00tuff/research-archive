@@ -1,0 +1,734 @@
+{
+  "computed_at": "2026-08-28T05:41:32Z",
+  "inputs": {
+    "achieved": {
+      "events": 62,
+      "main": 2,
+      "pairs": 38,
+      "cells": {
+        "le_-10pct_ann": 11,
+        "le_-20pct_ann": 8,
+        "le_-40pct_ann": 5
+      }
+    },
+    "scenarios": {
+      "achieved": {
+        "events": 62,
+        "main": 2,
+        "pairs_bydex": 38,
+        "pairs_flat": 38
+      },
+      "interim_2026-12-31": {
+        "events": 118,
+        "main": 3,
+        "pairs_bydex": 88,
+        "pairs_flat": 72
+      },
+      "deadline_2027-03-31": {
+        "events": 173,
+        "main": 5,
+        "pairs_bydex": 141,
+        "pairs_flat": 106
+      }
+    },
+    "conditioning_rates": {
+      "le_-10pct_ann": 0.1774,
+      "le_-20pct_ann": 0.129,
+      "le_-40pct_ann": 0.0806
+    },
+    "pair_projection_model": "by-dex measured rates with deterministic 180d pairability onsets (A.1); flat 0.613 beside as sensitivity",
+    "requirement_modes": {
+      "H2": "all",
+      "H3": "all",
+      "H4": "any"
+    }
+  },
+  "k_table": {
+    "k=1": {
+      "alpha_h": 0.050000000000000044,
+      "scenarios": {
+        "achieved": [
+          {
+            "hypothesis": "H2",
+            "co_primary": "E1",
+            "n": 38,
+            "alpha_effective": 0.05,
+            "power_governing": 0.533866,
+            "power_reported": null
+          },
+          {
+            "hypothesis": "H2",
+            "co_primary": "E2",
+            "n": 38,
+            "alpha_effective": 0.05,
+            "power_governing": 0.289678,
+            "power_reported": null
+          },
+          {
+            "hypothesis": "H3",
+            "co_primary": "P1",
+            "n": 2,
+            "alpha_effective": 0.05,
+            "power_governing": 0.0,
+            "power_reported": null
+          },
+          {
+            "hypothesis": "H3",
+            "co_primary": "MAG",
+            "n": 2,
+            "alpha_effective": 0.05,
+            "power_governing": 0.0,
+            "power_reported": 0.0
+          },
+          {
+            "hypothesis": "H4",
+            "co_primary": "le_-10pct_ann",
+            "n": 11,
+            "alpha_effective": 0.016952,
+            "power_governing": 0.006314,
+            "power_reported": 0.167343
+          },
+          {
+            "hypothesis": "H4",
+            "co_primary": "le_-20pct_ann",
+            "n": 8,
+            "alpha_effective": 0.016952,
+            "power_governing": 0.025132,
+            "power_reported": 0.272491
+          },
+          {
+            "hypothesis": "H4",
+            "co_primary": "le_-40pct_ann",
+            "n": 5,
+            "alpha_effective": 0.016952,
+            "power_governing": 0.0,
+            "power_reported": 0.0
+          }
+        ],
+        "interim_2026-12-31": [
+          {
+            "hypothesis": "H2",
+            "co_primary": "E1",
+            "n": 88,
+            "alpha_effective": 0.05,
+            "power_governing": 0.853049,
+            "power_reported": null
+          },
+          {
+            "hypothesis": "H2",
+            "co_primary": "E2",
+            "n": 88,
+            "alpha_effective": 0.05,
+            "power_governing": 0.528888,
+            "power_reported": null
+          },
+          {
+            "hypothesis": "H3",
+            "co_primary": "P1",
+            "n": 3,
+            "alpha_effective": 0.05,
+            "power_governing": 0.0,
+            "power_reported": null
+          },
+          {
+            "hypothesis": "H3",
+            "co_primary": "MAG",
+            "n": 3,
+            "alpha_effective": 0.05,
+            "power_governing": 0.0,
+            "power_reported": 0.0
+          },
+          {
+            "hypothesis": "H4",
+            "co_primary": "le_-10pct_ann",
+            "n": 20,
+            "alpha_effective": 0.016952,
+            "power_governing": 0.030606,
+            "power_reported": 0.647725
+          },
+          {
+            "hypothesis": "H4",
+            "co_primary": "le_-20pct_ann",
+            "n": 15,
+            "alpha_effective": 0.016952,
+            "power_governing": 0.009782,
+            "power_reported": 0.318586
+          },
+          {
+            "hypothesis": "H4",
+            "co_primary": "le_-40pct_ann",
+            "n": 9,
+            "alpha_effective": 0.016952,
+            "power_governing": 0.015859,
+            "power_reported": 0.231617
+          }
+        ],
+        "deadline_2027-03-31": [
+          {
+            "hypothesis": "H2",
+            "co_primary": "E1",
+            "n": 141,
+            "alpha_effective": 0.05,
+            "power_governing": 0.974266,
+            "power_reported": null
+          },
+          {
+            "hypothesis": "H2",
+            "co_primary": "E2",
+            "n": 141,
+            "alpha_effective": 0.05,
+            "power_governing": 0.760372,
+            "power_reported": null
+          },
+          {
+            "hypothesis": "H3",
+            "co_primary": "P1",
+            "n": 5,
+            "alpha_effective": 0.05,
+            "power_governing": 0.0,
+            "power_reported": null
+          },
+          {
+            "hypothesis": "H3",
+            "co_primary": "MAG",
+            "n": 5,
+            "alpha_effective": 0.05,
+            "power_governing": 0.005718,
+            "power_reported": 0.116029
+          },
+          {
+            "hypothesis": "H4",
+            "co_primary": "le_-10pct_ann",
+            "n": 30,
+            "alpha_effective": 0.016952,
+            "power_governing": 0.013958,
+            "power_reported": 0.710576
+          },
+          {
+            "hypothesis": "H4",
+            "co_primary": "le_-20pct_ann",
+            "n": 22,
+            "alpha_effective": 0.016952,
+            "power_governing": 0.015981,
+            "power_reported": 0.57518
+          },
+          {
+            "hypothesis": "H4",
+            "co_primary": "le_-40pct_ann",
+            "n": 13,
+            "alpha_effective": 0.016952,
+            "power_governing": 0.021627,
+            "power_reported": 0.398277
+          }
+        ]
+      }
+    },
+    "k=2": {
+      "alpha_h": 0.025320565519103666,
+      "scenarios": {
+        "achieved": [
+          {
+            "hypothesis": "H2",
+            "co_primary": "E1",
+            "n": 38,
+            "alpha_effective": 0.025321,
+            "power_governing": 0.399183,
+            "power_reported": null
+          },
+          {
+            "hypothesis": "H2",
+            "co_primary": "E2",
+            "n": 38,
+            "alpha_effective": 0.025321,
+            "power_governing": 0.186365,
+            "power_reported": null
+          },
+          {
+            "hypothesis": "H3",
+            "co_primary": "P1",
+            "n": 2,
+            "alpha_effective": 0.025321,
+            "power_governing": 0.0,
+            "power_reported": null
+          },
+          {
+            "hypothesis": "H3",
+            "co_primary": "MAG",
+            "n": 2,
+            "alpha_effective": 0.025321,
+            "power_governing": 0.0,
+            "power_reported": 0.0
+          },
+          {
+            "hypothesis": "H4",
+            "co_primary": "le_-10pct_ann",
+            "n": 11,
+            "alpha_effective": 0.008512,
+            "power_governing": 0.006314,
+            "power_reported": 0.167343
+          },
+          {
+            "hypothesis": "H4",
+            "co_primary": "le_-20pct_ann",
+            "n": 8,
+            "alpha_effective": 0.008512,
+            "power_governing": 0.0,
+            "power_reported": 0.0
+          },
+          {
+            "hypothesis": "H4",
+            "co_primary": "le_-40pct_ann",
+            "n": 5,
+            "alpha_effective": 0.008512,
+            "power_governing": 0.0,
+            "power_reported": 0.0
+          }
+        ],
+        "interim_2026-12-31": [
+          {
+            "hypothesis": "H2",
+            "co_primary": "E1",
+            "n": 88,
+            "alpha_effective": 0.025321,
+            "power_governing": 0.796823,
+            "power_reported": null
+          },
+          {
+            "hypothesis": "H2",
+            "co_primary": "E2",
+            "n": 88,
+            "alpha_effective": 0.025321,
+            "power_governing": 0.442339,
+            "power_reported": null
+          },
+          {
+            "hypothesis": "H3",
+            "co_primary": "P1",
+            "n": 3,
+            "alpha_effective": 0.025321,
+            "power_governing": 0.0,
+            "power_reported": null
+          },
+          {
+            "hypothesis": "H3",
+            "co_primary": "MAG",
+            "n": 3,
+            "alpha_effective": 0.025321,
+            "power_governing": 0.0,
+            "power_reported": 0.0
+          },
+          {
+            "hypothesis": "H4",
+            "co_primary": "le_-10pct_ann",
+            "n": 20,
+            "alpha_effective": 0.008512,
+            "power_governing": 0.007778,
+            "power_reported": 0.404896
+          },
+          {
+            "hypothesis": "H4",
+            "co_primary": "le_-20pct_ann",
+            "n": 15,
+            "alpha_effective": 0.008512,
+            "power_governing": 0.009782,
+            "power_reported": 0.318586
+          },
+          {
+            "hypothesis": "H4",
+            "co_primary": "le_-40pct_ann",
+            "n": 9,
+            "alpha_effective": 0.008512,
+            "power_governing": 0.0,
+            "power_reported": 0.0
+          }
+        ],
+        "deadline_2027-03-31": [
+          {
+            "hypothesis": "H2",
+            "co_primary": "E1",
+            "n": 141,
+            "alpha_effective": 0.025321,
+            "power_governing": 0.945577,
+            "power_reported": null
+          },
+          {
+            "hypothesis": "H2",
+            "co_primary": "E2",
+            "n": 141,
+            "alpha_effective": 0.025321,
+            "power_governing": 0.642745,
+            "power_reported": null
+          },
+          {
+            "hypothesis": "H3",
+            "co_primary": "P1",
+            "n": 5,
+            "alpha_effective": 0.025321,
+            "power_governing": 0.0,
+            "power_reported": null
+          },
+          {
+            "hypothesis": "H3",
+            "co_primary": "MAG",
+            "n": 5,
+            "alpha_effective": 0.025321,
+            "power_governing": 0.0,
+            "power_reported": 0.0
+          },
+          {
+            "hypothesis": "H4",
+            "co_primary": "le_-10pct_ann",
+            "n": 30,
+            "alpha_effective": 0.008512,
+            "power_governing": 0.013958,
+            "power_reported": 0.710576
+          },
+          {
+            "hypothesis": "H4",
+            "co_primary": "le_-20pct_ann",
+            "n": 22,
+            "alpha_effective": 0.008512,
+            "power_governing": 0.015981,
+            "power_reported": 0.57518
+          },
+          {
+            "hypothesis": "H4",
+            "co_primary": "le_-40pct_ann",
+            "n": 13,
+            "alpha_effective": 0.008512,
+            "power_governing": 0.002514,
+            "power_reported": 0.120905
+          }
+        ]
+      }
+    },
+    "k=3": {
+      "alpha_h": 0.016952427508441503,
+      "scenarios": {
+        "achieved": [
+          {
+            "hypothesis": "H2",
+            "co_primary": "E1",
+            "n": 38,
+            "alpha_effective": 0.016952,
+            "power_governing": 0.399183,
+            "power_reported": null
+          },
+          {
+            "hypothesis": "H2",
+            "co_primary": "E2",
+            "n": 38,
+            "alpha_effective": 0.016952,
+            "power_governing": 0.186365,
+            "power_reported": null
+          },
+          {
+            "hypothesis": "H3",
+            "co_primary": "P1",
+            "n": 2,
+            "alpha_effective": 0.016952,
+            "power_governing": 0.0,
+            "power_reported": null
+          },
+          {
+            "hypothesis": "H3",
+            "co_primary": "MAG",
+            "n": 2,
+            "alpha_effective": 0.016952,
+            "power_governing": 0.0,
+            "power_reported": 0.0
+          },
+          {
+            "hypothesis": "H4",
+            "co_primary": "le_-10pct_ann",
+            "n": 11,
+            "alpha_effective": 0.005683,
+            "power_governing": 0.006314,
+            "power_reported": 0.167343
+          },
+          {
+            "hypothesis": "H4",
+            "co_primary": "le_-20pct_ann",
+            "n": 8,
+            "alpha_effective": 0.005683,
+            "power_governing": 0.0,
+            "power_reported": 0.0
+          },
+          {
+            "hypothesis": "H4",
+            "co_primary": "le_-40pct_ann",
+            "n": 5,
+            "alpha_effective": 0.005683,
+            "power_governing": 0.0,
+            "power_reported": 0.0
+          }
+        ],
+        "interim_2026-12-31": [
+          {
+            "hypothesis": "H2",
+            "co_primary": "E1",
+            "n": 88,
+            "alpha_effective": 0.016952,
+            "power_governing": 0.729144,
+            "power_reported": null
+          },
+          {
+            "hypothesis": "H2",
+            "co_primary": "E2",
+            "n": 88,
+            "alpha_effective": 0.016952,
+            "power_governing": 0.358194,
+            "power_reported": null
+          },
+          {
+            "hypothesis": "H3",
+            "co_primary": "P1",
+            "n": 3,
+            "alpha_effective": 0.016952,
+            "power_governing": 0.0,
+            "power_reported": null
+          },
+          {
+            "hypothesis": "H3",
+            "co_primary": "MAG",
+            "n": 3,
+            "alpha_effective": 0.016952,
+            "power_governing": 0.0,
+            "power_reported": 0.0
+          },
+          {
+            "hypothesis": "H4",
+            "co_primary": "le_-10pct_ann",
+            "n": 20,
+            "alpha_effective": 0.005683,
+            "power_governing": 0.007778,
+            "power_reported": 0.404896
+          },
+          {
+            "hypothesis": "H4",
+            "co_primary": "le_-20pct_ann",
+            "n": 15,
+            "alpha_effective": 0.005683,
+            "power_governing": 0.009782,
+            "power_reported": 0.318586
+          },
+          {
+            "hypothesis": "H4",
+            "co_primary": "le_-40pct_ann",
+            "n": 9,
+            "alpha_effective": 0.005683,
+            "power_governing": 0.0,
+            "power_reported": 0.0
+          }
+        ],
+        "deadline_2027-03-31": [
+          {
+            "hypothesis": "H2",
+            "co_primary": "E1",
+            "n": 141,
+            "alpha_effective": 0.016952,
+            "power_governing": 0.92376,
+            "power_reported": null
+          },
+          {
+            "hypothesis": "H2",
+            "co_primary": "E2",
+            "n": 141,
+            "alpha_effective": 0.016952,
+            "power_governing": 0.577117,
+            "power_reported": null
+          },
+          {
+            "hypothesis": "H3",
+            "co_primary": "P1",
+            "n": 5,
+            "alpha_effective": 0.016952,
+            "power_governing": 0.0,
+            "power_reported": null
+          },
+          {
+            "hypothesis": "H3",
+            "co_primary": "MAG",
+            "n": 5,
+            "alpha_effective": 0.016952,
+            "power_governing": 0.0,
+            "power_reported": 0.0
+          },
+          {
+            "hypothesis": "H4",
+            "co_primary": "le_-10pct_ann",
+            "n": 30,
+            "alpha_effective": 0.005683,
+            "power_governing": 0.013958,
+            "power_reported": 0.710576
+          },
+          {
+            "hypothesis": "H4",
+            "co_primary": "le_-20pct_ann",
+            "n": 22,
+            "alpha_effective": 0.005683,
+            "power_governing": 0.003702,
+            "power_reported": 0.338177
+          },
+          {
+            "hypothesis": "H4",
+            "co_primary": "le_-40pct_ann",
+            "n": 13,
+            "alpha_effective": 0.005683,
+            "power_governing": 0.002514,
+            "power_reported": 0.120905
+          }
+        ]
+      }
+    }
+  },
+  "min_n_for_080": {
+    "H2/E1": {
+      "k=1": {
+        "min_n": 76
+      },
+      "k=3": {
+        "min_n": 103
+      }
+    },
+    "H2/E2": {
+      "k=1": {
+        "min_n": 169
+      },
+      "k=3": {
+        "min_n": 232
+      }
+    },
+    "H3/P1": {
+      "k=1": {
+        "min_n": 262
+      },
+      "k=3": {
+        "min_n": 361
+      }
+    },
+    "H3/MAG": {
+      "k=1": {
+        "min_n": null,
+        "note": "governing true share at or below the null: no n reaches 0.80"
+      },
+      "k=3": {
+        "min_n": null,
+        "note": "governing true share at or below the null: no n reaches 0.80"
+      }
+    },
+    "H4/le_-10pct_ann": {
+      "k=1": {
+        "min_n": null,
+        "note": "not reached by n=1200; power at 1200 = 0.518"
+      },
+      "k=3": {
+        "min_n": null,
+        "note": "not reached by n=1200; power at 1200 = 0.354"
+      }
+    },
+    "H4/le_-20pct_ann": {
+      "k=1": {
+        "min_n": null,
+        "note": "not reached by n=1200; power at 1200 = 0.518"
+      },
+      "k=3": {
+        "min_n": null,
+        "note": "not reached by n=1200; power at 1200 = 0.354"
+      }
+    },
+    "H4/le_-40pct_ann": {
+      "k=1": {
+        "min_n": null,
+        "note": "not reached by n=1200; power at 1200 = 0.518"
+      },
+      "k=3": {
+        "min_n": null,
+        "note": "not reached by n=1200; power at 1200 = 0.354"
+      }
+    }
+  },
+  "cull_bydex": {
+    "k": 1,
+    "alpha_h": 0.050000000000000044,
+    "survivors": [
+      "H2"
+    ],
+    "blocked": [
+      "H3",
+      "H4"
+    ],
+    "passes": [
+      {
+        "k": 3,
+        "alpha_h": 0.016952,
+        "required": {
+          "H2": 0.577117,
+          "H3": 0.0,
+          "H4": 0.013958
+        },
+        "blocked": [
+          "H3",
+          "H4"
+        ]
+      },
+      {
+        "k": 1,
+        "alpha_h": 0.05,
+        "required": {
+          "H2": 0.760372
+        },
+        "blocked": []
+      }
+    ]
+  },
+  "cull_flat_sensitivity": {
+    "k": 0,
+    "alpha_h": null,
+    "survivors": [],
+    "blocked": [
+      "H2",
+      "H3",
+      "H4"
+    ],
+    "passes": [
+      {
+        "k": 3,
+        "alpha_h": 0.016952,
+        "required": {
+          "H2": 0.431772,
+          "H3": 0.0,
+          "H4": 0.013958
+        },
+        "blocked": [
+          "H2",
+          "H3",
+          "H4"
+        ]
+      }
+    ]
+  },
+  "gates": {
+    "H2": {
+      "verdict": "DEGRADED",
+      "governing_power": 0.760372,
+      "alpha_h": 0.05,
+      "collectors_armed": true,
+      "rationale": "the required co-primary reaches 0.760 power, between the 0.50 and 0.80 floors. Collection proceeds for H2; recomputed power is stated beside the registered 0.80 target at every later reading."
+    },
+    "H3": {
+      "verdict": "BLOCKED",
+      "governing_power": 0.0,
+      "alpha_h": 0.016952,
+      "collectors_armed": false,
+      "rationale": "the required co-primary reaches 0.000 power at the achievable N by 2027-03-31, under the 0.50 floor. Nothing is armed for H3. A BLOCKED here is a documented answer, not a failure of process."
+    },
+    "H4": {
+      "verdict": "BLOCKED",
+      "governing_power": 0.013958,
+      "alpha_h": 0.016952,
+      "collectors_armed": false,
+      "rationale": "the required co-primary reaches 0.014 power at the achievable N by 2027-03-31, under the 0.50 floor. Nothing is armed for H4. A BLOCKED here is a documented answer, not a failure of process."
+    }
+  }
+}

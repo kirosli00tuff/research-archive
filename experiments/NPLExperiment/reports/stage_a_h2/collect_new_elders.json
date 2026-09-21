@@ -1,0 +1,1228 @@
+{
+  "amendment": "H2-5",
+  "archives": [
+    {
+      "candle_state": "pending_seal",
+      "coin": "vntl:ANTHROPIC",
+      "entry_ms": 1781654400000,
+      "event": "xyz:SMH",
+      "funding_caught_up": true,
+      "funding_pages_fetched": 0,
+      "funding_rows_seen": 0,
+      "funding_terminal_state": "no_data"
+    },
+    {
+      "candle_state": "pending_seal",
+      "coin": "xyz:MSTR",
+      "entry_ms": 1782604800000,
+      "event": "xyz:SOFTBANK",
+      "funding_caught_up": true,
+      "funding_pages_fetched": 0,
+      "funding_rows_seen": 0,
+      "funding_terminal_state": "no_data"
+    },
+    {
+      "candle_state": "pending_seal",
+      "coin": "xyz:TSLA",
+      "entry_ms": 1783036800000,
+      "event": "mkts:US500",
+      "funding_caught_up": true,
+      "funding_pages_fetched": 0,
+      "funding_rows_seen": 0,
+      "funding_terminal_state": "no_data"
+    },
+    {
+      "candle_state": "pending_seal",
+      "coin": "xyz:AAPL",
+      "entry_ms": 1783036800000,
+      "event": "mkts:USTECH",
+      "funding_caught_up": true,
+      "funding_pages_fetched": 0,
+      "funding_rows_seen": 0,
+      "funding_terminal_state": "no_data"
+    },
+    {
+      "candle_state": "pending_seal",
+      "coin": "xyz:AAPL",
+      "entry_ms": 1783728000000,
+      "event": "xyz:SKHY",
+      "funding_caught_up": true,
+      "funding_pages_fetched": 0,
+      "funding_rows_seen": 0,
+      "funding_terminal_state": "no_data"
+    },
+    {
+      "candle_state": "pending_seal",
+      "coin": "xyz:AAPL",
+      "entry_ms": 1784419200000,
+      "event": "para:COHR",
+      "funding_caught_up": true,
+      "funding_pages_fetched": 0,
+      "funding_rows_seen": 0,
+      "funding_terminal_state": "no_data"
+    },
+    {
+      "candle_state": "pending_seal",
+      "coin": "xyz:ORCL",
+      "entry_ms": 1784419200000,
+      "event": "para:CRDO",
+      "funding_caught_up": true,
+      "funding_pages_fetched": 0,
+      "funding_rows_seen": 0,
+      "funding_terminal_state": "no_data"
+    },
+    {
+      "candle_state": "pending_seal",
+      "coin": "xyz:AAPL",
+      "entry_ms": 1784419200000,
+      "event": "para:GLW",
+      "funding_caught_up": true,
+      "funding_pages_fetched": 0,
+      "funding_rows_seen": 0,
+      "funding_terminal_state": "no_data"
+    },
+    {
+      "candle_state": "pending_seal",
+      "coin": "xyz:BABA",
+      "entry_ms": 1784678400000,
+      "event": "para:LRCX",
+      "funding_caught_up": true,
+      "funding_pages_fetched": 0,
+      "funding_rows_seen": 0,
+      "funding_terminal_state": "no_data"
+    },
+    {
+      "candle_state": "pending_seal",
+      "coin": "xyz:NFLX",
+      "entry_ms": 1784937600000,
+      "event": "para:IREN",
+      "funding_caught_up": true,
+      "funding_pages_fetched": 0,
+      "funding_rows_seen": 0,
+      "funding_terminal_state": "no_data"
+    },
+    {
+      "candle_state": "pending_seal",
+      "coin": "xyz:AAPL",
+      "entry_ms": 1784937600000,
+      "event": "para:STX",
+      "funding_caught_up": true,
+      "funding_pages_fetched": 0,
+      "funding_rows_seen": 0,
+      "funding_terminal_state": "no_data"
+    },
+    {
+      "candle_state": "pending_seal",
+      "coin": "xyz:USAR",
+      "entry_ms": 1785283200000,
+      "event": "para:TER",
+      "funding_caught_up": true,
+      "funding_pages_fetched": 0,
+      "funding_rows_seen": 0,
+      "funding_terminal_state": "no_data"
+    },
+    {
+      "candle_state": "pending_seal",
+      "coin": "xyz:PLTR",
+      "entry_ms": 1785542400000,
+      "event": "para:AAOI",
+      "funding_caught_up": true,
+      "funding_pages_fetched": 0,
+      "funding_rows_seen": 0,
+      "funding_terminal_state": "no_data"
+    },
+    {
+      "candle_state": "pending_seal",
+      "coin": "xyz:RIVN",
+      "entry_ms": 1785974400000,
+      "event": "para:UNITREE",
+      "funding_caught_up": true,
+      "funding_pages_fetched": 0,
+      "funding_rows_seen": 0,
+      "funding_terminal_state": "no_data"
+    },
+    {
+      "candle_state": "pending_seal",
+      "coin": "xyz:MSFT",
+      "entry_ms": 1785974400000,
+      "event": "para:VST",
+      "funding_caught_up": true,
+      "funding_pages_fetched": 0,
+      "funding_rows_seen": 0,
+      "funding_terminal_state": "no_data"
+    },
+    {
+      "candle_state": "pending_seal",
+      "coin": "xyz:USAR",
+      "entry_ms": 1786060800000,
+      "event": "para:NET",
+      "funding_caught_up": true,
+      "funding_pages_fetched": 0,
+      "funding_rows_seen": 0,
+      "funding_terminal_state": "no_data"
+    },
+    {
+      "candle_state": "pending_seal",
+      "coin": "xyz:MSFT",
+      "entry_ms": 1786060800000,
+      "event": "para:RDDT",
+      "funding_caught_up": true,
+      "funding_pages_fetched": 0,
+      "funding_rows_seen": 0,
+      "funding_terminal_state": "no_data"
+    },
+    {
+      "candle_state": "pending_seal",
+      "coin": "xyz:USAR",
+      "entry_ms": 1786060800000,
+      "event": "xyz:GEV",
+      "funding_caught_up": true,
+      "funding_pages_fetched": 0,
+      "funding_rows_seen": 0,
+      "funding_terminal_state": "no_data"
+    },
+    {
+      "candle_state": "pending_seal",
+      "coin": "xyz:URNM",
+      "entry_ms": 1786060800000,
+      "event": "xyz:KORU",
+      "funding_caught_up": true,
+      "funding_pages_fetched": 0,
+      "funding_rows_seen": 0,
+      "funding_terminal_state": "no_data"
+    },
+    {
+      "candle_state": "pending_seal",
+      "coin": "xyz:SNDK",
+      "entry_ms": 1786060800000,
+      "event": "xyz:UNITREE",
+      "funding_caught_up": true,
+      "funding_pages_fetched": 0,
+      "funding_rows_seen": 0,
+      "funding_terminal_state": "no_data"
+    },
+    {
+      "candle_state": "pending_seal",
+      "coin": "xyz:URNM",
+      "entry_ms": 1786147200000,
+      "event": "xyz:SOXL",
+      "funding_caught_up": true,
+      "funding_pages_fetched": 0,
+      "funding_rows_seen": 0,
+      "funding_terminal_state": "no_data"
+    },
+    {
+      "candle_state": "pending_seal",
+      "coin": "xyz:MSFT",
+      "entry_ms": 1786233600000,
+      "event": "para:CIEN",
+      "funding_caught_up": true,
+      "funding_pages_fetched": 0,
+      "funding_rows_seen": 0,
+      "funding_terminal_state": "no_data"
+    },
+    {
+      "candle_state": "pending_seal",
+      "coin": "xyz:PLTR",
+      "entry_ms": 1786492800000,
+      "event": "para:CRWD",
+      "funding_caught_up": true,
+      "funding_pages_fetched": 0,
+      "funding_rows_seen": 0,
+      "funding_terminal_state": "no_data"
+    },
+    {
+      "candle_state": "pending_seal",
+      "coin": "xyz:PLTR",
+      "entry_ms": 1786838400000,
+      "event": "para:SMCI",
+      "funding_caught_up": true,
+      "funding_pages_fetched": 0,
+      "funding_rows_seen": 0,
+      "funding_terminal_state": "no_data"
+    },
+    {
+      "candle_state": "pending_seal",
+      "coin": "xyz:SMSN",
+      "entry_ms": 1787270400000,
+      "event": "io:ANTH",
+      "funding_caught_up": true,
+      "funding_pages_fetched": 0,
+      "funding_rows_seen": 0,
+      "funding_terminal_state": "no_data"
+    },
+    {
+      "candle_state": "pending_seal",
+      "coin": "xyz:USAR",
+      "entry_ms": 1787270400000,
+      "event": "io:SNDK",
+      "funding_caught_up": true,
+      "funding_pages_fetched": 0,
+      "funding_rows_seen": 0,
+      "funding_terminal_state": "no_data"
+    },
+    {
+      "candle_state": "pending_seal",
+      "coin": "xyz:USAR",
+      "entry_ms": 1787270400000,
+      "event": "xyz:MRNA",
+      "funding_caught_up": true,
+      "funding_pages_fetched": 0,
+      "funding_rows_seen": 0,
+      "funding_terminal_state": "no_data"
+    },
+    {
+      "candle_state": "pending_seal",
+      "coin": "xyz:SKHX",
+      "entry_ms": 1787702400000,
+      "event": "para:MELI",
+      "funding_caught_up": true,
+      "funding_pages_fetched": 0,
+      "funding_rows_seen": 0,
+      "funding_terminal_state": "no_data"
+    },
+    {
+      "candle_state": "pending_seal",
+      "coin": "xyz:MSTR",
+      "entry_ms": 1787875200000,
+      "event": "mkts:SMALL2000",
+      "funding_caught_up": true,
+      "funding_pages_fetched": 0,
+      "funding_rows_seen": 0,
+      "funding_terminal_state": "no_data"
+    }
+  ],
+  "candle_seal_states": {
+    "pending_seal": 29
+  },
+  "coverage_per_new_elder": [
+    {
+      "candle_days_expected": 31,
+      "candle_days_present": 0,
+      "candle_seal_due_ms": 1789603200000,
+      "candle_share": 0.0,
+      "coin": "vntl:ANTHROPIC",
+      "entry_ms": 1781654400000,
+      "funding_hours_expected": 720,
+      "funding_hours_present": 720,
+      "funding_share": 1.0,
+      "horizon_days": 30,
+      "label": "pending_seal",
+      "meets_bars_so_far": null,
+      "sealed_candles_present": false,
+      "window_elapsed": true
+    },
+    {
+      "candle_days_expected": 31,
+      "candle_days_present": 0,
+      "candle_seal_due_ms": 1790553600000,
+      "candle_share": 0.0,
+      "coin": "xyz:MSTR",
+      "entry_ms": 1782604800000,
+      "funding_hours_expected": 720,
+      "funding_hours_present": 720,
+      "funding_share": 1.0,
+      "horizon_days": 30,
+      "label": "pending_seal",
+      "meets_bars_so_far": null,
+      "sealed_candles_present": false,
+      "window_elapsed": true
+    },
+    {
+      "candle_days_expected": 31,
+      "candle_days_present": 0,
+      "candle_seal_due_ms": 1790985600000,
+      "candle_share": 0.0,
+      "coin": "xyz:TSLA",
+      "entry_ms": 1783036800000,
+      "funding_hours_expected": 720,
+      "funding_hours_present": 720,
+      "funding_share": 1.0,
+      "horizon_days": 30,
+      "label": "pending_seal",
+      "meets_bars_so_far": null,
+      "sealed_candles_present": false,
+      "window_elapsed": true
+    },
+    {
+      "candle_days_expected": 31,
+      "candle_days_present": 0,
+      "candle_seal_due_ms": 1790985600000,
+      "candle_share": 0.0,
+      "coin": "xyz:AAPL",
+      "entry_ms": 1783036800000,
+      "funding_hours_expected": 720,
+      "funding_hours_present": 720,
+      "funding_share": 1.0,
+      "horizon_days": 30,
+      "label": "pending_seal",
+      "meets_bars_so_far": null,
+      "sealed_candles_present": false,
+      "window_elapsed": true
+    },
+    {
+      "candle_days_expected": 31,
+      "candle_days_present": 0,
+      "candle_seal_due_ms": 1791676800000,
+      "candle_share": 0.0,
+      "coin": "xyz:AAPL",
+      "entry_ms": 1783728000000,
+      "funding_hours_expected": 720,
+      "funding_hours_present": 720,
+      "funding_share": 1.0,
+      "horizon_days": 30,
+      "label": "pending_seal",
+      "meets_bars_so_far": null,
+      "sealed_candles_present": false,
+      "window_elapsed": true
+    },
+    {
+      "candle_days_expected": 31,
+      "candle_days_present": 0,
+      "candle_seal_due_ms": 1792368000000,
+      "candle_share": 0.0,
+      "coin": "xyz:AAPL",
+      "entry_ms": 1784419200000,
+      "funding_hours_expected": 720,
+      "funding_hours_present": 720,
+      "funding_share": 1.0,
+      "horizon_days": 30,
+      "label": "pending_seal",
+      "meets_bars_so_far": null,
+      "sealed_candles_present": false,
+      "window_elapsed": true
+    },
+    {
+      "candle_days_expected": 31,
+      "candle_days_present": 0,
+      "candle_seal_due_ms": 1792368000000,
+      "candle_share": 0.0,
+      "coin": "xyz:ORCL",
+      "entry_ms": 1784419200000,
+      "funding_hours_expected": 720,
+      "funding_hours_present": 720,
+      "funding_share": 1.0,
+      "horizon_days": 30,
+      "label": "pending_seal",
+      "meets_bars_so_far": null,
+      "sealed_candles_present": false,
+      "window_elapsed": true
+    },
+    {
+      "candle_days_expected": 31,
+      "candle_days_present": 0,
+      "candle_seal_due_ms": 1792368000000,
+      "candle_share": 0.0,
+      "coin": "xyz:AAPL",
+      "entry_ms": 1784419200000,
+      "funding_hours_expected": 720,
+      "funding_hours_present": 720,
+      "funding_share": 1.0,
+      "horizon_days": 30,
+      "label": "pending_seal",
+      "meets_bars_so_far": null,
+      "sealed_candles_present": false,
+      "window_elapsed": true
+    },
+    {
+      "candle_days_expected": 31,
+      "candle_days_present": 0,
+      "candle_seal_due_ms": 1792627200000,
+      "candle_share": 0.0,
+      "coin": "xyz:BABA",
+      "entry_ms": 1784678400000,
+      "funding_hours_expected": 720,
+      "funding_hours_present": 720,
+      "funding_share": 1.0,
+      "horizon_days": 30,
+      "label": "pending_seal",
+      "meets_bars_so_far": null,
+      "sealed_candles_present": false,
+      "window_elapsed": true
+    },
+    {
+      "candle_days_expected": 31,
+      "candle_days_present": 0,
+      "candle_seal_due_ms": 1792886400000,
+      "candle_share": 0.0,
+      "coin": "xyz:NFLX",
+      "entry_ms": 1784937600000,
+      "funding_hours_expected": 720,
+      "funding_hours_present": 720,
+      "funding_share": 1.0,
+      "horizon_days": 30,
+      "label": "pending_seal",
+      "meets_bars_so_far": null,
+      "sealed_candles_present": false,
+      "window_elapsed": true
+    },
+    {
+      "candle_days_expected": 31,
+      "candle_days_present": 0,
+      "candle_seal_due_ms": 1792886400000,
+      "candle_share": 0.0,
+      "coin": "xyz:AAPL",
+      "entry_ms": 1784937600000,
+      "funding_hours_expected": 720,
+      "funding_hours_present": 720,
+      "funding_share": 1.0,
+      "horizon_days": 30,
+      "label": "pending_seal",
+      "meets_bars_so_far": null,
+      "sealed_candles_present": false,
+      "window_elapsed": true
+    },
+    {
+      "candle_days_expected": 31,
+      "candle_days_present": 0,
+      "candle_seal_due_ms": 1793232000000,
+      "candle_share": 0.0,
+      "coin": "xyz:USAR",
+      "entry_ms": 1785283200000,
+      "funding_hours_expected": 720,
+      "funding_hours_present": 720,
+      "funding_share": 1.0,
+      "horizon_days": 30,
+      "label": "pending_seal",
+      "meets_bars_so_far": null,
+      "sealed_candles_present": false,
+      "window_elapsed": true
+    },
+    {
+      "candle_days_expected": 31,
+      "candle_days_present": 0,
+      "candle_seal_due_ms": 1793491200000,
+      "candle_share": 0.0,
+      "coin": "xyz:PLTR",
+      "entry_ms": 1785542400000,
+      "funding_hours_expected": 720,
+      "funding_hours_present": 720,
+      "funding_share": 1.0,
+      "horizon_days": 30,
+      "label": "pending_seal",
+      "meets_bars_so_far": null,
+      "sealed_candles_present": false,
+      "window_elapsed": true
+    },
+    {
+      "candle_days_expected": 31,
+      "candle_days_present": 0,
+      "candle_seal_due_ms": 1793923200000,
+      "candle_share": 0.0,
+      "coin": "xyz:RIVN",
+      "entry_ms": 1785974400000,
+      "funding_hours_expected": 720,
+      "funding_hours_present": 720,
+      "funding_share": 1.0,
+      "horizon_days": 30,
+      "label": "pending_seal",
+      "meets_bars_so_far": null,
+      "sealed_candles_present": false,
+      "window_elapsed": true
+    },
+    {
+      "candle_days_expected": 31,
+      "candle_days_present": 0,
+      "candle_seal_due_ms": 1793923200000,
+      "candle_share": 0.0,
+      "coin": "xyz:MSFT",
+      "entry_ms": 1785974400000,
+      "funding_hours_expected": 720,
+      "funding_hours_present": 720,
+      "funding_share": 1.0,
+      "horizon_days": 30,
+      "label": "pending_seal",
+      "meets_bars_so_far": null,
+      "sealed_candles_present": false,
+      "window_elapsed": true
+    },
+    {
+      "candle_days_expected": 31,
+      "candle_days_present": 0,
+      "candle_seal_due_ms": 1794009600000,
+      "candle_share": 0.0,
+      "coin": "xyz:USAR",
+      "entry_ms": 1786060800000,
+      "funding_hours_expected": 720,
+      "funding_hours_present": 720,
+      "funding_share": 1.0,
+      "horizon_days": 30,
+      "label": "pending_seal",
+      "meets_bars_so_far": null,
+      "sealed_candles_present": false,
+      "window_elapsed": true
+    },
+    {
+      "candle_days_expected": 31,
+      "candle_days_present": 0,
+      "candle_seal_due_ms": 1794009600000,
+      "candle_share": 0.0,
+      "coin": "xyz:MSFT",
+      "entry_ms": 1786060800000,
+      "funding_hours_expected": 720,
+      "funding_hours_present": 720,
+      "funding_share": 1.0,
+      "horizon_days": 30,
+      "label": "pending_seal",
+      "meets_bars_so_far": null,
+      "sealed_candles_present": false,
+      "window_elapsed": true
+    },
+    {
+      "candle_days_expected": 31,
+      "candle_days_present": 0,
+      "candle_seal_due_ms": 1794009600000,
+      "candle_share": 0.0,
+      "coin": "xyz:USAR",
+      "entry_ms": 1786060800000,
+      "funding_hours_expected": 720,
+      "funding_hours_present": 720,
+      "funding_share": 1.0,
+      "horizon_days": 30,
+      "label": "pending_seal",
+      "meets_bars_so_far": null,
+      "sealed_candles_present": false,
+      "window_elapsed": true
+    },
+    {
+      "candle_days_expected": 31,
+      "candle_days_present": 0,
+      "candle_seal_due_ms": 1794009600000,
+      "candle_share": 0.0,
+      "coin": "xyz:URNM",
+      "entry_ms": 1786060800000,
+      "funding_hours_expected": 720,
+      "funding_hours_present": 720,
+      "funding_share": 1.0,
+      "horizon_days": 30,
+      "label": "pending_seal",
+      "meets_bars_so_far": null,
+      "sealed_candles_present": false,
+      "window_elapsed": true
+    },
+    {
+      "candle_days_expected": 31,
+      "candle_days_present": 0,
+      "candle_seal_due_ms": 1794009600000,
+      "candle_share": 0.0,
+      "coin": "xyz:SNDK",
+      "entry_ms": 1786060800000,
+      "funding_hours_expected": 720,
+      "funding_hours_present": 720,
+      "funding_share": 1.0,
+      "horizon_days": 30,
+      "label": "pending_seal",
+      "meets_bars_so_far": null,
+      "sealed_candles_present": false,
+      "window_elapsed": true
+    },
+    {
+      "candle_days_expected": 31,
+      "candle_days_present": 0,
+      "candle_seal_due_ms": 1794096000000,
+      "candle_share": 0.0,
+      "coin": "xyz:URNM",
+      "entry_ms": 1786147200000,
+      "funding_hours_expected": 720,
+      "funding_hours_present": 720,
+      "funding_share": 1.0,
+      "horizon_days": 30,
+      "label": "pending_seal",
+      "meets_bars_so_far": null,
+      "sealed_candles_present": false,
+      "window_elapsed": true
+    },
+    {
+      "candle_days_expected": 31,
+      "candle_days_present": 0,
+      "candle_seal_due_ms": 1794182400000,
+      "candle_share": 0.0,
+      "coin": "xyz:MSFT",
+      "entry_ms": 1786233600000,
+      "funding_hours_expected": 720,
+      "funding_hours_present": 720,
+      "funding_share": 1.0,
+      "horizon_days": 30,
+      "label": "pending_seal",
+      "meets_bars_so_far": null,
+      "sealed_candles_present": false,
+      "window_elapsed": true
+    },
+    {
+      "candle_days_expected": 31,
+      "candle_days_present": 0,
+      "candle_seal_due_ms": 1794441600000,
+      "candle_share": 0.0,
+      "coin": "xyz:PLTR",
+      "entry_ms": 1786492800000,
+      "funding_hours_expected": 720,
+      "funding_hours_present": 720,
+      "funding_share": 1.0,
+      "horizon_days": 30,
+      "label": "pending_seal",
+      "meets_bars_so_far": null,
+      "sealed_candles_present": false,
+      "window_elapsed": true
+    },
+    {
+      "candle_days_expected": 29,
+      "candle_days_present": 0,
+      "candle_seal_due_ms": 1794787200000,
+      "candle_share": 0.0,
+      "coin": "xyz:PLTR",
+      "entry_ms": 1786838400000,
+      "funding_hours_expected": 691,
+      "funding_hours_present": 692,
+      "funding_share": 1.0014471780028944,
+      "horizon_days": 30,
+      "label": "pending_seal",
+      "meets_bars_so_far": null,
+      "sealed_candles_present": false,
+      "window_elapsed": false
+    },
+    {
+      "candle_days_expected": 24,
+      "candle_days_present": 0,
+      "candle_seal_due_ms": 1795219200000,
+      "candle_share": 0.0,
+      "coin": "xyz:SMSN",
+      "entry_ms": 1787270400000,
+      "funding_hours_expected": 571,
+      "funding_hours_present": 572,
+      "funding_share": 1.001751313485114,
+      "horizon_days": 30,
+      "label": "pending_seal",
+      "meets_bars_so_far": null,
+      "sealed_candles_present": false,
+      "window_elapsed": false
+    },
+    {
+      "candle_days_expected": 24,
+      "candle_days_present": 0,
+      "candle_seal_due_ms": 1795219200000,
+      "candle_share": 0.0,
+      "coin": "xyz:USAR",
+      "entry_ms": 1787270400000,
+      "funding_hours_expected": 571,
+      "funding_hours_present": 572,
+      "funding_share": 1.001751313485114,
+      "horizon_days": 30,
+      "label": "pending_seal",
+      "meets_bars_so_far": null,
+      "sealed_candles_present": false,
+      "window_elapsed": false
+    },
+    {
+      "candle_days_expected": 24,
+      "candle_days_present": 0,
+      "candle_seal_due_ms": 1795219200000,
+      "candle_share": 0.0,
+      "coin": "xyz:USAR",
+      "entry_ms": 1787270400000,
+      "funding_hours_expected": 571,
+      "funding_hours_present": 572,
+      "funding_share": 1.001751313485114,
+      "horizon_days": 30,
+      "label": "pending_seal",
+      "meets_bars_so_far": null,
+      "sealed_candles_present": false,
+      "window_elapsed": false
+    },
+    {
+      "candle_days_expected": 19,
+      "candle_days_present": 0,
+      "candle_seal_due_ms": 1795651200000,
+      "candle_share": 0.0,
+      "coin": "xyz:SKHX",
+      "entry_ms": 1787702400000,
+      "funding_hours_expected": 451,
+      "funding_hours_present": 452,
+      "funding_share": 1.0022172949002217,
+      "horizon_days": 30,
+      "label": "pending_seal",
+      "meets_bars_so_far": null,
+      "sealed_candles_present": false,
+      "window_elapsed": false
+    },
+    {
+      "candle_days_expected": 17,
+      "candle_days_present": 0,
+      "candle_seal_due_ms": 1795824000000,
+      "candle_share": 0.0,
+      "coin": "xyz:MSTR",
+      "entry_ms": 1787875200000,
+      "funding_hours_expected": 403,
+      "funding_hours_present": 404,
+      "funding_share": 1.0024813895781637,
+      "horizon_days": 30,
+      "label": "pending_seal",
+      "meets_bars_so_far": null,
+      "sealed_candles_present": false,
+      "window_elapsed": false
+    }
+  ],
+  "coverage_window": {
+    "bars": {
+      "candles": 0.9,
+      "funding": 0.95
+    },
+    "candles": "entry minus 1 day through entry + horizon",
+    "funding_hours": "entry through entry + horizon",
+    "horizon_days": 30,
+    "note": "the registered outcome window, identical to npl.stageb.preconditions. NOT the collection span: the trailing 168 hours are the matcher's input, and a young leg cannot have funding for the 120 hours before it existed"
+  },
+  "distinct_new_elders": 15,
+  "elders_not_serving_at_their_pair_entry": {
+    "detail": [
+      {
+        "census_recorded_at": "2026-08-27T01:55:31Z",
+        "class_pair": "etf->equity",
+        "elder": "vntl:ANTHROPIC",
+        "elder_is_delisted": true,
+        "elder_last_1d_close_ms": 1781567999999,
+        "entry_ms": 1781654400000,
+        "event": "xyz:SMH",
+        "reading": "delisted before this pair's entry; the pair has no elder entry price and will be excluded underpowered at the registered read (Section 7)",
+        "tier": 3
+      },
+      {
+        "census_recorded_at": "2026-08-27T01:45:06Z",
+        "class_pair": "index->equity",
+        "elder": "xyz:MSTR",
+        "elder_is_delisted": false,
+        "elder_last_1d_close_ms": 1787875199999,
+        "entry_ms": 1787875200000,
+        "event": "mkts:SMALL2000",
+        "reading": "not delisted; the census snapshot simply predates this entry, so the elder was live and this row is a staleness artifact, not a gap",
+        "tier": 3
+      },
+      {
+        "census_recorded_at": "2026-08-27T01:42:53Z",
+        "class_pair": "crypto->crypto",
+        "elder": "XMR",
+        "elder_is_delisted": false,
+        "elder_last_1d_close_ms": 1787875199999,
+        "entry_ms": 1788307200000,
+        "event": "PONS",
+        "reading": "not delisted; the census snapshot simply predates this entry, so the elder was live and this row is a staleness artifact, not a gap",
+        "tier": 1
+      }
+    ],
+    "n": 3,
+    "n_genuinely_delisted": 1,
+    "note": "the registered admissibility test (H1 Section 6, unchanged by Amendment H2-5) requires an elder to be serving at the TRAILING window's start, not at the entry. An elder delisted in between is admissible by the rule and then yields no outcome window. Recorded, not repaired: adding a delisting condition would change the registered control rule, which is outside this stage's registered scope. The registered machinery already handles it - the pair fails the 0.90 candle bar and is excluded UNDERPOWERED, counted, never a negative."
+  },
+  "new_control_legs": 29,
+  "outcome_values_read": 0,
+  "pairs_failing_a_coverage_bar": {
+    "counted_as": "underpowered",
+    "detail": [],
+    "n": 0,
+    "note": "a pair under a bar is underpowered, never a negative (Section 7). A pair whose window has not yet elapsed is not yet a failure: the 30-day primary is not readable until the candle window seals at entry + 92 days (ADR-019).",
+    "pairs_assessable_now": 7
+  },
+  "pairs_pending_their_candle_seal": {
+    "counted_as": "pending_seal",
+    "detail": [
+      {
+        "candle_seal_due_ms": 1789603200000,
+        "elder": "xyz:MU",
+        "elder_sealed": false,
+        "entry_ms": 1781654400000,
+        "event": "xyz:NOK",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1789603200000,
+        "elder": "vntl:ANTHROPIC",
+        "elder_sealed": false,
+        "entry_ms": 1781654400000,
+        "event": "xyz:SMH",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1789862400000,
+        "elder": "xyz:PLTR",
+        "elder_sealed": false,
+        "entry_ms": 1781913600000,
+        "event": "xyz:MINIMAX",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1790208000000,
+        "elder": "xyz:MSFT",
+        "elder_sealed": false,
+        "entry_ms": 1782259200000,
+        "event": "xyz:BE",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1790208000000,
+        "elder": "xyz:MSFT",
+        "elder_sealed": false,
+        "entry_ms": 1782259200000,
+        "event": "xyz:QCOM",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1790208000000,
+        "elder": "xyz:MSFT",
+        "elder_sealed": false,
+        "entry_ms": 1782259200000,
+        "event": "xyz:STRC",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1790208000000,
+        "elder": "xyz:MSFT",
+        "elder_sealed": false,
+        "entry_ms": 1782259200000,
+        "event": "xyz:ZHIPU",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1790467200000,
+        "elder": "xyz:MSFT",
+        "elder_sealed": false,
+        "entry_ms": 1782518400000,
+        "event": "xyz:KIOXIA",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1790553600000,
+        "elder": "xyz:MSTR",
+        "elder_sealed": false,
+        "entry_ms": 1782604800000,
+        "event": "xyz:SOFTBANK",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1790812800000,
+        "elder": "xyz:MSFT",
+        "elder_sealed": false,
+        "entry_ms": 1782864000000,
+        "event": "xyz:AMAT",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1790985600000,
+        "elder": "xyz:TSLA",
+        "elder_sealed": false,
+        "entry_ms": 1783036800000,
+        "event": "mkts:US500",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1790985600000,
+        "elder": "xyz:AAPL",
+        "elder_sealed": false,
+        "entry_ms": 1783036800000,
+        "event": "mkts:USTECH",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1791072000000,
+        "elder": "GRASS",
+        "elder_sealed": false,
+        "entry_ms": 1783123200000,
+        "event": "GRAM",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1791676800000,
+        "elder": "xyz:AAPL",
+        "elder_sealed": false,
+        "entry_ms": 1783728000000,
+        "event": "xyz:SKHY",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1791849600000,
+        "elder": "XMR",
+        "elder_sealed": false,
+        "entry_ms": 1783900800000,
+        "event": "CASHCAT",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1792195200000,
+        "elder": "xyz:PLTR",
+        "elder_sealed": false,
+        "entry_ms": 1784246400000,
+        "event": "xyz:CXMT",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1792368000000,
+        "elder": "xyz:AAPL",
+        "elder_sealed": false,
+        "entry_ms": 1784419200000,
+        "event": "para:COHR",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1792368000000,
+        "elder": "xyz:ORCL",
+        "elder_sealed": false,
+        "entry_ms": 1784419200000,
+        "event": "para:CRDO",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1792368000000,
+        "elder": "xyz:AAPL",
+        "elder_sealed": false,
+        "entry_ms": 1784419200000,
+        "event": "para:GLW",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1792627200000,
+        "elder": "xyz:BABA",
+        "elder_sealed": false,
+        "entry_ms": 1784678400000,
+        "event": "para:LRCX",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1792800000000,
+        "elder": "xyz:AAPL",
+        "elder_sealed": false,
+        "entry_ms": 1784851200000,
+        "event": "xyz:GIGADEV",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1792886400000,
+        "elder": "xyz:NFLX",
+        "elder_sealed": false,
+        "entry_ms": 1784937600000,
+        "event": "para:IREN",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1792886400000,
+        "elder": "xyz:AAPL",
+        "elder_sealed": false,
+        "entry_ms": 1784937600000,
+        "event": "para:STX",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1793232000000,
+        "elder": "xyz:USAR",
+        "elder_sealed": false,
+        "entry_ms": 1785283200000,
+        "event": "para:TER",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1793491200000,
+        "elder": "xyz:PLTR",
+        "elder_sealed": false,
+        "entry_ms": 1785542400000,
+        "event": "para:AAOI",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1793923200000,
+        "elder": "xyz:RIVN",
+        "elder_sealed": false,
+        "entry_ms": 1785974400000,
+        "event": "para:UNITREE",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1793923200000,
+        "elder": "xyz:MSFT",
+        "elder_sealed": false,
+        "entry_ms": 1785974400000,
+        "event": "para:VST",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1794009600000,
+        "elder": "xyz:USAR",
+        "elder_sealed": false,
+        "entry_ms": 1786060800000,
+        "event": "para:NET",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1794009600000,
+        "elder": "xyz:MSFT",
+        "elder_sealed": false,
+        "entry_ms": 1786060800000,
+        "event": "para:RDDT",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1794009600000,
+        "elder": "xyz:USAR",
+        "elder_sealed": false,
+        "entry_ms": 1786060800000,
+        "event": "xyz:GEV",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1794009600000,
+        "elder": "xyz:URNM",
+        "elder_sealed": false,
+        "entry_ms": 1786060800000,
+        "event": "xyz:KORU",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1794009600000,
+        "elder": "xyz:SNDK",
+        "elder_sealed": false,
+        "entry_ms": 1786060800000,
+        "event": "xyz:UNITREE",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1794096000000,
+        "elder": "xyz:URNM",
+        "elder_sealed": false,
+        "entry_ms": 1786147200000,
+        "event": "xyz:SOXL",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1794182400000,
+        "elder": "xyz:MSFT",
+        "elder_sealed": false,
+        "entry_ms": 1786233600000,
+        "event": "para:CIEN",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1794441600000,
+        "elder": "xyz:PLTR",
+        "elder_sealed": false,
+        "entry_ms": 1786492800000,
+        "event": "para:CRWD",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1794787200000,
+        "elder": "xyz:PLTR",
+        "elder_sealed": false,
+        "entry_ms": 1786838400000,
+        "event": "para:SMCI",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1795132800000,
+        "elder": "xyz:SKHX",
+        "elder_sealed": false,
+        "entry_ms": 1787184000000,
+        "event": "xyz:AAOI",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1795132800000,
+        "elder": "xyz:SKHX",
+        "elder_sealed": false,
+        "entry_ms": 1787184000000,
+        "event": "xyz:CRWD",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1795132800000,
+        "elder": "xyz:SKHX",
+        "elder_sealed": false,
+        "entry_ms": 1787184000000,
+        "event": "xyz:IREN",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1795132800000,
+        "elder": "xyz:URNM",
+        "elder_sealed": false,
+        "entry_ms": 1787184000000,
+        "event": "xyz:MAGS",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1795132800000,
+        "elder": "xyz:SKHX",
+        "elder_sealed": false,
+        "entry_ms": 1787184000000,
+        "event": "xyz:NET",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1795132800000,
+        "elder": "xyz:SKHX",
+        "elder_sealed": false,
+        "entry_ms": 1787184000000,
+        "event": "xyz:RDDT",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1795219200000,
+        "elder": "xyz:SMSN",
+        "elder_sealed": false,
+        "entry_ms": 1787270400000,
+        "event": "io:ANTH",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1795219200000,
+        "elder": "xyz:USAR",
+        "elder_sealed": false,
+        "entry_ms": 1787270400000,
+        "event": "io:SNDK",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1795219200000,
+        "elder": "xyz:USAR",
+        "elder_sealed": false,
+        "entry_ms": 1787270400000,
+        "event": "xyz:MRNA",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1795651200000,
+        "elder": "xyz:SKHX",
+        "elder_sealed": false,
+        "entry_ms": 1787702400000,
+        "event": "para:MELI",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1795824000000,
+        "elder": "xyz:MSTR",
+        "elder_sealed": false,
+        "entry_ms": 1787875200000,
+        "event": "mkts:SMALL2000",
+        "young_sealed": false
+      },
+      {
+        "candle_seal_due_ms": 1796256000000,
+        "elder": "XMR",
+        "elder_sealed": false,
+        "entry_ms": 1788307200000,
+        "event": "PONS",
+        "young_sealed": false
+      }
+    ],
+    "n": 48,
+    "note": "not covered and not underpowered: the candle window seals once, at entry + 92 days (ADR-019), and the fresh plan seals it then. Absence is a recorded state, never a synthesized value and never a failure."
+  },
+  "ran_at": "2026-09-13T19:57:44Z",
+  "spend": {
+    "cap": 20000,
+    "charged_after": 2313,
+    "charged_before": 2284,
+    "charged_by_this_pass": 29,
+    "day": "2026-09-13"
+  },
+  "spread_states": {
+    "expired": 29
+  },
+  "stage": "H2 Amendment Stage 2 - Task 3, control-leg collection for new elders",
+  "tiered_pairs": 55
+}

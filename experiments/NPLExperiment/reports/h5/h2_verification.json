@@ -1,0 +1,103 @@
+{
+  "checked_at": "2026-08-28T22:09:00Z",
+  "checked_at_correction": "The first write of this file carried 22:36:00Z, which was an estimate typed by the assistant rather than a clock reading. The verification itself ran between the Task 5 commit (22:07:26Z) and the Task 6 commit (22:10:08Z); 22:09:00Z is that window. The hashes and counts below are unaffected \u2014 they were computed, not typed.",
+  "h2_latches_still_absent": {
+    "data/state/h2_look1_latch.json": {
+      "absent_now": true
+    },
+    "data/state/h2_look2_latch.json": {
+      "absent_now": true
+    },
+    "data/state/h2_read_latch.json": {
+      "absent_now": true
+    }
+  },
+  "h2_pair_count_now": 62,
+  "h2_pair_count_precondition": 62,
+  "h2_pair_count_unchanged": true,
+  "h2_store_hashes": {
+    "data/census/census.jsonl": {
+      "now": "2def4ca54b3c734b3f5fa8367e71779269ed475d2398c53023c949c9063c4d78",
+      "precondition": "2def4ca54b3c734b3f5fa8367e71779269ed475d2398c53023c949c9063c4d78",
+      "unchanged": true
+    },
+    "data/controls/h2_pairs.jsonl": {
+      "now": "6f2bc967d70a2e2c8bedd2978b1bb6ea5773300cf89ae8b949d107b522158ae9",
+      "precondition": "6f2bc967d70a2e2c8bedd2978b1bb6ea5773300cf89ae8b949d107b522158ae9",
+      "unchanged": true
+    },
+    "data/controls/pairs.jsonl": {
+      "now": "3f8280959ad52a97fa7b15a49f68c057fec763386816da45e762d4448ddeaaef",
+      "precondition": "3f8280959ad52a97fa7b15a49f68c057fec763386816da45e762d4448ddeaaef",
+      "unchanged": true
+    },
+    "data/eligibility/h2.jsonl": {
+      "now": "19f88c0865a5ef81f5a55291ccff228efbc6d42f5108036c239be584ad903556",
+      "precondition": "19f88c0865a5ef81f5a55291ccff228efbc6d42f5108036c239be584ad903556",
+      "unchanged": true
+    },
+    "data/eligibility/h3.jsonl": {
+      "now": "87af2c7285aa9c4f13e9cd6fffe292427260a6729fede28583a1c33dd62df42e",
+      "precondition": "87af2c7285aa9c4f13e9cd6fffe292427260a6729fede28583a1c33dd62df42e",
+      "unchanged": true
+    },
+    "data/eligibility/h4.jsonl": {
+      "now": "82a424c892bd2f1038aaa0dccfd9f11c8568c1086255df6b195a26354553482d",
+      "precondition": "82a424c892bd2f1038aaa0dccfd9f11c8568c1086255df6b195a26354553482d",
+      "unchanged": true
+    },
+    "data/spreads/pair_spreads.jsonl": {
+      "now": "1c72569a6789bd3d96dfde880b78da4c786a9147944937d9ff89d559f1de1b35",
+      "precondition": "1c72569a6789bd3d96dfde880b78da4c786a9147944937d9ff89d559f1de1b35",
+      "unchanged": true
+    },
+    "data/state/fresh_plan.jsonl": {
+      "now": "0920dd94091cf7541255b1f947a7097a3a6bcb85a455a9cb92e11e689a5092fb",
+      "precondition": "0920dd94091cf7541255b1f947a7097a3a6bcb85a455a9cb92e11e689a5092fb",
+      "unchanged": true
+    },
+    "data/state/generating_sample.json": {
+      "now": "2595baa45b38f2d1eaa6c5f0b719b8c39a141944a95948deea216cdc00786bd2",
+      "precondition": "2595baa45b38f2d1eaa6c5f0b719b8c39a141944a95948deea216cdc00786bd2",
+      "unchanged": true
+    },
+    "data/state/retro_plan.jsonl": {
+      "now": "01288a03b8f58f98ab21640e31fd10324c8e3e82ea407ad11785228649f6e5c1",
+      "precondition": "01288a03b8f58f98ab21640e31fd10324c8e3e82ea407ad11785228649f6e5c1",
+      "unchanged": true
+    },
+    "data/state/stage_b_read.json": {
+      "now": "2d204ccb23c4961597d2e4a3263b2abffeb1f8f2e32230ee3c4b97857438f67e",
+      "precondition": "2d204ccb23c4961597d2e4a3263b2abffeb1f8f2e32230ee3c4b97857438f67e",
+      "unchanged": true
+    }
+  },
+  "h2_stores_all_unchanged": true,
+  "h5_wrote_only_under_data_h5": [
+    "census.jsonl",
+    "retro.jsonl",
+    "snapshots.jsonl"
+  ],
+  "head": "b685d30d053cb887429aa15dcf76d46de01e7264",
+  "no_h2_latch_exists": true,
+  "note": "The two shared append-only ledgers grew by design: the hourly H2 watcher appends to both, and H5 charges the one request ledger under standing rule 9. Growth by append with a byte-identical prefix is the correct verification for an append-only file; a moved prefix would mean a rewrite.",
+  "shared_append_only_ledgers": {
+    "data/ledgers/requests.jsonl": {
+      "grew_by_bytes": 199896,
+      "prefix_bytes": 3489078,
+      "prefix_sha256_now": "abcb4a20a083610f2eb616ca1f88bddb7100cd682518560184f35a8d3472939f",
+      "prefix_sha256_precondition": "abcb4a20a083610f2eb616ca1f88bddb7100cd682518560184f35a8d3472939f",
+      "prefix_stable": true
+    },
+    "data/state/watcher.jsonl": {
+      "grew_by_bytes": 162,
+      "prefix_bytes": 5832,
+      "prefix_sha256_now": "a25689cb33be22423b9b525d1bb55023b3331474fe312de2fa0bad1281f19802",
+      "prefix_sha256_precondition": "a25689cb33be22423b9b525d1bb55023b3331474fe312de2fa0bad1281f19802",
+      "prefix_stable": true
+    }
+  },
+  "shared_prefixes_stable": true,
+  "stage": "H5 Task 6 - close-out verification",
+  "verdict": "H2 VERIFIED UNTOUCHED"
+}

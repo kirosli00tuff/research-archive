@@ -1,0 +1,12 @@
+[Unit]
+Description=NPLExperiment watcher, every 60 minutes at :05 (entry-anchor spread window)
+
+[Timer]
+# :05 keeps the 00:05Z run inside the registered 30-minute window after the
+# 00:00Z entry-anchor close (REGISTRATION.md Section 5 / Stage A.3 Task 5).
+OnCalendar=*-*-* *:05:00 UTC
+Persistent=true
+AccuracySec=1min
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,134 @@
+{
+  "amendment": "H2-5",
+  "at": "2026-09-13T20:00:34Z",
+  "coverage_by_class_pair": [
+    {
+      "covered": 0,
+      "pairs": 3,
+      "share": 0.0,
+      "stratum": "crypto->crypto",
+      "underpowered_or_pending": 3
+    },
+    {
+      "covered": 7,
+      "pairs": 45,
+      "share": 0.15555555555555556,
+      "stratum": "equity->equity",
+      "underpowered_or_pending": 38
+    },
+    {
+      "covered": 0,
+      "pairs": 1,
+      "share": 0.0,
+      "stratum": "etf->equity",
+      "underpowered_or_pending": 1
+    },
+    {
+      "covered": 0,
+      "pairs": 3,
+      "share": 0.0,
+      "stratum": "etf->etf",
+      "underpowered_or_pending": 3
+    },
+    {
+      "covered": 0,
+      "pairs": 3,
+      "share": 0.0,
+      "stratum": "index->equity",
+      "underpowered_or_pending": 3
+    }
+  ],
+  "coverage_by_tier": [
+    {
+      "covered": 7,
+      "pairs": 33,
+      "share": 0.21212121212121213,
+      "stratum": "tier_1",
+      "underpowered_or_pending": 26
+    },
+    {
+      "covered": 0,
+      "pairs": 18,
+      "share": 0.0,
+      "stratum": "tier_2",
+      "underpowered_or_pending": 18
+    },
+    {
+      "covered": 0,
+      "pairs": 4,
+      "share": 0.0,
+      "stratum": "tier_3",
+      "underpowered_or_pending": 4
+    }
+  ],
+  "coverage_note": "`covered` here means assessable now AND clearing both registered bars. 48 of 55 pairs are pending_seal - a recorded absence, not a failure - so the shares below are a snapshot of collection progress, never a verdict input.",
+  "forward_path": {
+    "exclusions_are_recorded": "an event the taxonomy cannot classify, or whose class admits no elder, writes its exclusion row to the same ledger - the ledger records what happened to every event, not only the ones that paired",
+    "npl.cli.cmd_daily": "catch-up pass calls forward_pair_pass; elder-leg checkpoints now read the v2 ledger through assigned_rows, so exclusion rows carry no leg",
+    "npl.cli.cmd_watch": "calls forward_pair_pass at each birth's entry anchor",
+    "npl.register.forward.forward_pair_pass": "assigns by tier; writes to h2_pairs_v2.jsonl",
+    "superseded_ledger_is_write_refused": "npl.register.tiered.assert_not_superseded"
+  },
+  "h5_untouched": {
+    "cohort_gate": {
+      "change": "npl.h5.gate.load_cohorts now unions BOTH H2 pair ledgers. The tiered rule moved which instruments are pair legs, and reading one ledger would leave a hole either way.",
+      "coins_new_to_the_cohort": [
+        "vntl:ANTHROPIC",
+        "xyz:BABA",
+        "xyz:MSTR",
+        "xyz:NFLX",
+        "xyz:RIVN",
+        "xyz:SMSN",
+        "xyz:SNDK",
+        "xyz:USAR"
+      ],
+      "coins_that_left_the_cohort": [
+        "AERO",
+        "APEX",
+        "APT",
+        "BCH",
+        "BOME",
+        "BTC",
+        "GMT",
+        "INJ",
+        "KAITO",
+        "MINA",
+        "MOVE",
+        "POLYX",
+        "SKR",
+        "TRUMP",
+        "VINE",
+        "WLFI",
+        "ZEC",
+        "ZRO",
+        "xyz:COPPER",
+        "xyz:CRCL",
+        "xyz:EUR",
+        "xyz:JPY"
+      ],
+      "direction": "strictly more quarantining, never less: a coin that left the cohort stays quarantined because H2 already collected it as a pair leg. Un-quarantining is a loosening of a blindness gate and is never a side effect of a control-rule change.",
+      "leak_note": "NONE of the eight coins new to the cohort has been read by the H5 retrospective, which is the read the gate protects. All eight do carry H5 contemporaneous snapshots, which the registered design explicitly permits: a quarantined instrument still carries its snapshot and counts as excluded_quarantined in the coverage census.",
+      "leak_occurred": false,
+      "new_cohort_coins_already_read_by_the_h5_retrospective": []
+    },
+    "h2_surface_imports_no_h5_module": true,
+    "h5_imports_no_h2_class_or_tier_module": true,
+    "stores": {
+      "data/h5/census.jsonl": {
+        "rows": 546,
+        "sha256": "5bebc65946fb040100fe93585c7a2d81ed282531649c23eacf4333701a586ca1"
+      },
+      "data/h5/retro.jsonl": {
+        "rows": 38,
+        "sha256": "e5c32bc109a8c0cef28f9bcd357aa899b6525ca32d8ca0e99c0294d9bb7d4c49"
+      },
+      "data/h5/snapshots.jsonl": {
+        "rows": 3924,
+        "sha256": "64442feae8e9f8724b1aa295a9831f82e63ff2e5aabb3efb35fdb9eb893fe3cf"
+      }
+    },
+    "unchanged_from_precondition": true
+  },
+  "outcome_values_read": 0,
+  "stage": "H2 Amendment Stage 2 - Task 4, forward pairing switched to the tiered rule"
+}

@@ -1,0 +1,124 @@
+{
+  "census_window": {
+    "covered_days_binding_instrument": 1,
+    "note": "one daily pass adds one covered day to every live instrument; the 20th best-covered instrument binds",
+    "passes_needed": 29,
+    "projected_fire_date": "2026-09-26"
+  },
+  "fired_at": "2026-08-28T22:04:30Z",
+  "floor_bp": 18.0,
+  "inputs": {
+    "by_session_tag": {
+      "extended": {
+        "median_abs_bp": 4.14463090419424,
+        "n": 188,
+        "n_absent": 0,
+        "q1_abs_bp": 0.70947242299609,
+        "q3_abs_bp": 9.145925118703394,
+        "share_over_floor": 0.09574468085106383,
+        "share_over_viable": 0.015957446808510637
+      }
+    },
+    "covered_days_max": 1,
+    "funding_share": 1.0,
+    "instruments_enumerated": 273,
+    "instruments_live": 94,
+    "instruments_meeting_coverage": 0,
+    "instruments_resolved": 151,
+    "live_with_funding_served": 94,
+    "live_with_served_reference": 94,
+    "observations_counted": 188,
+    "rows_skipped_pre_amendment": 273,
+    "snapshots_counted": {
+      "h5-census-2026-08-28T21:51:54Z": 94,
+      "h5-census-2026-08-28T22:00:14Z": 94
+    }
+  },
+  "primary_registered_basis": {
+    "floor_bp": 18.0,
+    "funding_served_instruments": 94,
+    "funding_share": 1.0,
+    "instruments_meeting_coverage": 0,
+    "instruments_with_reference": 94,
+    "max_median_abs_bp": 4.14463090419424,
+    "median_abs_bp_by_tag": {
+      "extended": 4.14463090419424
+    },
+    "n_by_tag": {
+      "extended": 188
+    },
+    "reasons": [
+      "0 instruments carry a served reference AND 30 days of coverage, against the registered bar of 20; the census window is open"
+    ],
+    "series_kind": "registered_basis",
+    "state": "PENDING",
+    "viable_bp": 54.0
+  },
+  "retrospective_inputs": {
+    "instruments_eligible": 27,
+    "instruments_eligible_live": 2,
+    "instruments_excluded_quarantined": 124,
+    "live_instruments_meeting_30d_coverage": 0,
+    "note": "the secondary is fired on the venue's field service (the same 94 live instruments as the primary) and on its own coverage; its eligible set is the residue of H5's quarantine gate and is reported, never fired on",
+    "observations_served": 39,
+    "pooled_by_session_tag": {
+      "closed_weekday": {
+        "iqr_abs_bp": 10.750142999999998,
+        "median_abs_bp": 20.599501,
+        "n": 8,
+        "n_absent": 0,
+        "q1_abs_bp": 14.704525749999998,
+        "q3_abs_bp": 25.454668749999996,
+        "share_over_floor": 0.625,
+        "share_over_viable": 0.125
+      },
+      "extended": {
+        "iqr_abs_bp": 4.359639750000001,
+        "median_abs_bp": 14.120973500000002,
+        "n": 14,
+        "n_absent": 0,
+        "q1_abs_bp": 10.78249175,
+        "q3_abs_bp": 15.142131500000001,
+        "share_over_floor": 0.14285714285714285,
+        "share_over_viable": 0.0
+      },
+      "regular": {
+        "iqr_abs_bp": 14.086518000000002,
+        "median_abs_bp": 14.169534,
+        "n": 17,
+        "n_absent": 0,
+        "q1_abs_bp": 2.359378,
+        "q3_abs_bp": 16.445896,
+        "share_over_floor": 0.11764705882352941,
+        "share_over_viable": 0.058823529411764705
+      }
+    }
+  },
+  "secondary_deviation": {
+    "floor_bp": 18.0,
+    "funding_served_instruments": 94,
+    "funding_share": 1.0,
+    "instruments_meeting_coverage": 0,
+    "instruments_with_reference": 94,
+    "max_median_abs_bp": 20.599501,
+    "median_abs_bp_by_tag": {
+      "closed_weekday": 20.599501,
+      "extended": 14.120973500000002,
+      "regular": 14.169534
+    },
+    "n_by_tag": {
+      "closed_weekday": 8,
+      "extended": 14,
+      "regular": 17
+    },
+    "reasons": [
+      "0 instruments carry a served reference AND 30 days of coverage, against the registered bar of 20; the census window is open"
+    ],
+    "series_kind": "secondary_deviation",
+    "state": "PENDING",
+    "viable_bp": 54.0
+  },
+  "stage": "H5 Task 5 - the outcome map, fired",
+  "today": "2026-08-28",
+  "viable_bp": 54.0
+}

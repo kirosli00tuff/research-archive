@@ -1,0 +1,254 @@
+{
+  "all_co_primaries_pass": false,
+  "alpha_adj": 0.016952427508441503,
+  "co_primaries": {
+    "p1": {
+      "n": 312,
+      "n_truncated_by_delisting": 10,
+      "n_underpowered": 0,
+      "passes": false,
+      "statistic": 0.5706880326738533,
+      "successes": 197
+    },
+    "p2": {
+      "n": 312,
+      "n_truncated_by_delisting": 10,
+      "n_underpowered": 0,
+      "passes": false,
+      "statistic": 0.9999998937952859,
+      "successes": 111
+    },
+    "p3": {
+      "n": 175,
+      "n_truncated_by_delisting": 1,
+      "n_underpowered": 137,
+      "passes": true,
+      "statistic": 3.766632285793312e-05,
+      "successes": 114
+    }
+  },
+  "funding_rows_30_total": 224633,
+  "module_hashes": {
+    "absence.py": "4bc58c2531b294c35ef9c2a424d6ea804fa2c6c9755684c238b444c756134f2b",
+    "blindness.py": "1ae2d642abe7b42ba8568842debeded60d06885f3c9e8356e1040e826dac4af3",
+    "callstate.py": "12ace791c012e22b69422a906a9af5981dfd1b29d62344747af90cac7ea12afd",
+    "census.py": "00d23a9a97855ccc588924232caa0874f2dc4bac269fa4f03b085ac41b287654",
+    "clock.py": "42cd8d40a276871a4fc555c65590b7ea31fdb473c0fa7d3025e756150aee0015",
+    "config.py": "52020fca832ea494a31f786eab639e6393f1a076f73b38a36e8f5492963d8e7e",
+    "coverage.py": "a3e64576487f6a499a5f8113508173bf1e813fd1c8b1b66bd608f096248acc46",
+    "eligibility.py": "ac4b9e5b0d23fc8292c0ed53f6d82d9938f820a873df5c9b07bfeb0fb78a7350",
+    "intervals.py": "6aefe62faf24344099abc22b7067216be9e509907ad5058382bfa19107865a8b",
+    "ledger/__init__.py": "620e30c54486b7ceadb1a2cdb8ce82930f9477d26b964e590c4886cffbac6447",
+    "ledger/append_only.py": "27e529ebdedb391e849884f4dc21dd37fe1632bf836f26f90febca884aded3b9",
+    "outcome.py": "16d3d9713f1266226f10a88451531b955d66476c46f6e95ec61551869723c6b9",
+    "paths.py": "2d8225a4c19f3f198d9e2a0e2a3e5e6fd3065aad4f1faa82c2edcb0e32795264",
+    "power.py": "7007e0d0e6677eb6baeefc46adff0fe8333b5e34422bdeaff5df385deba40c2f",
+    "registration_check.py": "840b86e6eed8b4fe123bcac23f0341288c8fae1a874b15c78a5f9255ae6e189d",
+    "seals.py": "474b4caabeb5c2eecaaa297b66e95d949f51e5c145c73067bf954f741a2d156c",
+    "stageb/__init__.py": "4124b5fc985d0f50304aabe757e684a4b034e55ac651f8cb250c5e3866b9fd4a",
+    "stageb/cli.py": "7867a95e743c35d8e3641bc18a56bbf0dc339045b5e44d4fdfa3b48123fbfb67",
+    "stageb/preconditions.py": "e7ffbffee81cd1fef0252636073535542ca7ebf138e6fa05bd7a2fee54ff74b9",
+    "stageb/reader.py": "d6ec0721bd18ed5b8972e7cf1bf422bb07469c118269f85ac551f7c0ee48d8e2",
+    "verdict.py": "638d542b1cc2ac76a5feff5b4da00182a3d38041e755a0fde8943a72746c8c98"
+  },
+  "pending_30": 0,
+  "pending_90": 0,
+  "preconditions": {
+    "checked_at": "2026-08-28T03:01:01Z",
+    "controls_covered_30": 175,
+    "controls_covered_90": 175,
+    "controls_total": 176,
+    "effective_n_p1": 312,
+    "effective_n_p2": 312,
+    "effective_n_p3": 175,
+    "events_covered_30": 312,
+    "events_covered_90": 312,
+    "events_total": 312,
+    "events_truncated": 10,
+    "latch_absent": true,
+    "min_n": [
+      34,
+      103,
+      60
+    ],
+    "module_hashes": {
+      "absence.py": "4bc58c2531b294c35ef9c2a424d6ea804fa2c6c9755684c238b444c756134f2b",
+      "blindness.py": "1ae2d642abe7b42ba8568842debeded60d06885f3c9e8356e1040e826dac4af3",
+      "callstate.py": "12ace791c012e22b69422a906a9af5981dfd1b29d62344747af90cac7ea12afd",
+      "census.py": "00d23a9a97855ccc588924232caa0874f2dc4bac269fa4f03b085ac41b287654",
+      "clock.py": "42cd8d40a276871a4fc555c65590b7ea31fdb473c0fa7d3025e756150aee0015",
+      "config.py": "52020fca832ea494a31f786eab639e6393f1a076f73b38a36e8f5492963d8e7e",
+      "coverage.py": "a3e64576487f6a499a5f8113508173bf1e813fd1c8b1b66bd608f096248acc46",
+      "eligibility.py": "ac4b9e5b0d23fc8292c0ed53f6d82d9938f820a873df5c9b07bfeb0fb78a7350",
+      "intervals.py": "6aefe62faf24344099abc22b7067216be9e509907ad5058382bfa19107865a8b",
+      "ledger/__init__.py": "620e30c54486b7ceadb1a2cdb8ce82930f9477d26b964e590c4886cffbac6447",
+      "ledger/append_only.py": "27e529ebdedb391e849884f4dc21dd37fe1632bf836f26f90febca884aded3b9",
+      "outcome.py": "16d3d9713f1266226f10a88451531b955d66476c46f6e95ec61551869723c6b9",
+      "paths.py": "2d8225a4c19f3f198d9e2a0e2a3e5e6fd3065aad4f1faa82c2edcb0e32795264",
+      "power.py": "7007e0d0e6677eb6baeefc46adff0fe8333b5e34422bdeaff5df385deba40c2f",
+      "registration_check.py": "840b86e6eed8b4fe123bcac23f0341288c8fae1a874b15c78a5f9255ae6e189d",
+      "seals.py": "474b4caabeb5c2eecaaa297b66e95d949f51e5c145c73067bf954f741a2d156c",
+      "stageb/__init__.py": "4124b5fc985d0f50304aabe757e684a4b034e55ac651f8cb250c5e3866b9fd4a",
+      "stageb/preconditions.py": "e7ffbffee81cd1fef0252636073535542ca7ebf138e6fa05bd7a2fee54ff74b9",
+      "verdict.py": "638d542b1cc2ac76a5feff5b4da00182a3d38041e755a0fde8943a72746c8c98"
+    },
+    "operator_prior": [
+      0.4,
+      "adopted"
+    ],
+    "shortfalls": []
+  },
+  "read_at": "2026-08-28T03:01:08Z",
+  "row_fired": "FAIL",
+  "secondaries": {
+    "cost_band_sensitivity": {
+      "central": {
+        "p1": {
+          "n": 312,
+          "n_truncated_by_delisting": 10,
+          "n_underpowered": 0,
+          "passes": false,
+          "statistic": 0.5706880326738533,
+          "successes": 197
+        },
+        "p2": {
+          "n": 312,
+          "n_truncated_by_delisting": 10,
+          "n_underpowered": 0,
+          "passes": false,
+          "statistic": 0.9999998937952859,
+          "successes": 111
+        },
+        "p3": {
+          "n": 175,
+          "n_truncated_by_delisting": 1,
+          "n_underpowered": 137,
+          "passes": true,
+          "statistic": 3.766632285793312e-05,
+          "successes": 114
+        }
+      },
+      "high": {
+        "p1": {
+          "n": 312,
+          "n_truncated_by_delisting": 10,
+          "n_underpowered": 0,
+          "passes": false,
+          "statistic": 0.5608793225336948,
+          "successes": 194
+        },
+        "p2": {
+          "n": 312,
+          "n_truncated_by_delisting": 10,
+          "n_underpowered": 0,
+          "passes": false,
+          "statistic": 0.9999998937952859,
+          "successes": 111
+        },
+        "p3": {
+          "n": 175,
+          "n_truncated_by_delisting": 1,
+          "n_underpowered": 137,
+          "passes": true,
+          "statistic": 3.766632285793312e-05,
+          "successes": 114
+        }
+      },
+      "low": {
+        "p1": {
+          "n": 312,
+          "n_truncated_by_delisting": 10,
+          "n_underpowered": 0,
+          "passes": false,
+          "statistic": 0.5739630116873008,
+          "successes": 198
+        },
+        "p2": {
+          "n": 312,
+          "n_truncated_by_delisting": 10,
+          "n_underpowered": 0,
+          "passes": false,
+          "statistic": 0.9999998937952859,
+          "successes": 111
+        },
+        "p3": {
+          "n": 175,
+          "n_truncated_by_delisting": 1,
+          "n_underpowered": 137,
+          "passes": true,
+          "statistic": 3.766632285793312e-05,
+          "successes": 114
+        }
+      }
+    },
+    "forward_vs_retro_30d": {
+      "forward": {
+        "n": 0,
+        "share_positive": 0.0
+      },
+      "retro": {
+        "n": 312,
+        "share_positive": 0.6314102564102564
+      }
+    },
+    "forward_vs_retro_note": "zero forward events are readable yet; the placeholder strata sit in forward_vs_retro_30d and the forward cohort reads only under its own future registration",
+    "h8_decomposition_30d": {
+      "mean_funding_term": 0.013316691275,
+      "mean_price_term": 0.009990294691442582,
+      "n": 312
+    },
+    "h8_paired_30d": {
+      "mean_funding_term_diff": 0.008815909155428573,
+      "mean_price_term_diff": 0.06426309349214424,
+      "n": 175
+    },
+    "horizon_90d": {
+      "n": 312,
+      "share_positive": 0.6666666666666666
+    },
+    "horizon_90d_co_primaries": {
+      "p1": {
+        "n": 312,
+        "n_truncated_by_delisting": 10,
+        "n_underpowered": 0,
+        "passes": true,
+        "statistic": 0.6068655579748216,
+        "successes": 208
+      },
+      "p2": {
+        "n": 312,
+        "n_truncated_by_delisting": 10,
+        "n_underpowered": 0,
+        "passes": false,
+        "statistic": 0.3885886631267041,
+        "successes": 159
+      },
+      "p3": {
+        "n": 175,
+        "n_truncated_by_delisting": 1,
+        "n_underpowered": 137,
+        "passes": true,
+        "statistic": 0.00023604632892074097,
+        "successes": 111
+      }
+    },
+    "per_type_strata_30d": {
+      "hip3": {
+        "n": 154,
+        "share_positive": 0.5844155844155844
+      },
+      "hyperp_conversion": {
+        "n": 46,
+        "share_positive": 0.6956521739130435
+      },
+      "vanilla": {
+        "n": 112,
+        "share_positive": 0.6696428571428571
+      }
+    },
+    "truncated_by_delisting_30d": {
+      "n": 10,
+      "share_positive": 0.5
+    }
+  }
+}
