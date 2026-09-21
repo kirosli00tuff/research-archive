@@ -13,9 +13,13 @@ alpha_h = 0.05. H2 survives; H3 and H4 fired BLOCKED on measured rates —
 documented answers, closed below with what would reopen them.** H2 was
 **amended the same day** (Amendments H2-3 and H2-4, before any pair outcome
 existed) to a two-look sequential plan with a main-dex fallback control and
-a 1× economic floor: **look 1 projects to 2026-11-26 and look 2 to
-2027-03-01**, both inside the registered deadline, where the unamended
-design had put the earliest read past it. The spent Stage B read and every value
+a 1× economic floor, and **amended again on 2026-09-13** (Amendments H2-5
+and H2-6, still before any pair outcome existed) to **withdraw that fallback
+and replace it with a class-constrained tiered control rule**: the fallback
+had matched HIP-3 equity, index and rates young legs to main-dex crypto
+elders, leaving 31 of 63 pairs cross-complex and hedging nothing for half
+the sample. **Look 1 now projects to 2026-12-24 and look 2 to 2027-03-31**,
+the deadline itself. The spent Stage B read and every value
 inside it are quarantined from all successor code paths by AST pin and test;
 the 312 retro events and their 176 control windows are the **generating
 sample** — usable for power assumptions, labelled so wherever carried, and
@@ -59,20 +63,21 @@ sealed reads established.
 
 ### H2 — the age-contrast pair
 
-> A pair opened at the second daily close — short the young listing, long its
-> funding-matched elder on the same dex at equal constant notional (or, where
-> that dex has no eligible elder, on the main dex) — held 30 days, earns a
-> positive net return, because listing-age drift exceeds what funding matching
-> already prices.
+> A pair opened at the second daily close — short the young listing, long a
+> funding-matched elder **of the same asset class** at equal constant
+> notional — held 30 days, earns a positive net return, because listing-age
+> drift exceeds what funding matching already prices.
 
 | | |
 |---|---|
-| **Status** | **OPEN — SURVIVOR, AMENDED TO A TWO-LOOK PLAN** · Section 0 fired DEGRADED 2026-08-28 (Amendment H2-1): k = 1, alpha_h = 0.05. Amended the same day, before any pair outcome existed (H2-3, H2-4): **62/62 pairs achieved (38 same_dex + 24 cross_dex)**; **look 1 projects to 2026-11-26 at 59 pairs, look 2 to 2027-03-01 at 117**, inside the 2027-03-31 deadline; recomputed power at the deadline 0.8886 single-look / 0.8629 two-look, both above the registered 0.80 target |
-| **Registration** | `registrations/H2/REGISTRATION.md` — Sections 0–13 and Amendments H2-1 … H2-4 |
-| **Design in one line** | Every fresh event (the 62 pending-at-closure events with servable windows plus all forward births, every dex); the H1 Section 6 control, **with a main-dex fallback where the same-dex candidate set is empty** (H2-3 Change 1, tagged `same_dex`/`cross_dex`, never filtered); pair net = young-leg net short + elder-leg net long, four fills; co-primaries E1 (share of pairs positive) and E2 (share at or above **1×** the pair's central cost — H2-3 Change 2, down from 2×), both exact sign tests above one half, **decided at two registered looks** against an exact binomial boundary with alpha_1 = 0.02 and alpha_2 = 0.03 summing to alpha_h = 0.05 (H2-3 Change 3). Both co-primaries at a common look for a GO; look 1 can only GO, CONTINUE, or fire the registered futility boundary. |
-| **Look boundaries** | Look-1 min N **59** (E1 42, E2 59), look-2 min N **117** (E1 84, E2 117). At the look-2 minimum: k₁ = 38, k₂ = 69, exact spend 0.0182 + 0.0240 = 0.0422 inside alpha_h. Futility at n₁ = 59: E1 f₁ = 31, E2 f₁ = 27 at the 0.10 conditional-power floor. Full table: `reports/stage_a_h2/ktable_amended.json`. |
+| **Status** | **OPEN — SURVIVOR, TWO-LOOK PLAN, CONTROL RULE TIGHTENED** · Section 0 fired DEGRADED 2026-08-28 (Amendment H2-1): k = 1, alpha_h = 0.05. Amended to the two-look plan 2026-08-28 (H2-3, H2-4) and **re-amended 2026-09-13 (H2-5, H2-6), still before any pair outcome existed**, to withdraw the main-dex fallback for a class-constrained tiered rule: **55 pairs of 63 events (33 tier 1, 18 tier 2, 4 tier 3)**, 6 `excluded_unclassifiable`, 2 `excluded_no_class_elder`; **look 1 projects to 2026-12-24 at 59 pairs, look 2 to 2027-03-31** — the deadline itself, reached before the 117-pair look-2 minimum N. Recomputed power at the projected deadline N of 110: **0.8088 two-look** (above the 0.80 target) and **0.7994 single-look**, so **Section 0 returns DEGRADED** from H2-4's GO |
+| **Registration** | `registrations/H2/REGISTRATION.md` — Sections 0–13 and Amendments H2-1 … H2-6 |
+| **Design in one line** | Every fresh event (the 63 pending-at-closure events with servable windows plus all forward births, every dex); the H1 Section 6 control **constrained by asset class through a three-tier rule** (H2-5: tier 1 same dex + exact class, tier 2 any dex + exact class, tier 3 any dex within the equity complex for equity-complex legs only; **cross-complex refused at every tier**; tier tagged and never filtered), which **supersedes the H2-3 main-dex fallback in full**; pair net = young-leg net short + elder-leg net long, four fills; co-primaries E1 (share of pairs positive) and E2 (share at or above **1×** the pair's central cost — H2-3 Change 2, down from 2×), both exact sign tests above one half, **decided at two registered looks** against an exact binomial boundary with alpha_1 = 0.02 and alpha_2 = 0.03 summing to alpha_h = 0.05 (H2-3 Change 3). Both co-primaries at a common look for a GO; look 1 can only GO, CONTINUE, or fire the registered futility boundary. |
+| **Look boundaries** | **Unchanged by H2-5** — no bar, alpha, horizon or true share moved. Look-1 min N **59** (E1 42, E2 59), look-2 min N **117** (E1 84, E2 117). At the look-2 minimum: k₁ = 38, k₂ = 69, exact spend 0.0182 + 0.0240 = 0.0422 inside alpha_h. Futility at n₁ = 59: E1 f₁ = 31, E2 f₁ = 27 at the 0.10 conditional-power floor. Tables: `reports/stage_a_h2/ktable_tiered.json` (current), `ktable_amended.json` (superseded). |
+| **The asset-class taxonomy** | Eight classes by mechanical string mapping (H2-5 §1): `crypto` by dex rule (main and hyna), then a full builder-dex ticker table over `equity`, `etf`, `index`, `commodity`, `fx`, `rates`, `vol`. **24 instruments are `excluded_unclassifiable` with their reasons and are never guessed.** The **equity complex** is `equity`, `etf`, `index` and nothing else. `npl.register.assetclass`, pure and path-free. |
 | **Power assumptions** | E1 true share 0.65; **E2 true share 0.625** under the 1× floor, by stated linear interpolation between multiple 0 (E1's 0.65) and multiple 2 (the registered 0.60) — a choice, not a measurement, so **every minimum N is also reported at the unchanged 0.60** (E2 then needs 92/184 and does not reach 0.80 by the deadline). All generating-sample-derived (P3 pair share 114/175 = 0.651; paired price differential +6.43 points, funding differential +0.88, n = 175). |
-| **Named secondaries added** | The `same_dex` stratum and the pre-amendment **2× floor**, both computed beside every primary figure at every look, both descriptive and never verdict-bearing. |
+| **Named secondaries added** | The **tier stratum** and the **class-pair stratum** (H2-5), plus the `same_dex` stratum and the pre-amendment **2× floor** (H2-3) — all computed beside every primary figure at every look, all descriptive and never verdict-bearing. |
+| **What the tightening cost, measured** | Match rate 1.000 → **0.873**; pairs at the deadline 135 → **110**; look 1 +28 days, look 2 +30 days; two-look power 0.8629 → **0.8088**; Section 0 single-look **GO → DEGRADED** at 0.7994. Mean absolute event-to-elder funding distance widens 4.886e-05 → **5.679e-05** (+16.2 %), the registered accepted degradation — funding carries 12.0 % of the paired signal (0.88 of 6.43 + 0.88, n = 175) and a cross-complex pair destroyed the other 88 %. |
 | **Operator prior slot** | Reserved, empty. Blocks H2's Stage B structurally (`npl.register.priors`) — **at both looks**. |
 
 ---

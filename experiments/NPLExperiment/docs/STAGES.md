@@ -1,11 +1,13 @@
 # Stage ladder — the register architecture
 
-Status at 2026-08-28: **H1 closed (FAIL). Register Stage A complete for
-H2, H3, H4 — H3 and H4 BLOCKED, H2 surviving and since amended to a
-two-look sequential plan (Amendments H2-3, H2-4), collecting toward look 1
-on 2026-11-26 and look 2 on 2027-03-01. H5, a feasibility entry outside the
-familywise budget, registered and fired PENDING with its census window
-closing 2026-09-26.** The single-hypothesis
+Status at 2026-09-13: **H1 closed (FAIL). Register Stage A complete for
+H2, H3, H4 — H3 and H4 BLOCKED, H2 surviving on a two-look sequential plan
+(Amendments H2-3, H2-4) whose control rule was tightened to asset class on
+2026-09-13 (Amendments H2-5, H2-6), collecting 55 pairs toward look 1 on
+2026-12-24 and look 2 on 2027-03-31. H5, a feasibility entry outside the
+familywise budget, registered and fired PENDING; its fire date was
+recomputed to approximately 2026-10-05 at the measured 0.77 passes/day
+(Amendment H5-3).** The single-hypothesis
 ladder that carried H1 from registration to closure is archived below the
 register ladder; its C and D rows never bound and are void with H1's
 closure. In the register architecture every hypothesis climbs its own
@@ -49,10 +51,16 @@ states are VIABLE — meaning *write a registration in a different repository*
 - **A-amend** (same day) amends H2 to the two-look plan and backfills the
   fallback controls, under Amendments H2-3 and H2-4, before any pair
   outcome exists.
+- **A-amend-2** (2026-09-13) **withdraws that fallback** under Amendments
+  H2-5 and H2-6, still before any pair outcome exists: an asset-class
+  taxonomy and a three-tier control rule replace it, all 63 events are
+  reassigned on trailing-at-entry data alone to **55 pairs inside a single
+  complex each**, and the cost is recorded — match rate 0.873, deadline
+  pairs 110, both look dates later, Section 0 back to DEGRADED.
 - **Each surviving hypothesis's earliest Stage B date** is set by its own
   minimum-N against measured accrual and is recorded in the close-out; no
   successor B runs before its cohort matures and its operator slot fills.
-  **For H2 those dates are 2026-11-26 (look 1) and 2027-03-01 (look 2).**
+  **For H2 those dates are 2026-12-24 (look 1) and 2027-03-31 (look 2 — the deadline itself, reached before the 117-pair look-2 minimum N).**
 - **H5's census window** runs 2026-08-28 to **2026-09-26** on the armed
   daily collector; its row fires on schedule and authorizes no capital in
   any branch.

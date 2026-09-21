@@ -600,3 +600,209 @@ harder to see, which is the more valuable of the two.
 
 Live units and `ops/systemd/` copies verified identical after the edit.
 `daemon-reload` clean, both timers still active, next fire times unchanged.
+
+
+## ADR-033: The asset-class taxonomy is a mechanical string mapping, and a guess is refused
+
+Amendment H2-5 needed a rule deciding whether two instruments share a market
+factor. The obvious cheap rule — infer the class from the dex, since the
+`xyz` dex is mostly equities — is the rule that produced the defect it is
+replacing: `xyz` also carries `GOLD`, `COPPER`, `EUR`, `JPY` and `VIX`, and
+the H2-3 fallback's failure was exactly a plausible inference standing in for
+a stated rule.
+
+**Decided: an explicit per-ticker table, written in full in the amendment
+before any reassignment ran, plus one dex rule for `crypto` (main and hyna)
+that is stated as a dex rule rather than smuggled in as a default.**
+
+The admission test is registered too, because the table is only as honest as
+its criterion: **a ticker takes a class iff its exact string names a kind of
+thing whose asset class is unambiguous** — one identified issuer, one named
+fund, one named index or industry basket, one named commodity, one currency,
+one government-rate instrument, one volatility index.
+
+**The test asks what kind of thing the string names, not which specific
+instrument it prices.** That is deliberately weaker than the H5 registered
+mapping (`npl.h5.resolution`), which asks the second question because H5
+measures a basis against an external reference price and needs the instrument
+itself. H2 needs only the factor the leg is exposed to. **The two tables are
+different by design and are never merged** — neither imports the other, and a
+test pins that.
+
+**24 instruments take no class and are recorded `excluded_unclassifiable`
+with their reason.** A reader will find one or two obvious: `BOT` most likely
+names a robotics issuer or a robotics basket, `NCLD` most likely a neocloud
+theme. **A likely meaning is a guess, and refusing guesses is the point.**
+
+The refusal has a measured price and it is not small: **six of the 63 events
+lose their pair** (`xyz:QNT`, `xyz:BOT`, `xyz:SHAZ`, `xyz:LYTE`, `xyz:NCLD`,
+`para:ANSEM`), against the one-or-zero the stage prompt projected. Recorded
+rather than absorbed. Corroboration that is not circular: the H5 mapping,
+written 2026-08-28 for a different purpose before any price was read,
+independently refused **all six** as `ambiguous_ticker`.
+
+**If the operator judges any of the six determinable, one line naming the
+ticker and its class is an amendment and the event returns.** The assistant
+does not make that call, because making it is precisely how H2-3 happened.
+
+
+## ADR-034: A tiered control rule, not a filter and not a fallback
+
+Three candidate shapes were on the table once the taxonomy existed.
+
+**A filter** — keep the H2-3 rule and drop cross-complex pairs afterwards —
+was rejected because it throws away pairs that have a perfectly good
+same-class elder available, purely because the funding-nearest instrument
+happened to be in another complex.
+
+**A second fallback** — same-dex exact class, then main-dex exact class —
+was rejected because it reproduces the H2-3 shape, and the H2-3 shape is
+what put a Nasdaq-100 proxy against Bitcoin. A fallback names a preferred
+universe and then abandons it; what was missing was never the universe, it
+was the constraint.
+
+**Decided: three tiers, consulted in order, with the constraint inside every
+one of them.** Tier 1 same dex and exact class; tier 2 any dex and exact
+class; tier 3 any dex within the equity complex, available only to `equity`,
+`etf` and `index` legs. **Cross-complex is refused at every tier** — by the
+tier filters and again by `assert_coherent` on the selected elder, so
+deleting either refusal is caught by the mutation harness.
+
+Within the selected tier **nothing about the registered selection changes**:
+180 days, the coverage bar, nearest signed trailing funding, with
+replacement, ties to the earlier listing then coin ascending. The
+implementation is shared rather than re-expressed — `ClassedCandidate`
+satisfies `npl.controls.CandidateLike` structurally and runs through the same
+`nearest_by_funding` — so **Section 6 has one implementation and the tiered
+rule cannot drift from it.**
+
+**Tier is a named stratum beside every primary figure**, for a stated reason:
+tier 3 matches the complex but not the class, and the reader must be able to
+see whether the primary rests on it. On the reassigned sample it is **4 pairs
+of 55**, and the four are visible — `xyz:SMH` against `vntl:ANTHROPIC`, and
+three index legs against single equities. An index hedged by one stock is
+inside the equity complex and is still the weakest hedge in the sample. That
+is what the stratum is for.
+
+Direction of the change: **a tightening.** It refuses pairs the fallback
+admitted. It moves no bar, no alpha, and no outcome definition.
+
+
+## ADR-035: Tier 2 relaxes the same-dex requirement, because the fee it costs is already registered
+
+Tier 2 admits an elder on a different dex from the event. Section 6 as
+originally registered required the same dex, and this is the second amendment
+to break that requirement.
+
+**The reason the requirement existed is execution**: two legs on one dex
+share a fee schedule and a margin engine. **The reason it is relaxed is that
+Section 5 already prices the mixed case** — a four-leg central cost of 18 bp
+when both legs are vanilla, 36 bp when both are HIP-3, and the mixed case
+stated per pair. E2 is defined against *the pair's own registered central
+cost*, so a cross-dex pair faces a higher floor automatically, with no new
+machinery and no new parameter.
+
+**The asymmetry that decides it: what tier 2 costs against tier 1 is a fee,
+and fees are already registered. What cross-complex cost was the hedge
+itself, and that was never registered.** A registered cost can be charged; an
+unregistered one is simply absent from the estimator. That is the whole
+argument for keeping tier 2 and withdrawing the H2-3 fallback.
+
+Measured consequence on the reassigned sample: **18 of 55 pairs are tier 2**,
+every one of them `equity->equity`, and every one carries the HIP-3 leg costs
+Section 5 already assigns it.
+
+
+## ADR-036: The superseded pair ledger is retained byte-identical, never rewritten
+
+`data/controls/h2_pairs.jsonl` holds the 63 assignments Amendment H2-3
+produced. The tiered assignment could have been written into it — the ledger
+is append-only, so appending 55 new rows would have been mechanically legal.
+
+**Decided: a new ledger, `data/controls/h2_pairs_v2.jsonl`, and the H2-3
+ledger untouched.**
+
+Three reasons, in order of weight.
+
+**It is evidence.** The H2-3 assignment is what the defect looked like. Every
+figure in Amendment H2-5 — 24 exact-class, 8 same-complex, 31 cross-complex,
+24 of them cross-dex crypto — is a statement about that file. Appending to it
+would leave the claim unverifiable against its own source.
+
+**Appending would have made the ledger ambiguous.** Two assignments for one
+event under two different rules, distinguishable only by row order and a
+timestamp, is precisely the shape that makes a later reader guess. The v2
+ledger instead records what happened to **every one of the 63 events** —
+55 assignments and 8 exclusions, each with its state and reason — so a
+consumer that wants pairs has to say so, and `assigned_rows` is that
+statement.
+
+**The retention is enforced, not promised.** `assert_not_superseded` refuses
+any assignment target resolving to the H2-3 ledger, before any row is built
+and on the resolved path so a relative spelling is refused too; the refusal
+is produced by test; and deleting the check is a registered mutation, caught.
+The file's hash was recorded at the open of the stage and verified at its
+close.
+
+The superseded rule's code is retained for the same reason:
+`main_dex_candidate_rows` still exists, unused on the live path, so the H2-3
+assignment stays reproducible from source.
+
+
+## ADR-037: The H5 blindness gate reads both pair ledgers, and quarantine is never narrowed
+
+`npl.h5.gate.load_cohorts` quarantines H2's pair legs from H5's
+retrospective deviation read. It read `h2_pairs.jsonl` only.
+
+Amendment H2-5 moved the cohort: **eight coins joined and twenty-two left.**
+Reading either ledger alone leaves a hole — the old one misses the eight new
+elders, the new one abandons the twenty-two.
+
+**Decided: read both and union.** The union is deliberately one-directional.
+A coin that *left* the cohort when its pair was reassigned **stays
+quarantined**, because H2 has already collected it as a pair leg.
+**Un-quarantining is a loosening of a blindness gate, and a blindness gate is
+never narrowed as a side effect of a control-rule change.**
+
+Verified before the change and recorded: **no leak had occurred.** None of
+the eight coins new to the cohort had been read by the H5 retrospective,
+which is the read the gate protects. All eight do carry H5 contemporaneous
+snapshots — which the registered design explicitly permits, since a
+quarantined instrument still carries its snapshot and counts
+`excluded_quarantined` in the coverage census.
+
+A missing v2 ledger is not an error, since it did not exist before this
+amendment; a missing superseded ledger still is.
+
+
+## ADR-038: A candle window is sealed once, at maturity — a premature seal is a permanent partial
+
+Not a design decision so much as a defect recorded with its repair, because
+the repair touched sealed data and that must never be quiet.
+
+`scripts/collect_new_elders.py`, as first written in this stage, sealed every
+new elder's candle window immediately. **The registered rule seals a window
+exactly once, at maturity — entry + 92 days (ADR-019) — and
+`backfill_event_candles` short-circuits on file existence and never
+refetches.** A premature seal is therefore a **partial window that stays
+partial forever**, and would have silently under-served the outcome window at
+the registered Stage B read.
+
+**Damage: 26 distinct `(elder, entry)` windows, every one premature, from 79
+of 92 days down to 0 of 92.** Found by the stage's own Task 3 coverage
+report, which showed 48 of 55 pairs at candle coverage 0.0.
+
+**Repair: all 26 removed**, each recorded by path, sealed row count and
+maturity date in `reports/stage_a_h2/premature_seal_repair.json`. Removal is
+the right repair here and the reasoning is recorded rather than assumed:
+**no outcome value was ever parsed from those bytes** — the H2 reader is dark
+and all three latches are absent — the venue serves the full window at
+maturity, and both legs of every affected pair are already queued on the
+fresh plan, which seals under the gate the daily pass has always carried.
+Five files were kept: mature, complete at 93 rows, and written before this
+stage.
+
+**The general rule this records, so the next collector does not relearn it:
+any new code path that seals an outcome window must carry the maturity gate.
+A seal is a one-shot write, and a one-shot write taken early is
+indistinguishable at read time from a short feed.**

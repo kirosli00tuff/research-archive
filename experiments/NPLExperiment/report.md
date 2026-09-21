@@ -715,3 +715,230 @@ anything about tradability. The closed-and-carried IBKR economics — 40 to
 100 bp whole-share round trips at this operator's sizes, fractional orders
 refused at error 10243 — mean no cross-venue pair is registrable here in any
 case.
+
+---
+
+## Register H2 — the class amendment stage (2026-09-13)
+
+**Amendments H2-5 and H2-6. No outcome value was read at any point, all three
+H2 latches remain absent, and the H2 pair reader has seen only synthetic
+fixtures — the same state it was in when the stage opened.**
+
+### The defect, and whose it is
+
+Amendment H2-3, written on 2026-08-28, gave H2 a **main-dex fallback
+control**: where an event's own dex held no eligible elder, the nearest
+funding-matched elder on the main dex was used instead. It lifted the match
+rate from 0.613 to 1.000 and pulled H2's earliest read from past its own
+deadline back to 2026-11-26. **It was written by the assistant, to buy
+calendar.**
+
+Measurement on 2026-09-10 showed what the calendar cost. Of the 63 pairs in
+the ledger, **24 were exact-class, 8 same-complex, and 31 cross-complex** —
+and **24 of those 31 were the cross-dex crypto elders the fallback had
+created**:
+
+| event | H2-3 elder | what the pair actually was |
+|---|---|---|
+| `mkts:US500` | `BTC` | a Nasdaq-and-S&P proxy short financed by a Bitcoin long |
+| `mkts:USTECH` | `BCH` | the same, against Bitcoin Cash |
+| `para:10Y` | `APT` | a US 10-year rate instrument against Aptos |
+| `io:ANTH` | `MOVE` | a private-AI-issuer perp against a Move-ecosystem token |
+| `para:CRWD` | `SKR` | CrowdStrike against a memecoin |
+
+The remaining seven were within-dex and still cross-complex —
+`xyz:SOFTBANK` against `xyz:JPY`, `xyz:GEV` against `xyz:COPPER`,
+`xyz:UNITREE` against `xyz:EUR`.
+
+**Section 1 of the H2 registration says the pair exists to hold market-wide
+moves constant so that listing age stands alone.** A short in an equity index
+proxy financed by a long in Bitcoin does not hold any market-wide move
+constant. **For 31 of 63 pairs — just under half the sample — the registered
+mechanism was simply absent**, and the estimator was measuring
+equity-versus-crypto drift rather than young-versus-old drift.
+
+The cause is precise and worth stating, because it is the lesson rather than
+the incident: **the fallback matched on funding distance alone, and funding
+distance is a poor proxy for factor exposure.** A young HIP-3 equity perp
+near zero funding matches a main-dex crypto perp near zero funding to five
+decimal places while sharing no risk factor at all. That is why the fallback
+found a control for every single event, and why almost none of them hedged.
+
+### What was registered, before any reassignment ran
+
+**An eight-class asset taxonomy as a mechanical string mapping** (Amendment
+H2-5 §1): `crypto` by a **dex rule** (main and hyna), then a full builder-dex
+**ticker table** over `equity`, `etf`, `index`, `commodity`, `fx`, `rates`,
+`vol`, all 154 entries written out in the amendment. The admission test is
+registered with it: a ticker takes a class **iff its exact string names a
+kind of thing whose asset class is unambiguous**. **24 instruments take no
+class and are recorded `excluded_unclassifiable` with their reason.** The
+**equity complex** is `equity`, `etf`, `index` and nothing else.
+
+**A three-tier control rule** (§2), replacing the fallback in full:
+
+| tier | candidate set |
+|---|---|
+| 1 | same dex, exact class |
+| 2 | any dex, exact class |
+| 3 | any dex within the equity complex — **equity-complex legs only** |
+
+**Cross-complex is refused at every tier.** Inside the selected tier the
+registered Section 6 selection is unchanged: 180 days, the 0.95 funding
+coverage bar, nearest signed trailing 168-hour mean hourly funding, with
+replacement, ties to the earlier listing then coin ascending.
+
+### The measured shapes
+
+All 63 events reassigned at their **original entry timestamps**, on
+trailing-at-entry data alone, with the post-entry read refused through the
+tiered path by a test rather than an assertion.
+
+| outcome | n |
+|---|---:|
+| **tier 1** — same dex, exact class | **33** |
+| **tier 2** — any dex, exact class | **18** |
+| **tier 3** — any dex, equity complex | **4** |
+| **pairs assigned** | **55 of 63** |
+| `excluded_unclassifiable` | **6** |
+| `excluded_no_class_elder` | **2** |
+
+**Class pairs, n = 55:** `equity->equity` 45, `crypto->crypto` 3,
+`etf->etf` 3, `index->equity` 3, `etf->equity` 1. **Every pair sits inside
+one complex. Not one cross-complex pair survives.** 33 elders changed, 22
+were kept — the tier-1 equity pairs the same-dex rule had already got right.
+
+**The eight-event shortfall against the stage's carried-in projection of one
+or zero, decomposed rather than smoothed.** Six events lose their *ticker's
+class*, not their elder: `xyz:QNT`, `xyz:BOT`, `xyz:SHAZ`, `xyz:LYTE`,
+`xyz:NCLD`, `para:ANSEM`, all refused `ambiguous_ticker`. The carried-in
+counts of 24/8/31 reconcile to the registered table **exactly** if those six
+are classified — `QNT` as `index` and the other five as `equity`. Two events
+are `rates` legs for which **no `rates` instrument in existence is both aged
+180 days and still serving** at their entries, and tier 3 cannot rescue them
+because `rates` is not in the equity complex. Corroboration that is not
+circular: the H5 registered mapping, written 2026-08-28 for a different
+purpose before any price was read, independently refused all six of the
+ambiguous tickers.
+
+**The accepted degradation, measured (n = 55).** Mean absolute trailing
+funding distance between event and elder widens from **4.886e-05 to
+5.679e-05, a 16.2 percent** loss of match quality. Set against the registered
+arithmetic — the generating sample puts the paired price differential at 6.43
+points and the paired funding differential at 0.88 over 30 days, n = 175, so
+**funding carries 12.0 percent of the paired signal and price the other
+88.0** — a 16 percent worse match on the small term buys a real factor match
+on the large one.
+
+**Where the loosest tier lands**, stated because tier is a named stratum for
+exactly this reason: the four tier-3 pairs are `xyz:SMH`→`vntl:ANTHROPIC` and
+three index legs against single equities (`mkts:US500`→`xyz:TSLA`,
+`mkts:USTECH`→`xyz:AAPL`, `mkts:SMALL2000`→`xyz:MSTR`). An index hedged by
+one stock is inside the equity complex and is still the weakest hedge in the
+sample. It is 4 of 55 and it is visible.
+
+### The recomputed dates, beside the ones they supersede
+
+| | Amendment H2-4 | Amendment H2-6 | cost |
+|---|---|---|---|
+| match rate | 1.000 | **0.873** | −0.127 |
+| pairs at the deadline | 135 | **110** | **−25** |
+| **look 1** | 2026-11-26 | **2026-12-24** | **+28 days** |
+| **look 2** | 2027-03-01 | **2027-03-31** | **+30 days** |
+| two-look power at the deadline | 0.8629 | **0.8088** | −0.054 |
+| Section 0 single-look gate | **GO** (0.8886) | **DEGRADED** (0.7994) | the GO |
+
+**Minimum N and the futility boundary do not move** — E1 42/84, E2 59/117
+governing; futility f₁ = 31 for E1 and 27 for E2 at n₁ = 59 — and they could
+not, because this amendment moved no bar, no alpha, no horizon and no true
+share. Reproducing them is the arithmetic's own check.
+
+**Three consequences the table understates.** Look 2 is now **the deadline
+itself**: at 110 projected pairs the design never reaches E2's look-2 minimum
+N of 117, so look 2 fires on the registered deadline clause rather than the
+sample-size clause. Power at 110 is nonetheless **0.8088**, above the 0.80
+target, which is consistent with a 117 minimum N because minimum N is
+registered as the smallest n from which power *stays* above target and exact
+binomial power saw-tooths. And **Section 0's single-look gate returns to
+DEGRADED at 0.7994 — six ten-thousandths under the 0.80 floor.** Under the
+registered DEGRADED rule collection proceeds and recomputed power travels
+beside the target at every later reading, so nothing is blocked. The honest
+one-line summary is nonetheless: **Amendment H2-3 bought a GO with an
+incoherent control, and returning the control to coherence hands the GO
+back.**
+
+### Two defects this stage introduced in itself, both found and repaired in it
+
+**A premature candle seal.** The control-leg collector, as first written,
+sealed every new elder's candle window immediately. The registered rule seals
+a window **once, at maturity — entry + 92 days (ADR-019)** — and the sealed
+writer short-circuits on file existence and never refetches, so **26 partial
+windows would have stayed partial forever**, one at 0 of 92 days. Found by
+the stage's own coverage report. All 26 removed, each recorded by path, row
+count and maturity date in `reports/stage_a_h2/premature_seal_repair.json`;
+no outcome value was ever parsed from those bytes, the venue serves the full
+window at maturity, and both legs are already queued on the fresh plan. The
+collector now carries the same maturity gate as the daily pass (ADR-038).
+
+**A coverage window measured on the wrong span.** The first coverage report
+measured the registered bars over the **collection** span (entry − 168 h →
+entry + 91 d) instead of the **outcome** window (candles entry − 1 d → entry
++ horizon, funding entry → entry + horizon). That failed every young leg by
+construction: a leg listed 48 hours before its entry cannot have funding for
+the 120 hours before it existed. Corrected, the picture is **48 pairs
+`pending_seal`** — a recorded absence, neither covered nor underpowered —
+**7 assessable, 0 failing a bar.**
+
+### One pair that will be underpowered, recorded rather than repaired
+
+`xyz:SMH` → `vntl:ANTHROPIC` (tier 3). **`vntl:ANTHROPIC` is flagged delisted
+and its last served daily candle is 2026-06-15, two days before that pair's
+entry.** It is nonetheless admissible under the registered rule, because H1
+Section 6 asks whether an instrument was serving at the **trailing window's
+start**, not at the entry, and its trailing funding cleared the 0.95 bar.
+Adding a delisting condition would change the registered control rule, which
+is outside this stage's registered scope; the registered machinery already
+handles it, since the pair fails the 0.90 candle bar and is **excluded
+underpowered, counted, never a negative** (Section 7). The cost is 1 pair of
+55.
+
+### The mutation results
+
+**8 of 8 CAUGHT**, evidence in `reports/stage_a_h2/mutations_class.md`. Real
+source edited, bytecode purged before every run, source restored
+byte-for-byte and verified clean against git, suite green after each: a
+cross-complex elder admitted at any tier; tier 3 opened to an
+fx/rates/commodity/vol leg; a post-entry funding row read inside tiered
+selection; a write into the superseded `h2_pairs.jsonl`; an unmapped ticker
+silently classified `equity`; a lower tier winning over a higher one; a
+missing tier imputed rather than refused; and the crypto dex rule dropped.
+
+Boundary fixtures sit **on** the registered boundary: an elder listed exactly
+180 days before entry is admissible and one a **single millisecond** younger
+is refused; funding coverage at **160** served hours of 168 clears the 0.95
+bar (159.6) and **159** does not.
+
+### Spend, and what did not move
+
+**Counted from the request ledger, not estimated.** The day opened at 912
+charges (the precondition record) and stands at **2,325**, so **1,413 charges
+landed inside this stage's window**. Twelve of those are the hourly H2
+watcher riding inside it (11 `meta`, 1 `perpDexs`), which leaves **1,401 as
+this stage's own spend**: **1,375 `fundingHistory`** — the candidate trailing
+windows the tiered rule needed across dexes it had never had to consult — and
+**26 `candleSnapshot`**.
+
+**Those 26 candle requests bought bytes that were then deleted.** They are
+the premature seals of ADR-038, discarded in the same stage that spent them;
+the windows will be fetched again at maturity by the fresh plan. Recorded as
+spend, because the ledger records what was sent, not what was kept.
+
+The day total is **2,325 of the registered 20,000 cap, 11.6 percent**. Zero
+dollars, keyless public endpoints, charged before sending.
+
+**No bar, no horizon, no anchor, no co-primary, no alpha split, no universe,
+no outcome definition moved.** `data/controls/h2_pairs.jsonl` is retained
+**byte-identical** as the superseded H2-3 record, verified by hash at the
+open and the close, and refused as a write target by a check that is itself a
+registered mutation. All three H5 stores are byte-identical to their
+precondition hashes, at 3,924 snapshots.

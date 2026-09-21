@@ -1,0 +1,64 @@
+{
+  "at": "2026-09-13T20:07:31Z",
+  "gates": {
+    "mypy_strict": "clean, 103 source files",
+    "pytest": "447 passed",
+    "ruff": "clean"
+  },
+  "h2_reader_still_dark": {
+    "all_absent": true,
+    "any_h2_named_file_in_data_state": [],
+    "reader_inputs_to_date": "synthetic fixtures only",
+    "registered_latches_absent": {
+      "h2_look1_latch.json": true,
+      "h2_look2_latch.json": true,
+      "h2_read.json": true,
+      "h2_read_latch.json": true
+    }
+  },
+  "h5_untouched": {
+    "all_unchanged": true,
+    "note": "the one H5 source change this stage made - load_cohorts unioning both H2 pair ledgers, ADR-037 - widens a quarantine and writes nothing. No H5 store moved.",
+    "snapshot_count_now": 3924,
+    "snapshot_count_precondition": 3924,
+    "snapshot_count_unchanged": true,
+    "stores": {
+      "data/h5/census.jsonl": {
+        "now": "5bebc65946fb040100fe93585c7a2d81ed282531649c23eacf4333701a586ca1",
+        "precondition": "5bebc65946fb040100fe93585c7a2d81ed282531649c23eacf4333701a586ca1",
+        "rows_now": 546,
+        "rows_precondition": 546,
+        "unchanged": true
+      },
+      "data/h5/retro.jsonl": {
+        "now": "e5c32bc109a8c0cef28f9bcd357aa899b6525ca32d8ca0e99c0294d9bb7d4c49",
+        "precondition": "e5c32bc109a8c0cef28f9bcd357aa899b6525ca32d8ca0e99c0294d9bb7d4c49",
+        "rows_now": 38,
+        "rows_precondition": 38,
+        "unchanged": true
+      },
+      "data/h5/snapshots.jsonl": {
+        "now": "64442feae8e9f8724b1aa295a9831f82e63ff2e5aabb3efb35fdb9eb893fe3cf",
+        "precondition": "64442feae8e9f8724b1aa295a9831f82e63ff2e5aabb3efb35fdb9eb893fe3cf",
+        "rows_now": 3924,
+        "rows_precondition": 3924,
+        "unchanged": true
+      }
+    }
+  },
+  "head": "b7ef9a4646878c67cba11a703e749486b404dc74",
+  "mutations": {
+    "report": "reports/stage_a_h2/mutations_class.md",
+    "result": "8 of 8 CAUGHT"
+  },
+  "outcome_values_read_this_stage": 0,
+  "stage": "H2 Amendment Stage 2 - Task 7 close-out verification",
+  "superseded_h2_ledger": {
+    "now_sha256": "f765e8993d26c702724666add60bc679cff04896ca9f2e4cda03cd33a6a3e2c3",
+    "path": "data/controls/h2_pairs.jsonl",
+    "precondition_sha256": "f765e8993d26c702724666add60bc679cff04896ca9f2e4cda03cd33a6a3e2c3",
+    "rows": 63,
+    "unchanged": true,
+    "write_refusal": "npl.register.tiered.assert_not_superseded, produced by test, mutation MC4"
+  }
+}

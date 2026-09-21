@@ -1789,7 +1789,11 @@ served feed, not a failure. All 29 two-leg touch snapshots recorded a **loud
 months after their entries, so the touch state at entry is unrecoverable and
 is recorded absent rather than backfilled from a later book.
 
-**Spend: 29 requests.** The day stands at 2,313 of the 20,000 cap (11.6 %).
+**Spend: 29 requests on the final pass.** Across all three runs of this task
+(two of which were re-runs after the two defects below) the control-leg work
+charged **173** — 147 `fundingHistory` and **26 `candleSnapshot` whose bytes
+were then deleted** as the premature seals of ADR-038, recorded as spend
+because the ledger records what was sent, not what was kept.
 
 #### A defect this stage introduced, found and repaired inside it
 
@@ -1962,7 +1966,7 @@ available figure and to be restated against measurement rather than defended
 — this register has now had three assistant projections falsified by
 measurement and this is the fourth candidate.
 
-### Task 6 — Gates and mutations (ETA 35–50 min · **actual, see the commit clock**)
+### Task 6 — Gates and mutations (ETA 35–50 min · **actual 1 min, 20:02:32 → 20:03:33Z**)
 
 `make all` green: `ruff format --check` and `ruff check` clean,
 `mypy --strict` clean on **103 source files**, **447 tests passed** (351

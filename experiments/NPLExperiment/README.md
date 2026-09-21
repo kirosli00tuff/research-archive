@@ -1,22 +1,39 @@
 # NPLExperiment
 
-**Status: MULTI-HYPOTHESIS REGISTER — H1 closed negative; H2 open and
-amended to a two-look plan, 62/62 pairs collecting, look 1 due
-2026-11-26 and look 2 due 2027-03-01; H3 and H4 BLOCKED (2026-08-28).**
+**Status: MULTI-HYPOTHESIS REGISTER — H1 closed negative; H2 open, two-look
+plan, control rule tightened to asset class, 55 pairs of 63 events
+collecting, look 1 due 2026-12-24 and look 2 due 2027-03-31; H3 and H4
+BLOCKED (2026-08-28; H2 re-amended 2026-09-13).**
 The founding H-NPL short (H1) fired FAIL on its sealed read — profitable
 in 63.1% of 312 events, lower bound 0.5707 under the 0.60 bar, magnitude
 leg far under — while its listing-age contrast passed (114/175,
 p = 3.8e-05). That residual is now H2, the age-contrast pair, testing on
 fresh data only under alpha_h = 0.05 (k = 1 after the outcome-blind
 cull). Amendments H2-3 and H2-4, made the same day and **before any pair
-outcome existed**, gave it a main-dex fallback control (match rate 0.613
-→ 1.000), moved E2's economic floor from 2× to 1× the pair's central cost
-with the 2× figure kept as a named secondary, and split the read into two
-registered looks on an exact binomial boundary (alpha_1 0.02, alpha_2
-0.03). Look-1 minimum N 59, look-2 minimum N 117; recomputed power at the
-deadline 0.889 single-look / 0.863 two-look. H3 and H4 fired BLOCKED on
-measured rates — documented answers. See HYPOTHESES.md first; then
-registrations/H*/REGISTRATION.md and report.md.
+outcome existed**, gave it a main-dex fallback control, moved E2's
+economic floor from 2× to 1× the pair's central cost with the 2× figure
+kept as a named secondary, and split the read into two registered looks on
+an exact binomial boundary (alpha_1 0.02, alpha_2 0.03).
+
+**Amendments H2-5 and H2-6 (2026-09-13, still before any pair outcome
+existed) withdrew that fallback.** Measurement showed it had matched HIP-3
+equity, index and rates young legs to main-dex crypto elders — `mkts:US500`
+short against `BTC` long — leaving **31 of 63 pairs cross-complex**, so the
+pair hedged nothing for half the sample. It is replaced by a registered
+asset-class taxonomy and a three-tier control rule (same dex + exact class,
+then any dex + exact class, then any dex within the equity complex for
+equity-complex legs only; **cross-complex refused at every tier**). All 63
+events were reassigned on trailing-at-entry data alone: **55 pairs — 33 tier
+1, 18 tier 2, 4 tier 3 — every one inside a single asset complex**, with 6
+events `excluded_unclassifiable` and 2 with no elder of their class in
+existence. The cost is recorded rather than absorbed: match rate 1.000 →
+0.873, pairs at the deadline 135 → 110, look 1 +28 days, look 2 +30 days to
+the deadline itself, two-look power 0.863 → 0.809, and **Section 0's
+single-look gate back from GO to DEGRADED at 0.7994**. Look-1 minimum N 59
+and look-2 minimum N 117 are unchanged — no bar, alpha, horizon or true
+share moved. H3 and H4 fired BLOCKED on measured rates — documented
+answers. See HYPOTHESES.md first; then registrations/H*/REGISTRATION.md and
+report.md.
 
 **A measurement-only test of one hypothesis family: newly listed Hyperliquid
 perpetuals drift down over 30 and 90 days by more than a short pays in
